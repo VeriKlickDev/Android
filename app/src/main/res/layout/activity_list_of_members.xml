@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/linearLayoutCompat"
+            android:layout_width="match_parent"
+            android:layout_height="55sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_marginLeft="@dimen/_10sp"
+                android:layout_width="24sp"
+                android:id="@+id/btn_jump_back"
+                android:layout_height="24sp"
+                android:background="@drawable/ic_img_back_btn" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_member"
+                android:gravity="center"
+                android:id="@+id/tv_header"
+                android:layout_weight="1"
+                android:fontFamily="@font/sarabun_semibold"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_18sdp"
+                android:layout_margin="@dimen/_10sp"
+                android:layout_marginBottom="@dimen/_10sp" />
+
+
+            <ImageView
+                android:layout_marginLeft="@dimen/_10sp"
+                android:layout_width="24sp"
+                android:id="@+id/btn_add_user"
+                android:layout_height="24sp"
+                android:layout_marginRight="@dimen/_10sp"
+                android:background="@drawable/ic_img_add_user_black" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_add_user"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat"
+            tools:layout_editor_absoluteX="16dp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

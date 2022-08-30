@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="@dimen/_5sp"
+        android:layout_height="wrap_content">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:gravity="right"
+            android:layout_gravity="right"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_username"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:textSize="@dimen/_10sp"
+                android:fontFamily="@font/sarabun_regular"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_sender_msg"
+                android:textColor="@color/black"
+                android:layout_weight="1"
+                android:fontFamily="@font/sarabun_regular"
+                android:background="@drawable/shape_sender_chat"
+                android:padding="@dimen/_10sp"
+                android:text="asdsdfsadfasdfsadfasfsdfasdf" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_date_time"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:textSize="@dimen/_10sp"
+
+                android:layout_gravity="right"
+                android:fontFamily="@font/sarabun_regular"
+                />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    </LinearLayout>
+</layout>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:padding="20sp"
+        android:paddingBottom="10sp"
+        android:background="#00FFFFFF"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_mic"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:background="@drawable/ic_mic_unmute_white" />
+
+        <ImageView
+            android:id="@+id/ic_video"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:layout_marginLeft="10sp"
+            android:background="@drawable/ic_videocam_24" />
+
+        <ImageView
+            android:id="@+id/iv_screenshare"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:layout_marginLeft="10sp"
+            android:background="@drawable/ic_screen_share_24_white" />
+
+        <ImageView
+            android:id="@+id/callend"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:layout_marginLeft="10sp"
+            android:background="@drawable/ic_call_end_24_red" />
+
+    </LinearLayout>
+</layout>

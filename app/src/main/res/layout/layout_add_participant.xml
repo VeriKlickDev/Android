@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:background="@drawable/shape_rectangle_rounded_10_white"
+        android:padding="@dimen/_10sp"
+        android:layout_marginHorizontal="@dimen/_10sp"
+        android:layout_marginTop="@dimen/_10sp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_gravity="right"
+            android:layout_margin="@dimen/_10sp"
+            android:id="@+id/btn_cross"
+            android:background="@drawable/ic_close_cross_square"/>
+
+
+        <EditText
+            
+            android:drawablePadding="@dimen/_10sp"
+            android:id="@+id/et_firstname"
+            android:maxLines="1"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sp"
+            style="@style/editext.style.base"
+            android:hint="@string/hint_firstname" />
+
+
+        <EditText
+            
+            android:drawablePadding="@dimen/_10sp"
+            android:id="@+id/et_lastname"
+            android:maxLines="1"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sp"
+            style="@style/editext.style.base"
+            android:layout_marginVertical="@dimen/_15sp"
+            android:hint="@string/hint_lastname" />
+
+
+        <EditText
+            
+            android:drawablePadding="@dimen/_10sp"
+            android:id="@+id/et_email"
+            android:maxLines="1"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sp"
+            style="@style/editext.style.base"
+            android:hint="@string/hint_email" />
+
+
+        <TextView
+            android:id="@+id/tv_email_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_12sp"
+            android:fontFamily="@font/sarabun_medium"
+            android:gravity="right"
+            android:textColor="@color/red"
+            android:textSize="@dimen/_10sp"
+            android:visibility="visible" />
+
+
+
+        <EditText
+            
+            android:drawablePadding="@dimen/_10sp"
+            android:id="@+id/et_phone_number"
+            android:maxLines="1"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sp"
+            style="@style/editext.style.base"
+            android:hint="@string/hint_phone_no" />
+
+
+        <TextView
+            android:id="@+id/tv_phone_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_12sp"
+            android:fontFamily="@font/sarabun_medium"
+            android:gravity="right"
+            android:textColor="@color/red"
+            android:textSize="@dimen/_10sp"
+            android:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_addinterviewer"
+            android:layout_width="150sp"
+            android:layout_height="wrap_content"
+            style="@style/button.Style.Blue.Rounded"
+            android:layout_marginTop="@dimen/_20sp"
+            android:layout_gravity="right"
+            android:text="@string/txt_add_interviewer"
+            android:textSize="@dimen/_15sp"
+            android:layout_margin="@dimen/_10sp"
+            />
+
+
+    </LinearLayout>
+</layout>

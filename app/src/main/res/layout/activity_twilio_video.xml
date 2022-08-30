@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="onClick"
+            type="com.domain.OnViewClicked" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:id="@+id/parent_video_layout"
+        tools:context="com.ui.twilioVideo.TwilioVideoActivity">
+
+        <!--        <include-->
+        <!--            android:id="@+id/include"-->
+        <!--            android:elevation="@dimen/_20sp"-->
+        <!--            layout="@layout/layout_twilio_content_video" />-->
+
+        <TextView
+            android:id="@+id/video_status_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/room_status"
+            android:elevation="@dimen/_10sp"
+            android:textColor="@color/teal_700"
+            android:textSize="20sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.twilio.video.VideoView
+            android:id="@+id/thumbnail_video_view"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="16dp"
+            android:layout_marginTop="24dp"
+            android:elevation="@dimen/_20sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tviMirror="true"
+            app:tviOverlaySurface="true" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_70sdp"
+            android:layout_marginTop="@dimen/_10sp"
+            android:elevation="@dimen/_5sp"
+            android:paddingTop="@dimen/_10sp"
+            android:src="@drawable/shape_gradient_rounded_black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <com.twilio.video.VideoView
+            android:id="@+id/primary_video_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            app:tviMirror="true"
+            app:tviOverlaySurface="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:text="No Participants Connected"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            android:visibility="visible"
+            android:id="@+id/iv_blankView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_no_participant"
+                android:textColor="@color/white"
+                android:text="Candidate Not Joined Yet"
+                android:fontFamily="@font/sarabun_regular"
+                android:textSize="@dimen/_20sp"
+                />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sarabun_semibold"
+            android:layout_marginBottom="0dp"
+            android:elevation="@dimen/_5sp"
+            android:text="User Name"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/tv_meeting_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_meeting_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sarabun_medium"
+            android:elevation="@dimen/_5sp"
+            android:text="03:58"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/rv_connected_users"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_connected_users"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/_5sp"
+            android:visibility="visible"
+            tools:itemCount="5"
+            app:layout_constraintBottom_toTopOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            app:reverseLayout="true"
+            app:stackFromEnd="true" />
+
+        <LinearLayout
+            android:id="@+id/layoutBottomButtuns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:elevation="@dimen/_5sp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:padding="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0">
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/ll_extraButtons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="@dimen/_5sp"
+                    android:background="@drawable/shape_rectangle_rounded_dark_transparent_grey_mini_50"
+                    android:elevation="@dimen/_10sp"
+                    android:gravity="right"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_5sp"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:src="@drawable/ic_img_add_user_white"
+                        android:padding="@dimen/_10sp"
+                        android:id="@+id/btn_add_user_videoActivity"
+                        android:onClick="@{onClick::onViewClicked}"
+                        />
+
+                    <ImageView
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_marginVertical="@dimen/_5sp"
+                        android:src="@drawable/ic_img_document_white"
+                        android:padding="@dimen/_10sp"
+                        android:id="@+id/btn_show_documents"
+                        android:onClick="@{onClick::onViewClicked}"
+                        />
+
+                    <ImageView
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:src="@drawable/ic_share_screen_white"
+                        android:padding="@dimen/_10sp"
+                        android:id="@+id/btn_share_screen"
+                        android:onClick="@{onClick::onViewClicked}"
+                        />
+
+                    <ImageView
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sp"
+                        android:id="@+id/btn_record_video"
+                        android:src="@drawable/ic_img_sc_recording_white"
+                        android:padding="@dimen/_10sp"
+                        android:onClick="@{onClick::onViewClicked}"
+                        />
+
+                    <ImageView
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sp"
+                        android:src="@drawable/ic_mic_unmute_white"
+                        android:visibility="gone"
+                        android:padding="@dimen/_10sp"
+                        android:id="@+id/btn_allow_to_mute"
+                        android:onClick="@{onClick::onViewClicked}"
+                        />
+
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <ImageView
+                        android:id="@+id/btn_end_call"
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="@dimen/_45sdp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="@dimen/_10sp"
+                        android:background="@drawable/ic_img_end_call_red" />
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/mute_action_fab"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="@dimen/_10sp"
+                        android:background="@color/black"
+                        android:scaleType="center"
+                        android:src="@drawable/ic_img_btn_mic_unmute_white"
+                        app:fabSize="mini"
+                        app:shapeAppearanceOverlay="@style/roundedCorner50" />
+
+
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/local_video_action_fab"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
+                        android:layout_gravity="center"
+
+                        android:background="@color/black"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_img_btn_video"
+                        app:shapeAppearanceOverlay="@style/roundedCorner50" />
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/btn_send_message"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
+                        android:layout_marginHorizontal="@dimen/_5sp"
+                        android:layout_marginRight="@dimen/_10sp"
+                        android:background="@color/grey_tranparent_dark"
+                        android:src="@drawable/ic_img_btn_message"
+                        app:fabSize="mini"
+                        app:shapeAppearanceOverlay="@style/roundedCorner50" />
+
+
+
+                    <!--            <com.google.android.material.imageview.ShapeableImageView-->
+                    <!--                android:id="@+id/switch_camera_action_fab"-->
+                    <!--                android:layout_width="@dimen/_50sdp"-->
+                    <!--                android:layout_height="@dimen/_50sdp"-->
+                    <!--                android:layout_gravity="center"-->
+                    <!--                android:layout_marginRight="@dimen/_10sp"-->
+                    <!--                android:visibility="visible"-->
+                    <!--                android:background="@color/grey_tranparent_dark"-->
+                    <!--                app:shapeAppearanceOverlay="@style/roundedCorner50"-->
+                    <!--                android:src="@drawable/ic_switch_camera_24_white"-->
+                    <!--                app:fabSize="mini" />-->
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/btn_ellipsize"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
+                        android:background="@drawable/ic_img_btn_ellepsize"
+                        app:fabSize="mini"
+                        app:shapeAppearanceOverlay="@style/roundedCorner50" />
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

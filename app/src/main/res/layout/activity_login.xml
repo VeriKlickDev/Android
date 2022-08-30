@@ -1,0 +1,146 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/_10sp"
+        tools:context="com.ui.activities.login.LoginActivity">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_logintxt"
+                    style="@style/textview.Style.TvStyleWhiteRounded_30"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_70sdp"
+                    android:text="@string/txt_login" />
+
+                <TextView
+                    android:id="@+id/tv_txt_start_meeting"
+                    style="@style/textview.Style.WhiteRounded_18"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_10sp"
+                    android:text="@string/txt_start_join_video_meeting_on_the_go" />
+
+
+
+                    <EditText
+                        android:drawableLeft="@drawable/ic_img_message_black"
+                        android:drawablePadding="@dimen/_10sp"
+                        android:id="@+id/et_email"
+                        android:maxLines="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_10sp"
+                        style="@style/editext.style.base"
+                        android:hint="@string/hint_email" />
+
+
+
+                <TextView
+                    android:id="@+id/tv_email_error"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_12sp"
+                    android:fontFamily="@font/sarabun_medium"
+                    android:gravity="right"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/_10sp"
+                    android:visibility="visible" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginHorizontal="@dimen/_10sp"
+                        >
+
+                        <EditText
+                            android:id="@+id/et_password"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/editext.style.base"
+                            android:drawableLeft="@drawable/ic_img_lock"
+                            android:hint="@string/hint_password"
+                            android:maxLines="1"
+                            android:gravity="top"
+                            android:backgroundTint="@color/light_grey"
+                            android:inputType="textPassword"
+                            />
+
+                        <ImageView
+                            android:layout_marginLeft="-35sp"
+                            android:layout_width="@dimen/_25sdp"
+                            android:layout_height="@dimen/_25sdp"
+                            android:layout_gravity="center"
+                            android:id="@+id/btn_toggle_eye"
+                            android:background="@drawable/ic_img_toggle_eye_hide"
+                            />
+
+                    </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_psswd_error"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_12sp"
+                    android:fontFamily="@font/sarabun_medium"
+                    android:gravity="right"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/_10sp"
+                    android:visibility="visible" />
+
+
+                <TextView
+                    android:id="@+id/tv_forgot_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_10sp"
+                    android:gravity="right"
+                    android:text="@string/txt_forgot_password_with_question"
+                    android:textColor="@color/skyblue_light1"
+                    android:textSize="@dimen/_15sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_submitButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/button.Style.Blue.Rounded"
+                    android:layout_marginTop="@dimen/_20sp"
+                    android:text="@string/txt_login"
+                    android:textSize="@dimen/_15sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_continue_guest"
+                    style="@style/button.Style.lightBlue.Rounded.elevation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txt_Continue_as_a_Guest"
+                    android:textSize="@dimen/_15sp" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </ScrollView>
+
+
+    </LinearLayout>
+
+</layout>

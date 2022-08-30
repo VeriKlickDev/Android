@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/_10sp"
+        >
+
+        <TextView
+            android:layout_marginTop="@dimen/_70sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_join_meeting"
+            style="@style/textview.Style.TvStyleWhiteRounded_30"
+            android:text="@string/txt_join_meeting"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_txt_start_meeting"
+            style="@style/textview.Style.WhiteRounded_18"
+            android:layout_marginTop="-10sp"
+            android:text="@string/txt_start_join_video_meeting_on_the_go"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/et_join_meeting"
+            android:hint="@string/txt_enter_code"
+            android:layout_marginTop="@dimen/_20sp"
+            android:maxHeight="100sp"
+            android:layout_marginHorizontal="@dimen/_10sp"
+            android:layout_marginBottom="@dimen/_10sp"
+            android:drawableLeft="@drawable/ic_img_link"
+            style="@style/editext.style.base"
+            />
+
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_join"
+            android:layout_marginTop="@dimen/_15sp"
+            android:text="@string/txt_join"
+            style="@style/button.Style.Blue.Rounded"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_login"
+        android:layout_marginTop="@dimen/_15sp"
+        android:text="@string/txt_login"
+        style="@style/button.Style.White.Rounded.elevation"
+        />
+
+    </LinearLayout>
+    </ScrollView>
+</layout>

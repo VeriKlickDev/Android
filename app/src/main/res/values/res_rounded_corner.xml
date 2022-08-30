@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="roundedCorner7">
+        <item name="cornerSize">7%</item>
+    </style>
+    <style name="roundedCorner10">
+        <item name="cornerSize">10%</item>
+    </style>
+    <style name="roundedCorner50">
+        <item name="cornerSize">50%</item>
+    </style>
+    <style name="roundedCorner20">
+        <item name="cornerSize">20%</item>
+    </style>
+    <style name="roundedCorner30">
+        <item name="cornerSize">30%</item>
+    </style>
+
+</resources>
