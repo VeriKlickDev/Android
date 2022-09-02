@@ -1,9 +1,12 @@
 package com.data
 
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
+
 private val list = mutableListOf<InvitationDataModel>()
 
 object InvitationDataHolder {
-
+    val TAG = "checkingInvitaionObject"
     var firstName: String = ""
         get() = firstName
         set(value) {
@@ -41,45 +44,78 @@ object InvitationDataHolder {
         }
         get() = index
 
+    private var liveList = MutableLiveData<List<InvitationDataModel>>()
 
+    fun setItem(obj: InvitationDataModel) {
+        /* index=obj.index!!
+         uid=obj.uid.toString()
+         firstName=obj.firstName.toString()
+         lastName=obj.lastName.toString()
+         email=obj.email.toString()
+         phone=obj.phone.toString()
+ */
+        Log.d(TAG, "setItem: in object item uid ${obj.uid} ${obj.firstName} ${obj.index}")
+        Log.d(TAG, "setItem: in object list size ${list.size}")
+        val tlist = mutableListOf<InvitationDataModel>()
+        tlist.addAll(list)
 
-    fun setItem(obj:InvitationDataModel)
-    {
-        index=obj.index
-        uid=obj.uid.toString()
-        firstName=obj.firstName.toString()
-        lastName=obj.lastName.toString()
-        email=obj.email.toString()
-        phone=obj.phone.toString()
+        tlist.forEach {
+            Log.d(
+                TAG,
+                "setItem: in object list uid is ${it} obj ${obj.uid} index is ${obj.index}  new index ${it.index}"
+            )
+
+            if (obj.uid.equals(it.uid)) {
+                list.set(list.indexOf(it), obj)
+                liveList.postValue(list)
+                Log.d(
+                    TAG,
+                    "setItem: in object checking   index is ${obj.index}  new index ${it.index}   list.indexof ${
+                        list.indexOf(it)
+                    }"
+                )
+            }
+        }
     }
 
-    fun getItem()=InvitationDataModel(index,uid,firstName,lastName,email, phone)
+    fun getItem() = InvitationDataModel(index, uid, firstName, lastName, email, phone)
 
-    fun setlist(lst:List<InvitationDataModel>)
-    {
-        list.addAll(lst)
+    fun getLiveList() = liveList
+
+    fun setItemToList(ob: InvitationDataModel) {
+        list.add(ob)
+        liveList.postValue(list)
     }
 
-    fun getListItem(uid:String,index:Int):InvitationDataModel? {
-     list.forEach {
-         if (it.uid.equals(uid))
-         {
-             return it
-         }
-     }
-    return null
+
+    fun getListItem(uid: String, index: Int): InvitationDataModel? {
+        list.forEach {
+            if (it.uid.equals(uid)) {
+                return it
+            }
+        }
+        return null
     }
 
-    fun getList()=list
-
+    fun getList() = list
 
 }
 
 data class InvitationDataModel(
-    val index:Int,
-    val uid:String?=null,
-    val firstName: String?=null,
-    val lastName: String?=null,
-    val email: String?=null,
-    val phone: String?=null
+    var index: Int? = null,
+    var uid: String? = null,
+    var firstName: String = "",
+    var lastName: String= "",
+    var email: String= "",
+    var phone: String= ""
 )
+
+/*
+data class InvitationDataModel(
+    var index: Int? = null,
+    var uid: String? = null,
+    var firstName: String? = null,
+    var lastName: String? = null,
+    var email: String? = null,
+    var phone: String? = null
+)*/

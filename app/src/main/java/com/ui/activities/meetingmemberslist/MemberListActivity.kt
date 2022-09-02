@@ -1,25 +1,21 @@
-package com.ui.activities.adduserlist
+package com.ui.activities.meetingmemberslist
 
-import android.app.Dialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
-import android.view.LayoutInflater
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.data.*
 import com.domain.BaseModels.VideoTracksBean
 import com.example.twillioproject.databinding.ActivityListOfMembersBinding
-import com.ui.listadapters.AddUserListAdapter
+import com.ui.activities.adduserlist.ActivityAddParticipant
+import com.ui.activities.adduserlist.AddUserViewModel
+import com.ui.listadapters.ConnectedMemberListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
@@ -30,17 +26,16 @@ class MemberListActivity :AppCompatActivity() {
     private val TAG="checkadduserlist"
     private lateinit var binding:ActivityListOfMembersBinding
     private val usersList= mutableListOf<VideoTracksBean>()
-    private lateinit var adapter:AddUserListAdapter
-    private lateinit var viewModel:AddUserViewModel
+    private lateinit var adapter:ConnectedMemberListAdapter
+    private lateinit var viewModel: MemberListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityListOfMembersBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel=ViewModelProvider(this).get(AddUserViewModel::class.java)
+        viewModel=ViewModelProvider(this).get(MemberListViewModel::class.java)
 
         binding.rvAddUser.layoutManager=GridLayoutManager(this,2)
-
 
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -51,8 +46,29 @@ class MemberListActivity :AppCompatActivity() {
 
         CurrentConnectUserList.getListForAddParticipantActivity().observe(this, Observer {listitem->
             listitem?.let {
-                adapter= AddUserListAdapter(this,listitem, hight = height, width = width, onClick = { pos, action, data ->
+                adapter= ConnectedMemberListAdapter(this,listitem, hight = height, width = width, onClick = { pos, action, data ->
+                when (action)
+                {
+                    1->{
+                    viewModel.leftUser(data.remoteParticipant?.sid!!,CurrentMeetingDataSaver.getRoomData().firstOrNull()?.roomName!!, onDataResponse = {
+                        data, status ->
+                        when(status)
+                        {
+                            200->{
+                                Log.d(TAG, "onCreate: data response success $data ")
+                            }
+                            400->{
+                                Log.d(TAG, "onCreate: data response success $data ")
+                            }
+                            404->{
+                                Log.d(TAG, "onCreate: data not found")
+                            }
+                        }
 
+                    })
+                    }
+
+                }
                 })
                 binding.rvAddUser.adapter=adapter
                 adapter.notifyDataSetChanged()
@@ -67,7 +83,7 @@ class MemberListActivity :AppCompatActivity() {
     }
 
     private fun handleAddParticipant() {
-        val intent= Intent(this@MemberListActivity,ActivityAddParticipant::class.java)
+        val intent= Intent(this@MemberListActivity, ActivityAddParticipant::class.java)
         startActivity(intent)
         Log.d(TAG, "handleAddParticipant: onclicked")
     }

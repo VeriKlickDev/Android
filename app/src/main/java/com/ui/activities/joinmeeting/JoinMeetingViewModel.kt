@@ -19,7 +19,6 @@ class JoinMeetingViewModel @Inject constructor(val repo: BaseRestRepository) :Vi
     fun getVideoSessionHost(videoAccessCode:String, onDataResponse:(data:TokenResponseBean, response:Int)->Unit)
     {
         try {
-
             CoroutineScope(Dispatchers.IO).launch {
                 val result=repo.getTwilioVideoTokenHost(videoAccessCode)
                 if (result.isSuccessful)
@@ -48,22 +47,6 @@ class JoinMeetingViewModel @Inject constructor(val repo: BaseRestRepository) :Vi
 
     fun getVideoSessionCandidate(videoAccessCode:String, onDataResponse:(data:TokenResponseBean, response:Int)->Unit) {
         CoroutineScope(Dispatchers.IO).launch {
-
-            /* flow<Response<TokenResponseBean>>{
-                repo.getTwilioVideoTokenCandidate(videoAccessCode)
-            }.map {result1->
-                if (result1.isSuccessful)
-                {
-                    ""
-                }
-                ""
-            }.map {result2->
-                repo.getTwilioVideoTokenCandidate(result2)
-            } .map {
-                    repo.getTwilioVideoTokenCandidate(result2)
-                }
-           */
-
             try {
 
                 val result = repo.getTwilioVideoTokenCandidate(videoAccessCode)
@@ -137,3 +120,18 @@ class JoinMeetingViewModel @Inject constructor(val repo: BaseRestRepository) :Vi
 
 
 }
+
+/* flow<Response<TokenResponseBean>>{
+            repo.getTwilioVideoTokenCandidate(videoAccessCode)
+        }.map {result1->
+            if (result1.isSuccessful)
+            {
+                ""
+            }
+            ""
+        }.map {result2->
+            repo.getTwilioVideoTokenCandidate(result2)
+        } .map {
+                repo.getTwilioVideoTokenCandidate(result2)
+            }
+       */

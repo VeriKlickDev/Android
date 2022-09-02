@@ -44,7 +44,7 @@ data class Candidate (
 )
 */
 
-
+/*
 data class CandidateLocation (
 
 	val pkCandidateLocation : Int,
@@ -58,7 +58,7 @@ data class CandidateLocation (
 	val longitude : Int,
 	val id : Int,
 	val name : String
-)
+)*/
 
 
 

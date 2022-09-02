@@ -18,5 +18,7 @@ interface LoginRestApi {
     @POST("/api/v1/Account/ForgotPassword")
     suspend fun sendMailForforgotPassword(@Body ob: BodyForgotPasswordBean) : Response<ResponseForgotPassword>
 
+    @POST("/api/v1/Account/GetVKUserProfileResumeWithoutAuth")
+    suspend fun getResume( @Body fileName: BodyGetResume):Response<ResponseResumeModel>
 
 }

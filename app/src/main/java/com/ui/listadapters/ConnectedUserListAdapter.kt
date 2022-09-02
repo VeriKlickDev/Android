@@ -43,6 +43,9 @@ class ConnectedUserListAdapter(
             binding.tvUsername.text = data.userName
             data.videoTrack.addSink(binding.ivUserVideoView)
 
+
+
+
             try {
                 if (data.userName.equals("You"))
                 {

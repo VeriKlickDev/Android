@@ -122,10 +122,11 @@ class ChatActivityTest : AppCompatActivity() {
                                 TAG,
                                 "Already Exists in Conversation: $DEFAULT_CONVERSATION_NAME"
                             )
-                            conversation!!.addListener(
+                         /*   conversation!!.addListener(
                                 mDefaultConversationListener
-                            )
-                            loadPreviousMessages(conversation!!)
+                            )*/
+                           // joinConversation()
+                           // loadPreviousMessages(conversation!!)
                         }
                         else {
                             Log.d(
@@ -194,6 +195,7 @@ class ChatActivityTest : AppCompatActivity() {
                         TAG,
                         "Already Exists in Conversation: $DEFAULT_CONVERSATION_NAME"
                     )
+                    joinConversation()
                 }
             }
 
@@ -266,7 +268,7 @@ class ChatActivityTest : AppCompatActivity() {
                             mDefaultConversationListener
                         )
                         conversation = myconversation
-                        loadPreviousMessages(myconversation)
+                       // loadPreviousMessages(myconversation)
                         dismissProgressDialog()
                     }
                 })
@@ -278,22 +280,24 @@ class ChatActivityTest : AppCompatActivity() {
         }
         else {
             Log.d(TAG, "joinConversation: not null conversation ")
-
-            conversation?.join(object : StatusListener {
+            dismissProgressDialog()
+            conversation!!.join(object : StatusListener {
                 override fun onSuccess() {
                     //conversation = mconversation
-                    Log.d(TAG, "Joined default conversation")
+                    Log.d(TAG, "JoionSuccess: in success to getchannelned default conversation")
                     conversation!!.addListener(
                         mDefaultConversationListener
                     )
                     conversation?.participantsList?.forEach {
                         Log.d(TAG, "onSuccess: participants list ${it.identity} ")
                     }
-                    loadPreviousMessages(conversation!!)
+                   // loadPreviousMessages(conversation!!)
                 }
 
                 override fun onError(errorInfo: ErrorInfo) {
                     Log.e(TAG, "Error joining conversation: " + errorInfo.message)
+                    dismissProgressDialog()
+                    loadPreviousMessages(conversation!!)
                 }
             })
         }
@@ -307,36 +311,43 @@ class ChatActivityTest : AppCompatActivity() {
 
 
           try {
+                if (!result.isNullOrEmpty()) {
+                    result.forEach {
 
-              result.forEach {
+                        CurrentMeetingDataSaver.getData().users?.forEach { user ->
 
-                  CurrentMeetingDataSaver.getData().users?.forEach { user ->
+                            val identity = user.userType.toString() + user.id
+                            if (identity.equals(it.author)) {
 
-                      val identity = user.userType.toString() + user.id
-                      if (identity.equals(it.author)) {
-
-                          if (it.author.equals(CurrentMeetingDataSaver.getData().identity)) {
-                              viewModel.setMessages(
-                                  it.messageBody.toString(),
-                                  AppConstants.CHAT_SENDER,
-                                  user.userFirstName.toString(),
-                                 getUtcDateToAMPM(it.dateCreated).toString()
-                              )
-                              (binding.rvChatMsgs.layoutManager as LinearLayoutManager).scrollToPosition(0)
-                          }
-                          else {
-                              viewModel.setMessages(
-                                  it.messageBody.toString(),
-                                  AppConstants.CHAT_RECIEVER,
-                                  user.userFirstName,
-                                  getUtcDateToAMPM(it.dateCreated).toString()
-                              )
-                              (binding.rvChatMsgs.layoutManager as LinearLayoutManager).scrollToPosition(0)
-                          }
-                      }
-                  }
+                                if (it.author.equals(CurrentMeetingDataSaver.getData().identity)) {
+                                    viewModel.setMessages(
+                                        it.messageBody.toString(),
+                                        AppConstants.CHAT_SENDER,
+                                        user.userFirstName.toString(),
+                                        getUtcDateToAMPM(it.dateCreated).toString()
+                                    )
+                                    (binding.rvChatMsgs.layoutManager as LinearLayoutManager).scrollToPosition(
+                                        0
+                                    )
+                                }
+                                else {
+                                    viewModel.setMessages(
+                                        it.messageBody.toString(),
+                                        AppConstants.CHAT_RECIEVER,
+                                        user.userFirstName,
+                                        getUtcDateToAMPM(it.dateCreated).toString()
+                                    )
+                                    (binding.rvChatMsgs.layoutManager as LinearLayoutManager).scrollToPosition(
+                                        0
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+              else{
+                    Log.d(TAG, "loadPreviousMessages: no message available yet")
               }
-
           }catch (e:Exception)
           {
               Log.d(
@@ -486,6 +497,7 @@ class ChatActivityTest : AppCompatActivity() {
 
 
     private val mDefaultConversationListener: ConversationListener = object : ConversationListener {
+
         override fun onMessageAdded(message: Message) {
             Log.d(TAG, "Message added")
 
@@ -563,7 +575,7 @@ class ChatActivityTest : AppCompatActivity() {
         }
 
         override fun onSynchronizationChanged(conversation: Conversation) {
-
+            loadPreviousMessages(conversation)
         }
     }
 

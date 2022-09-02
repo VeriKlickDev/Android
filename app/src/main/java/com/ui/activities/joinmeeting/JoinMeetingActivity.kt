@@ -11,6 +11,7 @@ import com.data.*
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityJoinMeetingBinding
 import com.google.android.material.snackbar.Snackbar
+import com.ui.activities.adduserlist.ActivityAddParticipant
 import com.ui.activities.twilioVideo.VideoActivity
 import com.ui.activities.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,7 +33,7 @@ class JoinMeetingActivity :AppCompatActivity() {
 
         binding.btnJoin.setOnClickListener {
             if (checkInternet()){
-
+                startActivity(Intent(this,ActivityAddParticipant::class.java))
                 if (binding.etJoinMeeting.text.toString() != "")
                 {
                     val meetingLink= binding.etJoinMeeting.text.toString()
@@ -40,17 +41,17 @@ class JoinMeetingActivity :AppCompatActivity() {
                     accessCode= accessCodeSplit.last()
                     Log.d(TAG, "onCreate: accessCode is $accessCode")
 
-                    //host      https://ui2.veriklick.in/video-session/T3M3TkAwTidx7rSgMVkD
-                    //candidate https://ui2.veriklick.in/video-session/Uwaau6bVyxhgiekCzMhS
-                    //interview https://ui2.veriklick.in/video-session/Lweis8D7gdcIefes7gOl
+                    //host      https://ui2.veriklick.in/video-session/4zlfm2pKoqmvbtTLFACz
+                    //candidate https://ui2.veriklick.in/video-session/P3cdnXYJqgcXyU53DeCt
+                    //interview4 https://ui2.veriklick.in/video-session/yZgiVVkqZ9vBGcLwMtVh
 
                     //candidate
                   // getInterviewDetails("Uwaau6bVyxhgiekCzMhS")
 
                     //host
-                    //getInterviewDetails("T3M3TkAwTidx7rSgMVkD")
+                   // getInterviewDetails("yZgiVVkqZ9vBGcLwMtVh")
 
-                    getInterviewDetails(accessCode)
+                   // getInterviewDetails(accessCode)
 
                     //  getInterviewDetails("3ug2yYl7tJh5tenLhUu7","I")
                     //  showToast(this,"Under Development")
@@ -96,19 +97,22 @@ candidate :- 2dpOPzO1Hcf1z5eSGvLC
                 }
                 400 -> {
                     dismissProgressDialog()
+                    showToast(this,data?.aPIResponse?.message!!)
                     //showToast(this, "null values")
-                    data?.let { CurrentMeetingDataSaver.setData(it) }
-                        joinMeetingCandidate(accessCode)
+                   /* data?.let { CurrentMeetingDataSaver.setData(it) }
+                        joinMeetingCandidate(accessCode)*/
                 }
                 404 -> {
                     dismissProgressDialog()
+                    showToast(this,data?.aPIResponse?.message!!)
                     showToast(this, data?.aPIResponse?.message.toString())
                 }
                 401->{
                     dismissProgressDialog()
-                    CurrentMeetingDataSaver.setData(data!!)
+                    showToast(this,data?.aPIResponse?.message!!)
+                  /*  CurrentMeetingDataSaver.setData(data!!)
                     joinMeetingCandidate(accessCode)
-                    CurrentMeetingDataSaver.setData(data)
+                    CurrentMeetingDataSaver.setData(data)*/
                 }
             }
         })
@@ -130,6 +134,7 @@ candidate :- 2dpOPzO1Hcf1z5eSGvLC
                         Log.d("showdialogalert", "joinMeetingCandidate: in dialog show")
                     }else
                     {
+                        CurrentMeetingDataSaver.setRoomData(data)
                         Log.d("showdialogalert", "candidate: ${data.token}  ${data.roomName}")
                         TwilioHelper.setTwilioCredentials(data.token.toString(),data.roomName.toString())
                             startActivity(Intent(this@JoinMeetingActivity, VideoActivity::class.java))

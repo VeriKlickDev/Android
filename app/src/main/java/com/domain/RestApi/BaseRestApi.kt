@@ -16,7 +16,7 @@ interface BaseRestApi {
     @GET("/api/ScheduleVideo/GetVideoTokenDetails/{VideoAccessCode}")
     suspend fun getTwilioVideoTokenCandidate(@Query("VideoAccessCode")videoAccessCode:String) : Response<TokenResponseBean>
 
-    @POST("/api/ScheduleVideo/GetInterviewByRecruiter")
+    @POST("/api/ScheduleVideo/GetInterviewByRecru/api/ScheduleVideo/UpdateInterviewRecordingStatusiter")
     suspend fun getScheduledMeetingsList(@Header("Authorization")token:String, @Body ob: BodyScheduledMeetingBean):Response<ResponseScheduledMeetingBean>
 
     @GET("/api/ScheduleVideo/GetSaveInterviewDetails/{Id}")
@@ -33,5 +33,20 @@ interface BaseRestApi {
 
     @POST("/api/ScheduleVideo/GetInterviewerUserByEmail")
     suspend fun getEmailPhoneExistsDetails( @Body obj: IsEmailPhoneExistsModel):Response<Boolean>
+
+    @POST("/api/ScheduleVideo/SaveParticipantStatus")
+    suspend fun getRemoveStatus( @Body obj: BodyRemoveParticipant):Response<ResponseRemoveParticipant>
+
+    @GET
+    suspend fun getResumeFileName(@Url url: String):Response<ResponseCandidateDataForIOS>
+
+    @POST("/api/ScheduleVideo/UpdateInterviewRecordingStatus")
+    suspend fun getRecordingStatusUpdate( @Body obj: BodyUpdateRecordingStatus):Response<BodyUpdateRecordingStatus>
+
+    @POST("/api/ScheduleVideo/SaveParticipantStatus")
+    suspend fun leftUserFromMeeting( @Body obj: BodyLeftUserFromMeeting):Response<BodyLeftUserFromMeeting>
+
+    @POST("/api.veriklick.in/api/ScheduleVideo/UpdateInterviewUsersDetail")
+    suspend fun sendInvitation( @Body obj: AddParticipantModel):Response<ResponseSendInvitation>
 
 }

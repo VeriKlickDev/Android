@@ -11,6 +11,19 @@
         android:layout_weight="1"
         android:layout_height="match_parent">
 
+
+        <ImageView
+            android:id="@+id/iv_network_status"
+            android:layout_width="@dimen/_20sp"
+            android:layout_height="@dimen/_20sp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/network_quality_level_0"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:elevation="@dimen/_10sp"
+            app:layout_constraintHorizontal_bias="0.044"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <com.twilio.video.VideoView
             android:id="@+id/twiliovideoView"
             android:layout_width="match_parent"
@@ -26,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:orientation="horizontal"
             android:padding="@dimen/_10sp"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -51,6 +51,30 @@ class RepositoryImpl  @Inject constructor(val baseRestApi: BaseRestApi,val login
         return baseRestApi.getEmailPhoneExistsDetails(obj)
     }
 
+    override suspend fun getRemoveStatus(obj: BodyRemoveParticipant): Response<ResponseRemoveParticipant> {
+        return baseRestApi.getRemoveStatus(obj)
+    }
+
+    override suspend fun getResumeFileName(id: String): Response<ResponseCandidateDataForIOS> {
+        return baseRestApi.getResumeFileName("/api/CandidateDataForIOS/"+id)
+    }
+
+    override suspend fun getRecordingStatusUpdate(obj: BodyUpdateRecordingStatus): Response<BodyUpdateRecordingStatus> {
+        return baseRestApi.getRecordingStatusUpdate(obj)
+    }
+
+    override suspend fun leftUserFromMeeting(obj: BodyLeftUserFromMeeting): Response<BodyLeftUserFromMeeting> {
+        return baseRestApi.leftUserFromMeeting(obj)
+    }
+
+    override suspend fun sendInvitation(obj: AddParticipantModel): Response<ResponseSendInvitation> {
+        return baseRestApi.sendInvitation(obj)
+    }
+
+    override suspend fun getResume(fileName: BodyGetResume): Response<ResponseResumeModel> {
+       return loginRestApi.getResume(fileName)
+    }
+
     override suspend fun login(ob:BodyLoginBean): Response<LoginResponseBean> {
         return loginRestApi.login(ob)
     }

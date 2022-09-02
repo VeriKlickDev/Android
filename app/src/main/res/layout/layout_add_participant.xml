@@ -20,11 +20,12 @@
             android:layout_gravity="right"
             android:layout_margin="@dimen/_10sp"
             android:id="@+id/btn_cross"
+            android:visibility="gone"
             android:background="@drawable/ic_close_cross_square"/>
 
 
         <EditText
-            
+                android:layout_marginTop="@dimen/_20sp"
             android:drawablePadding="@dimen/_10sp"
             android:id="@+id/et_firstname"
             android:maxLines="1"

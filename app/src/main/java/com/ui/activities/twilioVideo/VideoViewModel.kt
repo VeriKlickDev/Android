@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.data.TwilioChatHelper
 import com.data.repositoryImpl.RepositoryImpl
 import com.domain.BaseModels.BodyMuteUmnuteBean
+import com.domain.BaseModels.BodyUpdateRecordingStatus
 import com.domain.BaseModels.ResponseChatToken
 import com.domain.BaseModels.ResponseMuteUmnute
 import com.twilio.conversations.CallbackListener
@@ -97,6 +98,30 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
         }
     }
 
+
+    fun  getRecordingStatusUpdate(interviewId: Int,roomSid:String,recStatus:String,statusCode:String,message:String,accessCode:String,onResult:(action:Int,data: BodyUpdateRecordingStatus?)->Unit)
+    {
+        try {
+            viewModelScope.launch {
+                val result =repositoryImpl.getRecordingStatusUpdate(BodyUpdateRecordingStatus(interviewId,roomSid,recStatus,statusCode,message))
+                if (result.isSuccessful)
+                {
+                    if(result.body()!=null){
+                        onResult(200,result.body()!!)
+                    }else
+                    {
+                        onResult(400,result.body()!!)
+                    }
+                }else
+                {
+                    onResult(404,result.body()!!)
+                }
+            }
+        }catch (e:Exception)
+        {
+            onResult(500,null)
+        }
+    }
 
 
 

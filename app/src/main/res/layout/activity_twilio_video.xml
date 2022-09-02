@@ -181,7 +181,7 @@
                     android:gravity="right"
                     android:orientation="vertical"
                     android:padding="@dimen/_5sp"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="@dimen/_40sdp"
@@ -220,7 +220,6 @@
                         android:padding="@dimen/_10sp"
                         android:onClick="@{onClick::onViewClicked}"
                         />
-
                     <ImageView
                         android:layout_width="@dimen/_40sdp"
                         android:layout_height="@dimen/_40sdp"

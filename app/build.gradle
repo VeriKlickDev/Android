@@ -14,7 +14,7 @@ android {
         targetSdk 32
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
       /*  buildConfigField("String",
@@ -140,4 +140,12 @@ dependencies {
     implementation 'com.twilio:conversations-android:1.4.1'
     //implementation "com.twilio:conversations-android-with-symbols:3.0.0"
 
+    //pdf viewer
+   // implementation 'com.github.afreakyelf:Pdf-Viewer:v1.0.7'
+
+    //pdf viewer
+   // implementation 'com.github.Asutosh11:DocumentReader:0.12'
+
+    // NOTE: use this only if you get a multidex exception
+   // implementation "androidx.multidex:multidex:2.0.1"
 }
