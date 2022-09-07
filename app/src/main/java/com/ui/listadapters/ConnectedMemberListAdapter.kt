@@ -14,7 +14,7 @@ import com.data.LocalConfrenseMic
 import com.domain.BaseModels.VideoTracksBean
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.LayoutItemMemberVideoConfrenceBinding
-import com.twilio.video.NetworkQualityLevel
+import com.twilio.video.*
 import com.ui.activities.meetingmemberslist.MemberListActivity
 
 class ConnectedMemberListAdapter(
@@ -25,6 +25,7 @@ class ConnectedMemberListAdapter(
     val onClick: (pos: Int, action: Int, data: VideoTracksBean) -> Unit
 ) : RecyclerView.Adapter<ConnectedMemberListAdapter.ViewholderClass>() {
 
+    val TAG="checkconnectUsers"
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewholderClass {
         val binding =
             LayoutItemMemberVideoConfrenceBinding.inflate(LayoutInflater.from(context), parent, false)
@@ -32,9 +33,8 @@ class ConnectedMemberListAdapter(
         val layoutParams = binding.root.layoutParams
         Log.d("rvAdditem", "onCreateViewHolder: ${hight}  $width")
         layoutParams.width = width / 2
-        layoutParams.height = (hight / 2) - 55
+        layoutParams.height = (hight / 2) - 140
         binding.root.layoutParams = layoutParams
-
         return ViewholderClass(binding)
     }
 
@@ -55,10 +55,10 @@ class ConnectedMemberListAdapter(
             binding.twiliovideoView.mirror = true
             binding.tvUsername.text = data.userName
             data.videoTrack.addSink(binding.twiliovideoView)
+
             binding.ivLeftMeeting.setOnClickListener {
                 onClick(adapterPosition,1,data)
             }
-
 
             try {
 
@@ -69,42 +69,25 @@ class ConnectedMemberListAdapter(
                         .observe(context as MemberListActivity, Observer {
                             Log.d("adduserlistadapter", "bindData: mic is $it ")
                             if (it) {
-                                binding.ivMic.isVisible = false
+                               // binding.ivMic.isVisible = false
                             }
                             else {
-                                binding.ivMic.isVisible = true
+                               // binding.ivMic.isVisible = true
                             }
                         })
                 }
                 else {
 
-                    try {
-                        binding.ivNetworkStatus.isVisible = true
-                        setNetworQualityLevel(
-                            data,
-                            binding.ivNetworkStatus
-                        )
 
-                    } catch (e: Exception) {
-                        Log.d("checknetwork", "bindData: exception ${e.printStackTrace()} ")
-                    }
+                    binding.ivNetworkStatus.isVisible = true
                     binding.ivLeftMeeting.isVisible = true
-                    data.remoteParticipant?.remoteAudioTracks?.firstOrNull()?.audioTrack?.addSink { audioSample, encoding, sampleRate, channels ->
-                        //                Log.e("audioTrack", "bindData: "+data.audioTrack.isEnabled )
-                        if (data.remoteParticipant?.remoteAudioTracks?.firstOrNull()?.audioTrack!!.isEnabled) {
-                            Log.e("audioTrack", "bindData: enable")
-                            Handler(Looper.getMainLooper()).post {
-                                binding.ivMic.isVisible = false
-                            }
-                        }
-                        else {
-                            Log.e("audioTrack", "bindData: disabled")
-                            Handler(Looper.getMainLooper()).post {
-                                binding.ivMic.isVisible = true
-                            }
-                            // binding.ivMic.setBackgroundResource(R.drawable.ic_img_muted_white)
-                        }
+
+                  //  binding.ivMic.isVisible=data.remoteParticipant?.remoteAudioTracks?.firstOrNull()?.remoteAudioTrack?.isEnabled==false
+
+                    data.remoteParticipant.let {
+                        it?.setListener(listener)
                     }
+
 
                 }
 
@@ -126,12 +109,220 @@ class ConnectedMemberListAdapter(
 
             // binding.data=data
         }
+
+        fun setMicStatus(status:Boolean)
+        {
+            if (status) {
+                Log.e("audioTrack", "bindData: enable")
+                Handler(Looper.getMainLooper()).post {
+                 //   binding.ivMic.isVisible = false
+                }
+            }
+            else {
+                Log.e("audioTrack", "bindData: disabled")
+                Handler(Looper.getMainLooper()).post {
+                   // binding.ivMic.isVisible = true
+                }
+            }
+        }
+
+
+        val listener=object :RemoteParticipant.Listener{
+            override fun onAudioTrackPublished(
+                remoteParticipant: RemoteParticipant,
+                remoteAudioTrackPublication: RemoteAudioTrackPublication
+            ) {
+                Log.d(TAG, "onAudioTrackSubscribed: audio trck publ")
+
+            }
+
+            override fun onAudioTrackUnpublished(
+                remoteParticipant: RemoteParticipant,
+                remoteAudioTrackPublication: RemoteAudioTrackPublication
+            ) {
+                Log.d(TAG, "onAudioTrackSubscribed: audio trck unpubl")
+            }
+
+            override fun onAudioTrackSubscribed(
+                remoteParticipant: RemoteParticipant,
+                remoteAudioTrackPublication: RemoteAudioTrackPublication,
+                remoteAudioTrack: RemoteAudioTrack
+            ) {
+                Log.d(TAG, "onAudioTrackSubscribed: audio trck subs")
+            }
+
+            override fun onAudioTrackSubscriptionFailed(
+                remoteParticipant: RemoteParticipant,
+                remoteAudioTrackPublication: RemoteAudioTrackPublication,
+                twilioException: TwilioException
+            ) {
+
+            }
+
+            override fun onAudioTrackUnsubscribed(
+                remoteParticipant: RemoteParticipant,
+                remoteAudioTrackPublication: RemoteAudioTrackPublication,
+                remoteAudioTrack: RemoteAudioTrack
+            ) {
+                Log.d(TAG, "onAudioTrackUnsubscribed: unsubcr audio")
+            }
+
+            override fun onVideoTrackPublished(
+                remoteParticipant: RemoteParticipant,
+                remoteVideoTrackPublication: RemoteVideoTrackPublication
+            ) {
+
+            }
+
+            override fun onVideoTrackUnpublished(
+                remoteParticipant: RemoteParticipant,
+                remoteVideoTrackPublication: RemoteVideoTrackPublication
+            ) {
+
+            }
+
+            override fun onVideoTrackSubscribed(
+                remoteParticipant: RemoteParticipant,
+                remoteVideoTrackPublication: RemoteVideoTrackPublication,
+                remoteVideoTrack: RemoteVideoTrack
+            ) {
+
+            }
+
+            override fun onVideoTrackSubscriptionFailed(
+                remoteParticipant: RemoteParticipant,
+                remoteVideoTrackPublication: RemoteVideoTrackPublication,
+                twilioException: TwilioException
+            ) {
+
+            }
+
+            override fun onVideoTrackUnsubscribed(
+                remoteParticipant: RemoteParticipant,
+                remoteVideoTrackPublication: RemoteVideoTrackPublication,
+                remoteVideoTrack: RemoteVideoTrack
+            ) {
+
+            }
+
+            override fun onDataTrackPublished(
+                remoteParticipant: RemoteParticipant,
+                remoteDataTrackPublication: RemoteDataTrackPublication
+            ) {
+
+            }
+
+            override fun onDataTrackUnpublished(
+                remoteParticipant: RemoteParticipant,
+                remoteDataTrackPublication: RemoteDataTrackPublication
+            ) {
+
+            }
+
+            override fun onDataTrackSubscribed(
+                remoteParticipant: RemoteParticipant,
+                remoteDataTrackPublication: RemoteDataTrackPublication,
+                remoteDataTrack: RemoteDataTrack
+            ) {
+
+            }
+
+            override fun onDataTrackSubscriptionFailed(
+                remoteParticipant: RemoteParticipant,
+                remoteDataTrackPublication: RemoteDataTrackPublication,
+                twilioException: TwilioException
+            ) {
+
+            }
+
+            override fun onDataTrackUnsubscribed(
+                remoteParticipant: RemoteParticipant,
+                remoteDataTrackPublication: RemoteDataTrackPublication,
+                remoteDataTrack: RemoteDataTrack
+            ) {
+
+            }
+
+            override fun onAudioTrackEnabled(
+                remoteParticipant: RemoteParticipant,
+                remoteAudioTrackPublication: RemoteAudioTrackPublication
+            ) {
+                Log.d(TAG, "onAudioTrackEnabled: audio track enabled ")
+                setMicStatus(true)
+            }
+
+            override fun onAudioTrackDisabled(
+                remoteParticipant: RemoteParticipant,
+                remoteAudioTrackPublication: RemoteAudioTrackPublication
+            ) {
+                Log.d(TAG, "onAudioTrackEnabled: audio track disabled")
+                setMicStatus(false)
+            }
+
+            override fun onVideoTrackEnabled(
+                remoteParticipant: RemoteParticipant,
+                remoteVideoTrackPublication: RemoteVideoTrackPublication
+            ) {
+
+            }
+
+            override fun onVideoTrackDisabled(
+                remoteParticipant: RemoteParticipant,
+                remoteVideoTrackPublication: RemoteVideoTrackPublication
+            ) {
+
+            }
+
+            override fun onNetworkQualityLevelChanged(
+                remoteParticipant: RemoteParticipant,
+                networkQualityLevel: NetworkQualityLevel
+            ) {
+                Log.d(TAG, "onNetworkQualityLevelChanged: network level ${networkQualityLevel.name}")
+                Log.d(TAG, "onNetworkQualityLevelChanged: network level $networkQualityLevel  ")
+                when(networkQualityLevel) {
+                    NetworkQualityLevel.NETWORK_QUALITY_LEVEL_ZERO  -> {
+                        binding.ivNetworkStatus.setImageResource(R.drawable.network_quality_level_0)
+                    }
+                    NetworkQualityLevel.NETWORK_QUALITY_LEVEL_ONE   -> {
+                        binding.ivNetworkStatus.setImageResource(R.drawable.network_quality_level_1)
+                    }
+                    NetworkQualityLevel.NETWORK_QUALITY_LEVEL_TWO   -> {
+                        binding.ivNetworkStatus.setImageResource(R.drawable.network_quality_level_2)
+                    }
+                    NetworkQualityLevel.NETWORK_QUALITY_LEVEL_THREE -> {
+                        binding.ivNetworkStatus.setImageResource(R.drawable.network_quality_level_3)
+                    }
+                    NetworkQualityLevel.NETWORK_QUALITY_LEVEL_FOUR  -> {
+                        binding.ivNetworkStatus.setImageResource(R.drawable.network_quality_level_4)
+                    }
+                    NetworkQualityLevel.NETWORK_QUALITY_LEVEL_FIVE  -> {
+                        binding.ivNetworkStatus.setImageResource(R.drawable.network_quality_level_5)
+                    }
+                    NetworkQualityLevel.NETWORK_QUALITY_LEVEL_UNKNOWN  -> {
+                        binding.ivNetworkStatus.setImageResource(R.drawable.network_quality_level_3)
+                    }
+                    NetworkQualityLevel.NETWORK_QUALITY_LEVEL_FIVE  -> {
+                        binding.ivNetworkStatus.setImageResource(R.drawable.network_quality_level_5)
+                    }
+                    else-> binding.ivNetworkStatus.setImageResource(R.drawable.network_quality_level_3)
+                }
+
+                super.onNetworkQualityLevelChanged(remoteParticipant, networkQualityLevel)
+            }
+        }
+
+
+
+
+
+
     }
+
+
 
     fun setNetworQualityLevel(data: VideoTracksBean, ivNetwork: ImageView) {
 
         Log.d("networkCheck", "setNetworQualityLevel: network leve ${data.remoteParticipant?.networkQualityLevel?.name} ${data.remoteParticipant?.networkQualityLevel?.name} ")
-
         when(data.remoteParticipant?.networkQualityLevel!!) {
             NetworkQualityLevel.NETWORK_QUALITY_LEVEL_ZERO  -> {
                 ivNetwork.setImageResource(R.drawable.network_quality_level_0)
@@ -160,6 +351,15 @@ class ConnectedMemberListAdapter(
             else-> ivNetwork.setImageResource(R.drawable.network_quality_level_3)
         }
     }
+
+
+
+
+
+
+
+
+
 
 
 }

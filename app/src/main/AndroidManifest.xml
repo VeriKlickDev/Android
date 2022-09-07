@@ -74,9 +74,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.ui.activities.twilioVideo.VideoActivity"
-            android:configChanges="orientation"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.FullScreen" />
         <activity
             android:name="com.ui.activities.documentviewer.DocumentViewerActivity"
@@ -85,7 +83,7 @@
             android:screenOrientation="portrait" />
 
         <service
-            android:name="com.data.extras.ScreenCapturerService"
+            android:name="com.ui.activities.twilioVideo.ScreenSharingCapturing.ScreenSharingService"
             android:enabled="true"
             android:foregroundServiceType="mediaProjection"
 

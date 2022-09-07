@@ -1,5 +1,6 @@
 package com.ui.activities.documentviewer
 
+
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.data.CurrentMeetingDataSaver
 import com.data.dismissProgressDialog
@@ -23,7 +25,8 @@ class DocumentViewerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDocumentViewerBinding
     private lateinit var viewModel: DocumentViewerViewModel
     private val TAG = "checkDocument"
-
+    val docUrl="https://docs.google.com/gview?url=https%3a%2f%2fveriklick-dev-app-resumes.s3.us-east-2.amazonaws.com%2fAlfonsoRiggResume_2018v4-converted_1629636205937.docx%3fX-Amz-Expires%3d10800%26X-Amz-Algorithm%3dAWS4-HMAC-SHA256%26X-Amz-Credential%3dAKIAUPUNSA4TYD2ZVOSX%2f20220903%2fus-east-2%2fs3%2faws4_request%26X-Amz-Date%3d20220903T131606Z%26X-Amz-SignedHeaders%3dhost%26X-Amz-Signature%3d60ebca908546dc65ea1efe8c6ab608b9b4c81aafd3f2fbf979e9c202fc582f08"
+   val docUrl2="https://docs.google.com/gview?url=https%3A%2F%2Fveriklick-dev-app-resumes.s3.us-east-2.amazonaws.com%2FChaitanya%2520Vooradi_1649799349498_1661856080358.docx%3FX-Amz-Expires%3D10800%26X-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Credential%3DAKIAUPUNSA4TYD2ZVOSX%2F20220903%2Fus-east-2%2Fs3%2Faws4_request%26X-Amz-Date%3D20220903T111904Z%26X-Amz-SignedHeaders%3Dhost%26X-Amz-Signature%3D81b08889cd93198534cfa8986c66331e9122f2729e546828ec267c76dbd01013&embedded=true"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDocumentViewerBinding.inflate(layoutInflater)
@@ -39,10 +42,19 @@ class DocumentViewerActivity : AppCompatActivity() {
         }
 
         getResume()
-        binding.swipetorefresh.setOnRefreshListener {
+       /* binding.swipetorefresh.setOnRefreshListener {
             getResume()
-        }
+        }*/
 
+
+
+       /* CurrentMeetingDataSaver.getIsRoomDisconnected().observe(this, Observer {
+            if (it!=null)
+                if (it==true){
+                    finish()
+                }
+        })
+*/
 
     }
 
@@ -59,15 +71,23 @@ class DocumentViewerActivity : AppCompatActivity() {
             wv.loadUrl(link)
 */
 
+            val MyURL = "this is your PDF URL"
+            val url = "http://docs.google.com/gview?embedded=true&url=$link"
+            Log.i(TAG, "Opening PDF: $url")
+            binding.wbDocumentViewer.getSettings().setJavaScriptEnabled(true)
+            binding.wbDocumentViewer.loadUrl(docUrl)
 
+
+/*
             binding.wbDocumentViewer.setWebViewClient(WebViewClientClass())
             binding.wbDocumentViewer.getSettings().setJavaScriptEnabled(true)
             binding.wbDocumentViewer.getSettings().setUseWideViewPort(true)
-            binding.wbDocumentViewer.loadUrl(
+            binding.wbDocumentViewer.loadUrl(docUrl2)*/
+          /*  binding.wbDocumentViewer.loadUrl(
                 "http://docs.google.com/gview?embedded=true&url="
                         + link
             )
-
+*/
 
             //            wv.loadData("<iframe>https://docs.google.com/gview?url=$link></iframe>","text/html","UTF-8")
             //wv.loadData( doc, "text/html",  "UTF-8");
@@ -109,19 +129,19 @@ class DocumentViewerActivity : AppCompatActivity() {
             when (action) {
                 200 -> {
                     Log.d(TAG, "getResume: success ondata response")
-                    binding.swipetorefresh.isRefreshing = false
+                 //   binding.swipetorefresh.isRefreshing = false
                 }
                 400 -> {
                     dismissProgressDialog()
                     Log.d(TAG, "getResume: not success ondata 400")
-                    showToast(this, getString(R.string.txt_something_went_wrong))
-                    binding.swipetorefresh.isRefreshing = false
+                    showToast(this, getString(com.example.twillioproject.R.string.txt_something_went_wrong))
+                   // binding.swipetorefresh.isRefreshing = false
                 }
                 404 -> {
                     dismissProgressDialog()
                     Log.d(TAG, "getResume: not success ondata 404")
-                    showToast(this, getString(R.string.txt_something_went_wrong))
-                    binding.swipetorefresh.isRefreshing = false
+                    showToast(this, getString(com.example.twillioproject.R.string.txt_something_went_wrong))
+                   // binding.swipetorefresh.isRefreshing = false
                 }
             }
         }, onResumeResponse = { resumeData, fileName, action ->
@@ -130,7 +150,7 @@ class DocumentViewerActivity : AppCompatActivity() {
                 200 -> {
                     dismissProgressDialog()
                     Log.d(TAG, "getResume: success 200")
-                    binding.swipetorefresh.isRefreshing = false
+                  //  binding.swipetorefresh.isRefreshing = false
                     if (fileName.contains(".doc")) {
                         loadResume(resumeData?.data?.fileName.toString(), fileName, 1)
                     }
@@ -146,13 +166,13 @@ class DocumentViewerActivity : AppCompatActivity() {
                     dismissProgressDialog()
                     Log.d(TAG, "getResume: not success 400")
                     showToast(this, resumeData?.errorMessage.toString())
-                    binding.swipetorefresh.isRefreshing = false
+                 //   binding.swipetorefresh.isRefreshing = false
                 }
                 404 -> {
                     dismissProgressDialog()
                     Log.d(TAG, "getResume: not success 404")
                     showToast(this, resumeData?.errorMessage.toString())
-                    binding.swipetorefresh.isRefreshing = false
+                  //  binding.swipetorefresh.isRefreshing = false
 
                 }
             }

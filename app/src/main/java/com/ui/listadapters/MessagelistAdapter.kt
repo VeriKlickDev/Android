@@ -70,6 +70,7 @@ class MessagelistAdapter(val context: Context, val list:List<ChatMessagesModel>)
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        holder.setIsRecyclable(false)
         if (!list.get(position).from.equals(AppConstants.CHAT_SENDER)) {
             (holder as RecieverViewholder).bind(list.get(position))
         } else {

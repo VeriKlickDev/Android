@@ -46,7 +46,9 @@ class ChatActivityTest : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModel = ViewModelProvider(this).get(ChatActivityViewModel::class.java)
+
         DEFAULT_CONVERSATION_NAME = CurrentMeetingDataSaver.getData().chatChannel.toString()
+        Log.d(TAG, "onCreate: channel name $DEFAULT_CONVERSATION_NAME")
         msgsObserver()
         //  chatConversationManager!!.setListener(this@ChatActivityTest)
         binding.rvChatMsgs.layoutManager =
@@ -69,14 +71,31 @@ class ChatActivityTest : AppCompatActivity() {
 
         if(intent.getStringExtra(AppConstants.CONNECT_PARTICIPANT)==null || intent.getStringExtra(AppConstants.CONNECT_PARTICIPANT).toString().equals("null"))
         {
-            binding.tvConnectedMembersCount.text="0"
+            binding.tvConnectedMembersCount.text="1"+" Member"
         }else
         {
-            binding.tvConnectedMembersCount.text=intent.getStringExtra(AppConstants.CONNECT_PARTICIPANT)
+            CurrentConnectUserList.getListForAddParticipantActivity().observe(this,Observer{
+            if (it!=null)
+            {
+                binding.tvConnectedMembersCount.text =it.size.toString()+" Member"
+            }
+            })
+
+            //binding.tvConnectedMembersCount.text=(intent.getStringExtra(AppConstants.CONNECT_PARTICIPANT).toString().toInt()+1).toString()+" Member"
         }
 
         initializeWithAccessToken(intent.getStringExtra(AppConstants.CHAT_ACCESS_TOKEN))
         showProgressDialog()
+
+
+      /*  CurrentMeetingDataSaver.getIsRoomDisconnected().observe(this, Observer {
+            if (it!=null)
+                if (it==true){
+                    finish()
+                }
+        })
+*/
+
     }
 
 
@@ -263,12 +282,12 @@ class ChatActivityTest : AppCompatActivity() {
                     override fun onError(errorInfo: ErrorInfo?) {
                         super.onError(errorInfo)
                         Log.e(TAG, "Error joining my conversation:  " + errorInfo?.message)
-
+                        /**
                         myconversation!!.addListener(
                             mDefaultConversationListener
-                        )
+                        )*/
                         conversation = myconversation
-                       // loadPreviousMessages(myconversation)
+                        loadPreviousMessages(myconversation)
                         dismissProgressDialog()
                     }
                 })
@@ -305,56 +324,56 @@ class ChatActivityTest : AppCompatActivity() {
 
 
     private fun loadPreviousMessages(conversation: Conversation) {
-        conversation.getLastMessages(
-            100
-        ) { result ->
 
+            if (conversation?.synchronizationStatus?.isAtLeast(Conversation.SynchronizationStatus.ALL) == true) {
+                conversation.getLastMessages(
+                    100
+                ) { result ->
 
-          try {
-                if (!result.isNullOrEmpty()) {
-                    result.forEach {
+                try {
+                    if (!result.isNullOrEmpty()) {
+                        viewModel.clearChatList()
+                        result.forEach {
 
-                        CurrentMeetingDataSaver.getData().users?.forEach { user ->
+                            CurrentMeetingDataSaver.getData().users?.forEach { user ->
 
-                            val identity = user.userType.toString() + user.id
-                            if (identity.equals(it.author)) {
+                                val identity = user.userType.toString() + user.id
+                                if (identity.equals(it.author)) {
 
-                                if (it.author.equals(CurrentMeetingDataSaver.getData().identity)) {
-                                    viewModel.setMessages(
-                                        it.messageBody.toString(),
-                                        AppConstants.CHAT_SENDER,
-                                        user.userFirstName.toString(),
-                                        getUtcDateToAMPM(it.dateCreated).toString()
-                                    )
-                                    (binding.rvChatMsgs.layoutManager as LinearLayoutManager).scrollToPosition(
-                                        0
-                                    )
-                                }
-                                else {
-                                    viewModel.setMessages(
-                                        it.messageBody.toString(),
-                                        AppConstants.CHAT_RECIEVER,
-                                        user.userFirstName,
-                                        getUtcDateToAMPM(it.dateCreated).toString()
-                                    )
-                                    (binding.rvChatMsgs.layoutManager as LinearLayoutManager).scrollToPosition(
-                                        0
-                                    )
+                                    if (it.author.equals(CurrentMeetingDataSaver.getData().identity)) {
+                                        viewModel.setMessages(
+                                            it.messageBody.toString(),
+                                            AppConstants.CHAT_SENDER,
+                                            user.userFirstName.toString(),
+                                            getUtcDateToAMPM(it.dateCreated).toString()
+                                        )
+                                        (binding.rvChatMsgs.layoutManager as LinearLayoutManager).scrollToPosition(
+                                            0
+                                        )
+                                    } else {
+                                        viewModel.setMessages(
+                                            it.messageBody.toString(),
+                                            AppConstants.CHAT_RECIEVER,
+                                            user.userFirstName,
+                                            getUtcDateToAMPM(it.dateCreated).toString()
+                                        )
+                                        (binding.rvChatMsgs.layoutManager as LinearLayoutManager).scrollToPosition(
+                                            0
+                                        )
+                                    }
                                 }
                             }
                         }
+                    } else {
+                        Log.d(TAG, "loadPreviousMessages: no message available yet")
                     }
+                } catch (e: Exception) {
+                    Log.d(
+                        TAG,
+                        "loadPreviousMessages: exception in load previous messages ${e.printStackTrace()}"
+                    )
                 }
-              else{
-                    Log.d(TAG, "loadPreviousMessages: no message available yet")
-              }
-          }catch (e:Exception)
-          {
-              Log.d(
-                  TAG,
-                  "loadPreviousMessages: exception in load previous messages ${e.printStackTrace()}")
-          }
-
+            }
         }
     }
 
@@ -398,7 +417,7 @@ class ChatActivityTest : AppCompatActivity() {
                 chatAdapter =MessagelistAdapter(this, msgsList.reversed())
                 binding.rvChatMsgs.adapter = chatAdapter
                 dismissProgressDialog()
-                ChatMessagesHolder.setMessage(msgsList)
+               // ChatMessagesHolder.setMessage(msgsList)
             }
         }
     }
@@ -532,8 +551,6 @@ class ChatActivityTest : AppCompatActivity() {
             {
                 Log.e(TAG, "onMessageAdded: exception on msg added method ${e.printStackTrace()}")
             }
-
-
             /* messageList.forEach {
                  Log.d(TAG, "onMessageAdded: new default listener messages ${it.messageBody}")
              }*/

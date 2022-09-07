@@ -4,7 +4,6 @@ import com.domain.BaseModels.*
 import retrofit2.Response
 import retrofit2.http.*
 
-
 interface BaseRestApi {
 
     @GET("/api/ScheduleVideo/GetVideoAccessCodeDetails/{VideoAccessCode}")
@@ -46,7 +45,7 @@ interface BaseRestApi {
     @POST("/api/ScheduleVideo/SaveParticipantStatus")
     suspend fun leftUserFromMeeting( @Body obj: BodyLeftUserFromMeeting):Response<BodyLeftUserFromMeeting>
 
-    @POST("/api.veriklick.in/api/ScheduleVideo/UpdateInterviewUsersDetail")
+    @POST("/api/ScheduleVideo/UpdateInterviewUsersDetail")
     suspend fun sendInvitation( @Body obj: AddParticipantModel):Response<ResponseSendInvitation>
 
 }

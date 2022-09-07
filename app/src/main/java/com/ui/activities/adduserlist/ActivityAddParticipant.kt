@@ -5,17 +5,28 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.widget.EditText
+import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.data.*
 import com.domain.BaseModels.AddInterviewerList
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityLayoutAddParticipantBinding
+import com.ui.activities.meetingmemberslist.MemberListActivity
 import com.ui.activities.twilioVideo.VideoActivity
 
 import com.ui.listadapters.AddParticipantListAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.math.log
 import kotlin.random.Random
@@ -36,6 +47,8 @@ class ActivityAddParticipant : AppCompatActivity() {
         viewModel=ViewModelProvider(this).get(AddUserViewModel::class.java)
         binding.rvAdduserByLink.layoutManager = LinearLayoutManager(this)
 
+
+
         adapter = AddParticipantListAdapter(
             this,
             interviewList,
@@ -49,6 +62,13 @@ class ActivityAddParticipant : AppCompatActivity() {
                         removeItem(data,pos)
                     }
                 }
+            }, onEditextChanged = { txt, action,position ->
+                    when(action)
+                    {
+                        1->{checkEmailExists(txt,position)}
+                        2->{checkPhoneExists(txt,position)}
+                    }
+
             })
         binding.rvAdduserByLink.adapter = adapter
 
@@ -67,7 +87,6 @@ class ActivityAddParticipant : AppCompatActivity() {
             list.forEach {
                 Log.d(TAG, "handleList: $it")
             }
-
             list.forEach {
                 if (!it.firstName.toString().equals("") &&
                     !it.lastName.toString().equals("") &&
@@ -102,6 +121,40 @@ class ActivityAddParticipant : AppCompatActivity() {
         }
     }
 
+    private fun checkEmailExists(txt: String ,position:Int)
+    {
+        viewModel.getIsEmailAndPhoneExists(CurrentMeetingDataSaver.getData().interviewModel?.interviewId!!,txt,"", response = {
+            isExists ->
+                if (!isExists)
+                {
+                    adapter.handleEmailIsExists(position,1)
+                }else
+                {
+                    adapter.handleEmailIsExists(position,2)
+                    showToast(this,getString(R.string.txt_email_already_exists))
+                }
+        })
+        Log.d(TAG, "checkEmailExists: check text $txt")
+    }
+
+    private fun checkPhoneExists(txt: String,position:Int)
+    {
+        viewModel.getIsEmailAndPhoneExists(CurrentMeetingDataSaver.getData().interviewModel?.interviewId!!,"",txt, response = {
+                isExists ->
+            if (!isExists)
+            {
+                adapter.handlePhoneIsExists(position,1)
+                Log.d(TAG, "checkPhoneExists: email false")
+            }else
+            {
+                Log.d(TAG, "checkPhoneExists: email true")
+                adapter.handlePhoneIsExists(position,2)
+                showToast(this,getString(R.string.txt_phone_already_exists))
+            }
+        })
+        Log.d(TAG, "checkEmailExists: check text $txt")
+    }
+
     val invitationList= mutableListOf<InvitationDataModel>()
     val distinctinvitationList= mutableListOf<InvitationDataModel>()
 
@@ -129,38 +182,43 @@ class ActivityAddParticipant : AppCompatActivity() {
         {
             Log.d(TAG, "postInvitation: invitation list is null")
         }
-
-
     }
 
     fun sendInvitation()
     {
-        showProgressDialog()
+        binding.invitationProgress.isVisible=true
+        binding.btnPostdata.text=""
         viewModel.sendInvitationtoUsers(distinctinvitationList, onDataResponse = {
             data, action ->
 
             when (action) {
                 200 -> {
-                    dismissProgressDialog()
-                 showToast(this,getString(R.string.txt_Invitation_sent))
+                    binding.btnPostdata.text=getString(R.string.txt_invite)
+                    binding.invitationProgress.isVisible=false
+                     showToast(this,data?.APIResponse?.Message!!)
+                    interviewList.clear()
+                    onBackPressed()
+                    Log.d(TAG, "sendInvitation: result $data")
                 }
                 400 -> {
-                    dismissProgressDialog()
+                    binding.btnPostdata.text=getString(R.string.txt_invite)
+                    binding.invitationProgress.isVisible=false
+                    showToast(this,data?.APIResponse?.Message!!)
+                }
+                404 -> {
+                    binding.btnPostdata.text=getString(R.string.txt_invite)
+                    binding.invitationProgress.isVisible=false
                     showToast(this,getString(R.string.txt_failed_to_Invitation))
                 }
                 404 -> {
-
-                    dismissProgressDialog()
+                    binding.btnPostdata.text=getString(R.string.txt_invite)
+                    binding.invitationProgress.isVisible=false
                     showToast(this,getString(R.string.txt_failed_to_Invitation))
                 }
             }
 
-
         })
-
-
     }
-
 
     private val interviewList = mutableListOf<InvitationDataModel>()
 

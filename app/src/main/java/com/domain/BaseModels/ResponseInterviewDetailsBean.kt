@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class APIResponse (
 
-	@SerializedName("Message") val message : String,
-	@SerializedName("StatusCode") val statusCode : Int,
-	@SerializedName("Success") val success : Boolean
+	@SerializedName("Message") val message : String?=null,
+	@SerializedName("StatusCode") val statusCode : Int?=null,
+	@SerializedName("Success") val success : Boolean?=null
 )
 
 

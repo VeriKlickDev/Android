@@ -33,7 +33,7 @@ class JoinMeetingActivity :AppCompatActivity() {
 
         binding.btnJoin.setOnClickListener {
             if (checkInternet()){
-                startActivity(Intent(this,ActivityAddParticipant::class.java))
+               // startActivity(Intent(this,ActivityAddParticipant::class.java))
                 if (binding.etJoinMeeting.text.toString() != "")
                 {
                     val meetingLink= binding.etJoinMeeting.text.toString()
@@ -41,19 +41,13 @@ class JoinMeetingActivity :AppCompatActivity() {
                     accessCode= accessCodeSplit.last()
                     Log.d(TAG, "onCreate: accessCode is $accessCode")
 
-                    //host      https://ui2.veriklick.in/video-session/4zlfm2pKoqmvbtTLFACz
-                    //candidate https://ui2.veriklick.in/video-session/P3cdnXYJqgcXyU53DeCt
-                    //interview4 https://ui2.veriklick.in/video-session/yZgiVVkqZ9vBGcLwMtVh
+                    //candi https://ui2.veriklick.in/video-session/zG2iCDk9brazPSKrhMXY
+                    // host https://ui2.veriklick.in/video-session/9F6pohXhJzdC5QQPbFLj
 
-                    //candidate
-                  // getInterviewDetails("Uwaau6bVyxhgiekCzMhS")
+                    //test
+                    getInterviewDetails("zG2iCDk9brazPSKrhMXY")
 
-                    //host
-                   // getInterviewDetails("yZgiVVkqZ9vBGcLwMtVh")
-
-                   // getInterviewDetails(accessCode)
-
-                    //  getInterviewDetails("3ug2yYl7tJh5tenLhUu7","I")
+                    //getInterviewDetails(accessCode)
                     //  showToast(this,"Under Development")
                     InputUtils.hideKeyboard(this)
                 }else
@@ -99,8 +93,8 @@ candidate :- 2dpOPzO1Hcf1z5eSGvLC
                     dismissProgressDialog()
                     showToast(this,data?.aPIResponse?.message!!)
                     //showToast(this, "null values")
-                   /* data?.let { CurrentMeetingDataSaver.setData(it) }
-                        joinMeetingCandidate(accessCode)*/
+                    data?.let { CurrentMeetingDataSaver.setData(it) }
+                        joinMeetingCandidate(accessCode)
                 }
                 404 -> {
                     dismissProgressDialog()
@@ -110,14 +104,13 @@ candidate :- 2dpOPzO1Hcf1z5eSGvLC
                 401->{
                     dismissProgressDialog()
                     showToast(this,data?.aPIResponse?.message!!)
-                  /*  CurrentMeetingDataSaver.setData(data!!)
+                    CurrentMeetingDataSaver.setData(data!!)
                     joinMeetingCandidate(accessCode)
-                    CurrentMeetingDataSaver.setData(data)*/
+                    CurrentMeetingDataSaver.setData(data)
                 }
             }
         })
     }
-
 
 
     fun joinMeetingCandidate(accessCode: String)

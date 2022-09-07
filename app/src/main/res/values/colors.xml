@@ -11,6 +11,7 @@
     <color name="skyblue_light1">#006BF2</color>
     <color name="skyblue_light2">#C4DEFF</color>
     <color name="light_grey">#DDDDDD</color>
+    <color name="grey">#888888</color>
     <color name="grey_tranparent_dark">#86000000</color>
     <color name="msg_background_grey">#F5F5F5</color>
 

@@ -3,24 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/drawable/ic_img_sc_recording_red.xml" value="0.126" />
-        <entry key="app/src/main/res/drawable/ic_img_sc_recording_white.xml" value="0.189" />
-        <entry key="app/src/main/res/drawable/ic_refresh_24.xml" value="0.189" />
-        <entry key="app/src/main/res/layout/activity_add_participant_by_link.xml" value="0.2" />
-        <entry key="app/src/main/res/layout/activity_add_user_list.xml" value="0.2" />
-        <entry key="app/src/main/res/layout/activity_document_viewer.xml" value="0.2698289269051322" />
         <entry key="app/src/main/res/layout/activity_layout_add_participant.xml" value="0.18072916666666666" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.18072916666666666" />
-        <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.18072916666666666" />
-        <entry key="app/src/main/res/layout/activity_twilio_video.xml" value="0.2" />
-        <entry key="app/src/main/res/layout/activity_upcoming_meeting.xml" value="0.18072916666666666" />
-        <entry key="app/src/main/res/layout/layout_add_participant.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/layout_dialog_add_participant.xml" value="0.1796875" />
+        <entry key="app/src/main/res/layout/activity_list_of_members.xml" value="0.18072916666666666" />
+        <entry key="app/src/main/res/layout/activity_twilio_video.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/layout_item_connected_users.xml" value="0.18072916666666666" />
-        <entry key="app/src/main/res/layout/layout_item_member_video_confrence.xml" value="0.18072916666666666" />
-        <entry key="app/src/main/res/layout/layout_item_upcoming_meeting.xml" value="0.18072916666666666" />
-        <entry key="app/src/main/res/layout/layout_item_video_confrence.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/layout_mute_mic_update.xml" value="0.18072916666666666" />
+        <entry key="app/src/main/res/layout/layout_item_member_video_confrence.xml" value="0.22777777777777777" />
       </map>
     </option>
   </component>

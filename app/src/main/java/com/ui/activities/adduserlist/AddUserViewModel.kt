@@ -51,9 +51,9 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
         }
     }
 
-    fun sendInvitationtoUsers(list:List<InvitationDataModel>,onDataResponse:(data:ResponseSendInvitation,action:Int)->Unit)
+    fun sendInvitationtoUsers(list:List<InvitationDataModel>,onDataResponse:(data:ResponseSendInvitation?,action:Int)->Unit)
     {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch {
             try {
 
                 val interviewList= arrayListOf<AddInterviewerList>()
@@ -68,17 +68,20 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
                     ClientName = CurrentMeetingDataSaver.getData().interviewModel?.clientName,
                     InterviewTimezone = CurrentMeetingDataSaver.getData().interviewTimezone,
                     EventType = "Update",
+                    CandidateId = 0,
                     IsVideoRecordEnabled = false,
                     GoogleCalendarSyncEnabled = true,
                     OutlookCalendarSyncEnabled = true,
                     InterviewerList = interviewList
                     )
+                Log.d(TAG, "sendInvitationtoUsers: data here $participantObj")
 
                 val result = repo.sendInvitation(participantObj)
+                Log.d(TAG, "sendInvitationtoUsers: result ${result.body()}  code ${result.code()}   error ${result.errorBody()}")
                 if (result.isSuccessful) {
                     if (result.body() != null) {
                         onDataResponse(result.body()!!, 200)
-                        Log.d(TAG, "getVideoSession:  success ${result.body()}")
+                        Log.d(TAG, "getVideoSession:  success ${result.body()}   message ${result.body()?.APIResponse?.Message}")
                     }
                     else {
                         onDataResponse(result.body()!!, 400)
@@ -90,6 +93,7 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
                     Log.d(TAG, "getVideoSession: not success")
                 }
             } catch (e: Exception) {
+                onDataResponse(null, 500)
                 Log.d(TAG, "getVideoSession: exception ${e.message}")
             }
         }

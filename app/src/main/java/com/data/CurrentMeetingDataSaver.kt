@@ -1,5 +1,6 @@
 package com.data
 
+import androidx.lifecycle.MutableLiveData
 import com.domain.BaseModels.InterviewModel
 import com.domain.BaseModels.ResponseInterViewDetailsBean
 import com.domain.BaseModels.TokenResponseBean
@@ -26,6 +27,14 @@ object CurrentMeetingDataSaver {
     {
         return tokenResponse
     }
+    private var disconnectedStatusLiveData=MutableLiveData<Boolean>()
 
+  /*  fun setIsRoomDisconnected(status:Boolean)
+    {
+        disconnectedStatusLiveData.postValue(status)
+    }
+
+    fun getIsRoomDisconnected()= disconnectedStatusLiveData
+*/
 
 }

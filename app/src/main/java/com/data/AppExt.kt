@@ -16,21 +16,24 @@ import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.addTextChangedListener
 import com.araujo.jordan.excuseme.ExcuseMe
 import com.domain.BaseModels.ResponseChatFromToken
 import com.domain.BaseModels.ResponseJWTTokenLogin
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.LayoutProgressBinding
 import com.google.gson.Gson
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import java.io.UnsupportedEncodingException
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.regex.Pattern
-import javax.crypto.*
 
 
 var ispsswdok = false
@@ -138,6 +141,8 @@ fun Context.dismissProgressDialog() {
     })
 
 }
+
+
 
 fun Context.requestVideoPermissions(isGrant: (isGranted: Boolean) -> Unit) {
     ExcuseMe.couldYouGive(this).permissionFor(
@@ -401,6 +406,15 @@ fun Context.getCurrentDate(): String? {
     return finalUtcTime
 }
 
+
+fun EditText.getEditTextWithFlow() : Flow<String> {
+    return callbackFlow<String> {
+        this@getEditTextWithFlow.addTextChangedListener {
+            trySend(it.toString())
+        }
+        awaitClose { cancel() }
+    }
+}
 
 fun Context.getIntervalMonthDate(): String? {
     val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")

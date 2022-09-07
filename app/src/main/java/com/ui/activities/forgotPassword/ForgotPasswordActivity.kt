@@ -79,7 +79,6 @@ class ForgotPasswordActivity : AppCompatActivity() {
         })
     }
 
-
     fun handleEmailEvent(){
 
         viewModel.sendMailForForgotPassword(binding.etForgotPassword.text.toString(),

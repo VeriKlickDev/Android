@@ -67,7 +67,6 @@ class ChatActivityViewModel @Inject constructor() : ViewModel() {
             })*/
     }
 
-
     val msgLiveData=MutableLiveData<List<ChatMessagesModel>>()
     val chatlist= mutableListOf<ChatMessagesModel>()
     fun setMessages(msgs:String,from:String,username:String,time:String)
@@ -75,6 +74,11 @@ class ChatActivityViewModel @Inject constructor() : ViewModel() {
         chatlist.add(ChatMessagesModel(from,msgs,username,time))
         msgLiveData.postValue(chatlist)
     }
+    fun clearChatList()
+    {
+        chatlist.clear()
+    }
+
 
 
 

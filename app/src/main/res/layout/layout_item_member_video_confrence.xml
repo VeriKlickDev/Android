@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:gravity="center"
+            android:gravity="left"
             android:orientation="horizontal"
             android:padding="@dimen/_10sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -49,22 +49,28 @@
 
             <TextView
                 android:id="@+id/tv_username"
-                android:layout_width="wrap_content"
+                android:layout_width="100sp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_30sdp"
+                android:layout_marginLeft="@dimen/_10sp"
+                android:singleLine="true"
                 android:background="@drawable/shape_rectangle_rounded_dark_transparent_grey_mini"
                 android:fontFamily="@font/sarabun_medium"
+                android:paddingVertical="@dimen/_3sdp"
                 android:paddingHorizontal="@dimen/_10sp"
-                android:text="@string/txt_join_meeting"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:layout_gravity="center_vertical"
                 android:textColor="@color/white" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_mic"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
-                android:layout_marginLeft="@dimen/_10sp"
+                android:layout_marginLeft="@dimen/_5sp"
                 android:background="@color/grey_tranparent_dark"
                 android:scaleType="center"
+
+                android:layout_gravity="center_vertical"
                 android:visibility="gone"
                 android:src="@drawable/ic_img_muted_white"
                 app:shapeAppearanceOverlay="@style/roundedCorner50" />
@@ -75,7 +81,9 @@
                 android:layout_height="@dimen/_30sdp"
                 android:background="@color/grey_tranparent_dark"
                 android:scaleType="center"
-                android:layout_marginLeft="@dimen/_10sp"
+                android:visibility="visible"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/_5sp"
                 android:src="@drawable/ic_img_left_meeting_white"
                 app:shapeAppearanceOverlay="@style/roundedCorner50" />
         </androidx.appcompat.widget.LinearLayoutCompat>

@@ -22,4 +22,8 @@ object AppConstants {
     const val CHAT_CHANNEL = "chat_channel"
     const val CHAT_SENDER= "chat_sender"
     const val CHAT_RECIEVER= "chat_reciever"
+
+    const val CHANNEL_ID= "screen_capture"
+    const val CHANNEL_NAME= "screen_capture"
+
 }

@@ -29,6 +29,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_username"
                 android:layout_weight="1"
+                android:visibility="gone"
                 android:gravity="right"
                 android:textSize="@dimen/_10sp"
                 android:fontFamily="@font/sarabun_regular"
@@ -38,12 +39,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_sender_msg"
-                android:textColor="@color/black"
+                android:textColor="#3E3E3E"
                 android:layout_weight="1"
+                android:textSize="16sp"
                 android:fontFamily="@font/sarabun_regular"
                 android:background="@drawable/shape_sender_chat"
-                android:padding="@dimen/_10sp"
-                android:text="asdsdfsadfasdfsadfasfsdfasdf" />
+                android:paddingHorizontal="@dimen/_12sp"
+                android:paddingVertical="@dimen/_10sp"
+                 />
 
             <TextView
                 android:layout_width="wrap_content"

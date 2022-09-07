@@ -36,7 +36,8 @@
                 android:id="@+id/tv_username"
                 android:layout_weight="1"
                 android:textSize="@dimen/_10sp"
-                android:fontFamily="@font/sarabun_regular"
+                android:textColor="@color/black"
+                android:fontFamily="@font/sarabun_bold"
                 />
 
 
@@ -46,9 +47,11 @@
                 android:id="@+id/tv_reciever_msg"
                 android:textColor="@color/white"
                 android:layout_weight="1"
+                android:textSize="16sp"
                 android:fontFamily="@font/sarabun_regular"
                 android:background="@drawable/shape_reciever_chat"
-                android:padding="@dimen/_10sp"
+                android:paddingHorizontal="@dimen/_12sp"
+                android:paddingVertical="@dimen/_10sp"
                 />
 
             <TextView
