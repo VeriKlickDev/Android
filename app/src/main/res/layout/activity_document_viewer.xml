@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+
         tools:context="com.ui.activities.documentviewer.DocumentViewerActivity">
 
 
@@ -56,19 +57,47 @@
 <!--            android:id="@+id/swipetorefresh"-->
 <!--            >-->
 
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_150sdp"
+            android:id="@+id/animation_view"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_50sdp"
+            app:lottie_rawRes="@raw/document_animation"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"/>
+
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:gravity="center"
+            android:id="@+id/btn_layout"
+            android:layout_marginTop="@dimen/_10sp"
+            android:background="@drawable/shape_rectangle_rounded_10_skyblue"
+            android:layout_gravity="center"
             tools:context="com.ui.activities.documentviewer.DocumentViewerActivity">
 
-        <WebView
-                android:id="@+id/wb_document_Viewer"
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:src="@drawable/ic_img_document_white"
+                android:layout_marginTop="@dimen/_10sp"
+                />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/btn_refresh"
+                android:layout_gravity="center"
+                android:fontFamily="@font/sarabun_regular"
+                android:textColor="@color/white"
+                android:padding="@dimen/_10sp"
+                android:text="Open Again"
+                />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
 

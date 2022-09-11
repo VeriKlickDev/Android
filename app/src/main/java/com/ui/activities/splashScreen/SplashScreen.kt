@@ -1,10 +1,10 @@
-package com.ui.activities
+package com.ui.activities.splashScreen
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.collegeproject.DataStoreHelper
+import com.data.dataHolders.DataStoreHelper
 import com.data.setHandler
 import com.example.twillioproject.databinding.ActivitySplashScreenBinding
 import com.ui.activities.login.LoginActivity
@@ -24,7 +24,7 @@ class SplashScreen : AppCompatActivity() {
         setContentView(binding.root)
 
           CoroutineScope(Dispatchers.IO).launch {
-              email=DataStoreHelper.getUserEmail()
+              email= DataStoreHelper.getUserEmail()
           }
 
         setHandler().postDelayed(kotlinx.coroutines.Runnable {

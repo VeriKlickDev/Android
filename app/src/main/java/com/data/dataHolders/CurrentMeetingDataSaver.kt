@@ -1,7 +1,6 @@
-package com.data
+package com.data.dataHolders
 
 import androidx.lifecycle.MutableLiveData
-import com.domain.BaseModels.InterviewModel
 import com.domain.BaseModels.ResponseInterViewDetailsBean
 import com.domain.BaseModels.TokenResponseBean
 

@@ -1,19 +1,21 @@
-package com.data
+package com.data.helpers
 
 import android.content.Context
 import android.util.Log
-import com.domain.RoomListnerCallback
-import com.domain.RoomParticipantListner
 import com.example.twillioproject.databinding.ActivityTwilioVideoBinding
 
 import com.twilio.video.*
 import com.twilio.video.Video.connect
 import com.ui.activities.twilioVideo.VideoActivity
 
+//implement in your Main activity
 private lateinit var mtwilioVideoRoomCallBack: RoomListnerCallback
 private lateinit var listener: RoomParticipantListner
+
+
 private val TAG = "roomConnect"
-private lateinit var connectOption: ConnectOptions.Builder
+private lateinit var connectOption: ConnectOptions
+private lateinit var connectOptionBuilder: ConnectOptions.Builder
 private var room: Room? = null
 private var participantIdentity: String? = null
 private var token:String?=null
@@ -25,8 +27,8 @@ object TwilioHelper {
         mtoken: String,
         mroomName: String,
     ) {
-        token=mtoken
-        roomName=mroomName
+        token =mtoken
+        roomName =mroomName
     }
 
     fun connectToRoom(
@@ -38,18 +40,24 @@ object TwilioHelper {
         audioCodec: AudioCodec,
         videoCodec: VideoCodec
     ) :Room {
-        listener=context as VideoActivity
-        connectOption = ConnectOptions.Builder(token!!)
+        listener =context as VideoActivity
+        connectOptionBuilder = ConnectOptions.Builder(token!!)
             .audioTracks(listOf(localAudioTrack))
             .videoTracks(listOf(localVideoTrack))
             .preferAudioCodecs(listOf(audioCodec))
             .preferVideoCodecs(listOf(videoCodec))
             .enableAutomaticSubscription(true)
 
-        val connectoptBuilder = connectOption.roomName(roomName!!).build()
+        connectOption = connectOptionBuilder.roomName(roomName!!).build()
 
-        room = connect(context, connectoptBuilder, roomListener)
+        room = connect(context,connectOption, roomListener)
         mtwilioVideoRoomCallBack = twilioVideoRoomCallBack
+        return room!!
+    }
+
+    fun getExistingRoomInstance(context:Context):Room
+    {
+        room=connect(context, connectOption!!, roomListener)
         return room!!
     }
 
@@ -58,7 +66,17 @@ object TwilioHelper {
         room = null
     }
 
-    fun getRoomInstance()=room
+    fun getRoomInstance()= room
+
+    fun publishVideoTrack(localVideoTrack: LocalVideoTrack)
+    {
+        room?.localParticipant?.publishTrack(localVideoTrack)
+    }
+
+    fun unPublishVideoTrack(localVideoTrack: LocalVideoTrack)
+    {
+        room?.localParticipant?.unpublishTrack(localVideoTrack)
+    }
 
     fun removeCallBack()
     {
@@ -186,11 +204,18 @@ object TwilioHelper {
         override fun onParticipantConnected(room: Room, participant: RemoteParticipant) {
             mtwilioVideoRoomCallBack.onParticipantConnected(room, participant)
             //addRemoteParticipant(participant)
+            Log.d(TAG, "onParticipantConnected: ")
+
+
+
+
+
         }
 
         override fun onParticipantDisconnected(room: Room, participant: RemoteParticipant) {
             mtwilioVideoRoomCallBack.onParticipantDisconnected(room, participant)
             // removeRemoteParticipant(participant)
+            Log.d(TAG, "onParticipantDisconnected: ")
         }
 
         override fun onRecordingStarted(room: Room) {
@@ -528,3 +553,140 @@ object TwilioHelper {
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+interface RoomParticipantListner {
+    fun onAudioTrackPublished(
+        remoteParticipant: RemoteParticipant,
+        remoteAudioTrackPublication: RemoteAudioTrackPublication
+    )
+    fun onAudioTrackUnpublished(
+        remoteParticipant: RemoteParticipant,
+        remoteAudioTrackPublication: RemoteAudioTrackPublication
+    )
+
+    fun onDataTrackPublished(
+        remoteParticipant: RemoteParticipant,
+        remoteDataTrackPublication: RemoteDataTrackPublication
+    )
+
+    fun onDataTrackUnpublished(
+        remoteParticipant: RemoteParticipant,
+        remoteDataTrackPublication: RemoteDataTrackPublication
+    )
+    fun onVideoTrackPublished(
+        remoteParticipant: RemoteParticipant,
+        remoteVideoTrackPublication: RemoteVideoTrackPublication
+    )
+
+    fun onVideoTrackUnpublished(
+        remoteParticipant: RemoteParticipant,
+        remoteVideoTrackPublication: RemoteVideoTrackPublication
+    )
+
+    fun onAudioTrackSubscribed(
+        remoteParticipant: RemoteParticipant,
+        remoteAudioTrackPublication: RemoteAudioTrackPublication,
+        remoteAudioTrack: RemoteAudioTrack
+    )
+
+    fun onAudioTrackUnsubscribed(
+        remoteParticipant: RemoteParticipant,
+        remoteAudioTrackPublication: RemoteAudioTrackPublication,
+        remoteAudioTrack: RemoteAudioTrack
+    )
+
+    fun onAudioTrackSubscriptionFailed(
+        remoteParticipant: RemoteParticipant,
+        remoteAudioTrackPublication: RemoteAudioTrackPublication,
+        twilioException: TwilioException
+    )
+
+    fun onDataTrackSubscribed(
+        remoteParticipant: RemoteParticipant,
+        remoteDataTrackPublication: RemoteDataTrackPublication,
+        remoteDataTrack: RemoteDataTrack
+    )
+
+    fun onDataTrackUnsubscribed(
+        remoteParticipant: RemoteParticipant,
+        remoteDataTrackPublication: RemoteDataTrackPublication,
+        remoteDataTrack: RemoteDataTrack
+    )
+
+    fun onDataTrackSubscriptionFailed(
+        remoteParticipant: RemoteParticipant,
+        remoteDataTrackPublication: RemoteDataTrackPublication,
+        twilioException: TwilioException
+    )
+
+    fun onVideoTrackSubscribed(
+        remoteParticipant: RemoteParticipant,
+        remoteVideoTrackPublication: RemoteVideoTrackPublication,
+        remoteVideoTrack: RemoteVideoTrack
+    )
+
+    fun onVideoTrackUnsubscribed(
+        remoteParticipant: RemoteParticipant,
+        remoteVideoTrackPublication: RemoteVideoTrackPublication,
+        remoteVideoTrack: RemoteVideoTrack
+    )
+
+
+    fun onVideoTrackSubscriptionFailed(
+        remoteParticipant: RemoteParticipant,
+        remoteVideoTrackPublication: RemoteVideoTrackPublication,
+        twilioException: TwilioException
+    )
+
+
+    fun onAudioTrackEnabled(
+        remoteParticipant: RemoteParticipant,
+        remoteAudioTrackPublication: RemoteAudioTrackPublication
+    )
+
+    fun onVideoTrackEnabled(
+        remoteParticipant: RemoteParticipant,
+        remoteVideoTrackPublication: RemoteVideoTrackPublication
+    )
+
+    fun onVideoTrackDisabled(
+        remoteParticipant: RemoteParticipant,
+        remoteVideoTrackPublication: RemoteVideoTrackPublication
+    )
+    fun onAudioTrackDisabled(
+        remoteParticipant: RemoteParticipant,
+        remoteAudioTrackPublication: RemoteAudioTrackPublication
+    )
+
+}
+
+
+interface RoomListnerCallback {
+    fun onParticipantConnect(room: Room)
+    fun onParticipantDisconnect(room: Room)
+    fun onParticipantReconnect(room: Room)
+    fun onParticipantReconnecting(room: Room)
+    fun onConnectFailure(room: Room, e: TwilioException)
+    fun onDisconnected(room: Room, e: TwilioException?)
+    fun onParticipantConnected(room: Room, participant: RemoteParticipant)
+    fun onParticipantDisconnected(room: Room, participant: RemoteParticipant)
+    fun onRecordingStarted(room: Room)
+    fun onRecordingStopped(room: Room)
+
+}
+
+
+
+
+
+
+

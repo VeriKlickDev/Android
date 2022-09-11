@@ -21,6 +21,9 @@
     <dimen name="_35sdp">35sp</dimen>
     <dimen name="_7sp">7sp</dimen>
     <dimen name="_55sdp">55sp</dimen>
+    <dimen name="_4sdp">4sp</dimen>
+    <dimen name="_150sdp">150sp</dimen>
+    <dimen name="_100sdp">100sp</dimen>
 
 
 </resources>

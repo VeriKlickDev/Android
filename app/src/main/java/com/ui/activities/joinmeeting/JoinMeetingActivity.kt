@@ -8,10 +8,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
+import com.data.dataHolders.CurrentMeetingDataSaver
+import com.data.helpers.TwilioHelper
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityJoinMeetingBinding
 import com.google.android.material.snackbar.Snackbar
-import com.ui.activities.adduserlist.ActivityAddParticipant
+import com.ui.activities.documentviewer.FileDownloader.downloadFile
+import com.ui.activities.feedBack.ActivityFeedBackForm
 import com.ui.activities.twilioVideo.VideoActivity
 import com.ui.activities.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,11 +46,11 @@ class JoinMeetingActivity :AppCompatActivity() {
 
                     //candi https://ui2.veriklick.in/video-session/zG2iCDk9brazPSKrhMXY
                     // host https://ui2.veriklick.in/video-session/9F6pohXhJzdC5QQPbFLj
-
+                    //new meeting https://ui2.veriklick.in/video-session/3Zxf7fC5WBWKaZYwAcCS
                     //test
-                    getInterviewDetails("zG2iCDk9brazPSKrhMXY")
+                   // getInterviewDetails("3Zxf7fC5WBWKaZYwAcCS")
 
-                    //getInterviewDetails(accessCode)
+                    getInterviewDetails(accessCode)
                     //  showToast(this,"Under Development")
                     InputUtils.hideKeyboard(this)
                 }else
@@ -62,7 +65,8 @@ class JoinMeetingActivity :AppCompatActivity() {
 
         binding.btnLogin.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
-           finish()
+            finish()
+           // startActivity(Intent(this, ActivityFeedBackForm::class.java))
         }
     }
 
@@ -93,8 +97,8 @@ candidate :- 2dpOPzO1Hcf1z5eSGvLC
                     dismissProgressDialog()
                     showToast(this,data?.aPIResponse?.message!!)
                     //showToast(this, "null values")
-                    data?.let { CurrentMeetingDataSaver.setData(it) }
-                        joinMeetingCandidate(accessCode)
+                   /* data?.let { CurrentMeetingDataSaver.setData(it) }
+                        joinMeetingCandidate(accessCode)*/
                 }
                 404 -> {
                     dismissProgressDialog()
@@ -104,12 +108,13 @@ candidate :- 2dpOPzO1Hcf1z5eSGvLC
                 401->{
                     dismissProgressDialog()
                     showToast(this,data?.aPIResponse?.message!!)
-                    CurrentMeetingDataSaver.setData(data!!)
+                  /*  CurrentMeetingDataSaver.setData(data!!)
                     joinMeetingCandidate(accessCode)
-                    CurrentMeetingDataSaver.setData(data)
+                    CurrentMeetingDataSaver.setData(data)*/
                 }
             }
         })
+
     }
 
 
@@ -148,7 +153,6 @@ candidate :- 2dpOPzO1Hcf1z5eSGvLC
     fun showAlertWhenNotHost()
     {
         setHandler().post(Runnable{
-
             val dialog=AlertDialog.Builder(this)
             dialog.setMessage(getString(R.string.txt_not_host_alert))
             dialog.setPositiveButton(getString(R.string.txt_join_again),object : DialogInterface.OnClickListener {

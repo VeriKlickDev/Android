@@ -9,13 +9,11 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import com.data.LocalConfrenseMic
+import com.data.dataHolders.LocalConfrenseMic
 import com.domain.BaseModels.VideoTracksBean
-import com.example.twillioproject.R
 import com.example.twillioproject.databinding.LayoutItemConnectedUsersBinding
 import com.twilio.video.*
 import com.ui.activities.twilioVideo.VideoActivity
-import okhttp3.internal.waitMillis
 
 class ConnectedUserListAdapter(
     val context: Context,
@@ -34,7 +32,6 @@ class ConnectedUserListAdapter(
         holder.binding.parentLayout.setOnClickListener {
             onClick(position,1,list[position],list)
         }
-
     }
 
     override fun getItemCount(): Int {

@@ -1,4 +1,4 @@
-package com.data
+package com.data.dataHolders
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

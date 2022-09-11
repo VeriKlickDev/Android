@@ -1,21 +1,31 @@
 package com.ui.activities.upcomingMeeting
 
+import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.collegeproject.DataStoreHelper
+import com.bumptech.glide.load.resource.drawable.DrawableResource
+import com.data.dataHolders.DataStoreHelper
 import com.data.*
+import com.data.dataHolders.CurrentMeetingDataSaver
+import com.data.dataHolders.WeeksDataHolder
+import com.data.helpers.TwilioHelper
 import com.domain.BaseModels.BodyScheduledMeetingBean
 import com.domain.BaseModels.NewInterviewDetails
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityUpcomingMeetingBinding
+import com.example.twillioproject.databinding.LayoutDescriptionDialogBinding
 import com.google.android.material.snackbar.Snackbar
 import com.ui.activities.twilioVideo.VideoActivity
 import com.ui.activities.login.LoginActivity
@@ -31,19 +41,57 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUpcomingMeetingBinding
     private lateinit var adapter: UpcomingMeetingAdapter
     private lateinit var viewModel: UpComingMeetingViewModel
-    private lateinit var accessCode:String
+    private lateinit var accessCode: String
 
+    private var preUtcDate = ""
+    private var preIsTDate = ""
+    private var nextutcDate = ""
+    private var nextIstDate = ""
+    private var isPrevClicked = false
+    private var isNextClicked = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUpcomingMeetingBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel = ViewModelProvider(this).get(UpComingMeetingViewModel::class.java)
+        var dayOfYear = getCurrentDayOfYear()
+        WeeksDataHolder.setDayToZero()
+
+        WeeksDataHolder.getItcUtcNextDate(dateResponse = { utcDate, itcDate ->
+
+            nextIstDate = itcDate
+            nextutcDate = utcDate
+        })
+
+        WeeksDataHolder.minusWeekDay()
+        WeeksDataHolder.getIstUtcPriviousDate(dateResponse = { utcDate, istDate ->
+            preUtcDate = utcDate
+            preIsTDate = istDate
+        })
+
+        binding.btnSearchShow.setOnClickListener {
+            if (binding.tvHeader.isVisible)
+            {
+                binding.layoutSearch.isVisible=true
+                binding.tvHeader.isVisible=false
+            }
+            else
+            {
+                binding.layoutSearch.isVisible=false
+                binding.tvHeader.isVisible=true
+            }
+        }
+
+        binding.btnSearch.setOnClickListener {
+            handleUpcomingMeetingsList(0,binding.etSearch.text.toString())
+        }
+
+
 
         binding.swipetorefresh.setOnRefreshListener {
             if (checkInternet()) {
-                handleUpcomingMeetingsList()
-            }
-            else {
+                handleUpcomingMeetingsList(3,null)
+            } else {
                 Snackbar.make(
                     binding.root, getString(R.string.txt_no_internet_connection),
                     Snackbar.LENGTH_SHORT
@@ -62,38 +110,160 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         handleObserver()
 
         if (checkInternet()) {
-            handleUpcomingMeetingsList()
-        }
-        else {
+            handleUpcomingMeetingsList(3,null)
+        } else {
             Snackbar.make(
                 binding.root, getString(R.string.txt_no_internet_connection),
                 Snackbar.LENGTH_SHORT
             ).show()
         }
+
+        binding.btnLeftPrevious.setOnClickListener {
+
+            if(isPrevClicked)
+            {
+                WeeksDataHolder.minusWeekDay()
+                WeeksDataHolder.minusWeekDay()
+                handleUpcomingMeetingsList(1,null)
+                isPrevClicked=false
+            }
+           else
+            {
+                WeeksDataHolder.minusWeekDay()
+                handleUpcomingMeetingsList(1,null)
+            }
+
+            isNextClicked=true
+        }
+
+
+        binding.btnRightNext.setOnClickListener {
+            if (isNextClicked)
+            {
+                WeeksDataHolder.addWeekDay()
+                WeeksDataHolder.addWeekDay()
+                handleUpcomingMeetingsList(2,null)
+                isNextClicked=false
+            }else
+            {
+                WeeksDataHolder.addWeekDay()
+                handleUpcomingMeetingsList(2,null)
+            }
+
+            isPrevClicked=true
+        }
+
+
     }
 
-    private fun handleUpcomingMeetingsList() {
+
+    private fun handleUpcomingMeetingsList(action: Int,searchTxt:String?) {
         var ob: BodyScheduledMeetingBean? = null
         Log.d(TAG, "handleUpcomingMeetingsList: handleupcoming meeting list")
         var recruiterId = ""
         var userId = ""
-        var recruiterEmail=""
+        var recruiterEmail = ""
+
         CoroutineScope(Dispatchers.IO).launch {
             recruiterId = DataStoreHelper.getMeetingRecruiterid()
             userId = DataStoreHelper.getMeetingUserId()
-            recruiterEmail=DataStoreHelper.getUserEmail()
+            recruiterEmail = DataStoreHelper.getUserEmail()
         }
 
         ob = BodyScheduledMeetingBean(
-            Recruiter = recruiterId,
-            Subscriber = userId,
-            fromdate = getCurrentDate().toString(),
-            todate = getIntervalMonthDate().toString(),
-            from = getCurrentUtcFormatedDate(),
-            to = getCurrentUtcFormatedDateIntervalofMonth(),
-            RecruiterEmail = recruiterEmail,
             Isweb = true
         )
+
+        when (action) {
+            0 -> {
+
+                WeeksDataHolder.getIstUtcPriviousDate(dateResponse = { utcDate, istDate ->
+                    Log.d(
+                        TAG,
+                        "onCreate: previous date  utc previous ${utcDate}  itc $istDate dayCount ${WeeksDataHolder.getCurrentDaysCount()} "
+                    )
+                    ob.Search=searchTxt!!
+
+                    ob.fromdate = utcDate
+                    ob.todate = preUtcDate
+
+                    ob.from = istDate
+                    ob.to = preIsTDate
+
+
+                    nextutcDate = utcDate
+                    nextIstDate= istDate
+
+
+                    preUtcDate=nextutcDate
+                    preIsTDate=nextIstDate
+
+                })
+            }
+
+            1 -> {
+
+                WeeksDataHolder.getIstUtcPriviousDate(dateResponse = { utcDate, istDate ->
+                    Log.d(
+                        TAG,
+                        "onCreate: previous date  utc previous  from $istDate     to $preIsTDate  "
+                    )
+
+                    ob.fromdate = utcDate
+                    ob.todate = preUtcDate
+
+                    ob.from = istDate
+                    ob.to = preIsTDate
+
+                    nextutcDate = utcDate
+                    nextIstDate= istDate
+
+                    preUtcDate=nextutcDate
+                    preIsTDate=nextIstDate
+
+                })
+            }
+            2 -> {
+
+                WeeksDataHolder.getItcUtcNextDate(dateResponse = { utcDate, istDate ->
+                    Log.d(
+                        TAG,
+                        "onCreate: next date is  date  utc from  $preIsTDate    to $istDate    "
+                    )
+
+                    ob.from = preUtcDate
+                    ob.to = utcDate
+
+                    ob.fromdate = preIsTDate
+                    ob.todate = istDate
+
+                    preUtcDate = utcDate
+                    preIsTDate = istDate
+
+                })
+            }
+            3 -> {
+
+                WeeksDataHolder.getIstUtcPriviousDate(dateResponse = { utcDate, istDate ->
+                    Log.d(TAG, "onCreate: previous date  utc previous ${utcDate}  itc $istDate ")
+
+                    isPrevClicked=true
+
+                    ob.fromdate = utcDate
+                    ob.todate = nextutcDate
+
+                    ob.from = istDate
+                    ob.to = nextIstDate
+
+                    preUtcDate=nextutcDate
+                    preIsTDate=nextIstDate
+
+                })
+            }
+        }
+
+        // binding.tvFromdateToDate.setText(getDateWithMonthName(preIsTDate)+" to "+ getDateWithMonthName(nextIstDate))
+
         Log.d(TAG, "handleUpcomingMeetingsList: ${ob?.Recruiter} ${ob?.Subscriber}")
         Log.d("datecheck", "\n ${ob?.fromdate}  ${ob?.todate}  \n ${ob.from}  ${ob.to} ")
 
@@ -103,9 +273,8 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     if (it == 1) {
                         binding.swipetorefresh.isRefreshing = false
                         showProgressDialog()
-                    }
-                    else {
-                       binding.swipetorefresh.isRefreshing = false
+                    } else {
+                        binding.swipetorefresh.isRefreshing = false
                         dismissProgressDialog()
                     }
                 },
@@ -116,6 +285,10 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 bodyScheduledMeetingBean = ob!!
             )
         }
+        else
+        {
+            dismissProgressDialog()
+        }
     }
 
     private fun handleObserver() {
@@ -124,14 +297,20 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
         viewModel.scheduledMeetingLiveData.observe(this, Observer {
 
-
             Log.d(TAG, "handleObserver: out observer ${it.size}")
 
             binding.tvNoData.visibility = View.GONE
             Log.d(TAG, "handleObserver: size ${it.size}")
             //Log.d(TAG, "handleObserver: size ${it}")
-            adapter = UpcomingMeetingAdapter(this, it) { data,videoAccessCode ->
-                handleJoin(data,videoAccessCode)
+            adapter = UpcomingMeetingAdapter(this, it) { data, videoAccessCode, action ->
+                when (action) {
+                    1 -> {
+                        handleJoin(data, videoAccessCode)
+                    }
+                    2 -> {
+                        showDescDialog(data)
+                    }
+                }
             }
             binding.rvUpcomingMeeting.adapter = adapter
             adapter.notifyDataSetChanged()
@@ -139,16 +318,30 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         })
     }
 
-    fun handleJoin(data: NewInterviewDetails,videoAccessCode:String) {
+    fun showDescDialog(data: NewInterviewDetails) {
+        val dialog = Dialog(this)
+        val dialogBinding = LayoutDescriptionDialogBinding.inflate(LayoutInflater.from(this))
+        dialog.setContentView(dialogBinding.root)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogBinding.btnCross.setOnClickListener {
+            dialog.dismiss()
+        }
+       dialogBinding.tvDescription.text=data.cancelltionDescription
+        dialogBinding.tvUserId.text=data.interviewId.toString()
+
+        dialog.create()
+        dialog.show()
+    }
+
+    fun handleJoin(data: NewInterviewDetails, videoAccessCode: String) {
         Log.d(TAG, "handleJoin: on clicked ${data.VideoCallAccessCode}")
         //getInterviewDetails()
         if (checkInternet()) {
-            accessCode=videoAccessCode
+            accessCode = videoAccessCode
             getInterviewDetails(videoAccessCode)
-           // getAccessCodeById(data)
-           // showToast(this,"Under Development")
-        }
-        else {
+            // getAccessCodeById(data)
+            // showToast(this,"Under Development")
+        } else {
             Snackbar.make(
                 binding.root, getString(R.string.txt_no_internet_connection),
                 Snackbar.LENGTH_SHORT
@@ -157,10 +350,9 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     }
 
 
-    fun getAccessCodeById(data: NewInterviewDetails)
-    {
+    fun getAccessCodeById(data: NewInterviewDetails) {
         Log.d(TAG, "getAccessCodeById: data gotted ${data?.interviewId}")
-        viewModel.getInterAccessCodById(data.interviewId, onDataResponse = {data, response ->
+        viewModel.getInterAccessCodById(data.interviewId, onDataResponse = { data, response ->
             when (response) {
                 200 -> {
                     dismissProgressDialog()
@@ -179,10 +371,9 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     }
 
 
-    fun getInterviewDetails(accessCode:String)
-    {
+    fun getInterviewDetails(accessCode: String) {
         showProgressDialog()
-        viewModel.getVideoSessionDetails(accessCode, onDataResponse = { data,event ->
+        viewModel.getVideoSessionDetails(accessCode, onDataResponse = { data, event ->
 
             when (event) {
                 200 -> {
@@ -205,7 +396,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     dismissProgressDialog()
                     showToast(this, data?.aPIResponse?.message.toString())
                 }
-                401->{
+                401 -> {
                     dismissProgressDialog()
                     CurrentMeetingDataSaver.setData(data!!)
                     joinMeeting(accessCode)
@@ -216,23 +407,24 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     }
 
 
-
-    fun joinMeeting(accessCode: String)
-    {
+    fun joinMeeting(accessCode: String) {
         // showProgressDialog()
-        viewModel.getVideoSessionCandidate(accessCode, onDataResponse = { data, event->
+        viewModel.getVideoSessionCandidate(accessCode, onDataResponse = { data, event ->
 
             when (event) {
                 200 -> {
                     dismissProgressDialog()
-                    if(data.identity!!.contains("C") && data.roomName?.trim()?.lowercase().equals("nothost") )
-                    {
+                    if (data.identity!!.contains("C") && data.roomName?.trim()?.lowercase()
+                            .equals("nothost")
+                    ) {
                         showAlertWhenNotHost()
                         Log.d("showdialogalert", "joinMeetingCandidate: in dialog show")
-                    }else
-                    {
+                    } else {
                         Log.d("showdialogalert", "candidate: ${data.token}  ${data.roomName}")
-                        TwilioHelper.setTwilioCredentials(data.token.toString(),data.roomName.toString())
+                        TwilioHelper.setTwilioCredentials(
+                            data.token.toString(),
+                            data.roomName.toString()
+                        )
                         startActivity(Intent(this, VideoActivity::class.java))
                     }
                 }
@@ -248,8 +440,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         })
     }
 
-    fun showAlertWhenNotHost()
-    {
+    fun showAlertWhenNotHost() {
         setHandler().post(kotlinx.coroutines.Runnable {
             val dialog = AlertDialog.Builder(this)
             dialog.setMessage(getString(R.string.txt_not_host_alert))
@@ -270,3 +461,15 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
 
 }
+
+
+/*
+
+fromdate = getCurrentDate().toString(),
+            todate = getIntervalMonthDate().toString(),
+            from = getCurrentUtcFormatedDate(),
+            to = getCurrentUtcFormatedDateIntervalofMonth(),
+
+
+
+ */

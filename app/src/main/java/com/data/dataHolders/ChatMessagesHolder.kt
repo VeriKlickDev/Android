@@ -1,4 +1,4 @@
-package com.data
+package com.data.dataHolders
 
 import com.domain.BaseModels.ChatMessagesModel
 
@@ -9,5 +9,5 @@ object ChatMessagesHolder {
     {
         list.addAll(msg)
     }
-    fun getList()=list
+    fun getList()= list
 }

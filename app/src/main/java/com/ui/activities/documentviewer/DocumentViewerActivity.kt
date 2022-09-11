@@ -1,27 +1,38 @@
 package com.ui.activities.documentviewer
 
 
+import android.R
+import android.animation.ValueAnimator
+import android.app.DownloadManager
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
+import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
-import com.data.CurrentMeetingDataSaver
+import com.airbnb.lottie.LottieAnimationView
+import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.dismissProgressDialog
+import com.data.requestWriteExternamlStoragePermissions
 import com.data.showProgressDialog
 import com.data.showToast
-import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityDocumentViewerBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
+
 
 @AndroidEntryPoint
 class DocumentViewerActivity : AppCompatActivity() {
+    private var fileName=""
     private lateinit var binding: ActivityDocumentViewerBinding
     private lateinit var viewModel: DocumentViewerViewModel
     private val TAG = "checkDocument"
@@ -32,6 +43,8 @@ class DocumentViewerActivity : AppCompatActivity() {
         binding = ActivityDocumentViewerBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel = ViewModelProvider(this).get(DocumentViewerViewModel::class.java)
+
+
 
 
         val candidateId = CurrentMeetingDataSaver.getData().interviewModel?.candidateId
@@ -56,12 +69,96 @@ class DocumentViewerActivity : AppCompatActivity() {
         })
 */
 
+        binding.btnLayout.setOnClickListener {
+            showDocFile(fileName)
+        }
+
+
+
     }
+
+    fun giveStoragePermissionAndDownloadResume(link:String,fileName: String)
+    {
+
+
+        
+        requestWriteExternamlStoragePermissions {
+            Log.d(TAG, "giveStoragePermissionAndDownloadResume: permission $it")
+            if (it)
+            {
+                Log.d(TAG, "giveStoragePermissionAndDownloadResume: permission granted")
+            downloadFile(fileName,"VeriKlickFiles",link)
+
+            }
+            else{
+                Log.d(TAG, "giveStoragePermissionAndDownloadResume: file notwritten")
+                val dialog=AlertDialog.Builder(this)
+                dialog.setMessage("Grant the permission to download Resume")
+                dialog.setPositiveButton("GiveAccess",object : DialogInterface.OnClickListener {
+                    override fun onClick(dialog: DialogInterface?, which: Int) {
+                    giveStoragePermissionAndDownloadResume(link,fileName)
+                    }
+                })
+                dialog.setNegativeButton("cancel",object : DialogInterface.OnClickListener {
+                    override fun onClick(dialog: DialogInterface?, which: Int) {
+
+                    }
+                })
+                dialog.create()
+                dialog.show()
+            }
+        }
+    }
+
+    fun showDocFile(fileName: String)
+    {
+        val file =File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/"+fileName).toString())
+        val uri=FileProvider.getUriForFile(this,"com.example.twillioproject"+".provider",file)
+        val i = Intent(Intent.ACTION_VIEW)
+        this.fileName=fileName
+        if (fileName.contains(".pdf"))
+        {
+            i.setDataAndType(uri, "application/pdf")
+        }
+        if (fileName.contains(".docx") || fileName.contains(".doc") )
+        {
+            i.setDataAndType(uri, "application/msword")
+        }
+
+        i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_GRANT_READ_URI_PERMISSION
+        startActivity(i)
+    }
+
+
+
+    private fun downloadFile(fileName : String, desc :String, url : String){
+
+        // fileName -> fileName with extension
+        val request = DownloadManager.Request(Uri.parse(url))
+            .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
+            .setTitle(fileName)
+            .setDescription(desc)
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            .setAllowedOverMetered(true)
+            .setAllowedOverRoaming(false)
+            .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,fileName)
+        val downloadManager= getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        val downloadID = downloadManager.enqueue(request)
+        Log.d(TAG, "downloadFile: download id $downloadID")
+        showDocFile(fileName)
+    }
+
+
 
     fun loadResume(link: String, fileName: String, action: Int) {
         Log.d(TAG, "loadResume: url is $link")
+        Log.d(TAG, "loadResume: url method")
+        Log.d(TAG, "loadResume: url method FILE NAME $fileName")
 
         Handler(Looper.getMainLooper()).post(kotlinx.coroutines.Runnable {
+            giveStoragePermissionAndDownloadResume(link,fileName)
+
+
 
 /*            val wv = binding.wbDocumentViewer
             wv.settings.javaScriptEnabled = true
@@ -71,12 +168,12 @@ class DocumentViewerActivity : AppCompatActivity() {
             wv.loadUrl(link)
 */
 
-            val MyURL = "this is your PDF URL"
+       /*     val MyURL = "this is your PDF URL"
             val url = "http://docs.google.com/gview?embedded=true&url=$link"
             Log.i(TAG, "Opening PDF: $url")
             binding.wbDocumentViewer.getSettings().setJavaScriptEnabled(true)
             binding.wbDocumentViewer.loadUrl(docUrl)
-
+*/
 
 /*
             binding.wbDocumentViewer.setWebViewClient(WebViewClientClass())

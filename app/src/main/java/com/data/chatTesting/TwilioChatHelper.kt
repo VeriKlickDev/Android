@@ -2,16 +2,8 @@ package com.data.chatTesting
 
 import android.content.Context
 import android.util.Log
-import com.data.CurrentMeetingDataSaver
-import com.google.gson.Gson
 import com.twilio.conversations.*
 import com.twilio.conversations.ConversationsClient.ConnectionState
-import com.ui.activities.twilioVideo.VideoActivity
-import kotlinx.coroutines.channels.Channel
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import java.io.IOException
-import kotlin.math.log
 
 interface ChatConversationsManagerListener {
     fun receivedNewMessage()

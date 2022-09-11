@@ -1,4 +1,4 @@
-package com.data
+package com.data.dataHolders
 
 
 private var status="exclude"
@@ -6,11 +6,11 @@ object VideoRecordingStatusHolder {
     fun setStatus():String{
         if (status.equals("exclude"))
         {
-            status="include"
+            status ="include"
             return status
         }
         else{
-            status="exclude"
+            status ="exclude"
             return status
         }
         return status

@@ -1,4 +1,4 @@
-package com.data
+package com.data.dataHolders
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,6 +11,7 @@ object CurrentConnectUserList {
     fun setListForVideoActivity(list:List<VideoTracksBean>)
     {
         listLiveData.postValue(list)
+        //listLiveDataForAddParticipant.postValue(list)
     }
     fun getListForVideoActivity():LiveData<List<VideoTracksBean>>
     {

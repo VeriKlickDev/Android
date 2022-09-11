@@ -3,7 +3,7 @@ package com.data.daggermodule
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import com.collegeproject.DataStoreHelper
+import com.data.dataHolders.DataStoreHelper
 import com.data.repositoryImpl.BaseRestRepository
 import com.domain.RestApi.BaseRestApi
 import com.data.repositoryImpl.RepositoryImpl
@@ -45,8 +45,10 @@ class BaseModule {
         return OkHttpClient.Builder()
             .addInterceptor(interceptor)
             .readTimeout(60, TimeUnit.SECONDS)
-            .callTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            //.callTimeout(60, TimeUnit.SECONDS)
             .connectTimeout(60, TimeUnit.SECONDS)
+            .pingInterval(5, TimeUnit.SECONDS)
     }
 
     @Provides

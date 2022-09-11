@@ -10,7 +10,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.ui.activities.SplashScreen"
+        tools:context="com.ui.activities.splashScreen.SplashScreen"
         android:gravity="center"
         >
 <androidx.appcompat.widget.AppCompatImageView

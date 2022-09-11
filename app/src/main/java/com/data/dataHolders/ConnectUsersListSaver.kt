@@ -1,4 +1,4 @@
-package com.data
+package com.data.dataHolders
 
 import com.domain.BaseModels.VideoTracksBean
 
@@ -10,5 +10,5 @@ object ConnectUsersListSaver {
         connectUserslist.clear()
         connectUserslist.addAll(list)
     }
-    fun getList()=connectUserslist
+    fun getList()= connectUserslist
 }

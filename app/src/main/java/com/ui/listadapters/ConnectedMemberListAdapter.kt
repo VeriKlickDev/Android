@@ -10,7 +10,7 @@ import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import com.data.LocalConfrenseMic
+import com.data.dataHolders.LocalConfrenseMic
 import com.domain.BaseModels.VideoTracksBean
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.LayoutItemMemberVideoConfrenceBinding

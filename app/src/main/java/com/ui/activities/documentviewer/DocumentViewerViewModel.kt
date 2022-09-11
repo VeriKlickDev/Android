@@ -2,17 +2,15 @@ package com.ui.activities.documentviewer
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.data.CurrentMeetingDataSaver
+import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.repositoryImpl.BaseRestRepository
 import com.domain.BaseModels.BodyGetResume
 import com.domain.BaseModels.ResponseCandidateDataForIOS
 import com.domain.BaseModels.ResponseResumeModel
-import com.domain.RestApi.LoginRestApi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.http.Body
 import javax.inject.Inject
 
 @HiltViewModel

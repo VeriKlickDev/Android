@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.ui.activities.feedBack.ActivityFeedBackForm"
+        android:orientation="vertical"
+        >
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:orientation="horizontal"
+
+            >
+            <ImageView
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:src="@drawable/ic_img_back_btn"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="-40sp"
+                android:layout_marginLeft="@dimen/_10sp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/txt_feedback"
+                android:fontFamily="@font/sarabun_regular"
+                android:textSize="@dimen/_18sdp"
+                android:textColor="@color/black"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_weight="1"
+                />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/_10sp"
+            >
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/sarabun_regular"
+            android:textColor="@color/light_text_color"
+            android:text="id"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/sarabun_regular"
+            android:textColor="@color/black"
+            android:text="id"
+            />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3sp"
+                android:layout_marginVertical="@dimen/_10sp"
+                android:background="@color/light_grey"/>
+
+
+            <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/sarabun_regular"
+            android:textColor="@color/light_text_color"
+            android:text="@string/txt_description"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/sarabun_regular"
+            android:textColor="@color/black"
+            android:text="@string/txt_description"
+            />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3sp"
+                android:layout_marginVertical="@dimen/_10sp"
+                android:background="@color/light_grey"/>
+
+            <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/sarabun_bold"
+            android:textColor="@color/light_text_color"
+            android:text="@string/txt_Candidate_Skills"
+            />
+
+
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_14sp"
+            android:fontFamily="@font/sarabun_regular"
+            android:textColor="@color/black"
+            android:text="@string/txt_wireFraming"
+            android:layout_weight="1"
+            />
+      <com.baha.reviewbar.ReviewBar
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginRight="@dimen/_10sp"
+          app:iconSpace="8"
+          app:isIndicator="true"
+            app:reviewScoreMax="5"
+          />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/sarabun_regular"
+            android:textColor="@color/light_text_color"
+            android:text="@string/txt_comment"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/sarabun_regular"
+            android:textColor="@color/black"
+            android:text="@string/txt_txt_shareYourCommentHere"
+            />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3sp"
+                android:layout_marginVertical="@dimen/_10sp"
+                android:background="@color/light_grey"/>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/_10sp"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_14sp"
+                android:fontFamily="@font/sarabun_regular"
+                android:textColor="@color/black"
+                android:text="@string/txt_userTesting"
+                android:layout_weight="1"
+                />
+            <com.baha.reviewbar.ReviewBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_10sp"
+                app:iconSpace="8"
+                app:isIndicator="true"
+                app:reviewScoreMax="5"
+                />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/_10sp"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_14sp"
+                android:fontFamily="@font/sarabun_regular"
+                android:textColor="@color/black"
+                android:text="@string/txt_ui_design"
+                android:layout_weight="1"
+                />
+            <com.baha.reviewbar.ReviewBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_10sp"
+                app:iconSpace="8"
+                app:isIndicator="true"
+                app:reviewScoreMax="5"
+                />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/_10sp"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_14sp"
+                android:fontFamily="@font/sarabun_regular"
+                android:textColor="@color/black"
+                android:text="@string/txt_responsive_web_design"
+                android:layout_weight="1"
+                />
+            <com.baha.reviewbar.ReviewBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_10sp"
+                app:iconSpace="8"
+                app:isIndicator="true"
+                app:reviewScoreMax="5"
+                />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginTop="@dimen/_15sp"
+            android:fontFamily="@font/sarabun_regular"
+            android:textColor="@color/light_text_color"
+            android:text="@string/txt_recommendation"
+            />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/sarabun_regular"
+            android:textColor="@color/black"
+            android:text="@string/txt_variation_of_passages"
+            />
+
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_variation_of_passages"
+
+            />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginTop="@dimen/_15sp"
+            android:fontFamily="@font/sarabun_regular"
+            android:textColor="@color/light_text_color"
+            android:text="@string/txt_remart"
+            />
+
+
+            <EditText
+                android:id="@+id/et_remart"
+                android:maxLines="1"
+                android:textSize="@dimen/_18sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/editext.style.base.withoutPadding"
+                android:hint="@string/txt_remart" />
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginTop="@dimen/_15sp"
+            android:fontFamily="@font/sarabun_regular"
+            android:textColor="@color/light_text_color"
+            android:text="@string/txt_coding_test_remart"
+            />
+
+        <EditText
+            android:id="@+id/et_coding_remart"
+            android:maxLines="1"
+            android:textSize="@dimen/_18sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/editext.style.base.withoutPadding"
+            android:hint="@string/txt_coding_test_remart" />
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginTop="@dimen/_15sp"
+            android:fontFamily="@font/sarabun_regular"
+            android:textColor="@color/light_text_color"
+            android:text="@string/txt_panel_member"
+            />
+
+        <EditText
+            android:id="@+id/et_panel_member"
+            android:maxLines="1"
+            android:textSize="@dimen/_18sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/editext.style.base"
+            android:hint="@string/txt_panel_member" />
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginTop="@dimen/_15sp"
+            android:fontFamily="@font/sarabun_regular"
+            android:textColor="@color/light_text_color"
+            android:text="@string/txt_name"
+            />
+        <EditText
+            android:id="@+id/et_email"
+            android:maxLines="1"
+            android:textSize="@dimen/_18sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/editext.style.base"
+            android:hint="@string/txt_name" />
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginTop="@dimen/_15sp"
+            android:fontFamily="@font/sarabun_regular"
+            android:textColor="@color/light_text_color"
+            android:text="@string/txt_role"
+            />
+            <EditText
+
+                android:id="@+id/et_role"
+                android:maxLines="1"
+                android:textSize="@dimen/_18sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/editext.style.base"
+                android:hint="@string/txt_panel_member"
+                android:layout_marginBottom="@dimen/_10sp"
+                />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_submitButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_55sdp"
+                style="@style/button.Style.Blue.Rounded"
+                android:fontFamily="@font/sarabun_semibold"
+                android:text="@string/txt_submit"
+                android:textSize="@dimen/_18sdp" />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        </ScrollView>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

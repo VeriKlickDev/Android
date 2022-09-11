@@ -21,6 +21,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
 import com.araujo.jordan.excuseme.ExcuseMe
+
+import com.data.dataHolders.WeeksDataHolder.minusWeekDay
 import com.domain.BaseModels.ResponseChatFromToken
 import com.domain.BaseModels.ResponseJWTTokenLogin
 import com.example.twillioproject.R
@@ -158,6 +160,24 @@ fun Context.requestVideoPermissions(isGrant: (isGranted: Boolean) -> Unit) {
         }
     }
 }
+
+
+fun Context.requestWriteExternamlStoragePermissions(isGrant: (isGranted: Boolean) -> Unit) {
+    ExcuseMe.couldYouGive(this).permissionFor(
+        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        android.Manifest.permission.READ_EXTERNAL_STORAGE,
+    ) {
+        Log.d("permissioncheck", "requestVideoPermissions: $it ")
+        if (it.granted.contains(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            isGrant(true)
+        }
+        else {
+            isGrant(false)
+        }
+    }
+}
+
+
 
 
 fun Context.checkInternet(): Boolean {
@@ -333,7 +353,7 @@ fun Context.getCurrentUtcFormatedDate(): String {
 
     var timeUtclenght=utcTime1.length
     var timeUtc=utcTime1.subSequence(10,timeUtclenght)
-    val finalUtcTime=year.toString()+"-"+date.toString()+"-"+(day-1).toString()+timeUtc.toString()
+    val finalUtcTime=year.toString()+"-"+date.toString()+"-"+(day).toString()+timeUtc.toString()
     Log.d("utcformatted", "getCurrentUtcFormatedDate:  $finalUtcTime")
 
 
@@ -395,7 +415,7 @@ fun Context.getCurrentDate(): String? {
     val datefull=sdf.format(Date())
 
     val date = sdf.calendar.get(Calendar.MONTH) + 1
-    val day = sdf.calendar.get(Calendar.DAY_OF_MONTH)-1
+    val day = sdf.calendar.get(Calendar.DAY_OF_MONTH)
     val year = sdf.calendar.get(Calendar.YEAR)
 
     val datesubstring=datetime.subSequence(10,datefull.length)
@@ -406,6 +426,94 @@ fun Context.getCurrentDate(): String? {
     return finalUtcTime
 }
 
+/*
+fun Context.getPastWeekDate(): String? {
+
+    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    var datetime: String = sdf.format(Date())
+    val datefull=sdf.format(Date())
+    val date = sdf.calendar.get(Calendar.MONTH) + 1
+    val day = sdf.calendar.get(Calendar.DAY_OF_MONTH)-getWeekDay()
+    val year = sdf.calendar.get(Calendar.YEAR)
+
+    val datesubstring=datetime.subSequence(10,datefull.length)
+
+    val finalUtcTime=year.toString()+"-"+(date).toString()+"-"+(day).toString()+datesubstring.toString()
+
+    minusWeekDay()
+    return finalUtcTime
+}
+
+fun getPreviousWeek() :String {
+
+    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    val calendar =Calendar.getInstance()
+
+    calendar.firstDayOfWeek=Calendar.DAY_OF_MONTH
+    calendar.add(Calendar.DATE, getWeekDay())
+    val date=calendar.time
+    var datetime: String = sdf.format(calendar.time)
+
+    minusWeekDay()
+    Log.d("loginActivitytest", "getPreviousWeek: date 2 ${datetime.toString()} daycount ${getWeekDay()}")
+    return datetime
+}
+*/
+
+/*
+fun Context.getPastWeekDateTemp(): String? {
+    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    var datetime: String = sdf.format(Date())
+    val datefull=sdf.format(Date())
+
+
+
+
+
+    val cal = Calendar.getInstance()
+    cal.firstDayOfWeek = Calendar.SUNDAY
+    cal[Calendar.DAY_OF_WEEK] = Calendar.SUNDAY
+
+
+    val date = sdf.calendar.get(Calendar.MONTH) + 1
+    val day = sdf.calendar.get(Calendar.DAY_OF_MONTH)-getWeekDay()
+    val year = sdf.calendar.get(Calendar.YEAR)
+
+    val datesubstring=datetime.subSequence(10,datefull.length)
+
+    val finalUtcTime=year.toString()+"-"+(date).toString()+"-"+(day).toString()+datesubstring.toString()
+
+    minusWeekDay()
+    return finalUtcTime
+}
+
+
+
+fun Context.getCurrentUtcFormatedDateOfPastWeek(): String {
+
+    val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    sdf.setTimeZone(TimeZone.getTimeZone("UTC"))
+    var utcTime1: String = sdf.format(Date())
+    sdf.format(Date())
+
+    val date = sdf.calendar.get(Calendar.MONTH) + 1
+    val day = sdf.calendar.get(Calendar.DAY_OF_MONTH)- getWeekDay()
+    val year = sdf.calendar.get(Calendar.YEAR)
+
+    var timeUtclenght=utcTime1.length
+    var timeUtc=utcTime1.subSequence(10,timeUtclenght)
+    val finalUtcTime=year.toString()+"-"+date.toString()+"-"+(day-1).toString()+timeUtc.toString()
+    Log.d("utcformatted", "getCurrentUtcFormatedDate:  $finalUtcTime")
+
+
+    /* var current = LocalDateTime.now()
+     var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
+     var utcTime = SimpleTimeZone.getTimeZone("UTC").toZoneId()
+     val formatted = current.format(formatter)*/
+    minusWeekDay()
+    return finalUtcTime
+}
+*/
 
 fun EditText.getEditTextWithFlow() : Flow<String> {
     return callbackFlow<String> {
@@ -433,6 +541,37 @@ fun Context.getIntervalMonthDate(): String? {
     return finalUtcTime
 }
 
+fun Context.getCurrentDayOfYear(): Int {
+    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    var datetime: String = sdf.format(Date())
+    val datefull=sdf.format(Date())
+
+    val date = sdf.calendar.get(Calendar.MONTH) + 1
+    val day = sdf.calendar.get(Calendar.DAY_OF_MONTH)
+    val year = sdf.calendar.get(Calendar.YEAR)
+    val dayofYear=sdf.calendar.get(Calendar.DAY_OF_YEAR)
+
+    val datesubstring=datetime.subSequence(10,datefull.length)
+
+    val finalUtcTime=year.toString()+"-"+(date+1).toString()+"-"+(day).toString()+datesubstring.toString()
+
+
+    return dayofYear
+}
+
+fun getDateWithMonthName(date:String):String
+{
+
+    val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    sdf.setTimeZone(TimeZone.getTimeZone("UTC"))
+
+    val date =  sdf.parse(date)
+    val sdf2 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+
+    val time =sdf2.format(date)
+
+    return time
+}
 
 
 

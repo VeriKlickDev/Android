@@ -8,6 +8,14 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
     <application
         android:name="com.data.application.MyApplication"
         android:allowBackup="false"
@@ -19,13 +27,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TwillioProject"
         android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
         tools:targetApi="31">
         <activity
             android:name="com.ui.activities.adduserlist.ActivityAddParticipant"
-            android:exported="false"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.ui.activities.forgotPassword.ForgotPasswordActivity"
             android:configChanges="orientation"
@@ -42,12 +50,17 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ui.activities.meetingmemberslist.MemberListActivity"
-            android:exported="false"
+            android:name="com.ui.activities.feedBack.ActivityFeedBackForm"
             android:configChanges="orientation"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ui.activities.SplashScreen"
+            android:name="com.ui.activities.meetingmemberslist.MemberListActivity"
+            android:configChanges="orientation"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ui.activities.splashScreen.SplashScreen"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait">
@@ -57,11 +70,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<!--        <activity-->
-<!--            android:name="com.ui.activities.chat.ChatActivityTest"-->
-<!--            android:configChanges="orientation"-->
-<!--            android:exported="true"-->
-<!--            android:screenOrientation="portrait" />-->
+        <!--        <activity-->
+        <!--            android:name="com.ui.activities.chat.ChatActivityTest"-->
+        <!--            android:configChanges="orientation"-->
+        <!--            android:exported="true"-->
+        <!--            android:screenOrientation="portrait" />-->
         <activity
             android:name="com.ui.activities.joinmeeting.JoinMeetingActivity"
             android:configChanges="orientation"
@@ -88,6 +101,21 @@
             android:foregroundServiceType="mediaProjection"
 
             />
+
+
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.twillioproject.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_path" />
+        </provider>
+
+
+
     </application>
 
 </manifest>

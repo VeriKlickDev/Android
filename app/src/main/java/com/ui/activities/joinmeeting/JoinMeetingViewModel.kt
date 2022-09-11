@@ -106,7 +106,7 @@ class JoinMeetingViewModel @Inject constructor(val repo: BaseRestRepository) :Vi
                     }
                 }else
                 {
-                    onDataResponse(result.body()!!,404)
+                    onDataResponse(null,404)
                     Log.d(TAG, "getVideoSession: not success")
                 }
             }
@@ -116,9 +116,6 @@ class JoinMeetingViewModel @Inject constructor(val repo: BaseRestRepository) :Vi
             Log.d(TAG, "getVideoSession: not exception")
         }
     }
-
-
-
 }
 
 /* flow<Response<TokenResponseBean>>{

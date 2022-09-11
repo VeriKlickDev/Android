@@ -1,35 +1,21 @@
 package com.ui.activities.adduserlist
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
-import android.widget.EditText
 import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.data.*
-import com.domain.BaseModels.AddInterviewerList
+import com.data.dataHolders.CurrentMeetingDataSaver
+import com.data.dataHolders.InvitationDataHolder
+import com.data.dataHolders.InvitationDataModel
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityLayoutAddParticipantBinding
-import com.ui.activities.meetingmemberslist.MemberListActivity
-import com.ui.activities.twilioVideo.VideoActivity
 
 import com.ui.listadapters.AddParticipantListAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.launch
 import java.util.*
-import kotlin.math.log
-import kotlin.random.Random
 
 @AndroidEntryPoint
 class ActivityAddParticipant : AppCompatActivity() {
@@ -52,7 +38,7 @@ class ActivityAddParticipant : AppCompatActivity() {
         adapter = AddParticipantListAdapter(
             this,
             interviewList,
-            onClick = { data: InvitationDataModel, action: Int, pos:Int,list ->
+            onClick = { data: InvitationDataModel, action: Int, pos:Int, list ->
                 when (action) {
                     1 -> {
                         addNewInterViewer()
@@ -158,7 +144,7 @@ class ActivityAddParticipant : AppCompatActivity() {
     val invitationList= mutableListOf<InvitationDataModel>()
     val distinctinvitationList= mutableListOf<InvitationDataModel>()
 
-    fun addFilledDataList(obj:InvitationDataModel)
+    fun addFilledDataList(obj: InvitationDataModel)
     {
         invitationList.add(obj)
     }

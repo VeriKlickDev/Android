@@ -1,4 +1,4 @@
-package com.data
+package com.data.helpers
 
 import com.twilio.conversations.Conversation
 import com.twilio.conversations.ConversationsClient
@@ -9,7 +9,7 @@ object TwilioChatHelper {
 
     fun  setConversationClientInstance(mConversationsClient: ConversationsClient)
     {
-        conversationClient=mConversationsClient
+        conversationClient =mConversationsClient
     }
     fun getConversationClientInstance():ConversationsClient
     {
@@ -18,7 +18,7 @@ object TwilioChatHelper {
 
     fun setConversation(mConversation: Conversation)
     {
-        conversation=mConversation
+        conversation =mConversation
     }
 
     fun getConversation()= conversation

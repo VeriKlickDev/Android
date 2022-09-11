@@ -3,13 +3,11 @@ package com.ui.activities.adduserlist
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.data.CurrentMeetingDataSaver
-import com.data.InvitationDataModel
+import com.data.dataHolders.CurrentMeetingDataSaver
+import com.data.dataHolders.InvitationDataModel
 import com.data.repositoryImpl.BaseRestRepository
 import com.domain.BaseModels.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -51,7 +49,7 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
         }
     }
 
-    fun sendInvitationtoUsers(list:List<InvitationDataModel>,onDataResponse:(data:ResponseSendInvitation?,action:Int)->Unit)
+    fun sendInvitationtoUsers(list:List<InvitationDataModel>, onDataResponse:(data:ResponseSendInvitation?, action:Int)->Unit)
     {
         viewModelScope.launch {
             try {

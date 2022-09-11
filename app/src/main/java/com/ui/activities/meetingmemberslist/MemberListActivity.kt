@@ -4,23 +4,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.data.*
+import com.data.dataHolders.CurrentConnectUserList
+import com.data.dataHolders.CurrentMeetingDataSaver
 import com.domain.BaseModels.VideoTracksBean
 import com.example.twillioproject.databinding.ActivityListOfMembersBinding
 import com.ui.activities.adduserlist.ActivityAddParticipant
-import com.ui.activities.adduserlist.AddUserViewModel
 import com.ui.listadapters.ConnectedMemberListAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.*
 
 @AndroidEntryPoint
 class MemberListActivity : AppCompatActivity() {

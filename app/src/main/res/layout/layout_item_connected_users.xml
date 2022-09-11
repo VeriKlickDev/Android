@@ -8,8 +8,8 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_60sdp"
+        android:layout_width="@dimen/_70sdp"
+        android:layout_height="@dimen/_80sdp"
         android:id="@+id/parentLayout"
         android:layout_marginLeft="@dimen/_20sp"
         >
@@ -46,8 +46,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView2"
-            android:layout_width="50sp"
-            android:layout_height="@dimen/_60sdp"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_80sdp"
             app:cardCornerRadius="@dimen/_5sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

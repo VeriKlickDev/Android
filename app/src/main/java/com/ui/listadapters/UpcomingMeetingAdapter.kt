@@ -11,7 +11,7 @@ import com.domain.BaseModels.ResponseUpcomintMeeting
 import com.example.twillioproject.databinding.LayoutItemUpcomingMeetingBinding
 import com.google.gson.Gson
 
-class UpcomingMeetingAdapter(val context: Context, val list: List<NewInterviewDetails>,val onClick:(data:NewInterviewDetails,videoAccessCode:String)->Unit) :
+class UpcomingMeetingAdapter(val context: Context, val list: List<NewInterviewDetails>,val onClick:(data:NewInterviewDetails,videoAccessCode:String, action:Int)->Unit) :
     RecyclerView.Adapter<UpcomingMeetingAdapter.ViewHolderClass>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass {
@@ -27,7 +27,10 @@ class UpcomingMeetingAdapter(val context: Context, val list: List<NewInterviewDe
         Log.d("checkvideocode", "handleObserver:  video code in list ${videoAccessCode} ")
 
         holder.binding.btnJoin.setOnClickListener {
-            onClick(list.get(position),videoAccessCode.toString())
+            onClick(list.get(position),videoAccessCode.toString(),1)
+        }
+        holder.binding.btnEllipsize.setOnClickListener {
+            onClick(list.get(position),videoAccessCode.toString(),2)
         }
     }
 
@@ -53,12 +56,11 @@ class UpcomingMeetingAdapter(val context: Context, val list: List<NewInterviewDe
            // binding.tvMeetingTime.text=data.interviewDateTime.subSequence(11,16)
             binding.tvUserEmail.text=data.emailID
 
-
             val timeHour=data.interviewDateTime.subSequence(11,13).toString().toInt()
             if (timeHour>=12)
-                binding.tvMeetingTime.text=data.interviewDateTime.subSequence(11,16).toString()+" PM"
+                binding.tvMeetingTime.text="("+data.interviewTimezone+") "+data.interviewDateTime.subSequence(11,16).toString()+" PM"
             else
-                binding.tvMeetingTime.text=data.interviewDateTime.subSequence(11,16).toString()+" AM"
+                binding.tvMeetingTime.text="("+data.interviewTimezone+") "+data.interviewDateTime.subSequence(11,16).toString()+" AM"
 
             Log.d("timedate", "dataBind: ${data.interviewDateTime.subSequence(11,13)}     ${data.interviewDateTime}")
             val date=data.interviewDateTime.subSequence(0,10)

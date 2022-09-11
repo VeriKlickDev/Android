@@ -2,7 +2,7 @@ package com.domain
 
 import com.twilio.video.*
 
-interface RoomParticipantListner {
+interface RoomParticipantListner1 {
     fun onAudioTrackPublished(
         remoteParticipant: RemoteParticipant,
         remoteAudioTrackPublication: RemoteAudioTrackPublication
@@ -105,16 +105,5 @@ interface RoomParticipantListner {
         remoteParticipant: RemoteParticipant,
         remoteAudioTrackPublication: RemoteAudioTrackPublication
     )
-
-
-
-
-
-
-
-
-
-
-
 
 }

@@ -13,8 +13,9 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import com.collegeproject.DataStoreHelper
+import com.data.dataHolders.DataStoreHelper
 import com.data.*
+import com.data.dataHolders.WeeksDataHolder
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityLoginBinding
 import com.google.android.material.snackbar.Snackbar
@@ -34,7 +35,7 @@ class LoginActivity : AppCompatActivity() {
     private var mError = ""
     lateinit var binding: ActivityLoginBinding
     private val TAG = "loginActivitytest"
-
+    private var existingTime=""
     //lateinit var navController: NavController
     private lateinit var viewModel: LoginViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +55,7 @@ class LoginActivity : AppCompatActivity() {
 
         var istoggle=true
         binding.btnToggleEye.setOnClickListener {
+
 
             if(istoggle)
             {
@@ -83,6 +85,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnSubmitButton.setOnClickListener {
+
            handleBlankfields()
             if (!binding.etPassword.text.toString().equals(""))
             if(binding.etPassword.text.toString().length>6) {

@@ -60,4 +60,23 @@
     <string name="txt_permissionScreenSharingGranted">Screen sharing permission Granted</string>
     <string name="txt_permissionScreenSharingNotGranted">Screen sharing permission not granted</string>
     <string name="txt_screen_sharing_error">failed to Share Screen</string>
+    <string name="txt_feedback">FeedBack</string>
+    <string name="txt_description">Description</string>
+    <string name="txt_Candidate_Skills">Candidate Skills</string>
+    <string name="txt_wireFraming">Wireframing</string>
+    <string name="txt_txt_shareYourCommentHere">Please share your documents here!</string>
+    <string name="txt_comment">Comment</string>
+    <string name="txt_userTesting">User testing</string>
+    <string name="txt_ui_design">UI design</string>
+    <string name="txt_responsive_web_design">Responsive Web Design</string>
+    <string name="txt_recommendation">Recommendation</string>
+    <string name="txt_variation_of_passages">Variations of passages</string>
+    <string name="txt_remart">Remart</string>
+    <string name="txt_coding_test_remart">Coding Test Remart</string>
+    <string name="txt_panel_member">Panel Member</string>
+    <string name="txt_name">Name</string>
+    <string name="txt_role">Role</string>
+    <string name="txt_submit">Submit</string>
+    <string name="txt_jobId">Job ID : &#160;</string>
+    <string name="txt_search">Search...</string>
 </resources>

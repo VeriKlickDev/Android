@@ -1,25 +1,20 @@
 package com.ui.activities.chat
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Adapter
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.data.*
 
-import com.data.chatTesting.ChatConversationsManagerListener
+import com.data.dataHolders.CurrentConnectUserList
+import com.data.dataHolders.CurrentMeetingDataSaver
 
 import com.domain.BaseModels.ChatMessagesModel
-import com.domain.BaseModels.Users
 import com.domain.constant.AppConstants
 import com.example.twillioproject.databinding.ActivityChatBinding
 import com.twilio.conversations.*
-import com.ui.activities.twilioVideo.VideoActivity
-import com.ui.listadapters.ChatRecyclerAdapterTemp
 import com.ui.listadapters.MessagelistAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
