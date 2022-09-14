@@ -48,4 +48,10 @@ interface BaseRestApi {
     @POST("/api/ScheduleVideo/UpdateInterviewUsersDetail")
     suspend fun sendInvitation( @Body obj: AddParticipantModel):Response<ResponseSendInvitation>
 
+    @GET
+    suspend fun getFeedBackDetails(@Url url: String):Response<ResponseFeedBack>
+
+    @POST("/api/ScheduleVideo/CreateCandidateAssessementDetails")
+    suspend fun sendFeedBack( @Body obj: BodyFeedBack):Response<ResponseBodyFeedBack>
+
 }

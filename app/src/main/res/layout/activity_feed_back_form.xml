@@ -27,6 +27,7 @@
                 android:src="@drawable/ic_img_back_btn"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="-40sp"
+                android:id="@+id/btn_jump_back"
                 android:layout_marginLeft="@dimen/_10sp"
                 />
             <TextView
@@ -71,6 +72,7 @@
             android:fontFamily="@font/sarabun_regular"
             android:textColor="@color/black"
             android:text="id"
+            android:id="@+id/tv_jobId"
             />
 
             <View
@@ -96,6 +98,7 @@
             android:fontFamily="@font/sarabun_regular"
             android:textColor="@color/black"
             android:text="@string/txt_description"
+            android:id="@+id/tv_description"
             />
             <View
                 android:layout_width="match_parent"
@@ -111,50 +114,12 @@
             android:textColor="@color/light_text_color"
             android:text="@string/txt_Candidate_Skills"
             />
-
-
-<androidx.appcompat.widget.LinearLayoutCompat
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    >
-        <TextView
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
+            android:layout_marginBottom="@dimen/_5sp"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/_14sp"
-            android:fontFamily="@font/sarabun_regular"
-            android:textColor="@color/black"
-            android:text="@string/txt_wireFraming"
-            android:layout_weight="1"
-            />
-      <com.baha.reviewbar.ReviewBar
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginRight="@dimen/_10sp"
-          app:iconSpace="8"
-          app:isIndicator="true"
-            app:reviewScoreMax="5"
-          />
-
-</androidx.appcompat.widget.LinearLayoutCompat>
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:fontFamily="@font/sarabun_regular"
-            android:textColor="@color/light_text_color"
-            android:text="@string/txt_comment"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:fontFamily="@font/sarabun_regular"
-            android:textColor="@color/black"
-            android:text="@string/txt_txt_shareYourCommentHere"
+            android:id="@+id/rv_candidateSkills"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             />
 
             <View
@@ -162,88 +127,6 @@
                 android:layout_height="0.3sp"
                 android:layout_marginVertical="@dimen/_10sp"
                 android:background="@color/light_grey"/>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:layout_marginTop="@dimen/_10sp"
-            >
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/_14sp"
-                android:fontFamily="@font/sarabun_regular"
-                android:textColor="@color/black"
-                android:text="@string/txt_userTesting"
-                android:layout_weight="1"
-                />
-            <com.baha.reviewbar.ReviewBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/_10sp"
-                app:iconSpace="8"
-                app:isIndicator="true"
-                app:reviewScoreMax="5"
-                />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:layout_marginTop="@dimen/_10sp"
-            >
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/_14sp"
-                android:fontFamily="@font/sarabun_regular"
-                android:textColor="@color/black"
-                android:text="@string/txt_ui_design"
-                android:layout_weight="1"
-                />
-            <com.baha.reviewbar.ReviewBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/_10sp"
-                app:iconSpace="8"
-                app:isIndicator="true"
-                app:reviewScoreMax="5"
-                />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:layout_marginTop="@dimen/_10sp"
-            >
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/_14sp"
-                android:fontFamily="@font/sarabun_regular"
-                android:textColor="@color/black"
-                android:text="@string/txt_responsive_web_design"
-                android:layout_weight="1"
-                />
-            <com.baha.reviewbar.ReviewBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/_10sp"
-                app:iconSpace="8"
-                app:isIndicator="true"
-                app:reviewScoreMax="5"
-                />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-
 
         <TextView
             android:layout_width="wrap_content"
@@ -260,21 +143,22 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:fontFamily="@font/sarabun_regular"
-            android:textColor="@color/black"
-            android:text="@string/txt_variation_of_passages"
-            />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="16sp"-->
+<!--            android:fontFamily="@font/sarabun_regular"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:text="@string/txt_variation_of_passages"-->
+<!--            />-->
 
-
-        <Spinner
+        <androidx.appcompat.widget.AppCompatSpinner
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_30sdp"
+            tools:listitem="asdfasdasdfasdfadf"
+            android:gravity="left"
             android:text="@string/txt_variation_of_passages"
-
+            android:id="@+id/spinner_interviewRemark"
             />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -286,9 +170,8 @@
             android:layout_marginTop="@dimen/_15sp"
             android:fontFamily="@font/sarabun_regular"
             android:textColor="@color/light_text_color"
-            android:text="@string/txt_remart"
+            android:text="@string/txt_remark"
             />
-
 
             <EditText
                 android:id="@+id/et_remart"
@@ -297,9 +180,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/editext.style.base.withoutPadding"
-                android:hint="@string/txt_remart" />
-
-
+                android:hint="@string/txt_remark" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -320,28 +201,15 @@
             style="@style/editext.style.base.withoutPadding"
             android:hint="@string/txt_coding_test_remart" />
 
-
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:layout_marginTop="@dimen/_15sp"
-            android:fontFamily="@font/sarabun_regular"
+            android:fontFamily="@font/sarabun_bold"
             android:textColor="@color/light_text_color"
             android:text="@string/txt_panel_member"
             />
-
-        <EditText
-            android:id="@+id/et_panel_member"
-            android:maxLines="1"
-            android:textSize="@dimen/_18sdp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/editext.style.base"
-            android:hint="@string/txt_panel_member" />
-
-
 
         <TextView
             android:layout_width="wrap_content"
@@ -352,16 +220,14 @@
             android:textColor="@color/light_text_color"
             android:text="@string/txt_name"
             />
-        <EditText
-            android:id="@+id/et_email"
+        <TextView
+            android:id="@+id/tv_name"
             android:maxLines="1"
             android:textSize="@dimen/_18sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/editext.style.base"
             android:hint="@string/txt_name" />
-
-
 
         <TextView
             android:layout_width="wrap_content"
@@ -393,7 +259,6 @@
                 android:fontFamily="@font/sarabun_semibold"
                 android:text="@string/txt_submit"
                 android:textSize="@dimen/_18sdp" />
-
 
         </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>

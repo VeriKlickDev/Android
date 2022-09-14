@@ -71,6 +71,14 @@ class RepositoryImpl  @Inject constructor(val baseRestApi: BaseRestApi,val login
         return baseRestApi.sendInvitation(obj)
     }
 
+    override suspend fun getFeedBackDetails(accessCode: String): Response<ResponseFeedBack> {
+        return baseRestApi.getFeedBackDetails("/api/ScheduleVideo/GetCandidateAssessementDetailsByIdVideoAccessCode/"+accessCode)
+    }
+
+    override suspend fun sendFeedBack(obj: BodyFeedBack): Response<ResponseBodyFeedBack> {
+        return baseRestApi.sendFeedBack(obj)
+    }
+
     override suspend fun getResume(fileName: BodyGetResume): Response<ResponseResumeModel> {
        return loginRestApi.getResume(fileName)
     }

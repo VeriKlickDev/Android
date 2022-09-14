@@ -237,6 +237,7 @@ object TwilioHelper {
         }
     }
 
+
     private val participantListener = object : RemoteParticipant.Listener {
         override fun onAudioTrackPublished(
             remoteParticipant: RemoteParticipant,

@@ -71,7 +71,7 @@
     <string name="txt_responsive_web_design">Responsive Web Design</string>
     <string name="txt_recommendation">Recommendation</string>
     <string name="txt_variation_of_passages">Variations of passages</string>
-    <string name="txt_remart">Remart</string>
+    <string name="txt_remark">Remark</string>
     <string name="txt_coding_test_remart">Coding Test Remart</string>
     <string name="txt_panel_member">Panel Member</string>
     <string name="txt_name">Name</string>
@@ -79,4 +79,5 @@
     <string name="txt_submit">Submit</string>
     <string name="txt_jobId">Job ID : &#160;</string>
     <string name="txt_search">Search...</string>
+    <string name="txt_title">Title</string>
 </resources>

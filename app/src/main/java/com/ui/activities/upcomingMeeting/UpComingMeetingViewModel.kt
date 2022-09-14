@@ -49,8 +49,12 @@ class UpComingMeetingViewModel @Inject constructor(
                     bodyScheduledMeetingBean
                 )
 
+                Log.d("checkauth", "getScheduledMeetingList: response code ${result?.code()} ")
+
                 if (result?.code() == 401) {
                     Log.d("checkauth", "getScheduledMeetingList: unauthorised")
+                    response(401,"Unauthorised")
+                    actionProgress(0)
                 }
                 if (result?.isSuccessful!!) {
                     if (result?.body() != null) {

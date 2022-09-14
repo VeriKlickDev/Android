@@ -22,7 +22,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
 import com.araujo.jordan.excuseme.ExcuseMe
 
-import com.data.dataHolders.WeeksDataHolder.minusWeekDay
 import com.domain.BaseModels.ResponseChatFromToken
 import com.domain.BaseModels.ResponseJWTTokenLogin
 import com.example.twillioproject.R
@@ -559,18 +558,28 @@ fun Context.getCurrentDayOfYear(): Int {
     return dayofYear
 }
 
-fun getDateWithMonthName(date:String):String
-{
+fun getDateWithMonthName(date:String,action:Int):String {
+    var sdfOb: SimpleDateFormat
+    if (date.contains("Z")) {
+        sdfOb = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    }
+    else {
+        sdfOb = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    }
 
-    val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-    sdf.setTimeZone(TimeZone.getTimeZone("UTC"))
+    val sdfFormated:SimpleDateFormat
+    if (action == 1) {
+        sdfFormated = SimpleDateFormat("dd-MMM")
+    }
+    else
+    {
+        sdfFormated = SimpleDateFormat("dd-MMM-yyyy")
+    }
 
-    val date =  sdf.parse(date)
-    val sdf2 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    val date =  sdfOb.parse(date)
 
-    val time =sdf2.format(date)
-
-    return time
+   val time = sdfFormated.format(date)
+  return time
 }
 
 
