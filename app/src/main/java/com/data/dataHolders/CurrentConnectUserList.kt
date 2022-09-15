@@ -8,6 +8,7 @@ object CurrentConnectUserList {
 
     val listLiveData= MutableLiveData<List<VideoTracksBean>>()
     val listLiveDataForAddParticipant= MutableLiveData<List<VideoTracksBean>>()
+
     fun setListForVideoActivity(list:List<VideoTracksBean>)
     {
         listLiveData.postValue(list)

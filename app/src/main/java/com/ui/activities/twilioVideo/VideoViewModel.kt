@@ -8,6 +8,7 @@ import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.repositoryImpl.RepositoryImpl
 import com.domain.BaseModels.*
 import com.twilio.video.LocalVideoTrack
+import com.twilio.video.VideoTrack
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -165,21 +166,8 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
             }
         }
 
-
         remoteVideoLiveList.postValue(tlist)
-
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -212,6 +200,12 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
 
         }
 
+     var videoTrack=MutableLiveData<CurrentVideoUserModel?>()
+
+    fun setCurrentVisibleUser(mVideoTrack: VideoTrack,username:String)
+    {
+        videoTrack.postValue(CurrentVideoUserModel(mVideoTrack,username))
+    }
 
         fun setMuteUnmuteStatus(
             status: Boolean,
@@ -309,4 +303,6 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
         }
 
 
-    }
+}
+
+data class CurrentVideoUserModel(val videoTrack: VideoTrack,val username:String)

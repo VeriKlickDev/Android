@@ -5,6 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -31,6 +32,12 @@ class ConnectedUserListAdapter(
 
     override fun onBindViewHolder(holder: ViewholderClass, position: Int) {
         holder.bindData(list.get(position))
+
+       /* if (list[position].remoteParticipant!=null) {
+            if (list[position].remoteParticipant?.identity!!.contains("C")) {
+                holder.binding.parentLayout.visibility = View.GONE
+            }
+        }*/
         holder.binding.parentLayout.setOnClickListener {
             onClick(position, 1, list[position], list)
         }

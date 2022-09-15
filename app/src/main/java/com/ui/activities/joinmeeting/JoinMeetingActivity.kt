@@ -45,12 +45,12 @@ class JoinMeetingActivity :AppCompatActivity() {
                     accessCode= accessCodeSplit.last()
                     Log.d(TAG, "onCreate: accessCode is $accessCode")
 
-                    //candi https://ui2.veriklick.in/video-session/QbFgKXaYOcaaPlZhmLEm s10
-                    // host https://ui2.veriklick.in/video-session/mkpeHcXKbF95uRiWiLzJ emulator
-                    //inv https://ui2.veriklick.in/video-session/iuLGttdaQut1M3c1j8yd   invterviewer
+                    //candi https://ui2.veriklick.in/video-session/QbFgKXaYOcaaPlZhmLEm  emulator
+                    // host https://ui2.veriklick.in/video-session/mkpeHcXKbF95uRiWiLzJ s10
+                    //inv https://ui2.veriklick.in/video-session/iuLGttdaQut1M3c1j8yd   note 9 invterviewer
 
                     //test
-                    getInterviewDetails("mkpeHcXKbF95uRiWiLzJ")
+                    getInterviewDetails("iuLGttdaQut1M3c1j8yd")
 
                    // getInterviewDetails(accessCode)
                     //  showToast(this,"Under Development")

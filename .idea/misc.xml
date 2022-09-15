@@ -6,6 +6,7 @@
         <entry key="app/src/main/res/layout/activity_feed_back_form.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_upcoming_meeting.xml" value="0.30759493670886073" />
         <entry key="app/src/main/res/layout/layout_item_candidate_skills.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/layout_item_connected_users.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/layout_item_upcoming_meeting.xml" value="0.18072916666666666" />
       </map>
     </option>
