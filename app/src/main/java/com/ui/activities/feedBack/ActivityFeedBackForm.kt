@@ -55,7 +55,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
 
 
-        getInterviewDetails("mkpeHcXKbF95uRiWiLzJ")
+
 
         binding.spinnerInterviewRemark.onItemSelectedListener = spinnerItemListener
 
@@ -64,6 +64,10 @@ class ActivityFeedBackForm : AppCompatActivity() {
             sendFeedBack()
         }
 
+        binding.btnJumpBack.setOnClickListener {
+            onBackPressed()
+        }
+        getFeedBack()
     }
 
     private var isBlank = false
@@ -111,7 +115,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
         viewModel.sendFeedback(this,appliedPosition,recommendationSelected,designation,interviewName,BodyFeedBack(
             CandidateAssessmentSkills=skillist,
         ), onDataResponse = {data, status ->
-
+            finish()
             Log.d(TAG, "postData: data ${data?.jobid}  ${data?.aPIResponse?.message}")
 
         })
@@ -130,11 +134,11 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
     }
 
-
+/**testing*/
     fun getInterviewDetails(accessCode: String) {
 
         viewModel.getVideoSessionDetails(accessCode, onDataResponse = { data, event ->
-
+            showProgressDialog()
             when (event) {
                 200 -> {
 
@@ -172,7 +176,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
 
     fun getFeedBack() {
-        showProgressDialog()
+       // showProgressDialog()
         viewModel.getFeedBack(onResponse = { data, status ->
 
             when (status) {

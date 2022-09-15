@@ -56,6 +56,7 @@ import com.ui.activities.chat.ChatActivityTest
 import com.ui.activities.documentviewer.DocumentViewerActivity
 import com.ui.activities.documentviewer.FileDownloader
 import com.ui.activities.documentviewer.FileDownloader.downloadFile
+import com.ui.activities.feedBack.ActivityFeedBackForm
 import com.ui.activities.meetingmemberslist.MemberListActivity
 import com.ui.activities.twilioVideo.ScreenSharingCapturing.ScreenShareCapturerManager
 import com.ui.listadapters.ConnectedUserListAdapter
@@ -167,6 +168,9 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
         //Log.d("checkobj", "onCreate: ${CurrentMeetingDataSaver.getData()}")
         binding.btnEndCall.setOnClickListener {
             TwilioHelper.disConnectRoom()
+            if (CurrentMeetingDataSaver.getData().identity?.contains("I")!!) {
+                startActivity(Intent(this@VideoActivity, ActivityFeedBackForm::class.java))
+            }
         }
 
         binding.localVideoActionFab.setOnClickListener {

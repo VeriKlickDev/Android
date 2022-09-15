@@ -50,9 +50,9 @@ class JoinMeetingActivity :AppCompatActivity() {
                     //inv https://ui2.veriklick.in/video-session/iuLGttdaQut1M3c1j8yd   note 9 invterviewer
 
                     //test
-                    getInterviewDetails("iuLGttdaQut1M3c1j8yd")
+                   // getInterviewDetails("mkpeHcXKbF95uRiWiLzJ")
 
-                   // getInterviewDetails(accessCode)
+                    getInterviewDetails(accessCode)
                     //  showToast(this,"Under Development")
                     InputUtils.hideKeyboard(this)
                 }else
@@ -66,9 +66,9 @@ class JoinMeetingActivity :AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener {
-           // startActivity(Intent(this, LoginActivity::class.java))
-           // finish()
-            startActivity(Intent(this, ActivityFeedBackForm::class.java))
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+           // startActivity(Intent(this, ActivityFeedBackForm::class.java))
         }
     }
 

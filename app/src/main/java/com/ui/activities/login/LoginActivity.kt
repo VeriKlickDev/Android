@@ -8,6 +8,8 @@ import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
@@ -45,6 +47,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+
 
         checkPermissions()
 

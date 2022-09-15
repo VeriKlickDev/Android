@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1069314382497",
+    "project_id": "veriklick-491b0",
+    "storage_bucket": "veriklick-491b0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069314382497:android:1a53ead52fec96562caee0",
+        "android_client_info": {
+          "package_name": "com.example.twillioproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1069314382497-7844abj0iv4j3hfbo47fg05i48ibqfvo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.twillioproject",
+            "certificate_hash": "082dc7bd9b6406031fd76926e3416255183abf0d"
+          }
+        },
+        {
+          "client_id": "1069314382497-o0o1rom81nuvm69cp906hohje2itslr4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdY-379nFT14JZ-88lzZxpkOQUHLb_Yzo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1069314382497-o0o1rom81nuvm69cp906hohje2itslr4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1069314382497-4134p2p4jgdjstmtpqus82jmods44mq0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sdm.veriKlick"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -3,11 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/layout/activity_feed_back_form.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/activity_upcoming_meeting.xml" value="0.30759493670886073" />
-        <entry key="app/src/main/res/layout/layout_item_candidate_skills.xml" value="0.33" />
+        <entry key="app/src/main/res/drawable-v24/ic_arrow_left_black.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_add_participant_by_link.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/activity_add_user_list.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/activity_feed_back_form.xml" value="0.17794871794871794" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.18072916666666666" />
+        <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.18072916666666666" />
+        <entry key="app/src/main/res/layout/activity_twilio_video.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/activity_upcoming_meeting.xml" value="0.18072916666666666" />
+        <entry key="app/src/main/res/layout/layout_add_participant.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/layout_dialog_add_participant.xml" value="0.1796875" />
         <entry key="app/src/main/res/layout/layout_item_connected_users.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/layout_item_upcoming_meeting.xml" value="0.18072916666666666" />
+        <entry key="app/src/main/res/layout/layout_item_video_confrence.xml" value="0.18072916666666666" />
+        <entry key="app/src/main/res/layout/layout_mute_mic_update.xml" value="0.18072916666666666" />
       </map>
     </option>
   </component>

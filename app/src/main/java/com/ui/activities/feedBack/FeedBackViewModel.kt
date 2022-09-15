@@ -83,6 +83,7 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
 
 
                 val result=repo.sendFeedBack(obj)
+                Log.d(TAG, "sendFeedback: code ${result.code()}")
                 if (result.isSuccessful)
                 {
                     if (result.body()!=null)
