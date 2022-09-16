@@ -8,13 +8,13 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:padding="@dimen/_10sp"
         android:background="@drawable/shape_rectangle_rounded_10_white"
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="350sp"
             android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/_20sp"
             android:gravity="center_vertical"
             android:background="@drawable/shape_rect_grey_top"
             android:padding="@dimen/_10sp">
@@ -50,9 +50,10 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tv_description"
+            android:layout_marginHorizontal="@dimen/_10sp"
             android:textColor="@color/black"
             android:fontFamily="@font/sarabun_regular"
             android:textSize="@dimen/_14sp"

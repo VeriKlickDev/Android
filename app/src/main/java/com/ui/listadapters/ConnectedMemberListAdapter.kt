@@ -85,7 +85,7 @@ class ConnectedMemberListAdapter(
                   //  binding.ivMic.isVisible=data.remoteParticipant?.remoteAudioTracks?.firstOrNull()?.remoteAudioTrack?.isEnabled==false
 
                     data.remoteParticipant.let {
-                        it?.setListener(listener)
+                       // it?.setListener(listener)
                     }
 
 

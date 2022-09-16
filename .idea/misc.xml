@@ -12,11 +12,13 @@
         <entry key="app/src/main/res/layout/activity_twilio_video.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_upcoming_meeting.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/layout_add_participant.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/layout_description_dialog.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/layout_dialog_add_participant.xml" value="0.1796875" />
         <entry key="app/src/main/res/layout/layout_item_connected_users.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/layout_item_upcoming_meeting.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/layout_item_video_confrence.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/layout_mute_mic_update.xml" value="0.18072916666666666" />
+        <entry key="app/src/main/res/layout/preference_dialog_number_edittext.xml" value="0.17794871794871794" />
       </map>
     </option>
   </component>

@@ -50,9 +50,9 @@ class JoinMeetingActivity :AppCompatActivity() {
                     //inv https://ui2.veriklick.in/video-session/iuLGttdaQut1M3c1j8yd   note 9 invterviewer
 
                     //test
-                   // getInterviewDetails("mkpeHcXKbF95uRiWiLzJ")
+                    getInterviewDetails("QbFgKXaYOcaaPlZhmLEm")
 
-                    getInterviewDetails(accessCode)
+                   // getInterviewDetails(accessCode)
                     //  showToast(this,"Under Development")
                     InputUtils.hideKeyboard(this)
                 }else

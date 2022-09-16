@@ -385,7 +385,7 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
             localVideoTrack?.addSink(binding.primaryVideoView)
         }
         */
-        adapter = ConnectedUserListAdapter(this, tlist, onClick = { pos, action, data,datalist ->
+        adapter = ConnectedUserListAdapter(this, tlist.distinctBy { it.remoteParticipant?.identity }, onClick = { pos, action, data,datalist ->
             try {
                 if (CurrentMeetingDataSaver.getData().userType!!.contains("C"))
                 {
@@ -889,7 +889,7 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
         CurrentConnectUserList.getListForVideoActivity().observe(this, Observer { list ->
 
             adapter =
-                ConnectedUserListAdapter(this, list, onClick = { pos, action, data, datalist ->
+                ConnectedUserListAdapter(this, list.distinctBy { it.remoteParticipant?.identity }, onClick = { pos, action, data, datalist ->
                     Log.d(
                         "checkonclick",
                         "setConnectedUsersListInAdapter: on clicked item ${data.userName}"
