@@ -202,9 +202,9 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
 
      var videoTrack=MutableLiveData<CurrentVideoUserModel?>()
 
-    fun setCurrentVisibleUser(mVideoTrack: VideoTrack,username:String)
+    fun setCurrentVisibleUser(mVideoTrack: VideoTrack,username:String,type: String)
     {
-        videoTrack.postValue(CurrentVideoUserModel(mVideoTrack,username))
+        videoTrack.postValue(CurrentVideoUserModel(mVideoTrack,username,type))
     }
 
         fun setMuteUnmuteStatus(
@@ -305,4 +305,4 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
 
 }
 
-data class CurrentVideoUserModel(val videoTrack: VideoTrack,val username:String)
+data class CurrentVideoUserModel(val videoTrack: VideoTrack,val username:String,val type:String)

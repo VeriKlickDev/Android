@@ -80,4 +80,6 @@
     <string name="txt_jobId">Job ID : &#160;</string>
     <string name="txt_search">Search...</string>
     <string name="txt_title">Title</string>
+    <string name="txt_screen_sharing_started">Screen Sharing Started</string>
+    <string name="txt_screen_sharing_stopped">Screen Sharing Stopped</string>
 </resources>

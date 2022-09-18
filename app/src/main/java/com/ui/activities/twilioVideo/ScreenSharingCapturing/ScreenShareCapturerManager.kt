@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import android.util.Log
+import com.data.dataHolders.CurrentMeetingDataSaver
 
 class ScreenShareCapturerManager {
     private var mService: ScreenSharingService? = null
@@ -57,10 +58,14 @@ class ScreenShareCapturerManager {
         currentState = ScreenCapturerManagerState.START_FOREGROUND
     }
 
+    fun getServiceState()=currentState
+
+    //expanded silver magma grey
     fun endForeground() {
         mService?.let {
          it.endForeground()
         }
+        CurrentMeetingDataSaver.setScreenSharingStatus(false)
         currentState = ScreenCapturerManagerState.END_FOREGROUND
     }
 

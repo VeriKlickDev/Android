@@ -74,6 +74,18 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             commonUtcDate=utcDate
         })
 
+
+        if (checkInternet()) {
+            handleUpcomingMeetingsList(3, null)
+        }
+        else {
+            Snackbar.make(
+                binding.root, getString(R.string.txt_no_internet_connection),
+                Snackbar.LENGTH_SHORT
+            ).show()
+        }
+
+
         binding.btnSearchShow.setOnClickListener {
             if (binding.tvHeader.isVisible) {
                 binding.layoutSearch.isVisible = true
@@ -108,7 +120,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             if (checkInternet()) {
 
 
-                handleUpcomingMeetingsList(3, null)
+                handleUpcomingMeetingsList(5, null)
 
             /* if (isNextClicked)
                 {
@@ -136,15 +148,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
         handleObserver()
 
-        if (checkInternet()) {
-            handleUpcomingMeetingsList(3, null)
-        }
-        else {
-            Snackbar.make(
-                binding.root, getString(R.string.txt_no_internet_connection),
-                Snackbar.LENGTH_SHORT
-            ).show()
-        }
+
 
         binding.btnLeftPrevious.setOnClickListener {
             if (isNextClicked) {
@@ -200,7 +204,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 /*
                 * for search
                 * */
-                WeeksDataHolder.getItcUtcNextDate { utcDate, istDate ->
+                WeeksDataHolder.getIstUtcPriviousDate { utcDate, istDate ->
                     Log.d(TAG, "onCreate: previous date  utc previous ${utcDate}  itc $istDate ")
 
                     ob.Search = searchTxt.toString()
@@ -221,14 +225,22 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 WeeksDataHolder.getIstUtcPriviousDate{ utcDate, istDate ->
                     Log.d(TAG, "onCreate: previous date  utc previous ${utcDate}  itc $istDate ")
 
-                    ob.Search=searchTxt.toString()
+                 /*
 
                     ob.fromdate = preUtcDate
                     ob.todate = nextutcDate
 
                     ob.from = preIsTDate
                     ob.to = nextIstDate
+*/
 
+                    Log.d(TAG, "handleUpcomingMeetingsList: ")
+
+                    ob.fromdate = preUtcDate
+                    ob.todate = nextutcDate
+
+                    ob.from = preIsTDate
+                    ob.to = nextIstDate
 
 
                     /*   ob.fromdate = preUtcDate
@@ -323,13 +335,13 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 WeeksDataHolder.getIstUtcPriviousDate(dateResponse = { utcDate, istDate ->
                     Log.d(TAG, "onCreate: previous date  utc previous ${utcDate}  itc $istDate ")
 
-                    if (isNextClicked)
+                /*    if (isNextClicked)
                     {
                         ob.fromdate = utcDate
-                        ob.todate = preUtcDate
+                        ob.todate = nextutcDate
 
                         ob.from = istDate
-                        ob.to = preIsTDate
+                        ob.to = nextIstDate
                     }
                     else
                     {
@@ -339,19 +351,19 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                         ob.from = istDate
                         ob.to = preIsTDate
                     }
+*/
 
 
-                  //  isPrevClicked = true
-/*
+
                     ob.fromdate = utcDate
                     ob.todate = nextutcDate
 
                     ob.from = istDate
                     ob.to = nextIstDate
 
-                    commonIstDate=istDate
-                    commonUtcDate=utcDate
-*/
+//                    commonIstDate=istDate
+  //                  commonUtcDate=utcDate
+
                     //preUtcDate = nextutcDate
                    // preIsTDate = nextIstDate
 

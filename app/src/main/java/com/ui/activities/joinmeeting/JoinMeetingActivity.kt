@@ -46,13 +46,13 @@ class JoinMeetingActivity :AppCompatActivity() {
                     Log.d(TAG, "onCreate: accessCode is $accessCode")
 
                     //candi https://ui2.veriklick.in/video-session/QbFgKXaYOcaaPlZhmLEm  emulator
-                    // host https://ui2.veriklick.in/video-session/mkpeHcXKbF95uRiWiLzJ s10
-                    //inv https://ui2.veriklick.in/video-session/iuLGttdaQut1M3c1j8yd   note 9 invterviewer
+                    //host https://ui2.veriklick.in/video-session/mkpeHcXKbF95uRiWiLzJ   s10
+                    //inv https://ui2.veriklick.in/video-session/iuLGttdaQut1M3c1j8yd    note 9 invterviewer
 
                     //test
-                    getInterviewDetails("QbFgKXaYOcaaPlZhmLEm")
+                   // getInterviewDetails("QbFgKXaYOcaaPlZhmLEm")
 
-                   // getInterviewDetails(accessCode)
+                    getInterviewDetails(accessCode)
                     //  showToast(this,"Under Development")
                     InputUtils.hideKeyboard(this)
                 }else

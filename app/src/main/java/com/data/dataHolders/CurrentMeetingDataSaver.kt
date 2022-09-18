@@ -6,6 +6,7 @@ import com.domain.BaseModels.TokenResponseBean
 
 private val list= mutableListOf<ResponseInterViewDetailsBean>()
 private val tokenResponse= mutableListOf<TokenResponseBean>()
+var screenSharingStatus=false
 object CurrentMeetingDataSaver {
 
     fun setData(ob: ResponseInterViewDetailsBean)
@@ -35,5 +36,11 @@ object CurrentMeetingDataSaver {
 
     fun getIsRoomDisconnected()= disconnectedStatusLiveData
 */
+
+    fun setScreenSharingStatus(status:Boolean)
+    {
+        screenSharingStatus=status
+    }
+    fun getScreenSharingStatus()= screenSharingStatus
 
 }

@@ -329,18 +329,41 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
         viewModel.videoTrack.observe(this, Observer {
         if (it!=null)
         {
+
+
             Log.d(TAG, "handleObserver: observer primary sinks ${it.username}")
             setBlankBackground(false)
             it.videoTrack.addSink(binding.primaryVideoView)
-            currentVisibleUser.videoTrack=it.videoTrack
-            currentRemoteVideoTrack=it.videoTrack
-            currentVisibleUser.userName=it.username
+
+
 
             if (it.username.contains("You"))
             {
-                localVideoTrack!!.addSink(binding.primaryVideoView)
+                currentVisibleUser.videoTrack.removeSink(binding.primaryVideoView)
+               // currentRemoteVideoTrack!!.removeSink(binding.primaryVideoView)
+
+                localVideoTrack!!.removeSink(binding.primaryVideoView)
+
+                currentVisibleUser.videoTrack?.addSink(binding.primaryVideoView)
+                //it.videoTrack.addSink(binding.primaryVideoView)
+                if (CurrentMeetingDataSaver.getData().userType!!.contains("C"))
+                {
+                    //localVideoTrack?.addSink(binding.primaryVideoView)
+                }else {
+
+                 /*   Log.d(TAG, "handleObserver: sinks or not ${it.type}")
+                    if (it.type.equals("local")) {
+                        localVideoTrack?.addSink(binding.primaryVideoView)
+                    }
+                    else {
+                        it.videoTrack.addSink(binding.primaryVideoView)
+                    }*/
+                }
                 binding.tvUsername.text="You"
             }else{
+                currentVisibleUser.videoTrack.removeSink(binding.primaryVideoView)
+                localVideoTrack!!.removeSink(binding.primaryVideoView)
+
                 it.videoTrack!!.addSink(binding.primaryVideoView)
                 binding.tvUsername.text=it.username
             }
@@ -350,6 +373,10 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
             Log.d(TAG, "handleObserver: null video sinks")
             setBlankBackground(true)
         }
+
+            currentVisibleUser.videoTrack=it!!.videoTrack
+            currentRemoteVideoTrack=it!!.videoTrack
+            currentVisibleUser.userName=it.username
 
         })
 
@@ -747,19 +774,11 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
             if (it.remoteParticipant?.identity!!.contains("C")) {
                 Log.d("flickervideo", "setConnectUser: in remove sink of local")
 
-              /*  tlist.add(
-                    VideoTracksBean(
-                        null,
-                        localVideoTrack!!,
-                        "You"
-                    )
-                )
-*/
-
                 setBlankBackground(false)
                 localVideoTrack?.removeSink(binding.primaryVideoView)
                 currentRemoteVideoTrack?.removeSink(binding.primaryVideoView)
                 currentVisibleUser.videoTrack.removeSink(binding.primaryVideoView)
+
                 //working
                 //viewModel.setCurrentVisibleUser(it.remoteParticipant?.remoteVideoTracks?.firstOrNull()?.videoTrack!!,it.userName)
                // it.remoteParticipant?.remoteVideoTracks?.firstOrNull()?.videoTrack?.addSink(binding.primaryVideoView)
@@ -773,9 +792,8 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
         tlist.forEach {
             if (it.remoteParticipant?.identity!!.contains("C"))
             {
-                viewModel.setCurrentVisibleUser(it.remoteParticipant?.remoteVideoTracks?.firstOrNull()?.videoTrack!!,candidateName?.firstOrNull()?.userFirstName!!)
+                viewModel.setCurrentVisibleUser(it.remoteParticipant?.remoteVideoTracks?.firstOrNull()?.videoTrack!!,candidateName?.firstOrNull()?.userFirstName!!,"remote")
             }
-
         }
 
 
@@ -808,7 +826,7 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
                 currentRemoteVideoTrack?.removeSink(binding.primaryVideoView)
                // localVideoTrack!!.addSink(binding.primaryVideoView)
 
-                viewModel.setCurrentVisibleUser(localVideoTrack!!,"You")
+                viewModel.setCurrentVisibleUser(localVideoTrack!!,"You","local")
 
                 currentRemoteVideoTrack=localVideoTrack
                 currentVisibleUser.videoTrack=localVideoTrack!!
@@ -820,8 +838,6 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
 
 
         }
-
-
 
 
         CurrentConnectUserList.setListForAddParticipantActivity(
@@ -965,11 +981,11 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
         if(binding.tvUsername.text.contains("You"))
         {
             Log.d(TAG, "handleRecyclerItemClick: onselected You ${binding.tvUsername.text.toString()}")
-            viewModel.setCurrentVisibleUser(localVideoTrack!!,binding.tvUsername.text.toString())
+            viewModel.setCurrentVisibleUser(localVideoTrack!!,binding.tvUsername.text.toString(),"local")
         }
         else{
             Log.d(TAG, "handleRecyclerItemClick: onselected remotevideo  ${binding.tvUsername.text.toString()}")
-            viewModel.setCurrentVisibleUser(clickedItem.videoTrack,binding.tvUsername.text.toString())
+            viewModel.setCurrentVisibleUser(clickedItem.videoTrack,binding.tvUsername.text.toString(),"remote")
         }
 
         currentVisibleUser = clickedItem
@@ -2034,17 +2050,34 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
 
     fun shareScreen() {
 
-       screenShareCapturerManager.startForeground()
-        if (screenCapturer == null) {
-            Log.d(TAG, "shareScreen: screen capture null")
-            val mediaProjectionManager =getSystemService(MEDIA_PROJECTION_SERVICE) as  MediaProjectionManager
-           // startActivityForResult(mediaProjectionManager.createScreenCaptureIntent(),100)
-            resultLauncher.launch(mediaProjectionManager.createScreenCaptureIntent())
+        Log.d(TAG, "shareScreen: start screensharing ${screenShareCapturerManager.getServiceState()} ")
+
+        if (CurrentMeetingDataSaver.getScreenSharingStatus())
+        {
+            showToast(this,getString(R.string.txt_screen_sharing_stopped))
+            screenShareCapturerManager.endForeground()
+            screenShareTrack.removeSink(binding.primaryVideoView)
+            localParticipant?.unpublishTrack(screenShareTrack)
+            localParticipant?.publishTrack(localVideoTrack!!)
+        }else
+        {
+            showToast(this,getString(R.string.txt_screen_sharing_started))
+            Log.d(TAG, "shareScreen: start screensharing")
+            screenShareCapturerManager.startForeground()
+            if (screenCapturer == null) {
+                Log.d(TAG, "shareScreen: screen capture null")
+                val mediaProjectionManager =getSystemService(MEDIA_PROJECTION_SERVICE) as  MediaProjectionManager
+                // startActivityForResult(mediaProjectionManager.createScreenCaptureIntent(),100)
+                resultLauncher.launch(mediaProjectionManager.createScreenCaptureIntent())
+            }
+            else {
+                Log.d(TAG, "shareScreen: screen capture  null capturing start")
+
+                startScreenCapture()
+            }
         }
-        else {
-            Log.d(TAG, "shareScreen: screen capture  null capturing start")
-            startScreenCapture()
-        }
+
+
     }
 
 
@@ -2082,12 +2115,14 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
         }
 
         override fun onFirstFrameAvailable() {
+            CurrentMeetingDataSaver.setScreenSharingStatus(true)
            // localParticipant?.publishTrack(localVideoTrack!!)
             Log.d(TAG, "First frame from screen capturer available")
             localParticipant?.unpublishTrack(localVideoTrack!!)
             localParticipant?.publishTrack(screenShareTrack)
            currentVisibleUser.videoTrack=screenShareTrack
             currentRemoteVideoTrack=screenShareTrack
+           // viewModel.setCurrentVisibleUser(screenShareTrack,"You","remote")
         }
     }
 
@@ -2417,15 +2452,6 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
             Log.d(TAG, "onAudioTrackDisabled: ")
         }
     }
-
-
-
-
-
-
-
-
-
 
 
 

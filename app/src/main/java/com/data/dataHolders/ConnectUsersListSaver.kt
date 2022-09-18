@@ -3,6 +3,7 @@ package com.data.dataHolders
 import com.domain.BaseModels.VideoTracksBean
 
 val connectUserslist= mutableListOf<VideoTracksBean>()
+
 object ConnectUsersListSaver {
 
     fun setList(list:List<VideoTracksBean>)
@@ -11,4 +12,5 @@ object ConnectUsersListSaver {
         connectUserslist.addAll(list)
     }
     fun getList()= connectUserslist
+
 }
