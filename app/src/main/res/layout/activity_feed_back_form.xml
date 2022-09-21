@@ -7,13 +7,13 @@
 
     </data>
 
-
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.ui.activities.feedBack.ActivityFeedBackForm"
         android:orientation="vertical"
+        android:background="@color/light_grey_background"
         >
+
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -30,6 +30,7 @@
                 android:id="@+id/btn_jump_back"
                 android:layout_marginLeft="@dimen/_10sp"
                 />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -44,9 +45,21 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+            android:background="@drawable/shape_rect_rounded_top_30"
+        android:layout_marginTop="@dimen/_20sp"
+        tools:context="com.ui.activities.feedBack.ActivityFeedBackForm"
+        android:orientation="vertical"
+            android:padding="@dimen/_10sp"
+        >
+
         <ScrollView
+            android:paddingTop="@dimen/_10sp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:overScrollMode="never">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -61,6 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
+            android:layout_marginHorizontal="@dimen/_12sp"
             android:fontFamily="@font/sarabun_regular"
             android:textColor="@color/light_text_color"
             android:text="id"
@@ -69,6 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
+            android:layout_marginHorizontal="@dimen/_12sp"
             android:fontFamily="@font/sarabun_regular"
             android:textColor="@color/black"
             android:text="id"
@@ -78,6 +93,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.3sp"
+                android:layout_marginHorizontal="@dimen/_12sp"
                 android:layout_marginVertical="@dimen/_10sp"
                 android:background="@color/light_grey"/>
 
@@ -86,6 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
+                android:layout_marginHorizontal="@dimen/_12sp"
             android:fontFamily="@font/sarabun_regular"
             android:textColor="@color/light_text_color"
             android:text="@string/txt_description"
@@ -95,12 +112,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
+            android:layout_marginHorizontal="@dimen/_12sp"
             android:fontFamily="@font/sarabun_regular"
             android:textColor="@color/black"
             android:text="@string/txt_description"
             android:id="@+id/tv_description"
             />
             <View
+                android:layout_marginHorizontal="@dimen/_12sp"
                 android:layout_width="match_parent"
                 android:layout_height="0.3sp"
                 android:layout_marginVertical="@dimen/_10sp"
@@ -110,6 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
+                android:layout_marginHorizontal="@dimen/_12sp"
             android:fontFamily="@font/sarabun_bold"
             android:textColor="@color/light_text_color"
             android:text="@string/txt_Candidate_Skills"
@@ -122,9 +142,19 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_addMore"
+                android:padding="@dimen/_10sp"
+                android:id="@+id/tv_addMoreItem"
+                android:textColor="#0060F1"
+                />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.3sp"
+                android:layout_marginHorizontal="@dimen/_12sp"
                 android:layout_marginVertical="@dimen/_10sp"
                 android:background="@color/light_grey"/>
 
@@ -132,6 +162,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
+            android:layout_marginHorizontal="@dimen/_12sp"
             android:layout_marginTop="@dimen/_15sp"
             android:fontFamily="@font/sarabun_regular"
             android:textColor="@color/light_text_color"
@@ -152,103 +183,178 @@
 <!--            android:text="@string/txt_variation_of_passages"-->
 <!--            />-->
 
-        <androidx.appcompat.widget.AppCompatSpinner
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginHorizontal="@dimen/_12sp"
+            android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="helloWorld"
+            android:layout_weight="1"
+            android:textSize="@dimen/_16sdp"
+            android:fontFamily="@font/sarabun_regular"
+            android:textColor="@color/black"
+            android:id="@+id/tv_spinnerTitle"/>
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_30sdp"
-            tools:listitem="asdfasdasdfasdfadf"
-            android:gravity="left"
+            android:spinnerMode="dialog"
             android:text="@string/txt_variation_of_passages"
             android:id="@+id/spinner_interviewRemark"
             />
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:layout_marginTop="@dimen/_15sp"
-            android:fontFamily="@font/sarabun_regular"
-            android:textColor="@color/light_text_color"
-            android:text="@string/txt_remark"
-            />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="16sp"-->
+<!--            android:layout_marginTop="@dimen/_15sp"-->
+<!--            android:fontFamily="@font/sarabun_regular"-->
+<!--            android:textColor="@color/light_text_color"-->
+<!--            android:text="@string/txt_remark"-->
+<!--            />-->
 
-            <EditText
-                android:id="@+id/et_remart"
-                android:maxLines="1"
-                android:textSize="@dimen/_18sdp"
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/editext.style.base.withoutPadding"
-                android:hint="@string/txt_remark" />
+                android:hint="@string/txt_remark"
+                app:boxStrokeColor="@color/white"
+                app:boxStrokeWidth="0sp"
+                app:boxBackgroundColor="@color/white"
+                android:layout_marginTop="@dimen/_10sp"
+                >
+
+                <EditText
+                    android:id="@+id/et_remart"
+                    android:maxLines="1"
+                    android:textSize="@dimen/_16sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1sp"
+                android:layout_marginTop="-5sp"
+                android:layout_marginHorizontal="@dimen/_12sp"
+                android:background="@color/light_grey"/>
+
+
+
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="16sp"-->
+<!--            android:layout_marginTop="@dimen/_15sp"-->
+<!--            android:fontFamily="@font/sarabun_regular"-->
+<!--            android:textColor="@color/light_text_color"-->
+<!--            android:text="@string/txt_coding_test_remart"-->
+<!--            />-->
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/txt_coding_test_remart"
+                app:boxStrokeColor="@color/white"
+                app:boxStrokeWidth="0sp"
+                app:boxBackgroundColor="@color/white"
+                android:layout_marginTop="@dimen/_10sp"
+                >
+
+                <EditText
+                    android:id="@+id/et_coding_remart"
+                    android:maxLines="1"
+                    android:textSize="@dimen/_16sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                     />
+            </com.google.android.material.textfield.TextInputLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1sp"
+                android:layout_marginTop="-5sp"
+                android:layout_marginHorizontal="@dimen/_12sp"
+                android:background="@color/light_grey"/>
+
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="16sp"-->
+<!--            android:layout_marginTop="@dimen/_15sp"-->
+<!--            android:fontFamily="@font/sarabun_bold"-->
+<!--            android:textColor="@color/light_text_color"-->
+<!--            android:text="@string/txt_panel_member"-->
+<!--            />-->
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
+            android:layout_marginHorizontal="@dimen/_12sp"
             android:layout_marginTop="@dimen/_15sp"
             android:fontFamily="@font/sarabun_regular"
             android:textColor="@color/light_text_color"
-            android:text="@string/txt_coding_test_remart"
-            />
-
-        <EditText
-            android:id="@+id/et_coding_remart"
-            android:maxLines="1"
-            android:textSize="@dimen/_18sdp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/editext.style.base.withoutPadding"
-            android:hint="@string/txt_coding_test_remart" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:layout_marginTop="@dimen/_15sp"
-            android:fontFamily="@font/sarabun_bold"
-            android:textColor="@color/light_text_color"
-            android:text="@string/txt_panel_member"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:layout_marginTop="@dimen/_15sp"
-            android:fontFamily="@font/sarabun_regular"
-            android:textColor="@color/light_text_color"
-            android:text="@string/txt_name"
+            android:text="@string/txt_interviewer_name"
             />
         <TextView
             android:id="@+id/tv_name"
             android:maxLines="1"
-            android:textSize="@dimen/_18sdp"
+            android:textSize="@dimen/_16sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_12sp"
             style="@style/editext.style.base"
             android:hint="@string/txt_name" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:layout_marginTop="@dimen/_15sp"
-            android:fontFamily="@font/sarabun_regular"
-            android:textColor="@color/light_text_color"
-            android:text="@string/txt_role"
-            />
-            <EditText
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="16sp"-->
+<!--            android:layout_marginTop="@dimen/_15sp"-->
+<!--            android:fontFamily="@font/sarabun_regular"-->
+<!--            android:textColor="@color/light_text_color"-->
+<!--            android:text="@string/txt_role"-->
+<!--            />-->
 
-                android:id="@+id/et_role"
-                android:maxLines="1"
-                android:textSize="@dimen/_18sdp"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/editext.style.base"
-                android:hint="@string/txt_panel_member"
-                android:layout_marginBottom="@dimen/_10sp"
+                android:hint="@string/txt_role"
+                app:boxStrokeColor="@color/white"
+                app:boxStrokeWidth="0sp"
+                app:boxBackgroundColor="@color/white"
+                android:layout_marginTop="@dimen/_10sp"
+                >
+            <EditText
+                android:id="@+id/et_role"
+                android:maxLines="1"
+                android:textSize="@dimen/_16sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 />
+
+            </com.google.android.material.textfield.TextInputLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1sp"
+                android:layout_marginTop="-5sp"
+                android:layout_marginHorizontal="@dimen/_12sp"
+                android:background="@color/light_grey"/>
+
 
 
             <androidx.appcompat.widget.AppCompatButton
@@ -258,9 +364,12 @@
                 style="@style/button.Style.Blue.Rounded"
                 android:fontFamily="@font/sarabun_semibold"
                 android:text="@string/txt_submit"
+                android:layout_marginTop="@dimen/_15sp"
                 android:textSize="@dimen/_18sdp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

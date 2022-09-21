@@ -303,6 +303,32 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
         }
 
 
-}
+  /*  fun endVideoCall(onResponse:(action:Int,data:)->Unit)
+    {
 
-data class CurrentVideoUserModel(val videoTrack: VideoTrack,val username:String,val type:String)
+        try {
+            viewModelScope.launch {
+                val result=repositoryImpl.closeMeeting(BodyMeetingClose())
+
+                if (result.isSuccessful) {
+                    if (result.body() != null) {
+                        onResult(200, result.body()!!)
+                    }
+                    else {
+                        onResult(400, result.body()!!)
+                    }
+                }
+                else {
+                    onResult(404, result.body()!!)
+                }
+            }
+        } catch (e: Exception) {
+            onResult(500, null)
+        }
+
+
+    }*/
+
+
+
+}

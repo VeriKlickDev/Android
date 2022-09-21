@@ -20,7 +20,7 @@ import com.ui.activities.twilioVideo.VideoActivity
 class ConnectedUserListAdapter(
     val context: Context,
     val list: List<VideoTracksBean>,
-    val onClick: (pos: Int, action: Int, data: VideoTracksBean, tlist: List<VideoTracksBean>) -> Unit
+    val onClick: (pos: Int, action: Int, data: VideoTracksBean, tlist: List<VideoTracksBean>,videoTrack:VideoTrack) -> Unit
 ) : RecyclerView.Adapter<ConnectedUserListAdapter.ViewholderClass>(), RemoteParticipant.Listener  {
     lateinit var binding:LayoutItemConnectedUsersBinding
     val TAG = "checkconnectedUserMain"
@@ -39,7 +39,7 @@ class ConnectedUserListAdapter(
             }
         }*/
         holder.binding.parentLayout.setOnClickListener {
-            onClick(position, 1, list[position], list)
+            onClick(position, 1, list[position], list,list[position].videoTrack)
         }
     }
 

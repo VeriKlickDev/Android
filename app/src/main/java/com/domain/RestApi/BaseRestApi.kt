@@ -54,4 +54,13 @@ interface BaseRestApi {
     @POST("/api/ScheduleVideo/CreateCandidateAssessementDetails")
     suspend fun sendFeedBack( @Body obj: BodyFeedBack):Response<ResponseBodyFeedBack>
 
+    @POST("/api/SaveRoomStatus")
+    suspend fun closeMeeting( @Body obj: BodyMeetingClose):Response<ResponseBodyFeedBack>
+
+    @POST("/api/InterviewerLoginWithOtp")
+    suspend fun sendOtpVerification( @Body obj: BodyOtpVerification):Response<ResponseOtpVerification>
+
+    @POST("/api/InterviewerLoginOtpStatus")
+    suspend fun getOtpVerificationStatus( @Body obj: BodyOtpVerificationStatus):Response<ResponseOtpVerificationStatus>
+
 }

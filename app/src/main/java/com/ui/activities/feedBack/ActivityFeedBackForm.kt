@@ -43,19 +43,21 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this).get(FeedBackViewModel::class.java)
 
-
-
         spinnerAdapter =
             ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, listOf())
         binding.spinnerInterviewRemark.adapter = spinnerAdapter
 
-
-        skillsAdapter = SkillsListAdapter(this, skillsList)
+        skillsAdapter = SkillsListAdapter(this, skillsList){pos, data,action ->
+            when (action){
+                1->{
+                   // addNewItem()
+                }
+                2->{
+                    removeItem(pos)
+                }
+            }
+        }
         binding.rvCandidateSkills.adapter = skillsAdapter
-
-
-
-
 
         binding.spinnerInterviewRemark.onItemSelectedListener = spinnerItemListener
 
@@ -67,28 +69,50 @@ class ActivityFeedBackForm : AppCompatActivity() {
         binding.btnJumpBack.setOnClickListener {
             onBackPressed()
         }
+        binding.tvAddMoreItem.setOnClickListener {
+            addNewItem()
+        }
+
         getFeedBack()
+       // getInterviewDetails("mkpeHcXKbF95uRiWiLzJ")
+    }
+
+    fun addNewItem()
+    {
+        skillsList.add(AssessSkills(value = "others"))
+        skillsAdapter.notifyItemInserted(skillsList.size)
+    }
+
+    fun removeItem(pos:Int)
+    {
+        skillsList.removeAt(pos)
+        skillsAdapter.notifyItemRemoved(pos)
     }
 
     private var isBlank = false
     fun sendFeedBack() {
         Log.d(TAG, "sendFeedBack: list size ${skillsAdapter.getFeedBackList().size}")
         Log.d(TAG, "sendFeedBack: list size ${skillsAdapter.getFeedBackList()}")
+        isBlank=false
+
         skillsAdapter.getFeedBackList().forEach {
-            if (it.Catagory.equals("") && it.Comments.equals("")) {
+            Log.d(TAG, "sendFeedBack: cat ${it.Catagory} comment ${it.Comments}")
+            if (it.Catagory.equals("") || it.Comments.equals("")) {
                 Log.d(TAG, "sendFeedBack:  blank data")
                 isBlank = true
-                showToast(this, getString(R.string.txt_all_fields_required))
+                // showToast(this, getString(R.string.txt_all_fields_required))
             }
-            else {
-                isBlank = false
-                Log.d(TAG, "sendFeedBack: not blank data")
+            /*else {
+                Log.d(TAG,"sendFeedBack: not blank data")
+                isBlank = true
+            }*/
+        }
 
-            } // 89641950930
-        } //     18602331234
-
-        if (isBlank == false) {
+        if (!isBlank) {
             postFeedback()
+        }
+        else{
+            showToast(this, getString(R.string.txt_all_fields_required))
         }
     }
 
@@ -111,7 +135,6 @@ class ActivityFeedBackForm : AppCompatActivity() {
             skillist.add(CandidateAssessmentSkills(it.CandidateAssessmentSkillsId,it.CandidateAssessmentId,it.Comments,it.Id,it.Catagory,it.ManualCatagory,it.CandiateAssessment))
         }
 
-
         viewModel.sendFeedback(this,appliedPosition,recommendationSelected,designation,interviewName,BodyFeedBack(
             CandidateAssessmentSkills=skillist,
         ), onDataResponse = {data, status ->
@@ -126,6 +149,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             Log.d(TAG, "onItemSelected: selected ${recommendationList.get(position)}")
             recommendationSelected = recommendationList.get(position)
+            binding.tvSpinnerTitle.text=recommendationList[position]
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -141,7 +165,6 @@ class ActivityFeedBackForm : AppCompatActivity() {
             showProgressDialog()
             when (event) {
                 200 -> {
-
                     Log.d(TAG, "meeting data in 200 ${data}")
                     CurrentMeetingDataSaver.setData(data!!)
                     getFeedBack()

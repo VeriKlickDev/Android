@@ -60,7 +60,7 @@
     <string name="txt_permissionScreenSharingGranted">Screen sharing permission Granted</string>
     <string name="txt_permissionScreenSharingNotGranted">Screen sharing permission not granted</string>
     <string name="txt_screen_sharing_error">failed to Share Screen</string>
-    <string name="txt_feedback">FeedBack</string>
+    <string name="txt_feedback">Feedback</string>
     <string name="txt_description">Description</string>
     <string name="txt_Candidate_Skills">Candidate Skills</string>
     <string name="txt_wireFraming">Wireframing</string>
@@ -82,4 +82,6 @@
     <string name="txt_title">Title</string>
     <string name="txt_screen_sharing_started">Screen Sharing Started</string>
     <string name="txt_screen_sharing_stopped">Screen Sharing Stopped</string>
+    <string name="txt_interviewer_name">Interviewer Name</string>
+    <string name="txt_addMore"> <u>+Add more</u></string>
 </resources>

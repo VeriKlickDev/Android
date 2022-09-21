@@ -79,6 +79,18 @@ class RepositoryImpl  @Inject constructor(val baseRestApi: BaseRestApi,val login
         return baseRestApi.sendFeedBack(obj)
     }
 
+    override suspend fun closeMeeting(obj: BodyMeetingClose): Response<ResponseBodyFeedBack> {
+        return baseRestApi.closeMeeting(obj)
+    }
+
+    override suspend fun sendOtpVerification(obj: BodyOtpVerification): Response<ResponseOtpVerification> {
+        return baseRestApi.sendOtpVerification(obj)
+    }
+
+    override suspend fun getOtpVerificationStatus(obj: BodyOtpVerificationStatus): Response<ResponseOtpVerificationStatus> {
+        return baseRestApi.getOtpVerificationStatus(obj)
+    }
+
     override suspend fun getResume(fileName: BodyGetResume): Response<ResponseResumeModel> {
        return loginRestApi.getResume(fileName)
     }
