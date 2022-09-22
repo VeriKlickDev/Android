@@ -5,9 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.data.dataHolders.CurrentMeetingDataSaver
+import com.data.helpers.TwilioHelper
 import com.data.repositoryImpl.RepositoryImpl
 import com.domain.BaseModels.*
 import com.twilio.video.LocalVideoTrack
+import com.twilio.video.RemoteParticipant
 import com.twilio.video.VideoTrack
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -57,7 +59,7 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
 
                     if (userIdentity.equals(it.remoteParticipant?.identity)) {
                         val isContain = tlist.contains(
-                            VideoTracksBean(
+                            VideoTracksBean(it.remoteParticipant!!.identity,
                                 it.remoteParticipant,
                                 it.videoTrack,
                                 user.userFirstName + " " + user.userLastName
@@ -70,14 +72,14 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
                             Log.d("iscontainsvalue", "setConnectUser: contains not")
                         }
                         remoteParticipantVideoListWithCandidate.add(
-                            VideoTracksBean(
+                            VideoTracksBean(it.identity,
                                 it.remoteParticipant,
                                 it.videoTrack,
                                 user.userFirstName
                             )
                         )
                         tlist.add(
-                            VideoTracksBean(
+                            VideoTracksBean(it.identity,
                                 it.remoteParticipant,
                                 it.videoTrack,
                                 user.userFirstName + " " + user.userLastName
@@ -118,13 +120,13 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
                     ) {
 
                         if (it.remoteParticipant?.identity!!.contains("C")) {
-                            tlist.add(VideoTracksBean(
+                            tlist.add(VideoTracksBean(TwilioHelper.getRoomInstance()?.localParticipant?.identity!!,
                                     it.remoteParticipant,
                                     localVideoTrack!!,
                                     "You"
                                 )
                             )
-                            tlist.add(VideoTracksBean(
+                            tlist.add(VideoTracksBean(it.identity,
                                 it.remoteParticipant,
                                 it.videoTrack,
                                 user.userFirstName
@@ -133,7 +135,7 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
 
                             //test index 0
                             remoteParticipantVideoListWithCandidate.add(
-                                VideoTracksBean(
+                                VideoTracksBean(it.identity,
                                     it.remoteParticipant,
                                     it.videoTrack!!,
                                     user.userFirstName
@@ -143,14 +145,14 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
                         else {
 
                             tlist.add(
-                                VideoTracksBean(
+                                VideoTracksBean(it.identity,
                                     it.remoteParticipant,
                                     it.videoTrack!!,
                                     user.userFirstName + " " + user.userLastName
                                 )
                             )
                             remoteParticipantVideoListWithCandidate.add(
-                                VideoTracksBean(
+                                VideoTracksBean(it.identity,
                                     it.remoteParticipant,
                                     it.videoTrack!!,
                                     user.userFirstName
@@ -202,9 +204,20 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
 
      var videoTrack=MutableLiveData<CurrentVideoUserModel?>()
 
-    fun setCurrentVisibleUser(mVideoTrack: VideoTrack,username:String,type: String)
+    var currentlocalVideoTrack= MutableLiveData<ScreenSharingModel>()
+    var currentlocalVideoTrackList= mutableListOf<ScreenSharingModel>()
+
+    fun setLocalVideoTrack(localVideoTrack: LocalVideoTrack,isSharing:Boolean)
     {
-        videoTrack.postValue(CurrentVideoUserModel(mVideoTrack,username,type))
+        currentlocalVideoTrack.postValue(ScreenSharingModel(localVideoTrack,isSharing))
+
+        currentlocalVideoTrackList.add(0,ScreenSharingModel(localVideoTrack,isSharing))
+    }
+
+
+    fun setCurrentVisibleUser(identity: String,mVideoTrack: VideoTrack,username:String,type: String)
+    {
+        videoTrack.postValue(CurrentVideoUserModel(identity,mVideoTrack,username,type))
     }
 
         fun setMuteUnmuteStatus(
