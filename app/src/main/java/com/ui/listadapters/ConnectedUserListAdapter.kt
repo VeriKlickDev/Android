@@ -21,7 +21,7 @@ class ConnectedUserListAdapter(
     val context: Context,
     val list: List<VideoTracksBean>,
     val onClick: (pos: Int, action: Int, data: VideoTracksBean, tlist: List<VideoTracksBean>,videoTrack:VideoTrack) -> Unit
-) : RecyclerView.Adapter<ConnectedUserListAdapter.ViewholderClass>(), RemoteParticipant.Listener  {
+) : RecyclerView.Adapter<ConnectedUserListAdapter.ViewholderClass>()  {
     lateinit var binding:LayoutItemConnectedUsersBinding
     val TAG = "checkconnectedUserMain"
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewholderClass {
@@ -55,12 +55,11 @@ class ConnectedUserListAdapter(
             binding.tvUsername.text = data.userName
             data.videoTrack.addSink(binding.ivUserVideoView)
 
-
             try {
 
                 data.remoteParticipant?.let {
                     Log.d(TAG, "bindData: not null data.prt")
-                   //it.setListener(this@ConnectedUserListAdapter)
+                    //it.setListener(this@ConnectedUserListAdapter)
                 }
 
 
@@ -81,17 +80,14 @@ class ConnectedUserListAdapter(
                         data.remoteParticipant?.remoteAudioTracks?.firstOrNull()?.remoteAudioTrack?.isEnabled == false
 
                     // binding.ivMic.isVisible=data.remoteParticipant?.remoteAudioTracks?.firstOrNull()?.audioTrack?.isEnabled==false
-                    // data.remoteParticipant!!.setListener(listener)
+                    // data.remoteParticipant!!.setListener(this@ConnectedUserListAdapter)
+
                 }
-
-
             } catch (e: Exception) {
                 Log.d("AddUserListAdapter", "bindData: exception ${e.printStackTrace()}")
             }
 
         }
-
-
     }
 
     fun setMicStatus(status: Boolean) {
@@ -108,150 +104,4 @@ class ConnectedUserListAdapter(
             }
         }
     }
-
-
-    override fun onAudioTrackPublished(
-        remoteParticipant: RemoteParticipant,
-        remoteAudioTrackPublication: RemoteAudioTrackPublication
-    ) {
-
-    }
-
-    override fun onAudioTrackUnpublished(
-        remoteParticipant: RemoteParticipant,
-        remoteAudioTrackPublication: RemoteAudioTrackPublication
-    ) {
-
-    }
-
-    override fun onAudioTrackSubscribed(
-        remoteParticipant: RemoteParticipant,
-        remoteAudioTrackPublication: RemoteAudioTrackPublication,
-        remoteAudioTrack: RemoteAudioTrack
-    ) {
-
-    }
-
-    override fun onAudioTrackSubscriptionFailed(
-        remoteParticipant: RemoteParticipant,
-        remoteAudioTrackPublication: RemoteAudioTrackPublication,
-        twilioException: TwilioException
-    ) {
-
-    }
-
-    override fun onAudioTrackUnsubscribed(
-        remoteParticipant: RemoteParticipant,
-        remoteAudioTrackPublication: RemoteAudioTrackPublication,
-        remoteAudioTrack: RemoteAudioTrack
-    ) {
-
-    }
-
-    override fun onVideoTrackPublished(
-        remoteParticipant: RemoteParticipant,
-        remoteVideoTrackPublication: RemoteVideoTrackPublication
-    ) {
-
-    }
-
-    override fun onVideoTrackUnpublished(
-        remoteParticipant: RemoteParticipant,
-        remoteVideoTrackPublication: RemoteVideoTrackPublication
-    ) {
-
-    }
-
-    override fun onVideoTrackSubscribed(
-        remoteParticipant: RemoteParticipant,
-        remoteVideoTrackPublication: RemoteVideoTrackPublication,
-        remoteVideoTrack: RemoteVideoTrack
-    ) {
-
-    }
-
-    override fun onVideoTrackSubscriptionFailed(
-        remoteParticipant: RemoteParticipant,
-        remoteVideoTrackPublication: RemoteVideoTrackPublication,
-        twilioException: TwilioException
-    ) {
-
-    }
-
-    override fun onVideoTrackUnsubscribed(
-        remoteParticipant: RemoteParticipant,
-        remoteVideoTrackPublication: RemoteVideoTrackPublication,
-        remoteVideoTrack: RemoteVideoTrack
-    ) {
-
-    }
-
-    override fun onDataTrackPublished(
-        remoteParticipant: RemoteParticipant,
-        remoteDataTrackPublication: RemoteDataTrackPublication
-    ) {
-
-    }
-
-    override fun onDataTrackUnpublished(
-        remoteParticipant: RemoteParticipant,
-        remoteDataTrackPublication: RemoteDataTrackPublication
-    ) {
-
-    }
-
-    override fun onDataTrackSubscribed(
-        remoteParticipant: RemoteParticipant,
-        remoteDataTrackPublication: RemoteDataTrackPublication,
-        remoteDataTrack: RemoteDataTrack
-    ) {
-
-    }
-
-    override fun onDataTrackSubscriptionFailed(
-        remoteParticipant: RemoteParticipant,
-        remoteDataTrackPublication: RemoteDataTrackPublication,
-        twilioException: TwilioException
-    ) {
-
-    }
-
-    override fun onDataTrackUnsubscribed(
-        remoteParticipant: RemoteParticipant,
-        remoteDataTrackPublication: RemoteDataTrackPublication,
-        remoteDataTrack: RemoteDataTrack
-    ) {
-
-    }
-
-    override fun onAudioTrackEnabled(
-        remoteParticipant: RemoteParticipant,
-        remoteAudioTrackPublication: RemoteAudioTrackPublication
-    ) {
-        setMicStatus(true)
-    }
-
-    override fun onAudioTrackDisabled(
-        remoteParticipant: RemoteParticipant,
-        remoteAudioTrackPublication: RemoteAudioTrackPublication
-    ) {
-        setMicStatus(false)
-    }
-
-    override fun onVideoTrackEnabled(
-        remoteParticipant: RemoteParticipant,
-        remoteVideoTrackPublication: RemoteVideoTrackPublication
-    ) {
-
-    }
-
-    override fun onVideoTrackDisabled(
-        remoteParticipant: RemoteParticipant,
-        remoteVideoTrackPublication: RemoteVideoTrackPublication
-    ) {
-
-    }
-
-
-
 }

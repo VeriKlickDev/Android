@@ -254,7 +254,7 @@
                         android:layout_height="@dimen/_50sdp"
                         android:layout_gravity="center"
                         android:layout_marginHorizontal="@dimen/_10sp"
-                        android:background="@color/black"
+                        android:background="@color/black_70"
                         android:scaleType="center"
                         android:src="@drawable/ic_img_btn_mic_unmute_white"
                         app:fabSize="mini"
@@ -267,9 +267,8 @@
                         android:layout_width="@dimen/_50sdp"
                         android:layout_height="@dimen/_50sdp"
                         android:layout_gravity="center"
-
-                        android:background="@color/grey_tranparent_dark"
                         android:scaleType="centerInside"
+                        android:background="@color/black_50"
                         android:src="@drawable/ic_img_btn_video"
                         app:shapeAppearanceOverlay="@style/roundedCorner50" />
 
@@ -279,9 +278,9 @@
                         android:layout_height="@dimen/_50sdp"
                         android:layout_marginHorizontal="@dimen/_5sp"
                         android:layout_marginRight="@dimen/_10sp"
-                        android:background="@color/grey_tranparent_dark"
                         android:src="@drawable/ic_img_btn_message"
                         app:fabSize="mini"
+                        android:background="@color/black_50"
                         app:shapeAppearanceOverlay="@style/roundedCorner50" />
 
 
@@ -302,8 +301,9 @@
                         android:id="@+id/btn_ellipsize"
                         android:layout_width="@dimen/_50sdp"
                         android:layout_height="@dimen/_50sdp"
-                        android:background="@drawable/ic_img_btn_ellepsize"
+                        android:src="@drawable/ic_img_btn_ellepsize"
                         app:fabSize="mini"
+                        android:background="@color/black_50"
                         app:shapeAppearanceOverlay="@style/roundedCorner50" />
 
 
