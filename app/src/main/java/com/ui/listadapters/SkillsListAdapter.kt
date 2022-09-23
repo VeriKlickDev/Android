@@ -40,11 +40,11 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
         if (list[position].value.equals("others"))
         {
             holder.binding.btnRemoveSkill.isVisible=true
-            holder.binding.btnAddSkill.isVisible=false
+            //holder.binding.btnAddSkill.isVisible=false
         }else
         {
             holder.binding.btnRemoveSkill.isVisible=false
-            holder.binding.btnAddSkill.isVisible=true
+            //holder.binding.btnAddSkill.isVisible=true
         }
 
     }
@@ -57,8 +57,8 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
     inner class ViewHolderClass(val binding: LayoutItemCandidateSkillsBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun dataBind(data: AssessSkills) {
-        //binding.ratingbarWireframing.get(adapterPosition)
-          binding.tvSkills.setText(list.get(adapterPosition).value)
+            //binding.ratingbarWireframing.get(adapterPosition)
+            binding.tvSkills.setText(list.get(adapterPosition).value)
 
 
             binding.btnRemoveSkill.setOnClickListener {
@@ -68,10 +68,10 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
             Log.d("datachecking", "dataBind: data is ${data.value} ${data.Catagory} ")
 
 
-            binding.btnAddSkill.setOnClickListener {
-                onClicked(adapterPosition,data,1)
-            }
-
+            /* binding.btnAddSkill.setOnClickListener {
+                 onClicked(adapterPosition,data,1)
+             }
+ */
             binding.ratingbarWireframing.setOnDragListener(object : View.OnDragListener {
                 override fun onDrag(v: View?, event: DragEvent?): Boolean {
                     Log.d("TAGrating", "onDrag: ${event?.x}   ${event?.clipData}   ${event?.result}  ${event?.localState}")
@@ -95,9 +95,9 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
             }
 
             if (binding.etTitle.isVisible)
-            binding.etTitle.addTextChangedListener {it->
-                ob.Catagory=it.toString()
-            }
+                binding.etTitle.addTextChangedListener {it->
+                    ob.Catagory=it.toString()
+                }
 
             binding.etComment.addTextChangedListener {it->
                 ob.Comments=it.toString()
@@ -115,10 +115,6 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
             }
 
         }
-
-
-
-
     }
 
 

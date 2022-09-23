@@ -3,15 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/drawable/ic_img_btn_ellepsize.xml" value="0.1255" />
-        <entry key="app/src/main/res/drawable/ic_img_btn_message.xml" value="0.1255" />
-        <entry key="app/src/main/res/drawable/ic_img_btn_mic_unmute_white.xml" value="0.1255" />
-        <entry key="app/src/main/res/drawable/ic_img_btn_video.xml" value="0.1255" />
+        <entry key="..\:/Users/Arun/Documents/VeriKlick_25Sep/app/src/main/res/layout/layout_item_reciever_chat.xml" value="0.1828125" />
+        <entry key="..\:/Users/Arun/Documents/VeriKlick_25Sep/app/src/main/res/layout/layout_item_sender_chat.xml" value="0.1828125" />
         <entry key="app/src/main/res/layout/activity_add_participant_by_link.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_add_user_list.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.18072916666666666" />
-        <entry key="app/src/main/res/layout/activity_twilio_video.xml" value="0.48448687350835323" />
+        <entry key="app/src/main/res/layout/activity_twilio_video.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_upcoming_meeting.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/layout_add_participant.xml" value="0.22" />
         <entry key="app/src/main/res/layout/layout_dialog_add_participant.xml" value="0.1796875" />

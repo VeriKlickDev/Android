@@ -55,11 +55,6 @@ object TwilioHelper {
         return room!!
     }
 
-    fun getExistingRoomInstance(context:Context):Room
-    {
-        room=connect(context, connectOption!!, roomListener)
-        return room!!
-    }
 
     fun disConnectRoom() {
         room?.disconnect()
@@ -83,34 +78,39 @@ object TwilioHelper {
 
     }
 
-    fun setParticipantListener(participant: RemoteParticipant)
+    fun setRemoteParticipantListener(participant: RemoteParticipant)
     {
         participant.setListener(participantListener)
+    }
+
+    fun setLocalParticipantListener(room: Room)
+    {
+
     }
 
 
     val videoTrackList= mutableListOf<VideoTrackPublication>()
 
-     fun addRemoteParticipant(remoteParticipant: RemoteParticipant,
-        binding: ActivityTwilioVideoBinding,onAddParticipant:(remoteVideoTrack:RemoteVideoTrack)->Unit
+    fun addRemoteParticipant(remoteParticipant: RemoteParticipant,
+                             binding: ActivityTwilioVideoBinding,onAddParticipant:(remoteVideoTrack:RemoteVideoTrack)->Unit
     )
-     {
-         Log.d("joinuser", "addRemoteParticipant method: method helper ")
+    {
+        Log.d("joinuser", "addRemoteParticipant method: method helper ")
         /*
          * This app only displays video for one additional participant per Room
          */
-       /* if (thumbnailVideoView.visibility == View.VISIBLE) {
-            Log.d("joinuser", "addRemoteParticipant method: multiple not allowed ")
-            return
-        }*/
+        /* if (thumbnailVideoView.visibility == View.VISIBLE) {
+             Log.d("joinuser", "addRemoteParticipant method: multiple not allowed ")
+             return
+         }*/
         participantIdentity = remoteParticipant.identity
         binding.videoStatusTextview.text = "Participant $participantIdentity joined"
-         Log.d("joinuser", "addRemoteParticipant method: Participant ${remoteParticipant.remoteVideoTracks.size} joined")
+        Log.d("joinuser", "addRemoteParticipant method: Participant ${remoteParticipant.remoteVideoTracks.size} joined")
 
 
-         /*
-         * Add participant renderer
-         */
+        /*
+        * Add participant renderer
+        */
         remoteParticipant.remoteVideoTracks.firstOrNull()?.let { remoteVideoTrackPublication ->
             if (remoteVideoTrackPublication.isTrackSubscribed) {
 
@@ -205,10 +205,6 @@ object TwilioHelper {
             mtwilioVideoRoomCallBack.onParticipantConnected(room, participant)
             //addRemoteParticipant(participant)
             Log.d(TAG, "onParticipantConnected: ")
-
-
-
-
 
         }
 

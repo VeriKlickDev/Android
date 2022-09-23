@@ -5,10 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.data.dataHolders.CurrentMeetingDataSaver
+import com.data.dataHolders.VideoRecordingStatusHolder
 import com.data.helpers.TwilioHelper
 import com.data.repositoryImpl.RepositoryImpl
 import com.domain.BaseModels.*
 import com.twilio.video.LocalVideoTrack
+import com.twilio.video.RemoteParticipant
 import com.twilio.video.VideoTrack
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -21,7 +23,7 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
 
     private val remoteParticipantVideoListWithCandidate = mutableListOf<VideoTracksBean>()
 
-     val remoteVideoLiveList=MutableLiveData<List<VideoTracksBean>>()
+    val remoteVideoLiveList=MutableLiveData<List<VideoTracksBean>>()
 
     fun setConnectUser(remoteParticipantVideoList : List<VideoTracksBean>,localVideoTrack:LocalVideoTrack) {
         remoteParticipantVideoListWithCandidate.clear()
@@ -120,10 +122,10 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
 
                         if (it.remoteParticipant?.identity!!.contains("C")) {
                             tlist.add(VideoTracksBean(TwilioHelper.getRoomInstance()?.localParticipant?.identity!!,
-                                    it.remoteParticipant,
-                                    localVideoTrack!!,
-                                    "You"
-                                )
+                                it.remoteParticipant,
+                                localVideoTrack!!,
+                                "You"
+                            )
                             )
                             tlist.add(VideoTracksBean(it.identity,
                                 it.remoteParticipant,
@@ -175,8 +177,8 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
 
     fun setMicStatus(mic:Boolean)
     {
-       micStatus.postValue(mic)
-    //micAndVideoStatuslist.add(0, MicVideoStatusModel(micStatus,videoStatus))
+        micStatus.postValue(mic)
+        //micAndVideoStatuslist.add(0, MicVideoStatusModel(micStatus,videoStatus))
     }
 
     fun setVideoStatus(video:Boolean)
@@ -186,40 +188,36 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
     }
 
 
-
-
-
-
     fun getChatToken(
-            identity: String,
-            response: (data: ResponseChatToken?, code: Int) -> Unit
-        ) {
-            try {
-                viewModelScope.launch {
-                    val result = repositoryImpl.getChatToken(identity)
-                    if (result.isSuccessful) {
-                        if (result.body() != null) {
-                            if (result.code() == 200) {
-                                response(result.body()!!, result.code())
-                            }
-                        }
-                        else {
+        identity: String,
+        response: (data: ResponseChatToken?, code: Int) -> Unit
+    ) {
+        try {
+            viewModelScope.launch {
+                val result = repositoryImpl.getChatToken(identity)
+                if (result.isSuccessful) {
+                    if (result.body() != null) {
+                        if (result.code() == 200) {
                             response(result.body()!!, result.code())
                         }
                     }
                     else {
                         response(result.body()!!, result.code())
                     }
-
+                }
+                else {
+                    response(result.body()!!, result.code())
                 }
 
-            } catch (e: Exception) {
-                response(null, 500)
             }
 
+        } catch (e: Exception) {
+            response(null, 500)
         }
 
-     var videoTrack=MutableLiveData<CurrentVideoUserModel?>()
+    }
+
+    var videoTrack=MutableLiveData<CurrentVideoUserModel?>()
 
     var currentlocalVideoTrack= MutableLiveData<ScreenSharingModel>()
     var currentlocalVideoTrackList= mutableListOf<ScreenSharingModel>()
@@ -237,109 +235,22 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
         videoTrack.postValue(CurrentVideoUserModel(identity,mVideoTrack,username,type))
     }
 
-        fun setMuteUnmuteStatus(
-            status: Boolean,
-            interviewId: String,
-            onResult: (action: Int, data: ResponseMuteUmnute?) -> Unit
-        ) {
-            try {
-                viewModelScope.launch {
-                    val result = repositoryImpl.setMuteUnmuteStatus(
-                        BodyMuteUmnuteBean(
-                            interviewId,
-                            status,
-                            "",
-                            "",
-                            true
-                        )
-                    )
-                    if (result.isSuccessful) {
-                        if (result.body() != null) {
-                            onResult(200, result.body()!!)
-                        }
-                        else {
-                            onResult(400, result.body()!!)
-                        }
-                    }
-                    else {
-                        onResult(404, result.body()!!)
-                    }
-                }
-            } catch (e: Exception) {
-                onResult(500, null)
-            }
-        }
-
-        fun getMuteStatus(
-            accessCode: String,
-            onResult: (action: Int, data: ResponseMuteUmnute?) -> Unit
-        ) {
-            try {
-                viewModelScope.launch {
-                    val result = repositoryImpl.getMuteStatus(accessCode)
-                    if (result.isSuccessful) {
-                        if (result.body() != null) {
-                            onResult(200, result.body()!!)
-                        }
-                        else {
-                            onResult(400, result.body()!!)
-                        }
-                    }
-                    else {
-                        onResult(404, result.body()!!)
-                    }
-                }
-            } catch (e: Exception) {
-                onResult(500, null)
-            }
-        }
-
-
-        fun getRecordingStatusUpdate(
-            interviewId: Int,
-            roomSid: String,
-            recStatus: String,
-            statusCode: String,
-            message: String,
-            accessCode: String,
-            onResult: (action: Int, data: BodyUpdateRecordingStatus?) -> Unit
-        ) {
-            try {
-                viewModelScope.launch {
-                    val result = repositoryImpl.getRecordingStatusUpdate(
-                        BodyUpdateRecordingStatus(
-                            interviewId,
-                            roomSid,
-                            recStatus,
-                            statusCode,
-                            message
-                        )
-                    )
-                    if (result.isSuccessful) {
-                        if (result.body() != null) {
-                            onResult(200, result.body()!!)
-                        }
-                        else {
-                            onResult(400, result.body()!!)
-                        }
-                    }
-                    else {
-                        onResult(404, result.body()!!)
-                    }
-                }
-            } catch (e: Exception) {
-                onResult(500, null)
-            }
-        }
-
-
-  /*  fun endVideoCall(onResponse:(action:Int,data:)->Unit)
-    {
-
+    fun setMuteUnmuteStatus(
+        status: Boolean,
+        interviewId: String,
+        onResult: (action: Int, data: ResponseMuteUmnute?) -> Unit
+    ) {
         try {
             viewModelScope.launch {
-                val result=repositoryImpl.closeMeeting(BodyMeetingClose())
-
+                val result = repositoryImpl.setMuteUnmuteStatus(
+                    BodyMuteUmnuteBean(
+                        interviewId,
+                        status,
+                        "",
+                        "",
+                        true
+                    )
+                )
                 if (result.isSuccessful) {
                     if (result.body() != null) {
                         onResult(200, result.body()!!)
@@ -355,9 +266,92 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
         } catch (e: Exception) {
             onResult(500, null)
         }
+    }
+
+    fun getMuteStatus(
+        accessCode: String,
+        onResult: (action: Int, data: ResponseMuteUmnute?) -> Unit
+    ) {
+        try {
+            viewModelScope.launch {
+                val result = repositoryImpl.getMuteStatus(accessCode)
+                if (result.isSuccessful) {
+                    if (result.body() != null) {
+                        onResult(200, result.body()!!)
+                    }
+                    else {
+                        onResult(400, result.body()!!)
+                    }
+                }
+                else {
+                    onResult(404, result.body()!!)
+                }
+            }
+        } catch (e: Exception) {
+            onResult(500, null)
+        }
+    }
 
 
-    }*/
+    fun getRecordingStatusUpdate(
+        onResult: (action: Int, data: BodyUpdateRecordingStatus?) -> Unit
+    ) {
+        try {
+            viewModelScope.launch {
+                val result = repositoryImpl.getRecordingStatusUpdate(
+                    BodyUpdateRecordingStatus(
+                        CurrentMeetingDataSaver.getData().interviewModel?.interviewId!!,
+                        CurrentMeetingDataSaver.getRoomData().firstOrNull()?.roomName!!,
+                        VideoRecordingStatusHolder.setStatus(),
+                        "200",
+                        "recStart or not"
+                    )
+                )
+
+//CurrentMeetingDataSaver.getData().videoAccessCode!!
+                if (result.isSuccessful) {
+                    if (result.body() != null) {
+                        onResult(200, result.body()!!)
+                    }
+                    else {
+                        onResult(400, result.body()!!)
+                    }
+                }
+                else {
+                    onResult(404, result.body()!!)
+                }
+            }
+        } catch (e: Exception) {
+            onResult(500, null)
+        }
+    }
+
+
+    /*  fun endVideoCall(onResponse:(action:Int,data:)->Unit)
+      {
+
+          try {
+              viewModelScope.launch {
+                  val result=repositoryImpl.closeMeeting(BodyMeetingClose())
+
+                  if (result.isSuccessful) {
+                      if (result.body() != null) {
+                          onResult(200, result.body()!!)
+                      }
+                      else {
+                          onResult(400, result.body()!!)
+                      }
+                  }
+                  else {
+                      onResult(404, result.body()!!)
+                  }
+              }
+          } catch (e: Exception) {
+              onResult(500, null)
+          }
+
+
+      }*/
 
 
 

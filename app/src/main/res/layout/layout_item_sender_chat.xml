@@ -44,9 +44,9 @@
                 android:textSize="16sp"
                 android:fontFamily="@font/sarabun_regular"
                 android:background="@drawable/shape_sender_chat"
-                android:paddingHorizontal="@dimen/_12sp"
-                android:paddingVertical="@dimen/_10sp"
-                 />
+                android:paddingHorizontal="@dimen/_15sp"
+                android:paddingVertical="@dimen/_7sp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"

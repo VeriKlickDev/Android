@@ -50,7 +50,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
         skillsAdapter = SkillsListAdapter(this, skillsList){pos, data,action ->
             when (action){
                 1->{
-                   // addNewItem()
+                    // addNewItem()
                 }
                 2->{
                     removeItem(pos)
@@ -74,7 +74,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
         }
 
         getFeedBack()
-       // getInterviewDetails("mkpeHcXKbF95uRiWiLzJ")
+        // getInterviewDetails("mkpeHcXKbF95uRiWiLzJ")
     }
 
     fun addNewItem()
@@ -158,7 +158,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
     }
 
-/**testing*/
+    /**testing*/
     fun getInterviewDetails(accessCode: String) {
 
         viewModel.getVideoSessionDetails(accessCode, onDataResponse = { data, event ->
@@ -199,7 +199,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
 
     fun getFeedBack() {
-       // showProgressDialog()
+        // showProgressDialog()
         viewModel.getFeedBack(onResponse = { data, status ->
 
             when (status) {

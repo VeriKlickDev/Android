@@ -105,27 +105,27 @@ data class InterviewModel (
 
 data class ResponseInterViewDetailsBean (
 
-	@SerializedName("UserType") val userType : String?=null,
-	@SerializedName("ChatChannel") val chatChannel : String?=null,
-	@SerializedName("ChannelCreatedBy") val channelCreatedBy : String?=null,
-	@SerializedName("ChatUserIdentity") val chatUserIdentity : String?=null,
-	@SerializedName("Identity") val identity : String?=null,
-	@SerializedName("VideoAccessCode") val videoAccessCode : String?=null,
-	@SerializedName("TimeDiff") val timeDiff : Double?=null,
-	@SerializedName("InterviewerFirstName") val interviewerFirstName : String?=null,
-	@SerializedName("InterviewerLastName") val interviewerLastName : String?=null,
-	@SerializedName("IsPresenter") val isPresenter : Boolean?=null,
-	@SerializedName("IsVideoRecordEnabled") val isVideoRecordEnabled : Boolean?=null,
-	@SerializedName("GoogleCalendarSyncEnabled") val googleCalendarSyncEnabled : Boolean?=null,
-	@SerializedName("OutlookCalendarSyncEnabled") val outlookCalendarSyncEnabled : Boolean?=null,
-	@SerializedName("AllowToMute") val allowToMute : Boolean?=null,
-	@SerializedName("Users") val users : List<Users>?=null,
-	@SerializedName("ScheduledDateTime") val scheduledDateTime : String?=null,
-	@SerializedName("InterviewModel") val interviewModel : InterviewModel?=null,
-	@SerializedName("InterviewTimezone") val interviewTimezone : String?=null,
-	@SerializedName("APIResponse") val aPIResponse : APIResponse?=null,
-	@SerializedName("VoiceCallPassCode") val voiceCallPassCode : String?=null,
-	@SerializedName("VoiceCallPhoneNumber") val voiceCallPhoneNumber : String?=null
+    @SerializedName("UserType") val userType : String?=null,
+    @SerializedName("ChatChannel") val chatChannel : String?=null,
+    @SerializedName("ChannelCreatedBy") val channelCreatedBy : String?=null,
+    @SerializedName("ChatUserIdentity") val chatUserIdentity : String?=null,
+    @SerializedName("Identity") val identity : String?=null,
+    @SerializedName("VideoAccessCode") var videoAccessCode : String?=null,
+    @SerializedName("TimeDiff") val timeDiff : Double?=null,
+    @SerializedName("InterviewerFirstName") val interviewerFirstName : String?=null,
+    @SerializedName("InterviewerLastName") val interviewerLastName : String?=null,
+    @SerializedName("IsPresenter") val isPresenter : Boolean?=null,
+    @SerializedName("IsVideoRecordEnabled") val isVideoRecordEnabled : Boolean?=null,
+    @SerializedName("GoogleCalendarSyncEnabled") val googleCalendarSyncEnabled : Boolean?=null,
+    @SerializedName("OutlookCalendarSyncEnabled") val outlookCalendarSyncEnabled : Boolean?=null,
+    @SerializedName("AllowToMute") val allowToMute : Boolean?=null,
+    @SerializedName("Users") val users : List<Users>?=null,
+    @SerializedName("ScheduledDateTime") val scheduledDateTime : String?=null,
+    @SerializedName("InterviewModel") val interviewModel : InterviewModel?=null,
+    @SerializedName("InterviewTimezone") val interviewTimezone : String?=null,
+    @SerializedName("APIResponse") val aPIResponse : APIResponse?=null,
+    @SerializedName("VoiceCallPassCode") val voiceCallPassCode : String?=null,
+    @SerializedName("VoiceCallPhoneNumber") val voiceCallPhoneNumber : String?=null
 )
 
 

@@ -13,14 +13,14 @@
         android:layout_marginTop="@dimen/_5sp"
         >
 
-<!--        <com.google.android.material.imageview.ShapeableImageView-->
-<!--            android:layout_width="@dimen/_30sdp"-->
-<!--            android:layout_height="@dimen/_30sdp"-->
-<!--            android:id="@+id/iv_userprofile_photo"-->
-<!--            app:shapeAppearanceOverlay="@style/roundedCorner50"-->
-<!--            android:src="@drawable/img_temp_profile"-->
-<!--            android:scaleType="centerCrop"-->
-<!--            />-->
+        <!--        <com.google.android.material.imageview.ShapeableImageView-->
+        <!--            android:layout_width="@dimen/_30sdp"-->
+        <!--            android:layout_height="@dimen/_30sdp"-->
+        <!--            android:id="@+id/iv_userprofile_photo"-->
+        <!--            app:shapeAppearanceOverlay="@style/roundedCorner50"-->
+        <!--            android:src="@drawable/img_temp_profile"-->
+        <!--            android:scaleType="centerCrop"-->
+        <!--            />-->
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -50,8 +50,8 @@
                 android:textSize="16sp"
                 android:fontFamily="@font/sarabun_regular"
                 android:background="@drawable/shape_reciever_chat"
-                android:paddingHorizontal="@dimen/_12sp"
-                android:paddingVertical="@dimen/_10sp"
+                android:paddingHorizontal="@dimen/_15sp"
+                android:paddingVertical="@dimen/_7sp"
                 />
 
             <TextView
