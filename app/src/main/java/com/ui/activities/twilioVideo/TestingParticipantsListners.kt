@@ -2,14 +2,14 @@ package com.ui.activities.twilioVideo
 
 import android.util.Log
 import com.data.helpers.RoomListnerCallback
-import com.data.helpers.RoomParticipantListner
+import com.data.helpers.RoomParticipantListener
 import com.twilio.video.*
 
 class TestingParticipantsListners  {
 val TAG="checktestinglistener"
 
     private lateinit var mtwilioVideoRoomCallBack: RoomListnerCallback
-    private lateinit var listener: RoomParticipantListner
+    private lateinit var listener: RoomParticipantListener
 
 
      val participantListener = object : RemoteParticipant.Listener {

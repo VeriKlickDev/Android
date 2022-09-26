@@ -11,17 +11,20 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.data.dataHolders.LocalConfrenseMic
+import com.data.helpers.RoomParticipantListener
+import com.data.helpers.TwilioHelper
 import com.domain.BaseModels.VideoTracksBean
 import com.example.twillioproject.databinding.LayoutItemConnectedUsersBinding
 import com.twilio.video.*
 import com.ui.activities.twilioVideo.MicStatusListener
 import com.ui.activities.twilioVideo.VideoActivity
+import com.ui.activities.twilioVideo.VideoViewModel
 
-class ConnectedUserListAdapter(
+class ConnectedUserListAdapter(val viewModel:VideoViewModel,
     val context: Context,
     val list: List<VideoTracksBean>,
     val onClick: (pos: Int, action: Int, data: VideoTracksBean, tlist: List<VideoTracksBean>,videoTrack:VideoTrack) -> Unit
-) : RecyclerView.Adapter<ConnectedUserListAdapter.ViewholderClass>()  {
+) : RecyclerView.Adapter<ConnectedUserListAdapter.ViewholderClass>() {
     lateinit var binding:LayoutItemConnectedUsersBinding
     val TAG = "checkconnectedUserMain"
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewholderClass {
@@ -38,6 +41,8 @@ class ConnectedUserListAdapter(
                 holder.binding.parentLayout.visibility = View.GONE
             }
         }*/
+
+        holder.binding.cardView2.setOnClickListener { onClick(position, 1, list[position], list,list[position].videoTrack) }
         holder.binding.parentLayout.setOnClickListener {
             onClick(position, 1, list[position], list,list[position].videoTrack)
         }
@@ -56,29 +61,36 @@ class ConnectedUserListAdapter(
             data.videoTrack.addSink(binding.ivUserVideoView)
 
             try {
-
                 data.remoteParticipant?.let {
+                }
+                /*data.remoteParticipant?.let {
                     Log.d(TAG, "bindData: not null data.prt")
                     //it.setListener(this@ConnectedUserListAdapter)
-                }
-
+                }*/
 
                 if (data.userName.equals("You")) {
-                    LocalConfrenseMic.getLocalParticipant()
+                    binding.ivMic.isVisible = false
+                  /* LocalConfrenseMic.getLocalParticipant()
                         .observe(context as VideoActivity, Observer {
                             Log.d("adduserlistadapter", "bindData: mic is $it ")
-                            if (it) {
-                                binding.ivMic.isVisible = false
-                            }
-                            else {
-                                binding.ivMic.isVisible = true
-                            }
-                        })
+                            binding.ivMic.isVisible = !it
+                        })*/
                 }
                 else {
-                    binding.ivMic.isVisible =
-                        data.remoteParticipant?.remoteAudioTracks?.firstOrNull()?.remoteAudioTrack?.isEnabled == false
+                    Log.d(TAG, "bindData: participant listener")
+                   // binding.ivMic.isVisible = data.remoteParticipant?.remoteAudioTracks?.firstOrNull()?.remoteAudioTrack?.isEnabled == false
+                    data.remoteParticipant?.let {
+                        TwilioHelper.setRemoteParticipantListener(it)
+                    }
 
+                   setMicStatus(data.remoteParticipant?.remoteAudioTracks?.firstOrNull()!!.isTrackEnabled!!)
+
+                   /* if (data.remoteParticipant?.remoteAudioTracks?.firstOrNull()!!.isTrackEnabled)
+                    {
+                        setMicStatus(true)
+                    }else{
+                        setMicStatus(false)
+                    }*/
                     // binding.ivMic.isVisible=data.remoteParticipant?.remoteAudioTracks?.firstOrNull()?.audioTrack?.isEnabled==false
                     // data.remoteParticipant!!.setListener(this@ConnectedUserListAdapter)
 
@@ -86,7 +98,6 @@ class ConnectedUserListAdapter(
             } catch (e: Exception) {
                 Log.d("AddUserListAdapter", "bindData: exception ${e.printStackTrace()}")
             }
-
         }
     }
 
@@ -104,4 +115,6 @@ class ConnectedUserListAdapter(
             }
         }
     }
+
+
 }

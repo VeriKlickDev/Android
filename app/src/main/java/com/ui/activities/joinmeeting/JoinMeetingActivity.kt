@@ -50,9 +50,9 @@ class JoinMeetingActivity :AppCompatActivity() {
                     //inv DGwWsLeTAzylIxIzXair    note 9 invterviewer
 
                     //test
-                    getInterviewDetails("bNkbSMDAJyJhua42Rdtp")
+                    getInterviewDetails("Q1CJ8pL8p7Agm6eMp3QN")
 
-                    // getInterviewDetails(accessCode)
+                     getInterviewDetails(accessCode)
                     //  showToast(this,"Under Development")
                     InputUtils.hideKeyboard(this)
 

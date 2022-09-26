@@ -71,8 +71,6 @@ class DocumentViewerActivity : AppCompatActivity() {
             showDocFile(fileName)
         }
 
-
-
     }
 
     fun giveStoragePermissionAndDownloadResume(link:String,fileName: String)
@@ -122,7 +120,7 @@ class DocumentViewerActivity : AppCompatActivity() {
         }
 
         i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_GRANT_READ_URI_PERMISSION
-        //  startActivity(i)
+          startActivity(i)
     }
 
 

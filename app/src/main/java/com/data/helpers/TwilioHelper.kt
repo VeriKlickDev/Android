@@ -10,7 +10,7 @@ import com.ui.activities.twilioVideo.VideoActivity
 
 //implement in your Main activity
 private lateinit var mtwilioVideoRoomCallBack: RoomListnerCallback
-private lateinit var listener: RoomParticipantListner
+private lateinit var listener: RoomParticipantListener
 
 
 private val TAG = "roomConnect"
@@ -553,14 +553,7 @@ object TwilioHelper {
 
 
 
-
-
-
-
-
-
-
-interface RoomParticipantListner {
+interface RoomParticipantListener {
     fun onAudioTrackPublished(
         remoteParticipant: RemoteParticipant,
         remoteAudioTrackPublication: RemoteAudioTrackPublication
