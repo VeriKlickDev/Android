@@ -147,7 +147,6 @@ object TwilioHelper {
 
 
 
-
     private val roomListener = object : Room.Listener {
         override fun onConnected(room: Room) {
             try {

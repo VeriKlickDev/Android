@@ -143,7 +143,6 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
     private lateinit var screenShareCapturerManager: ScreenShareCapturerManager
     private var screenCapturer: ScreenCapturer? = null
 
-
     //  private lateinit var primaryVideoView:VideoView
     // private lateinit var thumbnailVideoView:VideoView
 
@@ -310,7 +309,7 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
         currentVisibleUser = VideoTracksBean("C", null, localVideoTrack!!, "You")
 
         handleObserver()
-
+        //binding.rvConnectedUsers.recyc
     }
 
     var currentUserIdentity = ""
@@ -319,6 +318,7 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
 
 
         viewModel.micStatus.observe(this, Observer {
+
             Log.d(TAG, "handleObserver: check mic ${it} ")
 
             if (it != null) {
@@ -336,7 +336,6 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
                     binding.muteActionFab.setBackgroundResource(R.color.black_70)
                     binding.muteActionFab.setImageResource(R.drawable.ic_img_btn_mic_unmute_white)
                 }
-
             }
         })
 
@@ -515,6 +514,11 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
                  localVideoTrack?.addSink(binding.primaryVideoView)
              }
              */
+            globalParticipantList.forEach {
+                Log.d("checkobservermic", "handleObserver: ${it.userName} ${it.remoteParticipant?.remoteAudioTracks?.firstOrNull()?.isTrackEnabled}")
+            }
+
+
             adapter = ConnectedUserListAdapter(viewModel,
                 this,
                 globalParticipantList,
@@ -961,7 +965,7 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
 
         CurrentConnectUserList.setListForVideoActivity(
             tlist.reversed().distinctBy { it.identity }
-            //tlist
+           // tlist
         )
 
         // setConnectedUsersListInAdapter(tlist)
@@ -1223,6 +1227,11 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
 
         // localVideoTrack?.let { localParticipant?.unpublishTrack(it) }
 
+        localAudioTrack?.let {
+            localParticipant?.unpublishTrack(it)
+        }
+
+
         Log.d(TAG, "onPause: ")
         /*
          * Release the local video track before going in the background. This ensures that the
@@ -1329,12 +1338,15 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
             localParticipant?.publishTrack(localAudioTrack!!)
             if (viewModel.currentlocalVideoTrackList[0] != null) {
                 if (viewModel.currentlocalVideoTrackList[0].isSharing) {
+                    Log.d(TAG, "connectToRoom: sharing screen")
                     TwilioHelper.getRoomInstance()?.localParticipant!!.publishTrack(viewModel.currentlocalVideoTrackList[0].localVideoTrack)
                 } else {
-                    TwilioHelper.getRoomInstance()?.localParticipant!!.publishTrack(localVideoTrack!!)
+                    Log.d(TAG, "connectToRoom:not  sharing screen else part")
+                    TwilioHelper.getRoomInstance()?.localParticipant!!.publishTrack(viewModel.currentlocalVideoTrackList[0].localVideoTrack!!)
                 }
             } else {
-                TwilioHelper.getRoomInstance()?.localParticipant!!.publishTrack(localVideoTrack!!)
+                Log.d(TAG, "connectToRoom:not  sharing screen else part publish local video track")
+                TwilioHelper.getRoomInstance()?.localParticipant!!.publishTrack(viewModel.currentlocalVideoTrackList[0].localVideoTrack!!)
             }
 
 
@@ -1763,7 +1775,7 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
     }
 
     override fun onDestroy() {
-        localVideoTrack?.let { localParticipant?.unpublishTrack(it) }
+       // localVideoTrack?.let { localParticipant?.unpublishTrack(it) }
        // localAudioTrack?.let { localParticipant?.unpublishTrack(it) }
 //        screenShareCapturerManager.endForeground()
 //        screenShareCapturerManager.unbindService()
@@ -2155,9 +2167,9 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
         remoteParticipant: RemoteParticipant,
         remoteAudioTrackPublication: RemoteAudioTrackPublication
     ) {
-        Log.d(TAG, "onAudioTrackEnabled: ")
 
-       val pos= CurrentConnectUserList.setItemToParticipantList(
+  /*  try{
+        val pos= CurrentConnectUserList.setItemToParticipantList(
             VideoTracksBean(
                 remoteParticipant.identity,
                 remoteParticipant,
@@ -2165,7 +2177,14 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
                 ""
             )
         )
+        Log.d(TAG, "onAudioTrackEnabled: position $pos")
         adapter.notifyItemChanged(pos)
+
+    }catch (e:Exception)
+    {
+        Log.d(TAG, "onAudioTrackEnabled: exception ${e.message}")
+    }
+*/
     }
 
     override fun onVideoTrackEnabled(
@@ -2186,17 +2205,25 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
         remoteParticipant: RemoteParticipant,
         remoteAudioTrackPublication: RemoteAudioTrackPublication
     ) {
-        Log.d(TAG, "onAudioTrackDisabled: ")
 
-        val pos = CurrentConnectUserList.setItemToParticipantList(
-            VideoTracksBean(
-                remoteParticipant.identity,
-                remoteParticipant,
-                remoteParticipant.remoteVideoTracks.firstOrNull()?.remoteVideoTrack!!,
-                ""
+      /*  try{
+            val pos = CurrentConnectUserList.setItemToParticipantList(
+                VideoTracksBean(
+                    remoteParticipant.identity,
+                    remoteParticipant,
+                    remoteParticipant.remoteVideoTracks.firstOrNull()?.remoteVideoTrack!!,
+                    ""
+                )
             )
-        )
-        adapter.notifyItemChanged(pos)
+            adapter.notifyItemChanged(pos)
+
+        }catch (e:Exception)
+        {
+            Log.d(TAG, "onAudioTrackEnabled: exception ${e.message}")
+        }
+
+*/
+
     }
 
     override fun onViewClicked(view: View) {

@@ -46,13 +46,13 @@ class JoinMeetingActivity :AppCompatActivity() {
                     Log.d(TAG, "onCreate: accessCode is $accessCode")
 
                     //candi bNkbSMDAJyJhua42Rdtp  emulator
-                    //host Q1CJ8pL8p7Agm6eMp3QN   s10
-                    //inv DGwWsLeTAzylIxIzXair    note 9 invterviewer
+                    //host  Q1CJ8pL8p7Agm6eMp3QN  s10
+                    //inv   DGwWsLeTAzylIxIzXair  note 9 invterviewer
 
                     //test
                     getInterviewDetails("Q1CJ8pL8p7Agm6eMp3QN")
 
-                     getInterviewDetails(accessCode)
+                    // getInterviewDetails(accessCode)
                     //  showToast(this,"Under Development")
                     InputUtils.hideKeyboard(this)
 

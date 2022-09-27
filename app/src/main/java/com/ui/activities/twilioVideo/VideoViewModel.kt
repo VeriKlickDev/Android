@@ -181,6 +181,36 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
         //micAndVideoStatuslist.add(0, MicVideoStatusModel(micStatus,videoStatus))
     }
 
+    var micMuteUnmute= mutableListOf<MicMuteStatusModel>()
+
+    fun setMicStatus(data:VideoTracksBean,status: Boolean)
+    {
+        try {
+            val isExists=micMuteUnmute.any{it.removeParticipant.identity.equals(data.remoteParticipant?.identity)}
+            if (isExists)
+            {
+                micMuteUnmute?.let {
+                    it.mapIndexed {index,listitem->
+                        if (data.remoteParticipant?.identity.equals(listitem.removeParticipant.identity))
+                        {
+                            micMuteUnmute.set(index,MicMuteStatusModel(data.remoteParticipant!!,status))
+                        }
+                    }
+                }
+            }else
+            {
+                micMuteUnmute.add(MicMuteStatusModel(data.remoteParticipant!!,status))
+            }
+        }catch (e:Exception)
+        {
+            Log.d(TAG, "setMicStatus:  exception ${e.message}")
+        }
+
+    }
+    val TAG="videoViewmodelChecking"
+    fun getMicStatus()=micMuteUnmute!!
+
+
     fun setVideoStatus(video:Boolean)
     {
         videoStatus.postValue(video)
