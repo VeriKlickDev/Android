@@ -25,10 +25,9 @@ class ConnectedUserListAdapter(val viewModel:VideoViewModel,
     val list: List<VideoTracksBean>,
     val onClick: (pos: Int, action: Int, data: VideoTracksBean, tlist: List<VideoTracksBean>,videoTrack:VideoTrack) -> Unit
 ) : RecyclerView.Adapter<ConnectedUserListAdapter.ViewholderClass>() {
-    lateinit var binding:LayoutItemConnectedUsersBinding
     val TAG = "checkconnectedUserMain"
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewholderClass {
-         binding =
+         val binding =
             LayoutItemConnectedUsersBinding.inflate(LayoutInflater.from(context), parent, false)
         return ViewholderClass(binding)
     }
@@ -41,7 +40,33 @@ class ConnectedUserListAdapter(val viewModel:VideoViewModel,
                 holder.binding.parentLayout.visibility = View.GONE
             }
         }*/
+    try {
+        
+        if (!list[position].userName.equals("You")){
+            list[position].remoteParticipant?.let {
+                TwilioHelper.setRemoteParticipantListener(it)
+            }
+            Handler(Looper.getMainLooper()).postDelayed({
+                try {
+                    list[position].remoteParticipant?.let {
+                        holder.setMicStatus(it.remoteAudioTracks.firstOrNull()?.isTrackEnabled!!)
+                    }
 
+                }catch (e:Exception)
+                {
+
+                }
+
+
+            },500)
+
+        }
+
+    }catch (e:Exception)
+    {
+        Log.d(TAG, "onBindViewHolder: exception ${e.message}")
+    }
+        
         holder.binding.cardView2.setOnClickListener { onClick(position, 1, list[position], list,list[position].videoTrack) }
         holder.binding.parentLayout.setOnClickListener {
             onClick(position, 1, list[position], list,list[position].videoTrack)
@@ -79,11 +104,9 @@ class ConnectedUserListAdapter(val viewModel:VideoViewModel,
                 else {
                     Log.d(TAG, "bindData: participant listener")
                    // binding.ivMic.isVisible = data.remoteParticipant?.remoteAudioTracks?.firstOrNull()?.remoteAudioTrack?.isEnabled == false
-                    data.remoteParticipant?.let {
+                  /*  data.remoteParticipant?.let {
                         TwilioHelper.setRemoteParticipantListener(it)
-                    }
-
-                   setMicStatus(data.remoteParticipant?.remoteAudioTracks?.firstOrNull()!!.isTrackEnabled!!)
+                    }*/
 
                    /* if (data.remoteParticipant?.remoteAudioTracks?.firstOrNull()!!.isTrackEnabled)
                     {
@@ -99,22 +122,24 @@ class ConnectedUserListAdapter(val viewModel:VideoViewModel,
                 Log.d("AddUserListAdapter", "bindData: exception ${e.printStackTrace()}")
             }
         }
+
+        fun setMicStatus(status: Boolean) {
+            if (status) {
+                Log.e("audioTrack", "bindData: enable")
+                Handler(Looper.getMainLooper()).post {
+                    binding.ivMic.isVisible = false
+                }
+            }
+            else {
+                Log.e("audioTrack", "bindData: disabled")
+                Handler(Looper.getMainLooper()).post {
+                    binding.ivMic.isVisible = true
+                }
+            }
+        }
+
     }
 
-    fun setMicStatus(status: Boolean) {
-        if (status) {
-            Log.e("audioTrack", "bindData: enable")
-            Handler(Looper.getMainLooper()).post {
-                binding.ivMic.isVisible = false
-            }
-        }
-        else {
-            Log.e("audioTrack", "bindData: disabled")
-            Handler(Looper.getMainLooper()).post {
-                binding.ivMic.isVisible = true
-            }
-        }
-    }
 
 
 }

@@ -10,11 +10,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.AbsListView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.resource.drawable.DrawableResource
 import com.data.dataHolders.DataStoreHelper
 import com.data.*
@@ -43,6 +45,10 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     private lateinit var viewModel: UpComingMeetingViewModel
     private lateinit var accessCode: String
 
+    var pageno=1
+    var iscrolled=false
+    lateinit var  layoutManager:LinearLayoutManager
+
     private var preUtcDate = ""
     private var preIsTDate = ""
     private var nextutcDate = ""
@@ -58,7 +64,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(UpComingMeetingViewModel::class.java)
         var dayOfYear = getCurrentDayOfYear()
         WeeksDataHolder.setDayToZero()
-
+        layoutManager=LinearLayoutManager(this)
         WeeksDataHolder.getItcUtcNextDate(dateResponse = { utcDate, itcDate ->
             nextIstDate = itcDate
             nextutcDate = utcDate
@@ -76,7 +82,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
 
         if (checkInternet()) {
-            handleUpcomingMeetingsList(3, null)
+            handleUpcomingMeetingsList(3, null,1,9)
         }
         else {
             Snackbar.make(
@@ -102,7 +108,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         }
 
         binding.btnSearch.setOnClickListener {
-            handleUpcomingMeetingsList(0, binding.etSearch.text.toString())
+            handleUpcomingMeetingsList(0, binding.etSearch.text.toString(),1,9)
         }
 
         binding.btnCross.setOnClickListener {
@@ -120,7 +126,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             if (checkInternet()) {
 
 
-                handleUpcomingMeetingsList(5, null)
+                handleUpcomingMeetingsList(5, null,1,9)
 
             /* if (isNextClicked)
                 {
@@ -139,27 +145,37 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         }
 
         binding.btnLogout.setOnClickListener {
-            DataStoreHelper.clearData()
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
+          val dialog=AlertDialog.Builder(this)
+            dialog.setMessage(getString(R.string.txt_do_you_want_to_logout))
+            dialog.setPositiveButton("ok",DialogInterface.OnClickListener { dialogInterface, i ->
+                DataStoreHelper.clearData()
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+            })
+
+            dialog.setNegativeButton("cancel",DialogInterface.OnClickListener { dialogInterface, i ->
+
+            })
+            dialog.show()
+            dialog.create()
+
+
         }
 
-        binding.rvUpcomingMeeting.layoutManager = LinearLayoutManager(this)
+        binding.rvUpcomingMeeting.layoutManager = layoutManager
 
         handleObserver()
-
-
 
         binding.btnLeftPrevious.setOnClickListener {
             if (isNextClicked) {
                 WeeksDataHolder.minusWeekDay()
                 WeeksDataHolder.minusWeekDay()
-                handleUpcomingMeetingsList(1, null)
+                handleUpcomingMeetingsList(1, null,1,9)
                 isNextClicked = false
             }
             else {
                 WeeksDataHolder.minusWeekDay()
-                handleUpcomingMeetingsList(1, null)
+                handleUpcomingMeetingsList(1, null,1,9)
             }
             isPrevClicked = true
         }
@@ -168,21 +184,42 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             if (isPrevClicked) {
                 WeeksDataHolder.addWeekDay()
                 WeeksDataHolder.addWeekDay()
-                handleUpcomingMeetingsList(2, null)
+                handleUpcomingMeetingsList(2, null,1,9)
                 isPrevClicked = false
-            }
-            else {
+            } else {
                 WeeksDataHolder.addWeekDay()
-                handleUpcomingMeetingsList(2, null)
+                handleUpcomingMeetingsList(2, null,1,9)
             }
             isNextClicked = true
         }
 
+        binding.rvUpcomingMeeting.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
 
+                if (newState== AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL)
+                    iscrolled=true
+
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val vitem=layoutManager.childCount
+                val skipped=layoutManager.findFirstVisibleItemPosition()
+                val totalitem=layoutManager.itemCount
+                if (iscrolled && vitem+skipped==totalitem) {
+                    pageno++
+                    handleUpcomingMeetingsList(5, null,pageno,9)
+                    Log.d(TAG, "onScrolled: "+pageno.toString())
+                    iscrolled=false
+                }
+            }
+        })
+        setupAdapter()
     }
 
 
-    private fun handleUpcomingMeetingsList(action: Int, searchTxt: String?) {
+    private fun handleUpcomingMeetingsList(action: Int, searchTxt: String?,pageNumber:Int,pageSize:Int) {
         var ob: BodyScheduledMeetingBean? = null
         Log.d(TAG, "handleUpcomingMeetingsList: handleupcoming meeting list")
         var recruiterId = ""
@@ -396,7 +433,8 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 )
             }"
         )
-
+        ob.PageNumber=pageNumber
+        ob.PageSize=pageSize
         Log.d(TAG, "handleUpcomingMeetingsList: ${ob?.Recruiter} ${ob?.Subscriber}")
         Log.d("datecheck", "\n ${ob?.fromdate}  ${ob?.todate}  \n ${ob.from}  ${ob.to} ")
 
@@ -424,32 +462,49 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             dismissProgressDialog()
         }
     }
-
+    private val meetingsList= mutableListOf<NewInterviewDetails>()
     private fun handleObserver() {
         Log.d(TAG, "handleObserver: out observer method")
         binding.tvNoData.visibility = View.VISIBLE
 
         viewModel.scheduledMeetingLiveData.observe(this, Observer {
-
+            if (!it.isNullOrEmpty())
+            {
+            meetingsList.addAll(it)
+            adapter.notifyDataSetChanged()
+            }
+            if (meetingsList.size==0)
+            {
+                binding.tvNoData.visibility = View.VISIBLE
+            }
+            else
+            {
+                binding.tvNoData.visibility = View.GONE
+            }
             Log.d(TAG, "handleObserver: out observer ${it.size}")
 
-            binding.tvNoData.visibility = View.GONE
+
             Log.d(TAG, "handleObserver: size ${it.size}")
             //Log.d(TAG, "handleObserver: size ${it}")
-            adapter = UpcomingMeetingAdapter(this, it) { data, videoAccessCode, action ->
-                when (action) {
-                    1 -> {
-                        handleJoin(data, videoAccessCode)
-                    }
-                    2 -> {
-                        showDescDialog(data)
-                    }
-                }
-            }
-            binding.rvUpcomingMeeting.adapter = adapter
-            adapter.notifyDataSetChanged()
+
             //     binding.tvNoData.visibility=View.VISIBLE
         })
+    }
+
+    fun setupAdapter()
+    {
+        adapter = UpcomingMeetingAdapter(this, meetingsList) { data, videoAccessCode, action ->
+            when (action) {
+                1 -> {
+                    handleJoin(data, videoAccessCode)
+                }
+                2 -> {
+                    showDescDialog(data)
+                }
+            }
+        }
+        binding.rvUpcomingMeeting.adapter = adapter
+        //adapter.notifyDataSetChanged()
     }
 
     fun showDescDialog(data: NewInterviewDetails) {

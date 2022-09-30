@@ -23,6 +23,7 @@ import com.example.twillioproject.databinding.ActivityLoginBinding
 import com.google.android.material.snackbar.Snackbar
 import com.ui.activities.forgotPassword.ForgotPasswordActivity
 import com.ui.activities.joinmeeting.JoinMeetingActivity
+import com.ui.activities.login.loginwithotp.ActivitiyLoginWithOtp
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -101,6 +102,11 @@ class LoginActivity : AppCompatActivity() {
             }
             InputUtils.hideKeyboard(this)
         }
+
+        binding.btnOtpLogin.setOnClickListener {
+        startActivity(Intent(this,ActivitiyLoginWithOtp::class.java))
+        }
+
     }
 
     fun checkPermissions()
@@ -217,7 +223,6 @@ class LoginActivity : AppCompatActivity() {
                         if (isSuccess) {
                             if (checkInternet()){
                                     handleLoginApi(email, psswd)
-
                             }else
                             {
                                 Snackbar.make(binding.root,getString(R.string.txt_no_internet_connection),

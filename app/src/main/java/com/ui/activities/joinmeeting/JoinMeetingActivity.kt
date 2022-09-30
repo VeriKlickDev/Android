@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
+import com.data.dataHolders.CurrentConnectUserList
 import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.helpers.TwilioHelper
 import com.example.twillioproject.R
@@ -34,6 +35,8 @@ class JoinMeetingActivity :AppCompatActivity() {
 
         viewModel=ViewModelProvider(this).get(JoinMeetingViewModel::class.java)
 
+        binding.btnJumpBack.setOnClickListener { onBackPressed() }
+
         binding.btnJoin.setOnClickListener {
             if (checkInternet()){
                 // startActivity(Intent(this,ActivityAddParticipant::class.java))
@@ -45,14 +48,14 @@ class JoinMeetingActivity :AppCompatActivity() {
                     accessCode= accessCodeSplit.last()
                     Log.d(TAG, "onCreate: accessCode is $accessCode")
 
-                    //candi bNkbSMDAJyJhua42Rdtp  emulator
-                    //host Q1CJ8pL8p7Agm6eMp3QN   s10
+                    //candi bNkbSMDAJyJhua42Rdtp  s10
+                    //host Q1CJ8pL8p7Agm6eMp3QN   emulator
                     //inv DGwWsLeTAzylIxIzXair    note 9 invterviewer
 
                     //test
-                    getInterviewDetails("Q1CJ8pL8p7Agm6eMp3QN")
+                    getInterviewDetails("RcYgHSKj4OGmoOJFfSp2")
 
-                     getInterviewDetails(accessCode)
+                   //  getInterviewDetails(accessCode)
                     //  showToast(this,"Under Development")
                     InputUtils.hideKeyboard(this)
 
@@ -66,11 +69,11 @@ class JoinMeetingActivity :AppCompatActivity() {
             }
         }
 
-        binding.btnLogin.setOnClickListener {
+      /*  binding.btnLogin.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
             // startActivity(Intent(this, ActivityFeedBackForm::class.java))
-        }
+        }*/
     }
 
     /*
@@ -83,6 +86,7 @@ candidate :- 2dpOPzO1Hcf1z5eSGvLC
     fun getInterviewDetails(accessCode:String)
     {
         showProgressDialog()
+        Log.d(TAG, "getInterviewDetails: method")
         viewModel.getVideoSessionDetails(accessCode, onDataResponse = { data,event ->
 
             when (event) {
@@ -93,6 +97,7 @@ candidate :- 2dpOPzO1Hcf1z5eSGvLC
                     joinMeetingCandidate(accessCode)
                     data.videoAccessCode=accessCode
                     CurrentMeetingDataSaver.setData(data)
+                    Log.d(TAG, "getInterviewDetails: user response $data")
                     // Log.d(TAG, "host : ${data.token}  ${data.roomName}")
                     // TwilioHelper.setTwilioCredentials(data.token.toString(), data.roomName.toString())
                     // startActivity(Intent(this@JoinMeetingActivity, VideoActivity::class.java))
@@ -102,8 +107,9 @@ candidate :- 2dpOPzO1Hcf1z5eSGvLC
                     showToast(this,data?.aPIResponse?.message!!)
                     data.videoAccessCode=accessCode
                     //showToast(this, "null values")
-                    data?.let { CurrentMeetingDataSaver.setData(it) }
-                    joinMeetingCandidate(accessCode)
+                   /* data?.let { CurrentMeetingDataSaver.setData(it) }
+                    joinMeetingCandidate(accessCode)*/
+                    Log.d(TAG, "getInterviewDetails: user response $data")
                 }
                 404 -> {
                     dismissProgressDialog()
@@ -113,10 +119,11 @@ candidate :- 2dpOPzO1Hcf1z5eSGvLC
                 401->{
                     dismissProgressDialog()
                     showToast(this,data?.aPIResponse?.message!!)
-                    data.videoAccessCode=accessCode
+                   /* data.videoAccessCode=accessCode
                     CurrentMeetingDataSaver.setData(data!!)
                     joinMeetingCandidate(accessCode)
-                    CurrentMeetingDataSaver.setData(data)
+                    CurrentMeetingDataSaver.setData(data)*/
+                    Log.d(TAG, "getInterviewDetails: user response $data")
                 }
             }
         })
@@ -141,6 +148,7 @@ candidate :- 2dpOPzO1Hcf1z5eSGvLC
                         CurrentMeetingDataSaver.setRoomData(data)
                         Log.d("showdialogalert", "candidate: ${data.token}  ${data.roomName}")
                         TwilioHelper.setTwilioCredentials(data.token.toString(),data.roomName.toString())
+                        CurrentConnectUserList.clearList()
                         startActivity(Intent(this@JoinMeetingActivity, VideoActivity::class.java))
                     }
                 }

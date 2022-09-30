@@ -33,7 +33,7 @@ class BaseModule {
     @Provides
     @Singleton
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
-         var interception=HttpLoggingInterceptor()
+         val interception=HttpLoggingInterceptor()
         interception.level=HttpLoggingInterceptor.Level.BODY
         return interception
     }
@@ -44,10 +44,10 @@ class BaseModule {
       // fun provideOkHttpClient():  OkHttpClient.Builder {
         return OkHttpClient.Builder()
             .addInterceptor(interceptor)
-            .readTimeout(60, TimeUnit.SECONDS)
-            .writeTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(600, TimeUnit.SECONDS)
+            .writeTimeout(900, TimeUnit.SECONDS)
             //.callTimeout(60, TimeUnit.SECONDS)
-            .connectTimeout(60, TimeUnit.SECONDS)
+            .connectTimeout(100, TimeUnit.SECONDS)
             .pingInterval(5, TimeUnit.SECONDS)
     }
 

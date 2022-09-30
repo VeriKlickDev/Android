@@ -10,6 +10,14 @@ object CurrentConnectUserList {
     private val listLiveDataForAddParticipant= MutableLiveData<List<VideoTracksBean>>()
     private val participantList= mutableListOf<VideoTracksBean>()
 
+    fun clearList()
+    {
+        participantList.clear()
+        listLiveData.postValue(participantList)
+    }
+
+    fun getParticipantListSize()= participantList.size
+
     fun setListForVideoActivity(list:List<VideoTracksBean>)
     {
         participantList.clear()
@@ -28,11 +36,14 @@ object CurrentConnectUserList {
             {
                 pos = index
                 lst.userName = videoTracksBean.userName
+                lst.remoteParticipant=videoTracksBean.remoteParticipant
+                lst.videoTrack=videoTracksBean.videoTrack
+
                 participantList[index] = lst
             }
         }
         //onDataChanged(pos, participantList)
-     //   listLiveData.postValue(participantList)
+        listLiveData.postValue(participantList)
         return pos
     }
 

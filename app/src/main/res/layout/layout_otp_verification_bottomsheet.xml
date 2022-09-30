@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/_20sp"
+        android:background="@drawable/shape_rect_rounded_top_30"
+        >
+        <ImageView
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:src="@drawable/ic_close_cross_square"
+            android:layout_gravity="right"
+            android:layout_marginTop="@dimen/_10sp"
+            android:layout_marginRight="@dimen/_10sp"
+            android:id="@+id/btn_exit_dialog"
+            android:layout_marginLeft="@dimen/_10sp"
+            />
+
+
+        <EditText
+            android:padding="@dimen/_10sp"
+            android:id="@+id/et_otp"
+            android:maxLines="1"
+            android:textSize="@dimen/_18sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sp"
+            android:layout_marginTop="@dimen/_30sdp"
+            style="@style/editext.style.base"
+            android:hint="@string/txt_six_digit_otp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_verify"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_55sdp"
+            style="@style/button.Style.Blue.Rounded"
+            android:layout_marginTop="@dimen/_15sp"
+            android:text="@string/txt_verify_otp"
+            android:layout_marginBottom="@dimen/_20sp"
+
+            android:textSize="@dimen/_18sdp" />
+
+
+
+
+
+
+
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

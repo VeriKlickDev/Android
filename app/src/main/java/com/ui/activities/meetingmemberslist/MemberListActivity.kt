@@ -9,10 +9,12 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.data.checkInternet
 import com.data.dataHolders.CurrentConnectUserList
 import com.data.dataHolders.CurrentMeetingDataSaver
 import com.domain.BaseModels.VideoTracksBean
 import com.example.twillioproject.databinding.ActivityListOfMembersBinding
+import com.google.android.material.snackbar.Snackbar
 import com.ui.activities.adduserlist.ActivityAddParticipant
 import com.ui.listadapters.ConnectedMemberListAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -59,30 +61,14 @@ class MemberListActivity : AppCompatActivity() {
                         onClick = { pos, action, data ->
                             when (action) {
                                 1 -> {
-                                    viewModel.leftUser(
-                                        data.remoteParticipant?.sid!!,
-                                        CurrentMeetingDataSaver.getRoomData()
-                                            .firstOrNull()?.roomName!!,
-                                        onDataResponse = { data, status ->
-                                            when (status) {
-                                                200 -> {
-                                                    Log.d(
-                                                        TAG,
-                                                        "onCreate: data response success $data "
-                                                    )
-                                                }
-                                                400 -> {
-                                                    Log.d(
-                                                        TAG,
-                                                        "onCreate: data response success $data "
-                                                    )
-                                                }
-                                                404 -> {
-                                                    Log.d(TAG, "onCreate: data not found")
-                                                }
-                                            }
-
-                                        })
+                                    if (checkInternet())
+                                    {
+                                        leftUserFromMeeting(data)
+                                    }else
+                                    {
+                                        Snackbar.make(binding.root,getString(com.example.twillioproject.R.string.txt_no_internet_connection),
+                                            Snackbar.LENGTH_SHORT).show()
+                                    }
                                 }
 
                             }
@@ -91,6 +77,7 @@ class MemberListActivity : AppCompatActivity() {
                     adapter.notifyDataSetChanged()
                 }
             })
+
         binding.btnJumpBack.setOnClickListener {
             onBackPressed()
         }
@@ -106,6 +93,34 @@ class MemberListActivity : AppCompatActivity() {
         })
 */
 
+    }
+
+    private fun  leftUserFromMeeting(data:VideoTracksBean)
+    {
+        viewModel.leftUser(
+            data.remoteParticipant?.sid!!,
+            CurrentMeetingDataSaver.getRoomData()
+                .firstOrNull()?.roomName!!,
+            onDataResponse = { data, status ->
+                when (status) {
+                    200 -> {
+                        Log.d(
+                            TAG,
+                            "onCreate: data response success $data "
+                        )
+                    }
+                    400 -> {
+                        Log.d(
+                            TAG,
+                            "onCreate: data response success $data "
+                        )
+                    }
+                    404 -> {
+                        Log.d(TAG, "onCreate: data not found")
+                    }
+                }
+
+            })
     }
 
     private fun handleAddParticipant() {

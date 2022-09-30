@@ -58,7 +58,7 @@ interface BaseRestApi {
     suspend fun closeMeeting( @Body obj: BodyMeetingClose):Response<ResponseBodyFeedBack>
 
     @POST("/api/InterviewerLoginWithOtp")
-    suspend fun sendOtpVerification( @Body obj: BodyOtpVerification):Response<ResponseOtpVerification>
+    suspend fun sendOtpToEmailVerification(@Query("InterviewerEmail", encoded = true) email: String):Response<ResponseOtpVerification>
 
     @POST("/api/InterviewerLoginOtpStatus")
     suspend fun getOtpVerificationStatus( @Body obj: BodyOtpVerificationStatus):Response<ResponseOtpVerificationStatus>

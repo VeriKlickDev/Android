@@ -12,13 +12,12 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.SpinnerAdapter
 import androidx.lifecycle.ViewModelProvider
+import com.data.*
 import com.data.dataHolders.CurrentMeetingDataSaver
-import com.data.dismissProgressDialog
-import com.data.showProgressDialog
-import com.data.showToast
 import com.domain.BaseModels.*
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityFeedBackFormBinding
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -63,7 +62,14 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
 
         binding.btnSubmitButton.setOnClickListener {
-            sendFeedBack()
+            if (checkInternet()){
+                sendFeedBack()
+            }else
+            {
+                Snackbar.make(it,getString(R.string.txt_no_internet_connection), Snackbar.LENGTH_SHORT).show()
+            }
+
+
         }
 
         binding.btnJumpBack.setOnClickListener {
@@ -73,7 +79,13 @@ class ActivityFeedBackForm : AppCompatActivity() {
             addNewItem()
         }
 
-        getFeedBack()
+        if (checkInternet()){
+            getFeedBack()
+        }else
+        {
+            Snackbar.make(binding.root,getString(R.string.txt_no_internet_connection), Snackbar.LENGTH_SHORT).show()
+        }
+
         // getInterviewDetails("mkpeHcXKbF95uRiWiLzJ")
     }
 

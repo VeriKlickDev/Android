@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class BodyScheduledMeetingBean (
     @SerializedName("Recruiter") var Recruiter : String?=null,
     @SerializedName("Subscriber") var Subscriber : String?=null,
-    @SerializedName("PageNumber") val PageNumber : Int=1,
-    @SerializedName("PageSize") val PageSize : Int=9,
+    @SerializedName("PageNumber") var PageNumber : Int?=null,
+    @SerializedName("PageSize") var PageSize : Int?=null,
     @SerializedName("Search") var Search : String="",
     @SerializedName("fromdate") var fromdate : String?=null,
     @SerializedName("todate") var todate : String?=null,

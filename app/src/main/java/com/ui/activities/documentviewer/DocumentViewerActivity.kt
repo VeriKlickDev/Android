@@ -1,7 +1,6 @@
 package com.ui.activities.documentviewer
 
 
-import android.R
 import android.animation.ValueAnimator
 import android.app.DownloadManager
 import android.content.Context
@@ -19,12 +18,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
+import com.data.*
 import com.data.dataHolders.CurrentMeetingDataSaver
-import com.data.dismissProgressDialog
-import com.data.requestWriteExternamlStoragePermissions
-import com.data.showProgressDialog
-import com.data.showToast
+import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityDocumentViewerBinding
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
@@ -52,7 +50,15 @@ class DocumentViewerActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        getResume()
+        if (checkInternet())
+        {
+            getResume()
+        }else
+        {
+            Snackbar.make(binding.root,getString(com.example.twillioproject.R.string.txt_no_internet_connection),
+                Snackbar.LENGTH_SHORT).show()
+        }
+
         /* binding.swipetorefresh.setOnRefreshListener {
              getResume()
          }*/
@@ -106,21 +112,28 @@ class DocumentViewerActivity : AppCompatActivity() {
 
     fun showDocFile(fileName: String)
     {
-        val file =File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/"+fileName).toString())
-        val uri=FileProvider.getUriForFile(this,"com.example.twillioproject"+".provider",file)
-        val i = Intent(Intent.ACTION_VIEW)
-        this.fileName=fileName
-        if (fileName.contains(".pdf"))
+        try {
+            val file =File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/"+fileName).toString())
+            val uri=FileProvider.getUriForFile(this,"com.example.twillioproject"+".provider",file)
+            val i = Intent(Intent.ACTION_VIEW)
+            this.fileName=fileName
+            if (fileName.contains(".pdf"))
+            {
+                i.setDataAndType(uri, "application/pdf")
+            }
+            if (fileName.contains(".docx") || fileName.contains(".doc") )
+            {
+                i.setDataAndType(uri, "application/msword")
+            }
+
+            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_GRANT_READ_URI_PERMISSION
+            startActivity(i)
+        }catch (e:Exception)
         {
-            i.setDataAndType(uri, "application/pdf")
-        }
-        if (fileName.contains(".docx") || fileName.contains(".doc") )
-        {
-            i.setDataAndType(uri, "application/msword")
+            Snackbar.make(binding.root,getString(R.string.txt_no_supported_app_to_open),Snackbar.LENGTH_SHORT).show()
+            Log.d(TAG, "showDocFile: exception ${e.message}")
         }
 
-        i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_GRANT_READ_URI_PERMISSION
-          startActivity(i)
     }
 
 

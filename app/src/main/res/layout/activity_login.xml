@@ -54,8 +54,6 @@
                         style="@style/editext.style.base"
                         android:hint="@string/hint_email" />
 
-
-
                 <TextView
                     android:id="@+id/tv_email_error"
                     android:layout_width="match_parent"
@@ -130,6 +128,40 @@
                     android:layout_marginTop="@dimen/_20sp"
                     android:text="@string/txt_login"
                     android:textSize="@dimen/_18sdp" />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="@dimen/_15sp"
+                    >
+
+
+                    <View
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:background="@drawable/ic_message_24_blue"
+                        app:layout_constraintBottom_toBottomOf="@+id/btn_otp_login"
+                        app:layout_constraintEnd_toEndOf="@+id/btn_otp_login"
+                        app:layout_constraintHorizontal_bias="0.253"
+                        app:layout_constraintStart_toStartOf="@+id/btn_otp_login"
+                        app:layout_constraintTop_toTopOf="@+id/btn_otp_login" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_otp_login"
+                        style="@style/button.Style.lightBlue.Rounded.elevation"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_55sdp"
+                        android:layout_weight="1"
+                        android:text="@string/txt_login_with_otp"
+                        android:textSize="@dimen/_18sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_continue_guest"

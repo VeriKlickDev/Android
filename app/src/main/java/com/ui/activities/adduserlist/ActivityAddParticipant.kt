@@ -7,11 +7,13 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.data.*
+import com.data.dataHolders.CurrentConnectUserList
 import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.dataHolders.InvitationDataHolder
 import com.data.dataHolders.InvitationDataModel
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityLayoutAddParticipantBinding
+import com.google.android.material.snackbar.Snackbar
 
 import com.ui.listadapters.AddParticipantListAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,15 +35,19 @@ class ActivityAddParticipant : AppCompatActivity() {
         viewModel=ViewModelProvider(this).get(AddUserViewModel::class.java)
         binding.rvAdduserByLink.layoutManager = LinearLayoutManager(this)
 
-
-
         adapter = AddParticipantListAdapter(
             this,
             interviewList,
             onClick = { data: InvitationDataModel, action: Int, pos:Int, list ->
                 when (action) {
                     1 -> {
-                        addNewInterViewer()
+                        if (CurrentConnectUserList.getParticipantListSize()>7)
+                        {
+                            showToast(this,getString(R.string.txt_cant_add_more_participant))
+                        }else
+                        {
+                            addNewInterViewer()
+                        }
                         Log.d(TAG, "onCreate: ")
                     }
                     2->{
@@ -51,10 +57,28 @@ class ActivityAddParticipant : AppCompatActivity() {
             }, onEditextChanged = { txt, action,position ->
                     when(action)
                     {
-                        1->{checkEmailExists(txt,position)}
-                        2->{checkPhoneExists(txt,position)}
-                    }
+                        1->{
+                            if (checkInternet())
+                            {
+                                checkEmailExists(txt,position)
+                            }else
+                            {
+                                Snackbar.make(binding.root,getString(com.example.twillioproject.R.string.txt_no_internet_connection),
+                                    Snackbar.LENGTH_SHORT).show()
+                            }
 
+                        }
+                        2->{
+                            if (checkInternet())
+                            {
+                                checkPhoneExists(txt,position)
+                            }else
+                            {
+                                Snackbar.make(binding.root,getString(com.example.twillioproject.R.string.txt_no_internet_connection),
+                                    Snackbar.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
             })
         binding.rvAdduserByLink.adapter = adapter
 
@@ -156,7 +180,14 @@ class ActivityAddParticipant : AppCompatActivity() {
             distinctinvitationList.addAll(invitationList.distinctBy { it.uid })
             if (!isEmpty)
             {
-            sendInvitation()
+                if (checkInternet())
+                {
+                    sendInvitation()
+                }else
+                {
+                    Snackbar.make(binding.root,getString(com.example.twillioproject.R.string.txt_no_internet_connection),
+                        Snackbar.LENGTH_SHORT).show()
+                }
                 Log.d(TAG, "postInvitation:  posting data")
             }else
             {
