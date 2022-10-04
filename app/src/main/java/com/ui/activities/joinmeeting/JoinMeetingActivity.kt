@@ -53,9 +53,9 @@ class JoinMeetingActivity :AppCompatActivity() {
                     //inv DGwWsLeTAzylIxIzXair    note 9 invterviewer
 
                     //test
-                    getInterviewDetails("RcYgHSKj4OGmoOJFfSp2")
+                   // getInterviewDetails("RcYgHSKj4OGmoOJFfSp2")
 
-                   //  getInterviewDetails(accessCode)
+                     getInterviewDetails(accessCode)
                     //  showToast(this,"Under Development")
                     InputUtils.hideKeyboard(this)
 
@@ -107,22 +107,22 @@ candidate :- 2dpOPzO1Hcf1z5eSGvLC
                     showToast(this,data?.aPIResponse?.message!!)
                     data.videoAccessCode=accessCode
                     //showToast(this, "null values")
-                    data?.let { CurrentMeetingDataSaver.setData(it) }
-                    joinMeetingCandidate(accessCode)
+                   /* data?.let { CurrentMeetingDataSaver.setData(it) }
+                    joinMeetingCandidate(accessCode)*/
                     Log.d(TAG, "getInterviewDetails: user response $data")
                 }
                 404 -> {
                     dismissProgressDialog()
-                    showToast(this,data?.aPIResponse?.message!!)
+                  //  showToast(this,data?.aPIResponse?.message!!)
                     showToast(this, data?.aPIResponse?.message.toString())
                 }
                 401->{
                     dismissProgressDialog()
                     showToast(this,data?.aPIResponse?.message!!)
                     data.videoAccessCode=accessCode
-                    CurrentMeetingDataSaver.setData(data!!)
+                   /* CurrentMeetingDataSaver.setData(data!!)
                     joinMeetingCandidate(accessCode)
-                    CurrentMeetingDataSaver.setData(data)
+                    CurrentMeetingDataSaver.setData(data)*/
                     Log.d(TAG, "getInterviewDetails: user response $data")
                 }
             }

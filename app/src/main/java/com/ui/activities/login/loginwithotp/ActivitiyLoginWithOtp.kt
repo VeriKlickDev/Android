@@ -198,8 +198,13 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
             when (result) {
                 200 -> {
                     Log.d(TAG, "handleEmailVerification: 200 data $data")
-                     handleVerifiedStatus(data)
-
+                    if (data.Status!!.contains("VALID"))
+                    {
+                        binding.tvOtpError.text=""
+                        handleVerifiedStatus(data)
+                    }else {
+                        binding.tvOtpError.text= data.Status.toString()
+                    }
                 }
                 400 -> {
                     showToast(this, data.Status.toString())

@@ -117,6 +117,7 @@
                     android:id="@+id/et_otp"
                     android:maxLines="1"
                     android:textSize="@dimen/_16sdp"
+                    android:hint="@string/txt_six_digit_otp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/editext.style.base"
@@ -124,13 +125,25 @@
 
                     />
 
+            <TextView
+                android:id="@+id/tv_otp_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sp"
+                android:fontFamily="@font/sarabun_medium"
+                android:gravity="right"
+                android:layout_marginTop="-5sp"
+                android:textColor="@color/red"
+                android:textSize="@dimen/_10sp"
+                android:visibility="visible" />
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_verifyOtp"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_55sdp"
                 android:visibility="visible"
+                android:layout_marginTop="@dimen/_10sp"
                 style="@style/button.Style.Blue.Rounded"
-                android:layout_marginTop="@dimen/_20sp"
                 android:text="@string/txt_verify_otp"
                 android:textSize="@dimen/_18sdp" />
 
