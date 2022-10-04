@@ -26,7 +26,7 @@ class UpComingMeetingViewModel @Inject constructor(
 
     fun getScheduledMeetingList(
         bodyScheduledMeetingBean: BodyScheduledMeetingBean,
-        response: (result: Int, exception: String?) -> Unit,
+        response: (result: Int, exception: String?,data:ResponseScheduledMeetingBean?) -> Unit,
         actionProgress: (action: Int) -> Unit
     ) {
         try {
@@ -51,7 +51,7 @@ class UpComingMeetingViewModel @Inject constructor(
 
                 if (result?.code() == 401) {
                     Log.d("checkauth", "getScheduledMeetingList: unauthorised")
-                    response(401,"Unauthorised")
+                    response(401,"Unauthorised",null)
                     actionProgress(0)
                 }
                 if (result?.isSuccessful!!) {
@@ -59,22 +59,22 @@ class UpComingMeetingViewModel @Inject constructor(
                         actionProgress(0)
 
                         scheduledMeetingLiveData.postValue(result.body()?.newInterviewDetails)
-                        response(200, null)
+                        response(200, null,result?.body()!!)
                         Log.d(TAG, "getVideoSession:  success ${result.body()}")
                     } else {
                         actionProgress(0)
-                        response(400, null)
+                        response(400, null,result.body()!!)
                         Log.d(TAG, "getVideoSession: null result")
                     }
                 } else {
                     actionProgress(0)
-                    response(404, null)
+                    response(404, null,null)
                     Log.d(TAG, "getVideoSession: not success")
                 }
             }
         } catch (e: Exception) {
             actionProgress(0)
-            response(500, e.printStackTrace().toString())
+            response(500, e.printStackTrace().toString(),null)
         }
     }
 

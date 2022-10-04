@@ -7,6 +7,8 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +19,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.load.resource.drawable.DrawableResource
 import com.data.dataHolders.DataStoreHelper
 import com.data.*
 import com.data.dataHolders.CurrentMeetingDataSaver
@@ -49,6 +50,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     var iscrolled=false
     lateinit var  layoutManager:LinearLayoutManager
 
+    private var isOpenedFirst=false
     private var preUtcDate = ""
     private var preIsTDate = ""
     private var nextutcDate = ""
@@ -62,9 +64,10 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         binding = ActivityUpcomingMeetingBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel = ViewModelProvider(this).get(UpComingMeetingViewModel::class.java)
-        var dayOfYear = getCurrentDayOfYear()
+
         WeeksDataHolder.setDayToZero()
         layoutManager=LinearLayoutManager(this)
+
         WeeksDataHolder.getItcUtcNextDate(dateResponse = { utcDate, itcDate ->
             nextIstDate = itcDate
             nextutcDate = utcDate
@@ -124,8 +127,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
         binding.swipetorefresh.setOnRefreshListener {
             if (checkInternet()) {
-
-
+                meetingsList.clear()
                 handleUpcomingMeetingsList(5, null,1,9)
 
             /* if (isNextClicked)
@@ -209,7 +211,14 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 val totalitem=layoutManager.itemCount
                 if (iscrolled && vitem+skipped==totalitem) {
                     pageno++
-                    handleUpcomingMeetingsList(5, null,pageno,9)
+                    if (contentLimit==meetingsList.size)
+                    {
+
+                    }else
+                    {
+                        handleUpcomingMeetingsList(5, null,pageno,9)
+                    }
+
                     Log.d(TAG, "onScrolled: "+pageno.toString())
                     iscrolled=false
                 }
@@ -442,16 +451,32 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             viewModel.getScheduledMeetingList(
                 actionProgress = {
                     if (it == 1) {
+
                         binding.swipetorefresh.isRefreshing = false
-                        showProgressDialog()
+                        if (isOpenedFirst)
+                        {
+                            Handler(Looper.getMainLooper()).post(Runnable {
+                            binding.progressBar.isVisible=true
+                            })
+                        }else
+                        {
+                            showProgressDialog()
+                            isOpenedFirst=true
+                        }
                     }
                     else {
                         binding.swipetorefresh.isRefreshing = false
                         dismissProgressDialog()
+
+                        Handler(Looper.getMainLooper()).post(Runnable {
+                        binding.progressBar.isVisible=false
+
+                        })
+
                     }
                 },
-                response = { result, exception ->
-
+                response = { result, exception,data ->
+                    contentLimit=data?.totalCount!!
                     dismissProgressDialog()
                     binding.swipetorefresh.isRefreshing = false
                 },
@@ -463,6 +488,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         }
     }
 
+    private var contentLimit:Int=1
 
     private val meetingsList= mutableListOf<NewInterviewDetails>()
     private fun handleObserver() {

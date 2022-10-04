@@ -120,8 +120,7 @@ fun passwordValidator(
 
 }
 
-
-lateinit var progressbar: Dialog
+ var progressbar: Dialog?=null
 fun Context.showProgressDialog() {
     android.os.Handler(Looper.getMainLooper()).post(Runnable {
         //val layoutView = LayoutInflater.from(this).inflate(R.layout.layout_progress, null, false)
@@ -130,15 +129,17 @@ fun Context.showProgressDialog() {
             .setView(layoutView.root)
             .setCancelable(false)
             .create()
-        progressbar.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        progressbar.show()
+        progressbar?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        progressbar?.show()
     })
 
 }
 
 fun Context.dismissProgressDialog() {
     android.os.Handler(Looper.getMainLooper()).post(Runnable {
-        progressbar.dismiss()
+        progressbar?.let{
+        it.dismiss()
+    }
     })
 
 }
