@@ -19,11 +19,13 @@ import com.google.android.material.transition.Hold
 import com.google.gson.Gson
 import com.ui.listadapters.UpcomingMeetingAdapter
 import dagger.multibindings.ElementsIntoSet
+import kotlin.math.roundToInt
 
 //, val onClick:(data: NewInterviewDetails, videoAccessCode:String, action:Int)->Unit
 class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkills>,val onClicked:(pos:Int,data:AssessSkills,action:Int)->Unit) :
     RecyclerView.Adapter<SkillsListAdapter.ViewHolderClass>() {
-
+    private var reviewData=ReviewDataHolderModel(-1,null,null,null)
+    private val TAG="skillsAdapterCheck"
     fun getFeedBackList():List<AssessSkills>
     {
         return list
@@ -35,6 +37,7 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
     }
 
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
+        holder.setIsRecyclable(false)
         holder.dataBind(list.get(position))
 
         if (list[position].value.equals("others"))
@@ -58,20 +61,28 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
         RecyclerView.ViewHolder(binding.root) {
         fun dataBind(data: AssessSkills) {
             //binding.ratingbarWireframing.get(adapterPosition)
-            binding.tvSkills.setText(list.get(adapterPosition).value)
+            binding.ratingbarWireframing.max=5
+            binding.tvSkills.setText(data.value)
 
+            try {
+                binding.ratingbarWireframing.progress=data.Ratings!!
+                Log.d(TAG, "dataBind: rating ${data.Ratings}")
+            }catch (e:Exception)
+            {
+                Log.d(TAG, "dataBind: exception ${e.message}")
+            }
 
-            binding.btnRemoveSkill.setOnClickListener {
+               binding.btnRemoveSkill.setOnClickListener {
                 onClicked(adapterPosition,data,2)
             }
 
             Log.d("datachecking", "dataBind: data is ${data.value} ${data.Catagory} ")
 
-
             /* binding.btnAddSkill.setOnClickListener {
                  onClicked(adapterPosition,data,1)
              }
- */
+             */
+
             binding.ratingbarWireframing.setOnDragListener(object : View.OnDragListener {
                 override fun onDrag(v: View?, event: DragEvent?): Boolean {
                     Log.d("TAGrating", "onDrag: ${event?.x}   ${event?.clipData}   ${event?.result}  ${event?.localState}")
@@ -80,12 +91,14 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
             })
 
             val ob=AssessSkills()
+            ob.value=data.value
 
             Log.d("datachecking", "dataBind: data is  out ${data.value} ")
             if (data.value.equals("others") )
             {
                 Log.d("datachecking", "dataBind: data is in if ")
                 binding.etTitle.isVisible=true
+                binding.etTitle.setText("")
             }
             else{
                 Log.d("datachecking", "dataBind: data is in else ")
@@ -103,10 +116,9 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
                 ob.Comments=it.toString()
             }
 
-
             Log.d("checkingrating", "dataBind: ${binding.ratingbarWireframing.rating}")
             binding.ratingbarWireframing.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
-                ob.Ratings=rating.toString()
+                ob.Ratings=rating.roundToInt()
                 list.set(adapterPosition,ob)
                 Log.d("checkingrating", "dataBind: ${rating} $fromUser list size is ${list.size}")
             }
@@ -119,3 +131,5 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
 
 
 }
+
+data class ReviewDataHolderModel(var pos:Int ,var title:String?,var comment:String?,var rating:Int?)

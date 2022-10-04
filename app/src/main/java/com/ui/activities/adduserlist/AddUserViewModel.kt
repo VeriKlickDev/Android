@@ -53,7 +53,6 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
     {
         viewModelScope.launch {
             try {
-
                 val interviewList= arrayListOf<AddInterviewerList>()
                 list.forEach {
                     interviewList.add(AddInterviewerList(firstName = it.firstName, lastName = it.lastName, emailId = it.email, contactNumber = it.phone, isPresenter = false))
@@ -95,6 +94,34 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
                 Log.d(TAG, "getVideoSession: exception ${e.message}")
             }
         }
+    }
+
+
+    fun getTotoalCountOfInterviewer(videoAccessCode:String,onResponse:(action:Int,data:ResponseTotalInterviewerCount?)->Unit)
+    {
+        try {
+            viewModelScope.launch {
+                val result = repo.getTotalCountOfInterViewerInMeeting(videoAccessCode = videoAccessCode)
+
+                if (result.isSuccessful) {
+                    if (result.body() != null) {
+                        onResponse(200,result.body()!!)
+                    }
+                    else {
+                        onResponse(400,result.body()!!)
+                        Log.d(TAG, "getIsEmailAndPhoneExists: null response ")
+                    }
+                }
+                else {
+                    onResponse(404,result.body()!!)
+                    Log.d(TAG, "getIsEmailAndPhoneExists:  response not success")
+                }
+            }
+        } catch (e: Exception) {
+            onResponse(500,null)
+            Log.d("adduserexception", "getIsEmailAndPasswordExists: exception  ")
+        }
+
     }
 
 

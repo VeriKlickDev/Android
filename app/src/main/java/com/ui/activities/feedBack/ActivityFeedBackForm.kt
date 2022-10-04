@@ -68,8 +68,6 @@ class ActivityFeedBackForm : AppCompatActivity() {
             {
                 Snackbar.make(it,getString(R.string.txt_no_internet_connection), Snackbar.LENGTH_SHORT).show()
             }
-
-
         }
 
         binding.btnJumpBack.setOnClickListener {

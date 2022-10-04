@@ -94,6 +94,7 @@
             android:layout_height="wrap_content"
             android:imeOptions="actionDone"
             android:singleLine="true"
+            android:inputType="phone"
             android:layout_marginHorizontal="@dimen/_10sp"
             style="@style/editext.style.base"
             android:hint="@string/hint_phone_no" />

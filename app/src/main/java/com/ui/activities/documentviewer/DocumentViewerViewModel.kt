@@ -16,7 +16,9 @@ import javax.inject.Inject
 @HiltViewModel
 class DocumentViewerViewModel @Inject constructor(val baseRepo: BaseRestRepository) : ViewModel() {
 val TAG="docuviewmodelcheck"
-    fun getDocument(onDataResponse:(obj:ResponseCandidateDataForIOS,action:Int)->Unit,onResumeResponse:(obj:ResponseResumeModel?,fileName:String,action:Int)->Unit)
+
+
+  /*  fun getDocument(onDataResponse:(obj:ResponseCandidateDataForIOS,action:Int)->Unit,onResumeResponse:(obj:ResponseResumeModel?,fileName:String,action:Int)->Unit)
     {
         try {
             CoroutineScope(Dispatchers.IO).launch {
@@ -59,7 +61,7 @@ val TAG="docuviewmodelcheck"
             Log.d(TAG, "getVideoSession: not exception")
         }
     }
-
+*/
     fun getResume(fileName:String,onResumeResponse:(obj: ResponseResumeModel?,fileName:String, action:Int)->Unit)
     {
         try {

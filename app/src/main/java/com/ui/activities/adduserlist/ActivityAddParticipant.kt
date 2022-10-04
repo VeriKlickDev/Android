@@ -11,6 +11,7 @@ import com.data.dataHolders.CurrentConnectUserList
 import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.dataHolders.InvitationDataHolder
 import com.data.dataHolders.InvitationDataModel
+import com.domain.BaseModels.ResponseTotalInterviewerCount
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityLayoutAddParticipantBinding
 import com.google.android.material.snackbar.Snackbar
@@ -41,13 +42,8 @@ class ActivityAddParticipant : AppCompatActivity() {
             onClick = { data: InvitationDataModel, action: Int, pos:Int, list ->
                 when (action) {
                     1 -> {
-                        if (CurrentConnectUserList.getParticipantListSize()>7)
-                        {
-                            showToast(this,getString(R.string.txt_cant_add_more_participant))
-                        }else
-                        {
-                            addNewInterViewer()
-                        }
+
+                        checkTotalParticipant()
                         Log.d(TAG, "onCreate: ")
                     }
                     2->{
@@ -87,6 +83,39 @@ class ActivityAddParticipant : AppCompatActivity() {
         }
 
     }
+    private fun checkTotalParticipant()
+    {
+        viewModel.getTotoalCountOfInterviewer(CurrentMeetingDataSaver.getData().videoAccessCode!!, onResponse = {action, data ->
+            when(action)
+            {
+                200->{
+                    if (data?.TotalInterviewerCount!!>7)
+                    {
+                        showToast(this,getString(R.string.txt_cant_add_more_participant))
+                    }else
+                    {
+                        addNewInterViewer(data?.TotalInterviewerCount!!)
+                    }
+                }
+                400->{
+                    showToast(this,data?.Message!!)
+                }
+                401->{
+                    Log.d(TAG, "checkTotalParticipant: null response")
+                }
+                404->{
+                    Log.d(TAG, "checkTotalParticipant: null response")
+                }
+                500->{
+                    Log.d(TAG, "checkTotalParticipant:exception")
+                }
+            }
+        })
+
+
+    }
+
+
     var isEmpty=false
     fun handleList()
     {
@@ -239,7 +268,7 @@ class ActivityAddParticipant : AppCompatActivity() {
 
     private val interviewList = mutableListOf<InvitationDataModel>()
 
-    private fun addNewInterViewer()  {
+    private fun addNewInterViewer(interviewerCount: Int)  {
         val randomStr=UUID.randomUUID()
 //        InvitationDataHolder.setItem(InvitationDataModel(uid = randomStr.toString(), index = -1))
 

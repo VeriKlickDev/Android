@@ -24,7 +24,7 @@
 
 
         <TextView
-            android:layout_marginTop="@dimen/_20sp"
+            android:layout_marginTop="@dimen/_30sdp"
             android:id="@+id/tv_join_meeting"
             style="@style/textview.Style.TvStyleWhiteRounded_30"
             android:layout_width="match_parent"
@@ -44,30 +44,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-
+            android:layout_marginTop="@dimen/_15sp"
             android:id="@+id/parentLayout_emailVerify"
             >
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sp"
-            android:hint="@string/hint_email"
-            android:id="@+id/email_inputlayout"
-            android:layout_marginHorizontal="@dimen/_10sp"
-            app:boxStrokeColor="@color/white"
-            app:boxBackgroundColor="@color/white"
-            >
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/_10sp"-->
+<!--            android:hint="@string/hint_email"-->
+<!--            android:id="@+id/email_inputlayout"-->
+<!--            android:layout_marginHorizontal="@dimen/_10sp"-->
+<!--            app:boxBackgroundColor="@color/white"-->
+<!--            >-->
+
             <EditText
-                android:id="@+id/et_role"
-                android:maxLines="1"
-                android:textSize="@dimen/_16sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_img_message_black"
+                android:id="@+id/et_role"
+                android:maxLines="1"
+                android:textSize="@dimen/_18sdp"
+                style="@style/editext.style.base"
+                android:layout_marginHorizontal="@dimen/_10sp"
+                android:drawablePadding="@dimen/_5sp"
+                android:hint="@string/hint_email"
                 />
 
-        </com.google.android.material.textfield.TextInputLayout>
+
 
 
 
@@ -102,29 +106,26 @@
             android:id="@+id/parentLayout_otp"
             >
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sp"
-                android:hint="@string/txt_six_digit_otp"
-                android:visibility="visible"
-                android:id="@+id/otp_inputlayout"
-                android:layout_marginHorizontal="@dimen/_10sp"
-                app:boxStrokeColor="@color/white"
-                app:boxBackgroundColor="@color/white"
-                >
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="@dimen/_10sp"-->
+<!--                android:hint="@string/txt_six_digit_otp"-->
+<!--                android:visibility="visible"-->
+<!--                android:id="@+id/otp_inputlayout"-->
+<!--                android:layout_marginHorizontal="@dimen/_10sp"-->
+<!--                app:boxBackgroundColor="@color/white"-->
+<!--                >-->
                 <EditText
                     android:id="@+id/et_otp"
                     android:maxLines="1"
                     android:textSize="@dimen/_16sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    style="@style/editext.style.base"
+                    android:layout_marginHorizontal="@dimen/_10sp"
+
                     />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_verifyOtp"

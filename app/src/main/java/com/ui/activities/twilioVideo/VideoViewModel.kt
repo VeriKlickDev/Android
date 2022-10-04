@@ -277,14 +277,54 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
                 val result = repositoryImpl.getMuteStatus(accessCode)
                 if (result.isSuccessful) {
                     if (result.body() != null) {
-                        onResult(200, result.body()!!)
+                        when(result.body()?.StatusCode?.toInt())
+                        {
+                            200->{
+                                onResult(200, result.body()!!)
+                            }
+                            400->{
+                                onResult(400, result.body()!!)
+                            }
+                        }
                     }
                     else {
-                        onResult(400, result.body()!!)
+                        onResult(401, result.body()!!)
                     }
                 }
                 else {
                     onResult(404, result.body()!!)
+                }
+            }
+        } catch (e: Exception) {
+            onResult(500, null)
+        }
+    }
+
+    fun getScreenSharingStatus(
+        accessCode: String,
+        onResult: (action: Int, data: ResponseScreenSharingStatus?) -> Unit
+    ) {
+        try {
+            viewModelScope.launch {
+                val result = repositoryImpl.getScreenSharingStatus(accessCode)
+                if (result.isSuccessful) {
+                    if (result.body() != null) {
+                        when(result.body()?.StatusCode?.toInt())
+                        {
+                            200->{
+                                onResult(200, result.body()!!)
+                            }
+                            400->{
+                                onResult(400, result.body()!!)
+                            }
+                        }
+                    }
+                    else {
+                        onResult(401, result.body()!!)
+                    }
+                }
+                else {
+                    onResult(404, null)
                 }
             }
         } catch (e: Exception) {

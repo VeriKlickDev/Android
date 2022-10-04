@@ -143,7 +143,7 @@ class DocumentViewerActivity : AppCompatActivity() {
         // fileName -> fileName with extension
         val request = DownloadManager.Request(Uri.parse(url))
             .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
-            .setTitle(fileName)
+            .setTitle(CurrentMeetingDataSaver.getData().interviewModel?.candidate?.ResumePath)
             .setDescription(desc)
             .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
             .setAllowedOverMetered(true)
@@ -152,7 +152,7 @@ class DocumentViewerActivity : AppCompatActivity() {
         val downloadManager= getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         val downloadID = downloadManager.enqueue(request)
         Log.d(TAG, "downloadFile: download id $downloadID")
-        showDocFile(fileName)
+        showDocFile(CurrentMeetingDataSaver.getData().interviewModel?.candidate?.ResumePath!!)
     }
 
 
@@ -226,7 +226,9 @@ class DocumentViewerActivity : AppCompatActivity() {
     }
 
     fun getResume() {
-        viewModel.getDocument(onDataResponse = { data, action ->
+
+
+      /*  viewModel.getDocument(onDataResponse = { data, action ->
             showProgressDialog()
             when (action) {
                 200 -> {
@@ -280,7 +282,42 @@ class DocumentViewerActivity : AppCompatActivity() {
             }
 
         })
+        */
 
+
+        viewModel.getResume(CurrentMeetingDataSaver.getData().interviewModel?.candidate?.ResumePath!!, onResumeResponse = {
+            data, fileName, action ->
+            when (action) {
+                200 -> {
+                    dismissProgressDialog()
+                    Log.d(TAG, "getResume: success 200")
+                    //  binding.swipetorefresh.isRefreshing = false
+                    if (fileName.contains(".doc")) {
+                        loadResume(data?.data?.fileName.toString(), fileName, 1)
+                    }
+                    if (fileName.contains(".docx")) {
+                        loadResume(data?.data?.fileName.toString(), fileName, 2)
+                    }
+                    if (fileName.contains(".pfd")) {
+                        loadResume(data?.data?.fileName.toString(), fileName, 3)
+                    }
+
+                }
+                400 -> {
+                    dismissProgressDialog()
+                    Log.d(TAG, "getResume: not success 400")
+                    showToast(this, data?.errorMessage.toString())
+                    //   binding.swipetorefresh.isRefreshing = false
+                }
+                404 -> {
+                    dismissProgressDialog()
+                    Log.d(TAG, "getResume: not success 404")
+                    showToast(this, data?.errorMessage.toString())
+                    //  binding.swipetorefresh.isRefreshing = false
+
+                }
+            }
+        })
     }
 
 
@@ -300,11 +337,8 @@ class DocumentViewerActivity : AppCompatActivity() {
         }
 
         override fun onPageFinished(view: WebView?, url: String?) {
-
             super.onPageFinished(view, url)
         }
-
-
     }
 
 }

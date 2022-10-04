@@ -293,17 +293,19 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
             }
         }
 
-        binding.btnAllowToMute.isVisible = CurrentMeetingDataSaver.getData().isPresenter!!
+      //  binding.btnAllowToMute.isVisible = CurrentMeetingDataSaver.getData().isPresenter!!
 
         binding.muteActionFab.setOnClickListener {
 
+            handleMuteUnmutebyHost()
+            /*
             if (CurrentMeetingDataSaver.getData().isPresenter == true) {
                 Log.d(TAG, "onCreate: in mute host")
                 handleMuteUnmutebyHost()
             } else {
                 Log.d(TAG, "onCreate: in mute not host")
                 handleMuteUnmute()
-            }
+            }*/
         }
 
         binding.btnAllowToMute.setOnClickListener {
@@ -702,7 +704,6 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
                         Log.d(TAG, "handleAllowToMute: not found")
                     }
                     500 -> {
-
                         Log.d(TAG, "handleAllowToMute exception ")
                     }
                 }
@@ -2283,7 +2284,16 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
                 startActivity(Intent(this, DocumentViewerActivity::class.java))
             }
             R.id.btn_share_screen -> {
-                shareScreen()
+               getScreenSharingStatus {
+                   if (it)
+                   {
+                       shareScreen()
+                   }
+                   else
+                   {
+                       showToast(this,getString(R.string.txt_someone_is_sharing_screen))
+                   }
+               }
             }
             R.id.btn_record_video -> {
                 handleVideoRecording()
@@ -2291,6 +2301,47 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
             }
         }
     }
+
+        fun getScreenSharingStatus(onResonse:(isSharing:Boolean)->Unit)
+        {
+            viewModel.getScreenSharingStatus(
+                CurrentMeetingDataSaver.getData().videoAccessCode.toString(),
+                onResult = { action, data ->
+                    when (action) {
+                        200 -> {
+                            val isSharing=data?.InterviewerList?.any{it.ScreenShareCurrentStatus==false}
+                            if (isSharing!=null)
+                            {
+                                if (isSharing==false)
+                                {
+                                    onResonse(true)
+                                }else
+                                {
+                                    onResonse(false)
+                                }
+                            }else
+                            {
+                                onResonse(false)
+                            }
+                            Log.d(TAG, "handleAllowToMute: success ${data}")
+                        }
+                        400 -> {
+                            onResonse(false)
+                            Log.d(TAG, "handleAllowToMute: null data")
+                        }
+                        404 -> {
+                            onResonse(false)
+                            Log.d(TAG, "handleAllowToMute: not found")
+                        }
+                        500 -> {
+                            onResonse(false)
+                            Log.d(TAG, "handleAllowToMute exception ")
+                        }
+
+                    }
+                })
+        }
+
 
     fun setAllSinkRemove() {
         localVideoTrack?.removeSink(binding.primaryVideoView)
@@ -2325,7 +2376,6 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
                 resultLauncher.launch(mediaProjectionManager.createScreenCaptureIntent())
             } else {
                 Log.d(TAG, "shareScreen: screen capture  null capturing start")
-
                 startScreenCapture()
             }
         }

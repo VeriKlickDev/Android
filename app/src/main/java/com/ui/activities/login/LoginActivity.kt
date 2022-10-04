@@ -163,7 +163,8 @@ class LoginActivity : AppCompatActivity() {
                         Log.d(TAG, "onCreate: success ${data.data?.accessToken}")
                         DataStoreHelper.setToken(data.data?.accessToken!!)
                        // DataStoreHelper.insertValue(email,psswd)
-                        DataStoreHelper.insertValue("gaurav+firstlevel@synkriom.com","PassRecruiter@1")
+
+                        DataStoreHelper.insertValue(email,psswd)
 
                         decodeLoginToken(data.data?.accessToken!!, response = { response ->
 

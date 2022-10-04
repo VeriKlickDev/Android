@@ -27,7 +27,8 @@ data class Candidate (
 	@SerializedName("licenseFrontImagePath") val licenseFrontImagePath : String,
 	@SerializedName("InterviewerTimezone") val interviewerTimezone : String,
 	@SerializedName("EmailAcceptanceStatus") val emailAcceptanceStatus : Int,
-	@SerializedName("InterviewerId") val interviewerId : Int
+	@SerializedName("InterviewerId") val interviewerId : Int,
+	@SerializedName("ResumePath") val ResumePath : String
 )
 
 
@@ -149,7 +150,8 @@ data class Users (
 	@SerializedName("InterviewerTimezone") val interviewerTimezone : String,
 	@SerializedName("EmailAcceptanceStatus") val emailAcceptanceStatus : Int,
 	@SerializedName("Id") val id : Int,
-	@SerializedName("Name") val name : String
+	@SerializedName("Name") val name : String,
+	@SerializedName("ResumePath") val ResumePath : String
 )
 
 

@@ -390,7 +390,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     }
 */
 
-
+                    isPrevClicked=true
 
                     ob.fromdate = utcDate
                     ob.todate = nextutcDate
@@ -462,6 +462,8 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             dismissProgressDialog()
         }
     }
+
+
     private val meetingsList= mutableListOf<NewInterviewDetails>()
     private fun handleObserver() {
         Log.d(TAG, "handleObserver: out observer method")

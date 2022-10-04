@@ -1,5 +1,6 @@
 package com.ui.activities.login.loginwithotp
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
@@ -12,13 +13,19 @@ import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import com.data.*
+import com.data.dataHolders.DataStoreHelper
+import com.domain.BaseModels.ResponseOtpVerificationStatus
 
 
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityActivitiyLoginWithOtpBinding
 import com.example.twillioproject.databinding.LayoutOtpVerificationBottomsheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ActivitiyLoginWithOtp : AppCompatActivity() {
@@ -39,7 +46,7 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
                onBackPressed()
            }
         }
-
+        btnDisabledbackGround()
         visibleSendEmail()
        // btnDisabledbackGround()
         binding.btnSendOtp.setOnClickListener {
@@ -57,9 +64,18 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
         binding.btnVerifyOtp.setOnClickListener {
             verifyOtp(binding.etOtp.text.toString())
         }
-
-
     }
+
+    override fun onBackPressed() {
+        if ( binding.parentLayoutOtp.isVisible)
+        {
+            visibleSendEmail()
+        }else
+        {
+            super.onBackPressed()
+        }
+    }
+
 
     fun visibleSendEmail()
     {
@@ -69,7 +85,6 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
         })
     }
 
-
     fun visibleOtpVerify()
     {
         Handler(Looper.getMainLooper()).post(Runnable {
@@ -77,7 +92,6 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
             binding.parentLayoutEmailVerify.isVisible=false
         })
     }
-
 
     fun btnEnabledbackGround()
     {
@@ -121,18 +135,19 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
                 200 -> {
                     Log.d(TAG, "handleEmailVerification: 200 data $data")
                     visibleOtpVerify()
+                    showToast(this, data.Message.toString())
                     //verifycationBottomSheetDialog()
                 }
                 400 -> {
                     showToast(this, data.Message.toString())
                    // visibleSendEmail()
-                    visibleOtpVerify()
+                   // visibleOtpVerify()
                 }
                 401 -> {
                     Log.d(TAG, "handleEmailVerification: 401")
                     showToast(this, data.Message.toString())
                     //visibleSendEmail()
-                    visibleOtpVerify()
+                   // visibleOtpVerify()
                 }
                 404 -> {
                     Log.d(TAG, "handleEmailVerification: 404")
@@ -183,6 +198,8 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
             when (result) {
                 200 -> {
                     Log.d(TAG, "handleEmailVerification: 200 data $data")
+                     handleVerifiedStatus(data)
+
                 }
                 400 -> {
                     showToast(this, data.Status.toString())
@@ -203,10 +220,25 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
                 1 -> {
                     showProgressDialog()
                 }
-                2 -> {
+                0 -> {
                     dismissProgressDialog()
                 }
             }
         })
     }
+    fun handleVerifiedStatus(data: ResponseOtpVerificationStatus)
+    {
+        DataStoreHelper.insertValue(email,data.recruiterid!!)
+        CoroutineScope(Dispatchers.IO).launch {
+            DataStoreHelper.setMeetingRecruiterAndUserIds(data.recruiterid!!,data.subscriberId!!)
+        }
+        Handler(Looper.getMainLooper()).postDelayed(kotlinx.coroutines.Runnable {  startActivity(
+            Intent(
+                this,
+                UpcomingMeetingActivity::class.java
+            )
+        )
+            finish()
+    },500)
+}
 }

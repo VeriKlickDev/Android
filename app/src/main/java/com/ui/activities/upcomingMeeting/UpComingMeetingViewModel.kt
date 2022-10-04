@@ -31,7 +31,6 @@ class UpComingMeetingViewModel @Inject constructor(
     ) {
         try {
 
-
             CoroutineScope(Dispatchers.IO).launch {
                 actionProgress(1)
                 Log.d(
@@ -42,7 +41,6 @@ class UpComingMeetingViewModel @Inject constructor(
                 bodyScheduledMeetingBean.RecruiterEmail = DataStoreHelper.getUserEmail()
                 bodyScheduledMeetingBean.Recruiter = DataStoreHelper.getMeetingRecruiterid()
                 bodyScheduledMeetingBean.Subscriber = DataStoreHelper.getMeetingUserId()
-
 
                 val result = baseRepoApi?.getScheduledMeetingsList(
                     DataStoreHelper.getLoginBearerToken(),

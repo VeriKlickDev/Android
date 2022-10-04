@@ -32,34 +32,30 @@
 
         <androidx.appcompat.widget.AppCompatRatingBar
             android:layout_width="wrap_content"
-            android:layout_height="42sp"
-            android:layout_marginRight="@dimen/_10sp"
-            android:scaleX="0.6"
-            android:scaleY="0.6"
-            android:transformPivotX="220sp"
-            android:transformPivotY="@dimen/_10sp"
-            android:theme="@style/Widget.AppCompat.RatingBar"
+            android:layout_height="wrap_content"
             android:id="@+id/ratingbar_wireframing"
             app:reviewScoreMax="5"
+            android:max="5"
+            style="@style/Widget.AppCompat.RatingBar.Indicator"
+            android:isIndicator="false"
             />
 
-            <ImageView
-                android:layout_width="@dimen/_20sp"
-                android:layout_height="@dimen/_20sp"
-                android:background="@drawable/ic_add_blue"
-                android:id="@+id/btn_add_skill"
-                android:visibility="visible"
-                android:layout_marginBottom="@dimen/_3sdp"
-                android:layout_gravity="center_vertical"
-                />
+<!--            <ImageView-->
+<!--                android:layout_width="@dimen/_20sp"-->
+<!--                android:layout_height="@dimen/_20sp"-->
+<!--                android:background="@drawable/ic_add_blue"-->
+<!--                android:id="@+id/btn_add_skill"-->
+<!--                android:visibility="visible"-->
+<!--                android:layout_marginBottom="@dimen/_3sdp"-->
+<!--                android:layout_gravity="center_vertical"-->
+<!--                />-->
 
             <ImageView
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
                 android:background="@drawable/ic_delete_cross_24"
                 android:id="@+id/btn_remove_skill"
-                android:visibility="gone"
-                android:layout_marginBottom="@dimen/_3sdp"
+                android:visibility="visible"
                 android:layout_gravity="center_vertical"
                 />
 

@@ -36,9 +36,6 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
                                 onResponse(result.body()!!,401)
                             }
                         }
-
-
-
                         Log.d(TAG, "getVideoSession:  success ${result.body()}")
                     }
                     else{

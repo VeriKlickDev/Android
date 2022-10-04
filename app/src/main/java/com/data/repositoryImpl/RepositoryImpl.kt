@@ -91,6 +91,14 @@ class RepositoryImpl  @Inject constructor(val baseRestApi: BaseRestApi,val login
         return baseRestApi.getOtpVerificationStatus(obj)
     }
 
+    override suspend fun getTotalCountOfInterViewerInMeeting(videoAccessCode: String): Response<ResponseTotalInterviewerCount> {
+        return baseRestApi.getTotalCountOfInterViewerInMeeting(videoAccessCode)
+    }
+
+    override suspend fun getScreenSharingStatus(videoAccessCode: String): Response<ResponseScreenSharingStatus> {
+        return baseRestApi.getScreenSharingStatus(videoAccessCode)
+    }
+
     override suspend fun getResume(fileName: BodyGetResume): Response<ResponseResumeModel> {
        return loginRestApi.getResume(fileName)
     }

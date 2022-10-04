@@ -63,4 +63,10 @@ interface BaseRestApi {
     @POST("/api/InterviewerLoginOtpStatus")
     suspend fun getOtpVerificationStatus( @Body obj: BodyOtpVerificationStatus):Response<ResponseOtpVerificationStatus>
 
+    @GET("/api/ScheduleVideo/GetInterviewTotalInterviewerCount/{VideoAccessCode}")
+    suspend fun getTotalCountOfInterViewerInMeeting( @Query("VideoAccessCode") videoAccessCode: String):Response<ResponseTotalInterviewerCount>
+
+    @GET("/api/ScheduleVideo/GetInterviewUserDetails/{VideoAccessCode}")
+    suspend fun getScreenSharingStatus( @Query("VideoAccessCode") videoAccessCode: String):Response<ResponseScreenSharingStatus>
+
 }
