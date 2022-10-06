@@ -2309,13 +2309,13 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
                 onResult = { action, data ->
                     when (action) {
                         200 -> {
-                            val isSharing=data?.InterviewerList?.any{it.ScreenShareCurrentStatus==false}
-                            if (isSharing!=null)
+                            if (data?.OwnScreenShareStatus!=null)
                             {
-                                if (isSharing==false)
+                                if (data?.OwnScreenShareStatus==true)
                                 {
                                     onResonse(true)
-                                }else
+                                }
+                                else
                                 {
                                     onResonse(false)
                                 }

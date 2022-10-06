@@ -66,7 +66,7 @@ interface BaseRestApi {
     @GET("/api/ScheduleVideo/GetInterviewTotalInterviewerCount/{VideoAccessCode}")
     suspend fun getTotalCountOfInterViewerInMeeting( @Query("VideoAccessCode") videoAccessCode: String):Response<ResponseTotalInterviewerCount>
 
-    @GET("/api/ScheduleVideo/GetInterviewUserDetails/{VideoAccessCode}")
+    //@GET("/api/ScheduleVideo/GetInterviewUserDetails/{VideoAccessCode}")
+    @GET("/api/ScheduleVideo/GetOwnScreenShareStatus/{VideoAccessCode}")
     suspend fun getScreenSharingStatus( @Query("VideoAccessCode") videoAccessCode: String):Response<ResponseScreenSharingStatus>
-
 }
