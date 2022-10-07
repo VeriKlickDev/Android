@@ -79,6 +79,63 @@ class UpComingMeetingViewModel @Inject constructor(
     }
 
 
+    fun getScheduledMeetingListwithOtp(
+        bodyScheduledMeetingBean: BodyScheduledMeetingBean,
+        response: (result: Int, exception: String?,data:ResponseScheduledMeetingBean?) -> Unit,
+        actionProgress: (action: Int) -> Unit
+    ) {
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+                actionProgress(1)
+                Log.d(
+                    TAG,
+                    "getScheduledMeetingList: bearer token : ${DataStoreHelper.getLoginBearerToken()}"
+                )
+
+                bodyScheduledMeetingBean.RecruiterEmail = DataStoreHelper.getUserEmail()
+                bodyScheduledMeetingBean.Recruiter = DataStoreHelper.getMeetingRecruiterid()
+                bodyScheduledMeetingBean.Subscriber = DataStoreHelper.getMeetingUserId()
+
+                val result = baseRepoApi?.getScheduledMeetingsListwithOtp(
+                   // DataStoreHelper.getLoginBearerToken(),
+                    bodyScheduledMeetingBean
+                )
+
+                Log.d("checkauth", "getScheduledMeetingList: response code ${result?.code()} ")
+
+                if (result?.code() == 401) {
+                    Log.d("checkauth", "getScheduledMeetingList: unauthorised")
+                    response(401,"Unauthorised",null)
+                    actionProgress(0)
+                }
+                if (result?.isSuccessful!!) {
+                    if (result?.body() != null) {
+                        actionProgress(0)
+
+                        scheduledMeetingLiveData.postValue(result.body()?.newInterviewDetails)
+                        response(200, null,result?.body()!!)
+                        Log.d(TAG, "getVideoSession:  success ${result.body()}")
+                    } else {
+                        actionProgress(0)
+                        response(400, null,result.body()!!)
+                        Log.d(TAG, "getVideoSession: null result")
+                    }
+                } else {
+                    actionProgress(0)
+                    response(404, null,null)
+                    Log.d(TAG, "getVideoSession: not success")
+                }
+            }
+        } catch (e: Exception) {
+            actionProgress(0)
+            response(500, e.printStackTrace().toString(),null)
+        }
+    }
+
+
+
+
 /*
     fun getVideoSessionDetails(videoAccessCode:String,onDataResponse:(data: ResponseInterViewDetailsBean?, response:Int)->Unit)
     {

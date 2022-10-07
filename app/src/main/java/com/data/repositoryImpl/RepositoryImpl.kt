@@ -6,6 +6,7 @@ package com.data.repositoryImpl
 import com.domain.BaseModels.*
 import com.domain.RestApi.BaseRestApi
 import com.domain.RestApi.LoginRestApi
+import com.google.gson.Gson
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -98,6 +99,19 @@ class RepositoryImpl  @Inject constructor(val baseRestApi: BaseRestApi,val login
     override suspend fun getScreenSharingStatus(videoAccessCode: String): Response<ResponseScreenSharingStatus> {
         return baseRestApi.getScreenSharingStatus(videoAccessCode)
     }
+
+    override suspend fun setScreenSharingStatus(obj: BodyUpdateScreenShareStatus): Response<Gson> {
+        return baseRestApi.setScreenSharingStatus(obj)
+    }
+
+
+    override suspend fun getScheduledMeetingsListwithOtp(ob: BodyScheduledMeetingBean): Response<ResponseScheduledMeetingBean> {
+        return baseRestApi.getScheduledMeetingsListwithOtp(ob)
+    }
+
+    /* override suspend fun setScreenSharingStatus(obj: BodyUpdateScreenShareStatus): Response<ResponseScreenSharingStatus> {
+         return baseRestApi.setScreenSharingStatus(obj)
+     }*/
 
     override suspend fun getResume(fileName: BodyGetResume): Response<ResponseResumeModel> {
        return loginRestApi.getResume(fileName)

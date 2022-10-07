@@ -46,6 +46,22 @@ object DataStoreHelper {
         }
     }
 
+    fun setLoggedInWithOtp(isLoggedOtp:Boolean)
+    {
+        CoroutineScope(Dispatchers.IO).launch {
+            val tokenKey= preferencesKey<Boolean>(AppConstants.LOGGED_WITH_OTP)
+            dataStore.edit {
+                it[tokenKey]=isLoggedOtp
+            }
+        }
+    }
+
+    suspend fun getLoggedInStatus():Boolean{
+        return dataStore.data.first()[preferencesKey<Boolean>(AppConstants.LOGGED_WITH_OTP)].toString().toBoolean()
+    }
+
+
+
     suspend fun getLoginToken():String{
         return dataStore.data.first()[preferencesKey<String>(AppConstants.USER_LOGIN_TOKEN)].toString()
     }

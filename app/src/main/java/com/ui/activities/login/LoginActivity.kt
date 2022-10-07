@@ -8,8 +8,6 @@ import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
@@ -17,7 +15,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.data.dataHolders.DataStoreHelper
 import com.data.*
-import com.data.dataHolders.WeeksDataHolder
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityLoginBinding
 import com.google.android.material.snackbar.Snackbar
@@ -165,7 +162,7 @@ class LoginActivity : AppCompatActivity() {
                        // DataStoreHelper.insertValue(email,psswd)
 
                         DataStoreHelper.insertValue(email,psswd)
-
+                        DataStoreHelper.setLoggedInWithOtp(false)
                         decodeLoginToken(data.data?.accessToken!!, response = { response ->
 
                             CoroutineScope(Dispatchers.IO).launch {

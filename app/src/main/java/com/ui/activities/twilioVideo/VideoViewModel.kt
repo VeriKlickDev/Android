@@ -333,6 +333,33 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
     }
 
 
+
+    fun setScreenSharingStatus(
+        status: Boolean,
+        onResult: (action: Int, data: BodyUpdateScreenShareStatus?) -> Unit
+    ) {
+        try {
+            viewModelScope.launch {
+                val result = repositoryImpl.setScreenSharingStatus(BodyUpdateScreenShareStatus(CurrentMeetingDataSaver.getData().videoAccessCode!!,CurrentMeetingDataSaver.getData().interviewModel?.interviewId!!.toString(),status,status))
+                if (result.isSuccessful) {
+                    if (result.body() != null) {
+
+                    }
+                    else {
+                        onResult(401, null)
+                    }
+                }
+                else {
+                    onResult(404, null)
+                }
+            }
+        } catch (e: Exception) {
+            onResult(500, null)
+        }
+    }
+
+
+
     fun getRecordingStatusUpdate(
         onResult: (action: Int, data: BodyUpdateRecordingStatus?) -> Unit
     ) {
@@ -341,7 +368,7 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
                 val result = repositoryImpl.getRecordingStatusUpdate(
                     BodyUpdateRecordingStatus(
                         CurrentMeetingDataSaver.getData().interviewModel?.interviewId!!,
-                        CurrentMeetingDataSaver.getRoomData().firstOrNull()?.roomName!!,
+                        CurrentMeetingDataSaver.getRoomData().roomName!!,
                         VideoRecordingStatusHolder.setStatus(),
                         "200",
                         "recStart or not"
@@ -367,31 +394,31 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
     }
 
 
-    /*  fun endVideoCall(onResponse:(action:Int,data:)->Unit)
+    private val TAG="videoViewModelCheck"
+      fun endVideoCall()
       {
-
           try {
               viewModelScope.launch {
-                  val result=repositoryImpl.closeMeeting(BodyMeetingClose())
+                  val result=repositoryImpl.closeMeeting(BodyMeetingClose(CurrentMeetingDataSaver.getRoomData().roomName, RoomStatus = "completed"))
 
                   if (result.isSuccessful) {
                       if (result.body() != null) {
-                          onResult(200, result.body()!!)
+                          Log.d(TAG, "endVideoCall: success response ")
                       }
                       else {
-                          onResult(400, result.body()!!)
+                          Log.d(TAG, "endVideoCall: success null ")
                       }
                   }
                   else {
-                      onResult(404, result.body()!!)
+                      Log.d(TAG, "endVideoCall: not success response ")
                   }
               }
           } catch (e: Exception) {
-              onResult(500, null)
+              Log.d(TAG, "endVideoCall: exception ${e.message} ")
           }
 
 
-      }*/
+      }
 
 
 

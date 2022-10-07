@@ -23,9 +23,9 @@ object CurrentMeetingDataSaver {
     {
         tokenResponse.add(0,obj)
     }
-    fun getRoomData():List<TokenResponseBean>
+    fun getRoomData():TokenResponseBean
     {
-        return tokenResponse
+        return tokenResponse[0]
     }
     private var disconnectedStatusLiveData=MutableLiveData<Boolean>()
 

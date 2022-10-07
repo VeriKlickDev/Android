@@ -28,6 +28,8 @@ object AppConstants {
     const val CHANNEL_ID= "screen_capture"
     const val CHANNEL_NAME= "screen_capture"
 
+    const val LOGIN_WITH_OTP= "login_with_otp"
+    const val LOGGED_WITH_OTP= "login_with_otp"
 }
 
 

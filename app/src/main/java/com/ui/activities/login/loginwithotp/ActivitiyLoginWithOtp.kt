@@ -236,6 +236,7 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
         DataStoreHelper.insertValue(email,data.recruiterid!!)
         CoroutineScope(Dispatchers.IO).launch {
             DataStoreHelper.setMeetingRecruiterAndUserIds(data.recruiterid!!,data.subscriberId!!)
+            DataStoreHelper.setLoggedInWithOtp(true)
         }
         Handler(Looper.getMainLooper()).postDelayed(kotlinx.coroutines.Runnable {  startActivity(
             Intent(

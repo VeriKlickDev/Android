@@ -49,7 +49,6 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
             holder.binding.btnRemoveSkill.isVisible=false
             //holder.binding.btnAddSkill.isVisible=true
         }
-
     }
 
     override fun getItemCount(): Int {
@@ -63,7 +62,7 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
             //binding.ratingbarWireframing.get(adapterPosition)
             binding.ratingbarWireframing.max=5
             binding.tvSkills.setText(data.value)
-
+            binding.etComment.setText(data.Comments.toString())
             try {
                 binding.ratingbarWireframing.progress=data.Ratings!!
                 Log.d(TAG, "dataBind: rating ${data.Ratings}")
@@ -108,17 +107,39 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
             }
 
             if (binding.etTitle.isVisible)
-                binding.etTitle.addTextChangedListener {it->
+                binding.etTitle.addTextChangedListener {
                     ob.Catagory=it.toString()
+                    list.set(adapterPosition,ob)
+
+                    ob.Ratings=data.Ratings
+                   // ob.Comments=data.Comments
+
+                    Log.d("datachecking", "dataBind: categories ${ob.Catagory} ")
                 }
 
             binding.etComment.addTextChangedListener {it->
+                data.Comments=it.toString()
+
                 ob.Comments=it.toString()
+                ob.Ratings=data.Ratings
+
+                list.set(adapterPosition,ob)
+
+               // ob.Comments=data.Comments
+
+                Log.d("datachecking", "dataBind: comment ${ob.Comments}  ")
             }
 
             Log.d("checkingrating", "dataBind: ${binding.ratingbarWireframing.rating}")
             binding.ratingbarWireframing.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
+
                 ob.Ratings=rating.roundToInt()
+
+                data.Ratings=rating.roundToInt()
+
+                ob.Catagory=data.Catagory
+                ob.Comments=data.Comments
+
                 list.set(adapterPosition,ob)
                 Log.d("checkingrating", "dataBind: ${rating} $fromUser list size is ${list.size}")
             }

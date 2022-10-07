@@ -100,7 +100,7 @@ class MemberListActivity : AppCompatActivity() {
         viewModel.leftUser(
             data.remoteParticipant?.sid!!,
             CurrentMeetingDataSaver.getRoomData()
-                .firstOrNull()?.roomName!!,
+                .roomName!!,
             onDataResponse = { data, status ->
                 when (status) {
                     200 -> {
@@ -119,7 +119,6 @@ class MemberListActivity : AppCompatActivity() {
                         Log.d(TAG, "onCreate: data not found")
                     }
                 }
-
             })
     }
 
@@ -128,7 +127,6 @@ class MemberListActivity : AppCompatActivity() {
         startActivity(intent)
         Log.d(TAG, "handleAddParticipant: onclicked")
     }
-
 
     /*
         @OptIn(FlowPreview::class)

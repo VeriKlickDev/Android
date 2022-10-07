@@ -3,9 +3,12 @@ package com.ui.activities.splashScreen
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import com.data.dataHolders.DataStoreHelper
 import com.data.setHandler
+import com.domain.constant.AppConstants
 import com.example.twillioproject.databinding.ActivitySplashScreenBinding
 import com.ui.activities.login.LoginActivity
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
@@ -44,8 +47,7 @@ class SplashScreen : AppCompatActivity() {
         if (email != null) {
             if (!email.equals("null")) {
                 Log.d("datauser", "checkEmail: twilio video email $email")
-                startActivity(Intent(this, UpcomingMeetingActivity::class.java))
-                finish()
+                startActivityUpcomingMeeting()
             }
             else {
                 Log.d("datauser", "checkEmail: login screen email $email")
@@ -59,5 +61,20 @@ class SplashScreen : AppCompatActivity() {
             finish()
         }
     }
+
+
+
+    fun startActivityUpcomingMeeting()
+    {
+        val intent=Intent(this, UpcomingMeetingActivity::class.java)
+        CoroutineScope(Dispatchers.IO).launch {
+            intent.putExtra(AppConstants.LOGIN_WITH_OTP,DataStoreHelper.getLoggedInStatus())
+        }
+        Handler(Looper.getMainLooper()).postDelayed({
+            startActivity(intent)
+        },500)
+        finish()
+    }
+
 
 }

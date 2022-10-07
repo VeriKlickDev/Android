@@ -42,7 +42,6 @@ class ActivityAddParticipant : AppCompatActivity() {
             onClick = { data: InvitationDataModel, action: Int, pos:Int, list ->
                 when (action) {
                     1 -> {
-
                         checkTotalParticipant()
                         Log.d(TAG, "onCreate: ")
                     }
@@ -89,7 +88,7 @@ class ActivityAddParticipant : AppCompatActivity() {
             when(action)
             {
                 200->{
-                    if (data?.TotalInterviewerCount!!>7)
+                    if(interviewList.size+data?.TotalInterviewerCount!!.toInt()>6)
                     {
                         showToast(this,getString(R.string.txt_cant_add_more_participant))
                     }else

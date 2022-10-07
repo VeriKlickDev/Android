@@ -32,10 +32,6 @@ private val TAG="otpviewModelCheck"
                     if (result?.body() != null) {
                         Log.d(TAG, "getVideoSession:  not null ${result.body()}")
 
-
-
-
-
                         if (result.body()?.Success == true)
                         {
                             when(result.body()?.StatusCode!!.toInt())

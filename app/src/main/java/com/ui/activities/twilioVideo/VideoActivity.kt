@@ -169,6 +169,8 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
             screenShareCapturerManager.endForeground()
 
             TwilioHelper.disConnectRoom()
+            //viewModel.endVideoCall()
+            viewModel.setScreenSharingStatus(true, onResult = {action, data ->  })
             if (CurrentMeetingDataSaver.getData().identity?.contains("I")!!) {
                 startActivity(Intent(this@VideoActivity, ActivityFeedBackForm::class.java))
             }
@@ -228,8 +230,6 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
                 Snackbar.make(binding.root,getString(com.example.twillioproject.R.string.txt_no_internet_connection),
                     Snackbar.LENGTH_SHORT).show()
             }
-
-
         }
 
         /*
@@ -2358,6 +2358,7 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
 
         if (CurrentMeetingDataSaver.getScreenSharingStatus()) {
             showToast(this, getString(R.string.txt_screen_sharing_stopped))
+            viewModel.setScreenSharingStatus(true, onResult = {action, data ->  })
             screenShareCapturerManager.endForeground()
             currentRemoteVideoTrack?.removeSink(binding.primaryVideoView)
             localParticipant?.unpublishTrack(currentLocalVideoTrack!!)
@@ -2425,7 +2426,7 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
             CurrentMeetingDataSaver.setScreenSharingStatus(true)
             // localParticipant?.publishTrack(localVideoTrack!!)
             Log.d(TAG, "First frame from screen capturer available")
-
+            viewModel.setScreenSharingStatus(false, onResult = {action, data ->  })
             localParticipant?.unpublishTrack(localVideoTrack!!)
             localParticipant?.publishTrack(screenShareTrack)
             //localVideoTrack=screenShareTrack

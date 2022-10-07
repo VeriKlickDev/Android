@@ -102,7 +102,6 @@ class AddParticipantListAdapter(
 
         }
 
-
         fun checkFields(pos: Int) {
             Log.d("checkblank", "checkFields: blank check")
             if (!binding.etFirstname.text.toString().equals("") &&

@@ -1,6 +1,7 @@
 package com.domain.RestApi
 
 import com.domain.BaseModels.*
+import com.google.gson.Gson
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -66,7 +67,18 @@ interface BaseRestApi {
     @GET("/api/ScheduleVideo/GetInterviewTotalInterviewerCount/{VideoAccessCode}")
     suspend fun getTotalCountOfInterViewerInMeeting( @Query("VideoAccessCode") videoAccessCode: String):Response<ResponseTotalInterviewerCount>
 
-    //@GET("/api/ScheduleVideo/GetInterviewUserDetails/{VideoAccessCode}")
     @GET("/api/ScheduleVideo/GetOwnScreenShareStatus/{VideoAccessCode}")
     suspend fun getScreenSharingStatus( @Query("VideoAccessCode") videoAccessCode: String):Response<ResponseScreenSharingStatus>
+
+    @POST("/api/ScheduleVideo/UpdateInterviewersScreenShareStatus")
+    suspend fun setScreenSharingStatus(@Body obj : BodyUpdateScreenShareStatus) :Response<Gson>
+    //GetInterviewByRecruiterForMobile
+
+    @POST("/api/ScheduleVideo/GetInterviewByRecruiterForMobile")
+    suspend fun getScheduledMeetingsListwithOtp(@Body ob: BodyScheduledMeetingBean):Response<ResponseScheduledMeetingBean>
+
+
 }
+
+
+//@GET("/api/ScheduleVideo/GetInterviewUserDetails/{VideoAccessCode}")

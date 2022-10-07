@@ -26,6 +26,7 @@ import com.data.dataHolders.WeeksDataHolder
 import com.data.helpers.TwilioHelper
 import com.domain.BaseModels.BodyScheduledMeetingBean
 import com.domain.BaseModels.NewInterviewDetails
+import com.domain.constant.AppConstants
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityUpcomingMeetingBinding
 import com.example.twillioproject.databinding.LayoutDescriptionDialogBinding
@@ -448,45 +449,110 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         Log.d("datecheck", "\n ${ob?.fromdate}  ${ob?.todate}  \n ${ob.from}  ${ob.to} ")
 
         if (ob != null) {
-            viewModel.getScheduledMeetingList(
-                actionProgress = {
-                    if (it == 1) {
-
-                        binding.swipetorefresh.isRefreshing = false
-                        if (isOpenedFirst)
-                        {
-                            Handler(Looper.getMainLooper()).post(Runnable {
-                            binding.progressBar.isVisible=true
-                            })
-                        }else
-                        {
-                            showProgressDialog()
-                            isOpenedFirst=true
-                        }
-                    }
-                    else {
-                        binding.swipetorefresh.isRefreshing = false
-                        dismissProgressDialog()
-
-                        Handler(Looper.getMainLooper()).post(Runnable {
-                        binding.progressBar.isVisible=false
-
-                        })
-
-                    }
-                },
-                response = { result, exception,data ->
-                    contentLimit=data?.totalCount!!
-                    dismissProgressDialog()
-                    binding.swipetorefresh.isRefreshing = false
-                },
-                bodyScheduledMeetingBean = ob!!
-            )
+            if (intent.getBooleanExtra(AppConstants.LOGIN_WITH_OTP,false))
+            {
+                getDataWithOtp(ob)
+                Log.d(TAG, "handleUpcomingMeetingsList: logged with otp")
+            }
+            else{
+                Log.d(TAG, "handleUpcomingMeetingsList: logged with email")
+                getDataWithoutOtp(ob)
+            }
         }
         else {
             dismissProgressDialog()
         }
     }
+
+
+    fun getDataWithOtp(ob:BodyScheduledMeetingBean)
+    {
+        viewModel.getScheduledMeetingListwithOtp(
+            actionProgress = {
+                if (it == 1) {
+                    binding.swipetorefresh.isRefreshing = false
+                    if (isOpenedFirst)
+                    {
+                        Handler(Looper.getMainLooper()).post(Runnable {
+                            binding.progressBar.isVisible=true
+                        })
+                    }else
+                    {
+                        showProgressDialog()
+                        isOpenedFirst=true
+                    }
+                }
+                else {
+                    binding.swipetorefresh.isRefreshing = false
+                    dismissProgressDialog()
+
+                    Handler(Looper.getMainLooper()).post(Runnable {
+                        binding.progressBar.isVisible=false
+
+                    })
+
+                }
+            },
+            response = { result, exception,data ->
+                try {
+                    contentLimit=data?.totalCount!!
+                }catch (e:Exception)
+                {
+
+                }
+
+                dismissProgressDialog()
+                binding.swipetorefresh.isRefreshing = false
+            },
+            bodyScheduledMeetingBean = ob!!
+        )
+    }
+    fun getDataWithoutOtp(ob:BodyScheduledMeetingBean)
+    {
+        viewModel.getScheduledMeetingList(
+            actionProgress = {
+                if (it == 1) {
+                    binding.swipetorefresh.isRefreshing = false
+                    if (isOpenedFirst)
+                    {
+                        Handler(Looper.getMainLooper()).post(Runnable {
+                            binding.progressBar.isVisible=true
+                        })
+                    }else
+                    {
+                        showProgressDialog()
+                        isOpenedFirst=true
+                    }
+                }
+                else {
+                    binding.swipetorefresh.isRefreshing = false
+                    dismissProgressDialog()
+
+                    Handler(Looper.getMainLooper()).post(Runnable {
+                        binding.progressBar.isVisible=false
+
+                    })
+
+                }
+            },
+            response = { result, exception,data ->
+                try {
+                    contentLimit=data?.totalCount!!
+                }catch (e:Exception)
+                {
+
+                }
+
+                dismissProgressDialog()
+                binding.swipetorefresh.isRefreshing = false
+            },
+            bodyScheduledMeetingBean = ob!!
+        )
+    }
+
+
+
+
 
     private var contentLimit:Int=1
 
