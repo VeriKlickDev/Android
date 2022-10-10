@@ -215,10 +215,8 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
         binding.btnSendMessage.setOnClickListener {
             val identity = CurrentMeetingDataSaver.getData().identity
 
-
             if (checkInternet())
             {
-
                 viewModel.getChatToken(identity.toString(), response = { data, code ->
                     Log.d("chatcheck", "onCreate: data $data  chat channel $identity")
 
