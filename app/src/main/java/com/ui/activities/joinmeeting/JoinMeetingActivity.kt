@@ -52,9 +52,9 @@ class JoinMeetingActivity :AppCompatActivity() {
                     //candi https://ui2.veriklick.in/video-session/PKKLUSPhGgtOVUHT8RVt
 
                     //test
-                    getInterviewDetails("koGMg7Vd9JLIcCBLnW1r")
+                   // getInterviewDetails("PKKLUSPhGgtOVUHT8RVt")
 
-                   //  getInterviewDetails(accessCode)
+                     getInterviewDetails(accessCode)
                     //  showToast(this,"Under Development")
                     InputUtils.hideKeyboard(this)
 
