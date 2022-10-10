@@ -2291,7 +2291,7 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
                    }
                    else
                    {
-                       showToast(this,getString(R.string.txt_someone_is_sharing_screen))
+                       showToast(this,getString(R.string.txt_only_one_person_can_share_screen))
                    }
                }
             }
@@ -2341,7 +2341,6 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
                     }
                 })
         }
-
 
     fun setAllSinkRemove() {
         localVideoTrack?.removeSink(binding.primaryVideoView)

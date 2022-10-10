@@ -62,8 +62,6 @@ class SplashScreen : AppCompatActivity() {
         }
     }
 
-
-
     fun startActivityUpcomingMeeting()
     {
         val intent=Intent(this, UpcomingMeetingActivity::class.java)
@@ -72,8 +70,9 @@ class SplashScreen : AppCompatActivity() {
         }
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(intent)
+            finish()
         },500)
-        finish()
+
     }
 
 

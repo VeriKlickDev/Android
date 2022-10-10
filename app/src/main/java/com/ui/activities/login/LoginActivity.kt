@@ -15,6 +15,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.data.dataHolders.DataStoreHelper
 import com.data.*
+import com.domain.constant.AppConstants
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityLoginBinding
 import com.google.android.material.snackbar.Snackbar
@@ -169,14 +170,16 @@ class LoginActivity : AppCompatActivity() {
                                 DataStoreHelper.setMeetingRecruiterAndUserIds(response.UserId.toString(),response.CreatedBy.toString())
                             }
 
-                            Handler(Looper.getMainLooper()).postDelayed(kotlinx.coroutines.Runnable {  startActivity(
-                                Intent(
-                                    this@LoginActivity,
-                                    UpcomingMeetingActivity::class.java
-                                )
-                            )
+
+                            val intent=Intent(this, UpcomingMeetingActivity::class.java)
+                            CoroutineScope(Dispatchers.IO).launch {
+                                intent.putExtra(AppConstants.LOGIN_WITH_OTP,false)
+                            }
+
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                startActivity(intent)
                                 finish()
-                            },100)
+                            },500)
                             Log.d(TAG, "handleLoginApi: token decoded success $response ")
                             //DataStoreHelper.insertValue(response.Email, response.Phone.toString())
                         })

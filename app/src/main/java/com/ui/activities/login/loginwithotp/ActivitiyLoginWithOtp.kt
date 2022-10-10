@@ -15,6 +15,7 @@ import androidx.core.widget.doOnTextChanged
 import com.data.*
 import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.ResponseOtpVerificationStatus
+import com.domain.constant.AppConstants
 
 
 import com.example.twillioproject.R
@@ -238,13 +239,17 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
             DataStoreHelper.setMeetingRecruiterAndUserIds(data.recruiterid!!,data.subscriberId!!)
             DataStoreHelper.setLoggedInWithOtp(true)
         }
-        Handler(Looper.getMainLooper()).postDelayed(kotlinx.coroutines.Runnable {  startActivity(
-            Intent(
-                this,
-                UpcomingMeetingActivity::class.java
-            )
-        )
+
+        val intent=Intent(this, UpcomingMeetingActivity::class.java)
+        CoroutineScope(Dispatchers.IO).launch {
+            intent.putExtra(AppConstants.LOGIN_WITH_OTP,true)
+        }
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            startActivity(intent)
             finish()
-    },500)
-}
+        },500)
+
+
+    }
 }

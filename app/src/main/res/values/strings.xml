@@ -92,5 +92,5 @@
     <string name="txt_otp_descrition">Otp will be send to your email account.</string>
     <string name="txt_cant_add_more_participant">Can\'t add more participant</string>
     <string name="txt_do_you_want_to_logout">Do you want to logout</string>
-    <string name="txt_someone_is_sharing_screen">Someone Already Sharing Screen</string>
+    <string name="txt_only_one_person_can_share_screen">only one person can share screen at a time</string>
 </resources>

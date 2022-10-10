@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -41,12 +42,11 @@ class MemberListActivity : AppCompatActivity() {
         val width = displayMetrics.widthPixels
 
         if (CurrentMeetingDataSaver.getData().isPresenter == true) {
-            binding.btnAddUser.isVisible = true
+            binding.btnAddUser.visibility = View.VISIBLE
         }
         else {
-            binding.btnAddUser.isVisible = false
+            binding.btnAddUser.visibility = View.INVISIBLE
         }
-
 
         Log.d(TAG, "onCreate: current hight $height  $width")
 

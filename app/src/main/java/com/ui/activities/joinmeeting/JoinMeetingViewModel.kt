@@ -74,7 +74,6 @@ class JoinMeetingViewModel @Inject constructor(val repo: BaseRestRepository) :Vi
     fun getVideoSessionDetails(videoAccessCode:String,onDataResponse:(data:ResponseInterViewDetailsBean?,response:Int)->Unit)
     {
         try {
-
             CoroutineScope(Dispatchers.IO).launch {
                 val result=repo.requestVideoSession(videoAccessCode)
                 if (result.isSuccessful)
