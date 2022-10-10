@@ -2,6 +2,9 @@ package com.data.helpers
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
+import com.domain.BaseModels.MicStatusModel
+import com.domain.BaseModels.NetworkQualityModel
 import com.example.twillioproject.databinding.ActivityTwilioVideoBinding
 
 import com.twilio.video.*
@@ -9,9 +12,8 @@ import com.twilio.video.Video.connect
 import com.ui.activities.twilioVideo.VideoActivity
 
 //implement in your Main activity
-private lateinit var mtwilioVideoRoomCallBack: RoomListnerCallback
+private lateinit var mtwilioVideoRoomCallBack: RoomListenerCallback
 private lateinit var listener: RoomParticipantListener
-
 
 private val TAG = "roomConnect"
 private lateinit var connectOption: ConnectOptions
@@ -34,7 +36,7 @@ object TwilioHelper {
     fun connectToRoom(
         context: Context,
         onRoomEvent: (action: String) -> Unit,
-        twilioVideoRoomCallBack: RoomListnerCallback
+        twilioVideoRoomCallBack: RoomListenerCallback
         ,localAudioTrack: LocalAudioTrack,
         localVideoTrack: LocalVideoTrack,
         audioCodec: AudioCodec,
@@ -88,6 +90,11 @@ object TwilioHelper {
 
     }
 
+    private val micLiveData=MutableLiveData<MicStatusModel>()
+    fun getMicStatusLive()= micLiveData
+
+    private val networkStatusLive=MutableLiveData<NetworkQualityModel>()
+    fun getNetWorkQualityLevel()= networkStatusLive
 
     val videoTrackList= mutableListOf<VideoTrackPublication>()
 
@@ -240,7 +247,6 @@ object TwilioHelper {
             remoteAudioTrackPublication: RemoteAudioTrackPublication
         ) {
             listener.onAudioTrackPublished(remoteParticipant, remoteAudioTrackPublication)
-
             Log.i(
                 TAG, "onAudioTrackPublished: " +
                         "[RemoteParticipant: identity=${remoteParticipant.identity}], " +
@@ -525,6 +531,8 @@ object TwilioHelper {
             remoteAudioTrackPublication: RemoteAudioTrackPublication
         ) {
             listener.onAudioTrackEnabled(remoteParticipant, remoteAudioTrackPublication)
+            micLiveData.postValue(MicStatusModel(true,remoteParticipant.identity))
+            Log.d(TAG, "onAudioTrackEnabled: ")
         }
 
         override fun onVideoTrackEnabled(
@@ -532,6 +540,7 @@ object TwilioHelper {
             remoteVideoTrackPublication: RemoteVideoTrackPublication
         ) {
             listener.onVideoTrackEnabled(remoteParticipant, remoteVideoTrackPublication)
+            Log.d(TAG, "onVideoTrackEnabled: ")
         }
 
         override fun onVideoTrackDisabled(
@@ -539,6 +548,7 @@ object TwilioHelper {
             remoteVideoTrackPublication: RemoteVideoTrackPublication
         ) {
             listener.onVideoTrackDisabled(remoteParticipant, remoteVideoTrackPublication)
+            Log.d(TAG, "onVideoTrackDisabled: ")
         }
 
         override fun onAudioTrackDisabled(
@@ -546,6 +556,8 @@ object TwilioHelper {
             remoteAudioTrackPublication: RemoteAudioTrackPublication
         ) {
             listener.onAudioTrackDisabled(remoteParticipant, remoteAudioTrackPublication)
+            micLiveData.postValue(MicStatusModel(false,remoteParticipant.identity))
+            Log.d(TAG, "onAudioTrackDisabled: ")
         }
     }
 
@@ -656,11 +668,10 @@ interface RoomParticipantListener {
         remoteParticipant: RemoteParticipant,
         remoteAudioTrackPublication: RemoteAudioTrackPublication
     )
-
 }
 
 
-interface RoomListnerCallback {
+interface RoomListenerCallback {
     fun onParticipantConnect(room: Room)
     fun onParticipantDisconnect(room: Room)
     fun onParticipantReconnect(room: Room)

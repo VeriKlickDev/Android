@@ -31,7 +31,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.data.*
 import com.data.dataHolders.*
-import com.data.helpers.RoomListnerCallback
+import com.data.helpers.RoomListenerCallback
 import com.data.helpers.RoomParticipantListener
 import com.data.helpers.TwilioHelper
 
@@ -61,7 +61,7 @@ import tvi.webrtc.VideoSink
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
-class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantListener,
+class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipantListener,
     OnViewClicked {
 
     lateinit var binding: ActivityTwilioVideoBinding
@@ -215,10 +215,8 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
         binding.btnSendMessage.setOnClickListener {
             val identity = CurrentMeetingDataSaver.getData().identity
 
-
             if (checkInternet())
             {
-
                 viewModel.getChatToken(identity.toString(), response = { data, code ->
                     Log.d("chatcheck", "onCreate: data $data  chat channel $identity")
 
@@ -2239,7 +2237,7 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
     ) {
         Log.d(TAG, "onAudioTrackEnabled: ")
 
-        try {
+      /*  try {
             val pos= CurrentConnectUserList.setItemToParticipantList(
                 VideoTracksBean(
                     remoteParticipant.identity,
@@ -2252,7 +2250,7 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
         }catch (e:Exception)
         {
             Log.d(TAG, "onAudioTrackEnabled: exception ${e.message}")
-        }
+        }*/
     }
 
     override fun onVideoTrackEnabled(
@@ -2275,7 +2273,7 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
     ) {
         Log.d(TAG, "onAudioTrackDisabled: ")
 
-        try {
+       /* try {
             val pos = CurrentConnectUserList.setItemToParticipantList(
                 VideoTracksBean(
                     remoteParticipant.identity,
@@ -2288,7 +2286,7 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
         }catch (e:Exception)
         {
             Log.d(TAG, "onAudioTrackDisabled: exception ${e.message}")
-        }
+        }*/
 
     }
 
@@ -2379,7 +2377,10 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
         if (CurrentMeetingDataSaver.getScreenSharingStatus()) {
             showToast(this, getString(R.string.txt_screen_sharing_stopped))
             viewModel.setScreenSharingStatus(true, onResult = {action, data ->  })
+
             screenShareCapturerManager.endForeground()
+           // screenShareCapturerManager.unbindService()
+
             currentRemoteVideoTrack?.removeSink(binding.primaryVideoView)
             localParticipant?.unpublishTrack(currentLocalVideoTrack!!)
             localParticipant?.publishTrack(localVideoTrack!!)
@@ -2427,6 +2428,7 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
         Log.d(TAG, "startScreenCapture: start capturing method ")
         // setAllSinkRemove()
         // setBlankBackground(false)
+
         screenShareTrack = LocalVideoTrack.create(this, true, screenCapturer!!)!!
         screenShareTrack.enable(true)
     }

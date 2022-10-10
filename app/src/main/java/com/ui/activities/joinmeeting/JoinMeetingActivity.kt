@@ -4,6 +4,8 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.ViewGroup
+import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -54,7 +56,7 @@ class JoinMeetingActivity :AppCompatActivity() {
                     //test
                    // getInterviewDetails("PKKLUSPhGgtOVUHT8RVt")
 
-                     getInterviewDetails(accessCode)
+                    getInterviewDetails(accessCode)
                     //  showToast(this,"Under Development")
                     InputUtils.hideKeyboard(this)
 
@@ -74,7 +76,6 @@ class JoinMeetingActivity :AppCompatActivity() {
             // startActivity(Intent(this, ActivityFeedBackForm::class.java))
         }*/
     }
-
     /*
     *  I2D8o1imAlVv3JVIxKdG
 candidate :- 2dpOPzO1Hcf1z5eSGvLC

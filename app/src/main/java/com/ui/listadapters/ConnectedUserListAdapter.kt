@@ -42,7 +42,7 @@ class ConnectedUserListAdapter(val viewModel:VideoViewModel,
         }*/
     try {
         
-        if (!list[position].userName.equals("You")){
+     /*   if (!list[position].userName.equals("You")){
             list[position].remoteParticipant?.let {
                 TwilioHelper.setRemoteParticipantListener(it)
             }
@@ -57,11 +57,10 @@ class ConnectedUserListAdapter(val viewModel:VideoViewModel,
 
                 }
 
-
             },500)
 
         }
-
+*/
     }catch (e:Exception)
     {
         Log.d(TAG, "onBindViewHolder: exception ${e.message}")
@@ -85,8 +84,17 @@ class ConnectedUserListAdapter(val viewModel:VideoViewModel,
             binding.tvUsername.text = data.userName
             data.videoTrack.addSink(binding.ivUserVideoView)
 
+            TwilioHelper.getMicStatusLive().observe(context as VideoActivity, Observer {
+                if (it.identity.equals(data.identity))
+                {
+                    setMicStatus(it.micStatus)
+                }
+            })
+
             try {
                 data.remoteParticipant?.let {
+                    TwilioHelper.setRemoteParticipantListener(it)
+                    Log.d(TAG, "bindData: setting listener ")
                 }
                 /*data.remoteParticipant?.let {
                     Log.d(TAG, "bindData: not null data.prt")
@@ -137,9 +145,6 @@ class ConnectedUserListAdapter(val viewModel:VideoViewModel,
                 }
             }
         }
-
     }
-
-
 
 }
