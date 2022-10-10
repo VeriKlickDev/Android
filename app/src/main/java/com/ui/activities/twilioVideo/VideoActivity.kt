@@ -169,10 +169,20 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
             screenShareCapturerManager.endForeground()
 
             TwilioHelper.disConnectRoom()
+            room!!.disconnect()
             //viewModel.endVideoCall()
             viewModel.setScreenSharingStatus(true, onResult = {action, data ->  })
-            if (CurrentMeetingDataSaver.getData().identity?.contains("I")!!) {
-                startActivity(Intent(this@VideoActivity, ActivityFeedBackForm::class.java))
+            if (!CurrentConnectUserList.getListofParticipant().isNullOrEmpty())
+            {
+                if (!CurrentMeetingDataSaver.getData().identity!!.contains("C")){
+
+                    CurrentConnectUserList.getListofParticipant().forEach {
+                        if (it.identity.contains("C"))
+                        {
+                            startActivity(Intent(this@VideoActivity, ActivityFeedBackForm::class.java))
+                        }
+                    }
+                }
             }
         }
 
@@ -395,6 +405,17 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
             currentUserIdentity = ""
             Log.d(TAG, "handleObserver: clicked item is ${it?.username} ${it?.identity} ")
 
+          /*
+
+           if (!CurrentMeetingDataSaver.getData().userType!!.contains("C")){
+                if (it?.identity!!.contains("C"))
+                {
+                    viewModel.setIsCandidateEnterMeeting(true)
+                }
+            }
+
+
+           */
             setBlankBackground(false)
             removeAllSinksAndSetnew(it?.videoTrack!!, false)
 
@@ -992,6 +1013,7 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
         CurrentConnectUserList.setListForAddParticipantActivity(
             remoteParticipantVideoListWithCandidate.reversed().distinctBy { it.identity }
         )
+
 
         CurrentConnectUserList.setListForVideoActivity(
            // tlist.reversed().distinctBy { it.identity }
@@ -1818,7 +1840,6 @@ class VideoActivity : AppCompatActivity(), RoomListnerCallback, RoomParticipantL
     }
 
     override fun onStop() {
-
         super.onStop()
     }
 

@@ -47,6 +47,7 @@ object CurrentConnectUserList {
         return pos
     }
 
+    fun getListofParticipant()= participantList
 
     fun getListForVideoActivity():LiveData<List<VideoTracksBean>>
     {

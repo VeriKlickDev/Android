@@ -358,6 +358,12 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
         }
     }
 
+    private var isEntered=false
+    fun setIsCandidateEnterMeeting(value:Boolean)
+    {
+        isEntered=value
+    }
+    fun getIsCandidateEnteredMeeting()=isEntered
 
 
     fun getRecordingStatusUpdate(
