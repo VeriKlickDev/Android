@@ -47,9 +47,9 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     private lateinit var viewModel: UpComingMeetingViewModel
     private lateinit var accessCode: String
 
-    var pageno=1
-    var iscrolled=false
-    lateinit var  layoutManager:LinearLayoutManager
+   private var pageno=1
+    private var iscrolled=false
+    private  lateinit var  layoutManager:LinearLayoutManager
 
     private var isOpenedFirst=false
     private var preUtcDate = ""
@@ -564,7 +564,8 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         viewModel.scheduledMeetingLiveData.observe(this, Observer {
             if (!it.isNullOrEmpty())
             {
-            meetingsList.addAll(it)
+
+            meetingsList.addAll(it.distinctBy { it.status.equals("Scheduled") })
             adapter.notifyDataSetChanged()
             }
             if (meetingsList.size==0)
@@ -576,7 +577,6 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 binding.tvNoData.visibility = View.GONE
             }
             Log.d(TAG, "handleObserver: out observer ${it.size}")
-
 
             Log.d(TAG, "handleObserver: size ${it.size}")
             //Log.d(TAG, "handleObserver: size ${it}")
