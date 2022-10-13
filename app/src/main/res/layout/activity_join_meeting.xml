@@ -23,7 +23,6 @@
                 android:id="@+id/btn_jump_back"
                 />
 
-
             <TextView
                 android:id="@+id/tv_join_meeting"
                 style="@style/textview.Style.TvStyleWhiteRounded_30"

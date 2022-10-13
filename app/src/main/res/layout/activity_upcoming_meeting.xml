@@ -127,6 +127,7 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:orientation="vertical"
                 android:background="@drawable/shape_rect_rounded_top_20"
                 >
 
@@ -136,6 +137,7 @@
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="@dimen/_10sp"
                 android:layout_marginTop="@dimen/_10sp"
+
                 >
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -187,7 +189,7 @@
                 android:id="@+id/swipetorefresh"
                 android:background="@android:color/transparent"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -210,7 +212,7 @@
                     android:fontFamily="@font/sarabun_regular"
                     android:gravity="center"
                     android:id="@+id/tv_no_data"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     />
 
             <androidx.recyclerview.widget.RecyclerView

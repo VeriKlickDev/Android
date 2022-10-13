@@ -95,7 +95,6 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             ).show()
         }
 
-
         binding.btnSearchShow.setOnClickListener {
             if (binding.tvHeader.isVisible) {
                 binding.layoutSearch.isVisible = true
@@ -112,6 +111,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         }
 
         binding.btnSearch.setOnClickListener {
+            meetingsList.clear()
             handleUpcomingMeetingsList(0, binding.etSearch.text.toString(),1,9)
         }
 
@@ -170,6 +170,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         handleObserver()
 
         binding.btnLeftPrevious.setOnClickListener {
+           meetingsList.clear()
             if (isNextClicked) {
                 WeeksDataHolder.minusWeekDay()
                 WeeksDataHolder.minusWeekDay()
@@ -184,6 +185,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         }
 
         binding.btnRightNext.setOnClickListener {
+            meetingsList.clear()
             if (isPrevClicked) {
                 WeeksDataHolder.addWeekDay()
                 WeeksDataHolder.addWeekDay()
@@ -558,22 +560,24 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
     private val meetingsList= mutableListOf<NewInterviewDetails>()
     private fun handleObserver() {
-        Log.d(TAG, "handleObserver: out observer method")
+        Log.d(TAG, "handleObserver: out observer method ")
         binding.tvNoData.visibility = View.VISIBLE
 
         viewModel.scheduledMeetingLiveData.observe(this, Observer {
             if (!it.isNullOrEmpty())
             {
-
+                Log.d(TAG, "handleObserver: ifpart not null empty $it ")
             meetingsList.addAll(it)
             adapter.notifyDataSetChanged()
             }
             if (meetingsList.size==0)
             {
+                Log.d(TAG, "handleObserver: ifpart meeting size 0")
                 binding.tvNoData.visibility = View.VISIBLE
             }
             else
             {
+                Log.d(TAG, "handleObserver: elsepart meeting size not size")
                 binding.tvNoData.visibility = View.GONE
             }
             Log.d(TAG, "handleObserver: out observer ${it.size}")

@@ -18,7 +18,7 @@
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/activity_twilio_video.xml" value="0.2" />
-        <entry key="app/src/main/res/layout/activity_upcoming_meeting.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_upcoming_meeting.xml" value="0.2" />
         <entry key="app/src/main/res/layout/layout_add_participant.xml" value="0.22" />
         <entry key="app/src/main/res/layout/layout_dialog_add_participant.xml" value="0.1796875" />
         <entry key="app/src/main/res/layout/layout_item_candidate_skills.xml" value="0.17239583333333333" />

@@ -23,13 +23,13 @@ class UpcomingMeetingAdapter(val context: Context, val list: List<NewInterviewDe
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
         holder.dataBind(list.get(position))
 
-        if (list[0].status.equals("Scheduled"))
+       /* if (list[0].status.equals("Scheduled"))
         {
             holder.showJoinBackButton(holder.binding)
         }else
         {
             holder.showFeedBackButton(holder.binding)
-        }
+        }*/
 
         val ob=Gson().fromJson(list.get(position).interviewerList.get(0).toString(), Array<InterViewersListModel>::class.java)
         val videoAccessCode=ob.firstOrNull()?.VideoCallAccessCode?.replace("/","")
