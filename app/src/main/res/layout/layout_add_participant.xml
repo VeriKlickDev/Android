@@ -77,15 +77,12 @@
             android:layout_marginHorizontal="@dimen/_12sp"
             android:fontFamily="@font/sarabun_medium"
             android:gravity="right"
-
             android:textColor="@color/red"
             android:textSize="@dimen/_10sp"
             android:visibility="visible" />
 
 
-
         <EditText
-            
             android:drawablePadding="@dimen/_10sp"
             android:id="@+id/et_phone_number"
             android:maxLines="1"

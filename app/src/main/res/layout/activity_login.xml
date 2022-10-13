@@ -47,6 +47,8 @@
                         android:drawablePadding="@dimen/_10sp"
                         android:id="@+id/et_email"
                         android:maxLines="1"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
                         android:textSize="@dimen/_18sdp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -83,6 +85,7 @@
                             android:maxLines="1"
                             android:textSize="@dimen/_18sdp"
                             android:gravity="top"
+                            android:imeOptions="actionDone"
                             android:backgroundTint="@color/light_grey"
                             android:inputType="textPassword"
                             />
