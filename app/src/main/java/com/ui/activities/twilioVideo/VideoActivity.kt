@@ -5,6 +5,7 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -163,29 +164,8 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
         //Log.d("checkobj", "onCreate: ${CurrentMeetingDataSaver.getData()}")
         binding.btnEndCall.setOnClickListener {
+        endCall()
 
-            localVideoTrack?.let { localParticipant?.unpublishTrack(it) }
-            screenShareCapturerManager.unbindService()
-            screenShareCapturerManager.endForeground()
-
-            TwilioHelper.disConnectRoom()
-            room!!.disconnect()
-            //viewModel.endVideoCall()
-            viewModel.setScreenSharingStatus(true, onResult = {action, data ->  })
-            if (!CurrentConnectUserList.getListofParticipant().isNullOrEmpty())
-            {
-                if (!CurrentMeetingDataSaver.getData().identity!!.contains("C")){
-
-                    CurrentConnectUserList.getListofParticipant().forEach {
-                        if (it.identity.contains("C"))
-                        {
-                            val intent= Intent(this@VideoActivity, ActivityFeedBackForm::class.java)
-                            startActivity(intent)
-                            overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
-                        }
-                    }
-                }
-            }
         }
 
         binding.localVideoActionFab.setOnClickListener {
@@ -336,6 +316,60 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         currentVisibleUser = VideoTracksBean("C", null, localVideoTrack!!, "You")
 
         handleObserver()
+
+    }
+
+        private fun endCall(){
+
+            localVideoTrack?.let { localParticipant?.unpublishTrack(it) }
+            screenShareCapturerManager.unbindService()
+            screenShareCapturerManager.endForeground()
+
+            TwilioHelper.disConnectRoom()
+            room!!.disconnect()
+            //viewModel.endVideoCall()
+            viewModel.setScreenSharingStatus(true, onResult = {action, data ->  })
+            if (!CurrentConnectUserList.getListofParticipant().isNullOrEmpty())
+            {
+                if (!CurrentMeetingDataSaver.getData().identity!!.contains("C")){
+
+                    CurrentConnectUserList.getListofParticipant().forEach {
+                        if (it.identity.contains("C"))
+                        {
+                            val intent= Intent(this@VideoActivity, ActivityFeedBackForm::class.java)
+                            startActivity(intent)
+                            overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
+                        }
+                    }
+                }
+            }
+        }
+
+    override fun onBackPressed() {
+        var isEndCall=false
+        val alertdialog=AlertDialog.Builder(this)
+        alertdialog.setPositiveButton("Yes",object : DialogInterface.OnClickListener {
+            override fun onClick(p0: DialogInterface?, p1: Int) {
+                endCall()
+                isEndCall=true
+            }
+        })
+        alertdialog.setNegativeButton("Cancel",object : DialogInterface.OnClickListener {
+            override fun onClick(p0: DialogInterface?, p1: Int) {
+
+            }
+        })
+
+        alertdialog.setMessage(getString(R.string.txt_do_you_want_to_exit_the_meeting))
+        alertdialog.create()
+        alertdialog.show()
+        if(isEndCall)
+        {
+            super.onBackPressed()
+        }else
+        {
+
+        }
 
     }
 

@@ -14,6 +14,7 @@ import com.data.checkInternet
 import com.data.dataHolders.CurrentConnectUserList
 import com.data.dataHolders.CurrentMeetingDataSaver
 import com.domain.BaseModels.VideoTracksBean
+import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityListOfMembersBinding
 import com.google.android.material.snackbar.Snackbar
 import com.ui.activities.adduserlist.ActivityAddParticipant
@@ -125,8 +126,15 @@ class MemberListActivity : AppCompatActivity() {
     private fun handleAddParticipant() {
         val intent = Intent(this@MemberListActivity, ActivityAddParticipant::class.java)
         startActivity(intent)
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
         Log.d(TAG, "handleAddParticipant: onclicked")
     }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+    }
+
 
     /*
         @OptIn(FlowPreview::class)

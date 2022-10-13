@@ -203,6 +203,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                     401->{
                         Log.d(TAG, "onCreate: wrong credentials")
+                        Log.d(TAG, "onCreate: wrong credentials")
                         //data.message.toString()
                         showToast(this,data.message.toString())//getString(R.string.txt_wrong_credentials)
                     }

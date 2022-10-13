@@ -54,9 +54,9 @@ class JoinMeetingActivity :AppCompatActivity() {
                     //candi https://ui2.veriklick.in/video-session/PKKLUSPhGgtOVUHT8RVt
 
                     //test
-                    getInterviewDetails("koGMg7Vd9JLIcCBLnW1r")
+                   // getInterviewDetails("PKKLUSPhGgtOVUHT8RVt")
 
-                   // getInterviewDetails(accessCode)
+                    getInterviewDetails(accessCode)
                     //  showToast(this,"Under Development")
                     InputUtils.hideKeyboard(this)
 
@@ -105,8 +105,8 @@ class JoinMeetingActivity :AppCompatActivity() {
                     showToast(this,data?.aPIResponse?.message!!)
                     data.videoAccessCode=accessCode
                     //showToast(this, "null values")
-                    data?.let { CurrentMeetingDataSaver.setData(it) }
-                    joinMeetingCandidate(accessCode)
+                   /* data?.let { CurrentMeetingDataSaver.setData(it) }
+                    joinMeetingCandidate(accessCode)*/
                     Log.d(TAG, "getInterviewDetails: user response $data")
                 }
                 404 -> {
@@ -118,9 +118,9 @@ class JoinMeetingActivity :AppCompatActivity() {
                     dismissProgressDialog()
                     showToast(this,data?.aPIResponse?.message!!)
                     data.videoAccessCode=accessCode
-                    CurrentMeetingDataSaver.setData(data!!)
+                    /*CurrentMeetingDataSaver.setData(data!!)
                     joinMeetingCandidate(accessCode)
-                    CurrentMeetingDataSaver.setData(data)
+                    CurrentMeetingDataSaver.setData(data)*/
                     Log.d(TAG, "getInterviewDetails: user response $data")
                 }
             }
