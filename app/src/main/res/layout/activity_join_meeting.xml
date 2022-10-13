@@ -47,6 +47,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_10sp"
                 android:layout_marginTop="@dimen/_20sp"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
                 android:layout_marginBottom="@dimen/_10sp"
                 android:drawableLeft="@drawable/ic_img_link"
                 android:hint="@string/txt_enter_code"
