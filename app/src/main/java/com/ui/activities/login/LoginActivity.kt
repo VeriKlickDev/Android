@@ -187,6 +187,7 @@ class LoginActivity : AppCompatActivity() {
 
                             Handler(Looper.getMainLooper()).postDelayed({
                                 startActivity(intent)
+                                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
                                 finish()
                             },500)
                             Log.d(TAG, "handleLoginApi: token decoded success $response ")

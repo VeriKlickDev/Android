@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.domain.BaseModels.InterViewersListModel
 import com.domain.BaseModels.NewInterviewDetails
@@ -21,6 +22,14 @@ class UpcomingMeetingAdapter(val context: Context, val list: List<NewInterviewDe
 
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
         holder.dataBind(list.get(position))
+
+        if (list[0].status.equals("Scheduled"))
+        {
+            holder.showJoinBackButton(holder.binding)
+        }else
+        {
+            holder.showFeedBackButton(holder.binding)
+        }
 
         val ob=Gson().fromJson(list.get(position).interviewerList.get(0).toString(), Array<InterViewersListModel>::class.java)
         val videoAccessCode=ob.firstOrNull()?.VideoCallAccessCode?.replace("/","")
@@ -45,9 +54,6 @@ class UpcomingMeetingAdapter(val context: Context, val list: List<NewInterviewDe
 
             Log.d("checkvideocode", "handleObserver:  video code in list ${data.interviewerList.get(0)} ")
 
-
-
-
             binding.tvJobId.text=data.jobid
             binding.tvMeetingDate.text=data.interviewDateTime.subSequence(0,10)
             binding.tvCandidate.text=data.candidateFirstName+" "+data.candidateLastName
@@ -66,6 +72,17 @@ class UpcomingMeetingAdapter(val context: Context, val list: List<NewInterviewDe
             val date=data.interviewDateTime.subSequence(0,10)
 
             Log.d("timedate", "dataBind: ${date}")
+        }
+
+        fun showFeedBackButton(binding: LayoutItemUpcomingMeetingBinding)
+        {
+            binding.btnJoin.isVisible=false
+            binding.btnFeedback.isVisible=true
+        }
+        fun showJoinBackButton(binding: LayoutItemUpcomingMeetingBinding)
+        {
+            binding.btnJoin.isVisible=true
+            binding.btnFeedback.isVisible=false
         }
     }
 

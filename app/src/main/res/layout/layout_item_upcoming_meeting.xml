@@ -183,7 +183,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_35sdp"
                 android:text="@string/txt_join"
+                android:visibility="visible"
                 style="@style/button.Style.Blue.Rounded.WithouPadding"
+                android:fontFamily="@font/sarabun_bold"
+                />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_feedback"
+                android:layout_weight="3"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_35sdp"
+                android:text="@string/txt_feedback"
+                android:visibility="gone"
+                style="@style/button.Style.Grey.Rounded.WithouPadding"
                 android:fontFamily="@font/sarabun_bold"
                 />
 

@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/shape_rectangle_rounded_10_grey.xml" value="0.166" />
+        <entry key="app/src/main/res/drawable-v24/shape_rectangle_rounded_10_skyblue.xml" value="0.166" />
+        <entry key="app/src/main/res/drawable/shape_rectangle_rounded_10_greydark.xml" value="0.166" />
         <entry key="app/src/main/res/drawable/shape_stroke_rect_white_10.xml" value="0.166" />
         <entry key="app/src/main/res/layout/activity_activitiy_login_with_otp.xml" value="0.17239583333333333" />
         <entry key="app/src/main/res/layout/activity_add_participant_by_link.xml" value="0.2" />

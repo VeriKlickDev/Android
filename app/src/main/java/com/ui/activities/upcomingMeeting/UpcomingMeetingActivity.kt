@@ -565,7 +565,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             if (!it.isNullOrEmpty())
             {
 
-            meetingsList.addAll(it.distinctBy { it.status.equals("Scheduled") })
+            meetingsList.addAll(it)
             adapter.notifyDataSetChanged()
             }
             if (meetingsList.size==0)
