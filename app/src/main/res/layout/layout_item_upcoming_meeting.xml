@@ -188,8 +188,17 @@
                 />
 
 
-
         </androidx.appcompat.widget.LinearLayoutCompat>
+
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_rectangle_rounded_10_grey"
+    android:orientation="vertical"
+    >
+
+
+
 
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -197,16 +206,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-
-            android:background="@drawable/shape_rectangle_rounded_10_grey"
             >
-
-
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_marginHorizontal="@dimen/_10sp"
             tools:layout_editor_absoluteX="3dp"
             android:layout_weight="1"
@@ -240,62 +245,45 @@
 
         </LinearLayout>
 
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="0.7"
+            >
+
+            <TextView
+                android:id="@+id/tv_user_email"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="0.7"
-                >
+                android:drawableLeft="@drawable/ic_img_message_blue"
+                android:drawablePadding="@dimen/_5sp"
+                android:paddingHorizontal="@dimen/_10sp"
+                android:paddingVertical="@dimen/_5sp"
+                android:singleLine="true"
+                android:fontFamily="@font/sarabun_regular"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14sp" />
 
-                <TextView
-                    android:id="@+id/tv_user_email"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_img_message_blue"
-                    android:drawablePadding="@dimen/_5sp"
-                    android:paddingHorizontal="@dimen/_10sp"
-                    android:paddingVertical="@dimen/_5sp"
-                    android:singleLine="true"
-                    android:fontFamily="@font/sarabun_regular"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_14sp" />
-
-                <TextView
-                    android:id="@+id/tv_user_phone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_img_call_blue"
-                    android:drawablePadding="@dimen/_5sp"
-                    android:paddingHorizontal="@dimen/_10sp"
-                    android:paddingVertical="@dimen/_5sp"
-                    android:singleLine="true"
-                    android:fontFamily="@font/sarabun_regular"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="-10sp"
-                    android:textSize="@dimen/_14sp"
-                    />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            <TextView
+                android:id="@+id/tv_user_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_img_call_blue"
+                android:drawablePadding="@dimen/_5sp"
+                android:paddingHorizontal="@dimen/_10sp"
+                android:paddingVertical="@dimen/_5sp"
+                android:singleLine="true"
+                android:fontFamily="@font/sarabun_regular"
+                android:textColor="@color/black"
+                android:layout_marginTop="-10sp"
+                android:textSize="@dimen/_14sp"
+                />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.appcompat.widget.LinearLayoutCompat>
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>

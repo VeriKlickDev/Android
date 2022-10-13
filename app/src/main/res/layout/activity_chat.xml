@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingBottom="@dimen/_5sp"
-        android:paddingHorizontal="@dimen/_5sp"
+        android:background="@color/light_grey_background"
         tools:context="com.ui.activities.chat.ChatActivity">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -69,12 +69,21 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+<!--        rest layout-->
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="@dimen/_10sp"
+    android:background="@drawable/shape_rect_rounded_top_20"
+    >
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_chat_msgs"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_marginTop="@dimen/_15sp"
             android:layout_marginHorizontal="@dimen/_5sp"
             />
 
@@ -132,6 +141,8 @@
                 />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

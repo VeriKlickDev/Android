@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="@color/light_grey_background"
         tools:context="com.ui.activities.upcomingMeeting.UpcomingMeetingActivity">
 
         <LinearLayout
@@ -123,10 +124,26 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
 
+<!--            rest layout-->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_rect_rounded_top_20"
+                >
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/_10sp"
+                android:layout_marginTop="@dimen/_10sp"
+                >
+
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:background="@drawable/shape_stroke_rect_white_10"
                 >
                 <com.google.android.material.imageview.ShapeableImageView
                     android:layout_width="@dimen/_30sdp"
@@ -163,6 +180,7 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
 
 
@@ -215,6 +233,7 @@
 
             </LinearLayout>
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
         </LinearLayout>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
