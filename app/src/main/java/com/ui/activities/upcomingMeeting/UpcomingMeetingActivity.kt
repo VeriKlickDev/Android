@@ -585,6 +585,11 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         })
     }
 
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
+    }
+
     fun setupAdapter()
     {
         adapter = UpcomingMeetingAdapter(this, meetingsList) { data, videoAccessCode, action ->
@@ -709,7 +714,9 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                             data.token.toString(),
                             data.roomName.toString()
                         )
-                        startActivity(Intent(this, VideoActivity::class.java))
+                        val intent=Intent(this, VideoActivity::class.java)
+                        startActivity(intent)
+                        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
                     }
                 }
                 400 -> {

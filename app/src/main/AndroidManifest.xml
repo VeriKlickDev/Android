@@ -40,7 +40,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ui.activities.chat.ChatActivityTest"
+            android:name="com.ui.activities.chat.ChatActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="portrait" />

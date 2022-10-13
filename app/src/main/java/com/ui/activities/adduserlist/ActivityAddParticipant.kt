@@ -82,6 +82,12 @@ class ActivityAddParticipant : AppCompatActivity() {
         }
 
     }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
+    }
+
     private fun checkTotalParticipant()
     {
         viewModel.getTotoalCountOfInterviewer(CurrentMeetingDataSaver.getData().videoAccessCode!!, onResponse = {action, data ->

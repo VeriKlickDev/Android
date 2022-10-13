@@ -69,20 +69,18 @@ class JoinMeetingActivity :AppCompatActivity() {
                 Snackbar.make(it,getString(R.string.txt_no_internet_connection),Snackbar.LENGTH_SHORT).show()
             }
         }
-
-      /*  binding.btnLogin.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
-            // startActivity(Intent(this, ActivityFeedBackForm::class.java))
-        }*/
     }
-    /*
-    *  I2D8o1imAlVv3JVIxKdG
-candidate :- 2dpOPzO1Hcf1z5eSGvLC
-    *
-    *
-    * */
-//https://ui2.veriklick.in/video-session/DAvKGK6RJbQUE9gnmR9P
+
+    override fun onDestroy() {
+        Log.d(TAG, "onDestroy: ")
+        super.onDestroy()
+    }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
+    }
+
     fun getInterviewDetails(accessCode:String)
     {
         showProgressDialog()
@@ -149,7 +147,10 @@ candidate :- 2dpOPzO1Hcf1z5eSGvLC
                         Log.d("showdialogalert", "candidate: ${data.token}  ${data.roomName}")
                         TwilioHelper.setTwilioCredentials(data.token.toString(),data.roomName.toString())
                         CurrentConnectUserList.clearList()
-                        startActivity(Intent(this@JoinMeetingActivity, VideoActivity::class.java))
+
+                        val intent=Intent(this@JoinMeetingActivity, VideoActivity::class.java)
+                        startActivity(intent)
+                        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
                     }
                 }
                 400 -> {

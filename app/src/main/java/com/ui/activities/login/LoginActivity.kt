@@ -75,15 +75,17 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-
         binding.btnContinueGuest.setOnClickListener {
-
            // viewModel.getVideoSession("I2D8o1imAlVv3JVIxKdG")
-            startActivity(Intent(this@LoginActivity,JoinMeetingActivity::class.java))
+            val intent=Intent(this@LoginActivity,JoinMeetingActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
         }
 
         binding.tvForgotPassword.setOnClickListener {
-            startActivity(Intent(this,ForgotPasswordActivity::class.java))
+            val intent=Intent(this,ForgotPasswordActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
         }
 
         binding.btnSubmitButton.setOnClickListener {
@@ -102,10 +104,17 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnOtpLogin.setOnClickListener {
-        startActivity(Intent(this,ActivitiyLoginWithOtp::class.java))
+            val intent=Intent(this,ActivitiyLoginWithOtp::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
         }
-
     }
+
+    override fun onDestroy() {
+
+        super.onDestroy()
+    }
+
 
     fun checkPermissions()
     {

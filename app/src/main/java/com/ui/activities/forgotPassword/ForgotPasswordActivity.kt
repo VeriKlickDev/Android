@@ -54,6 +54,11 @@ class ForgotPasswordActivity : AppCompatActivity() {
         }
     }
 
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
+    }
+
     fun validateEmail()
     {
         binding.etForgotPassword.doOnTextChanged { text, start, before, count ->

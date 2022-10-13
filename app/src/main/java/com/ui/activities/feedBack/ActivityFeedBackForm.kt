@@ -87,6 +87,11 @@ class ActivityFeedBackForm : AppCompatActivity() {
         // getInterviewDetails("mkpeHcXKbF95uRiWiLzJ")
     }
 
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
+    }
+
     fun addNewItem()
     {
         skillsList.add(AssessSkills(value = "others"))

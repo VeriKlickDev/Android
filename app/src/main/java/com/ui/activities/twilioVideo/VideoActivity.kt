@@ -50,7 +50,7 @@ import com.twilio.video.*
 import com.twilio.video.ktx.createLocalAudioTrack
 import com.twilio.video.ktx.createLocalVideoTrack
 import com.twilio.video.quickstart.kotlin.CameraCapturerCompat
-import com.ui.activities.chat.ChatActivityTest
+import com.ui.activities.chat.ChatActivity
 import com.ui.activities.documentviewer.DocumentViewerActivity
 import com.ui.activities.feedBack.ActivityFeedBackForm
 import com.ui.activities.meetingmemberslist.MemberListActivity
@@ -179,7 +179,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                     CurrentConnectUserList.getListofParticipant().forEach {
                         if (it.identity.contains("C"))
                         {
-                            startActivity(Intent(this@VideoActivity, ActivityFeedBackForm::class.java))
+                            val intent= Intent(this@VideoActivity, ActivityFeedBackForm::class.java)
+                            startActivity(intent)
+                            overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
                         }
                     }
                 }
@@ -220,7 +222,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 viewModel.getChatToken(identity.toString(), response = { data, code ->
                     Log.d("chatcheck", "onCreate: data $data  chat channel $identity")
 
-                    val intent = Intent(this, ChatActivityTest::class.java)
+                    val intent = Intent(this, ChatActivity::class.java)
                     intent.putExtra(AppConstants.CHAT_ACCESS_TOKEN, data?.Token)
                     intent.putExtra(
                         AppConstants.CHAT_CHANNEL,
@@ -231,6 +233,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                         remoteParticipantVideoList.size.toString()
                     )
                     startActivity(intent)
+                    overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
                 })
 
             }else
@@ -2300,7 +2303,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 Log.d(TAG, "onViewClicked: mute others")
             }
             R.id.btn_show_documents -> {
-                startActivity(Intent(this, DocumentViewerActivity::class.java))
+                val intent=Intent(this, DocumentViewerActivity::class.java)
+                startActivity(intent)
+                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
             }
             R.id.btn_share_screen -> {
                getScreenSharingStatus {
@@ -2459,10 +2464,15 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         }
     }
 
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
+    }
 
     fun showAddUserActivity() {
         val intent = Intent(this, MemberListActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
     }
 
     fun handleVideoRecording() {
