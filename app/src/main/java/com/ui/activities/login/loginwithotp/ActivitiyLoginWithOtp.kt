@@ -39,21 +39,18 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btnJumpBack.setOnClickListener {
-           if ( binding.parentLayoutOtp.isVisible)
-           {
-               visibleSendEmail()
-           }else
-           {
-               onBackPressed()
-           }
+          onBackPressed()
         }
         btnDisabledbackGround()
-        visibleSendEmail()
-       // btnDisabledbackGround()
+
         binding.btnSendOtp.setOnClickListener {
-           // sendEmailOtpVerification()
-           // verifycationBottomSheetDialog()
-           /**woking*/ sendOtpToEmail()
+
+            InputUtils.hideKeyboard(this)
+            /**woking*/ sendOtpToEmail()
+        }
+        binding.btnResendOtp.setOnClickListener {
+            InputUtils.hideKeyboard(this)
+            /**woking*/ sendOtpToEmail()
         }
 
         binding.parentLayout.setOnClickListener {
@@ -68,35 +65,18 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if ( binding.parentLayoutOtp.isVisible)
-        {
-            visibleSendEmail()
-        }else
+        if (binding.etEmail.isEnabled)
         {
             super.onBackPressed()
+        }else
+        {
+         handleUI(400)
         }
     }
 
     override fun finish() {
         super.finish()
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
-    }
-
-
-    fun visibleSendEmail()
-    {
-        Handler(Looper.getMainLooper()).post(Runnable {
-            binding.parentLayoutOtp.isVisible=false
-            binding.parentLayoutEmailVerify.isVisible=true
-        })
-    }
-
-    fun visibleOtpVerify()
-    {
-        Handler(Looper.getMainLooper()).post(Runnable {
-            binding.parentLayoutOtp.isVisible=true
-            binding.parentLayoutEmailVerify.isVisible=false
-        })
+       // overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
     }
 
     fun btnEnabledbackGround()
@@ -113,7 +93,7 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
 
     private var email: String = ""
     private fun handleEmailOtpVerification() {
-        binding.etRole.doOnTextChanged { text, start, before, count ->
+        binding.etEmail.doOnTextChanged { text, start, before, count ->
             Log.d(TAG, "sendEmailOtpVerification: text ${text.toString()}")
             emailValidator(
                 this,
@@ -127,11 +107,41 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
                     else
                     {
                         btnDisabledbackGround()
-                        binding.etRole.setError(getString(R.string.txt_enter_valid_email))
+                        binding.etEmail.setError(getString(R.string.txt_enter_valid_email))
                         Log.d(TAG, "sendEmailOtpVerification: error $error")
                     }
                 })
         }
+    }
+
+    fun handleUI(onResponse:Int)
+    {
+        Handler(Looper.getMainLooper()).post(Runnable {
+            when(onResponse)
+            {
+                200->{
+                    binding.btnResendOtp.isVisible=true
+                    binding.btnSendOtp.isVisible=false
+                    binding.parentLayoutVerifyotp.isVisible=true
+                    binding.btnVerifyOtp.isVisible=true
+                    binding.etEmail.isEnabled=false
+                }
+                400->{
+                    binding.btnResendOtp.isVisible=false
+                    binding.btnSendOtp.isVisible=true
+                    binding.parentLayoutVerifyotp.isVisible=false
+                    binding.btnVerifyOtp.isVisible=false
+                    binding.etEmail.isEnabled=true
+                }
+                401->{
+                    binding.btnResendOtp.isVisible=false
+                    binding.btnSendOtp.isVisible=true
+                    binding.parentLayoutVerifyotp.isVisible=false
+                    binding.btnVerifyOtp.isVisible=false
+                    binding.etEmail.isEnabled=true
+                }
+            }
+        })
     }
 
     fun sendOtpToEmail()
@@ -140,20 +150,18 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
             when (result) {
                 200 -> {
                     Log.d(TAG, "handleEmailVerification: 200 data $data")
-                    visibleOtpVerify()
-                    showToast(this, data.Message.toString())
-                    //verifycationBottomSheetDialog()
+                    handleUI(200)
+                    binding.parentLayout.showSnackBar(data.Message.toString())
                 }
                 400 -> {
-                    showToast(this, data.Message.toString())
-                   // visibleSendEmail()
-                   // visibleOtpVerify()
+                    binding.parentLayout.showSnackBar(data.Message.toString())
+                    handleUI(400)
+
                 }
                 401 -> {
                     Log.d(TAG, "handleEmailVerification: 401")
-                    showToast(this, data.Message.toString())
-                    //visibleSendEmail()
-                   // visibleOtpVerify()
+                    binding.parentLayout.showSnackBar(data.Message.toString())
+                    handleUI(401)
                 }
                 404 -> {
                     Log.d(TAG, "handleEmailVerification: 404")
@@ -252,9 +260,7 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(intent)
-            finish()
+            overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
         },500)
-
-
     }
 }

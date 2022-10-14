@@ -22,7 +22,6 @@
             android:id="@+id/btn_jump_back"
             />
 
-
         <TextView
             android:layout_marginTop="@dimen/_30sdp"
             android:id="@+id/tv_join_meeting"
@@ -62,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_img_message_black"
-                android:id="@+id/et_role"
+                android:id="@+id/et_email"
                 android:maxLines="1"
                 android:textSize="@dimen/_18sdp"
                 android:singleLine="true"
@@ -73,59 +72,25 @@
                 android:hint="@string/hint_email"
                 />
 
-
-
-            <!--            <TextView-->
-<!--                android:id="@+id/tv_psswd_error"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginHorizontal="@dimen/_12sp"-->
-<!--                android:fontFamily="@font/sarabun_medium"-->
-<!--                android:gravity="right"-->
-<!--                android:textColor="@color/red"-->
-<!--                android:textSize="@dimen/_10sp"-->
-<!--                android:visibility="visible" />-->
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_sendOtp"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_55sdp"
-            style="@style/button.Style.Blue.Rounded"
-            android:layout_marginTop="@dimen/_20sp"
-            android:text="@string/txt_send_otp"
-            android:textSize="@dimen/_18sdp" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone"
-            android:id="@+id/parentLayout_otp"
-            >
-
-<!--            <com.google.android.material.textfield.TextInputLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="@dimen/_10sp"-->
-<!--                android:hint="@string/txt_six_digit_otp"-->
-<!--                android:visibility="visible"-->
-<!--                android:id="@+id/otp_inputlayout"-->
-<!--                android:layout_marginHorizontal="@dimen/_10sp"-->
-<!--                app:boxBackgroundColor="@color/white"-->
-<!--                >-->
-                <EditText
-                    android:id="@+id/et_otp"
-                    android:maxLines="1"
-                    android:textSize="@dimen/_16sdp"
-                    android:hint="@string/txt_six_digit_otp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/editext.style.base"
-                    android:layout_marginHorizontal="@dimen/_10sp"
-
-                    />
+<!--            in dev-->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:id="@+id/parent_layout_verifyotp"
+                >
+            <EditText
+                android:id="@+id/et_otp"
+                android:maxLines="1"
+                android:layout_marginTop="@dimen/_15sp"
+                android:textSize="@dimen/_16sdp"
+                android:hint="@string/txt_six_digit_otp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/editext.style.base"
+                android:layout_marginHorizontal="@dimen/_10sp"
+                />
 
             <TextView
                 android:id="@+id/tv_otp_error"
@@ -133,23 +98,46 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_12sp"
                 android:fontFamily="@font/sarabun_medium"
-                android:gravity="right"
+                android:gravity="left"
                 android:layout_marginTop="-5sp"
                 android:textColor="@color/red"
                 android:textSize="@dimen/_10sp"
                 android:visibility="visible" />
 
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_sendOtp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_55sdp"
+                style="@style/button.Style.Blue.Rounded"
+                android:layout_marginTop="@dimen/_20sp"
+                android:text="@string/txt_send_otp"
+                android:textSize="@dimen/_18sdp" />
+
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_verifyOtp"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_55sdp"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_marginTop="@dimen/_10sp"
                 style="@style/button.Style.Blue.Rounded"
                 android:text="@string/txt_verify_otp"
                 android:textSize="@dimen/_18sdp" />
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_resendOtp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_55sdp"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/_10sp"
+                style="@style/button.Style.Blue.Rounded"
+                android:text="@string/txt_resend_otp"
+                android:textSize="@dimen/_18sdp" />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
+
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

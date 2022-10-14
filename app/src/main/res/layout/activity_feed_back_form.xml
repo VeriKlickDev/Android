@@ -71,19 +71,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            style="@style/heading.TextView.Black_16"
             android:layout_marginHorizontal="@dimen/_12sp"
-            android:fontFamily="@font/sarabun_regular"
-            android:textColor="@color/light_text_color"
-            android:text="id"
+            android:text="@string/txt_jobId"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
             android:layout_marginHorizontal="@dimen/_12sp"
-            android:fontFamily="@font/sarabun_regular"
-            android:textColor="@color/black"
+            style="@style/heading.TextView.Grey_16"
             android:text="id"
             android:id="@+id/tv_jobId"
             />
@@ -99,20 +95,16 @@
             <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+                style="@style/heading.TextView.Black_16"
                 android:layout_marginHorizontal="@dimen/_12sp"
-            android:fontFamily="@font/sarabun_regular"
-            android:textColor="@color/light_text_color"
-            android:text="@string/txt_description"
+            android:text="@string/txt_job_des"
             />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+           style="@style/heading.TextView.Grey_16"
             android:layout_marginHorizontal="@dimen/_12sp"
-            android:fontFamily="@font/sarabun_regular"
-            android:textColor="@color/black"
             android:text="@string/txt_description"
             android:id="@+id/tv_description"
             />
@@ -126,10 +118,10 @@
             <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+
                 android:layout_marginHorizontal="@dimen/_12sp"
-            android:fontFamily="@font/sarabun_bold"
-            android:textColor="@color/light_text_color"
+            style="@style/heading.TextView.Black_16"
+
             android:text="@string/txt_Candidate_Skills"
             />
         <androidx.recyclerview.widget.RecyclerView
@@ -159,11 +151,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            style="@style/heading.TextView.Black_16"
             android:layout_marginHorizontal="@dimen/_12sp"
             android:layout_marginTop="@dimen/_15sp"
-            android:fontFamily="@font/sarabun_regular"
-            android:textColor="@color/light_text_color"
             android:text="@string/txt_recommendation"
             />
 
@@ -192,9 +182,7 @@
             android:layout_height="wrap_content"
             android:text="helloWorld"
             android:layout_weight="1"
-            android:textSize="@dimen/_16sdp"
-            android:fontFamily="@font/sarabun_regular"
-            android:textColor="@color/black"
+            style="@style/heading.TextView.Grey_16"
             android:id="@+id/tv_spinnerTitle"/>
 
         <androidx.appcompat.widget.AppCompatSpinner
@@ -242,7 +230,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1sp"
-                android:layout_marginTop="-5sp"
+                android:layout_marginTop="-7sp"
                 android:layout_marginHorizontal="@dimen/_12sp"
                 android:background="@color/light_grey"/>
 
@@ -264,11 +252,11 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/txt_coding_test_remart"
+                android:hint="@string/txt_coding_test_remark"
                 app:boxStrokeColor="@color/white"
                 app:boxStrokeWidth="0sp"
                 app:boxBackgroundColor="@color/white"
-                android:layout_marginTop="@dimen/_10sp"
+                android:layout_marginTop="@dimen/_15sp"
                 >
 
                 <EditText
@@ -282,7 +270,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1sp"
-                android:layout_marginTop="-5sp"
+                android:layout_marginTop="-7sp"
                 android:layout_marginHorizontal="@dimen/_12sp"
                 android:background="@color/light_grey"/>
 
@@ -300,11 +288,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            style="@style/heading.TextView.Black_16"
             android:layout_marginHorizontal="@dimen/_12sp"
             android:layout_marginTop="@dimen/_15sp"
-            android:fontFamily="@font/sarabun_regular"
-            android:textColor="@color/light_text_color"
+
+
             android:text="@string/txt_interviewer_name"
             />
         <TextView
@@ -335,7 +323,7 @@
                 app:boxStrokeColor="@color/white"
                 app:boxStrokeWidth="0sp"
                 app:boxBackgroundColor="@color/white"
-                android:layout_marginTop="@dimen/_10sp"
+                android:layout_marginTop="@dimen/_15sp"
                 >
             <EditText
                 android:id="@+id/et_role"

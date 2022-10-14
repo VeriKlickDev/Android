@@ -15,6 +15,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
@@ -26,6 +27,7 @@ import com.domain.BaseModels.ResponseChatFromToken
 import com.domain.BaseModels.ResponseJWTTokenLogin
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.LayoutProgressBinding
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
@@ -214,6 +216,20 @@ fun Context.showToast(context: Context, txt: String) {
 
 }
 
+fun View.showSnackBar(txt: String) {
+    Handler(Looper.getMainLooper()).post(kotlinx.coroutines.Runnable {
+        Snackbar.make(this,txt,Snackbar.LENGTH_LONG).show()
+    })
+}
+
+fun changeDatefrom_yyyymmdd_to_mmddyyyy(date:String):String
+{
+    val sdf = SimpleDateFormat("yyyy-MM-dd")
+    val datef=sdf.parse(date)
+    val sdf2 = SimpleDateFormat("MM-dd-yyy")
+    val dateFinal=sdf2.format(datef)
+return dateFinal.toString()
+}
 fun Context.requestScreenCapturePermission(
     context: Context,
     onResult: (intent: Intent, reqCode: Int) -> Unit

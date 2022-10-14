@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.data.changeDatefrom_yyyymmdd_to_mmddyyyy
 import com.domain.BaseModels.InterViewersListModel
 import com.domain.BaseModels.NewInterviewDetails
 import com.domain.BaseModels.ResponseUpcomintMeeting
@@ -55,7 +56,7 @@ class UpcomingMeetingAdapter(val context: Context, val list: List<NewInterviewDe
             Log.d("checkvideocode", "handleObserver:  video code in list ${data.interviewerList.get(0)} ")
 
             binding.tvJobId.text=data.jobid
-            binding.tvMeetingDate.text=data.interviewDateTime.subSequence(0,10)
+            binding.tvMeetingDate.text= changeDatefrom_yyyymmdd_to_mmddyyyy(data.interviewDateTime.subSequence(0,10).toString())
             binding.tvCandidate.text=data.candidateFirstName+" "+data.candidateLastName
             binding.tvClient.text=data.clientName
             binding.tvUserPhone.text=data.contactNumber

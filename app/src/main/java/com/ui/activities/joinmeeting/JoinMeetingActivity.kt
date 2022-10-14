@@ -52,7 +52,7 @@ class JoinMeetingActivity :AppCompatActivity() {
 
                     //https://ui2.veriklick.in/video-session/koGMg7Vd9JLIcCBLnW1r
                     //candi https://ui2.veriklick.in/video-session/PKKLUSPhGgtOVUHT8RVt
-//nEXGFB4S8cr5MV7ZgjQ5
+                    //nEXGFB4S8cr5MV7ZgjQ5
                     //test
                    // getInterviewDetails("nEXGFB4S8cr5MV7ZgjQ5")
                     getInterviewDetails(accessCode)

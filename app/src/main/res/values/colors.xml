@@ -14,7 +14,7 @@
     <color name="grey">#888888</color>
     <color name="grey_tranparent_dark">#86000000</color>
     <color name="msg_background_grey">#F5F5F5</color>
-    <color name="light_text_color">#6B798F</color>
+    <color name="lightgrey_text_color">#6B798F</color>
     <color name="light_grey_background">#F6F6F6</color>
     <color name="black_50">#75000000</color>
     <color name="black_70">#A1000000</color>

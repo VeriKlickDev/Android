@@ -7,25 +7,36 @@
         <entry key="app/src/main/res/drawable-v24/shape_rectangle_rounded_10_skyblue.xml" value="0.166" />
         <entry key="app/src/main/res/drawable/shape_rectangle_rounded_10_greydark.xml" value="0.166" />
         <entry key="app/src/main/res/drawable/shape_stroke_rect_white_10.xml" value="0.166" />
-        <entry key="app/src/main/res/layout/activity_activitiy_login_with_otp.xml" value="0.17239583333333333" />
+        <entry key="app/src/main/res/layout/activity_activitiy_login_with_otp.xml" value="0.21" />
         <entry key="app/src/main/res/layout/activity_add_participant_by_link.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_add_user_list.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_chat.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/activity_feed_back_form.xml" value="0.17239583333333333" />
+        <entry key="app/src/main/res/layout/activity_feed_back_form.xml" value="0.2929203539823009" />
         <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.17239583333333333" />
         <entry key="app/src/main/res/layout/activity_join_meeting.xml" value="0.15" />
+        <entry key="app/src/main/res/layout/activity_layout_add_participant.xml" value="0.17239583333333333" />
         <entry key="app/src/main/res/layout/activity_list_of_members.xml" value="0.17239583333333333" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/activity_twilio_video.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_upcoming_meeting.xml" value="0.2" />
         <entry key="app/src/main/res/layout/layout_add_participant.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/layout_bottombuttons.xml" value="0.17239583333333333" />
+        <entry key="app/src/main/res/layout/layout_description_dialog.xml" value="0.17239583333333333" />
         <entry key="app/src/main/res/layout/layout_dialog_add_participant.xml" value="0.1796875" />
         <entry key="app/src/main/res/layout/layout_item_candidate_skills.xml" value="0.17239583333333333" />
         <entry key="app/src/main/res/layout/layout_item_connected_users.xml" value="0.18072916666666666" />
+        <entry key="app/src/main/res/layout/layout_item_connected_userstemp.xml" value="0.17239583333333333" />
+        <entry key="app/src/main/res/layout/layout_item_member_video_confrence.xml" value="0.17239583333333333" />
+        <entry key="app/src/main/res/layout/layout_item_reciever_chat.xml" value="0.17239583333333333" />
         <entry key="app/src/main/res/layout/layout_item_upcoming_meeting.xml" value="0.33" />
         <entry key="app/src/main/res/layout/layout_item_video_confrence.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/layout_mute_mic_update.xml" value="0.18072916666666666" />
+        <entry key="app/src/main/res/layout/layout_otp_verification_bottomsheet.xml" value="0.17239583333333333" />
+        <entry key="app/src/main/res/layout/layout_progress.xml" value="0.17239583333333333" />
+        <entry key="app/src/main/res/layout/layout_twilio_content_video.xml" value="0.17239583333333333" />
+        <entry key="app/src/main/res/layout/layout_video_confrencing.xml" value="0.17239583333333333" />
+        <entry key="app/src/main/res/layout/preference_dialog_number_edittext.xml" value="0.17239583333333333" />
       </map>
     </option>
   </component>

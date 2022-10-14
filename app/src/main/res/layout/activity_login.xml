@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/_12sp"
                     android:fontFamily="@font/sarabun_medium"
-                    android:gravity="right"
+                    android:gravity="left"
                     android:textColor="@color/red"
                     android:textSize="@dimen/_10sp"
                     android:visibility="visible" />
@@ -73,6 +73,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_marginHorizontal="@dimen/_10sp"
+                        android:layout_marginTop="@dimen/_15sp"
                         >
 
                         <EditText
@@ -107,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/_12sp"
                     android:fontFamily="@font/sarabun_medium"
-                    android:gravity="right"
+                    android:gravity="left"
                     android:textColor="@color/red"
                     android:textSize="@dimen/_10sp"
                     android:visibility="visible" />

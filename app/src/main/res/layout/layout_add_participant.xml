@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_12sp"
             android:fontFamily="@font/sarabun_medium"
-            android:gravity="right"
+            android:gravity="left"
             android:textColor="@color/red"
             android:textSize="@dimen/_10sp"
             android:visibility="visible" />
@@ -103,7 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_12sp"
             android:fontFamily="@font/sarabun_medium"
-            android:gravity="right"
+            android:gravity="left"
             android:textColor="@color/red"
             android:textSize="@dimen/_10sp"
             android:visibility="visible" />
