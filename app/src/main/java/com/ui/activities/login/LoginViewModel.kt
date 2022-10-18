@@ -60,6 +60,10 @@ class LoginViewModel @Inject constructor(val baserepo: BaseRestRepository, val l
                             actionProgress(0)
                             response(401, result.body()!!,null)
                         }
+                        if (result.code()==500)
+                        {
+                            response(500, result.body()!!,null)
+                        }
                     }
                     else {
                         actionProgress(0)

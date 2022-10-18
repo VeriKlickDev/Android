@@ -29,13 +29,39 @@ class UpcomingMeetingAdapter(
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
         holder.dataBind(list.get(position))
 
-        /* if (list[0].status.equals("Scheduled"))
-         {
-             holder.showJoinBackButton(holder.binding)
-         }else
-         {
-             holder.showFeedBackButton(holder.binding)
-         }*/
+        when(list[0].status)
+        {
+            "schedule"->{
+                holder.binding.btnJoin.isVisible=true
+                holder.binding.btnFeedback.isVisible=false
+            }
+            "nonSchedule"->{
+                holder.binding.btnJoin.isVisible=false
+                holder.binding.btnFeedback.isVisible=true
+                holder.binding.btnFeedback.isEnabled=false
+                holder.binding.btnFeedback.text="Missed"
+            }
+            "attended"->{
+                holder.binding.btnJoin.isVisible=false
+                holder.binding.btnFeedback.isVisible=true
+                holder.binding.btnFeedback.isEnabled=true
+                holder.binding.btnFeedback.text="Feedback"
+            }
+            "cancel"->{
+                holder.binding.btnJoin.isVisible=false
+                holder.binding.btnFeedback.isVisible=true
+                holder.binding.btnFeedback.isEnabled=false
+                holder.binding.btnFeedback.text="Cancelled"
+            }
+        }
+
+
+//         {
+//             holder.showJoinBackButton(holder.binding)
+//         }else
+//         {
+//             holder.showFeedBackButton(holder.binding)
+//         }
 
         val ob = Gson().fromJson(
             list.get(position).interviewerList.get(0).toString(),

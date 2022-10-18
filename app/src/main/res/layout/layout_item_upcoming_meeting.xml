@@ -191,7 +191,6 @@
                 android:layout_weight="3"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_35sdp"
-                android:text="@string/txt_feedback"
                 android:visibility="gone"
                 style="@style/button.Style.Grey.Rounded.WithouPadding"
                 android:fontFamily="@font/sarabun_bold"

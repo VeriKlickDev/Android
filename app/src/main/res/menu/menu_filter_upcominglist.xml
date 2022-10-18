@@ -4,5 +4,7 @@
     <item android:id="@+id/all_meetings" android:title="All" />
     <item android:id="@+id/scheduled_meetings" android:title="Scheduled" />
     <item android:id="@+id/attended_meetings" android:title="Attended" />
+    <item android:id="@+id/nonscheduled_meetings" android:title="Missed" />
+    <item android:id="@+id/cancel_meetings" android:title="Cancelled" />
 
 </menu>

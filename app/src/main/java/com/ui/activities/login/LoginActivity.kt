@@ -208,6 +208,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                     500 -> {
                         Log.d(TAG, "onCreate: exception $exception")
+                        showToast(this,"Please try again")
                     }
                 }
             },

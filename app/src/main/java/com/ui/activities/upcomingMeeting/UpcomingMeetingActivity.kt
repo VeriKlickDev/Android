@@ -55,7 +55,6 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     private var pageno=1
     private var iscrolled=false
     private  lateinit var  layoutManager:LinearLayoutManager
-
     private var isOpenedFirst=false
     private var preUtcDate = ""
     private var preIsTDate = ""
@@ -65,6 +64,9 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     private var commonUtcDate=""
     private var isPrevClicked = false
     private var isNextClicked = false
+
+    private var searchTxt=""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUpcomingMeetingBinding.inflate(layoutInflater)
@@ -90,7 +92,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         })
         
         if (checkInternet()) {
-            handleUpcomingMeetingsList(3, null,1,9)
+            handleUpcomingMeetingsList(3, 1,9)
         }
         else {
             Snackbar.make(
@@ -133,7 +135,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         binding.swipetorefresh.setOnRefreshListener {
             if (checkInternet()) {
                 meetingsList.clear()
-                handleUpcomingMeetingsList(5, null,1,9)
+                handleUpcomingMeetingsList(5, 1,9)
 
             /* if (isNextClicked)
                 {
@@ -171,7 +173,9 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 meetingsList.clear()
                 isOpenedFirst=true
-                handleUpcomingMeetingsList(0, binding.etSearch.text.toString(),1,9)
+                searchTxt=binding.etSearch.text.toString()
+                handleUpcomingMeetingsList(0,1,9)
+
                 hideKeyboard(this)
                 return@OnEditorActionListener true
             }
@@ -191,12 +195,12 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             if (isNextClicked) {
                 WeeksDataHolder.minusWeekDay()
                 WeeksDataHolder.minusWeekDay()
-                handleUpcomingMeetingsList(1, null,1,9)
+                handleUpcomingMeetingsList(1, 1,9)
                 isNextClicked = false
             }
             else {
                 WeeksDataHolder.minusWeekDay()
-                handleUpcomingMeetingsList(1, null,1,9)
+                handleUpcomingMeetingsList(1, 1,9)
             }
             isPrevClicked = true
         }
@@ -206,13 +210,17 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             if (isPrevClicked) {
                 WeeksDataHolder.addWeekDay()
                 WeeksDataHolder.addWeekDay()
-                handleUpcomingMeetingsList(2, null,1,9)
+                handleUpcomingMeetingsList(2, 1,9)
                 isPrevClicked = false
             } else {
                 WeeksDataHolder.addWeekDay()
-                handleUpcomingMeetingsList(2, null,1,9)
+                handleUpcomingMeetingsList(2, 1,9)
             }
             isNextClicked = true
+        }
+
+        binding.btnCross.setOnClickListener {
+            searchTxt=""
         }
 
         binding.rvUpcomingMeeting.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -236,7 +244,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
                     }else
                     {
-                        handleUpcomingMeetingsList(5, null,pageno,9)
+                        handleUpcomingMeetingsList(5, pageno,9)
                     }
 
                     Log.d(TAG, "onScrolled: "+pageno.toString())
@@ -248,7 +256,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     }
 
 
-    private fun handleUpcomingMeetingsList(action: Int, searchTxt: String?,pageNumber:Int,pageSize:Int) {
+    private fun handleUpcomingMeetingsList(action: Int,pageNumber:Int,pageSize:Int) {
         var ob: BodyScheduledMeetingBean? = null
         Log.d(TAG, "handleUpcomingMeetingsList: handleupcoming meeting list")
         var recruiterId = ""
@@ -273,7 +281,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 WeeksDataHolder.getIstUtcPriviousDate { utcDate, istDate ->
                     Log.d(TAG, "onCreate: previous date  utc previous ${utcDate}  itc $istDate ")
 
-                    ob.Search = searchTxt.toString()
+                    ob.Search = searchTxt
 
                     ob.fromdate = preUtcDate
                     ob.todate = nextutcDate
@@ -289,7 +297,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 * */
                 WeeksDataHolder.getIstUtcPriviousDate { utcDate, istDate ->
                     Log.d(TAG, "onCreate: previous date  utc previous ${utcDate}  itc $istDate ")
-
+                    ob.Search = searchTxt
                     ob?.Status = status
 
                     ob.fromdate = preUtcDate
@@ -318,7 +326,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 */
 
                     Log.d(TAG, "handleUpcomingMeetingsList: ")
-
+                    ob.Search = searchTxt
                     ob.fromdate = preUtcDate
                     ob.todate = nextutcDate
 
@@ -356,9 +364,10 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
                 WeeksDataHolder.getIstUtcPriviousDate(dateResponse = { utcDate, istDate ->
                     Log.d(TAG,"onCreate: previous date  utc previous  from $istDate     to $preIsTDate  ")
-
+                    ob.Search = searchTxt
                     if (isNextClicked)
                     {
+
                         ob.fromdate = utcDate
                         ob.todate = preUtcDate
 
@@ -367,6 +376,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     }
                     else
                     {
+
                         ob.fromdate = utcDate
                         ob.todate = commonUtcDate
 
@@ -389,7 +399,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
                 WeeksDataHolder.getItcUtcNextDate(dateResponse = { utcDate, istDate ->
                     Log.d(TAG,"onCreate: next date is  date  utc from  $preIsTDate to $istDate ")
-
+                    ob.Search = searchTxt
                     if (isPrevClicked)
                     {
                         ob.from = nextutcDate
@@ -435,7 +445,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                         ob.to = preIsTDate
                     }
 */
-
+                    ob.Search = searchTxt
                     isPrevClicked=true
 
                     ob.fromdate = utcDate
@@ -660,16 +670,24 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         when(item.itemId)
         {
             R.id.all_meetings->{
-                status="All"
-                handleUpcomingMeetingsList(7,"",0,9)
+                status=""
+                handleUpcomingMeetingsList(7,0,9)
             }
             R.id.attended_meetings->{
                 status="Attended"
-                handleUpcomingMeetingsList(7,"",0,9)
+                handleUpcomingMeetingsList(7,0,9)
             }
             R.id.scheduled_meetings->{
-                status="Scheduled"
-                handleUpcomingMeetingsList(7,"",0,9)
+                status="schedule"
+                handleUpcomingMeetingsList(7,0,9)
+            }
+            R.id.nonscheduled_meetings->{
+                status="nonSchedule"
+                handleUpcomingMeetingsList(7,0,9)
+            }
+            R.id.cancel_meetings->{
+                status="cancel"
+                handleUpcomingMeetingsList(7,0,9)
             }
         }
 

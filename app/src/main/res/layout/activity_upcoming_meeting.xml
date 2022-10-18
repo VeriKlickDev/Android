@@ -108,15 +108,14 @@
 
 
                 <com.google.android.material.imageview.ShapeableImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/_20sp"
+                    android:layout_height="@dimen/_20sp"
                     android:id="@+id/btn_cross"
                     android:layout_gravity="center"
-                    android:scaleType="center"
                     android:layout_marginRight="@dimen/_30sdp"
                     android:visibility="gone"
                     android:padding="@dimen/_2sp"
-                    android:src="@drawable/ic_close_cross_square"
+                    android:src="@drawable/ic_cross"
                     />
 
 
@@ -131,11 +130,6 @@
                     android:layout_marginRight="@dimen/_10sp"
                     android:src="@drawable/ic_btn_ellipsize_grey"
                     />
-
-
-
-
-
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>
