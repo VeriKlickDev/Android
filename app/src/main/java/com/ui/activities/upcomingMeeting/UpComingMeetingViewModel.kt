@@ -219,6 +219,18 @@ class UpComingMeetingViewModel @Inject constructor(
                         Log.d(TAG, "getVideoSession:  success ${result.body()}")
                     } else {
                         onDataResponse(result.body()!!, 400)
+                        when(result.code())
+                        {
+                            401->{
+                                onDataResponse(result.body()!!, 400)
+                            }
+                            400->{
+                                onDataResponse(result.body()!!, 400)
+                            }
+                            500->{
+                                onDataResponse(result.body()!!, 500)
+                            }
+                        }
                         Log.d(TAG, "getVideoSession: null result")
                     }
                 } else {

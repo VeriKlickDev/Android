@@ -345,14 +345,13 @@ fun decodeBase64(str: String): String {
 }
 
 
-object InputUtils {
+
     fun hideKeyboard(activity: Activity) {
         val view = activity.currentFocus
         if (view != null) {
             val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
-    }
 }
 
 

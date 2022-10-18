@@ -59,8 +59,7 @@ class JoinMeetingActivity :AppCompatActivity() {
                    // getInterviewDetails("wzrxnhK1FQl8AJm2zvCF")
                     getInterviewDetails(accessCode)
                     //  showToast(this,"Under Development")
-                    InputUtils.hideKeyboard(this)
-
+                    hideKeyboard(this)
                 }else
                 {
                     showToast(this,getString(R.string.txt_url_required))

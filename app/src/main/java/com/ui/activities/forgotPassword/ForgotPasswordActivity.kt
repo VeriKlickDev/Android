@@ -45,7 +45,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
             {
                 if (checkInternet()){
                     handleEmailEvent()
-                    InputUtils.hideKeyboard(this)
+                    hideKeyboard(this)
                 }else
                 {
                     Snackbar.make(it,getString(R.string.txt_no_internet_connection),Snackbar.LENGTH_SHORT).show()

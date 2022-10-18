@@ -45,16 +45,16 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
 
         binding.btnSendOtp.setOnClickListener {
 
-            InputUtils.hideKeyboard(this)
+            hideKeyboard(this)
             /**woking*/ sendOtpToEmail()
         }
         binding.btnResendOtp.setOnClickListener {
-            InputUtils.hideKeyboard(this)
+            hideKeyboard(this)
             /**woking*/ sendOtpToEmail()
         }
 
         binding.parentLayout.setOnClickListener {
-            InputUtils.hideKeyboard(this)
+            hideKeyboard(this)
         }
 
         handleEmailOtpVerification()

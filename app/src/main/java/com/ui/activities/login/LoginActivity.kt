@@ -100,7 +100,7 @@ class LoginActivity : AppCompatActivity() {
                 binding.tvPsswdError.isVisible=true
                 binding.tvPsswdError.text=getString(R.string.txt_password_must_be_greaterthan_6)
             }
-            InputUtils.hideKeyboard(this)
+            hideKeyboard(this)
         }
 
         binding.btnOtpLogin.setOnClickListener {

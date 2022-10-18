@@ -5,40 +5,44 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.ContextMenu
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.AbsListView
+import android.widget.TextView.OnEditorActionListener
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.data.dataHolders.DataStoreHelper
 import com.data.*
 import com.data.dataHolders.CurrentMeetingDataSaver
+import com.data.dataHolders.DataStoreHelper
 import com.data.dataHolders.WeeksDataHolder
 import com.data.helpers.TwilioHelper
 import com.domain.BaseModels.BodyScheduledMeetingBean
 import com.domain.BaseModels.NewInterviewDetails
-import com.domain.BaseModels.TokenResponseBean
 import com.domain.constant.AppConstants
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityUpcomingMeetingBinding
 import com.example.twillioproject.databinding.LayoutDescriptionDialogBinding
 import com.google.android.material.snackbar.Snackbar
-import com.ui.activities.twilioVideo.VideoActivity
 import com.ui.activities.login.LoginActivity
+import com.ui.activities.twilioVideo.VideoActivity
 import com.ui.listadapters.UpcomingMeetingAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class UpcomingMeetingActivity : AppCompatActivity() {
@@ -47,8 +51,8 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     private lateinit var adapter: UpcomingMeetingAdapter
     private lateinit var viewModel: UpComingMeetingViewModel
     private lateinit var accessCode: String
-
-   private var pageno=1
+    private var status=""
+    private var pageno=1
     private var iscrolled=false
     private  lateinit var  layoutManager:LinearLayoutManager
 
@@ -84,8 +88,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             commonIstDate=istDate
             commonUtcDate=utcDate
         })
-
-
+        
         if (checkInternet()) {
             handleUpcomingMeetingsList(3, null,1,9)
         }
@@ -110,12 +113,12 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 binding.btnSearchShow.isVisible=true
             }
         }
-
+/*
         binding.btnSearch.setOnClickListener {
             meetingsList.clear()
             handleUpcomingMeetingsList(0, binding.etSearch.text.toString(),1,9)
         }
-
+*/
         binding.btnCross.setOnClickListener {
 
             if (!binding.tvHeader.isVisible) {
@@ -163,12 +166,25 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             dialog.show()
             dialog.create()
 
-
         }
-
+        binding.etSearch.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                meetingsList.clear()
+                isOpenedFirst=true
+                handleUpcomingMeetingsList(0, binding.etSearch.text.toString(),1,9)
+                hideKeyboard(this)
+                return@OnEditorActionListener true
+            }
+            false
+        })
         binding.rvUpcomingMeeting.layoutManager = layoutManager
 
         handleObserver()
+
+        binding.btnEllipsize.setOnClickListener {
+            registerForContextMenu(it)
+            this.openContextMenu(it)
+        }
 
         binding.btnLeftPrevious.setOnClickListener {
            meetingsList.clear()
@@ -258,6 +274,23 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     Log.d(TAG, "onCreate: previous date  utc previous ${utcDate}  itc $istDate ")
 
                     ob.Search = searchTxt.toString()
+
+                    ob.fromdate = preUtcDate
+                    ob.todate = nextutcDate
+
+                    ob.from = preIsTDate
+                    ob.to = nextIstDate
+
+                }
+            }
+            7 -> {
+                /*
+                * for search
+                * */
+                WeeksDataHolder.getIstUtcPriviousDate { utcDate, istDate ->
+                    Log.d(TAG, "onCreate: previous date  utc previous ${utcDate}  itc $istDate ")
+
+                    ob?.Status = status
 
                     ob.fromdate = preUtcDate
                     ob.todate = nextutcDate
@@ -611,6 +644,39 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         //adapter.notifyDataSetChanged()
     }
 
+    override fun onCreateContextMenu(
+        menu: ContextMenu?,
+        v: View?,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        val inflater = menuInflater
+        inflater.inflate(com.example.twillioproject.R.menu.menu_filter_upcominglist, menu)
+        menu!!.setHeaderTitle("Meetings")
+
+        super.onCreateContextMenu(menu, v, menuInfo)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        when(item.itemId)
+        {
+            R.id.all_meetings->{
+                status="All"
+                handleUpcomingMeetingsList(7,"",0,9)
+            }
+            R.id.attended_meetings->{
+                status="Attended"
+                handleUpcomingMeetingsList(7,"",0,9)
+            }
+            R.id.scheduled_meetings->{
+                status="Scheduled"
+                handleUpcomingMeetingsList(7,"",0,9)
+            }
+        }
+
+        return super.onContextItemSelected(item)
+    }
+
+
     fun showDescDialog(data: NewInterviewDetails) {
         val dialog = Dialog(this)
         val dialogBinding = LayoutDescriptionDialogBinding.inflate(LayoutInflater.from(this))
@@ -658,6 +724,10 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 404 -> {
                     dismissProgressDialog()
                     showToast(this, "response not success")
+                }
+                500->{
+                    dismissProgressDialog()
+                    showToast(this, "Interval Server Error!")
                 }
             }
         })

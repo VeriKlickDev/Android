@@ -13,7 +13,7 @@ data class BodyScheduledMeetingBean (
     @SerializedName("from") var from : String?=null,
     @SerializedName("to") var to : String?=null,
     @SerializedName("Client") val Client : String="",
-    @SerializedName("Status") val Status : String="schedule",
+    @SerializedName("Status") var Status : String="schedule",
     @SerializedName("CName") val CName : String="",
     @SerializedName("Day") val Day : String="",
     @SerializedName("Time") val Time : String="",
