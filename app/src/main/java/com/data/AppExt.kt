@@ -226,7 +226,7 @@ fun changeDatefrom_yyyymmdd_to_mmddyyyy(date:String):String
 {
     val sdf = SimpleDateFormat("yyyy-MM-dd")
     val datef=sdf.parse(date)
-    val sdf2 = SimpleDateFormat("MM-dd-yyy")
+    val sdf2 = SimpleDateFormat("MMM-dd-yyy")
     val dateFinal=sdf2.format(datef)
 return dateFinal.toString()
 }

@@ -36,7 +36,6 @@
                 style="@style/textview.Style.WhiteRounded_18"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-10sp"
                 android:text="@string/txt_start_join_video_meeting_on_the_go" />
 
             <EditText
@@ -52,7 +51,6 @@
                 android:drawableLeft="@drawable/ic_img_link"
                 android:hint="@string/txt_enter_code"
                 android:maxHeight="100sp" />
-
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_join"

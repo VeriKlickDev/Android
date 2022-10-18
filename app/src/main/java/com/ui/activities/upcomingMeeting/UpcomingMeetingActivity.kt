@@ -26,6 +26,7 @@ import com.data.dataHolders.WeeksDataHolder
 import com.data.helpers.TwilioHelper
 import com.domain.BaseModels.BodyScheduledMeetingBean
 import com.domain.BaseModels.NewInterviewDetails
+import com.domain.BaseModels.TokenResponseBean
 import com.domain.constant.AppConstants
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityUpcomingMeetingBinding
@@ -619,7 +620,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             dialog.dismiss()
         }
         dialogBinding.tvDescription.text = data.interviewTitle
-        dialogBinding.tvUserId.text = data.interviewId.toString()
+        dialogBinding.tvUserId.text = data.jobid.toString()
         dialog.create()
         dialog.show()
     }
@@ -671,6 +672,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 200 -> {
                     dismissProgressDialog()
                     Log.d(TAG, "meeting data in 200 ${data}")
+                    data?.videoAccessCode=accessCode
                     CurrentMeetingDataSaver.setData(data!!)
                     joinMeeting(accessCode)
                     CurrentMeetingDataSaver.setData(data)
@@ -681,6 +683,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 400 -> {
                     dismissProgressDialog()
                     //showToast(this, "null values")
+                    data?.videoAccessCode=accessCode //remove all code
                     data?.let { CurrentMeetingDataSaver.setData(it) }
                     joinMeeting(accessCode)
                 }
@@ -690,6 +693,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 }
                 401 -> {
                     dismissProgressDialog()
+                    data?.videoAccessCode=accessCode //remove all code
                     CurrentMeetingDataSaver.setData(data!!)
                     joinMeeting(accessCode)
                     CurrentMeetingDataSaver.setData(data)

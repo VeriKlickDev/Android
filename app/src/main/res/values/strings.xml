@@ -72,7 +72,7 @@
     <string name="txt_recommendation">Recommendation</string>
     <string name="txt_variation_of_passages">Variations of passages</string>
     <string name="txt_remark">Remark</string>
-    <string name="txt_coding_test_remark">Coding Test Remark</string>
+    <string name="txt_overall_remarks">Overall Remarks</string>
     <string name="txt_panel_member">Panel Member</string>
     <string name="txt_name">Name</string>
     <string name="txt_role">Role</string>
@@ -89,12 +89,16 @@
     <string name="txt_send_otp">Send OTP</string>
     <string name="txt_six_digit_otp">Enter 6 digits OTP</string>
     <string name="txt_verify_otp">Verify OTP</string>
-    <string name="txt_otp_descrition">Otp will be send to your email account.</string>
+    <string name="txt_otp_descrition">OTP (one-time password) will be sent to your registered email.</string>
     <string name="txt_cant_add_more_participant">Can\'t add more participant</string>
     <string name="txt_do_you_want_to_logout">Do you want to logout</string>
     <string name="txt_only_one_person_can_share_screen">only one person can share screen at a time</string>
     <string name="txt_do_you_want_to_exit_the_meeting">Do you want to exit</string>
     <string name="txt_id">ID</string>
     <string name="txt_job_des">Job Description</string>
-    <string name="txt_resend_otp">Resend Otp</string>
+    <string name="txt_resend_otp">Resend OTP</string>
+    <string name="txt_addparticipant">Add Participant</string>
+    <string name="txt_screensharing">Screen Share</string>
+    <string name="txt_recording">Recording</string>
+    <string name="txt_please_try_again">Please try again</string>
 </resources>

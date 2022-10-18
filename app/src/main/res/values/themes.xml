@@ -25,6 +25,18 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="textStyle.White.Black_16" parent="Widget.AppCompat.TextView">
+        <item name="fontFamily">@font/sarabun_regular</item>
+        <item name="android:textSize">@dimen/_15sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="textStyle.White12" parent="Widget.AppCompat.TextView">
+        <item name="fontFamily">@font/sarabun_regular</item>
+        <item name="android:textSize">@dimen/_12sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
 
     <style name="Theme.TwillioProject1" parent="Theme.TwillioProject">
         <item name="android:windowLayoutInDisplayCutoutMode">always</item>

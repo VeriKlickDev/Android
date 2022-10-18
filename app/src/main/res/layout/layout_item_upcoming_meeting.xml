@@ -17,7 +17,6 @@
         android:background="@drawable/shape_rectangle_rounded_10_white"
         >
 
-
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -217,6 +216,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/_10sp"
             >
 
         <LinearLayout
@@ -229,24 +229,16 @@
             tools:layout_editor_absoluteY="105dp"
             >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:fontFamily="@font/sarabun_regular"
-                android:textSize="@dimen/_14sp"
-                android:layout_marginRight="@dimen/_20sp"
-                android:text="@string/txt_candidate" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+            <View
+                android:layout_width="@dimen/_20sp"
+                android:layout_height="20sp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_img_add_user_black"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:id="@+id/tv_candidate"
                 android:fontFamily="@font/sarabun_regular"
                 android:textSize="@dimen/_14sp"
@@ -262,6 +254,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_marginTop="-5sp"
             android:layout_weight="0.7"
             >
 

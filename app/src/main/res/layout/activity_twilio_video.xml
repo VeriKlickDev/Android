@@ -106,11 +106,10 @@
             android:id="@+id/tv_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/sarabun_semibold"
             android:layout_marginBottom="0dp"
             android:elevation="@dimen/_5sp"
-            android:text="User Name"
-            android:textColor="@color/white"
+            android:text="Username"
+            style="@style/textStyle.White.Black_16"
             app:layout_constraintBottom_toTopOf="@+id/tv_meeting_time"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
@@ -178,58 +177,209 @@
                     android:layout_marginBottom="@dimen/_5sp"
                     android:background="@drawable/shape_rectangle_rounded_dark_transparent_grey_mini_50"
                     android:elevation="@dimen/_10sp"
-                    android:gravity="right"
+                    android:gravity="left"
                     android:orientation="vertical"
-                    android:padding="@dimen/_5sp"
+                    android:paddingHorizontal="@dimen/_10sp"
                     android:visibility="gone">
 
-                    <ImageView
-                        android:layout_width="@dimen/_40sdp"
-                        android:layout_height="@dimen/_40sdp"
-                        android:src="@drawable/ic_img_add_user_white"
-                        android:padding="@dimen/_10sp"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:id="@+id/btn_feedback"
+                        android:elevation="@dimen/_12sp"
+                        android:onClick="@{onClick::onViewClicked}"
+                        >
+
+                        <ImageView
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            android:src="@drawable/ic_feedback"
+                            android:padding="@dimen/_10sp"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/txt_feedback"
+                            style="@style/textStyle.White12"
+                            />
+
+
+                    </LinearLayout>
+
+
+
+
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
                         android:id="@+id/btn_add_user_videoActivity"
                         android:onClick="@{onClick::onViewClicked}"
-                        />
+                        >
 
-                    <ImageView
-                        android:layout_width="@dimen/_40sdp"
-                        android:layout_height="@dimen/_40sdp"
-                        android:layout_marginVertical="@dimen/_5sp"
-                        android:src="@drawable/ic_img_document_white"
-                        android:padding="@dimen/_10sp"
+                        <ImageView
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            android:src="@drawable/ic_img_add_user_white"
+                            android:padding="@dimen/_10sp"
+
+
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/txt_addparticipant"
+                            style="@style/textStyle.White12"
+                            />
+
+
+                    </LinearLayout>
+
+
+
+
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
                         android:id="@+id/btn_show_documents"
                         android:onClick="@{onClick::onViewClicked}"
-                        />
+                        >
 
-                    <ImageView
-                        android:layout_width="@dimen/_40sdp"
-                        android:layout_height="@dimen/_40sdp"
-                        android:src="@drawable/ic_share_screen_white"
-                        android:padding="@dimen/_10sp"
+                        <ImageView
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            android:layout_marginVertical="@dimen/_5sp"
+                            android:src="@drawable/ic_img_document_white"
+                            android:padding="@dimen/_10sp"
+
+
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/txt_resume"
+                            style="@style/textStyle.White12"
+                            />
+
+
+                    </LinearLayout>
+
+
+
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
                         android:id="@+id/btn_share_screen"
                         android:onClick="@{onClick::onViewClicked}"
-                        />
+                        >
 
-                    <ImageView
-                        android:layout_width="@dimen/_40sdp"
-                        android:layout_height="@dimen/_40sdp"
-                        android:layout_marginTop="@dimen/_5sp"
+                        <ImageView
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            android:src="@drawable/ic_share_screen_white"
+                            android:padding="@dimen/_10sp"
+
+
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/txt_screensharing"
+                            style="@style/textStyle.White12"
+                            />
+
+
+                    </LinearLayout>
+
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
                         android:id="@+id/btn_record_video"
-                        android:src="@drawable/ic_img_sc_recording_white"
-                        android:padding="@dimen/_10sp"
                         android:onClick="@{onClick::onViewClicked}"
-                        />
-                    <ImageView
-                        android:layout_width="@dimen/_40sdp"
-                        android:layout_height="@dimen/_40sdp"
-                        android:layout_marginTop="@dimen/_5sp"
-                        android:src="@drawable/ic_mic_unmute_white"
-                        android:visibility="gone"
-                        android:padding="@dimen/_10sp"
-                        android:id="@+id/btn_allow_to_mute"
-                        android:onClick="@{onClick::onViewClicked}"
-                        />
+                        >
+
+
+                        <ImageView
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            android:id="@+id/btnRecording"
+                            android:src="@drawable/ic_img_sc_recording_white"
+                            android:padding="@dimen/_10sp"
+
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/txt_recording"
+                            style="@style/textStyle.White12"
+                            />
+
+
+                    </LinearLayout>
+
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:gravity="center_vertical"-->
+<!--                        android:id="@+id/"-->
+<!--                        >-->
+
+
+<!--                        <ImageView-->
+<!--                            android:layout_width="@dimen/_40sdp"-->
+<!--                            android:layout_height="@dimen/_40sdp"-->
+<!--                            android:layout_marginTop="@dimen/_5sp"-->
+<!--                            android:src="@drawable/ic_mic_unmute_white"-->
+<!--                            android:visibility="visible"-->
+<!--                            android:padding="@dimen/_10sp"-->
+<!--                            android:id="@+id/btn_allow_to_mute"-->
+<!--                            android:onClick="@{onClick::onViewClicked}"-->
+<!--                            />-->
+<!--                        -->
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="@string/txt_screensharing"-->
+<!--                            style="@style/textStyle.White12"-->
+<!--                            />-->
+
+
+<!--                    </LinearLayout>-->
+
+
+
 
 
                 </LinearLayout>

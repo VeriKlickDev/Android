@@ -23,7 +23,6 @@ class UpComingMeetingViewModel @Inject constructor(
 
     val scheduledMeetingLiveData = MutableLiveData<List<NewInterviewDetails>>()
 
-
     fun getScheduledMeetingList(
         bodyScheduledMeetingBean: BodyScheduledMeetingBean,
         response: (result: Int, exception: String?,data:ResponseScheduledMeetingBean?) -> Unit,

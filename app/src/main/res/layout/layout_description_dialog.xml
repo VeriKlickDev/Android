@@ -12,7 +12,7 @@
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="350sp"
+            android:layout_width="370sp"
             android:layout_height="wrap_content"
             android:paddingHorizontal="@dimen/_20sp"
             android:gravity="center_vertical"
@@ -40,14 +40,19 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
-
             <ImageView
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:background="@drawable/ic_close_cross_square"
+                android:layout_width="@dimen/_20sp"
+                android:layout_height="@dimen/_20sp"
+                android:background="@drawable/ic_cross"
                 android:id="@+id/btn_cross"
                 />
         </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5sp"
+            >
 
         <TextView
             android:layout_width="match_parent"
@@ -60,6 +65,7 @@
             android:padding="@dimen/_10sp"
             android:layout_marginBottom="@dimen/_10sp" />
 
+        </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
 </layout>

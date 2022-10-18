@@ -42,7 +42,6 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
                 else {
                     Log.d(TAG, "getIsEmailAndPhoneExists:  response not success")
                 }
-
             }
         } catch (e: Exception) {
             Log.d("adduserexception", "getIsEmailAndPasswordExists: exception  ")

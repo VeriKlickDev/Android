@@ -35,15 +35,13 @@
             style="@style/textview.Style.WhiteRounded_18"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-10sp"
             android:text="@string/txt_otp_descrition" />
-
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="@dimen/_15sp"
+            android:layout_marginTop="@dimen/_20sp"
             android:id="@+id/parentLayout_emailVerify"
             >
 
@@ -115,6 +113,15 @@
                 android:text="@string/txt_send_otp"
                 android:textSize="@dimen/_18sdp" />
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_resendOtp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_55sdp"
+                android:visibility="visible"
+                android:layout_marginTop="@dimen/_10sp"
+                style="@style/button.Style.lightBlue.Rounded.elevation"
+                android:text="@string/txt_resend_otp"
+                android:textSize="@dimen/_18sdp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_verifyOtp"
@@ -126,15 +133,6 @@
                 android:text="@string/txt_verify_otp"
                 android:textSize="@dimen/_18sdp" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_resendOtp"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_55sdp"
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/_10sp"
-                style="@style/button.Style.Blue.Rounded"
-                android:text="@string/txt_resend_otp"
-                android:textSize="@dimen/_18sdp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

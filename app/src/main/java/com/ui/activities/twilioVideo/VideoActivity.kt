@@ -37,6 +37,7 @@ import com.data.helpers.RoomParticipantListener
 import com.data.helpers.TwilioHelper
 
 import com.domain.BaseModels.BodyUpdateRecordingStatus
+import com.domain.BaseModels.TokenResponseBean
 import com.domain.BaseModels.VideoTracksBean
 import com.domain.OnViewClicked
 import com.domain.constant.AppConstants
@@ -298,10 +299,10 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 handleMuteUnmute()
             }*/
         }
-
-        binding.btnAllowToMute.setOnClickListener {
-            muteIconUpdateDialog()
-        }
+//
+//        binding.btnAllowToMute.setOnClickListener {
+//            muteIconUpdateDialog()
+//        }
 
         binding.btnEllipsize.setOnClickListener {
             if (binding.llExtraButtons.visibility == View.VISIBLE) {
@@ -1774,6 +1775,8 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         }
     }
 
+    private var isRoomConnected=false
+
     private fun muteIconUpdateDialog() {
         val dialog = Dialog(this)
 
@@ -1811,6 +1814,8 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             localParticipant = room.localParticipant
             binding.videoStatusTextview.text = "Connected to ${room.name}"
             title = room.name
+            isRoomConnected=true
+            CurrentMeetingDataSaver.setRoomData(TokenResponseBean(identity= CurrentMeetingDataSaver.getData().identity, roomName = room.name!!))
             Log.d(TAG, "onParticipantConnect: connect in connected  ${room.name}")
             Log.d(
                 TAG,
@@ -1958,7 +1963,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
              * Indicates when media shared to a Room is being recorded. Note that
              * recording is only available in our Group Rooms developer preview.
              */
-        binding.btnRecordVideo.setImageResource(R.drawable.ic_img_sc_recording_red)
+        binding.btnRecording.setImageResource(R.drawable.ic_img_sc_recording_red)
         Log.d(TAG, "onRecordingStarted")
     }
 
@@ -1967,10 +1972,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
            * Indicates when media shared to a Room is no longer being recorded. Note that
            * recording is only available in our Group Rooms developer preview.
            */
-        binding.btnRecordVideo.setImageResource(R.drawable.ic_img_sc_recording_white)
+        binding.btnRecording.setImageResource(R.drawable.ic_img_sc_recording_white)
         Log.d(TAG, "onRecordingStopped")
     }
-
 
     /**
      * RemoteParticipant events listener
@@ -2332,10 +2336,15 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             R.id.btn_add_user_videoActivity -> {
                 showAddUserActivity()
             }
-            R.id.btn_allow_to_mute -> {
+            R.id.btn_feedback -> {
+                val intent= Intent(this@VideoActivity, ActivityFeedBackForm::class.java)
+                startActivity(intent)
+                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
+            }
+           /*R.id.btn_allow_to_mute -> {
                 muteIconUpdateDialog()
                 Log.d(TAG, "onViewClicked: mute others")
-            }
+            }*/
             R.id.btn_show_documents -> {
                 val intent=Intent(this, DocumentViewerActivity::class.java)
                 startActivity(intent)
@@ -2354,7 +2363,14 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                }
             }
             R.id.btn_record_video -> {
-                handleVideoRecording()
+                if (isRoomConnected!=false)
+                {
+                    handleVideoRecording()
+                }else
+                {
+                    showToast(this,getString(R.string.txt_please_try_again))
+                }
+
                 //Log.d("checkvideostatus", "onViewClicked: status ${VideoRecordingStatusHolder.setStatus()}")
             }
         }
