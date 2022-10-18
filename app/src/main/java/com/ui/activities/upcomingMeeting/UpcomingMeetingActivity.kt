@@ -771,9 +771,10 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 400 -> {
                     dismissProgressDialog()
                     //showToast(this, "null values")
-                    data?.videoAccessCode=accessCode //remove all code
+                    showToast(this, data?.aPIResponse?.message.toString())
+                    /*data?.videoAccessCode=accessCode //remove all code
                     data?.let { CurrentMeetingDataSaver.setData(it) }
-                    joinMeeting(accessCode)
+                    joinMeeting(accessCode)*/
                 }
                 404 -> {
                     dismissProgressDialog()
@@ -781,10 +782,10 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 }
                 401 -> {
                     dismissProgressDialog()
-                    data?.videoAccessCode=accessCode //remove all code
+                    /*data?.videoAccessCode=accessCode //remove all code
                     CurrentMeetingDataSaver.setData(data!!)
                     joinMeeting(accessCode)
-                    CurrentMeetingDataSaver.setData(data)
+                    CurrentMeetingDataSaver.setData(data)*/
                 }
             }
         })
