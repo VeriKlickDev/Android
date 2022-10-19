@@ -795,9 +795,9 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     dismissProgressDialog()
                     //showToast(this, "null values")
                     showToast(this, data?.aPIResponse?.message.toString())
-                    data?.videoAccessCode=accessCode //remove all code
+                    /*data?.videoAccessCode=accessCode //remove all code
                     data?.let { CurrentMeetingDataSaver.setData(it) }
-                    joinMeeting(accessCode)
+                    joinMeeting(accessCode)*/
                 }
                 404 -> {
                     dismissProgressDialog()
