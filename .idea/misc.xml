@@ -10,6 +10,9 @@
         <entry key="app/src/main/res/drawable/ic_img_add_user_black.xml" value="0.176" />
         <entry key="app/src/main/res/drawable/ic_img_add_user_white.xml" value="0.176" />
         <entry key="app/src/main/res/drawable/shape_rectangle_rounded_10_greydark.xml" value="0.166" />
+        <entry key="app/src/main/res/drawable/shape_rectangle_rounded_dark_transparent_grey_mini.xml" value="0.184" />
+        <entry key="app/src/main/res/drawable/shape_rectangle_rounded_light_grey.xml" value="0.1535" />
+        <entry key="app/src/main/res/drawable/shape_rectangle_rounded_red_10.xml" value="0.1535" />
         <entry key="app/src/main/res/drawable/shape_stroke_rect_white_10.xml" value="0.166" />
         <entry key="app/src/main/res/layout/activity_activitiy_login_with_otp.xml" value="0.21" />
         <entry key="app/src/main/res/layout/activity_add_participant_by_link.xml" value="0.2" />

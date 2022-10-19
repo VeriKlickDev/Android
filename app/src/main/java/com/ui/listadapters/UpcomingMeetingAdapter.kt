@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.data.changeDatefrom_yyyymmdd_to_mmddyyyy
+import com.data.dataHolders.UpcomingMeetingStatusHolder
 import com.domain.BaseModels.InterViewersListModel
 import com.domain.BaseModels.NewInterviewDetails
 import com.domain.BaseModels.ResponseUpcomintMeeting
+import com.example.twillioproject.R
 import com.example.twillioproject.databinding.LayoutItemUpcomingMeetingBinding
 import com.google.gson.Gson
 
@@ -19,7 +21,7 @@ class UpcomingMeetingAdapter(
     val onClick: (data: NewInterviewDetails, videoAccessCode: String, action: Int) -> Unit
 ) :
     RecyclerView.Adapter<UpcomingMeetingAdapter.ViewHolderClass>() {
-
+        private val TAG="upcomingAdapterListCheck"
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass {
         val binding =
             LayoutItemUpcomingMeetingBinding.inflate(LayoutInflater.from(context), parent, false)
@@ -29,8 +31,23 @@ class UpcomingMeetingAdapter(
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
         holder.dataBind(list.get(position))
 
-        when(list[0].status)
+        Log.d(TAG, "onBindViewHolder: status ${list[0].status}  status object ${UpcomingMeetingStatusHolder.getStatus()}")
+
+
+
+        when(UpcomingMeetingStatusHolder.getStatus())
         {
+            ""->{
+                holder.binding.btnJoin.isVisible=true
+                holder.binding.btnFeedback.isVisible=false
+            }
+            "Attended"->{
+                holder.binding.btnJoin.isVisible=false
+                holder.binding.btnFeedback.isVisible=true
+                holder.binding.btnFeedback.isEnabled=true
+                holder.binding.btnFeedback.background= context.getDrawable(R.drawable.shape_rectangle_rounded_light_grey)
+                holder.binding.btnFeedback.text="Feedback"
+            }
             "schedule"->{
                 holder.binding.btnJoin.isVisible=true
                 holder.binding.btnFeedback.isVisible=false
@@ -40,17 +57,13 @@ class UpcomingMeetingAdapter(
                 holder.binding.btnFeedback.isVisible=true
                 holder.binding.btnFeedback.isEnabled=false
                 holder.binding.btnFeedback.text="Missed"
-            }
-            "attended"->{
-                holder.binding.btnJoin.isVisible=false
-                holder.binding.btnFeedback.isVisible=true
-                holder.binding.btnFeedback.isEnabled=true
-                holder.binding.btnFeedback.text="Feedback"
+                holder.binding.btnFeedback.background= context.getDrawable(R.drawable.shape_rectangle_rounded_red_10)
             }
             "cancel"->{
                 holder.binding.btnJoin.isVisible=false
                 holder.binding.btnFeedback.isVisible=true
                 holder.binding.btnFeedback.isEnabled=false
+                holder.binding.btnFeedback.background= context.getDrawable(R.drawable.shape_rectangle_rounded_dark_transparent_grey_mini)
                 holder.binding.btnFeedback.text="Cancelled"
             }
         }
@@ -76,6 +89,14 @@ class UpcomingMeetingAdapter(
         holder.binding.btnEllipsize.setOnClickListener {
             onClick(list.get(position), videoAccessCode.toString(), 2)
         }
+
+        if (holder.binding.btnFeedback.text.toString().equals("Feedback"))
+        {
+            holder.binding.btnFeedback.setOnClickListener {
+                onClick(list[position],videoAccessCode.toString(),3)
+            }
+        }
+
     }
 
     override fun getItemCount(): Int {
@@ -94,8 +115,7 @@ class UpcomingMeetingAdapter(
 
             binding.tvJobId.text = data.jobid
             binding.tvMeetingDate.text = changeDatefrom_yyyymmdd_to_mmddyyyy(
-                data.interviewDateTime.subSequence(0, 10).toString()
-            )
+                data.interviewDateTime.subSequence(0, 10).toString())
             binding.tvCandidate.text = data.candidateFirstName + " " + data.candidateLastName
             binding.tvClient.text = data.clientName
 
@@ -121,11 +141,11 @@ class UpcomingMeetingAdapter(
             if (timeHour >= 12)
                 binding.tvMeetingTime.text =
                     "(" + data.interviewTimezone + ") " + data.interviewDateTime.subSequence(11, 16)
-                        .toString() + " PM"
+                        .toString()// + " PM"
             else
                 binding.tvMeetingTime.text =
                     "(" + data.interviewTimezone + ") " + data.interviewDateTime.subSequence(11, 16)
-                        .toString() + " AM"
+                        .toString()// + " AM"
 
             Log.d(
                 "timedate",
