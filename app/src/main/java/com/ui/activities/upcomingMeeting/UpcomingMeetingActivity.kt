@@ -123,12 +123,13 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 */
         binding.btnCross.setOnClickListener {
 
-            if (!binding.tvHeader.isVisible) {
+         /*   if (!binding.tvHeader.isVisible) {
                 binding.layoutSearch.isVisible = false
                 binding.tvHeader.isVisible = true
                 binding.btnSearchShow.isVisible=true
                 binding.btnCross.isVisible=false
-            }
+            }*/
+
         }
 
 
@@ -221,6 +222,19 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
         binding.btnCross.setOnClickListener {
             searchTxt=""
+            binding.etSearch.setText("")
+            if (binding.tvHeader.isVisible) {
+                binding.layoutSearch.isVisible = true
+                binding.tvHeader.isVisible = false
+                binding.btnSearchShow.isVisible=false
+                binding.btnCross.isVisible=true
+            }
+            else {
+                binding.btnCross.isVisible=false
+                binding.layoutSearch.isVisible = false
+                binding.tvHeader.isVisible = true
+                binding.btnSearchShow.isVisible=true
+            }
         }
 
         binding.rvUpcomingMeeting.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -282,7 +296,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     Log.d(TAG, "onCreate: previous date  utc previous ${utcDate}  itc $istDate ")
 
                     ob.Search = searchTxt
-
+                    ob.Status=status
                     ob.fromdate = preUtcDate
                     ob.todate = nextutcDate
 
@@ -327,6 +341,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
                     Log.d(TAG, "handleUpcomingMeetingsList: ")
                     ob.Search = searchTxt
+                    ob.Status=status
                     ob.fromdate = preUtcDate
                     ob.todate = nextutcDate
 
@@ -365,6 +380,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 WeeksDataHolder.getIstUtcPriviousDate(dateResponse = { utcDate, istDate ->
                     Log.d(TAG,"onCreate: previous date  utc previous  from $istDate     to $preIsTDate  ")
                     ob.Search = searchTxt
+                    ob.Status=status
                     if (isNextClicked)
                     {
 
@@ -400,6 +416,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 WeeksDataHolder.getItcUtcNextDate(dateResponse = { utcDate, istDate ->
                     Log.d(TAG,"onCreate: next date is  date  utc from  $preIsTDate to $istDate ")
                     ob.Search = searchTxt
+                    ob.Status=status
                     if (isPrevClicked)
                     {
                         ob.from = nextutcDate
@@ -447,6 +464,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 */
                     ob.Search = searchTxt
                     isPrevClicked=true
+                    ob.Status=status
 
                     ob.fromdate = utcDate
                     ob.todate = nextutcDate
@@ -671,23 +689,28 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         {
             R.id.all_meetings->{
                 status=""
-                handleUpcomingMeetingsList(7,0,9)
+                meetingsList.clear()
+                handleUpcomingMeetingsList(7,1,9)
             }
             R.id.attended_meetings->{
                 status="Attended"
-                handleUpcomingMeetingsList(7,0,9)
+                meetingsList.clear()
+                handleUpcomingMeetingsList(7,1,9)
             }
             R.id.scheduled_meetings->{
                 status="schedule"
-                handleUpcomingMeetingsList(7,0,9)
+                meetingsList.clear()
+                handleUpcomingMeetingsList(7,1,9)
             }
             R.id.nonscheduled_meetings->{
                 status="nonSchedule"
-                handleUpcomingMeetingsList(7,0,9)
+                meetingsList.clear()
+                handleUpcomingMeetingsList(7,1,9)
             }
             R.id.cancel_meetings->{
                 status="cancel"
-                handleUpcomingMeetingsList(7,0,9)
+                meetingsList.clear()
+                handleUpcomingMeetingsList(7,1,9)
             }
         }
 
@@ -772,9 +795,9 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     dismissProgressDialog()
                     //showToast(this, "null values")
                     showToast(this, data?.aPIResponse?.message.toString())
-                    /*data?.videoAccessCode=accessCode //remove all code
+                    data?.videoAccessCode=accessCode //remove all code
                     data?.let { CurrentMeetingDataSaver.setData(it) }
-                    joinMeeting(accessCode)*/
+                    joinMeeting(accessCode)
                 }
                 404 -> {
                     dismissProgressDialog()

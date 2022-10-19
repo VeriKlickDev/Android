@@ -117,7 +117,7 @@
                 android:id="@+id/btn_resendOtp"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_55sdp"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_marginTop="@dimen/_10sp"
                 style="@style/button.Style.lightBlue.Rounded.elevation"
                 android:text="@string/txt_resend_otp"
