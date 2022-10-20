@@ -95,9 +95,9 @@ fun passwordValidator(
     password: String,
     validatePassword: (isPasswordOk: Boolean, mPassword: String?, error: String?) -> Unit
 ) {
-    val PASSWORD_PATTERN: Pattern =
+   /* val PASSWORD_PATTERN: Pattern =
         Pattern.compile("^" + "(?=.*[@#$%^&+=])" + "(?=\\S+$)" + ".{4,}" + "$");
-
+*/
     if (password.isEmpty()) {
         validatePassword(false, null, context.getString(R.string.txt_required))
         ispsswdok = false
@@ -185,7 +185,7 @@ fun Context.requestWriteExternamlStoragePermissions(isGrant: (isGranted: Boolean
 fun Context.checkInternet(): Boolean {
     val connectivityManager =
         this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    if (connectivityManager != null) {
+
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
             val networkInfo = connectivityManager.activeNetworkInfo
             if (networkInfo != null) {
@@ -204,7 +204,6 @@ fun Context.checkInternet(): Boolean {
                 }
             }
         }
-    }
     return false
 }
 
@@ -392,17 +391,17 @@ fun getUtcDateToAMPM(date:String):String
 
     val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     sdf.setTimeZone(TimeZone.getTimeZone("UTC"))
-    var utcTime1: String = sdf.format(Date())
+    //var utcTime1: String = sdf.format(Date())
 
-    val date =  sdf.parse(date)
+    val date1 =  sdf.parse(date)
     val sdf2 = SimpleDateFormat("hh:mm a")
 
-    val time =sdf2.format(date)
+    val time1 =sdf2.format(date1)
 //    val finaltime=hour.toString()+":"+minutes.toString()+" "+zone
 
 //    Log.d("checkdate", "getUtcDateToAMPM: ${finaltime}")
 
-    return time
+    return time1
 }
 
 
@@ -576,7 +575,7 @@ fun Context.getCurrentDayOfYear(): Int {
 
     val datesubstring=datetime.subSequence(10,datefull.length)
 
-    val finalUtcTime=year.toString()+"-"+(date+1).toString()+"-"+(day).toString()+datesubstring.toString()
+    //val finalUtcTime=year.toString()+"-"+(date+1).toString()+"-"+(day).toString()+datesubstring.toString()
 
 
     return dayofYear
@@ -600,10 +599,10 @@ fun getDateWithMonthName(date:String,action:Int):String {
         sdfFormated = SimpleDateFormat("dd-MMM-yyyy")
     }
 
-    val date =  sdfOb.parse(date)
+    val date1 =  sdfOb.parse(date)
 
-   val time = sdfFormated.format(date)
-  return time
+   val time1 = sdfFormated.format(date1)
+  return time1
 }
 
 
