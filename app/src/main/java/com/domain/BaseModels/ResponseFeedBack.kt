@@ -62,7 +62,7 @@ data class AssessSkills (
     @SerializedName("CandidateAssessmentId"       ) var CandidateAssessmentId       : Int?    = null,
     @SerializedName("Comments"                    ) var Comments                    : String? = "",
     @SerializedName("Ratings"                     ) var Ratings                     : Int?    = 0,
-    @SerializedName("Catagory"                    ) var Catagory                    : String? = "",
+    @SerializedName("Catagory"                    ) var Catagory                    : String? = "null",
     @SerializedName("ManualCatagory"              ) var ManualCatagory              : String? = null,
     @SerializedName("CandiateAssessment"          ) var CandiateAssessment          : String? = null,
 )

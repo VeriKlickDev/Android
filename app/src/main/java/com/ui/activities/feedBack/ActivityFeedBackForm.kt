@@ -14,6 +14,7 @@ import android.widget.SpinnerAdapter
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
 import com.data.dataHolders.CurrentMeetingDataSaver
+import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.*
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityFeedBackFormBinding
@@ -42,6 +43,11 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this).get(FeedBackViewModel::class.java)
 
+        CoroutineScope(Dispatchers.IO).launch {
+            Log.d(TAG, "onCreate: recruiterId= ${CurrentMeetingDataSaver.getData().interviewModel?.recruiterId.toString()} ${DataStoreHelper.getMeetingRecruiterid()}")
+        }
+
+        
         spinnerAdapter =
             ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, listOf())
         binding.spinnerInterviewRemark.adapter = spinnerAdapter
@@ -112,7 +118,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
         skillsAdapter.getFeedBackList().forEach {
             Log.d(TAG, "sendFeedBack: cat ${it.Catagory} comment ${it.Comments}")
-            if (it.Catagory.equals("") || it.Comments.equals("")) {
+            if ( it.Comments.equals("")) {//it.Catagory.equals("") ||
                 Log.d(TAG, "sendFeedBack:  blank data")
                 isBlank = true
                 // showToast(this, getString(R.string.txt_all_fields_required))
