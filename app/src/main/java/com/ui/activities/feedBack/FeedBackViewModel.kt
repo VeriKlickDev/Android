@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.data.dataHolders.CurrentMeetingDataSaver
+import com.data.dataHolders.CurrentUpcomingMeetingData
 import com.data.dataHolders.DataStoreHelper
 import com.data.getCurrentUtcFormatedDate
 import com.data.repositoryImpl.RepositoryImpl
@@ -73,16 +74,9 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
 
                     obj.CandidateAssessment?.Recommendation = recommendation
 
-                    if (CurrentMeetingDataSaver.getData().interviewModel?.interviewId!=null)
-                    {
-                        obj.RecruiterId =  CurrentMeetingDataSaver.getData().interviewModel?.interviewId.toString()
-                    }else
-                    {
-                        obj.RecruiterId=DataStoreHelper.getMeetingRecruiterid()
-                    }
+                    obj.RecruiterId=CurrentUpcomingMeetingData.getData().interviewId.toString()
+
                     //
-
-
                     obj.CandidateAssessment?.CandidateName = interviewName
                     obj.CandidateAssessment?.Date = context.getCurrentUtcFormatedDate()
                     obj.CandidateAssessment?.AppliedPostion = appliedPosition

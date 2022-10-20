@@ -86,6 +86,7 @@ class AddParticipantListAdapter(
         holder.binding.etPhoneNumber.addTextChangedListener {
             list.get(position).phone = it.toString()
         }
+
     }
 
     override fun getItemCount(): Int {

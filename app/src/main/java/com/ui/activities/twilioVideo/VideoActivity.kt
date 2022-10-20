@@ -173,7 +173,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
         }
 
-        CurrentMeetingDataSaver.getData().users?.forEach {
+        CurrentMeetingDataSaver.getData()?.users?.forEach {
             if (it.userType.contains("C")) {
                 binding.tvNoParticipant.text =
                     "Waiting for " + it.userFirstName + " " + it.userLastName + " to join..."
@@ -325,7 +325,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             localVideoTrack?.let { localParticipant?.unpublishTrack(it) }
             screenShareCapturerManager.unbindService()
             screenShareCapturerManager.endForeground()
-
+            localVideoTrack!!.release()
             TwilioHelper.disConnectRoom()
             room!!.disconnect()
             //viewModel.endVideoCall()

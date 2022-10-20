@@ -24,10 +24,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.data.*
-import com.data.dataHolders.CurrentMeetingDataSaver
-import com.data.dataHolders.DataStoreHelper
-import com.data.dataHolders.UpcomingMeetingStatusHolder
-import com.data.dataHolders.WeeksDataHolder
+import com.data.dataHolders.*
 import com.data.helpers.TwilioHelper
 import com.domain.BaseModels.BodyScheduledMeetingBean
 import com.domain.BaseModels.NewInterviewDetails
@@ -665,15 +662,18 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         adapter = UpcomingMeetingAdapter(this, meetingsList) { data, videoAccessCode, action ->
             when (action) {
                 1 -> {
+                    CurrentUpcomingMeetingData.setData(data)
                     handleJoin(data, videoAccessCode)
                 }
                 2 -> {
                     showDescDialog(data)
                 }
                 3->{
-                    CurrentMeetingDataSaver.setData(ResponseInterViewDetailsBean(videoAccessCode = videoAccessCode))
-                    val intent=Intent(this,ActivityFeedBackForm::class.java)
-                    startActivity(intent)
+                    CurrentUpcomingMeetingData.setData(data)
+                    Log.d(TAG, "setupAdapter: zone ${data.interviewTimezone}")
+                   // CurrentMeetingDataSaver.setData(ResponseInterViewDetailsBean(videoAccessCode = videoAccessCode, interviewTimezone = data.interviewTimezone))
+                   // val intent=Intent(this,ActivityFeedBackForm::class.java)
+                   // startActivity(intent)
                 }
             }
         }

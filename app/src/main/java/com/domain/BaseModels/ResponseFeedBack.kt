@@ -57,7 +57,6 @@ data class AssessSkills (
     @SerializedName("value" ) var value : String? = null,
 
 
-
     @SerializedName("CandidateAssessmentSkillsId" ) var CandidateAssessmentSkillsId : Int?    = null,
     @SerializedName("CandidateAssessmentId"       ) var CandidateAssessmentId       : Int?    = null,
     @SerializedName("Comments"                    ) var Comments                    : String? = "",

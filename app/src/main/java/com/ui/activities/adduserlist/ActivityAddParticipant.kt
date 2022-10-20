@@ -7,10 +7,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.data.*
-import com.data.dataHolders.CurrentConnectUserList
-import com.data.dataHolders.CurrentMeetingDataSaver
-import com.data.dataHolders.InvitationDataHolder
-import com.data.dataHolders.InvitationDataModel
+import com.data.dataHolders.*
 import com.domain.BaseModels.ResponseTotalInterviewerCount
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityLayoutAddParticipantBinding
@@ -32,7 +29,11 @@ class ActivityAddParticipant : AppCompatActivity() {
         setContentView(binding.root)
 
         val randomStr=UUID.randomUUID()
-        interviewList.add(InvitationDataModel(uid = randomStr.toString()))
+
+        interviewList.add(InvitationDataModel(uid = randomStr.toString(), InterviewerTimezone = CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone.toString()))
+
+        Log.d(TAG, "onCreate: interviewtimezone ${CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone}")
+
         viewModel=ViewModelProvider(this).get(AddUserViewModel::class.java)
         binding.rvAdduserByLink.layoutManager = LinearLayoutManager(this)
 

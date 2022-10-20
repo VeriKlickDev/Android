@@ -90,6 +90,7 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
             })
 
             val ob=AssessSkills()
+
             ob.value=data.value
 
             Log.d("datachecking", "dataBind: data is  out ${data.value} ")

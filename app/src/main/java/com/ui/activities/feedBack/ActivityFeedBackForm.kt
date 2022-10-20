@@ -279,7 +279,11 @@ class ActivityFeedBackForm : AppCompatActivity() {
             designation=data.CandidateAssessmentPanelMembers.firstOrNull()?.Designation.toString()
 
 
-            binding.tvName.text=data.CandidateName
+            binding.tvName.text=""
+            data.CandidateAssessmentPanelMembers.firstOrNull()?.Name?.let {
+                binding.tvName.text=data.CandidateAssessmentPanelMembers.firstOrNull()?.Name
+            }
+
             binding.tvJobId.text = data.jobid.toString()
             binding.tvDescription.text = data.AppliedPostion
             appliedPosition=data.AppliedPostion.toString()
