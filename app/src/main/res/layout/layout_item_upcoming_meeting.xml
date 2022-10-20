@@ -229,10 +229,11 @@
             >
 
             <View
-                android:layout_width="@dimen/_20sp"
-                android:layout_height="20sp"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
                 android:layout_gravity="center"
-                android:background="@drawable/ic_img_add_user_black"
+                android:layout_marginLeft="-4sp"
+                android:background="@drawable/ic_add_user"
                 />
 
             <TextView
