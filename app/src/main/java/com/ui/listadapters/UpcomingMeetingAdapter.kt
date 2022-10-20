@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.data.change24to12hoursFormat
 import com.data.changeDatefrom_yyyymmdd_to_mmddyyyy
 import com.data.dataHolders.UpcomingMeetingStatusHolder
 import com.domain.BaseModels.InterViewersListModel
@@ -138,7 +139,10 @@ class UpcomingMeetingAdapter(
             binding.tvUserEmail.text = data.emailID
 
             val timeHour = data.interviewDateTime.subSequence(11, 13).toString().toInt()
-            if (timeHour >= 12)
+
+            binding.tvMeetingTime.text = "(" + data.interviewTimezone + ") " + change24to12hoursFormat(data.interviewDateTime.subSequence(11, 16).toString())// + " PM"
+
+            /*if (timeHour >= 12)
                 binding.tvMeetingTime.text =
                     "(" + data.interviewTimezone + ") " + data.interviewDateTime.subSequence(11, 16)
                         .toString()// + " PM"
@@ -146,7 +150,7 @@ class UpcomingMeetingAdapter(
                 binding.tvMeetingTime.text =
                     "(" + data.interviewTimezone + ") " + data.interviewDateTime.subSequence(11, 16)
                         .toString()// + " AM"
-
+*/
             Log.d(
                 "timedate",
                 "dataBind: ${

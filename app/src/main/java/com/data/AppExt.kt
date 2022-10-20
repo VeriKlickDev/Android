@@ -222,6 +222,14 @@ fun View.showSnackBar(txt: String) {
     })
 }
 
+fun change24to12hoursFormat(time:String):String{
+    val sdf = SimpleDateFormat("HH:mm")
+    val datef=sdf.parse(time)
+    val sdf2 = SimpleDateFormat("hh:mm a")
+    val dateFinal=sdf2.format(datef)
+    return dateFinal.toString()
+}
+
 fun changeDatefrom_yyyymmdd_to_mmddyyyy(date:String):String
 {
     val sdf = SimpleDateFormat("yyyy-MM-dd")
