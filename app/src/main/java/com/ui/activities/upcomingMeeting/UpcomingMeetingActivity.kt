@@ -121,21 +121,13 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             handleUpcomingMeetingsList(0, binding.etSearch.text.toString(),1,9)
         }
 */
-        binding.btnCross.setOnClickListener {
 
-         /*   if (!binding.tvHeader.isVisible) {
-                binding.layoutSearch.isVisible = false
-                binding.tvHeader.isVisible = true
-                binding.btnSearchShow.isVisible=true
-                binding.btnCross.isVisible=false
-            }*/
-
-        }
 
 
         binding.swipetorefresh.setOnRefreshListener {
             if (checkInternet()) {
                 meetingsList.clear()
+                pageno=1
                 handleUpcomingMeetingsList(5, 1,9)
 
             /* if (isNextClicked)
@@ -173,6 +165,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         binding.etSearch.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 meetingsList.clear()
+                pageno=1
                 isOpenedFirst=true
                 searchTxt=binding.etSearch.text.toString()
                 handleUpcomingMeetingsList(0,1,9)
@@ -193,6 +186,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
         binding.btnLeftPrevious.setOnClickListener {
            meetingsList.clear()
+            pageno=1
             if (isNextClicked) {
                 WeeksDataHolder.minusWeekDay()
                 WeeksDataHolder.minusWeekDay()
@@ -208,6 +202,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
         binding.btnRightNext.setOnClickListener {
             meetingsList.clear()
+            pageno=1
             if (isPrevClicked) {
                 WeeksDataHolder.addWeekDay()
                 WeeksDataHolder.addWeekDay()
@@ -221,7 +216,10 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         }
 
         binding.btnCross.setOnClickListener {
+            pageno=1
+            meetingsList.clear()
             searchTxt=""
+            handleUpcomingMeetingsList(5, 1,9)
             binding.etSearch.setText("")
             if (binding.tvHeader.isVisible) {
                 binding.layoutSearch.isVisible = true
@@ -252,13 +250,15 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 val skipped=layoutManager.findFirstVisibleItemPosition()
                 val totalitem=layoutManager.itemCount
                 if (iscrolled && vitem+skipped==totalitem) {
-                    pageno++
+
                     if (contentLimit==meetingsList.size)
                     {
 
                     }else
                     {
+                        Log.d(TAG, "onScrolled: "+pageno.toString())
                         handleUpcomingMeetingsList(5, pageno,9)
+
                     }
 
                     Log.d(TAG, "onScrolled: "+pageno.toString())
@@ -560,6 +560,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             },
             response = { result, exception,data ->
                 try {
+                    pageno++
                     contentLimit=data?.totalCount!!
                 }catch (e:Exception)
                 {
@@ -602,6 +603,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             },
             response = { result, exception,data ->
                 try {
+                    pageno++
                     contentLimit=data?.totalCount!!
                 }catch (e:Exception)
                 {
@@ -614,9 +616,6 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             bodyScheduledMeetingBean = ob!!
         )
     }
-
-
-
 
 
     private var contentLimit:Int=1
@@ -640,6 +639,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             }
             else
             {
+
                 Log.d(TAG, "handleObserver: elsepart meeting size not size")
                 binding.tvNoData.visibility = View.GONE
             }
@@ -670,10 +670,10 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 }
                 3->{
                     CurrentUpcomingMeetingData.setData(data)
-                    Log.d(TAG, "setupAdapter: zone ${data.interviewTimezone}")
-                   // CurrentMeetingDataSaver.setData(ResponseInterViewDetailsBean(videoAccessCode = videoAccessCode, interviewTimezone = data.interviewTimezone))
-                   // val intent=Intent(this,ActivityFeedBackForm::class.java)
-                   // startActivity(intent)
+                    Log.d(TAG, "setupAdapter : zone ${data.interviewTimezone}")
+                    CurrentMeetingDataSaver.setData(ResponseInterViewDetailsBean(videoAccessCode = videoAccessCode, interviewTimezone = data.interviewTimezone))
+                    val intent=Intent(this,ActivityFeedBackForm::class.java)
+                    startActivity(intent)
                 }
             }
         }
@@ -699,26 +699,31 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             R.id.all_meetings->{
                 status=""
                 meetingsList.clear()
+                pageno=1
                 handleUpcomingMeetingsList(7,1,9)
             }
             R.id.attended_meetings->{
                 status="Attended"
                 meetingsList.clear()
+                pageno=1
                 handleUpcomingMeetingsList(7,1,9)
             }
             R.id.scheduled_meetings->{
                 status="schedule"
                 meetingsList.clear()
+                pageno=1
                 handleUpcomingMeetingsList(7,1,9)
             }
             R.id.nonscheduled_meetings->{
                 status="nonSchedule"
                 meetingsList.clear()
+                pageno=1
                 handleUpcomingMeetingsList(7,1,9)
             }
             R.id.cancel_meetings->{
                 status="cancel"
                 meetingsList.clear()
+                pageno=1
                 handleUpcomingMeetingsList(7,1,9)
             }
         }

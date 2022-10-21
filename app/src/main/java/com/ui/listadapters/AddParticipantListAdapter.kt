@@ -76,15 +76,19 @@ class AddParticipantListAdapter(
 
         holder.binding.etFirstname.addTextChangedListener {
             list.get(position).firstName = it.toString()
+            list[position].InterviewerTimezone=list[position].InterviewerTimezone
         }
         holder.binding.etLastname.addTextChangedListener {
             list.get(position).lastName = it.toString()
+            list[position].InterviewerTimezone=list[position].InterviewerTimezone
         }
         holder.binding.etEmail.addTextChangedListener {
             list.get(position).email = it.toString()
+            list[position].InterviewerTimezone=list[position].InterviewerTimezone
         }
         holder.binding.etPhoneNumber.addTextChangedListener {
             list.get(position).phone = it.toString()
+            list[position].InterviewerTimezone=list[position].InterviewerTimezone
         }
 
     }

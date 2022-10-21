@@ -30,6 +30,7 @@ class ActivityAddParticipant : AppCompatActivity() {
 
         val randomStr=UUID.randomUUID()
 
+
         interviewList.add(InvitationDataModel(uid = randomStr.toString(), InterviewerTimezone = CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone.toString()))
 
         Log.d(TAG, "onCreate: interviewtimezone ${CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone}")
@@ -118,9 +119,7 @@ class ActivityAddParticipant : AppCompatActivity() {
             }
         })
 
-
     }
-
 
     var isEmpty=false
     fun handleList()
@@ -205,6 +204,7 @@ class ActivityAddParticipant : AppCompatActivity() {
 
     fun addFilledDataList(obj: InvitationDataModel)
     {
+        Log.d(TAG, "addFilledDataList:  timezone is ${obj.InterviewerTimezone}")
         invitationList.add(obj)
     }
 
@@ -212,6 +212,7 @@ class ActivityAddParticipant : AppCompatActivity() {
     {
         if (!invitationList.isNullOrEmpty()){
 
+            Log.d(TAG, "postInvitation:  tim zone $invitationList")
             distinctinvitationList.addAll(invitationList.distinctBy { it.uid })
             if (!isEmpty)
             {
@@ -267,6 +268,10 @@ class ActivityAddParticipant : AppCompatActivity() {
                     binding.invitationProgress.isVisible=false
                     showToast(this,getString(R.string.txt_failed_to_Invitation))
                 }
+                404 -> {
+                    binding.btnPostdata.text=getString(R.string.txt_invite)
+                    binding.invitationProgress.isVisible=false
+                }
             }
 
         })
@@ -278,7 +283,7 @@ class ActivityAddParticipant : AppCompatActivity() {
         val randomStr=UUID.randomUUID()
 //        InvitationDataHolder.setItem(InvitationDataModel(uid = randomStr.toString(), index = -1))
 
-        val element = InvitationDataModel(uid = randomStr.toString())
+        val element = InvitationDataModel(uid = randomStr.toString(), InterviewerTimezone =CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone.toString())
         interviewList.add(element)
        // InvitationDataHolder.setItemToList(InvitationDataModel(uid = randomStr.toString() , index = interviewList.size-1))
         adapter.notifyItemInserted(interviewList.indexOf(element))

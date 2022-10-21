@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.data.dataHolders.CurrentMeetingDataSaver
+import com.data.dataHolders.CurrentUpcomingMeetingData
 import com.data.dataHolders.InvitationDataModel
 import com.data.repositoryImpl.BaseRestRepository
 import com.domain.BaseModels.*
@@ -54,15 +55,17 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
             try {
                 val interviewList= arrayListOf<AddInterviewerList>()
                 list.forEach {
-                    interviewList.add(AddInterviewerList(firstName = it.firstName, lastName = it.lastName, emailId = it.email, contactNumber = it.phone, isPresenter = false))
+                    interviewList.add(AddInterviewerList(firstName = it.firstName, lastName = it.lastName, emailId = it.email, contactNumber = it.phone, isPresenter = false, InterviewerTimezone = it.InterviewerTimezone))
                 }
+
+                Log.d(TAG, "sendInvitationtoUsers: viewmodel interview list timezone $interviewList")
 
                 val participantObj=AddParticipantModel(MeetingMode = "veriklick",
                     InterviewId = CurrentMeetingDataSaver.getData()?.interviewModel?.interviewId,
                     InterviewDateTime = CurrentMeetingDataSaver.getData().interviewModel?.interviewDateTime,
                     InterviewTitle = CurrentMeetingDataSaver.getData().interviewModel?.interviewTitle,
                     ClientName = CurrentMeetingDataSaver.getData().interviewModel?.clientName,
-                    InterviewTimezone = CurrentMeetingDataSaver.getData().interviewTimezone,
+                    InterviewTimezone = CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone,
                     EventType = "Update",
                     CandidateId = 0,
                     IsVideoRecordEnabled = false,
@@ -70,6 +73,16 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
                     OutlookCalendarSyncEnabled = true,
                     InterviewerList = interviewList
                     )
+
+             /*   if (CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone!=null)
+                {
+                    participantObj.InterviewTimezone= CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone
+                }else
+                {
+                    participantObj.InterviewTimezone=CurrentUpcomingMeetingData.getData().interviewTimezone
+                }
+*/
+
                 Log.d(TAG, "sendInvitationtoUsers: data here $participantObj")
 
                 val result = repo.sendInvitation(participantObj)
@@ -82,6 +95,10 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
                     else {
                         onDataResponse(result.body()!!, 400)
                         Log.d(TAG, "getVideoSession: null result")
+                    }
+                    if (result.code()==200)
+                    {
+                        onDataResponse(result.body()!!, 200)
                     }
                 }
                 else {
