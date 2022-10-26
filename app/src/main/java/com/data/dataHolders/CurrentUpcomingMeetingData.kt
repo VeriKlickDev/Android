@@ -8,5 +8,5 @@ object CurrentUpcomingMeetingData {
     {
         list.add(0,ob)
     }
-    fun getData()=list[0]
+    fun getData()=list.firstOrNull()
 }

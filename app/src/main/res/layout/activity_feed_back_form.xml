@@ -111,10 +111,8 @@
                     <TextView
                         style="@style/heading.TextView.Black_16"
                         android:layout_width="wrap_content"
-
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/_12sp"
-
                         android:text="@string/txt_Candidate_Skills" />
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -150,7 +148,12 @@
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/_5sp"
+                        android:layout_marginVertical="@dimen/_5sp"
+                        android:layout_marginHorizontal="@dimen/_10sp"
+                        android:background="@drawable/shape_rectangle_rounded_stroke_grey"
+                        >
                         <!--        <TextView-->
                         <!--            android:layout_width="wrap_content"-->
                         <!--            android:layout_height="wrap_content"-->

@@ -141,7 +141,7 @@ class ChatActivity : AppCompatActivity() {
                                 mDefaultConversationListener
                             )*/
                            // joinConversation()
-                           // loadPreviousMessages(conversation!!)
+                            loadPreviousMessages(conversation!!)
                         }
                         else {
                             Log.d(
@@ -278,8 +278,8 @@ class ChatActivity : AppCompatActivity() {
                     override fun onError(errorInfo: ErrorInfo?) {
                         super.onError(errorInfo)
                         Log.e(TAG, "Error joining my conversation:  " + errorInfo?.message)
-                        /**
-                        myconversation!!.addListener(
+
+/*                        myconversation!!.addListener(
                             mDefaultConversationListener
                         )*/
                         conversation = myconversation

@@ -31,31 +31,34 @@
                 android:layout_weight="0.5"
                 >
 
+<!--                client name-->
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
                     >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="@dimen/_10sp"
-                    android:paddingVertical="@dimen/_5sp"
-                    android:text="Job ID :"
-                    android:textSize="@dimen/_14sp"
-                    />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tv_jobId"
-                    android:fontFamily="@font/sarabun_regular"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_14sp"
-                    android:text="54521"
-                    android:layout_marginLeft="-5sp"
-                    />
+                        android:paddingHorizontal="@dimen/_10sp"
+                        android:paddingVertical="@dimen/_5sp"
+                        android:fontFamily="@font/sarabun_medium"
+                        android:textSize="@dimen/_14sp"
+                        android:text="@string/txt_client" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_client"
+                        android:fontFamily="@font/sarabun_regular"
+                        android:textSize="@dimen/_14sp"
+                        android:text="adfkajsdf"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/black"/>
 
                     <Space
                         android:layout_width="match_parent"
@@ -73,6 +76,11 @@
                         />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+
 
 
 
@@ -145,31 +153,37 @@
             >
 
 
+<!--            job id-->
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:gravity="center_vertical"
                 android:layout_weight="1"
                 >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:fontFamily="@font/sarabun_medium"
-                android:textSize="@dimen/_14sp"
-                android:layout_marginRight="@dimen/_20sp"
-                android:text="@string/txt_client" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Job ID :"
+                    android:textSize="@dimen/_14sp"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tv_client"
+                    android:id="@+id/tv_jobId"
                     android:fontFamily="@font/sarabun_regular"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/_14sp"
-                    android:text="adfkajsdf"
-                    android:textColor="@color/black"/>
+                    android:text="54521"
+                    android:layout_marginLeft="-5sp"
+                    />
+
+
 
             </androidx.appcompat.widget.LinearLayoutCompat>
+
+
 
 
 

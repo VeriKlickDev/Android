@@ -74,7 +74,13 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
 
                     obj.CandidateAssessment?.Recommendation = recommendation
 
-                    obj.RecruiterId=CurrentUpcomingMeetingData.getData().interviewId.toString()
+                    CurrentUpcomingMeetingData.getData()?.let {
+                        obj.RecruiterId=it.interviewId.toString()
+                    }
+
+                    CurrentMeetingDataSaver.getData().interviewModel?.interviewId?.let {
+                        obj.RecruiterId=it.toString()
+                    }
 
                     //
                     obj.CandidateAssessment?.CandidateName = interviewName

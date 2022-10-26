@@ -161,11 +161,11 @@ class ActivityFeedBackForm : AppCompatActivity() {
         ), onDataResponse = {data, status ->
             finish()
             Log.d(TAG, "postData: data ${data?.jobid}  ${data?.aPIResponse?.message}")
-
         })
     }
 
-    private var recommendationSelected = ""
+    private var recommendationSelected = "Select Recommendation"
+
     val spinnerItemListener = object : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             Log.d(TAG, "onItemSelected: selected ${recommendationList.get(position)}")

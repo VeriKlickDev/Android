@@ -76,22 +76,26 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         WeeksDataHolder.setDayToZero()
         layoutManager=LinearLayoutManager(this)
 
-        WeeksDataHolder.getItcUtcNextDate(dateResponse = { utcDate, itcDate ->
-            nextIstDate = itcDate
-            nextutcDate = utcDate
-        })
-
-        WeeksDataHolder.minusWeekDay()
-
         WeeksDataHolder.getIstUtcPriviousDate(dateResponse = { utcDate, istDate ->
             preUtcDate = utcDate
             preIsTDate = istDate
+            //copy common variable here from next
+
+        })
+
+        WeeksDataHolder.addWeekDay()
+
+        WeeksDataHolder.getItcUtcNextDate(dateResponse = { utcDate, istDate ->
+            nextIstDate = istDate
+            nextutcDate = utcDate
 
             commonIstDate=istDate
             commonUtcDate=utcDate
         })
+
         
         if (checkInternet()) {
+            status="schedule"
             handleUpcomingMeetingsList(3, 1,9)
         }
         else {
@@ -219,6 +223,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             pageno=1
             meetingsList.clear()
             searchTxt=""
+            status="schedule"
             handleUpcomingMeetingsList(5, 1,9)
             binding.etSearch.setText("")
             if (binding.tvHeader.isVisible) {
@@ -331,14 +336,6 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 WeeksDataHolder.getIstUtcPriviousDate{ utcDate, istDate ->
                     Log.d(TAG, "onCreate: previous date  utc previous ${utcDate}  itc $istDate ")
 
-                 /*
-
-                    ob.fromdate = preUtcDate
-                    ob.todate = nextutcDate
-
-                    ob.from = preIsTDate
-                    ob.to = nextIstDate
-*/
 
                     Log.d(TAG, "handleUpcomingMeetingsList: ")
                     ob.Search = searchTxt
@@ -350,29 +347,6 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     ob.to = nextIstDate
 
 
-                    /*   ob.fromdate = preUtcDate
-                       ob.todate = nextutcDate
-
-                       ob.from = preIsTDate
-                       ob.to = nextIstDate
-                       */
-
-                  /*  if (isPrevClicked)
-                    {
-                        ob.fromdate = utcDate
-                        ob.todate = preUtcDate
-
-                        ob.from = istDate
-                        ob.to = preIsTDate
-                    }
-                    else
-                    {
-                        ob.fromdate = utcDate
-                        ob.todate = preUtcDate
-
-                        ob.from = istDate
-                        ob.to = preIsTDate
-                    }*/
                 }
             }
 
@@ -418,6 +392,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     Log.d(TAG,"onCreate: next date is  date  utc from  $preIsTDate to $istDate ")
                     ob.Search = searchTxt
                     ob.Status=status
+
                     if (isPrevClicked)
                     {
                         ob.from = nextutcDate
@@ -443,27 +418,22 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 })
             }
             3 -> {
-                WeeksDataHolder.getIstUtcPriviousDate(dateResponse = { utcDate, istDate ->
+                WeeksDataHolder.getItcUtcNextDate {  utcDate, istDate ->
                     Log.d(TAG, "onCreate: previous date  utc previous ${utcDate}  itc $istDate ")
 
-                /*    if (isNextClicked)
-                    {
-                        ob.fromdate = utcDate
-                        ob.todate = nextutcDate
-
-                        ob.from = istDate
-                        ob.to = nextIstDate
-                    }
-                    else
-                    {
-                        ob.fromdate = utcDate
-                        ob.todate = preUtcDate
-
-                        ob.from = istDate
-                        ob.to = preIsTDate
-                    }
-*/
                     ob.Search = searchTxt
+                    ob.Status=status
+
+                    ob.from = commonUtcDate
+                    ob.to = utcDate
+
+                    ob.fromdate = commonIstDate
+                    ob.todate = istDate
+
+                    isNextClicked=true
+
+                    //working
+                   /* ob.Search = searchTxt
                     isPrevClicked=true
                     ob.Status=status
 
@@ -472,6 +442,8 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
                     ob.from = istDate
                     ob.to = nextIstDate
+*/
+
 
 //                    commonIstDate=istDate
   //                  commonUtcDate=utcDate
@@ -479,7 +451,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     //preUtcDate = nextutcDate
                    // preIsTDate = nextIstDate
 
-                })
+                }
             }
         }
 
@@ -639,7 +611,6 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             }
             else
             {
-
                 Log.d(TAG, "handleObserver: elsepart meeting size not size")
                 binding.tvNoData.visibility = View.GONE
             }

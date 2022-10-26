@@ -63,6 +63,8 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
             binding.ratingbarWireframing.max=5
             binding.tvSkills.setText(data.value)
             binding.etComment.setText(data.Comments.toString())
+            binding.ratingbarWireframing.progress=data.Ratings!!.toInt()
+
             try {
                 binding.ratingbarWireframing.progress=data.Ratings!!
                 Log.d(TAG, "dataBind: rating ${data.Ratings}")
@@ -150,8 +152,6 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
 
         }
     }
-
-
 }
 
 data class ReviewDataHolderModel(var pos:Int ,var title:String?,var comment:String?,var rating:Int?)

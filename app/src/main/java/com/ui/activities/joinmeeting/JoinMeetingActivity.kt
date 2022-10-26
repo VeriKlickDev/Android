@@ -49,15 +49,10 @@ class JoinMeetingActivity :AppCompatActivity() {
 
                     accessCode= accessCodeSplit.last()
                     Log.d(TAG, "onCreate: accessCode is $accessCode")
-
-                    //https://ui2.veriklick.in/video-session/koGMg7Vd9JLIcCBLnW1r
-                    //candi https://ui2.veriklick.in/video-session/PKKLUSPhGgtOVUHT8RVt
-                    //nEXGFB4S8cr5MV7ZgjQ5
-                    //test
-                    //hfjixnRH2MRtAxmMfbQG
-                    //https://ui2.veriklick.in/video-session/wzrxnhK1FQl8AJm2zvCF
-                   // getInterviewDetails("wzrxnhK1FQl8AJm2zvCF")
-                    getInterviewDetails(accessCode)
+                    // host https://ui2.veriklick.in/video-session/rDEEnRAjIaOFHiqX28Mn
+                    //candi https://ui2.veriklick.in/video-session/MsVv2dSjGPGg5iW8ZN7l
+                    getInterviewDetails("rDEEnRAjIaOFHiqX28Mn")
+                    //getInterviewDetails(accessCode)
                     //  showToast(this,"Under Development")
                     hideKeyboard(this)
                 }else

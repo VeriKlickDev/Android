@@ -103,11 +103,12 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
                     if (isEmailOk) {
                         email=mEmail
                         btnEnabledbackGround()
+                        binding.tvError.setText("")
                     }
                     else
                     {
                         btnDisabledbackGround()
-                        binding.etEmail.setError(getString(R.string.txt_enter_valid_email))
+                        binding.tvError.setText(getString(R.string.txt_enter_valid_email))
                         Log.d(TAG, "sendEmailOtpVerification: error $error")
                     }
                 })

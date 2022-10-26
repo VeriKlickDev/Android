@@ -95,7 +95,7 @@
     <string name="txt_only_one_person_can_share_screen">only one person can share screen at a time</string>
     <string name="txt_do_you_want_to_exit_the_meeting">Do you want to exit</string>
     <string name="txt_id">ID</string>
-    <string name="txt_job_des">Job Description</string>
+    <string name="txt_job_des">Job Description:</string>
     <string name="txt_resend_otp">Resend OTP</string>
     <string name="txt_addparticipant">Add Participant</string>
     <string name="txt_screensharing">Screen Share</string>

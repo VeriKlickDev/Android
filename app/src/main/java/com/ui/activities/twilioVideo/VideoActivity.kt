@@ -267,15 +267,26 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
         val currentLoggedUser = CurrentMeetingDataSaver.getData()
         Log.d("currcheck", "onCreate: $currentLoggedUser")
+
         if (CurrentMeetingDataSaver.getData().identity?.trim()?.lowercase()!!
                 .contains("C".trim().lowercase())
         ) {
+
+            binding.btnFeedback.isVisible=false
             Log.d("videocheck", "onCreate: you")
             binding.tvUsername.text =
                 CurrentMeetingDataSaver.getData().interviewerFirstName + " (You)"
             setBlankBackground(false)
             localVideoTrack?.addSink(binding.primaryVideoView)
+
         } else { //working
+            if (CurrentMeetingDataSaver.getData().isPresenter==true)
+            {
+                binding.btnFeedback.isVisible=true
+            }else
+            {
+                binding.btnFeedback.isVisible=false
+            }
             currentLoggedUser.users?.forEach {
                 if (it.userType.trim().lowercase().equals("C".trim().lowercase())) {
                     binding.tvUsername.text = it.userFirstName + " " + it.userLastName
