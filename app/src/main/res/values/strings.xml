@@ -101,4 +101,5 @@
     <string name="txt_screensharing">Screen Share</string>
     <string name="txt_recording">Recording</string>
     <string name="txt_please_try_again">Please try again</string>
+    <string name="txt_select_recommendation">Select Recommendation</string>
 </resources>

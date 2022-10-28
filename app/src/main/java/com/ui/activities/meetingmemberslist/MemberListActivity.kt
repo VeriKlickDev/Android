@@ -49,6 +49,8 @@ class MemberListActivity : AppCompatActivity() {
             binding.btnAddUser.visibility = View.INVISIBLE
         }
 
+
+
         Log.d(TAG, "onCreate: current hight $height  $width")
 
         CurrentConnectUserList.getListForAddParticipantActivity()

@@ -29,6 +29,15 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
         holder.setIsRecyclable(false)
         holder.dataBind(list.get(position))
+        try {
+            holder.binding.btnRemoveSkill.setOnClickListener {
+                onClicked(position,list[position],2)
+            }
+        }catch (e:Exception)
+        {
+
+        }
+
 
         holder.binding.btnRemoveSkill.isVisible = list[position].value.equals("others")
     }
@@ -45,7 +54,7 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
             binding.ratingbarWireframing.max=5
             binding.tvSkills.text = data.value
             binding.etComment.setText(data.Comments.toString())
-
+            binding.etTitle.setText(data.ManualCatagory)
             //
 
             Log.d(TAG, "dataBind: id is ${data.Id} ")
@@ -60,9 +69,7 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
                 Log.d(TAG, "dataBind: exception ${e.message}")
             }
 
-            binding.btnRemoveSkill.setOnClickListener {
-                onClicked(adapterPosition,data,2)
-            }
+
 
             Log.d("datachecking", "dataBind: data is ${data.value} ${data.Catagory} ")
 
@@ -82,8 +89,6 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
             if (data.value.equals("others") )
             {
                 Log.d("datachecking", "dataBind: data is in if ")
-
-                binding.tvSkills.text="others"
                 binding.etTitle.isVisible=true
                // binding.etTitle.setText("")
             }
@@ -116,13 +121,15 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
 
 
             Log.d(TAG, "dataBind: catagory is $data")
-            if (!data.Catagory.equals(""))
+           // binding.tvSkills.setText(data.value)
+            if (data.Catagory!=null )
             {
                 Log.d(TAG, "dataBind: catagory is not null ")
                 binding.tvSkills.setText(data.Catagory)
             }
             else
             {
+                binding.tvSkills.setText(data.value)
                 Log.d(TAG, "dataBind: catagory is  null")
             }
 

@@ -87,6 +87,7 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
 
                 val result = repo.sendInvitation(participantObj)
                 Log.d(TAG, "sendInvitationtoUsers: result ${result.body()}  code ${result.code()}   error ${result.errorBody()}")
+
                 if (result.isSuccessful) {
                     if (result.body() != null) {
                         onDataResponse(result.body()!!, 200)
@@ -101,7 +102,16 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
                         onDataResponse(result.body()!!, 200)
                     }
                 }
+                if (result.code()==500)
+                {
+                    onDataResponse(result.body()!!, 500)
+                }
                 else {
+                    if (result.code()==500)
+                    {
+                        onDataResponse(result.body()!!, 500)
+                    }
+
                     onDataResponse(result.body()!!, 404)
                     Log.d(TAG, "getVideoSession: not success")
                 }

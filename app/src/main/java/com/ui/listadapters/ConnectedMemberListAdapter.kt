@@ -10,6 +10,7 @@ import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.dataHolders.LocalConfrenseMic
 import com.domain.BaseModels.VideoTracksBean
 import com.example.twillioproject.R
@@ -56,6 +57,10 @@ class ConnectedMemberListAdapter(
             binding.tvUsername.text = data.userName
             data.videoTrack.addSink(binding.twiliovideoView)
 
+
+
+
+
             binding.ivLeftMeeting.setOnClickListener {
                 onClick(adapterPosition, 1, data)
             }
@@ -80,6 +85,8 @@ class ConnectedMemberListAdapter(
                     binding.ivLeftMeeting.isVisible = true
                     setNetworkLevel(data.remoteParticipant?.networkQualityLevel!!)
                 }
+
+                binding.ivLeftMeeting.isVisible =!CurrentMeetingDataSaver.getData().userType?.trim()!!.contains("C")
 
 
             } catch (e: Exception) {

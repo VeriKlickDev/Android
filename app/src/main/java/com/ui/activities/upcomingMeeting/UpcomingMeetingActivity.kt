@@ -573,13 +573,28 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 }
             },
             response = { result, exception,data ->
-                try {
-                    pageno++
-                    contentLimit=data?.totalCount!!
-                }catch (e:Exception)
-                {
 
+                when(result)
+                {
+                    200->{
+                        try {
+                            pageno++
+                            contentLimit=data?.totalCount!!
+                        }catch (e:Exception)
+                        {
+
+                        }
+                    }
+                    401->{
+                        DataStoreHelper.clearData()
+                        val intent=Intent(this,LoginActivity::class.java)
+                        startActivity(intent)
+                        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
+                        finish()
+
+                    }
                 }
+
 
                 dismissProgressDialog()
                 binding.swipetorefresh.isRefreshing = false

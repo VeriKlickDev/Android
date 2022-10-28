@@ -108,12 +108,31 @@
                         android:layout_marginVertical="@dimen/_10sp"
                         android:background="@color/light_grey" />
 
-                    <TextView
-                        style="@style/heading.TextView.Black_16"
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:layout_marginHorizontal="@dimen/_12sp"
-                        android:text="@string/txt_Candidate_Skills" />
+                        >
+
+                        <TextView
+                            style="@style/heading.TextView.Black_16"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/txt_Candidate_Skills" />
+
+                        <TextView
+                            style="@style/heading.TextView.Black_16"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/skillsError"
+                            android:textColor="@color/red"
+                            android:visibility="gone"
+                            android:layout_marginLeft="@dimen/_2sp"
+                            android:text="*" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_candidateSkills"
@@ -137,6 +156,12 @@
                         android:layout_marginVertical="@dimen/_10sp"
                         android:background="@color/light_grey" />
 
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        >
+
                     <TextView
                         style="@style/heading.TextView.Black_16"
                         android:layout_width="wrap_content"
@@ -145,12 +170,27 @@
                         android:layout_marginTop="@dimen/_15sp"
                         android:text="@string/txt_recommendation" />
 
+                        <TextView
+                            style="@style/heading.TextView.Black_16"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/recommendationError"
+                            android:layout_marginTop="@dimen/_15sp"
+                            android:textColor="@color/red"
+                            android:visibility="gone"
+                            android:layout_marginLeft="-8sp"
+                            android:text="*" />
+
+
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:padding="@dimen/_5sp"
-                        android:layout_marginVertical="@dimen/_5sp"
+                        android:layout_marginVertical="@dimen/_10sp"
                         android:layout_marginHorizontal="@dimen/_10sp"
                         android:background="@drawable/shape_rectangle_rounded_stroke_grey"
                         >
@@ -176,7 +216,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="helloWorld" />
+                                android:text="@string/txt_select_recommendation" />
 
                             <androidx.appcompat.widget.AppCompatSpinner
                                 android:id="@+id/spinner_interviewRemark"
@@ -199,24 +239,55 @@
                     <!--            />-->
 
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
                         android:layout_marginTop="@dimen/_10sp"
-                        android:hint="@string/txt_remark"
-                        app:boxBackgroundColor="@color/white"
-                        app:boxStrokeColor="@color/white"
-                        app:boxStrokeWidth="0sp">
+                        >
 
-                        <EditText
-                            android:id="@+id/et_remart"
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:textSize="@dimen/_16sdp" />
 
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:hint="@string/txt_remark"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxStrokeColor="@color/white"
+                            app:boxStrokeWidth="0sp">
+
+                            <EditText
+                                android:id="@+id/et_remart"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:textSize="@dimen/_16sdp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <TextView
+                            style="@style/heading.TextView.Black_16"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/remarkError"
+                            android:textColor="@color/red"
+                            android:visibility="gone"
+                            android:layout_marginLeft="-20dp"
+                            android:text="*" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+
+
+
 
                     <View
                         android:layout_width="match_parent"
@@ -237,23 +308,58 @@
                     <!--            />-->
 
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+
+
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
                         android:layout_marginTop="@dimen/_15sp"
-                        android:hint="@string/txt_overall_remarks"
-                        app:boxBackgroundColor="@color/white"
-                        app:boxStrokeColor="@color/white"
-                        app:boxStrokeWidth="0sp">
+                        >
 
-                        <EditText
-                            android:id="@+id/et_coding_remart"
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:textSize="@dimen/_16sdp" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:hint="@string/txt_overall_remarks"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxStrokeColor="@color/white"
+                            app:boxStrokeWidth="0sp">
+
+                            <EditText
+                                android:id="@+id/et_overall_remark"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:textSize="@dimen/_16sdp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <TextView
+                            style="@style/heading.TextView.Black_16"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/overallRemarkError"
+                            android:textColor="@color/red"
+                            android:visibility="gone"
+                            android:layout_marginLeft="-20dp"
+                            android:text="*" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+
+
+
+
+
+
+
 
                     <View
                         android:layout_width="match_parent"
@@ -273,15 +379,15 @@
                     <!--            android:text="@string/txt_panel_member"-->
                     <!--            />-->
 
-                    <TextView
-                        style="@style/heading.TextView.Black_16"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/_12sp"
-                        android:layout_marginTop="@dimen/_20sp"
 
+                        <TextView
+                            style="@style/heading.TextView.Black_16"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/_12sp"
+                            android:layout_marginTop="@dimen/_20sp"
+                            android:text="@string/txt_interviewer_name" />
 
-                        android:text="@string/txt_interviewer_name" />
 
                     <TextView
                         android:id="@+id/tv_name"
@@ -303,26 +409,57 @@
                     <!--            android:text="@string/txt_role"-->
                     <!--            />-->
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+
+
+
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
                         android:layout_marginTop="@dimen/_15sp"
-                        android:hint="@string/txt_role"
-                        app:boxBackgroundColor="@color/white"
-                        app:boxStrokeColor="@color/white"
-                        app:boxStrokeWidth="0sp">
+                        >
 
-                        <EditText
-                            android:id="@+id/et_role"
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:imeOptions="actionDone"
-                            android:maxLines="1"
-                            android:singleLine="true"
-                            android:textSize="@dimen/_16sdp" />
+                            android:hint="@string/txt_role"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxStrokeColor="@color/white"
+                            app:boxStrokeWidth="0sp">
 
-                    </com.google.android.material.textfield.TextInputLayout>
+                            <EditText
+                                android:id="@+id/et_role"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionDone"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:textSize="@dimen/_16sdp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <TextView
+                            style="@style/heading.TextView.Black_16"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/roleError"
+                            android:textColor="@color/red"
+                            android:visibility="gone"
+                            android:layout_marginLeft="-20dp"
+                            android:text="*" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+
+
 
                     <View
                         android:layout_width="match_parent"

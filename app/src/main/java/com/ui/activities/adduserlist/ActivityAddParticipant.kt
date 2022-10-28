@@ -272,6 +272,11 @@ class ActivityAddParticipant : AppCompatActivity() {
                     binding.btnPostdata.text=getString(R.string.txt_invite)
                     binding.invitationProgress.isVisible=false
                 }
+                500 -> {
+                    showToast(this,getString(R.string.txt_something_went_wrong))
+                    binding.btnPostdata.text=getString(R.string.txt_invite)
+                    binding.invitationProgress.isVisible=false
+                }
             }
 
         })

@@ -93,22 +93,12 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
                         CurrentMeetingDataSaver.getData().interviewModel?.jobid
                     obj.CandidateAssessmentPanelMembers = memberList
 
-
                     CurrentMeetingDataSaver.getData()?.let {
                         Log.d(TAG, "sendFeedback: current meetin og canid ${it.interviewModel?.candidateId}")
                         obj.CandidateAssessment?.CandidateId=it.interviewModel?.candidateId
                     }
 
-
-
-
                     Log.d(TAG, "sendFeedback: after candidate id  ${candidateId}")
-
-
-
-
-                    //obj.CandidateAssessment.AssessmentId=CurrentMeetingDataSaver.getData().interviewModel
-
 
                     val result = repo.sendFeedBack(obj)
                     Log.d(TAG, "sendFeedback: code ${result.code()}")
@@ -138,6 +128,13 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
                                 "videocon",
                                 "getVideoSession:  success ${result.body()?.aPIResponse?.statusCode}"
                             )
+
+                            if (result.code()==200)
+                            {
+                                onDataResponse(result.body(), 200)
+                            }
+
+
                         } else {
                             onDataResponse(result.body()!!, 400)
                             Log.d(TAG, "getVideoSession: null result")
