@@ -27,6 +27,7 @@ import com.data.*
 import com.data.dataHolders.*
 import com.data.helpers.TwilioHelper
 import com.domain.BaseModels.BodyScheduledMeetingBean
+import com.domain.BaseModels.InterviewModel
 import com.domain.BaseModels.NewInterviewDetails
 import com.domain.BaseModels.ResponseInterViewDetailsBean
 import com.domain.constant.AppConstants
@@ -455,12 +456,10 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             }
         }
 
-        binding.tvFromdateToDate.setText(
-            getDateWithMonthName(
-                ob.from.toString(),
-                1
-            ) + " to " + getDateWithMonthName(ob.to.toString(), 2)
-        )
+        binding.tvFromdateToDate.text = getDateWithMonthName(
+            ob.from.toString(),
+            1
+        ) + " to " + getDateWithMonthName(ob.to.toString(), 2)
 
         Log.d(TAG, "handleUpcomingMeetingsList: ${ob.from} ${ob.to}")
         Log.d(TAG, "handleUpcomingMeetingsList: ${ob.fromdate} ${ob.todate}")
@@ -592,7 +591,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
     private var contentLimit:Int=1
 
-    private val meetingsList= mutableListOf<NewInterviewDetails>()
+    private val meetingsList= ArrayList<NewInterviewDetails>()
     private fun handleObserver() {
         Log.d(TAG, "handleObserver: out observer method ")
         binding.tvNoData.visibility = View.VISIBLE
@@ -642,8 +641,9 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 3->{
                     CurrentUpcomingMeetingData.setData(data)
                     Log.d(TAG, "setupAdapter : zone ${data.interviewTimezone}")
-                    CurrentMeetingDataSaver.setData(ResponseInterViewDetailsBean(videoAccessCode = videoAccessCode, interviewTimezone = data.interviewTimezone))
+                    CurrentMeetingDataSaver.setData(ResponseInterViewDetailsBean(interviewModel = InterviewModel(candidateId = data.candidateId!!),videoAccessCode = videoAccessCode, interviewTimezone = data.interviewTimezone))
                     val intent=Intent(this,ActivityFeedBackForm::class.java)
+                    intent.putExtra(AppConstants.CANDIDATE_ID,data.candidateId)
                     startActivity(intent)
                 }
             }
@@ -659,7 +659,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     ) {
         val inflater = menuInflater
         inflater.inflate(com.example.twillioproject.R.menu.menu_filter_upcominglist, menu)
-        menu!!.setHeaderTitle("Meetings")
+        menu?.setHeaderTitle("Meetings")
 
         super.onCreateContextMenu(menu, v, menuInfo)
     }
@@ -737,7 +737,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
     fun getAccessCodeById(data: NewInterviewDetails) {
         Log.d(TAG, "getAccessCodeById: data gotted ${data?.interviewId}")
-        viewModel.getInterAccessCodById(data.interviewId, onDataResponse = { data, response ->
+        viewModel.getInterAccessCodById(data.interviewId!!, onDataResponse = { data, response ->
             when (response) {
                 200 -> {
                     dismissProgressDialog()

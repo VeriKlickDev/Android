@@ -336,7 +336,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             localVideoTrack?.let { localParticipant?.unpublishTrack(it) }
             screenShareCapturerManager.unbindService()
             screenShareCapturerManager.endForeground()
-            localVideoTrack!!.release()
+           // localVideoTrack!!.release()
             TwilioHelper.disConnectRoom()
             room!!.disconnect()
             //viewModel.endVideoCall()

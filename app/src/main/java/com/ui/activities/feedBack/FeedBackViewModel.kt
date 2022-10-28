@@ -59,7 +59,7 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
 
     }
 
-    fun sendFeedback(context: Context,appliedPosition:String,recommendation:String,designation:String,interviewName:String, obj:BodyFeedBack, onDataResponse:(data: ResponseBodyFeedBack?, status:Int)->Unit) {
+    fun sendFeedback(context: Context,appliedPosition:String,recommendation:String,designation:String,interviewName:String,candidateId:Int, obj:BodyFeedBack,skillsListRes:ArrayList<AssessSkills>,remarkList:ArrayList<InterviewerRemark>, onDataResponse:(data: ResponseBodyFeedBack?, status:Int)->Unit) {
         viewModelScope.launch {
             try {
                 CoroutineScope(Dispatchers.IO).launch {
@@ -73,7 +73,8 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
                     )
 
                     obj.CandidateAssessment?.Recommendation = recommendation
-
+                        obj?.CandidateAssessment?.Remark=remarkList
+                    obj?.CandidateAssessment?.Skills=skillsListRes
                     CurrentUpcomingMeetingData.getData()?.let {
                         obj.RecruiterId=it.interviewId.toString()
                     }
@@ -91,6 +92,22 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
                     obj.CandidateAssessment?.jobid =
                         CurrentMeetingDataSaver.getData().interviewModel?.jobid
                     obj.CandidateAssessmentPanelMembers = memberList
+
+
+                    CurrentMeetingDataSaver.getData()?.let {
+                        Log.d(TAG, "sendFeedback: current meetin og canid ${it.interviewModel?.candidateId}")
+                        obj.CandidateAssessment?.CandidateId=it.interviewModel?.candidateId
+                    }
+
+
+
+
+                    Log.d(TAG, "sendFeedback: after candidate id  ${candidateId}")
+
+
+
+
+                    //obj.CandidateAssessment.AssessmentId=CurrentMeetingDataSaver.getData().interviewModel
 
 
                     val result = repo.sendFeedBack(obj)

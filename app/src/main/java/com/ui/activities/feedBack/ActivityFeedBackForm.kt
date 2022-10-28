@@ -16,6 +16,7 @@ import com.data.*
 import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.*
+import com.domain.constant.AppConstants
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityFeedBackFormBinding
 import com.google.android.material.snackbar.Snackbar
@@ -44,10 +45,11 @@ class ActivityFeedBackForm : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(FeedBackViewModel::class.java)
 
         CoroutineScope(Dispatchers.IO).launch {
-            Log.d(TAG, "onCreate: recruiterId= ${CurrentMeetingDataSaver.getData().interviewModel?.recruiterId.toString()} ${DataStoreHelper.getMeetingRecruiterid()}")
+            Log.d(TAG, "onCreate: recruiterId= ${CurrentMeetingDataSaver.getData().interviewModel?.recruiterId.toString()} ")
         }
 
-        
+
+
         spinnerAdapter =
             ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, listOf())
         binding.spinnerInterviewRemark.adapter = spinnerAdapter
@@ -153,12 +155,14 @@ class ActivityFeedBackForm : AppCompatActivity() {
     {
         val skillist= ArrayList<CandidateAssessmentSkills>()
         skillsAdapter.getFeedBackList().forEach {
-            skillist.add(CandidateAssessmentSkills(it.CandidateAssessmentSkillsId,it.CandidateAssessmentId,it.Comments,it.Id,it.Catagory,it.ManualCatagory,it.CandiateAssessment))
+            skillist.add(CandidateAssessmentSkills(it.CandidateAssessmentSkillsId,it.CandidateAssessmentId,it.Comments,it.Ratings?.toInt(),it.Catagory,it.ManualCatagory,it.CandiateAssessment))
         }
 
-        viewModel.sendFeedback(this,appliedPosition,recommendationSelected,designation,interviewName,BodyFeedBack(
+        Log.d(TAG, "postData: list data is $skillist")
+        val candidateId=intent.getIntExtra(AppConstants.CANDIDATE_ID,0)
+        viewModel.sendFeedback(this,appliedPosition,recommendationSelected,designation,interviewName,candidateId,BodyFeedBack(
             CandidateAssessmentSkills=skillist,
-        ), onDataResponse = {data, status ->
+        ),skillsListres,remarkList, onDataResponse = {data, status ->
             finish()
             Log.d(TAG, "postData: data ${data?.jobid}  ${data?.aPIResponse?.message}")
         })
@@ -218,7 +222,8 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
     }
 
-
+    private val remarkList= arrayListOf<InterviewerRemark>()
+    private val skillsListres= arrayListOf<AssessSkills>()
     fun getFeedBack() {
         // showProgressDialog()
         viewModel.getFeedBack(onResponse = { data, status ->
@@ -226,6 +231,8 @@ class ActivityFeedBackForm : AppCompatActivity() {
             when (status) {
                 200 -> {
                     dismissProgressDialog()
+                    remarkList.addAll(data?.InterviewerRemark!!)
+                    skillsListres.addAll(data.assessSkills)
                     Log.d(TAG, "getResume: success ondata response")
                     setDataToViews(data!!)
                     //   binding.swipetorefresh.isRefreshing = false
@@ -299,9 +306,18 @@ class ActivityFeedBackForm : AppCompatActivity() {
             binding.spinnerInterviewRemark.adapter = spinnerAdapter
             spinnerAdapter.notifyDataSetChanged()
 
-            skillsList.addAll(data.assessSkills)
-            skillsAdapter.notifyDataSetChanged()
 
+            if (!data.CandidateAssessmentSkills.isNullOrEmpty())
+                if (data.CandidateAssessmentSkills[0].Catagory!=null && !data.CandidateAssessmentSkills[0].Catagory.equals("null") )
+                {
+                    skillsList.addAll(data.CandidateAssessmentSkills)
+                }else
+                {
+                    skillsList.addAll(data.assessSkills)
+                }
+
+            Log.d(TAG, "setDataToViews: listdata $skillsList")
+            skillsAdapter.notifyDataSetChanged()
 
         })
     }

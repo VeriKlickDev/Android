@@ -18,7 +18,7 @@ data class ResponseFeedBack(
     @SerializedName("Recommendation") var Recommendation: String? = null,
     @SerializedName("CodingTestRemarksForVideo") var CodingTestRemarksForVideo: String? = null,
     @SerializedName("CandidateAssessmentRecommendation") var CandidateAssessmentRecommendation: String? = null,
-    @SerializedName("CandidateAssessmentSkills") var CandidateAssessmentSkills: ArrayList<CandidateAssessmentSkills> = arrayListOf(),
+    @SerializedName("CandidateAssessmentSkills") var CandidateAssessmentSkills: ArrayList<AssessSkills> = arrayListOf(),
     @SerializedName("InterviewerRemark") var InterviewerRemark: ArrayList<InterviewerRemark> = arrayListOf(),
     @SerializedName("assessSkills") var assessSkills: ArrayList<AssessSkills> = arrayListOf(),
     @SerializedName("CandidateAssessmentPanelMembers") var CandidateAssessmentPanelMembers: ArrayList<CandidateAssessmentPanelMembers> = arrayListOf(),
@@ -38,7 +38,20 @@ data class CandidateAssessmentSkills (
     @SerializedName("Catagory"                    ) var Catagory                    : String? = null,
     @SerializedName("ManualCatagory"              ) var ManualCatagory              : String? = null,
     @SerializedName("CandiateAssessment"          ) var CandiateAssessment          : String? = null,
-    @SerializedName("selected"                    ) var selected                    : Boolean? = null
+    @SerializedName("selected"                    ) var selected                    : Boolean? = false
+)
+
+data class AssessSkills (
+
+    @SerializedName("Id"    ) var Id    : Int?    = null,
+    @SerializedName("value" ) var value : String? = null,
+    @SerializedName("CandidateAssessmentSkillsId" ) var CandidateAssessmentSkillsId : Int?    = null,
+    @SerializedName("CandidateAssessmentId"       ) var CandidateAssessmentId       : Int?    = null,
+    @SerializedName("Comments"                    ) var Comments                    : String? = "",
+    @SerializedName("Ratings"                     ) var Ratings                     : Double?    = 0.0,
+    @SerializedName("Catagory"                    ) var Catagory                    : String? = null,
+    @SerializedName("ManualCatagory"              ) var ManualCatagory              : String? = null,
+    @SerializedName("CandiateAssessment"          ) var CandiateAssessment          : String? = null,
 )
 
 
@@ -50,21 +63,6 @@ data class InterviewerRemark (
 )
 
 
-
-data class AssessSkills (
-
-    @SerializedName("Id"    ) var Id    : Int?    = null,
-    @SerializedName("value" ) var value : String? = null,
-
-
-    @SerializedName("CandidateAssessmentSkillsId" ) var CandidateAssessmentSkillsId : Int?    = null,
-    @SerializedName("CandidateAssessmentId"       ) var CandidateAssessmentId       : Int?    = null,
-    @SerializedName("Comments"                    ) var Comments                    : String? = "",
-    @SerializedName("Ratings"                     ) var Ratings                     : Int?    = 0,
-    @SerializedName("Catagory"                    ) var Catagory                    : String? = "null",
-    @SerializedName("ManualCatagory"              ) var ManualCatagory              : String? = null,
-    @SerializedName("CandiateAssessment"          ) var CandiateAssessment          : String? = null,
-)
 
 
 data class CandidateAssessmentPanelMembers (

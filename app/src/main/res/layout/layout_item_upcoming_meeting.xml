@@ -196,6 +196,7 @@
                 android:layout_height="@dimen/_35sdp"
                 android:text="@string/txt_join"
                 android:visibility="visible"
+                tools:visibility="gone"
                 style="@style/button.Style.Blue.Rounded.WithouPadding"
                 android:fontFamily="@font/sarabun_bold"
                 />
@@ -206,6 +207,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_35sdp"
                 android:visibility="gone"
+                tools:visibility="visible"
                 style="@style/button.Style.Grey.Rounded.WithouPadding"
                 android:fontFamily="@font/sarabun_bold"
                 />

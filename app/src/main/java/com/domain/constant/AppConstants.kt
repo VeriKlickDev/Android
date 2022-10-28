@@ -30,6 +30,7 @@ object AppConstants {
 
     const val LOGIN_WITH_OTP= "login_with_otp"
     const val LOGGED_WITH_OTP= "login_with_otp"
+    const val CANDIDATE_ID= "candidate_id"
 }
 
 

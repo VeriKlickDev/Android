@@ -190,7 +190,7 @@
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
                         android:id="@+id/btn_feedback"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:elevation="@dimen/_12sp"
                         android:onClick="@{onClick::onViewClicked}"
                         >

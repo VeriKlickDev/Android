@@ -84,6 +84,7 @@ class ConnectedUserListAdapter(val viewModel:VideoViewModel,
             binding.tvUsername.text = data.userName
             data.videoTrack.addSink(binding.ivUserVideoView)
 
+
             TwilioHelper.getMicStatusLive().observe(context as VideoActivity, Observer {
                 if (it.identity.equals(data.identity))
                 {

@@ -6,25 +6,15 @@ import android.view.DragEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.domain.BaseModels.AssessSkills
-import com.domain.BaseModels.InterViewersListModel
-import com.domain.BaseModels.NewInterviewDetails
 import com.example.twillioproject.databinding.LayoutItemCandidateSkillsBinding
-import com.example.twillioproject.databinding.LayoutItemUpcomingMeetingBinding
-import com.google.android.material.transition.Hold
-import com.google.gson.Gson
-import com.ui.listadapters.UpcomingMeetingAdapter
-import dagger.multibindings.ElementsIntoSet
-import kotlin.math.roundToInt
 
 //, val onClick:(data: NewInterviewDetails, videoAccessCode:String, action:Int)->Unit
 class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkills>,val onClicked:(pos:Int,data:AssessSkills,action:Int)->Unit) :
     RecyclerView.Adapter<SkillsListAdapter.ViewHolderClass>() {
-    private var reviewData=ReviewDataHolderModel(-1,null,null,null)
     private val TAG="skillsAdapterCheck"
     fun getFeedBackList():List<AssessSkills>
     {
@@ -40,15 +30,7 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
         holder.setIsRecyclable(false)
         holder.dataBind(list.get(position))
 
-        if (list[position].value.equals("others"))
-        {
-            holder.binding.btnRemoveSkill.isVisible=true
-            //holder.binding.btnAddSkill.isVisible=false
-        }else
-        {
-            holder.binding.btnRemoveSkill.isVisible=false
-            //holder.binding.btnAddSkill.isVisible=true
-        }
+        holder.binding.btnRemoveSkill.isVisible = list[position].value.equals("others")
     }
 
     override fun getItemCount(): Int {
@@ -61,19 +43,24 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
         fun dataBind(data: AssessSkills) {
             //binding.ratingbarWireframing.get(adapterPosition)
             binding.ratingbarWireframing.max=5
-            binding.tvSkills.setText(data.value)
+            binding.tvSkills.text = data.value
             binding.etComment.setText(data.Comments.toString())
-            binding.ratingbarWireframing.progress=data.Ratings!!.toInt()
+
+            //
+
+            Log.d(TAG, "dataBind: id is ${data.Id} ")
+
+            Log.d("checkdataa", "dataBind: checking value ${data.value} cat ${data.Catagory} comm ${data.Comments} ")
 
             try {
-                binding.ratingbarWireframing.progress=data.Ratings!!
-                Log.d(TAG, "dataBind: rating ${data.Ratings}")
+                binding.ratingbarWireframing.progress=data.Ratings!!.toString()[0].toString().toInt()
+                Log.d(TAG, "dataBind: rating ${data.Ratings!!.toString()[0].toString().toInt()}")
             }catch (e:Exception)
             {
                 Log.d(TAG, "dataBind: exception ${e.message}")
             }
 
-               binding.btnRemoveSkill.setOnClickListener {
+            binding.btnRemoveSkill.setOnClickListener {
                 onClicked(adapterPosition,data,2)
             }
 
@@ -91,67 +78,59 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
                 }
             })
 
-            val ob=AssessSkills()
-
-            ob.value=data.value
-
             Log.d("datachecking", "dataBind: data is  out ${data.value} ")
             if (data.value.equals("others") )
             {
                 Log.d("datachecking", "dataBind: data is in if ")
+
+                binding.tvSkills.text="others"
                 binding.etTitle.isVisible=true
-                binding.etTitle.setText("")
+               // binding.etTitle.setText("")
             }
             else{
                 Log.d("datachecking", "dataBind: data is in else ")
                 binding.etTitle.isVisible=false
-                ob.Catagory=data.value
                 binding.etTitle.setText(binding.tvSkills.text.toString())
             }
 
             if (binding.etTitle.isVisible)
                 binding.etTitle.addTextChangedListener {
-                    ob.Catagory=it.toString()
-                    list.set(adapterPosition,ob)
-
-                    ob.Ratings=data.Ratings
-                   // ob.Comments=data.Comments
-
-                    Log.d("datachecking", "dataBind: categories ${ob.Catagory} ")
+                        data.ManualCatagory=it.toString()
+                    // ob.Comments=data.Comments
                 }
 
             binding.etComment.addTextChangedListener {it->
+
                 data.Comments=it.toString()
-
-                ob.Comments=it.toString()
-                ob.Ratings=data.Ratings
-
-                list.set(adapterPosition,ob)
-
-               // ob.Comments=data.Comments
-
-                Log.d("datachecking", "dataBind: comment ${ob.Comments}  ")
+                Log.d("datachecking", "dataBind: comment ${data.Comments}  ")
             }
 
-            Log.d("checkingrating", "dataBind: ${binding.ratingbarWireframing.rating}")
+            Log.d("checkingrating", "dataBind: ${binding.ratingbarWireframing.rating.toString()[0].toString()}")
             binding.ratingbarWireframing.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
 
-                ob.Ratings=rating.roundToInt()
+                if (fromUser)
+                data.Ratings=rating.toDouble()
 
-                data.Ratings=rating.roundToInt()
-
-                ob.Catagory=data.Catagory
-                ob.Comments=data.Comments
-
-                list.set(adapterPosition,ob)
-                Log.d("checkingrating", "dataBind: ${rating} $fromUser list size is ${list.size}")
-            }
-            binding.ratingbarWireframing.setOnClickListener {
-                Log.d("checkingrating", "dataBind: ${binding.ratingbarWireframing.rating}")
+                Log.d("checkingrating", "dataBind: ${rating.toString()} $fromUser list size is ${list.size}")
             }
 
+
+            Log.d(TAG, "dataBind: catagory is $data")
+            if (!data.Catagory.equals(""))
+            {
+                Log.d(TAG, "dataBind: catagory is not null ")
+                binding.tvSkills.setText(data.Catagory)
+            }
+            else
+            {
+                Log.d(TAG, "dataBind: catagory is  null")
+            }
+
+            //data.Catagory=data.value
         }
     }
+
+
 }
 
-data class ReviewDataHolderModel(var pos:Int ,var title:String?,var comment:String?,var rating:Int?)
+

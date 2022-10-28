@@ -40,7 +40,7 @@
         <entry key="app/src/main/res/layout/layout_item_connected_userstemp.xml" value="0.17239583333333333" />
         <entry key="app/src/main/res/layout/layout_item_member_video_confrence.xml" value="0.17239583333333333" />
         <entry key="app/src/main/res/layout/layout_item_reciever_chat.xml" value="0.17239583333333333" />
-        <entry key="app/src/main/res/layout/layout_item_upcoming_meeting.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/layout_item_upcoming_meeting.xml" value="0.16" />
         <entry key="app/src/main/res/layout/layout_item_video_confrence.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/layout_mute_mic_update.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/layout_otp_verification_bottomsheet.xml" value="0.17239583333333333" />
