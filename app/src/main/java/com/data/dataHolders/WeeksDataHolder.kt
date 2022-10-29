@@ -26,10 +26,244 @@ object WeeksDataHolder {
         day = 0
     }
 
-    fun minus7Days()
-    {
-        day=day-7
+    fun minus7Days() {
+        day = day - 7
     }
+
+
+    val cal = Calendar.getInstance()
+
+    fun setCalendarInstance() {
+
+
+        cal.firstDayOfWeek = Calendar.DAY_OF_MONTH
+        //cal.add(Calendar.DATE, getCurrentDaysCount())
+
+        //cal.set(Calendar.DAY_OF_MONTH)
+      //  day = cal.get(Calendar.DATE)
+        Log.d("TAG", ": init func day $day")
+    }
+
+    private fun getCalculatedDateofWeek(dateFormat: String?, days: Int, action: Int): String? {
+
+        // day=cal.get(Calendar.DAY_OF_YEAR)
+
+        when (action) {
+            1 -> {
+
+                 cal.set(Calendar.HOUR_OF_DAY,11)
+                 cal.set(Calendar.MINUTE,59)
+            }
+            2 -> {
+                 cal.set(Calendar.HOUR_OF_DAY,12)
+                 cal.set(Calendar.MINUTE,0)
+            }
+        }
+
+        //Log.d("TAG", "getCalculatedDateofWeek: day $day")
+
+        val s = SimpleDateFormat(dateFormat)
+        cal.add(Calendar.DAY_OF_YEAR, days)
+
+        s.format(Date(cal.timeInMillis))
+
+        return s.format(Date(cal.timeInMillis))
+    }
+
+    private var istDate:String?=null
+    private var utcDate:String?=null
+
+    fun getNextISTandUTCDate(date:String,result: (ist: String, utc: String) -> Unit) {
+        val cal = Calendar.getInstance()
+        val sdf=SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val date=sdf.parse(date)
+
+        val sdfIST = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val sdfUTC = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+
+        cal.time=date
+
+        cal.set(Calendar.HOUR_OF_DAY,11)
+        cal.set(Calendar.MINUTE,59)
+
+        cal.add(Calendar.DAY_OF_YEAR, 7)
+
+        istDate= sdfIST.format(cal.time)
+        utcDate=sdfUTC.format(cal.time)
+
+        result(
+            istDate !!,
+            utcDate!!
+        )
+    }
+
+
+    fun getPastISTandUTCDate(date:String, result: (ist: String, utc: String) -> Unit) {
+
+        val cal = Calendar.getInstance()
+        val sdf=SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val date=sdf.parse(date)
+
+        val sdfIST = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val sdfUTC = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+
+        cal.time=date
+
+        cal.set(Calendar.HOUR_OF_DAY,12)
+        cal.set(Calendar.MINUTE,0)
+
+        cal.add(Calendar.DAY_OF_YEAR, -7)
+
+        istDate= sdfIST.format(cal.time)
+        utcDate=sdfUTC.format(cal.time)
+
+        result(
+            istDate !!,
+            utcDate!!
+        )
+    }
+
+
+    fun getCurrentNextDayISTandUTCDate(date:String,result: (ist: String, utc: String) -> Unit) {
+        val cal = Calendar.getInstance()
+        val sdf=SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val date=sdf.parse(date)
+
+        val sdfIST = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val sdfUTC = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+
+        cal.time=date
+
+        cal.set(Calendar.HOUR_OF_DAY,12)
+        cal.set(Calendar.MINUTE,0)
+
+        cal.add(Calendar.DAY_OF_YEAR, 0)
+
+        istDate= sdfIST.format(cal.time)
+        utcDate=sdfUTC.format(cal.time)
+
+        result(
+            istDate !!,
+            utcDate!!
+        )
+    }
+
+
+
+    fun getCurrentPreviousDayISTandUTCDate(date:String,result: (ist: String, utc: String) -> Unit) {
+        val cal = Calendar.getInstance()
+        val sdf=SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val date=sdf.parse(date)
+
+        val sdfIST = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val sdfUTC = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+
+        cal.time=date
+
+        cal.set(Calendar.HOUR_OF_DAY,12)
+        cal.set(Calendar.MINUTE,0)
+
+        cal.add(Calendar.DAY_OF_YEAR, 0)
+
+        istDate= sdfIST.format(cal.time)
+        utcDate=sdfUTC.format(cal.time)
+
+        result(
+            istDate !!,
+            utcDate!!
+        )
+    }
+
+
+
+    fun convertTo1159(date:String,result: (ist: String, utc: String) -> Unit)
+    {
+        val cal = Calendar.getInstance()
+        val sdf=SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val date=sdf.parse(date)
+
+        val sdfIST = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val sdfUTC = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+
+        cal.time=date
+
+        cal.set(Calendar.HOUR_OF_DAY,11)
+        cal.set(Calendar.MINUTE,59)
+
+        cal.add(Calendar.DAY_OF_YEAR, 0)
+
+        istDate= sdfIST.format(cal.time)
+        utcDate=sdfUTC.format(cal.time)
+
+        result(
+            istDate !!,
+            utcDate!!
+        )
+
+    }
+
+    fun convertTo1200(date:String,result: (ist: String, utc: String) -> Unit)
+    {
+        val cal = Calendar.getInstance()
+        val sdf=SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val date=sdf.parse(date)
+
+        val sdfIST = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val sdfUTC = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+
+        cal.time=date
+
+        cal.set(Calendar.HOUR_OF_DAY,12)
+        cal.set(Calendar.MINUTE,0)
+
+        cal.add(Calendar.DAY_OF_YEAR, 0)
+
+        istDate= sdfIST.format(cal.time)
+        utcDate=sdfUTC.format(cal.time)
+
+        result(
+            istDate !!,
+            utcDate!!
+        )
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    data class DateHolderModel(val preDate:String,val nextDate:String)
+    private val list= mutableListOf<DateHolderModel>()
+    fun setDate(preDate:String,nextDate:String)
+    {
+        list.add(0,DateHolderModel(preDate,nextDate))
+    }
+    fun getDate()=list.firstOrNull()
+
+
+  /*  fun getCurrentPastISTandUTCDate(result: (ist: String, utc: String) -> Unit) {
+        val sdfIST = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val sdfUTC = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+
+        cal.add(Calendar.DAY_OF_YEAR,0)
+
+        istDate= sdfIST.format(Date(cal.timeInMillis))
+        utcDate=sdfUTC.format(Date(cal.timeInMillis))
+
+        // addWeekDay()
+        result(
+            istDate !!,
+            utcDate!!
+        )
+    }*/
+
 
     private val sdfIST = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     private val sdfUTC = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
@@ -144,7 +378,7 @@ object WeeksDataHolder {
         return cal
     }
 
-    fun printRangeAfterWeek(date: Date, rangeType: Int) : List<String> {
+    fun printRangeAfterWeek(date: Date, rangeType: Int): List<String> {
         val cal: Calendar = toCalendar(date)
 
         val startDay = cal.getActualMinimum(rangeType)
@@ -156,11 +390,11 @@ object WeeksDataHolder {
         val endDate = cal.time
 
         println("${formatter.format(startDate)} to ${formatter.format(endDate)}")
-        val list= mutableListOf<String>()
-        list.add(0,startDay.toString())
-        list.add(1,endDay.toString())
+        val list = mutableListOf<String>()
+        list.add(0, startDay.toString())
+        list.add(1, endDay.toString())
 
-    return list
+        return list
     }
 
 

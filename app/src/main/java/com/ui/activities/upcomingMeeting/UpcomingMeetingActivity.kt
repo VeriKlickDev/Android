@@ -52,21 +52,21 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     private lateinit var adapter: UpcomingMeetingAdapter
     private lateinit var viewModel: UpComingMeetingViewModel
     private lateinit var accessCode: String
-    private var status=""
-    private var pageno=1
-    private var iscrolled=false
-    private  lateinit var  layoutManager:LinearLayoutManager
-    private var isOpenedFirst=false
-    private var preUtcDate = ""
-    private var preIsTDate = ""
-    private var nextutcDate = ""
-    private var nextIstDate = ""
-    private var commonIstDate=""
-    private var commonUtcDate=""
-    private var isPrevClicked = false
-    private var isNextClicked = false
+    private var status = ""
+    private var pageno = 1
+    private var iscrolled = false
+    private lateinit var layoutManager: LinearLayoutManager
+    private var isOpenedFirst = false
 
-    private var searchTxt=""
+    private var currentDateIST:String?=null
+    private var currentDateUTC:String?=null
+
+    private var isNextClicked=false
+    private var isPreClicked=false
+
+
+
+    private var searchTxt = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,32 +74,15 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         setContentView(binding.root)
         viewModel = ViewModelProvider(this).get(UpComingMeetingViewModel::class.java)
 
-        WeeksDataHolder.setDayToZero()
-        layoutManager=LinearLayoutManager(this)
+        //  WeeksDataHolder.setDayToZero()
+        layoutManager = LinearLayoutManager(this)
 
-        WeeksDataHolder.getIstUtcPriviousDate(dateResponse = { utcDate, istDate ->
-            preUtcDate = utcDate
-            preIsTDate = istDate
-            //copy common variable here from next
 
-        })
-
-        WeeksDataHolder.addWeekDay()
-
-        WeeksDataHolder.getItcUtcNextDate(dateResponse = { utcDate, istDate ->
-            nextIstDate = istDate
-            nextutcDate = utcDate
-
-            commonIstDate=istDate
-            commonUtcDate=utcDate
-        })
-
-        
+        currentDateIST=getCurrentDate()!!
         if (checkInternet()) {
-            status="schedule"
-            handleUpcomingMeetingsList(3, 1,9)
-        }
-        else {
+            status = "schedule"
+            handleUpcomingMeetingsList(2, 1, 9)
+        } else {
             Snackbar.make(
                 binding.root, getString(R.string.txt_no_internet_connection),
                 Snackbar.LENGTH_SHORT
@@ -110,14 +93,13 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             if (binding.tvHeader.isVisible) {
                 binding.layoutSearch.isVisible = true
                 binding.tvHeader.isVisible = false
-                binding.btnSearchShow.isVisible=false
-                binding.btnCross.isVisible=true
-            }
-            else {
-                binding.btnCross.isVisible=false
+                binding.btnSearchShow.isVisible = false
+                binding.btnCross.isVisible = true
+            } else {
+                binding.btnCross.isVisible = false
                 binding.layoutSearch.isVisible = false
                 binding.tvHeader.isVisible = true
-                binding.btnSearchShow.isVisible=true
+                binding.btnSearchShow.isVisible = true
             }
         }
 /*
@@ -127,23 +109,12 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         }
 */
 
-
-
         binding.swipetorefresh.setOnRefreshListener {
             if (checkInternet()) {
                 meetingsList.clear()
-                pageno=1
-                handleUpcomingMeetingsList(5, 1,9)
-
-            /* if (isNextClicked)
-                {
-                    handleUpcomingMeetingsList(5, null)
-                }else
-                {
-                    handleUpcomingMeetingsList(3, null)
-                }*/
-            }
-            else {
+                pageno = 1
+                handleUpcomingMeetingsList(7, 1, 9)
+            } else {
                 Snackbar.make(
                     binding.root, getString(R.string.txt_no_internet_connection),
                     Snackbar.LENGTH_SHORT
@@ -152,17 +123,19 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         }
 
         binding.btnLogout.setOnClickListener {
-          val dialog=AlertDialog.Builder(this)
+            val dialog = AlertDialog.Builder(this)
             dialog.setMessage(getString(R.string.txt_do_you_want_to_logout))
-            dialog.setPositiveButton("ok",DialogInterface.OnClickListener { dialogInterface, i ->
+            dialog.setPositiveButton("ok", DialogInterface.OnClickListener { dialogInterface, i ->
                 DataStoreHelper.clearData()
                 startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             })
 
-            dialog.setNegativeButton("cancel",DialogInterface.OnClickListener { dialogInterface, i ->
+            dialog.setNegativeButton(
+                "cancel",
+                DialogInterface.OnClickListener { dialogInterface, i ->
 
-            })
+                })
             dialog.show()
             dialog.create()
 
@@ -170,10 +143,10 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         binding.etSearch.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 meetingsList.clear()
-                pageno=1
-                isOpenedFirst=true
-                searchTxt=binding.etSearch.text.toString()
-                handleUpcomingMeetingsList(0,1,9)
+                pageno = 1
+                isOpenedFirst = true
+                searchTxt = binding.etSearch.text.toString()
+                handleUpcomingMeetingsList(7, 1, 9)
 
                 hideKeyboard(this)
                 return@OnEditorActionListener true
@@ -189,55 +162,66 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             this.openContextMenu(it)
         }
 
+
+
+
         binding.btnLeftPrevious.setOnClickListener {
-           meetingsList.clear()
+
+            meetingsList.clear()
             pageno=1
-            if (isNextClicked) {
-                WeeksDataHolder.minusWeekDay()
-                WeeksDataHolder.minusWeekDay()
-                handleUpcomingMeetingsList(1, 1,9)
-                isNextClicked = false
+
+            if (isNextClicked)
+            {
+                WeeksDataHolder.getPastISTandUTCDate(currentDateIST!!) { ist, utc ->
+                    Log.d(TAG, "handleUpcomingMeetingsList: current date pre $ist")
+
+                    currentDateIST=ist
+                    currentDateUTC=utc
+
+                }
+                isNextClicked=false
             }
-            else {
-                WeeksDataHolder.minusWeekDay()
-                handleUpcomingMeetingsList(1, 1,9)
-            }
-            isPrevClicked = true
+
+
+            handleUpcomingMeetingsList(1,1,9)
         }
 
         binding.btnRightNext.setOnClickListener {
+
             meetingsList.clear()
             pageno=1
-            if (isPrevClicked) {
-                WeeksDataHolder.addWeekDay()
-                WeeksDataHolder.addWeekDay()
-                handleUpcomingMeetingsList(2, 1,9)
-                isPrevClicked = false
-            } else {
-                WeeksDataHolder.addWeekDay()
-                handleUpcomingMeetingsList(2, 1,9)
+
+            if (isPreClicked)
+            {
+                WeeksDataHolder.getNextISTandUTCDate(currentDateIST!!) { ist, utc ->
+                    Log.d(TAG, "handleUpcomingMeetingsList: current pres nex $ist")
+
+                    currentDateIST=ist
+                    currentDateUTC=utc
+                }
+                isPreClicked=false
             }
-            isNextClicked = true
+           handleUpcomingMeetingsList(2,1,9)
+
         }
 
         binding.btnCross.setOnClickListener {
-            pageno=1
+            pageno = 1
             meetingsList.clear()
-            searchTxt=""
-            status="schedule"
-            handleUpcomingMeetingsList(5, 1,9)
+            searchTxt = ""
+            status = "schedule"
+            handleUpcomingMeetingsList(7, 1, 9)
             binding.etSearch.setText("")
             if (binding.tvHeader.isVisible) {
                 binding.layoutSearch.isVisible = true
                 binding.tvHeader.isVisible = false
-                binding.btnSearchShow.isVisible=false
-                binding.btnCross.isVisible=true
-            }
-            else {
-                binding.btnCross.isVisible=false
+                binding.btnSearchShow.isVisible = false
+                binding.btnCross.isVisible = true
+            } else {
+                binding.btnCross.isVisible = false
                 binding.layoutSearch.isVisible = false
                 binding.tvHeader.isVisible = true
-                binding.btnSearchShow.isVisible=true
+                binding.btnSearchShow.isVisible = true
             }
         }
 
@@ -245,30 +229,28 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
 
-                if (newState== AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL)
-                    iscrolled=true
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL)
+                    iscrolled = true
 
             }
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                val vitem=layoutManager.childCount
-                val skipped=layoutManager.findFirstVisibleItemPosition()
-                val totalitem=layoutManager.itemCount
-                if (iscrolled && vitem+skipped==totalitem) {
+                val vitem = layoutManager.childCount
+                val skipped = layoutManager.findFirstVisibleItemPosition()
+                val totalitem = layoutManager.itemCount
+                if (iscrolled && vitem + skipped == totalitem) {
 
-                    if (contentLimit==meetingsList.size)
-                    {
+                    if (contentLimit == meetingsList.size) {
 
-                    }else
-                    {
-                        Log.d(TAG, "onScrolled: "+pageno.toString())
-                        handleUpcomingMeetingsList(5, pageno,9)
+                    } else {
+                        Log.d(TAG, "onScrolled: " + pageno.toString())
+                        handleUpcomingMeetingsList(7, pageno, 9)
 
                     }
 
-                    Log.d(TAG, "onScrolled: "+pageno.toString())
-                    iscrolled=false
+                    Log.d(TAG, "onScrolled: " + pageno.toString())
+                    iscrolled = false
                 }
             }
         })
@@ -276,10 +258,10 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     }
 
 
-    private fun handleUpcomingMeetingsList(action: Int,pageNumber:Int,pageSize:Int) {
+    private fun handleUpcomingMeetingsList(action: Int, pageNumber: Int, pageSize: Int) {
         UpcomingMeetingStatusHolder.setStatus(status)
         var ob: BodyScheduledMeetingBean? = null
-        Log.d(TAG, "handleUpcomingMeetingsList: handleupcoming meeting list")
+
         var recruiterId = ""
         var userId = ""
         var recruiterEmail = ""
@@ -295,165 +277,75 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         )
 
         when (action) {
-            0 -> {
-                /*
-                * for search
-                * */
-                WeeksDataHolder.getIstUtcPriviousDate { utcDate, istDate ->
-                    Log.d(TAG, "onCreate: previous date  utc previous ${utcDate}  itc $istDate ")
 
-                    ob.Search = searchTxt
-                    ob.Status=status
-                    ob.fromdate = preUtcDate
-                    ob.todate = nextutcDate
-
-                    ob.from = preIsTDate
-                    ob.to = nextIstDate
-
-                }
-            }
             7 -> {
                 /*
-                * for search
+                * for status
                 * */
-                WeeksDataHolder.getIstUtcPriviousDate { utcDate, istDate ->
-                    Log.d(TAG, "onCreate: previous date  utc previous ${utcDate}  itc $istDate ")
-                    ob.Search = searchTxt
-                    ob?.Status = status
+                WeeksDataHolder.getCurrentPreviousDayISTandUTCDate(WeeksDataHolder.getDate()!!.preDate!!) { ist, utc ->
 
-                    ob.fromdate = preUtcDate
-                    ob.todate = nextutcDate
-
-                    ob.from = preIsTDate
-                    ob.to = nextIstDate
-
+                    ob.fromdate = ist
+                    ob.from = utc
                 }
-            }
+                WeeksDataHolder.getCurrentNextDayISTandUTCDate(WeeksDataHolder.getDate()!!.nextDate!!) { ist, utc ->
 
-            5 -> {
-                /*
-                * for search
-                * */
-                WeeksDataHolder.getIstUtcPriviousDate{ utcDate, istDate ->
-                    Log.d(TAG, "onCreate: previous date  utc previous ${utcDate}  itc $istDate ")
-
-
-                    Log.d(TAG, "handleUpcomingMeetingsList: ")
-                    ob.Search = searchTxt
-                    ob.Status=status
-                    ob.fromdate = preUtcDate
-                    ob.todate = nextutcDate
-
-                    ob.from = preIsTDate
-                    ob.to = nextIstDate
-
-
+                    WeeksDataHolder.convertTo1159(ist!!){ist, utc ->
+                        ob.todate = ist
+                        ob.to = utc
+                    }
                 }
-            }
+                binding.swipetorefresh.isRefreshing=false
 
+            }
+            //for past / previous
             1 -> {
 
-                WeeksDataHolder.getIstUtcPriviousDate(dateResponse = { utcDate, istDate ->
-                    Log.d(TAG,"onCreate: previous date  utc previous  from $istDate     to $preIsTDate  ")
-                    ob.Search = searchTxt
-                    ob.Status=status
-                    if (isNextClicked)
-                    {
-
-                        ob.fromdate = utcDate
-                        ob.todate = preUtcDate
-
-                        ob.from = istDate
-                        ob.to = preIsTDate
-                    }
-                    else
-                    {
-
-                        ob.fromdate = utcDate
-                        ob.todate = commonUtcDate
-
-                        ob.from = istDate
-                        ob.to = commonIstDate
-                    }
-
-                    commonIstDate=istDate
-                    commonUtcDate=utcDate
-
-                    nextutcDate = utcDate
-                    nextIstDate = istDate
-
-                    preUtcDate = nextutcDate
-                    preIsTDate = nextIstDate
-
-                })
-            }
-            2 -> {
-
-                WeeksDataHolder.getItcUtcNextDate(dateResponse = { utcDate, istDate ->
-                    Log.d(TAG,"onCreate: next date is  date  utc from  $preIsTDate to $istDate ")
-                    ob.Search = searchTxt
-                    ob.Status=status
-
-                    if (isPrevClicked)
-                    {
-                        ob.from = nextutcDate
-                        ob.to = utcDate
-
-                        ob.fromdate = nextIstDate
-                        ob.todate = istDate
-                    }
-                    else
-                    {
-                        ob.from = commonUtcDate
-                        ob.to = utcDate
-
-                        ob.fromdate = commonIstDate
-                        ob.todate = istDate
-                    }
-
-                    commonIstDate=istDate
-                    commonUtcDate=utcDate
-
-                    preUtcDate = utcDate
-                    preIsTDate = istDate
-                })
-            }
-            3 -> {
-                WeeksDataHolder.getItcUtcNextDate {  utcDate, istDate ->
-                    Log.d(TAG, "onCreate: previous date  utc previous ${utcDate}  itc $istDate ")
-
-                    ob.Search = searchTxt
-                    ob.Status=status
-
-                    ob.from = commonUtcDate
-                    ob.to = utcDate
-
-                    ob.fromdate = commonIstDate
-                    ob.todate = istDate
-
-                    isNextClicked=true
-
-                    //working
-                   /* ob.Search = searchTxt
-                    isPrevClicked=true
-                    ob.Status=status
-
-                    ob.fromdate = utcDate
-                    ob.todate = nextutcDate
-
-                    ob.from = istDate
-                    ob.to = nextIstDate
-*/
+                WeeksDataHolder.getPastISTandUTCDate(currentDateIST!!) { ist, utc ->
+                    Log.d(TAG, "handleUpcomingMeetingsList: current date pre $ist")
 
 
-//                    commonIstDate=istDate
-  //                  commonUtcDate=utcDate
+                    WeeksDataHolder.convertTo1200(ist!!, result = {ist, utc ->
+                        ob.from=utc
+                        ob.fromdate=ist
+                    })
 
-                    //preUtcDate = nextutcDate
-                   // preIsTDate = nextIstDate
+                    WeeksDataHolder.convertTo1159(currentDateIST!!, result = {ist, utc ->
+                        ob.to=utc
+                        ob.todate=ist
+                    })
+
+                    currentDateIST=ist
+                    currentDateUTC=utc
 
                 }
+                isPreClicked=true
+
             }
+            //for next week date
+            2 -> {
+
+                WeeksDataHolder.getCurrentNextDayISTandUTCDate(currentDateIST!!) { ist, utc ->
+                    Log.d(TAG, "handleUpcomingMeetingsList: current date nex $ist")
+
+                    currentDateIST=ist
+                    currentDateUTC=utc
+                }
+
+                WeeksDataHolder.getNextISTandUTCDate(currentDateIST!!) { ist, utc ->
+                    Log.d(TAG, "handleUpcomingMeetingsList: current pres nex $ist")
+
+                    ob.from=currentDateUTC
+                    ob.fromdate=currentDateIST
+
+                    ob.to=utc
+                    ob.todate=ist
+
+                    currentDateIST=ist
+                    currentDateUTC=utc
+                    isNextClicked=true
+                }
+            }
+
         }
 
         binding.tvFromdateToDate.text = getDateWithMonthName(
@@ -461,16 +353,12 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             1
         ) + " to " + getDateWithMonthName(ob.to.toString(), 2)
 
-        Log.d(TAG, "handleUpcomingMeetingsList: ${ob.from} ${ob.to}")
-        Log.d(TAG, "handleUpcomingMeetingsList: ${ob.fromdate} ${ob.todate}")
+      //  Log.d(TAG, "handleUpcomingMeetingsList: ${ob.from} ${ob.to}")
+        Log.d(TAG, "\n\nhandleUpcomingMeetingsList: ${ob.fromdate} ${ob.todate}")
 
-        nextutcDate=ob.todate.toString()
-        nextIstDate=ob.to.toString()
+        WeeksDataHolder.setDate(ob.fromdate!!,ob.todate!!)
 
-        preIsTDate=ob.from.toString()
-        preUtcDate=ob.todate.toString()
-
-        Log.d(
+      /*  Log.d(
             "fromDateTo",
             "handleUpcomingMeetingsList: from date to ${ob.from}  ${
                 getDateWithMonthName(
@@ -478,63 +366,59 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     1
                 )
             }"
-        )
-        ob.PageNumber=pageNumber
-        ob.PageSize=pageSize
-        Log.d(TAG, "handleUpcomingMeetingsList: ${ob?.Recruiter} ${ob?.Subscriber}")
+        )*/
+
+        ob.Status=status
+        ob.Search=searchTxt
+        ob.PageNumber = pageNumber
+        ob.PageSize = pageSize
+      //  Log.d(TAG, "handleUpcomingMeetingsList: ${ob?.Recruiter} ${ob?.Subscriber}")
+
         Log.d("datecheck", "\n ${ob?.fromdate}  ${ob?.todate}  \n ${ob.from}  ${ob.to} ")
 
         if (ob != null) {
-            if (intent.getBooleanExtra(AppConstants.LOGIN_WITH_OTP,false))
-            {
+            if (intent.getBooleanExtra(AppConstants.LOGIN_WITH_OTP, false)) {
                 getDataWithOtp(ob)
                 Log.d(TAG, "handleUpcomingMeetingsList: logged with otp")
-            }
-            else{
+            } else {
                 Log.d(TAG, "handleUpcomingMeetingsList: logged with email")
                 getDataWithoutOtp(ob)
             }
-        }
-        else {
+        } else {
             dismissProgressDialog()
         }
     }
 
 
-    fun getDataWithOtp(ob:BodyScheduledMeetingBean)
-    {
+    fun getDataWithOtp(ob: BodyScheduledMeetingBean) {
         viewModel.getScheduledMeetingListwithOtp(
             actionProgress = {
                 if (it == 1) {
                     binding.swipetorefresh.isRefreshing = false
-                    if (isOpenedFirst)
-                    {
+                    if (isOpenedFirst) {
                         Handler(Looper.getMainLooper()).post(Runnable {
-                            binding.progressBar.isVisible=true
+                            binding.progressBar.isVisible = true
                         })
-                    }else
-                    {
+                    } else {
                         showProgressDialog()
-                        isOpenedFirst=true
+                        isOpenedFirst = true
                     }
-                }
-                else {
+                } else {
                     binding.swipetorefresh.isRefreshing = false
                     dismissProgressDialog()
 
                     Handler(Looper.getMainLooper()).post(Runnable {
-                        binding.progressBar.isVisible=false
+                        binding.progressBar.isVisible = false
 
                     })
 
                 }
             },
-            response = { result, exception,data ->
+            response = { result, exception, data ->
                 try {
                     pageno++
-                    contentLimit=data?.totalCount!!
-                }catch (e:Exception)
-                {
+                    contentLimit = data?.totalCount!!
+                } catch (e: Exception) {
 
                 }
 
@@ -544,52 +428,47 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             bodyScheduledMeetingBean = ob!!
         )
     }
-    fun getDataWithoutOtp(ob:BodyScheduledMeetingBean)
-    {
+
+    fun getDataWithoutOtp(ob: BodyScheduledMeetingBean) {
         viewModel.getScheduledMeetingList(
             actionProgress = {
                 if (it == 1) {
                     binding.swipetorefresh.isRefreshing = false
-                    if (isOpenedFirst)
-                    {
+                    if (isOpenedFirst) {
                         Handler(Looper.getMainLooper()).post(Runnable {
-                            binding.progressBar.isVisible=true
+                            binding.progressBar.isVisible = true
                         })
-                    }else
-                    {
+                    } else {
                         showProgressDialog()
-                        isOpenedFirst=true
+                        isOpenedFirst = true
                     }
-                }
-                else {
+                } else {
                     binding.swipetorefresh.isRefreshing = false
                     dismissProgressDialog()
 
                     Handler(Looper.getMainLooper()).post(Runnable {
-                        binding.progressBar.isVisible=false
+                        binding.progressBar.isVisible = false
 
                     })
 
                 }
             },
-            response = { result, exception,data ->
+            response = { result, exception, data ->
 
-                when(result)
-                {
-                    200->{
+                when (result) {
+                    200 -> {
                         try {
                             pageno++
-                            contentLimit=data?.totalCount!!
-                        }catch (e:Exception)
-                        {
+                            contentLimit = data?.totalCount!!
+                        } catch (e: Exception) {
 
                         }
                     }
-                    401->{
+                    401 -> {
                         DataStoreHelper.clearData()
-                        val intent=Intent(this,LoginActivity::class.java)
+                        val intent = Intent(this, LoginActivity::class.java)
                         startActivity(intent)
-                        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                         finish()
 
                     }
@@ -604,27 +483,23 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     }
 
 
-    private var contentLimit:Int=1
+    private var contentLimit: Int = 1
 
-    private val meetingsList= ArrayList<NewInterviewDetails>()
+    private val meetingsList = ArrayList<NewInterviewDetails>()
     private fun handleObserver() {
         Log.d(TAG, "handleObserver: out observer method ")
         binding.tvNoData.visibility = View.VISIBLE
 
         viewModel.scheduledMeetingLiveData.observe(this, Observer {
-            if (!it.isNullOrEmpty())
-            {
+            if (!it.isNullOrEmpty()) {
                 Log.d(TAG, "handleObserver: ifpart not null empty $it ")
-            meetingsList.addAll(it)
-            adapter.notifyDataSetChanged()
+                meetingsList.addAll(it)
+                adapter.notifyDataSetChanged()
             }
-            if (meetingsList.size==0)
-            {
+            if (meetingsList.size == 0) {
                 Log.d(TAG, "handleObserver: ifpart meeting size 0")
                 binding.tvNoData.visibility = View.VISIBLE
-            }
-            else
-            {
+            } else {
                 Log.d(TAG, "handleObserver: elsepart meeting size not size")
                 binding.tvNoData.visibility = View.GONE
             }
@@ -639,11 +514,10 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
     override fun finish() {
         super.finish()
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
-    fun setupAdapter()
-    {
+    fun setupAdapter() {
         adapter = UpcomingMeetingAdapter(this, meetingsList) { data, videoAccessCode, action ->
             when (action) {
                 1 -> {
@@ -653,12 +527,20 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 2 -> {
                     showDescDialog(data)
                 }
-                3->{
+                3 -> {
                     CurrentUpcomingMeetingData.setData(data)
                     Log.d(TAG, "setupAdapter : zone ${data.interviewTimezone}")
-                    CurrentMeetingDataSaver.setData(ResponseInterViewDetailsBean(interviewModel = InterviewModel(candidateId = data.candidateId!!),videoAccessCode = videoAccessCode, interviewTimezone = data.interviewTimezone))
-                    val intent=Intent(this,ActivityFeedBackForm::class.java)
-                    intent.putExtra(AppConstants.CANDIDATE_ID,data.candidateId)
+                    CurrentMeetingDataSaver.setData(
+                        ResponseInterViewDetailsBean(
+                            interviewModel = InterviewModel(
+                                candidateId = data.candidateId!!
+                            ),
+                            videoAccessCode = videoAccessCode,
+                            interviewTimezone = data.interviewTimezone
+                        )
+                    )
+                    val intent = Intent(this, ActivityFeedBackForm::class.java)
+                    intent.putExtra(AppConstants.CANDIDATE_ID, data.candidateId)
                     startActivity(intent)
                 }
             }
@@ -680,37 +562,36 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
-        when(item.itemId)
-        {
-            R.id.all_meetings->{
-                status=""
+        when (item.itemId) {
+            R.id.all_meetings -> {
+                status = ""
                 meetingsList.clear()
-                pageno=1
-                handleUpcomingMeetingsList(7,1,9)
+                pageno = 1
+                handleUpcomingMeetingsList(7, 1, 9)
             }
-            R.id.attended_meetings->{
-                status="Attended"
+            R.id.attended_meetings -> {
+                status = "Attended"
                 meetingsList.clear()
-                pageno=1
-                handleUpcomingMeetingsList(7,1,9)
+                pageno = 1
+                handleUpcomingMeetingsList(7, 1, 9)
             }
-            R.id.scheduled_meetings->{
-                status="schedule"
+            R.id.scheduled_meetings -> {
+                status = "schedule"
                 meetingsList.clear()
-                pageno=1
-                handleUpcomingMeetingsList(7,1,9)
+                pageno = 1
+                handleUpcomingMeetingsList(7, 1, 9)
             }
-            R.id.nonscheduled_meetings->{
-                status="nonSchedule"
+            R.id.nonscheduled_meetings -> {
+                status = "nonSchedule"
                 meetingsList.clear()
-                pageno=1
-                handleUpcomingMeetingsList(7,1,9)
+                pageno = 1
+                handleUpcomingMeetingsList(7, 1, 9)
             }
-            R.id.cancel_meetings->{
-                status="cancel"
+            R.id.cancel_meetings -> {
+                status = "cancel"
                 meetingsList.clear()
-                pageno=1
-                handleUpcomingMeetingsList(7,1,9)
+                pageno = 1
+                handleUpcomingMeetingsList(7, 1, 9)
             }
         }
 
@@ -740,8 +621,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             getInterviewDetails(videoAccessCode)
             // getAccessCodeById(data)
             // showToast(this,"Under Development")
-        }
-        else {
+        } else {
             Snackbar.make(
                 binding.root, getString(R.string.txt_no_internet_connection),
                 Snackbar.LENGTH_SHORT
@@ -766,7 +646,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     dismissProgressDialog()
                     showToast(this, "response not success")
                 }
-                500->{
+                500 -> {
                     dismissProgressDialog()
                     showToast(this, "Interval Server Error!")
                 }
@@ -783,7 +663,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 200 -> {
                     dismissProgressDialog()
                     Log.d(TAG, "meeting data in 200 ${data}")
-                    data?.videoAccessCode=accessCode
+                    data?.videoAccessCode = accessCode
                     CurrentMeetingDataSaver.setData(data!!)
                     joinMeeting(accessCode)
                     CurrentMeetingDataSaver.setData(data)
@@ -827,16 +707,15 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     ) {
                         showAlertWhenNotHost()
                         Log.d("showdialogalert", "joinMeetingCandidate: in dialog show")
-                    }
-                    else {
+                    } else {
                         Log.d("showdialogalert", "candidate: ${data.token}  ${data.roomName}")
                         TwilioHelper.setTwilioCredentials(
                             data.token.toString(),
                             data.roomName.toString()
                         )
-                        val intent=Intent(this, VideoActivity::class.java)
+                        val intent = Intent(this, VideoActivity::class.java)
                         startActivity(intent)
-                        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     }
                 }
                 400 -> {
