@@ -92,7 +92,7 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
                     obj.CandidateAssessment?.jobid =
                         CurrentMeetingDataSaver.getData().interviewModel?.jobid
                     obj.CandidateAssessmentPanelMembers = memberList
-
+                    obj.CandidateAssessment?.RecommendationId=3
                     CurrentMeetingDataSaver.getData()?.let {
                         Log.d(TAG, "sendFeedback: current meetin og canid ${it.interviewModel?.candidateId}")
                         obj.CandidateAssessment?.CandidateId=it.interviewModel?.candidateId

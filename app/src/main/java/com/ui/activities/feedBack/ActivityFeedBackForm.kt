@@ -246,6 +246,10 @@ class ActivityFeedBackForm : AppCompatActivity() {
         if (recommendationSelected!=null)
         {
             binding.recommendationError.isVisible=false
+
+            Log.d(TAG, "postData: check all data  appliedpos $appliedPosition recomm $recommendationSelected designation $designation intername $interviewName candidId $candidateId ")
+            Log.d(TAG, "postData: check all data  appliedpos skillist $skillist , skillslist $skillsList remarklist $remarkList")
+
             viewModel.sendFeedback(this,appliedPosition,recommendationSelected!!,designation,interviewName,candidateId,BodyFeedBack(
                 CandidateAssessmentSkills=skillist,
             ),skillsListres,remarkList, onDataResponse = {data, status ->

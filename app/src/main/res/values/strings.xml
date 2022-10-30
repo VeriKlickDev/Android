@@ -27,7 +27,7 @@
     <string name="txt_join">Join</string>
     <string name="txt_mute">Mute</string>
     <string name="txt_unmute">Unmute</string>
-    <string name="txt_client">Client</string>
+    <string name="txt_client">Client : &#160;</string>
     <string name="txt_candidate">Candidate</string>
     <string name="txt_Upcoming_Meetings">Upcoming Meetings</string>
     <string name="txt_permission_required">Permission Required</string>

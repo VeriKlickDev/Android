@@ -43,8 +43,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
-
-                        android:paddingHorizontal="@dimen/_10sp"
+                        android:layout_marginLeft="@dimen/_10sp"
                         android:paddingVertical="@dimen/_5sp"
                         android:fontFamily="@font/sarabun_medium"
                         android:textSize="@dimen/_14sp"
@@ -64,7 +63,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
-
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -150,6 +148,7 @@
             android:orientation="horizontal"
             android:layout_marginHorizontal="@dimen/_10sp"
             android:gravity="center_vertical"
+            android:layout_marginBottom="5sp"
             >
 
 
@@ -163,8 +162,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
-                    android:text="Job ID :"
+                    android:text="Job ID : "
                     android:textSize="@dimen/_14sp"
                     />
 
@@ -176,7 +174,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sp"
                     android:text="54521"
-                    android:layout_marginLeft="-5sp"
+
                     />
 
 
