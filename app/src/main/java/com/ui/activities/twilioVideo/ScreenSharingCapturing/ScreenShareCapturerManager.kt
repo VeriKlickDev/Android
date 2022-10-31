@@ -18,19 +18,17 @@ class ScreenShareCapturerManager {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             // We've bound to ScreenCapturerService, cast the IBinder and get
             // ScreenCapturerService instance
-            Log.d("checkService", "onServiceConnected: started")
+            Log.d("checkService", "onServiceConnected: started capturing")
             val binder = service as ScreenSharingService.LocalBinder
             mService = binder.getService()
             currentState = ScreenCapturerManagerState.BIND_SERVICE
         }
 
         override fun onServiceDisconnected(arg0: ComponentName) {
-            Log.d("checkService", "onServiceConnected: started")
+            Log.d("checkService", "onServiceConnected: discronnected caputering service")
 
         }
     }
-
-
 
 
     fun ScreenCapturerManager(context: Context) {

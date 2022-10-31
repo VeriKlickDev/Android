@@ -261,7 +261,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         }
 
         initializeUI()
-        meetingManager.startForeground()
+
         Handler(Looper.getMainLooper()).postDelayed(kotlinx.coroutines.Runnable {
             connectToRoom()
 //            room = TwilioHelper.getRoomInstance()
@@ -1834,6 +1834,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
     override fun onParticipantConnect(room: Room) {
         try {
+
+            meetingManager.startForeground()
+
             Log.d(TAG, "connectToRoom: participant connected service ${meetingManager.getServiceState()}")
             this.room = room
             Log.d(TAG, "onParticipantConnect: room sid is ${room.sid}")
@@ -2449,45 +2452,56 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
     fun shareScreen() {
 
-        Log.d(
-            TAG,
-            "shareScreen: start screensharing ${screenShareCapturerManager.getServiceState()} "
-        )
+        try {
 
-        if (CurrentMeetingDataSaver.getScreenSharingStatus()) {
-            showToast(this, getString(R.string.txt_screen_sharing_stopped))
-            viewModel.setScreenSharingStatus(true, onResult = {action, data ->  })
-            CurrentMeetingDataSaver.setScreenSharingStatus(false)
-           // screenShareCapturerManager.endForeground()
-            screenShareCapturerManager.unbindService()
-            Log.d(TAG, "shareScreen: stoped capturing")
-            currentRemoteVideoTrack?.removeSink(binding.primaryVideoView)
-            localParticipant?.unpublishTrack(currentLocalVideoTrack!!)
-            localParticipant?.publishTrack(localVideoTrack!!)
-            viewModel.setLocalVideoTrack(localVideoTrack!!, false)
+            Log.d(
+                TAG,
+                "shareScreen: start screensharing ${screenShareCapturerManager.getServiceState()} "
+            )
 
-            // setCameraToLocalVideoTrack()
-        } else {
-            showToast(this, getString(R.string.txt_screen_sharing_started))
-            Log.d(TAG, "shareScreen: start screensharing")
-            screenShareCapturerManager.startForeground()
-            if (screenCapturer == null) {
-                Log.d(TAG, "shareScreen: screen capture null")
-                val mediaProjectionManager =
-                    getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
-                // startActivityForResult(mediaProjectionManager.createScreenCaptureIntent(),100)
-                resultLauncher.launch(mediaProjectionManager.createScreenCaptureIntent())
+            if (CurrentMeetingDataSaver.getScreenSharingStatus()) {
+                showToast(this, getString(R.string.txt_screen_sharing_stopped))
+                viewModel.setScreenSharingStatus(true, onResult = {action, data ->  })
+                CurrentMeetingDataSaver.setScreenSharingStatus(false)
+                // screenShareCapturerManager.endForeground()
+                screenShareCapturerManager.unbindService()
+                Log.d(TAG, "shareScreen: stoped capturing")
+                currentRemoteVideoTrack?.removeSink(binding.primaryVideoView)
+                localParticipant?.unpublishTrack(currentLocalVideoTrack!!)
+                localParticipant?.publishTrack(localVideoTrack!!)
+                viewModel.setLocalVideoTrack(localVideoTrack!!, false)
+
+                // setCameraToLocalVideoTrack()
             } else {
+                showToast(this, getString(R.string.txt_screen_sharing_started))
+                Log.d(TAG, "shareScreen: start screensharing")
+                screenShareCapturerManager.startForeground()
+                if (screenCapturer == null) {
+                    Log.d(TAG, "shareScreen: screen capture null")
+                    val mediaProjectionManager =
+                        getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
+                    // startActivityForResult(mediaProjectionManager.createScreenCaptureIntent(),100)
+                    resultLauncher.launch(mediaProjectionManager.createScreenCaptureIntent())
+                } else {
 
-                val mediaProjectionManager =
-                    getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
-                resultLauncher.launch(mediaProjectionManager.createScreenCaptureIntent())
+                    val mediaProjectionManager =
+                        getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
+                    resultLauncher.launch(mediaProjectionManager.createScreenCaptureIntent())
 
-                Log.d(TAG, "shareScreen: screen capture  null capturing start")
-               // startScreenCapture()
+                    Log.d(TAG, "shareScreen: screen capture  null capturing start")
+                    // startScreenCapture()
+                }
             }
-        }
 
+        }catch (e:Exception)
+        {
+            Log.d(TAG, "shareScreen: screen share exeception ${e.message}")
+        }
+        
+      
+
+        
+        
     }
 
 
