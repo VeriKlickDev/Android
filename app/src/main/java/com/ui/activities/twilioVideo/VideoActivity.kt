@@ -1928,7 +1928,6 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
         addRemoteParticipant(participant!!)
 
-
         // participant.videoTracks.firstOrNull()?.videoTrack?.addSink(binding.videoviewtesting)
         /* room.remoteParticipants.firstOrNull()?.let {
              videoTrackList.add(it)
