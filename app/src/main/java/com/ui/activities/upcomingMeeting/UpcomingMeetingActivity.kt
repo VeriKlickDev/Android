@@ -205,7 +205,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         binding.btnCross.setOnClickListener {
             pageno = 1
             meetingsList.clear()
-            searchTxt = ""
+            //searchTxt = ""
             status = "schedule"
             handleUpcomingMeetingsList(7, 1, 9)
             binding.etSearch.setText("")

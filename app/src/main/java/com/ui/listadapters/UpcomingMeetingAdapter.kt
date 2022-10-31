@@ -130,7 +130,7 @@ class UpcomingMeetingAdapter(
                     binding.btnFeedback.isEnabled = true
                     binding.btnFeedback.background = ContextCompat.getDrawable(
                         binding.btnFeedback.context,
-                        R.drawable.shape_rectangle_rounded_light_grey
+                        R.drawable.shape_rectangle_rounded_light_green
                     )
                     binding.btnFeedback.text = "Feedback"
                 }

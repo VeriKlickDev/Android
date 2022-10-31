@@ -440,12 +440,12 @@ class ActivityFeedBackForm : AppCompatActivity() {
             binding.spinnerInterviewRemark.adapter = spinnerAdapter
             spinnerAdapter.notifyDataSetChanged()
 
-
             if (!data.CandidateAssessmentSkills.isNullOrEmpty())
                 if (data.CandidateAssessmentSkills[0].Catagory!=null && !data.CandidateAssessmentSkills[0].Catagory.equals("null") )
                 {
                     skillsList.addAll(data.CandidateAssessmentSkills)
-                }else
+                }
+                else
                 {
                     skillsList.addAll(data.assessSkills)
                 }
