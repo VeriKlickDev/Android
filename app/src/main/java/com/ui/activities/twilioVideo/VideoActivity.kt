@@ -171,7 +171,6 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         //Log.d("checkobj", "onCreate: ${CurrentMeetingDataSaver.getData()}")
         binding.btnEndCall.setOnClickListener {
         endCall()
-
         }
 
         binding.localVideoActionFab.setOnClickListener {
@@ -342,7 +341,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
         private fun endCall(){
 
-            meetingManager.unbindService()
+          //  meetingManager.unbindService()
             meetingManager.endForeground()
 
             localVideoTrack?.let { localParticipant?.unpublishTrack(it) }
