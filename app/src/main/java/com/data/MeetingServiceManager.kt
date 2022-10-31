@@ -1,4 +1,4 @@
-package com.ui.activities.twilioVideo.ScreenSharingCapturing
+package com.data
 
 import android.content.ComponentName
 import android.content.Context
@@ -8,10 +8,10 @@ import android.os.IBinder
 import android.util.Log
 import com.data.dataHolders.CurrentMeetingDataSaver
 
-class ScreenShareCapturerManager {
-    private var mService: ScreenSharingService? = null
+class MeetingServiceManager {
+    private var mService: MeetingService? = null
     private var mContext: Context? = null
-    private var currentState =ScreenCapturerManagerState.UNBIND_SERVICE
+    private var currentState =MeetingServiceManagerState.UNBIND_SERVICE
 
     private val connection: ServiceConnection = object : ServiceConnection {
 
@@ -19,9 +19,9 @@ class ScreenShareCapturerManager {
             // We've bound to ScreenCapturerService, cast the IBinder and get
             // ScreenCapturerService instance
             Log.d("checkService", "onServiceConnected: started")
-            val binder = service as ScreenSharingService.LocalBinder
+            val binder = service as MeetingService.LocalBinder
             mService = binder.getService()
-            currentState = ScreenCapturerManagerState.BIND_SERVICE
+            currentState = MeetingServiceManagerState.BIND_SERVICE
         }
 
         override fun onServiceDisconnected(arg0: ComponentName) {
@@ -30,10 +30,7 @@ class ScreenShareCapturerManager {
         }
     }
 
-
-
-
-    fun ScreenCapturerManager(context: Context) {
+    fun meetingManager(context: Context) {
         mContext = context
         bindService()
     }
@@ -47,7 +44,7 @@ class ScreenShareCapturerManager {
             Log.d("checkService", "bindService: context not null")
         }
 
-        val intent = Intent(mContext, ScreenSharingService::class.java)
+        val intent = Intent(mContext, MeetingServiceManager::class.java)
         Log.d("checkService", "onServiceConnected: bind method")
         mContext!!.bindService(intent, connection, Context.BIND_AUTO_CREATE)
     }
@@ -58,7 +55,7 @@ class ScreenShareCapturerManager {
             it.startForeground()
             Log.d("checkService", "onServiceConnected: started forground")
         }
-        currentState = ScreenCapturerManagerState.START_FOREGROUND
+        currentState = MeetingServiceManagerState.START_FOREGROUND
     }
 
     fun getServiceState()=currentState
@@ -68,8 +65,8 @@ class ScreenShareCapturerManager {
         mService?.let {
          it.endForeground()
         }
-        CurrentMeetingDataSaver.setScreenSharingStatus(false)
-        currentState = ScreenCapturerManagerState.END_FOREGROUND
+
+        currentState = MeetingServiceManagerState.END_FOREGROUND
     }
 
     fun unbindService() {
@@ -77,13 +74,13 @@ class ScreenShareCapturerManager {
         mContext?.let {
             it.unbindService(connection)
         }
-        currentState = ScreenCapturerManagerState.UNBIND_SERVICE
+        currentState = MeetingServiceManagerState.UNBIND_SERVICE
     }
     
 
 
 }
 
-enum class ScreenCapturerManagerState {
+enum class MeetingServiceManagerState {
     BIND_SERVICE, START_FOREGROUND, END_FOREGROUND, UNBIND_SERVICE
 }

@@ -144,6 +144,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
     private lateinit var currentRemoteParticipant: RemoteParticipant
     private lateinit var screenShareTrack: LocalVideoTrack
     private lateinit var screenShareCapturerManager: ScreenShareCapturerManager
+    private lateinit var meetingManager: MeetingServiceManager
     private var screenCapturer: ScreenCapturer? = null
 
 
@@ -160,7 +161,10 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 //        viewModel = ViewModelProvider(this).get(VideoViewModel::class.java)
         actionBar?.hide()
         screenShareCapturerManager = ScreenShareCapturerManager()
+        meetingManager= MeetingServiceManager()
+
         screenShareCapturerManager.ScreenCapturerManager(this)
+        meetingManager.meetingManager(this)
         //   primaryVideoView=findViewById(R.id.primary_video_view)
         //  thumbnailVideoView=findViewById(R.id.thumbnail_video_view)
 
@@ -257,7 +261,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         }
 
         initializeUI()
-
+        meetingManager.startForeground()
         Handler(Looper.getMainLooper()).postDelayed(kotlinx.coroutines.Runnable {
             connectToRoom()
 //            room = TwilioHelper.getRoomInstance()
@@ -338,8 +342,11 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
         private fun endCall(){
 
+            meetingManager.unbindService()
+            meetingManager.endForeground()
+
             localVideoTrack?.let { localParticipant?.unpublishTrack(it) }
-            screenShareCapturerManager.unbindService()
+           // screenShareCapturerManager.unbindService()
             screenShareCapturerManager.endForeground()
            // localVideoTrack!!.release()
             TwilioHelper.disConnectRoom()
@@ -1429,6 +1436,8 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 audioc!!,
                 videoc!!
             )
+
+            Log.d(TAG, "connectToRoom: connect to room service ${meetingManager.getServiceState()}")
             Log.d(TAG, "onCreate: sid is ${TwilioHelper.getRoomInstance()?.sid}")
         } else {
 
@@ -1825,6 +1834,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
     override fun onParticipantConnect(room: Room) {
         try {
+            Log.d(TAG, "connectToRoom: participant connected service ${meetingManager.getServiceState()}")
             this.room = room
             Log.d(TAG, "onParticipantConnect: room sid is ${room.sid}")
             localParticipant = room.localParticipant
@@ -2449,7 +2459,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             viewModel.setScreenSharingStatus(true, onResult = {action, data ->  })
             CurrentMeetingDataSaver.setScreenSharingStatus(false)
            // screenShareCapturerManager.endForeground()
-           // screenShareCapturerManager.unbindService()
+            screenShareCapturerManager.unbindService()
             Log.d(TAG, "shareScreen: stoped capturing")
             currentRemoteVideoTrack?.removeSink(binding.primaryVideoView)
             localParticipant?.unpublishTrack(currentLocalVideoTrack!!)
@@ -2460,7 +2470,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         } else {
             showToast(this, getString(R.string.txt_screen_sharing_started))
             Log.d(TAG, "shareScreen: start screensharing")
-            //screenShareCapturerManager.startForeground()
+            screenShareCapturerManager.startForeground()
             if (screenCapturer == null) {
                 Log.d(TAG, "shareScreen: screen capture null")
                 val mediaProjectionManager =
@@ -2480,13 +2490,13 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
     }
 
-    private var mediaProjectionActivityResult:ActivityResult?=null
+
     var resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 // There are no request codes
                 val data: Intent? = result.data
-                mediaProjectionActivityResult=result
+
                 showToast(this, getString(R.string.txt_permissionScreenSharingGranted))
 
                 screenCapturer = ScreenCapturer(

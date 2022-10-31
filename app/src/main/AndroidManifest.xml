@@ -99,6 +99,12 @@
             android:enabled="true"
             android:foregroundServiceType="mediaProjection" />
 
+        <service
+            android:name="com.data.MeetingService"
+            android:enabled="true"
+            android:foregroundServiceType="mediaPlayback" />
+
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.twillioproject.provider"

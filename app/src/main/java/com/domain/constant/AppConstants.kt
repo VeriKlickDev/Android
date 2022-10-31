@@ -28,6 +28,9 @@ object AppConstants {
     const val CHANNEL_ID= "screen_capture"
     const val CHANNEL_NAME= "screen_capture"
 
+    const val MEETING_CHANNEL_ID= "meeting_channel_id"
+    const val MEETING_CHANNEL_NAME= "veriklick_meeting_channel"
+
     const val LOGIN_WITH_OTP= "login_with_otp"
     const val LOGGED_WITH_OTP= "login_with_otp"
     const val CANDIDATE_ID= "candidate_id"
