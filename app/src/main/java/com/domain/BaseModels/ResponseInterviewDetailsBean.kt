@@ -14,21 +14,21 @@ data class APIResponse (
 
 data class Candidate (
 
-	@SerializedName("firstName") val firstName : String,
-	@SerializedName("lastName") val lastName : String,
-	@SerializedName("emailId") val emailId : String,
-	@SerializedName("contactNumber") val contactNumber : String,
-	@SerializedName("Countrycode") val countrycode : Int,
-	@SerializedName("UserProfileURL") val userProfileURL : String,
-	@SerializedName("videoAccessCode") val videoAccessCode : String,
-	@SerializedName("videoAccessURL") val videoAccessURL : String,
-	@SerializedName("MSTeamsvideoAccessURL") val mSTeamsvideoAccessURL : String,
-	@SerializedName("IsPresenter") val isPresenter : Boolean,
-	@SerializedName("licenseFrontImagePath") val licenseFrontImagePath : String,
-	@SerializedName("InterviewerTimezone") val interviewerTimezone : String,
-	@SerializedName("EmailAcceptanceStatus") val emailAcceptanceStatus : Int,
-	@SerializedName("InterviewerId") val interviewerId : Int,
-	@SerializedName("ResumePath") val ResumePath : String
+	@SerializedName("firstName") val firstName : String?=null,
+	@SerializedName("lastName") val lastName : String?=null,
+	@SerializedName("emailId") val emailId : String?=null,
+	@SerializedName("contactNumber") val contactNumber : String?=null,
+	@SerializedName("Countrycode") val countrycode : Int?=null,
+	@SerializedName("UserProfileURL") val userProfileURL : String?=null,
+	@SerializedName("videoAccessCode") val videoAccessCode : String?=null,
+	@SerializedName("videoAccessURL") val videoAccessURL : String?=null,
+	@SerializedName("MSTeamsvideoAccessURL") val mSTeamsvideoAccessURL : String?=null,
+	@SerializedName("IsPresenter") val isPresenter : Boolean?=null,
+	@SerializedName("licenseFrontImagePath") val licenseFrontImagePath : String?=null,
+	@SerializedName("InterviewerTimezone") val interviewerTimezone : String?=null,
+	@SerializedName("EmailAcceptanceStatus") val emailAcceptanceStatus : Int?=null,
+	@SerializedName("InterviewerId") val interviewerId : Int?=null,
+	@SerializedName("ResumePath") val ResumePath : String?=null
 )
 
 

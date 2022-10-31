@@ -247,7 +247,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
         {
             binding.recommendationError.isVisible=false
 
-            Log.d(TAG, "postData: check all data  appliedpos $appliedPosition recomm $recommendationSelected designation $designation intername $interviewName candidId $candidateId ")
+            Log.d(TAG, "postData: check all data  appliedpos $appliedPosition recomm $recommendationSelected designation $designation intername $interviewName candidId $candidateId CANDIDATENAME ${CurrentMeetingDataSaver.getData().interviewModel?.candidate?.firstName+ CurrentMeetingDataSaver.getData().interviewModel?.candidate?.lastName} ")
             Log.d(TAG, "postData: check all data  appliedpos skillist $skillist , skillslist $skillsList remarklist $remarkList")
 
             viewModel.sendFeedback(this,appliedPosition,recommendationSelected!!,designation,interviewName,candidateId,BodyFeedBack(

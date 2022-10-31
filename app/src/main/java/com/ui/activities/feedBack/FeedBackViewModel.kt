@@ -84,7 +84,7 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
                     }
 
                     //
-                    obj.CandidateAssessment?.CandidateName = interviewName
+                    obj.CandidateAssessment?.CandidateName = "${CurrentMeetingDataSaver.getData().interviewModel?.candidate?.firstName} ${CurrentMeetingDataSaver.getData().interviewModel?.candidate?.lastName}"
                     obj.CandidateAssessment?.Date = context.getCurrentUtcFormatedDate()
                     obj.CandidateAssessment?.AppliedPostion = appliedPosition
                     obj.CandidateAssessment?.VIDEOCALLACCESSCODE =

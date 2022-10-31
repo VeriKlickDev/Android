@@ -26,10 +26,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.data.*
 import com.data.dataHolders.*
 import com.data.helpers.TwilioHelper
-import com.domain.BaseModels.BodyScheduledMeetingBean
-import com.domain.BaseModels.InterviewModel
-import com.domain.BaseModels.NewInterviewDetails
-import com.domain.BaseModels.ResponseInterViewDetailsBean
+import com.domain.BaseModels.*
 import com.domain.constant.AppConstants
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityUpcomingMeetingBinding
@@ -533,7 +530,8 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     CurrentMeetingDataSaver.setData(
                         ResponseInterViewDetailsBean(
                             interviewModel = InterviewModel(
-                                candidateId = data.candidateId!!
+                                candidateId = data.candidateId!!,
+                                candidate = Candidate(firstName = data.candidateFirstName, lastName = data.candidateLastName)
                             ),
                             videoAccessCode = videoAccessCode,
                             interviewTimezone = data.interviewTimezone
