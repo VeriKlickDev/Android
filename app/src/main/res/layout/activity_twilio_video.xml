@@ -183,7 +183,7 @@
                     android:paddingVertical="@dimen/_5sp"
                     android:orientation="vertical"
                     android:paddingHorizontal="@dimen/_10sp"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <LinearLayout
                         android:layout_width="wrap_content"

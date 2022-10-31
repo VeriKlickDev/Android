@@ -21,6 +21,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -273,6 +274,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         ) {
 
             binding.btnFeedback.isVisible=false
+            binding.btnRecording.isVisible=false
             Log.d("videocheck", "onCreate: you")
             binding.tvUsername.text =
                 CurrentMeetingDataSaver.getData().interviewerFirstName + " (You)"
@@ -282,11 +284,14 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         } else { //working
             if (CurrentMeetingDataSaver.getData().isPresenter==true)
             {
-                binding.btnFeedback.isVisible=true
+              //  binding.btnFeedback.isVisible=true
             }else
             {
-                binding.btnFeedback.isVisible=false
+               // binding.btnFeedback.isVisible=false
             }
+            binding.btnFeedback.isVisible=true
+            binding.btnRecordVideo.isVisible=true
+
             currentLoggedUser.users?.forEach {
                 if (it.userType.trim().lowercase().equals("C".trim().lowercase())) {
                     binding.tvUsername.text = it.userFirstName + " " + it.userLastName
@@ -2442,19 +2447,20 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         if (CurrentMeetingDataSaver.getScreenSharingStatus()) {
             showToast(this, getString(R.string.txt_screen_sharing_stopped))
             viewModel.setScreenSharingStatus(true, onResult = {action, data ->  })
-
-            screenShareCapturerManager.endForeground()
+            CurrentMeetingDataSaver.setScreenSharingStatus(false)
+           // screenShareCapturerManager.endForeground()
            // screenShareCapturerManager.unbindService()
-
+            Log.d(TAG, "shareScreen: stoped capturing")
             currentRemoteVideoTrack?.removeSink(binding.primaryVideoView)
             localParticipant?.unpublishTrack(currentLocalVideoTrack!!)
             localParticipant?.publishTrack(localVideoTrack!!)
             viewModel.setLocalVideoTrack(localVideoTrack!!, false)
+
             // setCameraToLocalVideoTrack()
         } else {
             showToast(this, getString(R.string.txt_screen_sharing_started))
             Log.d(TAG, "shareScreen: start screensharing")
-            screenShareCapturerManager.startForeground()
+            //screenShareCapturerManager.startForeground()
             if (screenCapturer == null) {
                 Log.d(TAG, "shareScreen: screen capture null")
                 val mediaProjectionManager =
@@ -2462,25 +2468,34 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 // startActivityForResult(mediaProjectionManager.createScreenCaptureIntent(),100)
                 resultLauncher.launch(mediaProjectionManager.createScreenCaptureIntent())
             } else {
+
+                val mediaProjectionManager =
+                    getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
+                resultLauncher.launch(mediaProjectionManager.createScreenCaptureIntent())
+
                 Log.d(TAG, "shareScreen: screen capture  null capturing start")
-                startScreenCapture()
+               // startScreenCapture()
             }
         }
 
     }
 
+    private var mediaProjectionActivityResult:ActivityResult?=null
     var resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 // There are no request codes
                 val data: Intent? = result.data
+                mediaProjectionActivityResult=result
                 showToast(this, getString(R.string.txt_permissionScreenSharingGranted))
+
                 screenCapturer = ScreenCapturer(
                     this@VideoActivity,
                     result.resultCode,
                     data!!,
                     screenCapturerListener
                 )
+
                 startScreenCapture()
                 Log.d(TAG, "start recording listener: ")
             } else {
@@ -2494,7 +2509,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         // setAllSinkRemove()
         // setBlankBackground(false)
 
-        screenShareTrack = LocalVideoTrack.create(this, true, screenCapturer!!)!!
+            screenShareTrack = LocalVideoTrack.create(this, true, screenCapturer!!)!!
+
+        //screenShareTrack = LocalVideoTrack.create(this, true, screenCapturer!!)!!
         screenShareTrack.enable(true)
     }
 

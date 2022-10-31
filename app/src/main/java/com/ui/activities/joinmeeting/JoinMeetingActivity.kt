@@ -113,10 +113,10 @@ class JoinMeetingActivity :AppCompatActivity() {
                 401->{
                     dismissProgressDialog()
                     showToast(this,data?.aPIResponse?.message!!)
-                   /* data.videoAccessCode=accessCode
+                    data.videoAccessCode=accessCode
                     CurrentMeetingDataSaver.setData(data!!)
                     joinMeetingCandidate(accessCode)
-                    CurrentMeetingDataSaver.setData(data)*/
+                    CurrentMeetingDataSaver.setData(data)
                     Log.d(TAG, "getInterviewDetails: user response $data")
                 }
             }
