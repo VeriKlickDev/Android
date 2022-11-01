@@ -59,7 +59,7 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
 
     }
 
-    fun sendFeedback(context: Context,appliedPosition:String,recommendation:String,designation:String,interviewName:String,candidateId:Int, obj:BodyFeedBack,skillsListRes:ArrayList<AssessSkills>,remarkList:ArrayList<InterviewerRemark>, onDataResponse:(data: ResponseBodyFeedBack?, status:Int)->Unit) {
+    fun sendFeedback(context: Context,appliedPosition:String,recommendation:String,designation:String,interviewName:String,candidateId:Int,remarktxt:String, obj:BodyFeedBack,skillsListRes:ArrayList<AssessSkills>,remarkList:ArrayList<InterviewerRemark>, onDataResponse:(data: ResponseBodyFeedBack?, status:Int)->Unit) {
         viewModelScope.launch {
             try {
                 CoroutineScope(Dispatchers.IO).launch {
@@ -72,16 +72,24 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
                         )
                     )
 
-                    obj.CandidateAssessment?.Recommendation = recommendation
-                        obj?.CandidateAssessment?.Remark=remarkList
-                    obj?.CandidateAssessment?.Skills=skillsListRes
-                    CurrentUpcomingMeetingData.getData()?.let {
-                        obj.RecruiterId=it.interviewId.toString()
-                    }
+                    //obj.CandidateAssessment?.Recommendation = recommendation
 
+                        obj?.CandidateAssessment?.Remark=remarkList
+
+                    obj.CandidateAssessment?.Recommendation=remarktxt
+                    obj.CandidateAssessment?.Comments=recommendation
+
+                    obj?.CandidateAssessment?.Skills=skillsListRes
+
+                    /* CurrentUpcomingMeetingData.getData()?.let {
+                        obj.RecruiterId=it.interviewId.toString()
+                    }*/
+
+                    obj.RecruiterId=    DataStoreHelper.getMeetingRecruiterid()
+                    /*
                     CurrentMeetingDataSaver.getData().interviewModel?.interviewId?.let {
                         obj.RecruiterId=it.toString()
-                    }
+                    }*/
 
                     //
                     obj.CandidateAssessment?.CandidateName = "${CurrentMeetingDataSaver.getData().interviewModel?.candidate?.firstName} ${CurrentMeetingDataSaver.getData().interviewModel?.candidate?.lastName}"

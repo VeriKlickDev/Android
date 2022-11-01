@@ -238,6 +238,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
         val skillist= ArrayList<CandidateAssessmentSkills>()
         skillsAdapter.getFeedBackList().forEach {
             skillist.add(CandidateAssessmentSkills(it.CandidateAssessmentSkillsId,it.CandidateAssessmentId,it.Comments,it.Ratings?.toInt(),it.Catagory,it.ManualCatagory,it.CandiateAssessment))
+            Log.d(TAG, "postData: check all data  appliedpos skillist assesment Id ${it.CandidateAssessmentId}  ${it.CandiateAssessment} ")
         }
 
         Log.d(TAG, "postData: list data is $skillist")
@@ -247,10 +248,10 @@ class ActivityFeedBackForm : AppCompatActivity() {
         {
             binding.recommendationError.isVisible=false
 
-            Log.d(TAG, "postData: check all data  appliedpos $appliedPosition recomm $recommendationSelected designation $designation intername $interviewName candidId $candidateId CANDIDATENAME ${CurrentMeetingDataSaver.getData().interviewModel?.candidate?.firstName+ CurrentMeetingDataSaver.getData().interviewModel?.candidate?.lastName} ")
-            Log.d(TAG, "postData: check all data  appliedpos skillist $skillist , skillslist $skillsList remarklist $remarkList")
+          //  Log.d(TAG, "postData: check all data  appliedpos $appliedPosition recomm $recommendationSelected designation $designation intername $interviewName candidId $candidateId CANDIDATENAME ${CurrentMeetingDataSaver.getData().interviewModel?.candidate?.firstName+ CurrentMeetingDataSaver.getData().interviewModel?.candidate?.lastName} ")
 
-            viewModel.sendFeedback(this,appliedPosition,recommendationSelected!!,designation,interviewName,candidateId,BodyFeedBack(
+
+            viewModel.sendFeedback(this,appliedPosition,recommendationSelected!!,designation,interviewName,candidateId,binding.etRemart.text.toString(),BodyFeedBack(
                 CandidateAssessmentSkills=skillist,
             ),skillsListres,remarkList, onDataResponse = {data, status ->
                 when(status)
@@ -259,9 +260,6 @@ class ActivityFeedBackForm : AppCompatActivity() {
                         
                     }
                     200 -> {
-                        val intent= Intent(this, ActivityFeedBackForm::class.java)
-                        startActivity(intent)
-                        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
                         showToast(this,data?.aPIResponse?.message!!)
                         finish()
                     }

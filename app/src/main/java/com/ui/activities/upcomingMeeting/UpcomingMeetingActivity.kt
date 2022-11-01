@@ -205,7 +205,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         binding.btnCross.setOnClickListener {
             pageno = 1
             meetingsList.clear()
-            //searchTxt = ""
+            searchTxt = ""
             status = "schedule"
             handleUpcomingMeetingsList(7, 1, 9)
             binding.etSearch.setText("")
@@ -612,7 +612,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     }
 
     fun handleJoin(data: NewInterviewDetails, videoAccessCode: String) {
-        Log.d(TAG, "handleJoin: on clicked ${data.VideoCallAccessCode}")
+        Log.d(TAG, "handleJoin: on clicked ${data.VideoCallAccessCode} videocode $videoAccessCode")
         //getInterviewDetails()
         if (checkInternet()) {
             accessCode = videoAccessCode
@@ -683,10 +683,10 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 }
                 401 -> {
                     dismissProgressDialog()
-                    /*data?.videoAccessCode=accessCode //remove all code
+                    data?.videoAccessCode=accessCode //remove all code
                     CurrentMeetingDataSaver.setData(data!!)
                     joinMeeting(accessCode)
-                    CurrentMeetingDataSaver.setData(data)*/
+                    CurrentMeetingDataSaver.setData(data)
                 }
             }
         })

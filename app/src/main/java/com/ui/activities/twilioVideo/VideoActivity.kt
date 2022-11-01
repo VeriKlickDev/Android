@@ -277,7 +277,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         ) {
 
             binding.btnFeedback.isVisible=false
-            binding.btnRecording.isVisible=false
+            binding.btnRecordVideo.isVisible=false
             Log.d("videocheck", "onCreate: you")
             binding.tvUsername.text =
                 CurrentMeetingDataSaver.getData().interviewerFirstName + " (You)"
@@ -561,9 +561,6 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                     if (it.remoteParticipant?.identity.equals(CurrentMeetingDataSaver.getData().identity!!)) {
                         currentRemoteVideoTrack = it.videoTrack
                         currentRemoteVideoTrack!!.addSink(binding.primaryVideoView)
-                        viewModel.setCandidateJoinedStatus { action, data ->
-                            Log.d(TAG, "handleObserver: candidate joined status $action")
-                        }
                         binding.tvUsername.isVisible = true
                         binding.tvUsername.text = it.userName
                     }
@@ -1835,7 +1832,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
     override fun onParticipantConnect(room: Room) {
         try {
-
+        room.remoteParticipants[0].identity
             meetingManager.startForeground()
 
             Log.d(TAG, "connectToRoom: participant connected service ${meetingManager.getServiceState()}")
@@ -1851,6 +1848,12 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 TAG,
                 "onParticipantConnect: connect in connected  ${room.localParticipant?.identity}"
             )
+            if(CurrentMeetingDataSaver.getData().userType!!.contains("C"))
+            {
+                viewModel.setCandidateJoinedStatus { action, data ->
+                    Log.d(TAG, "handleObserver: candidate joined status $action")
+                }
+            }
 
             remoteParticipantVideoListWithCandidate.add(
                 VideoTracksBean(

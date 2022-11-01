@@ -49,9 +49,11 @@ class JoinMeetingActivity :AppCompatActivity() {
 
                     accessCode= accessCodeSplit.last()
                     Log.d(TAG, "onCreate: accessCode is $accessCode")
-                    //https://ui2.veriklick.in/video-session/PjcjXhZvePAFGs5G23yQ
-                    //getInterviewDetails("PjcjXhZvePAFGs5G23yQ")
-                    getInterviewDetails(accessCode)
+                    //host https://ui2.veriklick.in/video-session/qcBO3jG4ZqQgQngoRfnJ
+                    //candidate https://ui2.veriklick.in/video-session/FiRphcO7Xd4mpGRerHk9
+                    //interviewer https://ui2.veriklick.in/video-session/eraKfVoTpG3iHgvEdfmK
+                    getInterviewDetails("FiRphcO7Xd4mpGRerHk9")
+                    //getInterviewDetails(accessCode)
                     //  showToast(this,"Under Development")
                     hideKeyboard(this)
                 }else
@@ -99,7 +101,7 @@ class JoinMeetingActivity :AppCompatActivity() {
                     showToast(this,data?.aPIResponse?.message!!)
                     data.videoAccessCode=accessCode
                     //showToast(this, "null values")
-                   /* data?.let { CurrentMeetingDataSaver.setData(it) }
+                  /*  data?.let { CurrentMeetingDataSaver.setData(it) }
                     joinMeetingCandidate(accessCode)*/
                     Log.d(TAG, "getInterviewDetails: user response $data")
                 }

@@ -278,7 +278,6 @@ class ActivityAddParticipant : AppCompatActivity() {
                     binding.invitationProgress.isVisible=false
                 }
             }
-
         })
     }
 

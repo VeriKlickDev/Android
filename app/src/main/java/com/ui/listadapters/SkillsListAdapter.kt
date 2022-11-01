@@ -38,7 +38,6 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
 
         }
 
-
         holder.binding.btnRemoveSkill.isVisible = list[position].value.equals("others")
     }
 
@@ -57,7 +56,7 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
             binding.etTitle.setText(data.ManualCatagory)
             //
 
-            Log.d(TAG, "dataBind: id is ${data.Id} ")
+            Log.d(TAG, "dataBind: id is ${data.Id} assment id ${data.CandidateAssessmentId} ")
 
             Log.d("checkdataa", "dataBind: checking value ${data.value} cat ${data.Catagory} comm ${data.Comments} ")
 
@@ -132,7 +131,6 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
                 binding.tvSkills.setText(data.value)
                 Log.d(TAG, "dataBind: catagory is  null")
             }
-
             //data.Catagory=data.value
         }
     }

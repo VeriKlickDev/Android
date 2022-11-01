@@ -41,6 +41,7 @@ class UpcomingMeetingAdapter(
             data.interviewerList.get(0).toString(),
             Array<InterViewersListModel>::class.java
         )
+
         val videoAccessCode = ob.firstOrNull()?.VideoCallAccessCode?.replace("/", "")
         Log.d("checkvideocode", "handleObserver:  video code in list ${videoAccessCode} ")
 
