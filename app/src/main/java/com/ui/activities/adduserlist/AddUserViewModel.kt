@@ -55,7 +55,7 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
             try {
                 val interviewList= arrayListOf<AddInterviewerList>()
                 list.forEach {
-                    interviewList.add(AddInterviewerList(firstName = it.firstName, lastName = it.lastName, emailId = it.email, contactNumber = it.phone, isPresenter = false, InterviewerTimezone = it.InterviewerTimezone))
+                    interviewList.add(AddInterviewerList(firstName = it.firstName, lastName = it.lastName, emailId = it.email, contactNumber = it.phone, isPresenter = false))//, InterviewerTimezone = it.InterviewerTimezone))
                 }
 
                 Log.d(TAG, "sendInvitationtoUsers: viewmodel interview list timezone $interviewList")

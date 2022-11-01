@@ -109,6 +109,10 @@ class RepositoryImpl  @Inject constructor(val baseRestApi: BaseRestApi,val login
         return baseRestApi.getScheduledMeetingsListwithOtp(ob)
     }
 
+    override suspend fun setCandidateJoinMeetingStatus(ob: BodyCandidateJoinedMeetingStatus): Response<ResponseCandidateJoinedMeetingStatus> {
+        return baseRestApi.setCandidateJoinMeetingStatus(ob)
+    }
+
     /* override suspend fun setScreenSharingStatus(obj: BodyUpdateScreenShareStatus): Response<ResponseScreenSharingStatus> {
          return baseRestApi.setScreenSharingStatus(obj)
      }*/

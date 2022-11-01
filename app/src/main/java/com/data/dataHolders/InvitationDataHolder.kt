@@ -108,7 +108,7 @@ data class InvitationDataModel(
     var lastName: String = "",
     var email: String = "",
     var phone: String = "",
-    var InterviewerTimezone: String? = null
+   // var InterviewerTimezone: String? = null
 )
 
 /*

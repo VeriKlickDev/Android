@@ -77,6 +77,9 @@ interface BaseRestApi {
     @POST("/api/ScheduleVideo/GetInterviewByRecruiterForMobile")
     suspend fun getScheduledMeetingsListwithOtp(@Body ob: BodyScheduledMeetingBean):Response<ResponseScheduledMeetingBean>
 
+    @POST("/api/ScheduleVideo/Updatestatusofvideoscheduled")
+    suspend fun setCandidateJoinMeetingStatus(@Body ob: BodyCandidateJoinedMeetingStatus):Response<ResponseCandidateJoinedMeetingStatus>
+
 
 }
 

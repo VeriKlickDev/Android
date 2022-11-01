@@ -268,6 +268,37 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
         }
     }
 
+
+    fun setCandidateJoinedStatus(onResult: (action: Int, data: ResponseCandidateJoinedMeetingStatus?) -> Unit)
+    {
+        try {
+            viewModelScope.launch {
+                val result = repositoryImpl.setCandidateJoinMeetingStatus(
+                    BodyCandidateJoinedMeetingStatus(CurrentMeetingDataSaver.getData().videoAccessCode,"Attended",CurrentMeetingDataSaver.getData().interviewModel?.subscriberid)
+                )
+                if (result.isSuccessful) {
+                    if (result.body() != null) {
+                        onResult(200, result.body()!!)
+                    }
+                    else {
+                        onResult(400, result.body()!!)
+                    }
+                }
+                else {
+                    onResult(404, result.body()!!)
+                }
+            }
+        } catch (e: Exception) {
+            onResult(500, null)
+        }
+    }
+
+
+
+
+
+
+
     fun getMuteStatus(
         accessCode: String,
         onResult: (action: Int, data: ResponseMuteUmnute?) -> Unit

@@ -400,7 +400,6 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
     var currentLocalVideoTrack: LocalVideoTrack? = null
     private fun handleObserver() {
 
-
         viewModel.micStatus.observe(this, Observer {
             Log.d(TAG, "handleObserver: check mic ${it} ")
 
@@ -562,6 +561,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                     if (it.remoteParticipant?.identity.equals(CurrentMeetingDataSaver.getData().identity!!)) {
                         currentRemoteVideoTrack = it.videoTrack
                         currentRemoteVideoTrack!!.addSink(binding.primaryVideoView)
+                        viewModel.setCandidateJoinedStatus { action, data ->
+                            Log.d(TAG, "handleObserver: candidate joined status $action")
+                        }
                         binding.tvUsername.isVisible = true
                         binding.tvUsername.text = it.userName
                     }

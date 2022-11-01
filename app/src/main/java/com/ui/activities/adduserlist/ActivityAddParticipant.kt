@@ -31,7 +31,7 @@ class ActivityAddParticipant : AppCompatActivity() {
         val randomStr=UUID.randomUUID()
 
 
-        interviewList.add(InvitationDataModel(uid = randomStr.toString(), InterviewerTimezone = CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone.toString()))
+        interviewList.add(InvitationDataModel(uid = randomStr.toString()))//, InterviewerTimezone = CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone.toString()))
 
         Log.d(TAG, "onCreate: interviewtimezone ${CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone}")
 
@@ -204,7 +204,7 @@ class ActivityAddParticipant : AppCompatActivity() {
 
     fun addFilledDataList(obj: InvitationDataModel)
     {
-        Log.d(TAG, "addFilledDataList:  timezone is ${obj.InterviewerTimezone}")
+        //Log.d(TAG, "addFilledDataList:  timezone is ${obj.InterviewerTimezone}")
         invitationList.add(obj)
     }
 
@@ -287,8 +287,8 @@ class ActivityAddParticipant : AppCompatActivity() {
     private fun addNewInterViewer(interviewerCount: Int)  {
         val randomStr=UUID.randomUUID()
 //        InvitationDataHolder.setItem(InvitationDataModel(uid = randomStr.toString(), index = -1))
-
-        val element = InvitationDataModel(uid = randomStr.toString(), InterviewerTimezone =CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone.toString())
+        //, InterviewerTimezone =CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone.toString()
+        val element = InvitationDataModel(uid = randomStr.toString())
         interviewList.add(element)
        // InvitationDataHolder.setItemToList(InvitationDataModel(uid = randomStr.toString() , index = interviewList.size-1))
         adapter.notifyItemInserted(interviewList.indexOf(element))

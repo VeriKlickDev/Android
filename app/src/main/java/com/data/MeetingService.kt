@@ -55,7 +55,8 @@ class MeetingService : Service() {
         )
 
         val videoScreenIntent=Intent(applicationContext,VideoActivity::class.java)
-
+        videoScreenIntent?.setAction(Intent.ACTION_MAIN)
+        videoScreenIntent?.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         val pendingIntent=PendingIntent.getActivity(applicationContext,10110,videoScreenIntent,PendingIntent.FLAG_MUTABLE)
 
 
