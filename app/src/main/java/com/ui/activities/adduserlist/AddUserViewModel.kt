@@ -87,6 +87,7 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
                 Log.d(TAG, "sendInvitationtoUsers: data here $participantObj")
                 participantObj.CandidateId=CurrentMeetingDataSaver.getData().interviewModel?.candidateId
                 participantObj.Subscriberid=DataStoreHelper.getMeetingUserId()
+
                 val result = repo.sendInvitation(participantObj)
                 Log.d(TAG, "sendInvitationtoUsers: result ${result.body()}  code ${result.code()}   error ${result.errorBody()}")
 

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.data.dataHolders.CurrentMeetingDataSaver
+import com.data.dataHolders.DataStoreHelper
 import com.data.dataHolders.VideoRecordingStatusHolder
 import com.data.helpers.TwilioHelper
 import com.data.repositoryImpl.RepositoryImpl
@@ -274,7 +275,7 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
         try {
             viewModelScope.launch {
                 val result = repositoryImpl.setCandidateJoinMeetingStatus(
-                    BodyCandidateJoinedMeetingStatus(CurrentMeetingDataSaver.getData().videoAccessCode,"Attended",CurrentMeetingDataSaver.getData().interviewModel?.subscriberid)
+                    BodyCandidateJoinedMeetingStatus(CurrentMeetingDataSaver.getData().videoAccessCode,"Attended",DataStoreHelper.getMeetingUserId())
                 )
                 if (result.isSuccessful) {
                     if (result.body() != null) {
