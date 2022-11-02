@@ -261,19 +261,19 @@ class ActivityAddParticipant : AppCompatActivity() {
                 404 -> {
                     binding.btnPostdata.text=getString(R.string.txt_invite)
                     binding.invitationProgress.isVisible=false
-                    showToast(this,getString(R.string.txt_failed_to_Invitation))
+                  //  showToast(this,getString(R.string.txt_failed_to_Invitation))
                 }
                 404 -> {
                     binding.btnPostdata.text=getString(R.string.txt_invite)
                     binding.invitationProgress.isVisible=false
-                    showToast(this,getString(R.string.txt_failed_to_Invitation))
+                  //  showToast(this,getString(R.string.txt_failed_to_Invitation))
                 }
                 404 -> {
                     binding.btnPostdata.text=getString(R.string.txt_invite)
                     binding.invitationProgress.isVisible=false
                 }
                 500 -> {
-                    showToast(this,getString(R.string.txt_something_went_wrong))
+                   // showToast(this,getString(R.string.txt_something_went_wrong))
                     binding.btnPostdata.text=getString(R.string.txt_invite)
                     binding.invitationProgress.isVisible=false
                 }
