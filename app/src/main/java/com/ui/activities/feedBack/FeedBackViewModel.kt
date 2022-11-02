@@ -10,6 +10,7 @@ import com.data.dataHolders.DataStoreHelper
 import com.data.getCurrentUtcFormatedDate
 import com.data.repositoryImpl.RepositoryImpl
 import com.domain.BaseModels.*
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -59,7 +60,7 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
 
     }
 
-    fun sendFeedback(context: Context,appliedPosition:String,recommendation:String,designation:String,interviewName:String,candidateId:Int,remarktxt:String, obj:BodyFeedBack,skillsListRes:ArrayList<AssessSkills>,remarkList:ArrayList<InterviewerRemark>, onDataResponse:(data: ResponseBodyFeedBack?, status:Int)->Unit) {
+    fun sendFeedback(context: Context,assementId:Int,appliedPosition:String,recommendation:String,designation:String,interviewName:String,candidateId:Int,remarktxt:String, obj:BodyFeedBack,skillsListRes:ArrayList<AssessSkills>,remarkList:ArrayList<InterviewerRemark>, onDataResponse:(data: ResponseBodyFeedBack?, status:Int)->Unit) {
         viewModelScope.launch {
             try {
                 CoroutineScope(Dispatchers.IO).launch {
@@ -80,12 +81,24 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
                     obj.CandidateAssessment?.Comments=recommendation
 
                     obj?.CandidateAssessment?.Skills=skillsListRes
+                    obj?.CandidateAssessment?.AssessmentId=assementId
 
-                    /* CurrentUpcomingMeetingData.getData()?.let {
+
+                            /* CurrentUpcomingMeetingData.getData()?.let {
                         obj.RecruiterId=it.interviewId.toString()
                     }*/
 
-                    obj.RecruiterId=    DataStoreHelper.getMeetingRecruiterid()
+
+
+                        if (DataStoreHelper.getMeetingRecruiterid().equals("") || DataStoreHelper.getMeetingRecruiterid().equals("null"))
+                        {
+                            obj.RecruiterId=CurrentMeetingDataSaver.getData().interviewModel?.recruiterId.toString()
+                        }else
+                        {
+                            obj.RecruiterId=DataStoreHelper.getMeetingRecruiterid()
+                        }
+
+
                     /*
                     CurrentMeetingDataSaver.getData().interviewModel?.interviewId?.let {
                         obj.RecruiterId=it.toString()
@@ -108,8 +121,10 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
 
                     Log.d(TAG, "sendFeedback: after candidate id  ${candidateId}")
 
+                    Log.d(TAG, "sendFeedback: ${Gson().toJson(obj)}")
+
                     val result = repo.sendFeedBack(obj)
-                    Log.d(TAG, "sendFeedback: code ${result.code()}")
+                   Log.d(TAG, "sendFeedback: code ${result.code()}")
                     if (result.isSuccessful) {
                         if (result.body() != null) {
                             when (result.body()?.aPIResponse?.statusCode) {

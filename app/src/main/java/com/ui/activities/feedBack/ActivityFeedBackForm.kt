@@ -232,7 +232,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
             showToast(this, getString(R.string.txt_all_fields_required))
         }
     }
-
+private var assesmentid=0
     fun postData()
     {
         val skillist= ArrayList<CandidateAssessmentSkills>()
@@ -251,7 +251,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
           //  Log.d(TAG, "postData: check all data  appliedpos $appliedPosition recomm $recommendationSelected designation $designation intername $interviewName candidId $candidateId CANDIDATENAME ${CurrentMeetingDataSaver.getData().interviewModel?.candidate?.firstName+ CurrentMeetingDataSaver.getData().interviewModel?.candidate?.lastName} ")
 
 
-            viewModel.sendFeedback(this,appliedPosition,recommendationSelected!!,designation,interviewName,candidateId,binding.etRemart.text.toString(),BodyFeedBack(
+            viewModel.sendFeedback(this,assesmentid,appliedPosition,recommendationSelected!!,designation,interviewName,candidateId,binding.etRemart.text.toString(),BodyFeedBack(
                 CandidateAssessmentSkills=skillist,
             ),skillsListres,remarkList, onDataResponse = {data, status ->
                 when(status)
@@ -366,6 +366,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
                     skillsListres.addAll(data.assessSkills)
                     Log.d(TAG, "getResume: success ondata response")
                     setDataToViews(data!!)
+                    assesmentid=data.AssessmentId!!
                     //   binding.swipetorefresh.isRefreshing = false
                 }
                 400 -> {

@@ -98,6 +98,57 @@ object WeeksDataHolder {
     }
 
 
+    fun getIncreasedDate(date:String, result: (ist: String, utc: String) -> Unit) {
+
+        val cal = Calendar.getInstance()
+        val sdf=SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val date=sdf.parse(date)
+
+        val sdfIST = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val sdfUTC = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+
+        cal.time=date
+
+        cal.set(Calendar.HOUR_OF_DAY,12)
+        cal.set(Calendar.MINUTE,0)
+
+        cal.add(Calendar.DAY_OF_YEAR, 1)
+
+        istDate= sdfIST.format(cal.time)
+        utcDate=sdfUTC.format(cal.time)
+
+        result(
+            istDate !!,
+            utcDate!!
+        )
+    }
+
+    fun getDecreasedDate(date:String, result: (ist: String, utc: String) -> Unit) {
+
+        val cal = Calendar.getInstance()
+        val sdf=SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val date=sdf.parse(date)
+
+        val sdfIST = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val sdfUTC = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+
+        cal.time=date
+
+        cal.set(Calendar.HOUR_OF_DAY,12)
+        cal.set(Calendar.MINUTE,0)
+
+        cal.add(Calendar.DAY_OF_YEAR, -1)
+
+        istDate= sdfIST.format(cal.time)
+        utcDate=sdfUTC.format(cal.time)
+
+        result(
+            istDate !!,
+            utcDate!!
+        )
+    }
+
+
     fun getPastISTandUTCDate(date:String, result: (ist: String, utc: String) -> Unit) {
 
         val cal = Calendar.getInstance()
