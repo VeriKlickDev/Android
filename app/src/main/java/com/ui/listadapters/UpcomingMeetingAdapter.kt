@@ -129,6 +129,7 @@ class UpcomingMeetingAdapter(
                     binding.btnJoin.visibility = View.GONE
                     binding.btnFeedback.isVisible = true
                     binding.btnFeedback.isEnabled = true
+                    binding.btnFeedback.setTextColor(context.getColor(R.color.attended_text_color))
                     binding.btnFeedback.background = ContextCompat.getDrawable(
                         binding.btnFeedback.context,
                         R.drawable.shape_rectangle_rounded_light_green
@@ -138,6 +139,7 @@ class UpcomingMeetingAdapter(
                 "Scheduled" -> {
                     Log.d(TAG, "onBindViewHolder: schee when")
                     binding.btnFeedback.visibility = View.GONE
+                    binding.btnFeedback.setTextColor(context.getColor(R.color.white))
                     binding.btnJoin.isVisible = true
                 }
                 "NotScheduled" -> {
@@ -146,6 +148,7 @@ class UpcomingMeetingAdapter(
                     binding.btnFeedback.isVisible = true
                     binding.btnFeedback.isEnabled = false
                     binding.btnFeedback.text = "Missed"
+                    binding.btnFeedback.setTextColor(context.getColor(R.color.missed_text_color))
                     binding.btnFeedback.background = ContextCompat.getDrawable(
                         binding.btnFeedback.context,
                         R.drawable.shape_rectangle_rounded_red_10
@@ -156,6 +159,7 @@ class UpcomingMeetingAdapter(
                     binding.btnJoin.visibility = View.GONE
                     binding.btnFeedback.isVisible = true
                     binding.btnFeedback.isEnabled = false
+                    binding.btnFeedback.setTextColor(context.getColor(R.color.canceled_text_color))
                     binding.btnFeedback.background =
                         ContextCompat.getDrawable(
                             binding.btnFeedback.context,

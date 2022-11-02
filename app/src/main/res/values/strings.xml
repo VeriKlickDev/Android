@@ -29,7 +29,7 @@
     <string name="txt_unmute">Unmute</string>
     <string name="txt_client">Client : &#160;</string>
     <string name="txt_candidate">Candidate</string>
-    <string name="txt_Upcoming_Meetings">Upcoming Meetings</string>
+    <string name="txt_Upcoming_Meetings">Meetings</string>
     <string name="txt_permission_required">Permission Required</string>
     <string name="txt_email">Email</string>
     <string name="txt_description_Forgot_password">Enter the email address used to log in to VeriKlick and then click on the  Forgot Password button below to receive an email from VeriKlick with instructions on how to reset your password</string>
@@ -102,4 +102,5 @@
     <string name="txt_recording">Recording</string>
     <string name="txt_please_try_again">Please try again</string>
     <string name="txt_select_recommendation">Select Recommendation</string>
+    <string name="txt_coding_test_remark">Coding Test Remark</string>
 </resources>

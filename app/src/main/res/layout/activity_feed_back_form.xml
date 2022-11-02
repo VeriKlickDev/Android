@@ -316,7 +316,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
-                        android:layout_marginTop="@dimen/_15sp"
+                        android:layout_marginTop="@dimen/_10sp"
                         >
 
 
@@ -324,7 +324,7 @@
                             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/txt_overall_remarks"
+                            android:hint="@string/txt_coding_test_remark"
                             app:boxBackgroundColor="@color/white"
                             app:boxStrokeColor="@color/white"
                             app:boxStrokeWidth="0sp">
@@ -418,7 +418,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
-                        android:layout_marginTop="@dimen/_15sp"
+                        android:layout_marginTop="@dimen/_7sp"
                         >
 
 
