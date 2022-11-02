@@ -93,10 +93,11 @@
             android:gravity="center"
             >
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_no_participant"
                 android:textColor="@color/white"
+                android:gravity="center"
                 android:text="Candidate Not Joined Yet"
                 android:fontFamily="@font/sarabun_regular"
                 android:textSize="@dimen/_20sp"
@@ -106,11 +107,12 @@
 
         <TextView
             android:id="@+id/tv_username"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
             android:elevation="@dimen/_5sp"
             android:text="Username"
+            android:gravity="center"
             style="@style/textStyle.White.Black_16"
             app:layout_constraintBottom_toTopOf="@+id/tv_meeting_time"
             app:layout_constraintEnd_toEndOf="parent"
@@ -183,7 +185,7 @@
                     android:paddingVertical="@dimen/_5sp"
                     android:orientation="vertical"
                     android:paddingHorizontal="@dimen/_10sp"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:layout_width="wrap_content"

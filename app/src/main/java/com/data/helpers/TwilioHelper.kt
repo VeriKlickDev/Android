@@ -167,7 +167,7 @@ object TwilioHelper {
                 // Only one participant is supported
                 // room.remoteParticipants.firstOrNull()?.let { addRemoteParticipant(it) }
             } catch (e: Exception) {
-                Log.d(TAG, "onConnected: exception on connected ${e.printStackTrace()} ")
+                Log.d(TAG, "onConnected: exception on connected listener ${e.printStackTrace()} ")
             }
         }
 
