@@ -77,7 +77,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         currentDateIST = getCurrentDate()!!
         if (checkInternet()) {
             status = "schedule"
-            handleUpcomingMeetingsList(2, 1, 9)
+            handleUpcomingMeetingsList(0, 1, 9)
         } else {
             Snackbar.make(
                 binding.root, getString(R.string.txt_no_internet_connection),
@@ -264,7 +264,31 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         )
 
         when (action) {
+            //first attempt
+            0->{
+                WeeksDataHolder.getCurrentNextDayISTandUTCDate(currentDateIST!!) { ist, utc ->
+                    Log.d(TAG, "handleUpcomingMeetingsList: current date nex $ist")
 
+                    currentDateIST = ist
+                    currentDateUTC = utc
+
+                }
+
+                WeeksDataHolder.getNextISTandUTCDate(currentDateIST!!) { ist, utc ->
+                    Log.d(TAG, "handleUpcomingMeetingsList: current pres nex $ist")
+
+                    ob.from = currentDateUTC
+                    ob.fromdate = currentDateIST
+
+                    ob.to = utc
+                    ob.todate = ist
+
+                    currentDateIST = ist
+                    currentDateUTC = utc
+
+                }
+                isNextClicked=true
+            }
             7 -> {
                 /*
                 * for status
@@ -307,24 +331,32 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 }
 
 
-                if (isPreClicked)
+                /*WeeksDataHolder.getDecreasedDate(ob.fromdate!!) { ist, utc ->
+                    ob.fromdate = ist
+                    ob.from = utc
+                    Log.d("checkdate", "handleUpcomingMeetingsList: is pre true")
+                }*/
+
+
+
+                if (isNextClicked)
                 {
-                    WeeksDataHolder.getDecreasedDate(ob.fromdate!!) { ist, utc ->
-
-                           ob.fromdate = ist
-                           ob.from = utc
-
+                    WeeksDataHolder.getIncreasedDate(ob.fromdate!!){ist, utc ->
+                        ob.fromdate=ist
+                        ob.from=utc
+                    }
+                    WeeksDataHolder.getIncreasedDate(ob.todate!!){ist, utc ->
+                        ob.todate=ist
+                        ob.to=utc
                     }
 
                 }else
                 {
-                    WeeksDataHolder.getIncreasedDate(ob.fromdate!!) { ist, utc ->
-                            ob.fromdate = ist
-                            ob.from = utc
-                            Log.d(TAG, "handleUpcomingMeetingsList: after todate ${ist}")
+                    WeeksDataHolder.getDecreasedDate(ob.todate!!){ist, utc ->
+                        ob.todate=ist
+                        ob.to=utc
                     }
                 }
-
                 isPreClicked = true
 
             }
@@ -353,21 +385,31 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
                 }
 
-                if (isNextClicked) {
 
+
+
+                if (isPreClicked) {
+                    WeeksDataHolder.getDecreasedDate(ob.fromdate!!) { ist, utc ->
+                        ob.fromdate = ist
+                        ob.from = utc
+                        Log.d(TAG, "handleUpcomingMeetingsList: after todate true ${ist}")
+                    }
+                   /* WeeksDataHolder.getDecreasedDate(ob.fromdate!!) { ist, utc ->
+                        ob.fromdate = ist
+                        ob.from = utc
+                        Log.d(TAG, "handleUpcomingMeetingsList: after todate true ${ist}")
+                    }*/
+                } else {
                     WeeksDataHolder.getIncreasedDate(ob.fromdate!!) { ist, utc ->
                         ob.fromdate = ist
                         ob.from = utc
-                        Log.d(TAG, "handleUpcomingMeetingsList: after todate ${ist}")
+                        Log.d(TAG, "handleUpcomingMeetingsList: after todate true ${ist}")
                     }
-                } else {
-                    WeeksDataHolder.getIncreasedDate(ob.fromdate!!) { ist, utc ->
-
-                           ob.fromdate = ist
-                           ob.from = utc
-                           Log.d(TAG, "handleUpcomingMeetingsList: after todate ${ist}")
-
-                    }
+                  /*  WeeksDataHolder.getDecreasedDate(ob.fromdate!!) { ist, utc ->
+                        ob.fromdate = ist
+                        ob.from = utc
+                        Log.d(TAG, "handleUpcomingMeetingsList: after todate true ${ist}")
+                    }*/
                 }
 
                 isNextClicked = true
@@ -375,19 +417,6 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
         }
 
-        /*  when(action)
-          {
-              7->{
-
-              }
-              1->{
-                  Log.d(TAG, "handleUpcomingMeetingsList: before todate ${ob.todate}")
-
-              }
-              2->{
-
-              }
-          }*/
 
 
         binding.tvFromdateToDate.text = getDateWithMonthName(
