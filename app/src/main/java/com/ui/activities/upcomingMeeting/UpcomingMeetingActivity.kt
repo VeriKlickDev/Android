@@ -1,5 +1,6 @@
 package com.ui.activities.upcomingMeeting
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
@@ -160,7 +161,6 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
 
         binding.btnLeftPrevious.setOnClickListener {
-
             meetingsList.clear()
             pageno = 1
 
@@ -176,14 +176,13 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         }
 
         binding.btnRightNext.setOnClickListener {
-
+            // isNextClicked=true
             meetingsList.clear()
             pageno = 1
 
             if (isPreClicked) {
                 WeeksDataHolder.getNextISTandUTCDate(currentDateIST!!) { ist, utc ->
                     Log.d(TAG, "handleUpcomingMeetingsList: current pres nex $ist")
-
                     currentDateIST = ist
                     currentDateUTC = utc
                 }
@@ -244,8 +243,11 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         setupAdapter()
     }
 
+    private var nextbtnhandle = false
 
+    @SuppressLint("SetTextI18n")
     private fun handleUpcomingMeetingsList(action: Int, pageNumber: Int, pageSize: Int) {
+        Log.d(TAG, "handleUpcomingMeetingsList: current date action $action")
         UpcomingMeetingStatusHolder.setStatus(status)
         var ob: BodyScheduledMeetingBean? = null
 
@@ -265,7 +267,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
         when (action) {
             //first attempt
-            0->{
+            0 -> {
                 WeeksDataHolder.getCurrentNextDayISTandUTCDate(currentDateIST!!) { ist, utc ->
                     Log.d(TAG, "handleUpcomingMeetingsList: current date nex $ist")
 
@@ -287,7 +289,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     currentDateUTC = utc
 
                 }
-                isNextClicked=true
+                isNextClicked = true
             }
             7 -> {
                 /*
@@ -298,9 +300,9 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     ob.fromdate = ist
                     ob.from = utc
                 }
-                WeeksDataHolder.getCurrentNextDayISTandUTCDate(WeeksDataHolder.getDate()!!.nextDate!!) { ist, utc ->
+                WeeksDataHolder.getCurrentNextDayISTandUTCDate(WeeksDataHolder.getDate()!!.nextDate) { ist, utc ->
 
-                    WeeksDataHolder.convertTo1159(ist!!) { ist, utc ->
+                    WeeksDataHolder.convertTo1159(ist) { ist, utc ->
                         ob.todate = ist
                         ob.to = utc
                     }
@@ -311,60 +313,64 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             //for past / previous
             1 -> {
 
-                WeeksDataHolder.getPastISTandUTCDate(currentDateIST!!) { ist, utc ->
-                    Log.d(TAG, "handleUpcomingMeetingsList: current date pre $ist")
+                //   Log.d(TAG, "handleUpcomingMeetingsList: prev currentDateIST $currentDateIST")
+                val (fist,second) = WeeksDataHolder.getPastISTandUTCDate(currentDateIST!!)
+                val (ist,utc) =fist
+                val (istw,utcw) =second
+                /*   WeeksDataHolder.getPastISTandUTCDate(currentDateIST!!) { ist, utc ->
+                       //  Log.d(TAG, "handleUpcomingMeetingsList: current date pre $ist")
+
+                       WeeksDataHolder.convertTo1200(ist, result = { ist, utc ->
+                           ob.from = utc
+                           ob.fromdate = ist
+                       })
+
+                       WeeksDataHolder.convertTo1159(currentDateIST!!, result = { ist, utc ->
+                           ob.to = utc
+                           ob.todate = ist
+                       })
+
+                       currentDateIST = ist
+                       currentDateUTC = utc
+
+                   }*/
 
 
-                    WeeksDataHolder.convertTo1200(ist!!, result = { ist, utc ->
-                        ob.from = utc
-                        ob.fromdate = ist
-                    })
+                /*  if (isPreClicked) {
+                      WeeksDataHolder.getDecreasedDate(ob.fromdate!!) { ist, utc ->
+                          ob.fromdate = ist
+                          ob.from = utc
+                          // Log.d("checkdate", "handleUpcomingMeetingsList: is pre true")
+                      }
+                      WeeksDataHolder.getDecreasedDate(ob.todate!!) { ist, utc ->
+                          ob.todate = ist
+                          ob.to = utc
+                          // Log.d("checkdate", "handleUpcomingMeetingsList: is pre true")
+                      }
+                      WeeksDataHolder.getDecreasedDate(ob.todate!!) { ist, utc ->
+                          ob.todate = ist
+                          ob.to = utc
+                          // Log.d("checkdate", "handleUpcomingMeetingsList: is pre true")
+                      }
+                      Log.d(TAG, "handleUpcomingMeetingsList: is next clicked true")
+                  } else {
+                      WeeksDataHolder.getDecreasedDate(ob.fromdate!!) { ist, utc ->
+                          ob.fromdate = ist
+                          ob.from = utc
+                          // Log.d("checkdate", "handleUpcomingMeetingsList: is pre true")
+                      }
+                      Log.d(TAG, "handleUpcomingMeetingsList: is next clicked false")
+                  }*/
 
-                    WeeksDataHolder.convertTo1159(currentDateIST!!, result = { ist, utc ->
-                        ob.to = utc
-                        ob.todate = ist
-                    })
-
-                    currentDateIST = ist
-                    currentDateUTC = utc
-
-                }
-
-
-                /*WeeksDataHolder.getDecreasedDate(ob.fromdate!!) { ist, utc ->
-                    ob.fromdate = ist
-                    ob.from = utc
-                    Log.d("checkdate", "handleUpcomingMeetingsList: is pre true")
-                }*/
-
-
-
-                if (isNextClicked)
-                {
-                    WeeksDataHolder.getIncreasedDate(ob.fromdate!!){ist, utc ->
-                        ob.fromdate=ist
-                        ob.from=utc
-                    }
-                    WeeksDataHolder.getIncreasedDate(ob.todate!!){ist, utc ->
-                        ob.todate=ist
-                        ob.to=utc
-                    }
-
-                }else
-                {
-                    WeeksDataHolder.getDecreasedDate(ob.todate!!){ist, utc ->
-                        ob.todate=ist
-                        ob.to=utc
-                    }
-                }
                 isPreClicked = true
-
+                //  nextbtnhandle=true
             }
             //for next week date
             2 -> {
 
+                // Log.d(TAG, "handleUpcomingMeetingsList: next currentDateIST $currentDateIST")
                 WeeksDataHolder.getCurrentNextDayISTandUTCDate(currentDateIST!!) { ist, utc ->
-                    Log.d(TAG, "handleUpcomingMeetingsList: current date nex $ist")
+                    //   Log.d(TAG, "handleUpcomingMeetingsList: current date nex $ist")
 
                     currentDateIST = ist
                     currentDateUTC = utc
@@ -372,7 +378,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 }
 
                 WeeksDataHolder.getNextISTandUTCDate(currentDateIST!!) { ist, utc ->
-                    Log.d(TAG, "handleUpcomingMeetingsList: current pres nex $ist")
+                    // Log.d(TAG, "handleUpcomingMeetingsList: current pres nex $ist")
 
                     ob.from = currentDateUTC
                     ob.fromdate = currentDateIST
@@ -386,31 +392,34 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 }
 
 
+                /*     if (isNextClicked) {
 
 
-                if (isPreClicked) {
-                    WeeksDataHolder.getDecreasedDate(ob.fromdate!!) { ist, utc ->
-                        ob.fromdate = ist
-                        ob.from = utc
-                        Log.d(TAG, "handleUpcomingMeetingsList: after todate true ${ist}")
-                    }
-                   /* WeeksDataHolder.getDecreasedDate(ob.fromdate!!) { ist, utc ->
-                        ob.fromdate = ist
-                        ob.from = utc
-                        Log.d(TAG, "handleUpcomingMeetingsList: after todate true ${ist}")
-                    }*/
-                } else {
-                    WeeksDataHolder.getIncreasedDate(ob.fromdate!!) { ist, utc ->
-                        ob.fromdate = ist
-                        ob.from = utc
-                        Log.d(TAG, "handleUpcomingMeetingsList: after todate true ${ist}")
-                    }
-                  /*  WeeksDataHolder.getDecreasedDate(ob.fromdate!!) { ist, utc ->
-                        ob.fromdate = ist
-                        ob.from = utc
-                        Log.d(TAG, "handleUpcomingMeetingsList: after todate true ${ist}")
-                    }*/
-                }
+                         if (nextbtnhandle) {
+
+                             nextbtnhandle = false
+                         } else {
+                             WeeksDataHolder.getIncreasedDate(ob.fromdate!!) { ist, utc ->
+                                 ob.fromdate = ist
+                                 ob.from = utc
+                             }
+                         }
+
+                         Log.d(TAG, "handleUpcomingMeetingsList: after todate true ")
+                     } else {
+
+                         WeeksDataHolder.getDecreasedDate(ob.todate!!) { ist, utc ->
+                             ob.todate = ist
+                             ob.to = utc
+
+                         }
+                         WeeksDataHolder.getDecreasedDate(ob.fromdate!!) { ist, utc ->
+                             ob.fromdate = ist
+                             ob.from = utc
+                         }
+                         nextbtnhandle = true
+                         Log.d(TAG, "handleUpcomingMeetingsList: after todate false ")
+                     }*/
 
                 isNextClicked = true
             }
@@ -457,7 +466,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     }
 
 
-    fun getDataWithOtp(ob: BodyScheduledMeetingBean) {
+    private fun getDataWithOtp(ob: BodyScheduledMeetingBean) {
         viewModel.getScheduledMeetingListwithOtp(
             actionProgress = {
                 if (it == 1) {
@@ -496,7 +505,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         )
     }
 
-    fun getDataWithoutOtp(ob: BodyScheduledMeetingBean) {
+    private fun getDataWithoutOtp(ob: BodyScheduledMeetingBean) {
         viewModel.getScheduledMeetingList(
             actionProgress = {
                 if (it == 1) {
