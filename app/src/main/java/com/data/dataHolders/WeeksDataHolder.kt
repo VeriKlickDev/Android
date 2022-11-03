@@ -72,8 +72,6 @@ object WeeksDataHolder {
 
     private var istDate: String? = null
     private var utcDate: String? = null
-    private var utcPrevDate: String? = null
-    private var istPrevDate: String? = null
 
     fun getNextISTandUTCDate(date: String, result: (ist: String, utc: String) -> Unit) {
         val cal = Calendar.getInstance()
@@ -190,6 +188,7 @@ object WeeksDataHolder {
 
         if (date != null) {
             cal.time = date
+            calPrev.time = date
         }
 
         cal.set(Calendar.HOUR_OF_DAY, 12)
@@ -201,15 +200,51 @@ object WeeksDataHolder {
 
         calPrev.add(Calendar.DAY_OF_YEAR, -1)
 
-        istDate = sdfIST.format(cal.time)
-        utcDate = sdfUTC.format(cal.time)
-        istPrevDate = sdfIST.format(cal.time)
-        utcPrevDate = sdfUTC.format(cal.time)
+        val istDate = sdfIST.format(cal.time)
+        val utcDate = sdfUTC.format(cal.time)
+        val istPrevDate = sdfIST.format(calPrev.time)
+        val utcPrevDate = sdfUTC.format(calPrev.time)
 //        result(
 //            istDate !!,
 //            utcDate!!
 //        )
         return Pair(Pair(istDate!!, utcDate!!), Pair(istPrevDate!!, utcPrevDate!!))
+    }
+
+
+    fun getNextISTandUTCDate(date: String): Pair<Pair<String, String>, Pair<String, String>> {
+
+        val cal = Calendar.getInstance()
+        val calPrev = Calendar.getInstance()
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val date = sdf.parse(date)
+
+        val sdfIST = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val sdfUTC = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+
+        if (date != null) {
+            cal.time = date
+            calPrev.time = date
+        }
+
+        cal.set(Calendar.HOUR_OF_DAY, 12)
+        cal.set(Calendar.MINUTE, 0)
+
+        cal.add(Calendar.DAY_OF_YEAR, +7)
+        calPrev.set(Calendar.HOUR_OF_DAY, 12)
+        calPrev.set(Calendar.MINUTE, 0)
+
+        calPrev.add(Calendar.DAY_OF_YEAR, +1)
+
+        val istDate = sdfIST.format(cal.time)
+        val utcDate = sdfUTC.format(cal.time)
+        val istPrevDate = sdfIST.format(calPrev.time)
+        val utcPrevDate = sdfUTC.format(calPrev.time)
+//        result(
+//            istDate !!,
+//            utcDate!!
+//        )
+        return Pair(Pair(istPrevDate!!, utcPrevDate!!), Pair(istDate!!, utcDate!!))
     }
 
 
