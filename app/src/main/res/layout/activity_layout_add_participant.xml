@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/light_grey"
+        android:keepScreenOn="true"
         tools:context="com.ui.activities.adduserlist.ActivityAddParticipant">
 
         <androidx.constraintlayout.widget.ConstraintLayout
