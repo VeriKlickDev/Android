@@ -1,15 +1,10 @@
 package com.data
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.Service
+import android.app.*
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
 import android.util.Log
-import androidx.core.app.NotificationCompat
 import com.domain.constant.AppConstants
 import com.example.twillioproject.R
 import com.ui.activities.twilioVideo.VideoActivity
@@ -56,7 +51,12 @@ class MeetingService : Service() {
 
         val videoScreenIntent=Intent(applicationContext,VideoActivity::class.java)
         videoScreenIntent?.setAction(Intent.ACTION_MAIN)
-        videoScreenIntent?.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        videoScreenIntent?.setFlags(
+            Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        )
+
+
         val pendingIntent=PendingIntent.getActivity(applicationContext,10110,videoScreenIntent,PendingIntent.FLAG_MUTABLE)
 
 

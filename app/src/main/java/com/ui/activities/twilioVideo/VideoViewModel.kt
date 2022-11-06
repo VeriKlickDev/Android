@@ -274,8 +274,9 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
     {
         try {
             viewModelScope.launch {
+               val ob= BodyCandidateJoinedMeetingStatus(CurrentMeetingDataSaver.getData().videoAccessCode,"Attended",DataStoreHelper.getMeetingUserId())
                 val result = repositoryImpl.setCandidateJoinMeetingStatus(
-                    BodyCandidateJoinedMeetingStatus(CurrentMeetingDataSaver.getData().videoAccessCode,"Attended",DataStoreHelper.getMeetingUserId())
+                ob
                 )
                 if (result.isSuccessful) {
                     if (result.body() != null) {
@@ -286,7 +287,7 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
                     }
                 }
                 else {
-                    onResult(404, result.body()!!)
+                    onResult(404, null)
                 }
             }
         } catch (e: Exception) {

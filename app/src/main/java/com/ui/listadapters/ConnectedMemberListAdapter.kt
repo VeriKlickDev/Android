@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.util.TimeFormatException
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -12,6 +13,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.dataHolders.LocalConfrenseMic
+import com.data.helpers.TwilioHelper
+import com.domain.BaseModels.NetworkQualityModel
 import com.domain.BaseModels.VideoTracksBean
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.LayoutItemMemberVideoConfrenceBinding
@@ -55,11 +58,15 @@ class ConnectedMemberListAdapter(
         fun bindData(data: VideoTracksBean) {
             binding.twiliovideoView.mirror = true
             binding.tvUsername.text = data.userName
-            data.videoTrack.addSink(binding.twiliovideoView)
 
 
+            if (data.videoTrack!=null)
+            {
+                data.videoTrack!!.addSink(binding.twiliovideoView)
+            }else
+            {
 
-
+            }
 
             binding.ivLeftMeeting.setOnClickListener {
                 onClick(adapterPosition, 1, data)
@@ -68,8 +75,11 @@ class ConnectedMemberListAdapter(
             try {
 
                 if (data.userName.equals("You")) {
-                    binding.ivNetworkStatus.isVisible = false
+                    binding.ivNetworkStatus.isVisible = true
                     binding.ivLeftMeeting.isVisible = false
+                    TwilioHelper.getNetWorkQualityLevelLocal().observe(context as MemberListActivity){network->
+                        setNetworkLevel(network)
+                    }
                     LocalConfrenseMic.getLocalParticipant()
                         .observe(context as MemberListActivity, Observer {
                             Log.d("adduserlistadapter", "bindData: mic is $it ")
@@ -83,7 +93,14 @@ class ConnectedMemberListAdapter(
 
                     binding.ivNetworkStatus.isVisible = true
                     binding.ivLeftMeeting.isVisible = true
-                    setNetworkLevel(data.remoteParticipant?.networkQualityLevel!!)
+
+                    TwilioHelper.getNetWorkQualityLevel().observe(context as MemberListActivity){
+                        if (it.identity.equals(data.identity))
+                        {
+                            setNetworkLevel(it)
+                        }
+                    }
+
                 }
 
                 binding.ivLeftMeeting.isVisible =!CurrentMeetingDataSaver.getData().userType?.trim()!!.contains("C")
@@ -92,6 +109,9 @@ class ConnectedMemberListAdapter(
             } catch (e: Exception) {
                 Log.d("AddUserListAdapter", "bindData: exception ${e.printStackTrace()}")
             }
+
+
+
 
 
             /*  if (data.remoteParticipant.audioTracks.firstOrNull()?.audioTrack?.isEnabled!!)
@@ -124,8 +144,8 @@ class ConnectedMemberListAdapter(
         }
 
 
-        fun setNetworkLevel(networkQualityLevel: NetworkQualityLevel) {
-            when (networkQualityLevel) {
+        fun setNetworkLevel(networkQualityModel: NetworkQualityModel) {
+            when (networkQualityModel.network) {
                 NetworkQualityLevel.NETWORK_QUALITY_LEVEL_ZERO -> {
                     binding.ivNetworkStatus.setImageResource(R.drawable.network_quality_level_0)
                 }
@@ -155,7 +175,6 @@ class ConnectedMemberListAdapter(
 
 
         }
-
 
         fun setNetworQualityLevelImage(data: VideoTracksBean, ivNetwork: ImageView) {
 

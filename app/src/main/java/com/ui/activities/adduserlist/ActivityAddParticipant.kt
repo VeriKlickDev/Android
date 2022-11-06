@@ -3,6 +3,7 @@ package com.ui.activities.adduserlist
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,6 +38,10 @@ class ActivityAddParticipant : AppCompatActivity() {
 
         viewModel=ViewModelProvider(this).get(AddUserViewModel::class.java)
         binding.rvAdduserByLink.layoutManager = LinearLayoutManager(this)
+
+        binding.btnJumpBackAddmember.setOnClickListener{
+            onBackPressed()
+        }
 
         adapter = AddParticipantListAdapter(
             this,
@@ -80,6 +85,7 @@ class ActivityAddParticipant : AppCompatActivity() {
         binding.rvAdduserByLink.adapter = adapter
 
         binding.btnPostdata.setOnClickListener {
+            hideKeyboard(this)
             handleList()
         }
 
@@ -241,6 +247,7 @@ class ActivityAddParticipant : AppCompatActivity() {
     {
         binding.invitationProgress.isVisible=true
         binding.btnPostdata.text=""
+        binding.btnPostdata.isEnabled=false
         viewModel.sendInvitationtoUsers(distinctinvitationList, onDataResponse = {
             data, action ->
 
@@ -248,34 +255,42 @@ class ActivityAddParticipant : AppCompatActivity() {
                 200 -> {
                     binding.btnPostdata.text=getString(R.string.txt_invite)
                     binding.invitationProgress.isVisible=false
-                     showToast(this,data?.APIResponse?.Message!!)
+                    Toast.makeText(this,data?.APIResponse?.Message!!,Toast.LENGTH_LONG).show()
+                     //showToast(this,data?.APIResponse?.Message!!)
+                    //Snackbar.make(binding.root,data?.APIResponse?.Message!!,Snackbar.LENGTH_LONG).show()
                     interviewList.clear()
                     onBackPressed()
                     Log.d(TAG, "sendInvitation: result $data")
+                    binding.btnPostdata.isEnabled=true
                 }
                 400 -> {
                     binding.btnPostdata.text=getString(R.string.txt_invite)
                     binding.invitationProgress.isVisible=false
                     showToast(this,data?.APIResponse?.Message!!)
+                    binding.btnPostdata.isEnabled=true
                 }
                 404 -> {
                     binding.btnPostdata.text=getString(R.string.txt_invite)
                     binding.invitationProgress.isVisible=false
+                    binding.btnPostdata.isEnabled=true
                   //  showToast(this,getString(R.string.txt_failed_to_Invitation))
                 }
                 404 -> {
                     binding.btnPostdata.text=getString(R.string.txt_invite)
                     binding.invitationProgress.isVisible=false
+                    binding.btnPostdata.isEnabled=true
                   //  showToast(this,getString(R.string.txt_failed_to_Invitation))
                 }
                 404 -> {
                     binding.btnPostdata.text=getString(R.string.txt_invite)
                     binding.invitationProgress.isVisible=false
+                    binding.btnPostdata.isEnabled=true
                 }
                 500 -> {
                    // showToast(this,getString(R.string.txt_something_went_wrong))
                     binding.btnPostdata.text=getString(R.string.txt_invite)
                     binding.invitationProgress.isVisible=false
+                    binding.btnPostdata.isEnabled=true
                 }
             }
         })

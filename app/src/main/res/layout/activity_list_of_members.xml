@@ -48,7 +48,7 @@
                 android:id="@+id/btn_add_user"
                 android:layout_height="24sp"
                 android:layout_marginRight="@dimen/_10sp"
-                android:background="@drawable/ic_img_add_user_black" />
+                android:background="@drawable/add_user_icon_black" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

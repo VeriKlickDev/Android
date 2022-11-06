@@ -36,6 +36,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/tv_screenShareStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:background="@drawable/shape_rectangle_rounded_dark_transparent_grey_mini_50"
+            android:elevation="@dimen/_15sp"
+            android:paddingHorizontal="@dimen/_10sp"
+            android:paddingVertical="@dimen/_5sp"
+            android:text="@string/txt_sharingscreenstatus"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
         <com.twilio.video.VideoView
             android:id="@+id/thumbnail_video_view"
             android:layout_width="96dp"

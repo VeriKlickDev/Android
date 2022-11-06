@@ -73,6 +73,93 @@ object WeeksDataHolder {
     private var istDate:String?=null
     private var utcDate:String?=null
 
+    fun getISTandUTCDate(date:String,action:Int,result: (ist: String, utc: String,istx: String, utcx: String) -> Unit) {
+        val cal = Calendar.getInstance()
+        val calx = Calendar.getInstance()
+
+        var ist=""
+        var utc=""
+        var istx=""
+        var utcx=""
+
+        val sdf=SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val date=sdf.parse(date)
+
+        val sdfIST = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val sdfUTC = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+
+        cal.time=date
+        calx.time=date
+        when(action)
+        {
+            //current week without inc decr
+            //pre week
+            1->{
+                calx.set(Calendar.HOUR_OF_DAY,11)
+                calx.set(Calendar.MINUTE,59)
+
+                istx= sdfIST.format(calx.time)
+                utcx= sdfUTC.format(calx.time)
+
+                cal.set(Calendar.HOUR_OF_DAY,12)
+                cal.set(Calendar.MINUTE,0)
+                cal.add(Calendar.DAY_OF_YEAR, -7)
+
+                ist= sdfIST.format(cal.time)
+                utc= sdfUTC.format(cal.time)
+
+            }
+            //next week
+            2->{
+
+                calx.set(Calendar.HOUR_OF_DAY,12)
+                calx.set(Calendar.MINUTE,0)
+
+                ist= sdfIST.format(calx.time)
+                utc= sdfUTC.format(calx.time)
+
+                cal.set(Calendar.HOUR_OF_DAY,11)
+                cal.set(Calendar.MINUTE,59)
+                cal.add(Calendar.DAY_OF_YEAR, 7)
+
+                istx= sdfIST.format(cal.time)
+                utcx= sdfUTC.format(cal.time)
+
+
+            }
+            3->{
+
+                calx.set(Calendar.HOUR_OF_DAY,12)
+                calx.set(Calendar.MINUTE,0)
+
+                ist= sdfIST.format(calx.time)
+                utc= sdfUTC.format(calx.time)
+
+                cal.set(Calendar.HOUR_OF_DAY,11)
+                cal.set(Calendar.MINUTE,59)
+                cal.add(Calendar.DAY_OF_YEAR, 7)
+
+                istx= sdfIST.format(cal.time)
+                utcx= sdfUTC.format(cal.time)
+
+
+            }
+        }
+
+        result(ist,utc,istx,utcx)
+    }
+data class CurrentDatesHolderModel(val ist:String, val utc:String, val istx:String, val utcx:String,)
+    private val currentDateslist= mutableListOf<CurrentDatesHolderModel>()
+    fun setCurrentTime(ob:CurrentDatesHolderModel)
+    {
+        currentDateslist.add(0,ob)
+    }
+
+    fun getCurrentDates()= currentDateslist.firstOrNull()
+
+
+
+
     fun getNextISTandUTCDate(date:String,result: (ist: String, utc: String) -> Unit) {
         val cal = Calendar.getInstance()
         val sdf=SimpleDateFormat("yyyy-MM-dd HH:mm:ss")

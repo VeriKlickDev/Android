@@ -6,10 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import com.domain.BaseModels.MicStatusModel
 import com.domain.BaseModels.NetworkQualityModel
 import com.example.twillioproject.databinding.ActivityTwilioVideoBinding
-
 import com.twilio.video.*
 import com.twilio.video.Video.connect
 import com.ui.activities.twilioVideo.VideoActivity
+
 
 //implement in your Main activity
 private lateinit var mtwilioVideoRoomCallBack: RoomListenerCallback
@@ -49,6 +49,8 @@ object TwilioHelper {
             .preferAudioCodecs(listOf(audioCodec))
             .preferVideoCodecs(listOf(videoCodec))
             .enableAutomaticSubscription(true)
+            .enableNetworkQuality(true)
+            .networkQualityConfiguration(configuration)
 
         connectOption = connectOptionBuilder.roomName(roomName!!).build()
 
@@ -56,11 +58,19 @@ object TwilioHelper {
         mtwilioVideoRoomCallBack = twilioVideoRoomCallBack
         return room!!
     }
-
+    var configuration = NetworkQualityConfiguration(
+        NetworkQualityVerbosity.NETWORK_QUALITY_VERBOSITY_MINIMAL,
+        NetworkQualityVerbosity.NETWORK_QUALITY_VERBOSITY_MINIMAL
+    )
 
     fun disConnectRoom() {
         room?.disconnect()
         room = null
+    }
+
+    fun setLocalParticipantListener(localParticipant: LocalParticipant)
+    {
+        localParticipant.setListener(localParticipantListener)
     }
 
     fun getRoomInstance()= room
@@ -93,10 +103,13 @@ object TwilioHelper {
     private val micLiveData=MutableLiveData<MicStatusModel>()
     fun getMicStatusLive()= micLiveData
 
+    private val networkStatusLiveLocal=MutableLiveData<NetworkQualityModel>()
+    fun getNetWorkQualityLevelLocal()= networkStatusLiveLocal
+
     private val networkStatusLive=MutableLiveData<NetworkQualityModel>()
     fun getNetWorkQualityLevel()= networkStatusLive
 
-    val videoTrackList= mutableListOf<VideoTrackPublication>()
+    //val videoTrackList= mutableListOf<VideoTrackPublication>()
 
     fun addRemoteParticipant(remoteParticipant: RemoteParticipant,
                              binding: ActivityTwilioVideoBinding,onAddParticipant:(remoteVideoTrack:RemoteVideoTrack)->Unit
@@ -123,7 +136,7 @@ object TwilioHelper {
 
                 Log.d("joinuser", "addRemoteParticipant method: track subscribed ")
                 remoteVideoTrackPublication.remoteVideoTrack?.let {
-                    videoTrackList.add(remoteVideoTrackPublication)
+                  //  videoTrackList.add(remoteVideoTrackPublication)
                     onAddParticipant(it)
 
                     Log.d("joinuser", "addRemoteParticipant method: add participant ")
@@ -152,10 +165,67 @@ object TwilioHelper {
     }
 
 
+    private val localParticipantListener=object: LocalParticipant.Listener{
+        override fun onAudioTrackPublished(
+            localParticipant: LocalParticipant,
+            localAudioTrackPublication: LocalAudioTrackPublication
+        ) {
+            
+        }
+
+        override fun onAudioTrackPublicationFailed(
+            localParticipant: LocalParticipant,
+            localAudioTrack: LocalAudioTrack,
+            twilioException: TwilioException
+        ) {
+            
+        }
+
+        override fun onVideoTrackPublished(
+            localParticipant: LocalParticipant,
+            localVideoTrackPublication: LocalVideoTrackPublication
+        ) {
+            
+        }
+
+        override fun onVideoTrackPublicationFailed(
+            localParticipant: LocalParticipant,
+            localVideoTrack: LocalVideoTrack,
+            twilioException: TwilioException
+        ) {
+            
+        }
+
+        override fun onDataTrackPublished(
+            localParticipant: LocalParticipant,
+            localDataTrackPublication: LocalDataTrackPublication
+        ) {
+            
+        }
+
+        override fun onDataTrackPublicationFailed(
+            localParticipant: LocalParticipant,
+            localDataTrack: LocalDataTrack,
+            twilioException: TwilioException
+        ) {
+            
+        }
+
+        override fun onNetworkQualityLevelChanged(
+            localParticipant: LocalParticipant,
+            networkQualityLevel: NetworkQualityLevel
+        ) {
+            super.onNetworkQualityLevelChanged(localParticipant, networkQualityLevel)
+            networkStatusLiveLocal.postValue(NetworkQualityModel(localParticipant.identity,networkQualityLevel))
+        }
+    }
 
 
 
     private val roomListener = object : Room.Listener {
+
+
+
         override fun onConnected(room: Room) {
             try {
                 Log.d(TAG, "onConnected: connect room ")
@@ -256,6 +326,15 @@ object TwilioHelper {
                         "name=${remoteAudioTrackPublication.trackName}]"
             )
             // binding.videoStatusTextview.text = "onAudioTrackAdded"
+        }
+
+        override fun onNetworkQualityLevelChanged(
+            remoteParticipant: RemoteParticipant,
+            networkQualityLevel: NetworkQualityLevel
+        ) {
+            super.onNetworkQualityLevelChanged(remoteParticipant, networkQualityLevel)
+            listener.onNetworkQualityLevelChanged(remoteParticipant,networkQualityLevel)
+            networkStatusLive.postValue(NetworkQualityModel(remoteParticipant.identity,networkQualityLevel))
         }
 
         override fun onAudioTrackUnpublished(
@@ -566,6 +645,11 @@ object TwilioHelper {
 
 
 interface RoomParticipantListener {
+    fun onNetworkQualityLevelChanged(
+    remoteParticipant: RemoteParticipant,
+    networkQualityLevel: NetworkQualityLevel
+    )
+
     fun onAudioTrackPublished(
         remoteParticipant: RemoteParticipant,
         remoteAudioTrackPublication: RemoteAudioTrackPublication

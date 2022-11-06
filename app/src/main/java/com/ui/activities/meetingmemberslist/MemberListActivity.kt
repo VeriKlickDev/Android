@@ -51,6 +51,7 @@ class MemberListActivity : AppCompatActivity() {
 
 
 
+
         Log.d(TAG, "onCreate: current hight $height  $width")
 
         CurrentConnectUserList.getListForAddParticipantActivity()

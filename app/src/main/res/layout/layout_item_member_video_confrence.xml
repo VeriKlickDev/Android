@@ -9,8 +9,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_weight="1"
+        android:background="@color/black"
         android:layout_height="match_parent">
-
 
         <ImageView
             android:id="@+id/iv_network_status"
@@ -35,6 +35,7 @@
             app:tviMirror="true"
             app:tviOverlaySurface="true" />
 
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_10sp"
                 android:singleLine="true"
-                android:background="@drawable/shape_rectangle_rounded_dark_transparent_grey_mini"
+                android:background="@drawable/shape_rectangle_rounded_dark_transparent_grey_mini_50"
                 android:fontFamily="@font/sarabun_medium"
                 android:paddingVertical="@dimen/_3sdp"
                 android:paddingHorizontal="@dimen/_10sp"

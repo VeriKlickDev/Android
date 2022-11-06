@@ -103,4 +103,16 @@
     <string name="txt_please_try_again">Please try again</string>
     <string name="txt_select_recommendation">Select Recommendation</string>
     <string name="txt_coding_test_remark">Coding Test Remark</string>
+
+
+    <string name="txt_Resume_not_available">Resume Not Available</string>
+    <string name="txt_all_meetings">All Meetings</string>
+    <string name="txt_scheduled_meetings">Scheduled</string>
+    <string name="txt_canceled">Cancelled</string>
+    <string name="txt_missed">Missed</string>
+    <string name="txt_attended">Attended</string>
+    <string name="txt_sharingscreenstatus">You\'re sharing your screen to everyone</string>
+    <string name="txt_video_not_available">Video Not Available</string>
+    <string name="txt_add_member">Add Members</string>
+
 </resources>

@@ -77,6 +77,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         currentDateIST = getCurrentDate()!!
         if (checkInternet()) {
             status = "schedule"
+            binding.tvHeader.setText(getString(R.string.txt_scheduled_meetings))
             handleUpcomingMeetingsList(0, 1, 9)
         } else {
             Snackbar.make(
@@ -244,10 +245,11 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         setupAdapter()
     }
 
-
+private  var ob: BodyScheduledMeetingBean? = null
+    
     private fun handleUpcomingMeetingsList(action: Int, pageNumber: Int, pageSize: Int) {
         UpcomingMeetingStatusHolder.setStatus(status)
-        var ob: BodyScheduledMeetingBean? = null
+       
 
         var recruiterId = ""
         var userId = ""
@@ -266,150 +268,71 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         when (action) {
             //first attempt
             0->{
-                WeeksDataHolder.getCurrentNextDayISTandUTCDate(currentDateIST!!) { ist, utc ->
-                    Log.d(TAG, "handleUpcomingMeetingsList: current date nex $ist")
+               WeeksDataHolder.getISTandUTCDate(currentDateIST!!,2){ist, utc, istx, utcx ->
+                   ob!!.from=utc
+                   ob!!.to=utcx
 
-                    currentDateIST = ist
-                    currentDateUTC = utc
+                   ob!!.fromdate=ist
+                   ob!!.todate=istx
 
-                }
-
-                WeeksDataHolder.getNextISTandUTCDate(currentDateIST!!) { ist, utc ->
-                    Log.d(TAG, "handleUpcomingMeetingsList: current pres nex $ist")
-
-                    ob.from = currentDateUTC
-                    ob.fromdate = currentDateIST
-
-                    ob.to = utc
-                    ob.todate = ist
-
-                    currentDateIST = ist
-                    currentDateUTC = utc
-
-                }
+                   currentDateIST = istx
+                   currentDateUTC = utcx
+               }
                 isNextClicked=true
             }
             7 -> {
-                /*
-                * for status
-                * */
-                WeeksDataHolder.getCurrentPreviousDayISTandUTCDate(WeeksDataHolder.getDate()!!.preDate!!) { ist, utc ->
 
-                    ob.fromdate = ist
-                    ob.from = utc
-                }
-                WeeksDataHolder.getCurrentNextDayISTandUTCDate(WeeksDataHolder.getDate()!!.nextDate!!) { ist, utc ->
+                val dObject=WeeksDataHolder.getCurrentDates()
+                ob?.from=dObject?.utc
+                ob?.fromdate=dObject?.ist
 
-                    WeeksDataHolder.convertTo1159(ist!!) { ist, utc ->
-                        ob.todate = ist
-                        ob.to = utc
-                    }
-                }
+                ob?.to=dObject!!.utcx
+                ob?.todate=dObject?.istx
+
                 binding.swipetorefresh.isRefreshing = false
 
             }
             //for past / previous
             1 -> {
+                WeeksDataHolder.getDecreasedDate(currentDateIST!!){ist, utc ->
+                    currentDateIST=ist
+                    currentDateUTC=utc
+                }
+                WeeksDataHolder.getISTandUTCDate(currentDateIST!!,1) { ist, utc, istx, utcx ->
+                    ob!!.from = utc
+                    ob!!.to = utcx
 
-                WeeksDataHolder.getPastISTandUTCDate(currentDateIST!!) { ist, utc ->
-                    Log.d(TAG, "handleUpcomingMeetingsList: current date pre $ist")
 
-
-                    WeeksDataHolder.convertTo1200(ist!!, result = { ist, utc ->
-                        ob.from = utc
-                        ob.fromdate = ist
-                    })
-
-                    WeeksDataHolder.convertTo1159(currentDateIST!!, result = { ist, utc ->
-                        ob.to = utc
-                        ob.todate = ist
-                    })
+                    ob!!.fromdate = ist
+                    ob!!.todate = istx
 
                     currentDateIST = ist
                     currentDateUTC = utc
-
                 }
 
-
-                /*WeeksDataHolder.getDecreasedDate(ob.fromdate!!) { ist, utc ->
-                    ob.fromdate = ist
-                    ob.from = utc
-                    Log.d("checkdate", "handleUpcomingMeetingsList: is pre true")
-                }*/
-
-
-
-                if (isNextClicked)
-                {
-                    WeeksDataHolder.getIncreasedDate(ob.fromdate!!){ist, utc ->
-                        ob.fromdate=ist
-                        ob.from=utc
-                    }
-                    WeeksDataHolder.getIncreasedDate(ob.todate!!){ist, utc ->
-                        ob.todate=ist
-                        ob.to=utc
-                    }
-
-                }else
-                {
-                    WeeksDataHolder.getDecreasedDate(ob.todate!!){ist, utc ->
-                        ob.todate=ist
-                        ob.to=utc
-                    }
-                }
                 isPreClicked = true
 
             }
             //for next week date
             2 -> {
-
-                WeeksDataHolder.getCurrentNextDayISTandUTCDate(currentDateIST!!) { ist, utc ->
-                    Log.d(TAG, "handleUpcomingMeetingsList: current date nex $ist")
-
-                    currentDateIST = ist
-                    currentDateUTC = utc
-
+                WeeksDataHolder.getIncreasedDate(currentDateIST!!){ist, utc ->
+                    currentDateIST=ist
+                    currentDateUTC=utc
                 }
 
-                WeeksDataHolder.getNextISTandUTCDate(currentDateIST!!) { ist, utc ->
-                    Log.d(TAG, "handleUpcomingMeetingsList: current pres nex $ist")
+                WeeksDataHolder.getISTandUTCDate(currentDateIST!!,2) { ist, utc, istx, utcx ->
+                    ob!!.from = utc
+                    ob!!.to = utcx
 
-                    ob.from = currentDateUTC
-                    ob.fromdate = currentDateIST
 
-                    ob.to = utc
-                    ob.todate = ist
+                    ob!!.fromdate = ist
+                    ob!!.todate = istx
 
-                    currentDateIST = ist
-                    currentDateUTC = utc
-
-                }
+                    currentDateIST = istx
+                    currentDateUTC = utcx
 
 
 
-
-                if (isPreClicked) {
-                    WeeksDataHolder.getDecreasedDate(ob.fromdate!!) { ist, utc ->
-                        ob.fromdate = ist
-                        ob.from = utc
-                        Log.d(TAG, "handleUpcomingMeetingsList: after todate true ${ist}")
-                    }
-                   /* WeeksDataHolder.getDecreasedDate(ob.fromdate!!) { ist, utc ->
-                        ob.fromdate = ist
-                        ob.from = utc
-                        Log.d(TAG, "handleUpcomingMeetingsList: after todate true ${ist}")
-                    }*/
-                } else {
-                    WeeksDataHolder.getIncreasedDate(ob.fromdate!!) { ist, utc ->
-                        ob.fromdate = ist
-                        ob.from = utc
-                        Log.d(TAG, "handleUpcomingMeetingsList: after todate true ${ist}")
-                    }
-                  /*  WeeksDataHolder.getDecreasedDate(ob.fromdate!!) { ist, utc ->
-                        ob.fromdate = ist
-                        ob.from = utc
-                        Log.d(TAG, "handleUpcomingMeetingsList: after todate true ${ist}")
-                    }*/
                 }
 
                 isNextClicked = true
@@ -417,39 +340,36 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
         }
 
-
+        WeeksDataHolder.setCurrentTime(WeeksDataHolder.CurrentDatesHolderModel(ob?.fromdate!!,ob?.from!!,ob?.todate!!,ob?.to!!))
 
         binding.tvFromdateToDate.text = getDateWithMonthName(
-            ob.from.toString(),
+            ob!!.from.toString(),
             1
-        ) + " to " + getDateWithMonthName(ob.to.toString(), 2)
+        ) + " to " + getDateWithMonthName(ob!!.to.toString(), 2)
 
-        //  Log.d(TAG, "handleUpcomingMeetingsList: ${ob.from} ${ob.to}")
-        Log.d(TAG, "\n\nhandleUpcomingMeetingsList: ${ob.fromdate} ${ob.todate}")
+        //  Log.d(TAG, "handleUpcomingMeetingsList: ${ob!!.from} ${ob!!.to}")
+        Log.d(TAG, "\n\nhandleUpcomingMeetingsList: date ${ob!!.fromdate} ${ob!!.todate}")
 
-        WeeksDataHolder.setDate(ob.fromdate!!, ob.todate!!)
+        WeeksDataHolder.setDate(ob!!.fromdate!!, ob!!.todate!!)
 
 
 
-        ob.Status = status
-        ob.Search = searchTxt
-        ob.PageNumber = pageNumber
-        ob.PageSize = pageSize
+        ob!!.Status = status
+        ob!!.Search = searchTxt
+        ob!!.PageNumber = pageNumber
+        ob!!.PageSize = pageSize
         //  Log.d(TAG, "handleUpcomingMeetingsList: ${ob?.Recruiter} ${ob?.Subscriber}")
 
-        Log.d("datecheck", "\n ${ob?.fromdate}  ${ob?.todate}  \n ${ob.from}  ${ob.to} ")
-
-
-
+        Log.d("datecheck", "\n ${ob?.fromdate}  ${ob?.todate}  \n ${ob!!.from}  ${ob!!.to} ")
 
 
         if (ob != null) {
             if (intent.getBooleanExtra(AppConstants.LOGIN_WITH_OTP, false)) {
-                getDataWithOtp(ob)
+                getDataWithOtp(ob!!)
                 Log.d(TAG, "handleUpcomingMeetingsList: logged with otp")
             } else {
                 Log.d(TAG, "handleUpcomingMeetingsList: logged with email")
-                getDataWithoutOtp(ob)
+                getDataWithoutOtp(ob!!)
             }
         } else {
             dismissProgressDialog()
@@ -638,30 +558,36 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 status = ""
                 meetingsList.clear()
                 pageno = 1
+                binding.tvHeader.setText(getString(R.string.txt_all_meetings))
                 handleUpcomingMeetingsList(7, 1, 9)
             }
             R.id.attended_meetings -> {
                 status = "Attended"
                 meetingsList.clear()
                 pageno = 1
+                binding.tvHeader.setText(getString(R.string.txt_attended))
                 handleUpcomingMeetingsList(7, 1, 9)
+
             }
             R.id.scheduled_meetings -> {
                 status = "schedule"
                 meetingsList.clear()
                 pageno = 1
+                binding.tvHeader.setText(getString(R.string.txt_scheduled_meetings))
                 handleUpcomingMeetingsList(7, 1, 9)
             }
             R.id.nonscheduled_meetings -> {
                 status = "nonSchedule"
                 meetingsList.clear()
                 pageno = 1
+                binding.tvHeader.setText(getString(R.string.txt_missed))
                 handleUpcomingMeetingsList(7, 1, 9)
             }
             R.id.cancel_meetings -> {
                 status = "cancel"
                 meetingsList.clear()
                 pageno = 1
+                binding.tvHeader.setText(getString(R.string.txt_canceled))
                 handleUpcomingMeetingsList(7, 1, 9)
             }
         }

@@ -13,7 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.data.dataHolders.LocalConfrenseMic
 import com.data.helpers.RoomParticipantListener
 import com.data.helpers.TwilioHelper
+import com.data.showToast
+import com.domain.BaseModels.NetworkQualityModel
 import com.domain.BaseModels.VideoTracksBean
+import com.example.twillioproject.R
 import com.example.twillioproject.databinding.LayoutItemConnectedUsersBinding
 import com.twilio.video.*
 import com.ui.activities.twilioVideo.MicStatusListener
@@ -40,35 +43,23 @@ class ConnectedUserListAdapter(val viewModel:VideoViewModel,
                 holder.binding.parentLayout.visibility = View.GONE
             }
         }*/
-    try {
-        
-     /*   if (!list[position].userName.equals("You")){
-            list[position].remoteParticipant?.let {
-                TwilioHelper.setRemoteParticipantListener(it)
-            }
-            Handler(Looper.getMainLooper()).postDelayed({
-                try {
-                    list[position].remoteParticipant?.let {
-                        holder.setMicStatus(it.remoteAudioTracks.firstOrNull()?.isTrackEnabled!!)
-                    }
 
-                }catch (e:Exception)
-                {
 
-                }
-
-            },500)
+        holder.binding.cardView2.setOnClickListener {
+            if (list[position].videoTrack!=null)
+            onClick(position, 1, list[position], list,list[position].videoTrack!!)
+            else
+            context.showToast(context,context.getString(R.string.txt_video_not_available))
 
         }
-*/
-    }catch (e:Exception)
-    {
-        Log.d(TAG, "onBindViewHolder: exception ${e.message}")
-    }
-        
-        holder.binding.cardView2.setOnClickListener { onClick(position, 1, list[position], list,list[position].videoTrack) }
+
+
         holder.binding.parentLayout.setOnClickListener {
-            onClick(position, 1, list[position], list,list[position].videoTrack)
+            if (list[position].videoTrack!=null)
+                onClick(position, 1, list[position], list,list[position].videoTrack!!)
+            else
+                context.showToast(context,context.getString(R.string.txt_video_not_available))
+
         }
     }
 
@@ -82,8 +73,19 @@ class ConnectedUserListAdapter(val viewModel:VideoViewModel,
         fun bindData(data: VideoTracksBean) {
             binding.ivUserVideoView.mirror = true
             binding.tvUsername.text = data.userName
-            data.videoTrack.addSink(binding.ivUserVideoView)
-
+           
+            if (data.videoTrack!=null)
+            {
+                binding.blankvideoLayout.visibility=View.GONE
+                binding.ivUserVideoView.visibility=View.VISIBLE
+                data.videoTrack!!.addSink(binding.ivUserVideoView)    
+            }else
+            {
+                binding.blankvideoLayout.visibility=View.VISIBLE
+                binding.ivUserVideoView.visibility=View.GONE
+                binding.tvNovideoText.setText(data.userName.get(0).toString())
+                Log.d(TAG, "bindData: video trak null")
+            }
 
             TwilioHelper.getMicStatusLive().observe(context as VideoActivity, Observer {
                 if (it.identity.equals(data.identity))
@@ -91,6 +93,13 @@ class ConnectedUserListAdapter(val viewModel:VideoViewModel,
                     setMicStatus(it.micStatus)
                 }
             })
+
+            TwilioHelper.getNetWorkQualityLevel().observe(context as VideoActivity){
+                if (it.identity.equals(data.identity))
+                {
+                    setNetworkLevel(it)
+                }
+            }
 
             try {
                 data.remoteParticipant?.let {
@@ -104,6 +113,11 @@ class ConnectedUserListAdapter(val viewModel:VideoViewModel,
 
                 if (data.userName.equals("You")) {
                     binding.ivMic.isVisible = false
+                    binding.ivNetworkStatus.isVisible=true
+                    TwilioHelper.getNetWorkQualityLevelLocal().observe(context){network->
+                        setNetworkLevel(network)
+                    }
+
                   /* LocalConfrenseMic.getLocalParticipant()
                         .observe(context as VideoActivity, Observer {
                             Log.d("adduserlistadapter", "bindData: mic is $it ")
@@ -146,6 +160,39 @@ class ConnectedUserListAdapter(val viewModel:VideoViewModel,
                 }
             }
         }
+
+        fun setNetworkLevel(networkQualityModel: NetworkQualityModel) {
+            when (networkQualityModel.network) {
+                NetworkQualityLevel.NETWORK_QUALITY_LEVEL_ZERO -> {
+                    binding.ivNetworkStatus.setImageResource(R.drawable.network_quality_level_0)
+                }
+                NetworkQualityLevel.NETWORK_QUALITY_LEVEL_ONE -> {
+                    binding.ivNetworkStatus.setImageResource(R.drawable.network_quality_level_1)
+                }
+                NetworkQualityLevel.NETWORK_QUALITY_LEVEL_TWO -> {
+                    binding.ivNetworkStatus.setImageResource(R.drawable.network_quality_level_2)
+                }
+                NetworkQualityLevel.NETWORK_QUALITY_LEVEL_THREE -> {
+                    binding.ivNetworkStatus.setImageResource(R.drawable.network_quality_level_3)
+                }
+                NetworkQualityLevel.NETWORK_QUALITY_LEVEL_FOUR -> {
+                    binding.ivNetworkStatus.setImageResource(R.drawable.network_quality_level_4)
+                }
+                NetworkQualityLevel.NETWORK_QUALITY_LEVEL_FIVE -> {
+                    binding.ivNetworkStatus.setImageResource(R.drawable.network_quality_level_5)
+                }
+                NetworkQualityLevel.NETWORK_QUALITY_LEVEL_UNKNOWN -> {
+                    binding.ivNetworkStatus.setImageResource(R.drawable.network_quality_level_3)
+                }
+                NetworkQualityLevel.NETWORK_QUALITY_LEVEL_FIVE -> {
+                    binding.ivNetworkStatus.setImageResource(R.drawable.network_quality_level_5)
+                }
+                else -> binding.ivNetworkStatus.setImageResource(R.drawable.network_quality_level_3)
+            }
+
+        }
+
+
     }
 
 }

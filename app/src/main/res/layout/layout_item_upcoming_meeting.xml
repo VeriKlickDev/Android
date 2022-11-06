@@ -50,19 +50,15 @@
                         android:text="@string/txt_client" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/tv_client"
                         android:fontFamily="@font/sarabun_regular"
                         android:textSize="@dimen/_14sp"
-                        android:text="adfkajsdf"
+                        android:layout_weight="1"
+                        android:text="adfkajsdfgfgfdgadfgdfgfadfkajsdfgfgfdgadfgdfgfadfkajsdfgfgfdgadfgdfgf"
                         android:layout_gravity="center_vertical"
                         android:textColor="@color/black"/>
-
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
 
                     <ImageView
                         android:layout_width="wrap_content"

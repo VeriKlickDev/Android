@@ -204,31 +204,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
             postData()
         }
         else {
-           /* if (binding.etRemart.text.toString()
-                    .equals(""))
-            {
-                binding.etRemart.isVisible=true
-            }else
-            {
-                binding.etRemart.isVisible=false
-            }
 
-            if (binding.etOverallRemark.text.toString()
-                .equals(""))
-            {
-                binding.etOverallRemark.isVisible=true
-            }else
-            {
-                binding.etOverallRemark.isVisible=false
-            }
-
-            if (binding.etRole.text.toString().equals(""))
-            {
-                binding.etRole.isVisible=true
-            }
-            else
-                binding.etRole.isVisible=false
-*/
             showToast(this, getString(R.string.txt_all_fields_required))
         }
     }
@@ -309,7 +285,7 @@ private var assesmentid=0
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?) {
-
+            Log.d(TAG, "onNothingSelected: notthing selected")
         }
 
     }

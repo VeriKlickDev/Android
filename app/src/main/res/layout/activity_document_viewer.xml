@@ -57,15 +57,41 @@
 <!--            android:id="@+id/swipetorefresh"-->
 <!--            >-->
 
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone"
+            android:id="@+id/parent_resumeNotAvailable"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                style="@style/textview.Style.TvStyleWhiteRounded_30"
+                android:text="@string/txt_Resume_not_available"
+                />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:id="@+id/parent_buttonlayout"
+    android:visibility="gone"
+    >
 
         <com.airbnb.lottie.LottieAnimationView
             android:layout_width="@dimen/_150sdp"
             android:layout_height="@dimen/_150sdp"
             android:id="@+id/animation_view"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/_50sdp"
             app:lottie_rawRes="@raw/document_animation"
             app:lottie_autoPlay="true"
+            android:layout_marginTop="-50sp"
             app:lottie_loop="true"/>
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -73,8 +99,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
+            android:layout_marginTop="@dimen/_15sp"
             android:id="@+id/btn_layout"
-            android:layout_marginTop="@dimen/_10sp"
             android:background="@drawable/shape_rectangle_rounded_10_skyblue"
             android:layout_gravity="center"
             tools:context="com.ui.activities.documentviewer.DocumentViewerActivity">
@@ -99,6 +125,9 @@
                 />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>
