@@ -377,7 +377,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             screenShareCapturerManager.endForeground()
            // localVideoTrack!!.release()
             TwilioHelper.disConnectRoom()
-            room!!.disconnect()
+          //  room!!.disconnect()
             //viewModel.endVideoCall()
             viewModel.setScreenSharingStatus(true, onResult = {action, data ->  })
             var isNotCandidate= true
@@ -1512,7 +1512,8 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
     private fun connectToRoom() {
         audioSwitch.activate()
 
-        val videoc = H264Codec()
+        //val videoc = H264Codec()
+        val videoc =Vp8Codec()//video/VP8/90000/1,fmtps:[]]
         val audioc = G722Codec()
         //    val videotrack = LocalVideoTrack.create(this, true, cameraCapturerCompat)
         //   val audioTrack = LocalAudioTrack.create(this, true)
@@ -1794,7 +1795,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         val templist = mutableListOf<VideoTracksBean>()
 
         try {
-
+/**
+ * working too
+ * */
             templist.addAll(remoteParticipantVideoList)
             templist.forEach {
                 if (remoteParticipant.identity.equals(it.remoteParticipant?.identity)) {
@@ -1809,9 +1812,15 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                     }
                 }
             }
-        }
+
+
+
+
+
+
+
         /**testing working*/
-        /*  templist.addAll(remoteParticipantVideoList)
+      /*    templist.addAll(remoteParticipantVideoList)
           templist.forEach {
               if (remoteParticipant.identity.equals(it.remoteParticipant?.identity)) {
                   Log.d(
@@ -1820,9 +1829,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                   )
                   remoteParticipantVideoList.remove(it)
               }
-          }*/
-        /*remoteParticipantVideoListWithCandidate.forEach {
-            if (remoteParticipant.identity.equals(it.remoteParticipant.identity))
+          }
+        remoteParticipantVideoListWithCandidate.forEach {
+            if (remoteParticipant.identity.equals(it.remoteParticipant!!.identity))
             {
                 if (CurrentMeetingDataSaver.getData().identity.equals(remoteParticipant.identity))
                 {
@@ -1833,6 +1842,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 }
             }
         }*/
+        }
         catch (e: Exception) {
             Log.d(TAG, "removeRemoteParticipant: exception  ${e.message}")
         }
@@ -2416,6 +2426,8 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             //remoteParticipantVideoListWithCandidate.removeAt(0)
             //CurrentConnectUserList.setListForAddParticipantActivity(remoteParticipantVideoListWithCandidate)
         }
+
+
         val tempList = mutableListOf<VideoTracksBean>()
         tempList.addAll(remoteParticipantVideoList)
        try {
@@ -2424,12 +2436,12 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
                    if (it.remoteParticipant?.remoteVideoTracks?.size!!>1)
                    {
-                       setConnectUser()
+
                        Log.d(TAG, "onVideoTrackUnsubscribed: remove one video only")
                    }else
                    {
                        tempList.remove(it)
-                       setConnectUser()
+
                        Log.d(TAG, "onVideoTrackUnsubscribed: removed participant")
                    }
                    Log.d(TAG, "onVideoTrackUnsubscribed: removed participant ${it.identity}")
@@ -2437,6 +2449,8 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
            }
            remoteParticipantVideoList.clear()
            remoteParticipantVideoList.addAll(tempList)
+           setConnectUser()
+
 
        }catch (e:Exception)
        {

@@ -133,7 +133,9 @@ dependencies {
     //implementation "com.koushikdutta.ion:ion:2.1.8"
 
     //twilio kotlin
-    implementation "com.twilio:video-android-ktx:7.1.2"
+    //working implementation "com.twilio:video-android-ktx:7.1.2"
+    //implementation("com.twilio:video-android:7.5.1")
+    implementation 'com.twilio:video-android-ktx:7.5.1'
 
     //JWT encryption
     implementation 'com.auth0.android:jwtdecode:2.0.1'
