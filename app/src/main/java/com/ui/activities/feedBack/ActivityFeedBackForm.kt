@@ -37,7 +37,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
     private lateinit var spinnerAdapter: ArrayAdapter<String>
     private lateinit var skillsAdapter: SkillsListAdapter
     private val skillsList = mutableListOf<AssessSkills>()
-    private var appliedPosition:String=""
+    private var appliedPosition: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +47,10 @@ class ActivityFeedBackForm : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(FeedBackViewModel::class.java)
 
         CoroutineScope(Dispatchers.IO).launch {
-            Log.d(TAG, "onCreate: recruiterId= ${CurrentMeetingDataSaver.getData().interviewModel?.recruiterId.toString()} ")
+            Log.d(
+                TAG,
+                "onCreate: recruiterId= ${CurrentMeetingDataSaver.getData().interviewModel?.recruiterId.toString()} "
+            )
         }
 
 
@@ -56,12 +59,12 @@ class ActivityFeedBackForm : AppCompatActivity() {
             ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, listOf())
         binding.spinnerInterviewRemark.adapter = spinnerAdapter
 
-        skillsAdapter = SkillsListAdapter(this, skillsList){pos, data,action ->
-            when (action){
-                1->{
+        skillsAdapter = SkillsListAdapter(this, skillsList) { pos, data, action ->
+            when (action) {
+                1 -> {
                     // addNewItem()
                 }
-                2->{
+                2 -> {
                     removeItem(pos)
                 }
             }
@@ -72,23 +75,24 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
 
         binding.btnSubmitButton.setOnClickListener {
-            if (checkInternet()){
+            if (checkInternet()) {
 
-                if (recommendationSelected!=null)
-                {
-                    binding.recommendationError.isVisible=false
-                 }else
-                {
-                    binding.recommendationError.isVisible=true
+                if (recommendationSelected != null) {
+                    binding.recommendationError.isVisible = false
+                } else {
+                    binding.recommendationError.isVisible = true
                 }
 
                 setVisible()
 
                 sendFeedBack()
 
-            }else
-            {
-                Snackbar.make(it,getString(R.string.txt_no_internet_connection), Snackbar.LENGTH_SHORT).show()
+            } else {
+                Snackbar.make(
+                    it,
+                    getString(R.string.txt_no_internet_connection),
+                    Snackbar.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -99,69 +103,64 @@ class ActivityFeedBackForm : AppCompatActivity() {
             addNewItem()
         }
 
-        if (checkInternet()){
+        if (checkInternet()) {
             getFeedBack()
-        }else
-        {
-            Snackbar.make(binding.root,getString(R.string.txt_no_internet_connection), Snackbar.LENGTH_SHORT).show()
+        } else {
+            Snackbar.make(
+                binding.root,
+                getString(R.string.txt_no_internet_connection),
+                Snackbar.LENGTH_SHORT
+            ).show()
         }
 
         // getInterviewDetails("mkpeHcXKbF95uRiWiLzJ")
     }
 
-    fun setVisible()
-    {
+    fun setVisible() {
         if (binding.etRemart.text.toString().trim()
-                .equals(""))
-        {
-            binding.remarkError.isVisible=true
-        }else
-        {
-            binding.remarkError.isVisible=false
+                .equals("")
+        ) {
+            binding.remarkError.isVisible = true
+        } else {
+            binding.remarkError.isVisible = false
         }
         if (binding.etOverallRemark.text.toString()
-                .equals(""))
-        {
-            binding.overallRemarkError.isVisible=true
-        }else
-        {
-            binding.overallRemarkError.isVisible=false
+                .equals("")
+        ) {
+            binding.overallRemarkError.isVisible = true
+        } else {
+            binding.overallRemarkError.isVisible = false
         }
-        if (binding.etRole.text.toString().equals(""))
-        {
-            binding.roleError.isVisible=true
-        }
-        else{
-            binding.roleError.isVisible=false
+        if (binding.etRole.text.toString().equals("")) {
+            binding.roleError.isVisible = true
+        } else {
+            binding.roleError.isVisible = false
         }
     }
 
 
     override fun finish() {
         super.finish()
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
-    fun addNewItem()
-    {
+    fun addNewItem() {
         Log.d(TAG, "addNewItem: before ${skillsList.size} ")
         skillsList.add(AssessSkills(value = "others"))
         skillsAdapter.notifyItemInserted(skillsList.size)
         Log.d(TAG, "addNewItem: AFTER ${skillsList.size}")
     }
 
-    fun removeItem(pos:Int)
-    {
+    fun removeItem(pos: Int) {
         Log.d(TAG, "remove item:before ${skillsList.size} pos $pos")
         try {
 
-            if (pos!=-1)
+            if (pos != -1)
                 skillsList.removeAt(pos)
-           // skillsAdapter.notifyItemRemoved(pos)
+            // skillsAdapter.notifyItemRemoved(pos)
             skillsAdapter.notifyDataSetChanged()
             Log.d(TAG, "remove item:after ${skillsList.size}")
-        }catch (e:Exception)
-        {
+        } catch (e: Exception) {
 
         }
     }
@@ -170,11 +169,11 @@ class ActivityFeedBackForm : AppCompatActivity() {
     fun sendFeedBack() {
         Log.d(TAG, "sendFeedBack: list size ${skillsAdapter.getFeedBackList().size}")
         Log.d(TAG, "sendFeedBack: list size ${skillsAdapter.getFeedBackList()}")
-        isBlank=false
+        isBlank = false
 
         skillsAdapter.getFeedBackList().forEach {
             Log.d(TAG, "sendFeedBack: cat ${it.Catagory} comment ${it.Comments}")
-            if ( it.Comments.equals("")) {//it.Catagory.equals("") ||
+            if (it.Comments.equals("")) {//it.Catagory.equals("") ||
                 Log.d(TAG, "sendFeedBack:  blank data")
                 isBlank = true
                 // showToast(this, getString(R.string.txt_all_fields_required))
@@ -186,11 +185,10 @@ class ActivityFeedBackForm : AppCompatActivity() {
         }
 
         if (!isBlank) {
-            binding.skillsError.isVisible=false
+            binding.skillsError.isVisible = false
             postFeedback()
-        }
-        else{
-            binding.skillsError.isVisible=true
+        } else {
+            binding.skillsError.isVisible = true
             showToast(this, getString(R.string.txt_all_fields_required))
         }
     }
@@ -199,44 +197,65 @@ class ActivityFeedBackForm : AppCompatActivity() {
         if (!binding.etRemart.text.toString()
                 .equals("") && !binding.etOverallRemark.text.toString()
                 .equals("") && !binding.etRole.text.toString().equals("")
-        )
-        {
+        ) {
             postData()
-        }
-        else {
+        } else {
 
             showToast(this, getString(R.string.txt_all_fields_required))
         }
     }
-private var assesmentid=0
-    fun postData()
-    {
-        val skillist= ArrayList<CandidateAssessmentSkills>()
+
+    private var assesmentid = 0
+    fun postData() {
+        val skillist = ArrayList<CandidateAssessmentSkills>()
         skillsAdapter.getFeedBackList().forEach {
-            skillist.add(CandidateAssessmentSkills(it.CandidateAssessmentSkillsId,it.CandidateAssessmentId,it.Comments,it.Ratings?.toInt(),it.Catagory,it.ManualCatagory,it.CandiateAssessment))
-            Log.d(TAG, "postData: check all data  appliedpos skillist assesment Id ${it.CandidateAssessmentId}  ${it.CandiateAssessment} ")
+            skillist.add(
+                CandidateAssessmentSkills(
+                    it.CandidateAssessmentSkillsId,
+                    it.CandidateAssessmentId,
+                    it.Comments,
+                    it.Ratings?.toInt(),
+                    it.Catagory,
+                    it.ManualCatagory,
+                    it.CandiateAssessment
+                )
+            )
+            Log.d(
+                TAG,
+                "postData: check all data  appliedpos skillist assesment Id ${it.CandidateAssessmentId}  ${it.CandiateAssessment} "
+            )
         }
 
         Log.d(TAG, "postData: list data is $skillist")
-        val candidateId=intent.getIntExtra(AppConstants.CANDIDATE_ID,0)
+        val candidateId = intent.getIntExtra(AppConstants.CANDIDATE_ID, 0)
 
-        if (recommendationSelected!=null)
-        {
-            binding.recommendationError.isVisible=false
+        if (recommendationSelected != null){
+            binding.recommendationError.isVisible = false
 
-          //  Log.d(TAG, "postData: check all data  appliedpos $appliedPosition recomm $recommendationSelected designation $designation intername $interviewName candidId $candidateId CANDIDATENAME ${CurrentMeetingDataSaver.getData().interviewModel?.candidate?.firstName+ CurrentMeetingDataSaver.getData().interviewModel?.candidate?.lastName} ")
+        //  Log.d(TAG, "postData: check all data  appliedpos $appliedPosition recomm $recommendationSelected designation $designation intername $interviewName candidId $candidateId CANDIDATENAME ${CurrentMeetingDataSaver.getData().interviewModel?.candidate?.firstName+ CurrentMeetingDataSaver.getData().interviewModel?.candidate?.lastName} ")
 
 
-            viewModel.sendFeedback(this,assesmentid,appliedPosition,recommendationSelected!!,designation,interviewName,candidateId,binding.etRemart.text.toString(),BodyFeedBack(
-                CandidateAssessmentSkills=skillist,
-            ),skillsListres,remarkList, onDataResponse = {data, status ->
-                when(status)
-                {
+        viewModel.sendFeedback(this,
+            assesmentid,
+            binding.etRole.text.toString(),
+            appliedPosition,
+            recommendationSelected!!,
+            designation,
+            interviewName,
+            candidateId,
+            binding.etRemart.text.toString(),
+            BodyFeedBack(
+                CandidateAssessmentSkills = skillist,
+            ),
+            skillsListres,
+            remarkList,
+            onDataResponse = { data, status ->
+                when (status) {
                     404 -> {
-                        
+
                     }
                     200 -> {
-                        showToast(this,data?.aPIResponse?.message!!)
+                        showToast(this, data?.aPIResponse?.message!!)
                         finish()
                     }
                     400 -> {
@@ -246,20 +265,24 @@ private var assesmentid=0
 
                     }
                     500 -> {
-                        showToast(this,getString(R.string.txt_something_went_wrong))
+                        showToast(this, getString(R.string.txt_something_went_wrong))
                     }
                 }
 
-                Log.d(TAG, "postData: data status $status ${data?.jobid}  ${data?.aPIResponse?.message}")
+                Log.d(
+                    TAG,
+                    "postData: data status $status ${data?.jobid}  ${data?.aPIResponse?.message}"
+                )
                 finish()
             })
 
-        }else
-        {
-            binding.recommendationError.isVisible=true
-            showToast(this,getString(R.string.txt_all_fields_required))
-        }
+    }else
+    {
+        binding.recommendationError.isVisible = true
+        showToast(this, getString(R.string.txt_all_fields_required))
     }
+
+}
 
     private var recommendationSelected:String? = null
     private var isOpenedFirst=false

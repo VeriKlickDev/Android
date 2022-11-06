@@ -60,7 +60,7 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
 
     }
 
-    fun sendFeedback(context: Context,assementId:Int,appliedPosition:String,recommendation:String,designation:String,interviewName:String,candidateId:Int,remarktxt:String, obj:BodyFeedBack,skillsListRes:ArrayList<AssessSkills>,remarkList:ArrayList<InterviewerRemark>, onDataResponse:(data: ResponseBodyFeedBack?, status:Int)->Unit) {
+    fun sendFeedback(context: Context,assementId:Int,role:String,appliedPosition:String,recommendation:String,designation:String,interviewName:String,candidateId:Int,remarktxt:String, obj:BodyFeedBack,skillsListRes:ArrayList<AssessSkills>,remarkList:ArrayList<InterviewerRemark>, onDataResponse:(data: ResponseBodyFeedBack?, status:Int)->Unit) {
         viewModelScope.launch {
             try {
                 CoroutineScope(Dispatchers.IO).launch {
