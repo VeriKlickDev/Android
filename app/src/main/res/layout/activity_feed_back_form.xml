@@ -211,20 +211,19 @@
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
 
-                            <TextView
+                          <!--  <TextView
                                 android:id="@+id/tv_spinnerTitle"
                                 style="@style/heading.TextView.Grey_16"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="@string/txt_select_recommendation" />
+                                android:text="@string/txt_select_recommendation" />-->
 
-                            <androidx.appcompat.widget.AppCompatSpinner
+                            <Spinner
                                 android:id="@+id/spinner_interviewRemark"
-                                android:layout_width="@dimen/_40sdp"
-                                android:layout_height="@dimen/_30sdp"
-                                android:spinnerMode="dialog"
-                                android:text="@string/txt_variation_of_passages" />
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:nestedScrollingEnabled="false"
+                                android:paddingVertical="@dimen/_2sp" />
                         </androidx.appcompat.widget.LinearLayoutCompat>
                     </androidx.appcompat.widget.LinearLayoutCompat>
 

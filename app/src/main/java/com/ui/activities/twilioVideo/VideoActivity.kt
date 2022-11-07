@@ -662,7 +662,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             CurrentConnectUserList.setListForAddParticipantActivity(globalParticipantList)
             adapter = ConnectedUserListAdapter(viewModel,
                 this,
-                globalParticipantList,
+                globalParticipantList.distinctBy { it.identity },
                 onClick = { pos, action, data, datalist, videotrack ->
                     try {
 
@@ -2370,10 +2370,10 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         )
 
         binding.videoStatusTextview.text = "onVideoTrackSubscribed"
-        /***/
+        /**testing*/
         try {
 
-            /*     if(remoteParticipantVideoList.size>0)
+                 if(remoteParticipantVideoList.size>0)
                  {
                      val isExists=remoteParticipantVideoList.any { it.remoteParticipant?.identity.equals(remoteParticipant.identity) }
 
@@ -2383,7 +2383,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                          if (videoTracksBean.remoteParticipant?.identity.equals(remoteParticipant.identity))
                          {
                              remoteParticipantVideoList.set(index,
-                                 VideoTracksBean(remoteParticipant,remoteVideoTrack,videoTracksBean.userName)
+                                 VideoTracksBean(remoteParticipant.identity,remoteParticipant,remoteVideoTrack,videoTracksBean.userName)
                              )
                              setConnectUser()
                          }
@@ -2393,7 +2393,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                  {
                      addRemoteParticipantVideo(remoteVideoTrack, remoteParticipant)
                  }
-     */
+
 
             currentRemoteParticipant = remoteParticipant
             addRemoteParticipantVideo(remoteVideoTrack, remoteParticipant)
@@ -2426,30 +2426,27 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             //CurrentConnectUserList.setListForAddParticipantActivity(remoteParticipantVideoListWithCandidate)
         }
 
-
+/**working method*/
         val tempList = mutableListOf<VideoTracksBean>()
         tempList.addAll(remoteParticipantVideoList)
        try {
            remoteParticipantVideoList.forEach {
                if (it.remoteParticipant?.identity.equals(remoteParticipant.identity)) {
-
-                   if (it.remoteParticipant?.remoteVideoTracks?.size!!>1)
+                  //uncomment tempList.remove(it)
+                /*   if (it.remoteParticipant?.remoteVideoTracks?.size!!>1)
                    {
-
                        Log.d(TAG, "onVideoTrackUnsubscribed: remove one video only")
                    }else
                    {
-                       tempList.remove(it)
-
+                       setConnectUser()
                        Log.d(TAG, "onVideoTrackUnsubscribed: removed participant")
-                   }
+                   }*/
                    Log.d(TAG, "onVideoTrackUnsubscribed: removed participant ${it.identity}")
                }
            }
            remoteParticipantVideoList.clear()
            remoteParticipantVideoList.addAll(tempList)
            setConnectUser()
-
 
        }catch (e:Exception)
        {

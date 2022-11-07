@@ -87,6 +87,7 @@
             android:orientation="horizontal"
             android:id="@+id/layoutTitle"
             >
+
             <EditText
                 android:id="@+id/et_title"
                 android:textSize="@dimen/_15sp"
@@ -100,6 +101,7 @@
                 android:layout_weight="1"
                 android:layout_marginBottom="@dimen/_10sp"
                 />
+
             <TextView
                 style="@style/heading.TextView.Black_16"
                 android:layout_width="wrap_content"

@@ -1,22 +1,21 @@
 package com.ui.activities.feedBack
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.DragEvent
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.SpinnerAdapter
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
 import com.data.dataHolders.CurrentMeetingDataSaver
-import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.*
 import com.domain.constant.AppConstants
 import com.example.twillioproject.R
@@ -27,6 +26,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import layout.SkillsListAdapter
+
 
 @AndroidEntryPoint
 class ActivityFeedBackForm : AppCompatActivity() {
@@ -55,23 +55,21 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
 
 
-        spinnerAdapter =
-            ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, listOf())
-        binding.spinnerInterviewRemark.adapter = spinnerAdapter
-
-        skillsAdapter = SkillsListAdapter(this, skillsList) { pos, data, action ->
-            when (action) {
-                1 -> {
-                    // addNewItem()
-                }
-                2 -> {
-                    removeItem(pos)
+        skillsAdapter =
+            SkillsListAdapter(this, skillsList) { pos, data, action ->
+                when (action) {
+                    1 -> {
+                        // addNewItem()
+                    }
+                    2 -> {
+                        removeItem(pos)
+                    }
                 }
             }
-        }
         binding.rvCandidateSkills.adapter = skillsAdapter
 
-        binding.spinnerInterviewRemark.onItemSelectedListener = spinnerItemListener
+//        binding.spinnerInterviewRemark.onItemSelectedListener =
+//            spinnerItemListener
 
 
         binding.btnSubmitButton.setOnClickListener {
@@ -229,81 +227,72 @@ class ActivityFeedBackForm : AppCompatActivity() {
         Log.d(TAG, "postData: list data is $skillist")
         val candidateId = intent.getIntExtra(AppConstants.CANDIDATE_ID, 0)
 
-        if (recommendationSelected != null){
+        if (recommendationSelected != null) {
             binding.recommendationError.isVisible = false
 
-        //  Log.d(TAG, "postData: check all data  appliedpos $appliedPosition recomm $recommendationSelected designation $designation intername $interviewName candidId $candidateId CANDIDATENAME ${CurrentMeetingDataSaver.getData().interviewModel?.candidate?.firstName+ CurrentMeetingDataSaver.getData().interviewModel?.candidate?.lastName} ")
+            //  Log.d(TAG, "postData: check all data  appliedpos $appliedPosition recomm $recommendationSelected designation $designation intername $interviewName candidId $candidateId CANDIDATENAME ${CurrentMeetingDataSaver.getData().interviewModel?.candidate?.firstName+ CurrentMeetingDataSaver.getData().interviewModel?.candidate?.lastName} ")
 
 
-        viewModel.sendFeedback(this,
-            assesmentid,
-            binding.etRole.text.toString(),
-            appliedPosition,
-            recommendationSelected!!,
-            designation,
-            interviewName,
-            candidateId,
-            binding.etRemart.text.toString(),
-            BodyFeedBack(
-                CandidateAssessmentSkills = skillist,
-            ),
-            skillsListres,
-            remarkList,
-            onDataResponse = { data, status ->
-                when (status) {
-                    404 -> {
+            viewModel.sendFeedback(this,
+                assesmentid,
+                binding.etRole.text.toString(),
+                appliedPosition,
+                recommendationSelected!!,
+                designation,
+                interviewName,
+                candidateId,
+                binding.etRemart.text.toString(),
+                BodyFeedBack(
+                    CandidateAssessmentSkills = skillist,
+                ),
+                skillsListres,
+                remarkList,
+                onDataResponse = { data, status ->
+                    when (status) {
+                        404 -> {
 
+                        }
+                        200 -> {
+                            showToast(this, data?.aPIResponse?.message!!)
+                            finish()
+                        }
+                        400 -> {
+
+                        }
+                        401 -> {
+
+                        }
+                        500 -> {
+                            showToast(this, getString(R.string.txt_something_went_wrong))
+                        }
                     }
-                    200 -> {
-                        showToast(this, data?.aPIResponse?.message!!)
-                        finish()
-                    }
-                    400 -> {
 
-                    }
-                    401 -> {
+                    Log.d(
+                        TAG,
+                        "postData: data status $status ${data?.jobid}  ${data?.aPIResponse?.message}"
+                    )
+                    finish()
+                })
 
-                    }
-                    500 -> {
-                        showToast(this, getString(R.string.txt_something_went_wrong))
-                    }
-                }
+        } else {
+            binding.recommendationError.isVisible = true
+            showToast(this, getString(R.string.txt_all_fields_required))
+        }
 
-                Log.d(
-                    TAG,
-                    "postData: data status $status ${data?.jobid}  ${data?.aPIResponse?.message}"
-                )
-                finish()
-            })
-
-    }else
-    {
-        binding.recommendationError.isVisible = true
-        showToast(this, getString(R.string.txt_all_fields_required))
     }
 
-}
+    private var recommendationSelected: String? = null
+    private var isOpenedFirst = false
 
-    private var recommendationSelected:String? = null
-    private var isOpenedFirst=false
+    private val spinnerItemListener = object : AdapterView.OnItemSelectedListener {
 
-    val spinnerItemListener = object : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             Log.d(TAG, "onItemSelected: selected ${recommendationList.get(position)}")
-
-            if (!isOpenedFirst)
-            {
-              //  binding.recommendationError.isVisible=true
-            }else
-            {
-                recommendationSelected = recommendationList.get(position)
-                binding.tvSpinnerTitle.text=recommendationList[position]
-                binding.recommendationError.isVisible=false
+            if (position==0){
+                ( view as TextView).setTextColor(ContextCompat.getColor(this@ActivityFeedBackForm,R.color.grey))
+            }else{
+                ( view as TextView).setTextColor(ContextCompat.getColor(this@ActivityFeedBackForm,R.color.black))
             }
-
-            isOpenedFirst=true
-
-          //  binding.tvSpinnerTitle.text=recommendationList[position]
 
         }
 
@@ -345,15 +334,14 @@ class ActivityFeedBackForm : AppCompatActivity() {
                     showToast(this, data?.aPIResponse?.message!!)
                     CurrentMeetingDataSaver.setData(data!!)
                     getFeedBack()
-
                 }
             }
         })
 
     }
 
-    private val remarkList= arrayListOf<InterviewerRemark>()
-    private val skillsListres= arrayListOf<AssessSkills>()
+    private val remarkList = arrayListOf<InterviewerRemark>()
+    private val skillsListres = arrayListOf<AssessSkills>()
     fun getFeedBack() {
         // showProgressDialog()
         viewModel.getFeedBack(onResponse = { data, status ->
@@ -365,7 +353,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
                     skillsListres.addAll(data.assessSkills)
                     Log.d(TAG, "getResume: success ondata response")
                     setDataToViews(data!!)
-                    assesmentid=data.AssessmentId!!
+                    assesmentid = data.AssessmentId!!
                     //   binding.swipetorefresh.isRefreshing = false
                 }
                 400 -> {
@@ -405,46 +393,71 @@ class ActivityFeedBackForm : AppCompatActivity() {
     }
 
 
-    private var interviewName=""
-    private var designation=""
+    private var interviewName = ""
+    private var designation = ""
 
     private val recommendationList = mutableListOf<String>()
-
     fun setDataToViews(data: ResponseFeedBack) {
 
         Handler(Looper.getMainLooper()).post(kotlinx.coroutines.Runnable {
 
-            interviewName=data.CandidateAssessmentPanelMembers.firstOrNull()?.Name.toString()
-            designation=data.CandidateAssessmentPanelMembers.firstOrNull()?.Designation.toString()
+            interviewName = data.CandidateAssessmentPanelMembers.firstOrNull()?.Name.toString()
+            designation = data.CandidateAssessmentPanelMembers.firstOrNull()?.Designation.toString()
 
-
-            binding.tvName.text=""
+            binding.tvName.text = ""
             data.CandidateAssessmentPanelMembers.firstOrNull()?.Name?.let {
-                binding.tvName.text=data.CandidateAssessmentPanelMembers.firstOrNull()?.Name
+                binding.tvName.text = data.CandidateAssessmentPanelMembers.firstOrNull()?.Name
             }
 
             binding.tvJobId.text = data.jobid.toString()
             binding.tvDescription.text = data.AppliedPostion
-            appliedPosition=data.AppliedPostion.toString()
+            appliedPosition = data.AppliedPostion.toString()
+
+            recommendationList.add(0, "Select Recommendation")
             data.InterviewerRemark.forEach {
                 recommendationList.add(it.Remark.toString())
             }
-
-            spinnerAdapter = ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_expandable_list_item_1,
-                recommendationList
-            )
+            Log.e(TAG, "setDataToViews: " + (recommendationList.size ?: 0).toString())
+            spinnerAdapter =
+                object :
+                    ArrayAdapter<String>(
+                        this, android.R.layout.simple_spinner_dropdown_item,
+                        recommendationList
+                    ) {
+                    override fun getDropDownView(
+                        position: Int,
+                        convertView: View?,
+                        parent: ViewGroup
+                    ): View {
+                        var v: View? = null
+                        if (position == 0) {
+                            val tv = TextView(this@ActivityFeedBackForm)
+                            tv.visibility = View.GONE
+                            //tv.height = 0
+                            v = tv
+                        } else {
+                            v = super.getDropDownView(
+                                position,
+                                convertView,
+                                parent
+                            )
+                        }
+                        return v!!
+                    }
+                }
             binding.spinnerInterviewRemark.adapter = spinnerAdapter
-            spinnerAdapter.notifyDataSetChanged()
+            binding.spinnerInterviewRemark.onItemSelectedListener = spinnerItemListener
+//            spinnerAdapter.notifyDataSetChanged()
+
+            //  spinnerAdapter.notifyDataSetChanged()
 
             if (!data.CandidateAssessmentSkills.isNullOrEmpty())
-                if (data.CandidateAssessmentSkills[0].Catagory!=null && !data.CandidateAssessmentSkills[0].Catagory.equals("null") )
-                {
+                if (data.CandidateAssessmentSkills[0].Catagory != null && !data.CandidateAssessmentSkills[0].Catagory.equals(
+                        "null"
+                    )
+                ) {
                     skillsList.addAll(data.CandidateAssessmentSkills)
-                }
-                else
-                {
+                } else {
                     skillsList.addAll(data.assessSkills)
                 }
             Log.d(TAG, "setDataToViews: listdata $skillsList")

@@ -72,7 +72,6 @@ interface BaseRestApi {
 
     @POST("/api/ScheduleVideo/UpdateInterviewersScreenShareStatus")
     suspend fun setScreenSharingStatus(@Body obj : BodyUpdateScreenShareStatus) :Response<Gson>
-    //GetInterviewByRecruiterForMobile
 
     @POST("/api/ScheduleVideo/GetInterviewByRecruiterForMobile")
     suspend fun getScheduledMeetingsListwithOtp(@Body ob: BodyScheduledMeetingBean):Response<ResponseScheduledMeetingBean>
@@ -82,7 +81,6 @@ interface BaseRestApi {
 
     @POST("/api/ScheduleVideo/MailInterviewersToJoin")
     suspend fun sendMailToJoinMeeting(@Body ob: BodySendMail):Response<ResponseSendMail>
-
 
 }
 
