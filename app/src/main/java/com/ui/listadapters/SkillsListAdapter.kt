@@ -89,11 +89,13 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
             {
                 Log.d("datachecking", "dataBind: data is in if ")
                 binding.etTitle.isVisible=true
+                binding.layoutTitle.isVisible=true
                // binding.etTitle.setText("")
             }
             else{
                 Log.d("datachecking", "dataBind: data is in else ")
                 binding.etTitle.isVisible=false
+                binding.layoutTitle.isVisible=false
                 binding.etTitle.setText(binding.tvSkills.text.toString())
             }
 

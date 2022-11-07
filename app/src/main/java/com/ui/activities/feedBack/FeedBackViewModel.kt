@@ -83,12 +83,9 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
                     obj?.CandidateAssessment?.Skills=skillsListRes
                     obj?.CandidateAssessment?.AssessmentId=assementId
 
-
                             /* CurrentUpcomingMeetingData.getData()?.let {
                         obj.RecruiterId=it.interviewId.toString()
                     }*/
-
-
 
                         if (DataStoreHelper.getMeetingRecruiterid().equals("") || DataStoreHelper.getMeetingRecruiterid().equals("null"))
                         {

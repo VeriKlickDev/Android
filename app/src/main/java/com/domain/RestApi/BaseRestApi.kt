@@ -80,6 +80,10 @@ interface BaseRestApi {
     @POST("/api/ScheduleVideo/Updatestatusofvideoscheduled")
     suspend fun setCandidateJoinMeetingStatus(@Body ob: BodyCandidateJoinedMeetingStatus):Response<ResponseCandidateJoinedMeetingStatus>
 
+    @POST("/api/ScheduleVideo/MailInterviewersToJoin")
+    suspend fun sendMailToJoinMeeting(@Body ob: BodySendMail):Response<ResponseSendMail>
+
+
 }
 
 

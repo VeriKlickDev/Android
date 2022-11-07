@@ -106,7 +106,7 @@ data class InterviewModel (
 
 data class ResponseInterViewDetailsBean (
 
-    @SerializedName("UserType") val userType : String?=null,
+	@SerializedName("UserType") val userType : String?=null,
     @SerializedName("ChatChannel") val chatChannel : String?=null,
     @SerializedName("ChannelCreatedBy") val channelCreatedBy : String?=null,
     @SerializedName("ChatUserIdentity") val chatUserIdentity : String?=null,

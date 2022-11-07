@@ -49,12 +49,12 @@ class JoinMeetingActivity :AppCompatActivity() {
 
                     accessCode= accessCodeSplit.last()
                     Log.d(TAG, "onCreate: accessCode is $accessCode")
-                    //host https://ui2.veriklick.in/video-session/JLMwEhS1QPzzJUsgeS2G
-                    //candidate https://ui2.veriklick.in/video-session/yNUkr2u4UjNSQevTdOMf
-                    //interviewer https://ui2.veriklick.in/video-session/Scor6TeHKoJNRlzgI9l1
-                    //5 https://ui2.veriklick.in/video-session/vu9bMEaNbnBdEK18ZBgT
-                    //2 https://ui2.veriklick.in/video-session/Scor6TeHKoJNRlzgI9l1
-                   // getInterviewDetails("JLMwEhS1QPzzJUsgeS2G")
+                    //host https://ui2.veriklick.in/video-session/NrGfapnxMavq47QMwkrE
+                    //candidate
+                    //interviewer
+                    //5
+                    //2
+                    //getInterviewDetails("NrGfapnxMavq47QMwkrE")
                     getInterviewDetails(accessCode)
                     //  showToast(this,"Under Development")
                     hideKeyboard(this)
@@ -94,7 +94,9 @@ class JoinMeetingActivity :AppCompatActivity() {
                     data.videoAccessCode=accessCode
                     CurrentMeetingDataSaver.setData(data)
                     Log.d(TAG, "getInterviewDetails: user response $data")
-                    // Log.d(TAG, "host : ${data.token}  ${data.roomName}")
+                    //val identityWithoutFirstChar=CurrentMeetingDataSaver.getData().identity?.substring(1,CurrentMeetingDataSaver.getData().identity?.length!!.toInt())
+                    //Log.d(TAG, "getInterviewDetails: identity ${CurrentMeetingDataSaver.getData().identity} identitywitoutno $identityWithoutFirstChar")
+                // Log.d(TAG, "host : ${data.token}  ${data.roomName}")
                     // TwilioHelper.setTwilioCredentials(data.token.toString(), data.roomName.toString())
                     // startActivity(Intent(this@JoinMeetingActivity, VideoActivity::class.java))
                 }
@@ -139,6 +141,9 @@ class JoinMeetingActivity :AppCompatActivity() {
                     if(data.identity!!.contains("C") && data.roomName?.trim()?.lowercase().equals("nothost") )
                     {
                         showAlertWhenNotHost()
+                        viewModel.sendMailToJoin { data, response ->
+                            Log.d(TAG, "joinMeetingCandidate: send mail response $data")
+                        }
                         Log.d("showdialogalert", "joinMeetingCandidate: in dialog show")
                     }else
                     {

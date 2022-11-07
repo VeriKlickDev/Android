@@ -2,8 +2,11 @@ package com.ui.activities.joinmeeting
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.repositoryImpl.BaseRestRepository
+import com.domain.BaseModels.BodySendMail
 import com.domain.BaseModels.ResponseInterViewDetailsBean
+import com.domain.BaseModels.ResponseSendMail
 import com.domain.BaseModels.TokenResponseBean
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -44,6 +47,31 @@ class JoinMeetingViewModel @Inject constructor(val repo: BaseRestRepository) :Vi
         }
     }
 
+    fun sendMailToJoin(onDataResponse:(data:ResponseSendMail, response:Int)->Unit)
+    {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val identityWithoutFirstChar=CurrentMeetingDataSaver.getData().identity?.substring(1,CurrentMeetingDataSaver.getData().identity?.length!!.toInt())
+                val result = repo.sendMailToJoinMeeting(BodySendMail(identityWithoutFirstChar?.toInt(),CurrentMeetingDataSaver.getData().interviewModel?.subscriberid,CurrentMeetingDataSaver.getData().interviewModel?.recruiterId!!.toString()))
+                if (result.isSuccessful) {
+                    if (result.body() != null) {
+                        onDataResponse(result.body()!!, 200)
+                        Log.d(TAG, "getVideoSession:  success ${result.body()}")
+                    }
+                    else {
+                        onDataResponse(result.body()!!, 400)
+                        Log.d(TAG, "getVideoSession: null result")
+                    }
+                }
+                else {
+                    onDataResponse(result.body()!!, 404)
+                    Log.d(TAG, "getVideoSession: not success")
+                }
+            } catch (e: Exception) {
+                Log.d(TAG, "getVideoSession: exception ${e.message}")
+            }
+        }
+    }
 
     fun getVideoSessionCandidate(videoAccessCode:String, onDataResponse:(data:TokenResponseBean, response:Int)->Unit) {
         CoroutineScope(Dispatchers.IO).launch {

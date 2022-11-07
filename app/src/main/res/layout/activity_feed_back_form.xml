@@ -129,7 +129,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/skillsError"
                             android:textColor="@color/red"
-                            android:visibility="gone"
+                            android:visibility="visible"
                             android:layout_marginLeft="@dimen/_2sp"
                             android:text="*" />
 
@@ -178,7 +178,7 @@
                             android:id="@+id/recommendationError"
                             android:layout_marginTop="@dimen/_15sp"
                             android:textColor="@color/red"
-                            android:visibility="gone"
+                            android:visibility="visible"
                             android:layout_marginLeft="-8sp"
                             android:text="*" />
 
@@ -246,29 +246,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
+                        android:layout_marginHorizontal="@dimen/_10sp"
                         android:gravity="center_vertical"
                         android:layout_marginTop="@dimen/_10sp"
                         >
 
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-
-                            android:hint="@string/txt_remark"
-                            app:boxBackgroundColor="@color/white"
-                            app:boxStrokeColor="@color/white"
-                            app:boxStrokeWidth="0sp">
-
-                            <EditText
-                                android:id="@+id/et_remart"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:maxLines="1"
-                                android:textSize="@dimen/_16sdp" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
+                            android:text="@string/txt_remark"
+                            style="@style/heading.TextView.Grey_16"
+                            />
 
 
                         <TextView
@@ -277,25 +265,24 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/remarkError"
                             android:textColor="@color/red"
-                            android:visibility="gone"
-                            android:layout_marginLeft="-20dp"
+                            android:visibility="visible"
+                            android:gravity="center"
+                            android:layout_marginLeft="@dimen/_2sp"
                             android:text="*" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-
-
-
-
-
-
-                    <View
+                    <EditText
+                        android:id="@+id/et_remart"
                         android:layout_width="match_parent"
-                        android:layout_height="1sp"
-                        android:layout_marginHorizontal="@dimen/_12sp"
+                        android:layout_height="wrap_content"
+                        android:maxHeight="@dimen/_100sdp"
                         android:layout_marginTop="-7sp"
-                        android:background="@color/light_grey" />
+                        android:backgroundTint="@color/light_grey_background"
+                        android:hint="@string/txt_remark"
+                        android:layout_marginHorizontal="@dimen/_10sp"
+                        android:textSize="@dimen/_16sdp" />
+
+
 
 
                     <!--        <TextView-->
@@ -317,26 +304,17 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
+                        android:layout_marginHorizontal="@dimen/_10sp"
                         android:layout_marginTop="@dimen/_10sp"
                         >
 
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:hint="@string/txt_coding_test_remark"
-                            app:boxBackgroundColor="@color/white"
-                            app:boxStrokeColor="@color/white"
-                            app:boxStrokeWidth="0sp">
+                            android:text="@string/txt_coding_test_remark"
+                            style="@style/heading.TextView.Grey_16"
+                            />
 
-                            <EditText
-                                android:id="@+id/et_overall_remark"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:maxLines="1"
-                                android:textSize="@dimen/_16sdp" />
-                        </com.google.android.material.textfield.TextInputLayout>
 
 
                         <TextView
@@ -345,29 +323,34 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/overallRemarkError"
                             android:textColor="@color/red"
-                            android:visibility="gone"
-                            android:layout_marginLeft="-20dp"
+                            android:visibility="visible"
+                            android:layout_marginLeft="2sp"
                             android:text="*" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
 
-
-
-
-
-
-
-
-
-
-                    <View
+                    <EditText
+                        android:id="@+id/et_overall_remark"
                         android:layout_width="match_parent"
-                        android:layout_height="1sp"
-                        android:layout_marginHorizontal="@dimen/_12sp"
+                        android:layout_height="wrap_content"
+                        android:maxHeight="@dimen/_100sdp"
                         android:layout_marginTop="-7sp"
-                        android:background="@color/light_grey" />
+                        android:backgroundTint="@color/light_grey_background"
+                        android:hint="@string/txt_coding_test_remark"
+                        android:layout_marginHorizontal="@dimen/_10sp"
+                        android:textSize="@dimen/_16sdp" />
+
+
+
+
+
+
+
+
+
+
 
 
                     <!--        <TextView-->
@@ -419,29 +402,18 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
+                        android:layout_marginHorizontal="@dimen/_10sp"
                         android:layout_marginTop="@dimen/_7sp"
                         >
 
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:hint="@string/txt_role"
-                            app:boxBackgroundColor="@color/white"
-                            app:boxStrokeColor="@color/white"
-                            app:boxStrokeWidth="0sp">
+                            android:text="@string/txt_role"
+                            style="@style/heading.TextView.Grey_16"
+                            />
 
-                            <EditText
-                                android:id="@+id/et_role"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:imeOptions="actionDone"
-                                android:maxLines="1"
-                                android:singleLine="true"
-                                android:textSize="@dimen/_16sdp" />
 
-                        </com.google.android.material.textfield.TextInputLayout>
 
 
                         <TextView
@@ -450,24 +422,31 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/roleError"
                             android:textColor="@color/red"
-                            android:visibility="gone"
-                            android:layout_marginLeft="-20dp"
+                            android:visibility="visible"
+                            android:layout_marginLeft="@dimen/_2sp"
                             android:text="*" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-
-
-
-
-
-                    <View
+                    <EditText
+                        android:id="@+id/et_role"
                         android:layout_width="match_parent"
-                        android:layout_height="1sp"
-                        android:layout_marginHorizontal="@dimen/_12sp"
-                        android:layout_marginTop="-5sp"
-                        android:background="@color/light_grey" />
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionDone"
+                        android:maxHeight="@dimen/_40sdp"
+                        android:hint="@string/txt_role"
+                        android:singleLine="true"
+                        android:backgroundTint="@color/light_grey_background"
+                        android:layout_marginTop="-7sp"
+                        android:layout_marginHorizontal="@dimen/_10sp"
+                        android:textSize="@dimen/_16sdp" />
+
+
+
+
+
+
 
 
                     <androidx.appcompat.widget.AppCompatButton
