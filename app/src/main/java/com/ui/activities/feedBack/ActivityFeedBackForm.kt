@@ -1,6 +1,5 @@
 package com.ui.activities.feedBack
 
-import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -113,6 +112,8 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
         // getInterviewDetails("mkpeHcXKbF95uRiWiLzJ")
     }
+
+
 
     fun setVisible() {
         if (binding.etRemart.text.toString().trim()
@@ -416,6 +417,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
             recommendationList.add(0, "Select Recommendation")
             data.InterviewerRemark.forEach {
                 recommendationList.add(it.Remark.toString())
+
             }
             Log.e(TAG, "setDataToViews: " + (recommendationList.size ?: 0).toString())
             spinnerAdapter =
@@ -429,20 +431,32 @@ class ActivityFeedBackForm : AppCompatActivity() {
                         convertView: View?,
                         parent: ViewGroup
                     ): View {
+
                         var v: View? = null
-                        if (position == 0) {
-                            val tv = TextView(this@ActivityFeedBackForm)
-                            tv.visibility = View.GONE
-                            //tv.height = 0
+
+                        // If this is the initial dummy entry, make it hidden
+
+                        // If this is the initial dummy entry, make it hidden
+                        if (position === 0) {
+                            val tv = TextView(context)
+                            tv.height = 0
+                          //  tv.visibility = View.GONE
                             v = tv
                         } else {
+                            // Pass convertView as null to prevent reuse of special case views
                             v = super.getDropDownView(
                                 position,
-                                convertView,
+                                null,
                                 parent
                             )
                         }
+
+                        // Hide scroll bar because it appears sometimes unnecessarily, this does not prevent scrolling
+
+                        // Hide scroll bar because it appears sometimes unnecessarily, this does not prevent scrolling
+
                         return v!!
+
                     }
                 }
             binding.spinnerInterviewRemark.adapter = spinnerAdapter
