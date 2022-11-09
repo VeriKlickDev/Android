@@ -234,54 +234,61 @@ class DocumentViewerActivity : AppCompatActivity() {
     fun getResume() {
 
 
-        viewModel.getResume(CurrentMeetingDataSaver.getData().interviewModel?.candidate?.ResumePath!!, onResumeResponse = {
-            data, fileName, action ->
-            when (action) {
-                200 -> {
-                    Handler(Looper.getMainLooper()).post(Runnable {
-                        binding.parentButtonlayout.isVisible=true
-                        binding.parentResumeNotAvailable.isVisible=false
-                    })
-                    dismissProgressDialog()
-                    Log.d(TAG, "getResume: success 200")
-                    //  binding.swipetorefresh.isRefreshing = false
-                    if (fileName.contains(".doc")) {
-                        loadResume(data?.data?.fileName.toString(), fileName, 1)
+        if (CurrentMeetingDataSaver.getData().interviewModel?.candidate?.ResumePath!=null)
+        {
+            viewModel.getResume(CurrentMeetingDataSaver.getData().interviewModel?.candidate?.ResumePath!!, onResumeResponse = {
+                    data, fileName, action ->
+                when (action) {
+                    200 -> {
+                        Handler(Looper.getMainLooper()).post(Runnable {
+                            binding.parentButtonlayout.isVisible=true
+                            binding.parentResumeNotAvailable.isVisible=false
+                        })
+                        dismissProgressDialog()
+                        Log.d(TAG, "getResume: success 200")
+                        //  binding.swipetorefresh.isRefreshing = false
+                        if (fileName.contains(".doc")) {
+                            loadResume(data?.data?.fileName.toString(), fileName, 1)
+                        }
+                        if (fileName.contains(".docx")) {
+                            loadResume(data?.data?.fileName.toString(), fileName, 2)
+                        }
+                        if (fileName.contains(".pfd")) {
+                            loadResume(data?.data?.fileName.toString(), fileName, 3)
+                        }
+
                     }
-                    if (fileName.contains(".docx")) {
-                        loadResume(data?.data?.fileName.toString(), fileName, 2)
+                    400 -> {
+                        dismissProgressDialog()
+                        Log.d(TAG, "getResume: not success 400")
+                        showToast(this, data?.errorMessage.toString())
+
+                        Handler(Looper.getMainLooper()).post(Runnable {
+                            binding.parentButtonlayout.isVisible=false
+                            binding.parentResumeNotAvailable.isVisible=true
+
+                        })
+
+                        //   binding.swipetorefresh.isRefreshing = false
                     }
-                    if (fileName.contains(".pfd")) {
-                        loadResume(data?.data?.fileName.toString(), fileName, 3)
+                    404 -> {
+                        dismissProgressDialog()
+                        Handler(Looper.getMainLooper()).post(Runnable {
+                            binding.parentButtonlayout.isVisible=false
+                            binding.parentResumeNotAvailable.isVisible=true
+                        })
+
+                        Log.d(TAG, "getResume: not success 404")
+                        showToast(this, data?.errorMessage.toString())
+                        //  binding.swipetorefresh.isRefreshing = false
                     }
-
                 }
-                400 -> {
-                    dismissProgressDialog()
-                    Log.d(TAG, "getResume: not success 400")
-                    showToast(this, data?.errorMessage.toString())
+            })
+        }else
+        {
+            showToast(this,getString(R.string.txt_Resume_not_available))
+        }
 
-                    Handler(Looper.getMainLooper()).post(Runnable {
-                        binding.parentButtonlayout.isVisible=false
-                        binding.parentResumeNotAvailable.isVisible=true
-
-                    })
-
-                    //   binding.swipetorefresh.isRefreshing = false
-                }
-                404 -> {
-                    dismissProgressDialog()
-                    Handler(Looper.getMainLooper()).post(Runnable {
-                        binding.parentButtonlayout.isVisible=false
-                        binding.parentResumeNotAvailable.isVisible=true
-                    })
-
-                    Log.d(TAG, "getResume: not success 404")
-                    showToast(this, data?.errorMessage.toString())
-                    //  binding.swipetorefresh.isRefreshing = false
-                }
-            }
-        })
     }
 
 

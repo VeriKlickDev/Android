@@ -95,13 +95,13 @@ object WeeksDataHolder {
             //current week without inc decr
             //pre week
             1->{
-                calx.set(Calendar.HOUR_OF_DAY,11)
+                calx.set(Calendar.HOUR_OF_DAY,23)
                 calx.set(Calendar.MINUTE,59)
 
                 istx= sdfIST.format(calx.time)
                 utcx= sdfUTC.format(calx.time)
 
-                cal.set(Calendar.HOUR_OF_DAY,12)
+                cal.set(Calendar.HOUR_OF_DAY,0)
                 cal.set(Calendar.MINUTE,0)
                 cal.add(Calendar.DAY_OF_YEAR, -7)
 
@@ -112,13 +112,13 @@ object WeeksDataHolder {
             //next week
             2->{
 
-                calx.set(Calendar.HOUR_OF_DAY,12)
+                calx.set(Calendar.HOUR_OF_DAY,0)
                 calx.set(Calendar.MINUTE,0)
 
                 ist= sdfIST.format(calx.time)
                 utc= sdfUTC.format(calx.time)
 
-                cal.set(Calendar.HOUR_OF_DAY,11)
+                cal.set(Calendar.HOUR_OF_DAY,23)
                 cal.set(Calendar.MINUTE,59)
                 cal.add(Calendar.DAY_OF_YEAR, 7)
 
@@ -129,13 +129,13 @@ object WeeksDataHolder {
             }
             3->{
 
-                calx.set(Calendar.HOUR_OF_DAY,12)
+                calx.set(Calendar.HOUR_OF_DAY,0)
                 calx.set(Calendar.MINUTE,0)
 
                 ist= sdfIST.format(calx.time)
                 utc= sdfUTC.format(calx.time)
 
-                cal.set(Calendar.HOUR_OF_DAY,11)
+                cal.set(Calendar.HOUR_OF_DAY,23)
                 cal.set(Calendar.MINUTE,59)
                 cal.add(Calendar.DAY_OF_YEAR, 7)
 

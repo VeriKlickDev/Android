@@ -170,7 +170,8 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
         //Log.d("checkobj", "onCreate: ${CurrentMeetingDataSaver.getData()}")
         binding.btnEndCall.setOnClickListener {
-        endCall()
+            endMeetingAlert()
+        //endCall()
         }
 
         binding.localVideoActionFab.setOnClickListener {
@@ -201,12 +202,18 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
         binding.btnSendMessage.setOnClickListener {
             val identity = CurrentMeetingDataSaver.getData().identity
+            binding.btnSendMessage.isClickable=false
+            /*Handler(Looper.getMainLooper()).postDelayed({
+                binding.btnSendMessage.isClickable=true
+            },2000)*/
+
+
 
             if (checkInternet())
             {
                 viewModel.getChatToken(identity.toString(), response = { data, code ->
                     Log.d("chatcheck", "onCreate: data $data  chat channel $identity")
-
+                    binding.btnSendMessage.isClickable=true
                     val intent = Intent(this, ChatActivity::class.java)
                     intent.putExtra(AppConstants.CHAT_ACCESS_TOKEN, data?.Token)
                     intent.putExtra(
@@ -317,7 +324,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         ) {
 
             binding.btnFeedback.isVisible=false
-            binding.btnRecordVideo.isVisible=false
+          //  binding.btnRecordVideo.isVisible=false
             binding.btnAddUserVideoActivity.isVisible=false
 
             Log.d("videocheck", "onCreate: you")
@@ -326,14 +333,13 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             setBlankBackground(false)
             localVideoTrack?.addSink(binding.primaryVideoView)
 
-
+//uncomment
             try {
                 if(CurrentMeetingDataSaver.getData().identity!!.contains("C"))
                 {
-                    //checking not working
-                    viewModel.setCandidateJoinedStatus { action, data ->
+                  /*  viewModel.setCandidateJoinedStatus { action, data ->
                         Log.d(TAG, "handleObserver: candidate joined status $action")
-                    }
+                    }*/
                 }
             }catch (e:Exception)
             {
@@ -399,14 +405,15 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             Log.d(TAG, "endCall: service status ${meetingManager.getServiceState()}")
 
         }
+    //Are you sure to leave the meeting?
 
-    override fun onBackPressed() {
-        var isEndCall=false
+    private fun endMeetingAlert()
+    {
         val alertdialog=AlertDialog.Builder(this)
         alertdialog.setPositiveButton("Yes",object : DialogInterface.OnClickListener {
             override fun onClick(p0: DialogInterface?, p1: Int) {
                 endCall()
-                isEndCall=true
+              //  isEndCall=true
             }
         })
         alertdialog.setNegativeButton("Cancel",object : DialogInterface.OnClickListener {
@@ -418,6 +425,13 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         alertdialog.setMessage(getString(R.string.txt_do_you_want_to_exit_the_meeting))
         alertdialog.create()
         alertdialog.show()
+
+    }
+
+    override fun onBackPressed() {
+        var isEndCall=false
+        endMeetingAlert()
+
         if(isEndCall)
         {
             super.onBackPressed()
@@ -662,7 +676,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             CurrentConnectUserList.setListForAddParticipantActivity(globalParticipantList)
             adapter = ConnectedUserListAdapter(viewModel,
                 this,
-                globalParticipantList.distinctBy { it.identity },
+                globalParticipantList,
                 onClick = { pos, action, data, datalist, videotrack ->
                     try {
 
@@ -1265,7 +1279,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                         } catch (e: Exception) {
                             Log.d(
                                 "checkonclick",
-                                "setConnectedUsersListInAdapter: candidate exception ${e.message}"
+                                "setConnectedUsersListInAdapter: exception ${e.message}"
                             )
                         }
                     })
@@ -2368,11 +2382,12 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                     "[RemoteVideoTrack: enabled=${remoteVideoTrack.isEnabled}, " +
                     "name=${remoteVideoTrack.name}]"
         )
-
         binding.videoStatusTextview.text = "onVideoTrackSubscribed"
+
         /**testing*/
         try {
-
+          /*      val templist= mutableListOf<VideoTracksBean>()
+                templist.addAll(remoteParticipantVideoList)
                  if(remoteParticipantVideoList.size>0)
                  {
                      val isExists=remoteParticipantVideoList.any { it.remoteParticipant?.identity.equals(remoteParticipant.identity) }
@@ -2382,22 +2397,27 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                          remoteParticipantVideoList.mapIndexed { index, videoTracksBean ->
                          if (videoTracksBean.remoteParticipant?.identity.equals(remoteParticipant.identity))
                          {
+                            // templist.remove(videoTracksBean)
                              remoteParticipantVideoList.set(index,
                                  VideoTracksBean(remoteParticipant.identity,remoteParticipant,remoteVideoTrack,videoTracksBean.userName)
                              )
                              setConnectUser()
                          }
                          }
+
+                        // remoteParticipantVideoList.clear()
+                        // remoteParticipantVideoList.addAll(templist)
+
                      }
                  }else
                  {
                      addRemoteParticipantVideo(remoteVideoTrack, remoteParticipant)
                  }
 
-
+*/
             currentRemoteParticipant = remoteParticipant
             addRemoteParticipantVideo(remoteVideoTrack, remoteParticipant)
-
+           // setConnectUser()
             // addRemoteParticipantVideo(remoteVideoTrack, remoteParticipant)
         } catch (e: Exception) {
             Log.d(TAG, "onVideoTrackSubscribed: exception ${e.message}")
@@ -2425,13 +2445,25 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             //remoteParticipantVideoListWithCandidate.removeAt(0)
             //CurrentConnectUserList.setListForAddParticipantActivity(remoteParticipantVideoListWithCandidate)
         }
-
+var identityCheck=""
 /**working method*/
         val tempList = mutableListOf<VideoTracksBean>()
         tempList.addAll(remoteParticipantVideoList)
        try {
-           remoteParticipantVideoList.forEach {
-               if (it.remoteParticipant?.identity.equals(remoteParticipant.identity)) {
+           remoteParticipantVideoList.forEach {remoteParti->
+               if (remoteParti.remoteParticipant?.identity.equals(remoteParticipant.identity)) {
+                    identityCheck=remoteParti.identity
+
+                   remoteParticipant.remoteVideoTracks.forEach {videoTrack->
+
+                       if (remoteParti.videoTrack?.name.equals(videoTrack.videoTrack?.name))
+                       {
+                           tempList.removeIf { it.identity.equals(identityCheck) }
+                           tempList.add(remoteParti)
+
+                       }
+                   }
+
                   //uncomment tempList.remove(it)
                 /*   if (it.remoteParticipant?.remoteVideoTracks?.size!!>1)
                    {
@@ -2441,7 +2473,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                        setConnectUser()
                        Log.d(TAG, "onVideoTrackUnsubscribed: removed participant")
                    }*/
-                   Log.d(TAG, "onVideoTrackUnsubscribed: removed participant ${it.identity}")
+                   Log.d(TAG, "onVideoTrackUnsubscribed: removed participant ${remoteParti.identity}")
                }
            }
            remoteParticipantVideoList.clear()
@@ -2542,23 +2574,28 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
     override fun onViewClicked(view: View) {
         when (view.id) {
             R.id.btn_add_user_videoActivity -> {
+                binding.llExtraButtons.isVisible=false
                 showAddUserActivity()
             }
             R.id.btn_feedback -> {
+                binding.llExtraButtons.isVisible=false
                 val intent= Intent(this@VideoActivity, ActivityFeedBackForm::class.java)
                 startActivity(intent)
                 overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
+
             }
            /*R.id.btn_allow_to_mute -> {
                 muteIconUpdateDialog()
                 Log.d(TAG, "onViewClicked: mute others")
             }*/
             R.id.btn_show_documents -> {
+                binding.llExtraButtons.isVisible=false
                 val intent=Intent(this, DocumentViewerActivity::class.java)
                 startActivity(intent)
                 overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
             }
             R.id.btn_share_screen -> {
+                binding.llExtraButtons.isVisible=false
                getScreenSharingStatus {
                    if (it)
                    {
@@ -2571,13 +2608,25 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                }
             }
             R.id.btn_record_video -> {
-                if (isRoomConnected!=false)
+                binding.llExtraButtons.isVisible=false
+                if (CurrentMeetingDataSaver.getData().identity?.trim()?.lowercase()!!
+                        .contains("C".trim().lowercase())
+                )
                 {
-                    handleVideoRecording()
+                    Log.d(TAG, "onViewClicked: candidate clicked recording btn")
+                    showToast(this,getString(R.string.txt_you_are_not_authorized_to_record_video))
                 }else
                 {
-                    showToast(this,getString(R.string.txt_please_try_again))
+                    if (isRoomConnected!=false)
+                    {
+                        handleVideoRecording()
+                    }else
+                    {
+                        showToast(this,getString(R.string.txt_please_try_again))
+                    }  
                 }
+
+              
 
                 //Log.d("checkvideostatus", "onViewClicked: status ${VideoRecordingStatusHolder.setStatus()}")
             }
@@ -2651,9 +2700,10 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 localParticipant?.unpublishTrack(currentLocalVideoTrack!!)
                 localParticipant?.publishTrack(localVideoTrack!!)
                 viewModel.setLocalVideoTrack(localVideoTrack!!, false)
-
+                binding.tvScreenshareText.setText(getString(R.string.txt_screensharing))
                 // setCameraToLocalVideoTrack()
             } else {
+                binding.tvScreenshareText.setText(getString(R.string.txt_stop_screensharing))
                 showToast(this, getString(R.string.txt_screen_sharing_started))
                 Log.d(TAG, "shareScreen: start screensharing")
                 screenShareCapturerManager.startForeground()

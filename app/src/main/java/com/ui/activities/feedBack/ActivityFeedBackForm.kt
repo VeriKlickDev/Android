@@ -293,6 +293,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 ( view as TextView).setTextColor(ContextCompat.getColor(this@ActivityFeedBackForm,R.color.grey))
             }else{
                 ( view as TextView).setTextColor(ContextCompat.getColor(this@ActivityFeedBackForm,R.color.black))
+                recommendationSelected=recommendationList[position].toString()
             }
 
         }
