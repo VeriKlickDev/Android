@@ -261,7 +261,8 @@ class DocumentViewerActivity : AppCompatActivity() {
                     400 -> {
                         dismissProgressDialog()
                         Log.d(TAG, "getResume: not success 400")
-                        showToast(this, data?.errorMessage.toString())
+                        showCustomSnackbarOnTop(data?.errorMessage.toString())
+                        //showToast(this, data?.errorMessage.toString())
 
                         Handler(Looper.getMainLooper()).post(Runnable {
                             binding.parentButtonlayout.isVisible=false
@@ -279,14 +280,16 @@ class DocumentViewerActivity : AppCompatActivity() {
                         })
 
                         Log.d(TAG, "getResume: not success 404")
-                        showToast(this, data?.errorMessage.toString())
+                        showCustomSnackbarOnTop(data?.errorMessage.toString())
+                        //showToast(this, data?.errorMessage.toString())
                         //  binding.swipetorefresh.isRefreshing = false
                     }
                 }
             })
         }else
         {
-            showToast(this,getString(R.string.txt_Resume_not_available))
+            showCustomSnackbarOnTop(getString(R.string.txt_Resume_not_available))
+            //showToast(this,getString(R.string.txt_Resume_not_available))
         }
 
     }

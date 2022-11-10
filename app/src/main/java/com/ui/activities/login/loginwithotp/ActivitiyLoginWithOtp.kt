@@ -152,16 +152,19 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
                 200 -> {
                     Log.d(TAG, "handleEmailVerification: 200 data $data")
                     handleUI(200)
-                    binding.parentLayout.showSnackBar(data.Message.toString())
+                    //binding.parentLayout.showSnackBar(data.Message.toString())
+                    showCustomSnackbarOnTop(data.Message.toString())
                 }
                 400 -> {
-                    binding.parentLayout.showSnackBar(data.Message.toString())
+                    showCustomSnackbarOnTop(data.Message.toString())
+                    //binding.parentLayout.showSnackBar(data.Message.toString())
                     handleUI(400)
 
                 }
                 401 -> {
                     Log.d(TAG, "handleEmailVerification: 401")
-                    binding.parentLayout.showSnackBar(data.Message.toString())
+                    showCustomSnackbarOnTop(data.Message.toString())
+                    //binding.parentLayout.showSnackBar(data.Message.toString())
                     handleUI(401)
                 }
                 404 -> {
@@ -222,7 +225,8 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
                     }
                 }
                 400 -> {
-                    showToast(this, data.Status.toString())
+                    showCustomSnackbarOnTop(data.Status.toString())
+                    //showToast(this, data.Status.toString())
                 }
                 401 -> {
                     Log.d(TAG, "handleEmailVerification: 401")

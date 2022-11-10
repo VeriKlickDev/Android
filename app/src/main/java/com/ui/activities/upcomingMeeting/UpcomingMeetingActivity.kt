@@ -9,10 +9,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.ContextMenu
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.AbsListView
 import android.widget.TextView.OnEditorActionListener
@@ -32,6 +29,7 @@ import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityUpcomingMeetingBinding
 import com.example.twillioproject.databinding.LayoutDescriptionDialogBinding
 import com.google.android.material.snackbar.Snackbar
+import com.harvee.yourhealthmate2.ui.privacypolicy.ActivityPrivacyPolicy
 import com.ui.activities.feedBack.ActivityFeedBackForm
 import com.ui.activities.login.LoginActivity
 import com.ui.activities.twilioVideo.VideoActivity
@@ -198,7 +196,6 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             pageno = 1
             meetingsList.clear()
             searchTxt = ""
-            status = "schedule"
             handleUpcomingMeetingsList(7, 1, 9)
             binding.etSearch.setText("")
             if (binding.tvHeader.isVisible) {
@@ -619,10 +616,11 @@ private  var ob: BodyScheduledMeetingBean? = null
             // getAccessCodeById(data)
             // showToast(this,"Under Development")
         } else {
-            Snackbar.make(
+            showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+            /*Snackbar.make(
                 binding.root, getString(R.string.txt_no_internet_connection),
                 Snackbar.LENGTH_SHORT
-            ).show()
+            ).show()*/
         }
     }
 
@@ -671,14 +669,16 @@ private  var ob: BodyScheduledMeetingBean? = null
                 400 -> {
                     dismissProgressDialog()
                     //showToast(this, "null values")
-                    showToast(this, data?.aPIResponse?.message.toString())
+                    showCustomSnackbarOnTop(data?.aPIResponse?.message.toString())
+                    //showToast(this, data?.aPIResponse?.message.toString())
                     /*data?.videoAccessCode=accessCode //remove all code
                     data?.let { CurrentMeetingDataSaver.setData(it) }
                     joinMeeting(accessCode)*/
                 }
                 404 -> {
                     dismissProgressDialog()
-                    showToast(this, data?.aPIResponse?.message.toString())
+                    showCustomSnackbarOnTop(data?.aPIResponse?.message.toString())
+                    //showToast(this, data?.aPIResponse?.message.toString())
                 }
                 401 -> {
                     dismissProgressDialog()
@@ -710,9 +710,38 @@ private  var ob: BodyScheduledMeetingBean? = null
                             data.token.toString(),
                             data.roomName.toString()
                         )
-                        val intent = Intent(this, VideoActivity::class.java)
-                        startActivity(intent)
-                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                        requestVideoPermissions {
+                            if (it)
+                            {
+                                showPrivacyPolicy(binding.root as ViewGroup,onClicked = {it,dialog->
+                                    if (it)
+                                    {
+                                        val intent=Intent(this, VideoActivity::class.java)
+                                        startActivity(intent)
+                                        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
+                                        dialog.dismiss()
+                                    }else
+                                    {
+                                        dialog.dismiss()
+                                    }
+                                },
+                                    onClickedText = {link,action->
+                                        privacyPolicy(link,action)
+                                    }
+                                )
+
+                            }
+                            else
+                            {
+
+                                showCustomSnackbarOnTop(getString(R.string.txt_permission_required))
+                                //showToast(this,getString(R.string.txt_permission_required))
+                            }
+                        }
+
+                       // val intent = Intent(this, VideoActivity::class.java)
+                       // startActivity(intent)
+                       // overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     }
                 }
                 400 -> {
@@ -726,6 +755,16 @@ private  var ob: BodyScheduledMeetingBean? = null
             }
         })
     }
+
+    fun privacyPolicy(link:String,action:Int)
+    {
+        val intent=Intent(this,ActivityPrivacyPolicy::class.java)
+        intent.putExtra(AppConstants.PRIVACY_LINK,link)
+        intent.putExtra(AppConstants.PRIVACY_ACTION,action)
+        startActivity(intent)
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+    }
+
 
     fun showAlertWhenNotHost() {
         setHandler().post(kotlinx.coroutines.Runnable {

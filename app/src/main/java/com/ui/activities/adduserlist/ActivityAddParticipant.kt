@@ -2,6 +2,8 @@ package com.ui.activities.adduserlist
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -255,18 +257,21 @@ class ActivityAddParticipant : AppCompatActivity() {
                 200 -> {
                     binding.btnPostdata.text=getString(R.string.txt_invite)
                     binding.invitationProgress.isVisible=false
-                    Toast.makeText(this,data?.APIResponse?.Message!!,Toast.LENGTH_LONG).show()
+                    //Toast.makeText(this,data?.APIResponse?.Message!!,Toast.LENGTH_LONG).show()
                      //showToast(this,data?.APIResponse?.Message!!)
                     //Snackbar.make(binding.root,data?.APIResponse?.Message!!,Snackbar.LENGTH_LONG).show()
+                    showCustomSnackbarOnTop(data?.APIResponse?.Message!!)
                     interviewList.clear()
-                    onBackPressed()
+                    adapter.notifyDataSetChanged()
+                    Handler(Looper.getMainLooper()).postDelayed({onBackPressed()},1000)
                     Log.d(TAG, "sendInvitation: result $data")
                     binding.btnPostdata.isEnabled=true
                 }
                 400 -> {
                     binding.btnPostdata.text=getString(R.string.txt_invite)
                     binding.invitationProgress.isVisible=false
-                    showToast(this,data?.APIResponse?.Message!!)
+                    showCustomSnackbarOnTop(data?.APIResponse?.Message!!)
+                    //showToast(this,data?.APIResponse?.Message!!)
                     binding.btnPostdata.isEnabled=true
                 }
                 404 -> {

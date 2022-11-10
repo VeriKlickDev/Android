@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewHandler"
+            type="com.domain.OnViewClicked" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/shape_rectangle_rounded_10_white"
+        android:paddingVertical="@dimen/_10sp"
+        android:paddingHorizontal="@dimen/_16sdp"
+        android:backgroundTint="@color/white">
+
+        <TextView
+            style="@style/textStyle.White.Black_16"
+            android:layout_width="wrap_content"
+            android:layout_marginEnd="@dimen/_6sp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey"
+            android:id="@+id/tv_snackbar_msg"
+            android:layout_marginStart="@dimen/_10sp"
+            android:text=""/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <ImageView
+            android:layout_width="@dimen/_20sp"
+            android:layout_height="@dimen/_20sp"
+            android:src="@drawable/ic_cross"
+            android:padding="@dimen/_4sdp"
+            android:id="@+id/btn_close"
+            android:onClick="@{viewHandler::onViewClicked}"
+            android:layout_gravity="top|end"
+            app:tint="@color/grey"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

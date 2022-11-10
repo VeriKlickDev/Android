@@ -204,11 +204,13 @@ class LoginActivity : AppCompatActivity() {
                         Log.d(TAG, "onCreate: wrong credentials")
                         Log.d(TAG, "onCreate: wrong credentials")
                         //data.message.toString()
-                        showToast(this,data.message.toString())//getString(R.string.txt_wrong_credentials)
+                        showCustomSnackbarOnTop(data.message.toString())
+                        //showToast(this,data.message.toString())//getString(R.string.txt_wrong_credentials)
                     }
                     500 -> {
                         Log.d(TAG, "onCreate: exception $exception")
-                        showToast(this,"Please try again")
+                        showCustomSnackbarOnTop("Please try again")
+                        //showToast(this,"Please try again")
                     }
                 }
             },
@@ -237,8 +239,9 @@ class LoginActivity : AppCompatActivity() {
                                     handleLoginApi(email, psswd)
                             }else
                             {
-                                Snackbar.make(binding.root,getString(R.string.txt_no_internet_connection),
-                                    Snackbar.LENGTH_SHORT).show()
+                                showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                             /*   Snackbar.make(binding.root,getString(R.string.txt_no_internet_connection),
+                                    Snackbar.LENGTH_SHORT).show()*/
                             }
 
                             Log.d("textcheck", "click on success btn $email $psswd ")

@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name="com.data.application.MyApplication"
@@ -46,6 +47,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.ui.activities.upcomingMeeting.UpcomingMeetingActivity"
+            android:configChanges="orientation"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.harvee.yourhealthmate2.ui.privacypolicy.ActivityPrivacyPolicy"
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="portrait" />
@@ -103,6 +109,13 @@
             android:name="com.data.MeetingService"
             android:enabled="true"
             android:foregroundServiceType="mediaPlayback" />
+
+        <receiver android:name="com.data.InComingCallDetector"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+        </receiver>
 
         <provider
             android:name="androidx.core.content.FileProvider"

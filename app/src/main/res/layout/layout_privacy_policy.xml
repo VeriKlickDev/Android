@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:padding="@dimen/_10sp"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="350sp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingVertical="@dimen/_10sp"
+            android:paddingHorizontal="@dimen/_20sp"
+            android:background="@drawable/shape_rectangle_rounded_10_white">
+
+            <TextView
+                style="@style/textview.Style.WhiteRounded_18"
+                android:textColor="@color/black"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_term_and_condition"
+                />
+
+
+            <TextView
+                style="@style/textStyle.White.Black_16"
+                android:id="@+id/tv_privacy_policy"
+                android:textColor="#3C3C3C"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_agree"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    style="@style/button.Style.Blue.Rounded"
+                    android:text="@string/txt_agree"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:foreground="?selectableItemBackground"
+                    android:textSize="@dimen/_12sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_cancel"
+                    style="@style/button.Style.lightBlue.Rounded.elevation"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:foreground="?selectableItemBackground"
+                    android:text="@string/txt_cancel"
+                    android:textSize="@dimen/_12sp" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

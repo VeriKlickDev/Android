@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
@@ -13,9 +14,11 @@ import com.data.*
 import com.data.dataHolders.CurrentConnectUserList
 import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.helpers.TwilioHelper
+import com.domain.constant.AppConstants
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityJoinMeetingBinding
 import com.google.android.material.snackbar.Snackbar
+import com.harvee.yourhealthmate2.ui.privacypolicy.ActivityPrivacyPolicy
 import com.ui.activities.documentviewer.FileDownloader.downloadFile
 import com.ui.activities.feedBack.ActivityFeedBackForm
 import com.ui.activities.twilioVideo.VideoActivity
@@ -49,22 +52,24 @@ class JoinMeetingActivity :AppCompatActivity() {
 
                     accessCode= accessCodeSplit.last()
                     Log.d(TAG, "onCreate: accessCode is $accessCode")
-                    //host https://ui2.veriklick.in/video-session/orgK8B24Y6oAfkUdl6Dn
+                    //host https://ui2.veriklick.in/video-session/wMlbmu9FlX2qZg8bkcd4
                     //interviewer
-                    //candidate https://ui2.veriklick.in/video-session/wLRGAyhi2uBrEBjRczu5
-                    //5 https://ui2.veriklick.in/video-session/ip578wpcn6BSol8xGOQ4
-                    //2    https://ui2.veriklick.in/video-session/ip578wpcn6BSol8xGOQ4
-                   // getInterviewDetails("ip578wpcn6BSol8xGOQ4")
-                    getInterviewDetails(accessCode)
+                    //candidate
+                    //5
+                    //2
+                   // getInterviewDetails("wMlbmu9FlX2qZg8bkcd4")
+                     getInterviewDetails(accessCode)
                     //  showToast(this,"Under Development")
                     hideKeyboard(this)
                 }else
                 {
-                    showToast(this,getString(R.string.txt_url_required))
+                    showCustomSnackbarOnTop(getString(R.string.txt_url_required))
+                    //showToast(this,getString(R.string.txt_url_required))
                 }
             }else
             {
-                Snackbar.make(it,getString(R.string.txt_no_internet_connection),Snackbar.LENGTH_SHORT).show()
+                showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                //Snackbar.make(it,getString(R.string.txt_no_internet_connection),Snackbar.LENGTH_SHORT).show()
             }
         }
     }
@@ -102,7 +107,8 @@ class JoinMeetingActivity :AppCompatActivity() {
                 }
                 400 -> {
                     dismissProgressDialog()
-                    showToast(this,data?.aPIResponse?.message!!)
+                    showCustomSnackbarOnTop(data?.aPIResponse?.message!!)
+                    //showToast(this,data?.aPIResponse?.message!!)
                     data.videoAccessCode=accessCode
                     //showToast(this, "null values")
                   /*  data?.let { CurrentMeetingDataSaver.setData(it) }
@@ -112,11 +118,13 @@ class JoinMeetingActivity :AppCompatActivity() {
                 404 -> {
                     dismissProgressDialog()
                   //  showToast(this,data?.aPIResponse?.message!!)
-                    showToast(this, data?.aPIResponse?.message.toString())
+                    showCustomSnackbarOnTop(data?.aPIResponse?.message!!)
+                    //showToast(this, data?.aPIResponse?.message.toString())
                 }
                 401->{
                     dismissProgressDialog()
-                    showToast(this,data?.aPIResponse?.message!!)
+                    showCustomSnackbarOnTop(data?.aPIResponse?.message!!)
+                    //showToast(this,data?.aPIResponse?.message!!)
                    /* data.videoAccessCode=accessCode
                     CurrentMeetingDataSaver.setData(data!!)
                     joinMeetingCandidate(accessCode)
@@ -152,9 +160,33 @@ class JoinMeetingActivity :AppCompatActivity() {
                         TwilioHelper.setTwilioCredentials(data.token.toString(),data.roomName.toString())
                         CurrentConnectUserList.clearList()
 
-                        val intent=Intent(this@JoinMeetingActivity, VideoActivity::class.java)
-                        startActivity(intent)
-                        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
+                        requestVideoPermissions {
+                            if (it)
+                            {
+
+                                 showPrivacyPolicy(binding.root as ViewGroup,onClicked = { it, dialog->
+                               if (it)
+                               {
+                                   val intent=Intent(this@JoinMeetingActivity, VideoActivity::class.java)
+                                   startActivity(intent)
+                                   overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
+                                   dialog.dismiss()
+                               }else
+                               {
+                                   dialog.dismiss()
+                               }
+                                },
+                                    onClickedText = {link,action->
+                                        privacyPolicy(link,action)
+                                    }
+                                )
+                            }
+                            else
+                            {
+                                showCustomSnackbarOnTop(getString(R.string.txt_permission_required))
+                                //showToast(this,getString(R.string.txt_permission_required))
+                            }
+                        }
                     }
                 }
                 400 -> {
@@ -168,6 +200,16 @@ class JoinMeetingActivity :AppCompatActivity() {
             }
         })
     }
+
+    fun privacyPolicy(link:String,action:Int)
+    {
+        val intent=Intent(this, ActivityPrivacyPolicy::class.java)
+        intent.putExtra(AppConstants.PRIVACY_LINK,link)
+        intent.putExtra(AppConstants.PRIVACY_ACTION,action)
+        startActivity(intent)
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+    }
+
 
     fun showAlertWhenNotHost()
     {

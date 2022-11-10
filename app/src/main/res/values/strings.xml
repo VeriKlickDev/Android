@@ -116,5 +116,8 @@
     <string name="txt_add_member">Add Members</string>
     <string name="txt_you_are_not_authorized_to_record_video">you are not authorized to record video</string>
     <string name="txt_stop_screensharing">Stop Screen Share</string>
-
+    <string name="txt_privacy_policy"><u>Privacy Policy</u></string>
+    <string name="txt_term_and_condition"><u>Term and Conditions</u></string>
+    <string name="txt_cancel">Cancel</string>
+    <string name="txt_agree">Agree</string>
 </resources>

@@ -9,6 +9,7 @@ object AppConstants {
     const val USER_PASSWORD = "user_password"
 
     const val USER_LOGIN_TOKEN = "user_login_token"
+    const val PRIVACY_LINK = "privacy_link"
 
     const val LOGGED_USER_ACCESSCODE = "user_access_code"
     //twilio Video room
@@ -20,6 +21,8 @@ object AppConstants {
     const val MEETING_RECRUITER_ID = "twilio_recruiter_id"
     const val MEETING_USER_ID = "twilio_user_id"
 
+    const val PRIVACY_ACTION = "privacy_action"
+    const val IN_COMING_CALL_ACTION = "IN_COMING_CALL_ACTION"
     const val CHAT_ACCESS_TOKEN = "chat_access_token"
     const val CHAT_CHANNEL = "chat_channel"
     const val CHAT_SENDER= "chat_sender"

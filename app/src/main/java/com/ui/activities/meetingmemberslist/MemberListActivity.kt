@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.data.checkInternet
 import com.data.dataHolders.CurrentConnectUserList
 import com.data.dataHolders.CurrentMeetingDataSaver
+import com.data.showCustomSnackbarOnTop
 import com.domain.BaseModels.VideoTracksBean
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityListOfMembersBinding
@@ -70,8 +71,9 @@ class MemberListActivity : AppCompatActivity() {
                                         leftUserFromMeeting(data)
                                     }else
                                     {
-                                        Snackbar.make(binding.root,getString(com.example.twillioproject.R.string.txt_no_internet_connection),
-                                            Snackbar.LENGTH_SHORT).show()
+                                        showCustomSnackbarOnTop(getString(com.example.twillioproject.R.string.txt_no_internet_connection))
+                                        /*Snackbar.make(binding.root,getString(com.example.twillioproject.R.string.txt_no_internet_connection),
+                                            Snackbar.LENGTH_SHORT).show()*/
                                     }
                                 }
 

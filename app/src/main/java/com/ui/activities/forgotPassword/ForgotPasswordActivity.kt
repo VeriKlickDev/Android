@@ -48,7 +48,8 @@ class ForgotPasswordActivity : AppCompatActivity() {
                     hideKeyboard(this)
                 }else
                 {
-                    Snackbar.make(it,getString(R.string.txt_no_internet_connection),Snackbar.LENGTH_SHORT).show()
+                    showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                    //Snackbar.make(it,getString(R.string.txt_no_internet_connection),Snackbar.LENGTH_SHORT).show()
                 }
             }
         }
@@ -92,7 +93,8 @@ class ForgotPasswordActivity : AppCompatActivity() {
             when (result) {
                 200 -> {
                     Log.d(TAG, "onCreate: success ${data.success} ${data.message}")
-                    showToast(this@ForgotPasswordActivity,data.message.toString())
+                    showCustomSnackbarOnTop(data.message.toString())
+                   // showToast(this@ForgotPasswordActivity,data.message.toString())
                     startActivity(
                         Intent(
                             this,
@@ -104,7 +106,8 @@ class ForgotPasswordActivity : AppCompatActivity() {
                 400 -> {
                     Log.d(TAG, "onCreate: null data ${data.success} ${data.message}")
                     Log.d(TAG, "onCreate: null data")
-                    Toast.makeText(this,data.message.toString(),Toast.LENGTH_LONG).show()
+                    showCustomSnackbarOnTop(data.message.toString())
+                    //Toast.makeText(this,data.message.toString(),Toast.LENGTH_LONG).show()
                   //  binding.tvEmailError.setText(getString(R.string.txt_failed_to_process_try_again))
                 }
                 404 -> {

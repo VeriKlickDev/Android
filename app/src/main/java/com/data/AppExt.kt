@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -13,20 +14,30 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.text.*
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.FrameLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import com.araujo.jordan.excuseme.ExcuseMe
-
 import com.domain.BaseModels.ResponseChatFromToken
 import com.domain.BaseModels.ResponseJWTTokenLogin
+import com.domain.OnViewClicked
 import com.example.twillioproject.R
+import com.example.twillioproject.databinding.LayoutPrivacyPolicyBinding
 import com.example.twillioproject.databinding.LayoutProgressBinding
+import com.example.twillioproject.databinding.LayoutSuccessMsgSnackbarPlayerBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import kotlinx.coroutines.cancel
@@ -146,6 +157,111 @@ fun Context.dismissProgressDialog() {
 
 }
 
+fun Context.showCustomSnackBar(msg: String) {
+    val bindingSnack = LayoutSuccessMsgSnackbarPlayerBinding.inflate(LayoutInflater.from(this))
+    val snack = Snackbar.make(
+        (this as Activity).findViewById(android.R.id.content),
+        msg,
+        Snackbar.LENGTH_LONG
+    )
+
+    bindingSnack.viewHandler = object : OnViewClicked {
+        override fun onViewClicked(view: View) {
+            snack.dismiss()
+        }
+    }
+
+    bindingSnack.tvSnackbarMsg.text = msg.trim()
+
+    snack.view.setBackgroundColor(Color.TRANSPARENT)
+    val snackLayout: Snackbar.SnackbarLayout = snack.view as Snackbar.SnackbarLayout
+//    val param=snackLayout.layoutParams as FrameLayout.LayoutParams
+//    param.gravity=Gravity.CENTER_HORIZONTAL
+//    bindingSnack.root.layoutParams=param
+    snackLayout.addView(bindingSnack.root)
+
+    snack.show()
+
+}
+
+fun Context.showCustomSnackbarOnTop(msg: String) {
+    val snackbar = Snackbar.make(
+        (this as Activity).findViewById(android.R.id.content),
+        "",
+        Snackbar.LENGTH_SHORT
+    )
+    snackbar.view.setBackgroundColor(Color.TRANSPARENT)
+    val layout =
+        LayoutInflater.from(applicationContext).inflate(R.layout.custom_snackbar_global, null)
+    val textView = layout.findViewById<TextView>(R.id.customsnackbar_textview_global)
+    textView.text = msg
+    val snackbarLayout = snackbar.view as Snackbar.SnackbarLayout
+    val param = snackbarLayout.layoutParams as FrameLayout.LayoutParams
+    param.gravity = Gravity.CENTER_HORIZONTAL
+    layout.layoutParams = param
+    layout.setPadding(0, 10, 0, 0)
+    snackbarLayout.addView(layout)
+    snackbar.show()
+
+}
+
+fun Context.showPrivacyPolicy(parent: ViewGroup, onClicked:(action:Boolean, dialog:Dialog)->Unit, onClickedText:(url:String,action:Int)->Unit) {
+    val dialog = Dialog(this)
+    val dialogBinding = LayoutPrivacyPolicyBinding.inflate(LayoutInflater.from(this),parent,false)
+    dialog.setContentView(dialogBinding.root)
+    dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    dialogBinding.btnAgree.setOnClickListener {
+        onClicked(true,dialog)
+    }
+    dialogBinding.btnCancel.setOnClickListener {
+        onClicked(false,dialog)
+    }
+
+    dialogBinding.tvPrivacyPolicy.text="I have read and agree to the Terms and Conditions  and Privacy Policy. This meeting may be recorded. By joining the meeting you are also giving your consent to record this meeting otherwise click cancel to leave the meeting."
+    dialogBinding.tvPrivacyPolicy.makeLinks(Pair("Terms and Conditions", View.OnClickListener {
+    onClickedText("https://veriklick.com/terms-of-use/",1)
+    }))
+    dialogBinding.tvPrivacyPolicy.makeLinks(Pair("Privacy Policy", View.OnClickListener {
+        onClickedText("https://veriklick.com/privacy-policy/",2)
+    }))
+
+
+    dialog.create()
+    dialog.show()
+}
+
+
+fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>) {
+    val spannableString = SpannableString(this.text)
+    var startIndexOfLink = -1
+    for (link in links) {
+
+        val clickableSpan = object : ClickableSpan() {
+            override fun updateDrawState(textPaint: TextPaint) {
+                // use this to change the link color
+                textPaint.color = textPaint.linkColor
+                // toggle below value to enable/disable
+                // the underline shown below the clickable text
+                textPaint.isUnderlineText = true
+            }
+
+            override fun onClick(view: View) {
+                Selection.setSelection((view as TextView).text as Spannable, 0)
+                view.invalidate()
+                link.second.onClick(view)
+            }
+        }
+        startIndexOfLink = this.text.toString().indexOf(link.first, startIndexOfLink + 1)
+//      if(startIndexOfLink == -1) continue // todo if you want to verify your texts contains links text
+        spannableString.setSpan(
+            clickableSpan, startIndexOfLink, startIndexOfLink + link.first.length,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+    }
+    this.movementMethod =
+        LinkMovementMethod.getInstance() // without LinkMovementMethod, link can not click
+    this.setText(spannableString, TextView.BufferType.SPANNABLE)
+}
 
 
 fun Context.requestVideoPermissions(isGrant: (isGranted: Boolean) -> Unit) {

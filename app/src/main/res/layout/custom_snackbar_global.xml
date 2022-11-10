@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_rectangle_rounded_10_greydark"
+        android:paddingVertical="@dimen/_20sp"
+        android:paddingHorizontal="@dimen/_10sp"
+        android:layout_margin="@dimen/_10sp"
+        android:elevation="@dimen/_7sp"
+        >
+
+        
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:id="@+id/customsnackbar_textview_global"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/_10sp"
+            android:layout_weight="1"
+            style="@style/textStyle.White.Black_16"
+            />
+
+
+    </LinearLayout>
+
+</LinearLayout>

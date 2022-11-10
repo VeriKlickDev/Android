@@ -85,11 +85,12 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 sendFeedBack()
 
             } else {
-                Snackbar.make(
+                showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+               /* Snackbar.make(
                     it,
                     getString(R.string.txt_no_internet_connection),
                     Snackbar.LENGTH_SHORT
-                ).show()
+                ).show()*/
             }
         }
 
@@ -103,11 +104,12 @@ class ActivityFeedBackForm : AppCompatActivity() {
         if (checkInternet()) {
             getFeedBack()
         } else {
-            Snackbar.make(
+            showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+           /* Snackbar.make(
                 binding.root,
                 getString(R.string.txt_no_internet_connection),
                 Snackbar.LENGTH_SHORT
-            ).show()
+            ).show()*/
         }
 
         // getInterviewDetails("mkpeHcXKbF95uRiWiLzJ")
@@ -188,7 +190,8 @@ class ActivityFeedBackForm : AppCompatActivity() {
             postFeedback()
         } else {
             binding.skillsError.isVisible = true
-            showToast(this, getString(R.string.txt_all_fields_required))
+            showCustomSnackbarOnTop(getString(R.string.txt_all_fields_required))
+            //showToast(this, getString(R.string.txt_all_fields_required))
         }
     }
 
@@ -199,8 +202,8 @@ class ActivityFeedBackForm : AppCompatActivity() {
         ) {
             postData()
         } else {
-
-            showToast(this, getString(R.string.txt_all_fields_required))
+            showCustomSnackbarOnTop(getString(R.string.txt_all_fields_required))
+            //showToast(this, getString(R.string.txt_all_fields_required))
         }
     }
 
@@ -254,7 +257,8 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
                         }
                         200 -> {
-                            showToast(this, data?.aPIResponse?.message!!)
+                            showCustomSnackbarOnTop(data?.aPIResponse?.message!!)
+                            //showToast(this, data?.aPIResponse?.message!!)
                             finish()
                         }
                         400 -> {
@@ -264,7 +268,8 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
                         }
                         500 -> {
-                            showToast(this, getString(R.string.txt_something_went_wrong))
+                            showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+                            //showToast(this, getString(R.string.txt_something_went_wrong))
                         }
                     }
 
@@ -277,7 +282,8 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
         } else {
             binding.recommendationError.isVisible = true
-            showToast(this, getString(R.string.txt_all_fields_required))
+            showCustomSnackbarOnTop(getString(R.string.txt_all_fields_required))
+            //showToast(this, getString(R.string.txt_all_fields_required))
         }
 
     }
@@ -321,19 +327,22 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 }
                 400 -> {
                     Log.d(TAG, "getInterviewDetails: 400")
-                    showToast(this, data?.aPIResponse?.message!!)
+                    showCustomSnackbarOnTop(data?.aPIResponse?.message!!)
+                    //showToast(this, data?.aPIResponse?.message!!)
                     //showToast(this, "null values")
                     data?.let { CurrentMeetingDataSaver.setData(it) }
                     getFeedBack()
                 }
                 404 -> {
                     Log.d(TAG, "getInterviewDetails: 404")
-                    showToast(this, data?.aPIResponse?.message!!)
-                    showToast(this, data?.aPIResponse?.message.toString())
+                    showCustomSnackbarOnTop(data?.aPIResponse?.message!!)
+                    //showToast(this, data?.aPIResponse?.message!!)
+                    //showToast(this, data?.aPIResponse?.message.toString())
                 }
                 401 -> {
                     Log.d(TAG, "getInterviewDetails: 401")
-                    showToast(this, data?.aPIResponse?.message!!)
+                    showCustomSnackbarOnTop(data?.aPIResponse?.message!!)
+                    //showToast(this, data?.aPIResponse?.message!!)
                     CurrentMeetingDataSaver.setData(data!!)
                     getFeedBack()
                 }
@@ -361,10 +370,11 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 400 -> {
                     dismissProgressDialog()
                     Log.d(TAG, "getResume: not success ondata 400")
-                    showToast(
+                    showCustomSnackbarOnTop(getString(com.example.twillioproject.R.string.txt_something_went_wrong))
+                   /* showToast(
                         this,
                         getString(com.example.twillioproject.R.string.txt_something_went_wrong)
-                    )
+                    )*/
                     // binding.swipetorefresh.isRefreshing = false
                 }
                 401 -> {
@@ -374,19 +384,21 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 404 -> {
                     dismissProgressDialog()
                     Log.d(TAG, "getResume: not success ondata 404")
-                    showToast(
+                    showCustomSnackbarOnTop(getString(com.example.twillioproject.R.string.txt_something_went_wrong))
+                    /*showToast(
                         this,
                         getString(com.example.twillioproject.R.string.txt_something_went_wrong)
-                    )
+                    )*/
                     // binding.swipetorefresh.isRefreshing = false
                 }
                 500 -> {
                     dismissProgressDialog()
                     Log.d(TAG, "getResume: not success ondata 404")
-                    showToast(
+                    showCustomSnackbarOnTop(getString(com.example.twillioproject.R.string.txt_something_went_wrong))
+                    /*showToast(
                         this,
                         getString(com.example.twillioproject.R.string.txt_something_went_wrong)
-                    )
+                    )*/
                     // binding.swipetorefresh.isRefreshing = false
                 }
             }
