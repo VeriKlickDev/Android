@@ -1,7 +1,6 @@
 package com.ui.activities.joinmeeting
 
-import android.content.DialogInterface
-import android.content.Intent
+import android.content.*
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,6 +9,7 @@ import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.data.*
 import com.data.dataHolders.CurrentConnectUserList
 import com.data.dataHolders.CurrentMeetingDataSaver
@@ -54,11 +54,11 @@ class JoinMeetingActivity :AppCompatActivity() {
                     Log.d(TAG, "onCreate: accessCode is $accessCode")
                     //host https://ui2.veriklick.in/video-session/wMlbmu9FlX2qZg8bkcd4
                     //interviewer
-                    //candidate
-                    //5
-                    //2
-                   // getInterviewDetails("wMlbmu9FlX2qZg8bkcd4")
-                     getInterviewDetails(accessCode)
+                    //candidate https://ui2.veriklick.in/video-session/2PjhLSmlfYWkF15eMbly
+                    //5 https://ui2.veriklick.in/video-session/zyi6lbtiZ5QFj64RihFk
+                    //2 https://ui2.veriklick.in/video-session/2GztbrPXKlDMqYOttrmZ
+                    getInterviewDetails("2PjhLSmlfYWkF15eMbly")
+                     //getInterviewDetails(accessCode)
                     //  showToast(this,"Under Development")
                     hideKeyboard(this)
                 }else
@@ -167,10 +167,27 @@ class JoinMeetingActivity :AppCompatActivity() {
                                  showPrivacyPolicy(binding.root as ViewGroup,onClicked = { it, dialog->
                                if (it)
                                {
-                                   val intent=Intent(this@JoinMeetingActivity, VideoActivity::class.java)
-                                   startActivity(intent)
-                                   overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
-                                   dialog.dismiss()
+                                   var isCallisInProgress=false
+                                   LocalBroadcastManager.getInstance(this).registerReceiver(
+                                       object:BroadcastReceiver(){
+                                           override fun onReceive(p0: Context?, p1: Intent?) {
+                                               isCallisInProgress=true
+                                           }
+                                       },
+                                       IntentFilter(AppConstants.IN_COMING_CALL_ACTION)
+                                   )
+
+                                   if (isCallisInProgress)
+                                   {
+                                       showCustomSnackbarOnTop("Call in Progress")
+                                   }else
+                                   {
+                                       val intent=Intent(this@JoinMeetingActivity, VideoActivity::class.java)
+                                       startActivity(intent)
+                                       overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
+                                       dialog.dismiss()
+                                   }
+
                                }else
                                {
                                    dialog.dismiss()

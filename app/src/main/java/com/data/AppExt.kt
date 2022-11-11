@@ -3,9 +3,7 @@ package com.data
 import android.Manifest
 import android.app.Activity
 import android.app.Dialog
-import android.content.Context
-import android.content.DialogInterface
-import android.content.Intent
+import android.content.*
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.media.projection.MediaProjectionManager
@@ -30,10 +28,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.araujo.jordan.excuseme.ExcuseMe
 import com.domain.BaseModels.ResponseChatFromToken
 import com.domain.BaseModels.ResponseJWTTokenLogin
+import com.domain.IncomingCallCallback
 import com.domain.OnViewClicked
+import com.domain.constant.AppConstants
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.LayoutPrivacyPolicyBinding
 import com.example.twillioproject.databinding.LayoutProgressBinding
@@ -205,13 +206,30 @@ fun Context.showCustomSnackbarOnTop(msg: String) {
 
 }
 
+fun Context.checkIncomingCall(incomingCallStatus:IncomingCallCallback)
+{
+    androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this).registerReceiver(
+        object:BroadcastReceiver(){
+            override fun onReceive(p0: Context?, p1: Intent?) {
+                incomingCallStatus.onRecieved(true)
+            }
+        },
+        IntentFilter(com.domain.constant.AppConstants.IN_COMING_CALL_ACTION)
+    )
+}
+
+
+
+
 fun Context.showPrivacyPolicy(parent: ViewGroup, onClicked:(action:Boolean, dialog:Dialog)->Unit, onClickedText:(url:String,action:Int)->Unit) {
     val dialog = Dialog(this)
     val dialogBinding = LayoutPrivacyPolicyBinding.inflate(LayoutInflater.from(this),parent,false)
     dialog.setContentView(dialogBinding.root)
     dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
     dialogBinding.btnAgree.setOnClickListener {
         onClicked(true,dialog)
+
     }
     dialogBinding.btnCancel.setOnClickListener {
         onClicked(false,dialog)

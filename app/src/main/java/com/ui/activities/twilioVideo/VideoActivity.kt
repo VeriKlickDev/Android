@@ -70,7 +70,6 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
     private val incomingCallRecevier = object : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
-            Log.e(TAG, "onReceive: "+"end_call" )
             endCall()
         }
     }
@@ -190,8 +189,6 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             incomingCallRecevier,
             IntentFilter(AppConstants.IN_COMING_CALL_ACTION)
         )
-
-
 
         CurrentMeetingDataSaver.getData()?.users?.forEach {
             if (it.userType.contains("C")) {
@@ -324,7 +321,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         }
 
 
-        currentVisibleUser = VideoTracksBean("C", null, localVideoTrack!!, "You")
+        currentVisibleUser = VideoTracksBean("C", null, localVideoTrack!!, "You",)
 
         handleObserver()
 
@@ -2433,7 +2430,11 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
   */
             currentRemoteParticipant = remoteParticipant
-            addRemoteParticipantVideo(remoteVideoTrack, remoteParticipant)
+
+            remoteParticipant.remoteVideoTracks.forEach { it->
+                addRemoteParticipantVideo(it.videoTrack, remoteParticipant)
+            }
+
             // setConnectUser()
             // addRemoteParticipantVideo(remoteVideoTrack, remoteParticipant)
         } catch (e: Exception) {
@@ -2448,11 +2449,14 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
     ) {
         TwilioHelper.setRemoteParticipantListener(remoteParticipant)
 
+        remoteVideoTrack
+        remoteVideoTrackPublication
+
         Log.i(
             TAG, "onVideoTrackUnsubscribed: " +
                     "[RemoteParticipant: identity=${remoteParticipant.identity}], " +
                     "[RemoteVideoTrack: enabled=${remoteVideoTrack.isEnabled}, " +
-                    "name=${remoteVideoTrack.name}]"
+                    "name=${remoteVideoTrack.name}] size of list ${remoteParticipant.remoteVideoTracks.size}"
         )
         binding.videoStatusTextview.text = "onVideoTrackUnsubscribed"
 
@@ -2467,20 +2471,26 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         /**working method*/
         val tempList = mutableListOf<VideoTracksBean>()
         tempList.addAll(remoteParticipantVideoList)
+        
+
         try {
+
             remoteParticipantVideoList.forEach { remoteParti ->
+
                 if (remoteParti.remoteParticipant?.identity.equals(remoteParticipant.identity)) {
                     identityCheck = remoteParti.identity
-
-                    remoteParticipant.remoteVideoTracks.forEach { videoTrack ->
-
-                        if (remoteParti.videoTrack?.name.equals(videoTrack.videoTrack?.name)) {
-                            tempList.removeIf { it.identity.equals(identityCheck) }
-                            tempList.add(remoteParti)
-
+                   // tempList.remove(remoteParti)
+                    if (remoteParticipant.remoteVideoTracks.size>1) {
+                        remoteParticipant.remoteVideoTracks.forEach { videoTrack ->
+                            if (remoteParti.videoTrack?.name.equals(videoTrack.videoTrack?.name)) {
+                                tempList.add(remoteParti)
+                            }
                         }
+                        tempList.removeIf { it.identity.equals(identityCheck) }
+
                     }
 
+                    
                     //uncomment tempList.remove(it)
                     /*   if (it.remoteParticipant?.remoteVideoTracks?.size!!>1)
                        {
@@ -2499,8 +2509,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             remoteParticipantVideoList.clear()
             remoteParticipantVideoList.addAll(tempList)
             setConnectUser()
+            }
 
-        } catch (e: Exception) {
+         catch (e: Exception) {
             Log.d(TAG, "onVideoTrackUnsubscribed: exception removing participants ${e.message}")
         }
 

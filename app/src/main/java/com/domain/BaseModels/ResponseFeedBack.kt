@@ -31,10 +31,10 @@ data class ResponseFeedBack(
 
 data class CandidateAssessmentSkills (
 
-    @SerializedName("CandidateAssessmentSkillsId" ) var CandidateAssessmentSkillsId : Int?    = null,
-    @SerializedName("CandidateAssessmentId"       ) var CandidateAssessmentId       : Int?    = null,
+    @SerializedName("CandidateAssessmentSkillsId" ) var CandidateAssessmentSkillsId : Int?    = 0,
+    @SerializedName("CandidateAssessmentId"       ) var CandidateAssessmentId       : Int?    = 0,
     @SerializedName("Comments"                    ) var Comments                    : String? = null,
-    @SerializedName("Ratings"                     ) var Ratings                     : Int?    = null,
+    @SerializedName("Ratings"                     ) var Ratings                     : Int?    = 0,
     @SerializedName("Catagory"                    ) var Catagory                    : String? = null,
     @SerializedName("ManualCatagory"              ) var ManualCatagory              : String? = null,
     @SerializedName("CandiateAssessment"          ) var CandiateAssessment          : String? = null,
@@ -45,9 +45,9 @@ data class AssessSkills (
 
     @SerializedName("Id"    ) var Id    : Int?    = null,
     @SerializedName("value" ) var value : String? = null,
-    @SerializedName("CandidateAssessmentSkillsId" ) var CandidateAssessmentSkillsId : Int?    = null,
-    @SerializedName("CandidateAssessmentId"       ) var CandidateAssessmentId       : Int?    = null,
-    @SerializedName("Comments"                    ) var Comments                    : String? = "",
+    @SerializedName("CandidateAssessmentSkillsId" ) var CandidateAssessmentSkillsId : Int?    = 0,
+    @SerializedName("CandidateAssessmentId"       ) var CandidateAssessmentId       : Int?    = 0,
+    @SerializedName("Comments"                    ) var Comments                    : String? = null,
     @SerializedName("Ratings"                     ) var Ratings                     : Double?    = 0.0,
     @SerializedName("Catagory"                    ) var Catagory                    : String? = null,
     @SerializedName("ManualCatagory"              ) var ManualCatagory              : String? = null,

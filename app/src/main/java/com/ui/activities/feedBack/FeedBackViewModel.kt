@@ -83,6 +83,12 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
                     obj?.CandidateAssessment?.Skills=skillsListRes
                     obj?.CandidateAssessment?.AssessmentId=assementId
 
+                    obj?.CandidateAssessmentPanelMembers?.get(0)!!.CandidateAssesmentId=assementId
+                    obj?.CandidateAssessmentPanelMembers?.get(0)!!.Designation=role
+                    obj?.CandidateAssessmentPanelMembers?.get(0)!!.Name=interviewName
+                    obj?.CandidateAssessmentPanelMembers?.get(0)!!.CandiateAssessment="null"
+                    obj?.CandidateAssessmentPanelMembers?.get(0)!!.PanelMemberId=0
+
                             /* CurrentUpcomingMeetingData.getData()?.let {
                         obj.RecruiterId=it.interviewId.toString()
                     }*/
@@ -109,8 +115,10 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
                         CurrentMeetingDataSaver.getData().videoAccessCode
                     obj.CandidateAssessment?.jobid =
                         CurrentMeetingDataSaver.getData().interviewModel?.jobid
-                    obj.CandidateAssessmentPanelMembers = memberList
+                    //uncomment obj.CandidateAssessmentPanelMembers = memberList[0]
                     obj.CandidateAssessment?.RecommendationId=3
+
+
                     CurrentMeetingDataSaver.getData()?.let {
                         Log.d(TAG, "sendFeedback: current meetin og canid ${it.interviewModel?.candidateId}")
                         obj.CandidateAssessment?.CandidateId=it.interviewModel?.candidateId
