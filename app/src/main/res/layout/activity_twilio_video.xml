@@ -418,6 +418,7 @@
                         android:layout_height="@dimen/_45sdp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="@dimen/_10sp"
+                        android:foreground="?selectableItemBackground"
                         android:background="@drawable/ic_img_end_call_red" />
 
                     <com.google.android.material.imageview.ShapeableImageView

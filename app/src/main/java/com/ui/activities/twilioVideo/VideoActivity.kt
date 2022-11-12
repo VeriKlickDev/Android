@@ -2725,7 +2725,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
             if (CurrentMeetingDataSaver.getScreenSharingStatus()) {
                 binding.tvScreenShareStatus.isVisible = false
-                showToast(this, getString(R.string.txt_screen_sharing_stopped))
+               // showToast(this, getString(R.string.txt_screen_sharing_stopped))
                 viewModel.setScreenSharingStatus(true, onResult = { action, data -> })
                 CurrentMeetingDataSaver.setScreenSharingStatus(false)
                 screenShareCapturerManager.endForeground()

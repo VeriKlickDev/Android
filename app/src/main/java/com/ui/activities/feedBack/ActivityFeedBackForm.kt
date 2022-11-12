@@ -436,111 +436,116 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).post(kotlinx.coroutines.Runnable {
 
-            interviewName = data.CandidateAssessmentPanelMembers.firstOrNull()?.Name.toString()
-            designation = data.CandidateAssessmentPanelMembers.firstOrNull()?.Designation.toString()
+            try {
+                interviewName = data.CandidateAssessmentPanelMembers.firstOrNull()?.Name.toString()
+                designation = data.CandidateAssessmentPanelMembers.firstOrNull()?.Designation.toString()
 
-            binding.tvName.text = ""
-            data.CandidateAssessmentPanelMembers.firstOrNull()?.Name?.let {
-                binding.tvName.text = data.CandidateAssessmentPanelMembers.firstOrNull()?.Name
-            }
-
-            binding.tvJobId.text = data.jobid.toString()
-            binding.tvDescription.text = data.AppliedPostion
-            appliedPosition = data.AppliedPostion.toString()
-
-            if (!data.Recommendation.toString().equals(""))
-            {
-                binding.etRemart.setText(data.Recommendation)
-                binding.remarkError.isVisible=false
-            }else
-            {
-                binding.remarkError.isVisible=true
-            }
-
-
-            if (!data.CandidateAssessmentPanelMembers[0].Designation.equals("null") || data.CandidateAssessmentPanelMembers[0].Designation!=null) {
-                binding.etRole.setText(data.CandidateAssessmentPanelMembers[0].Designation!!.toString())
-                binding.roleError.isVisible=false
-            }else
-            {
-                binding.roleError.isVisible=true
-            }
-
-
-
-            recommendationList.add(0, "Select Recommendation")
-
-            data.InterviewerRemark.forEach {
-                recommendationList.add(it.Remark.toString())
-            }
-            Log.e(TAG, "setDataToViews: " + (recommendationList.size ?: 0).toString())
-            spinnerAdapter =
-                object :
-                    ArrayAdapter<String>(
-                        this, android.R.layout.simple_spinner_dropdown_item,
-                        recommendationList
-                    ) {
-                    override fun getDropDownView(
-                        position: Int,
-                        convertView: View?,
-                        parent: ViewGroup
-                    ): View {
-
-                        var v: View? = null
-
-                        // If this is the initial dummy entry, make it hidden
-
-                        // If this is the initial dummy entry, make it hidden
-                        if (position === 0) {
-                            val tv = TextView(context)
-                            tv.height = 0
-                          //  tv.visibility = View.GONE
-                            v = tv
-                        } else {
-                            // Pass convertView as null to prevent reuse of special case views
-                            v = super.getDropDownView(
-                                position,
-                                null,
-                                parent
-                            )
-                        }
-
-                        // Hide scroll bar because it appears sometimes unnecessarily, this does not prevent scrolling
-
-                        // Hide scroll bar because it appears sometimes unnecessarily, this does not prevent scrolling
-
-                        return v!!
-
-                    }
+                binding.tvName.text = ""
+                data.CandidateAssessmentPanelMembers.firstOrNull()?.Name?.let {
+                    binding.tvName.text = data.CandidateAssessmentPanelMembers.firstOrNull()?.Name
                 }
-            binding.spinnerInterviewRemark.adapter = spinnerAdapter
-            binding.spinnerInterviewRemark.onItemSelectedListener = spinnerItemListener
+
+                binding.tvJobId.text = data.jobid.toString()
+                binding.tvDescription.text = data.AppliedPostion
+                appliedPosition = data.AppliedPostion.toString()
+
+                if (!data.Recommendation.toString().equals(""))
+                {
+                    binding.etRemart.setText(data.Recommendation)
+                    binding.remarkError.isVisible=false
+                }else
+                {
+                    binding.remarkError.isVisible=true
+                }
+
+
+                if (!data.CandidateAssessmentPanelMembers[0].Designation.equals("null") || data.CandidateAssessmentPanelMembers[0].Designation!=null) {
+                    binding.etRole.setText(data.CandidateAssessmentPanelMembers[0].Designation!!.toString())
+                    binding.roleError.isVisible=false
+                }else
+                {
+                    binding.roleError.isVisible=true
+                }
+
+                recommendationList.add(0, "Select Recommendation")
+
+                data.InterviewerRemark.forEach {
+                    recommendationList.add(it.Remark.toString())
+                }
+                Log.e(TAG, "setDataToViews: " + (recommendationList.size ?: 0).toString())
+                spinnerAdapter =
+                    object :
+                        ArrayAdapter<String>(
+                            this, android.R.layout.simple_spinner_dropdown_item,
+                            recommendationList
+                        ) {
+                        override fun getDropDownView(
+                            position: Int,
+                            convertView: View?,
+                            parent: ViewGroup
+                        ): View {
+
+                            var v: View? = null
+
+                            // If this is the initial dummy entry, make it hidden
+
+                            // If this is the initial dummy entry, make it hidden
+                            if (position === 0) {
+                                val tv = TextView(context)
+                                tv.height = 0
+                                //  tv.visibility = View.GONE
+                                v = tv
+                            } else {
+                                // Pass convertView as null to prevent reuse of special case views
+                                v = super.getDropDownView(
+                                    position,
+                                    null,
+                                    parent
+                                )
+                            }
+
+                            // Hide scroll bar because it appears sometimes unnecessarily, this does not prevent scrolling
+
+                            // Hide scroll bar because it appears sometimes unnecessarily, this does not prevent scrolling
+
+                            return v!!
+
+                        }
+                    }
+                binding.spinnerInterviewRemark.adapter = spinnerAdapter
+                binding.spinnerInterviewRemark.onItemSelectedListener = spinnerItemListener
 //            spinnerAdapter.notifyDataSetChanged()
 
-            //  spinnerAdapter.notifyDataSetChanged()
+                //  spinnerAdapter.notifyDataSetChanged()
 
-            binding.etOverallRemark.setText(data.CodingTestRemarksForVideo.toString())
-            if (!data.Comments.equals("null") || data.Comments!=null) {
-                val spinnerPos = spinnerAdapter.getPosition(data.Comments.toString())
-                binding.spinnerInterviewRemark.setSelection(spinnerPos)
-                binding.recommendationError.isVisible=false
-            }else
+                binding.etOverallRemark.setText(data.CodingTestRemarksForVideo.toString())
+                if (!data.Comments.equals("null") || data.Comments!=null) {
+                    val spinnerPos = spinnerAdapter.getPosition(data.Comments.toString())
+                    binding.spinnerInterviewRemark.setSelection(spinnerPos)
+                    binding.recommendationError.isVisible=false
+                }else
+                {
+                    binding.recommendationError.isVisible=true
+                }
+
+
+                if (!data.CandidateAssessmentSkills.isNullOrEmpty())
+                    if (data.CandidateAssessmentSkills[0].Catagory != null && !data.CandidateAssessmentSkills[0].Catagory.equals(
+                            "null"
+                        )
+                    ) {
+                        skillsList.addAll(data.CandidateAssessmentSkills)
+                    } else {
+                        skillsList.addAll(data.assessSkills)
+                    }
+                Log.d(TAG, "setDataToViews: listdata $skillsList")
+                skillsAdapter.notifyDataSetChanged()
+
+            }catch (e:Exception)
             {
-                binding.recommendationError.isVisible=true
+                Log.d(TAG, "setDataToViews: on data res exception ${e.message}")
             }
 
-
-            if (!data.CandidateAssessmentSkills.isNullOrEmpty())
-                if (data.CandidateAssessmentSkills[0].Catagory != null && !data.CandidateAssessmentSkills[0].Catagory.equals(
-                        "null"
-                    )
-                ) {
-                    skillsList.addAll(data.CandidateAssessmentSkills)
-                } else {
-                    skillsList.addAll(data.assessSkills)
-                }
-            Log.d(TAG, "setDataToViews: listdata $skillsList")
-            skillsAdapter.notifyDataSetChanged()
 
         })
     }
