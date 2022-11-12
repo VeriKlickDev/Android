@@ -10,6 +10,7 @@ object AppConstants {
 
     const val USER_LOGIN_TOKEN = "user_login_token"
     const val PRIVACY_LINK = "privacy_link"
+    const val SCREEN_SHARE_NAME = "screen"
 
     const val LOGGED_USER_ACCESSCODE = "user_access_code"
     //twilio Video room

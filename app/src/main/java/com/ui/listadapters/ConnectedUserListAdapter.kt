@@ -83,7 +83,7 @@ class ConnectedUserListAdapter(val viewModel:VideoViewModel,
             {
                 binding.blankvideoLayout.visibility=View.VISIBLE
                 binding.ivUserVideoView.visibility=View.GONE
-                binding.tvNovideoText.setText(data.userName.get(0).toString())
+                binding.tvNovideoText.setText(data.userName!!.get(0).toString())
                 Log.d(TAG, "bindData: video trak null")
             }
 

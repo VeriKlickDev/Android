@@ -2,5 +2,10 @@ package com.domain.BaseModels
 
 import com.twilio.video.*
 
-data class VideoTracksBean(var identity:String,var remoteParticipant: RemoteParticipant?, var videoTrack: VideoTrack?, var userName:String)
+data class VideoTracksBean(var identity:String?=null,
+                           var remoteParticipant: RemoteParticipant?=null,
+                           var videoTrack: VideoTrack?=null,
+                           var userName:String?=null,
+                           val videoSid:String?=null
+                           )
 //,val sid:String

@@ -64,7 +64,8 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
                             VideoTracksBean(it.remoteParticipant!!.identity,
                                 it.remoteParticipant,
                                 it.videoTrack,
-                                user.userFirstName + " " + user.userLastName
+                                user.userFirstName + " " + user.userLastName,
+                                it.videoSid
                             )
                         )
                         if (isContain) {
@@ -77,14 +78,16 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
                             VideoTracksBean(it.identity,
                                 it.remoteParticipant,
                                 it.videoTrack,
-                                user.userFirstName
+                                user.userFirstName,
+                                it.videoSid
                             )
                         )
                         tlist.add(
                             VideoTracksBean(it.identity,
                                 it.remoteParticipant,
                                 it.videoTrack,
-                                user.userFirstName + " " + user.userLastName
+                                user.userFirstName + " " + user.userLastName,
+                                it.videoSid
                             )
                         )
                         Log.d(
@@ -125,13 +128,15 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
                             tlist.add(VideoTracksBean(TwilioHelper.getRoomInstance()?.localParticipant?.identity!!,
                                 it.remoteParticipant,
                                 localVideoTrack!!,
-                                "You"
+                                "You",
+                                it.videoSid
                             )
                             )
                             tlist.add(VideoTracksBean(it.identity,
                                 it.remoteParticipant,
                                 it.videoTrack,
-                                user.userFirstName
+                                user.userFirstName,
+                                it.videoSid
                             )
                             )
 
@@ -140,7 +145,8 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
                                 VideoTracksBean(it.identity,
                                     it.remoteParticipant,
                                     it.videoTrack!!,
-                                    user.userFirstName
+                                    user.userFirstName,
+                                    it.videoSid
                                 )
                             )
                         }
@@ -150,14 +156,16 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
                                 VideoTracksBean(it.identity,
                                     it.remoteParticipant,
                                     it.videoTrack!!,
-                                    user.userFirstName + " " + user.userLastName
+                                    user.userFirstName + " " + user.userLastName,
+                                    it.videoSid
                                 )
                             )
                             remoteParticipantVideoListWithCandidate.add(
                                 VideoTracksBean(it.identity,
                                     it.remoteParticipant,
                                     it.videoTrack!!,
-                                    user.userFirstName
+                                    user.userFirstName,
+                                    it.videoSid
                                 )
                             )
                         }
