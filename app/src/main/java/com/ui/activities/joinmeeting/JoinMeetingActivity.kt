@@ -57,8 +57,8 @@ class JoinMeetingActivity :AppCompatActivity() {
                     //candidate https://ui2.veriklick.in/video-session/AN8M9kjPnJYC9DHWT3ZD
                     //5 https://ui2.veriklick.in/video-session/zyi6lbtiZ5QFj64RihFk
                     //2 https://ui2.veriklick.in/video-session/2GztbrPXKlDMqYOttrmZ
-                   // getInterviewDetails("AN8M9kjPnJYC9DHWT3ZD")
-                     getInterviewDetails(accessCode)
+                    getInterviewDetails("AN8M9kjPnJYC9DHWT3ZD")
+                    // getInterviewDetails(accessCode)
                     //  showToast(this,"Under Development")
                     hideKeyboard(this)
                 }else

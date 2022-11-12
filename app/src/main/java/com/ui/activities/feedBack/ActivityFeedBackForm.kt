@@ -147,7 +147,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
     fun addNewItem() {
         Log.d(TAG, "addNewItem: before ${skillsList.size} ")
-        skillsList.add(AssessSkills(value = "others"))
+        skillsList.add(AssessSkills(value = "others", Comments = ""))
         skillsAdapter.notifyItemInserted(skillsList.size)
         Log.d(TAG, "addNewItem: AFTER ${skillsList.size}")
     }
@@ -215,7 +215,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 CandidateAssessmentSkills(
                     it.CandidateAssessmentSkillsId,
                     it.CandidateAssessmentId,
-                    it.Comments,
+                    it.Comments!!,
                     it.Ratings?.toInt(),
                     it.Catagory,
                     it.ManualCatagory,
@@ -242,10 +242,11 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 binding.etRole.text.toString(),
                 appliedPosition,
                 recommendationSelected!!,
-                designation,
+                binding.etRole.text.toString(),
                 interviewName,
                 candidateId,
                 binding.etRemart.text.toString(),
+                binding.etOverallRemark.text.toString(),
                 BodyFeedBack(
                     CandidateAssessmentSkills = skillist,
                 ),
@@ -427,6 +428,14 @@ class ActivityFeedBackForm : AppCompatActivity() {
             binding.tvDescription.text = data.AppliedPostion
             appliedPosition = data.AppliedPostion.toString()
 
+            binding.etRemart.setText(data.Recommendation)
+
+            if (!data.CandidateAssessmentPanelMembers[0].Designation.equals("null") || data.CandidateAssessmentPanelMembers[0].Designation!=null)
+            binding.etRole.setText(data.CandidateAssessmentPanelMembers[0].Designation!!.toString())
+
+
+
+
             recommendationList.add(0, "Select Recommendation")
             data.InterviewerRemark.forEach {
                 recommendationList.add(it.Remark.toString())
@@ -477,6 +486,13 @@ class ActivityFeedBackForm : AppCompatActivity() {
 //            spinnerAdapter.notifyDataSetChanged()
 
             //  spinnerAdapter.notifyDataSetChanged()
+
+            binding.etOverallRemark.setText(data.CodingTestRemarksForVideo.toString())
+            if (!data.Comments.equals("null") || data.Comments!=null) {
+                val spinnerPos = spinnerAdapter.getPosition(data.Comments.toString())
+                binding.spinnerInterviewRemark.setSelection(spinnerPos)
+            }
+
 
             if (!data.CandidateAssessmentSkills.isNullOrEmpty())
                 if (data.CandidateAssessmentSkills[0].Catagory != null && !data.CandidateAssessmentSkills[0].Catagory.equals(

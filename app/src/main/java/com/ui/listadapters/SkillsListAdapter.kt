@@ -105,7 +105,11 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
                     // ob.Comments=data.Comments
                 }
 
-            binding.etComment.addTextChangedListener {it->
+            binding.etComment.addTextChangedListener {
+                if (binding.etTitle.isVisible==false)
+                {
+                    data.Catagory=data.value
+                }
 
                 data.Comments=it.toString()
                 Log.d("datachecking", "dataBind: comment ${data.Comments}  ")

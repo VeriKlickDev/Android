@@ -12,7 +12,6 @@ data class BodyFeedBack(
 
 
 data class CandidateAssessment (
-
     @SerializedName("AssessmentId"              ) var AssessmentId              : Int?              = null,
     @SerializedName("RecommendationId"          ) var RecommendationId          : Int?              = null,
     @SerializedName("CandidateId"               ) var CandidateId               : Int?              = null,

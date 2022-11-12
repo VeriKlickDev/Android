@@ -60,34 +60,40 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
 
     }
 
-    fun sendFeedback(context: Context,assementId:Int,role:String,appliedPosition:String,recommendation:String,designation:String,interviewName:String,candidateId:Int,remarktxt:String, obj:BodyFeedBack,skillsListRes:ArrayList<AssessSkills>,remarkList:ArrayList<InterviewerRemark>, onDataResponse:(data: ResponseBodyFeedBack?, status:Int)->Unit) {
+    fun sendFeedback(context: Context,assementId:Int,role:String,appliedPosition:String,recommendation:String,designation:String,interviewName:String,candidateId:Int,remarktxt:String,codingRemarktxt:String, obj:BodyFeedBack,skillsListRes:ArrayList<AssessSkills>,remarkList:ArrayList<InterviewerRemark>, onDataResponse:(data: ResponseBodyFeedBack?, status:Int)->Unit) {
         viewModelScope.launch {
             try {
                 CoroutineScope(Dispatchers.IO).launch {
                     //val candidateId=CurrentMeetingDataSaver.getData().users?.filter { it.userType.contains("C") }
 
-                    val memberList = arrayListOf<CandidateAssessmentPanelMembers>(
-                        CandidateAssessmentPanelMembers(
-                            Name = interviewName,
-                            Designation = designation
-                        )
-                    )
+                    val memberList = arrayListOf<CandidateAssessmentPanelMembers>()
+                    memberList.add( CandidateAssessmentPanelMembers(
+                        Name = interviewName,
+                        Designation = designation,
+                        CandiateAssessment = "null",
+                        CandidateAssesmentId = 0,
+                        PanelMemberId = 0
+                    ))
 
                     //obj.CandidateAssessment?.Recommendation = recommendation
 
-                        obj?.CandidateAssessment?.Remark=remarkList
+                    obj?.CandidateAssessment?.Remark=remarkList
 
                     obj.CandidateAssessment?.Recommendation=remarktxt
                     obj.CandidateAssessment?.Comments=recommendation
 
                     obj?.CandidateAssessment?.Skills=skillsListRes
                     obj?.CandidateAssessment?.AssessmentId=assementId
+                    obj?.CandidateAssessment?.CodingTestRemarksForVideo=codingRemarktxt
 
-                    obj?.CandidateAssessmentPanelMembers?.get(0)!!.CandidateAssesmentId=assementId
+                    obj?.CandidateAssessmentPanelMembers?.add(0,memberList[0])
+
+                    /*obj?.CandidateAssessmentPanelMembers?.get(0)!!.CandidateAssesmentId=assementId
                     obj?.CandidateAssessmentPanelMembers?.get(0)!!.Designation=role
                     obj?.CandidateAssessmentPanelMembers?.get(0)!!.Name=interviewName
                     obj?.CandidateAssessmentPanelMembers?.get(0)!!.CandiateAssessment="null"
                     obj?.CandidateAssessmentPanelMembers?.get(0)!!.PanelMemberId=0
+                    */
 
                             /* CurrentUpcomingMeetingData.getData()?.let {
                         obj.RecruiterId=it.interviewId.toString()
