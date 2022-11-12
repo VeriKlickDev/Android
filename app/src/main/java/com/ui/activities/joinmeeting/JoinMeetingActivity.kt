@@ -52,7 +52,7 @@ class JoinMeetingActivity :AppCompatActivity() {
 
                     accessCode= accessCodeSplit.last()
                     Log.d(TAG, "onCreate: accessCode is $accessCode")
-                    //host https://ui2.veriklick.in/video-session/wMlbmu9FlX2qZg8bkcd4
+                    //host https://ui2.veriklick.in/video-session/6muujg6uilpmY4j63ftI
                     //interviewer
                     //candidate https://ui2.veriklick.in/video-session/AN8M9kjPnJYC9DHWT3ZD
                     //5 https://ui2.veriklick.in/video-session/zyi6lbtiZ5QFj64RihFk

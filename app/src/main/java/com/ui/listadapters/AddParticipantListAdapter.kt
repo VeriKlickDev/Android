@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.data.dataHolders.InvitationDataModel
+import com.data.emailValidator
 import com.data.getEditTextWithFlow
 import com.data.showToast
 import com.example.twillioproject.R
@@ -23,7 +24,7 @@ class AddParticipantListAdapter(
     val onEditextChanged: (txt: String, action: Int, pos: Int) -> Unit
 ) :
     RecyclerView.Adapter<AddParticipantListAdapter.ViewHolderClass>() {
-
+    private val TAG="addpartiCheck"
     val dataList = ArrayList<InvitationDataModel>()
     lateinit var bindingg:LayoutAddParticipantBinding
      var adapterPosition: Int=-1
@@ -83,11 +84,38 @@ class AddParticipantListAdapter(
            // list[position].InterviewerTimezone=list[position].InterviewerTimezone
         }
         holder.binding.etEmail.addTextChangedListener {
-            list.get(position).email = it.toString()
+            emailValidator(context,it.toString()){isEmailOk, mEmail, error ->
+            if (isEmailOk)
+            {
+                bindingg.tvEmailError.isVisible=false
+                list.get(position).email = it.toString()
+            }else
+            {
+                bindingg.tvEmailError.isVisible=true
+                bindingg.tvEmailError.setText(context.getString(R.string.txt_enter_valid_email))
+            }
+            }
+
+
            // list[position].InterviewerTimezone=list[position].InterviewerTimezone
         }
         holder.binding.etPhoneNumber.addTextChangedListener {
-            list.get(position).phone = it.toString()
+         try {
+             if (bindingg.etPhoneNumber.text.toString().toInt()>10 )
+             {
+                 bindingg.tvPhoneError.setText("Phone no. should be 10 digits.")
+                 bindingg.tvPhoneError.isVisible=true
+             }else
+             {
+                 bindingg.tvPhoneError.isVisible=false
+                 list.get(position).phone = it.toString()
+             }
+
+         }catch (e:Exception)
+         {
+             Log.d(TAG, "onBindViewHolder: phon excetion ${e.message}")
+         }
+
            // list[position].InterviewerTimezone=list[position].InterviewerTimezone
         }
 

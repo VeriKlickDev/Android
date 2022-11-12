@@ -1,4 +1,4 @@
-package com.data
+package com.ui.activities.twilioVideo.meetingnotificationservice
 
 import android.content.ComponentName
 import android.content.Context
@@ -6,12 +6,11 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import android.util.Log
-import com.data.dataHolders.CurrentMeetingDataSaver
 
 class MeetingServiceManager {
     private var mService: MeetingService? = null
     private var mContext: Context? = null
-    private var currentState =MeetingServiceManagerState.UNBIND_SERVICE
+    private var currentState = MeetingServiceManagerState.UNBIND_SERVICE
     private val TAG="meetingsermanager"
     private val connection: ServiceConnection = object : ServiceConnection {
 
@@ -60,7 +59,7 @@ class MeetingServiceManager {
             Log.d(TAG, "bindService: context not null")
         }
 
-        val intent1 = Intent(mContext,MeetingService::class.java)
+        val intent1 = Intent(mContext, MeetingService::class.java)
         Log.d(TAG, "onServiceConnected: bind method")
         mContext!!.bindService(intent1, connection, Context.BIND_AUTO_CREATE)
     }

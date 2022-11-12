@@ -43,8 +43,9 @@
             <ImageView
                 android:layout_width="@dimen/_20sp"
                 android:layout_height="@dimen/_20sp"
-                android:background="@drawable/ic_cross"
+                android:src="@drawable/ic_cross"
                 android:id="@+id/btn_cross"
+                android:padding="@dimen/_3sdp"
                 />
         </androidx.appcompat.widget.LinearLayoutCompat>
 

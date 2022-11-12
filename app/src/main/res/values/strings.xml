@@ -7,7 +7,7 @@
     <string name="txt_weakPassword">weak password</string>
     <string name="txt_password_must_be_greaterthan_6"><![CDATA[password must be >6]]></string>
     <string name="txt_required">Required</string>
-    <string name="txt_enter_valid_email">please enter valid email</string>
+    <string name="txt_enter_valid_email">Please enter valid email</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="txt_connect">Connect</string>
     <string name="room_status">status</string>

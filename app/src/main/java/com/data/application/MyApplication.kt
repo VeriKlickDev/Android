@@ -14,4 +14,7 @@ class MyApplication :Application() {
         WeeksDataHolder.setCalendarInstance()
         //ChatClientWrapper.createInstance()
     }
+
+
+
 }

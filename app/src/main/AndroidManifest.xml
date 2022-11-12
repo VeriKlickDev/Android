@@ -106,7 +106,7 @@
             android:foregroundServiceType="mediaProjection" />
 
         <service
-            android:name="com.data.MeetingService"
+            android:name="com.ui.activities.twilioVideo.meetingnotificationservice.MeetingService"
             android:enabled="true"
             android:foregroundServiceType="mediaPlayback" />
 

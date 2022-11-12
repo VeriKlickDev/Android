@@ -1,10 +1,11 @@
-package com.data
+package com.ui.activities.twilioVideo.meetingnotificationservice
 
 import android.app.*
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
 import android.util.Log
+import com.data.helpers.TwilioHelper
 import com.domain.constant.AppConstants
 import com.example.twillioproject.R
 import com.ui.activities.twilioVideo.VideoActivity
@@ -20,6 +21,12 @@ class MeetingService : Service() {
            // Return this instance of ScreenCapturerService so clients can call public methods
            return this@MeetingService
        }
+    }
+
+    override fun onDestroy() {
+        println("destroyed service called")
+        TwilioHelper.disConnectRoom()
+        super.onDestroy()
     }
 
      override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -75,4 +82,14 @@ class MeetingService : Service() {
 
         startForeground(notificationId, notification)
     }
+
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        println("onTaskRemoved called")
+        TwilioHelper.disConnectRoom()
+        super.onTaskRemoved(rootIntent)
+        //do something you want
+        //stop service
+        this.stopSelf()
+    }
+
 }
