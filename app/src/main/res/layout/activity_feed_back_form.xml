@@ -129,7 +129,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/skillsError"
                             android:textColor="@color/red"
-                            android:visibility="visible"
+                            android:visibility="gone"
                             android:layout_marginLeft="@dimen/_2sp"
                             android:text="*" />
 

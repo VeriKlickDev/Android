@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
 import com.data.dataHolders.CurrentMeetingDataSaver
@@ -112,7 +113,26 @@ class ActivityFeedBackForm : AppCompatActivity() {
             ).show()*/
         }
 
+        handleViews()
+
         // getInterviewDetails("mkpeHcXKbF95uRiWiLzJ")
+    }
+
+    fun handleViews()
+    {
+
+        binding.etRemart.doOnTextChanged { text, start, before, count ->
+            binding.remarkError.isVisible = binding.etRemart.text.toString().equals("")
+        }
+
+        binding.etRole.doOnTextChanged { text, start, before, count ->
+            binding.roleError.isVisible = binding.etRole.text.toString().equals("")
+        }
+
+        binding.etOverallRemark.doOnTextChanged { text, start, before, count ->
+            binding.overallRemarkError.isVisible = binding.etOverallRemark.text.toString().equals("")
+        }
+
     }
 
 
@@ -428,18 +448,30 @@ class ActivityFeedBackForm : AppCompatActivity() {
             binding.tvDescription.text = data.AppliedPostion
             appliedPosition = data.AppliedPostion.toString()
 
-            binding.etRemart.setText(data.Recommendation)
+            if (!data.Recommendation.toString().equals(""))
+            {
+                binding.etRemart.setText(data.Recommendation)
+                binding.remarkError.isVisible=false
+            }else
+            {
+                binding.remarkError.isVisible=true
+            }
 
-            if (!data.CandidateAssessmentPanelMembers[0].Designation.equals("null") || data.CandidateAssessmentPanelMembers[0].Designation!=null)
-            binding.etRole.setText(data.CandidateAssessmentPanelMembers[0].Designation!!.toString())
 
+            if (!data.CandidateAssessmentPanelMembers[0].Designation.equals("null") || data.CandidateAssessmentPanelMembers[0].Designation!=null) {
+                binding.etRole.setText(data.CandidateAssessmentPanelMembers[0].Designation!!.toString())
+                binding.roleError.isVisible=false
+            }else
+            {
+                binding.roleError.isVisible=true
+            }
 
 
 
             recommendationList.add(0, "Select Recommendation")
+
             data.InterviewerRemark.forEach {
                 recommendationList.add(it.Remark.toString())
-
             }
             Log.e(TAG, "setDataToViews: " + (recommendationList.size ?: 0).toString())
             spinnerAdapter =
@@ -491,6 +523,10 @@ class ActivityFeedBackForm : AppCompatActivity() {
             if (!data.Comments.equals("null") || data.Comments!=null) {
                 val spinnerPos = spinnerAdapter.getPosition(data.Comments.toString())
                 binding.spinnerInterviewRemark.setSelection(spinnerPos)
+                binding.recommendationError.isVisible=false
+            }else
+            {
+                binding.recommendationError.isVisible=true
             }
 
 

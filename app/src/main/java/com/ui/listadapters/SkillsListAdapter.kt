@@ -90,6 +90,11 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
                 Log.d("datachecking", "dataBind: data is in if ")
                 binding.etTitle.isVisible=true
                 binding.layoutTitle.isVisible=true
+
+
+                binding.skillsError.isVisible=true
+                binding.commentError.isVisible=true
+
                // binding.etTitle.setText("")
             }
             else{
@@ -101,7 +106,16 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
 
             if (binding.etTitle.isVisible)
                 binding.etTitle.addTextChangedListener {
+                    if (binding.etTitle.text.toString().equals(""))
+                    {
+                        binding.skillsError.isVisible=true
+                    }else{
+                        binding.skillsError.isVisible=false
+                    }
+
                         data.ManualCatagory=it.toString()
+
+
                     // ob.Comments=data.Comments
                 }
 
@@ -110,6 +124,14 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
                 {
                     data.Catagory=data.value
                 }
+
+                if (binding.etComment.text.toString().equals(""))
+                {
+                    binding.commentError.isVisible=true
+                }else{
+                    binding.commentError.isVisible=false
+                }
+
 
                 data.Comments=it.toString()
                 Log.d("datachecking", "dataBind: comment ${data.Comments}  ")
@@ -131,10 +153,12 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
             {
                 Log.d(TAG, "dataBind: catagory is not null ")
                 binding.tvSkills.setText(data.Catagory)
+                binding.commentError.isVisible=false
             }
             else
             {
                 binding.tvSkills.setText(data.value)
+
                 Log.d(TAG, "dataBind: catagory is  null")
             }
             //data.Catagory=data.value
