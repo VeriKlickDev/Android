@@ -120,4 +120,5 @@
     <string name="txt_term_and_condition"><u>Term and Conditions</u></string>
     <string name="txt_cancel">Cancel</string>
     <string name="txt_agree">Agree</string>
+    <string name="txt_call_in_progress">Call in Progress</string>
 </resources>

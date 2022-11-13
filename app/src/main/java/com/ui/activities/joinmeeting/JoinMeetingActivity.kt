@@ -3,26 +3,21 @@ package com.ui.activities.joinmeeting
 import android.content.*
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.data.*
+import com.data.dataHolders.CallStatusHolder
 import com.data.dataHolders.CurrentConnectUserList
 import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.helpers.TwilioHelper
 import com.domain.constant.AppConstants
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityJoinMeetingBinding
-import com.google.android.material.snackbar.Snackbar
 import com.harvee.yourhealthmate2.ui.privacypolicy.ActivityPrivacyPolicy
-import com.ui.activities.documentviewer.FileDownloader.downloadFile
-import com.ui.activities.feedBack.ActivityFeedBackForm
 import com.ui.activities.twilioVideo.VideoActivity
-import com.ui.activities.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Runnable
 
@@ -33,6 +28,7 @@ class JoinMeetingActivity :AppCompatActivity() {
     private lateinit var viewModel:JoinMeetingViewModel
     private var accessCode=""
     private  var TAG="videocon"
+    private var isCallInProgress=false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityJoinMeetingBinding.inflate(layoutInflater)
@@ -57,7 +53,7 @@ class JoinMeetingActivity :AppCompatActivity() {
                     //candidate https://ui2.veriklick.in/video-session/7Oa8Dd6xhwrpKdkgJdRo    412345
                     //5 https://ui2.veriklick.in/video-session/MlH8hjxfv32xguzleXiH
                     //2
-                    //getInterviewDetails("EIFfAgSkvLzhZwt9fy4o")
+                   // getInterviewDetails("7Oa8Dd6xhwrpKdkgJdRo")
                      getInterviewDetails(accessCode)
                     //  showToast(this,"Under Development")
                     hideKeyboard(this)
@@ -72,7 +68,44 @@ class JoinMeetingActivity :AppCompatActivity() {
                 //Snackbar.make(it,getString(R.string.txt_no_internet_connection),Snackbar.LENGTH_SHORT).show()
             }
         }
+
+      /*  LocalBroadcastManager.getInstance(this).registerReceiver(
+            incomingCallRecevier,
+            IntentFilter(AppConstants.IN_COMING_CALL_ACTION)
+        )*/
+handleObserver()
     }
+
+    fun handleObserver()
+    {
+        CallStatusHolder.getCallStatus().observe(this){
+            isCallInProgress=it
+            Log.d(TAG, "handleObserver: call status is $it")
+        }
+        
+    }
+    
+    
+  /*  val incomingCallRecevier=object: BroadcastReceiver(){
+        override fun onReceive(p0: Context?, p1: Intent?) {
+            Log.d(TAG, "onReceive: call recieved or attented action  ${p1?.getStringExtra(AppConstants.IN_COMING_CALL_ACTION)}")
+
+            when(p1?.getStringExtra(AppConstants.IN_COMING_CALL_ACTION))
+            {
+                AppConstants.IN_COMING_CALL_ACTION_RINGING->{
+
+                }
+                AppConstants.IN_COMING_CALL_ACTION_ATTENDED->{
+                    isCallInProgress=true
+                }
+                AppConstants.IN_COMING_CALL_ACTION_IDL_ENDED->{
+                    isCallInProgress=false
+                }
+
+            }
+            Log.d(TAG, "onReceive: call recieved or attented")
+        }
+    }*/
 
     override fun onDestroy() {
         Log.d(TAG, "onDestroy: ")
@@ -167,19 +200,11 @@ class JoinMeetingActivity :AppCompatActivity() {
                                  showPrivacyPolicy(binding.root as ViewGroup,onClicked = { it, dialog->
                                if (it)
                                {
-                                   var isCallisInProgress=false
-                                   LocalBroadcastManager.getInstance(this).registerReceiver(
-                                       object:BroadcastReceiver(){
-                                           override fun onReceive(p0: Context?, p1: Intent?) {
-                                               isCallisInProgress=true
-                                           }
-                                       },
-                                       IntentFilter(AppConstants.IN_COMING_CALL_ACTION)
-                                   )
 
-                                   if (isCallisInProgress)
+                                   if (isCallInProgress)
                                    {
-                                       showCustomSnackbarOnTop("Call in Progress")
+                                       dialog.dismiss()
+                                       showCustomSnackbarOnTop(getString(R.string.txt_call_in_progress))
                                    }else
                                    {
                                        val intent=Intent(this@JoinMeetingActivity, VideoActivity::class.java)

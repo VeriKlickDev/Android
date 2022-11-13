@@ -61,7 +61,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
 
     private var searchTxt = ""
-
+    private var isCallInProgress=false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUpcomingMeetingBinding.inflate(layoutInflater)
@@ -240,6 +240,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             }
         })
         setupAdapter()
+
     }
 
 private  var ob: BodyScheduledMeetingBean? = null
@@ -471,6 +472,13 @@ private  var ob: BodyScheduledMeetingBean? = null
 
     private val meetingsList = ArrayList<NewInterviewDetails>()
     private fun handleObserver() {
+
+        CallStatusHolder.getCallStatus().observe(this){
+            isCallInProgress=it
+        }
+
+
+
         Log.d(TAG, "handleObserver: out observer method ")
         binding.tvNoData.visibility = View.VISIBLE
 
@@ -692,6 +700,7 @@ private  var ob: BodyScheduledMeetingBean? = null
     }
 
 
+
     fun joinMeeting(accessCode: String) {
         // showProgressDialog()
         viewModel.getVideoSessionCandidate(accessCode, onDataResponse = { data, event ->
@@ -716,10 +725,16 @@ private  var ob: BodyScheduledMeetingBean? = null
                                 showPrivacyPolicy(binding.root as ViewGroup,onClicked = {it,dialog->
                                     if (it)
                                     {
-                                        val intent=Intent(this, VideoActivity::class.java)
-                                        startActivity(intent)
-                                        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
-                                        dialog.dismiss()
+                                        if (isCallInProgress){
+                                            dialog.dismiss()
+                                            showCustomSnackbarOnTop(getString(R.string.txt_call_in_progress))
+                                        }else{
+                                            val intent=Intent(this, VideoActivity::class.java)
+                                            startActivity(intent)
+                                            overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
+                                            dialog.dismiss()
+                                        }
+
                                     }else
                                     {
                                         dialog.dismiss()

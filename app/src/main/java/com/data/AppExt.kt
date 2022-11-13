@@ -285,10 +285,11 @@ fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>) {
 fun Context.requestVideoPermissions(isGrant: (isGranted: Boolean) -> Unit) {
     ExcuseMe.couldYouGive(this).permissionFor(
         android.Manifest.permission.CAMERA,
-        Manifest.permission.RECORD_AUDIO
+        Manifest.permission.RECORD_AUDIO,
+        Manifest.permission.READ_PHONE_STATE
     ) {
         Log.d("permissioncheck", "requestVideoPermissions: $it ")
-        if (it.granted.contains(android.Manifest.permission.CAMERA) && it.granted.contains(Manifest.permission.RECORD_AUDIO)) {
+        if (it.granted.contains(android.Manifest.permission.CAMERA) && it.granted.contains(Manifest.permission.RECORD_AUDIO) && it.granted.contains(Manifest.permission.READ_PHONE_STATE)) {
             isGrant(true)
         }
         else {

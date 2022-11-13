@@ -68,11 +68,12 @@ import kotlin.properties.Delegates
 class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipantListener,
     OnViewClicked {
 
-    private val incomingCallRecevier = object : BroadcastReceiver() {
+  /*  private val incomingCallRecevier = object : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
+            Log.d(TAG, "onReceive: oncall recive call end")
             endCall()
         }
-    }
+    }*/
     lateinit var binding: ActivityTwilioVideoBinding
     private val globalParticipantList = mutableListOf<VideoTracksBean>()
     private val CAMERA_MIC_PERMISSION_REQUEST_CODE = 1
@@ -187,10 +188,12 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         }
 
         //handle incoming call
-        LocalBroadcastManager.getInstance(this).registerReceiver(
+       /* LocalBroadcastManager.getInstance(this).registerReceiver(
             incomingCallRecevier,
             IntentFilter(AppConstants.IN_COMING_CALL_ACTION)
-        )
+        )*/
+
+
 
         CurrentMeetingDataSaver.getData()?.users?.forEach {
             if (it.userType.contains("C")) {
@@ -403,12 +406,15 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         //viewModel.endVideoCall()
         viewModel.setScreenSharingStatus(true, onResult = { action, data -> })
         var isNotCandidate = true
+
         if (!CurrentConnectUserList.getListofParticipant().isNullOrEmpty()) {
             if (!CurrentMeetingDataSaver.getData().identity!!.contains("C")) {
 
                 CurrentConnectUserList.getListofParticipant().forEach {
                     if (it.identity!!.contains("C")) {
+                        Log.d(TAG, "endCall: called feedback form")
                         val intent = Intent(this@VideoActivity, ActivityFeedBackForm::class.java)
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         startActivity(intent)
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                         isNotCandidate = false
@@ -454,9 +460,16 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
     }
 
-    var currentUserIdentity = ""
-    var currentLocalVideoTrack: LocalVideoTrack? = null
+    private var isCallinProgress=false
+    private  var currentUserIdentity = ""
+    private var currentLocalVideoTrack: LocalVideoTrack? = null
     private fun handleObserver() {
+
+        CallStatusHolder.getCallStatus().observe(this){
+            isCallinProgress=it
+                endCall()
+        }
+
 
         viewModel.micStatus.observe(this, Observer {
             Log.d(TAG, "handleObserver: check mic ${it} ")
@@ -1623,6 +1636,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
          */
         // localAudioTrack?.let { localParticipant?.unpublishTrack(it) }
 
+        if (isCallinProgress)
+        endCall()
+
 
         //localAudioTrack?.let { localParticipant?.unpublishTrack(it) }
         Log.d(TAG, "onPause: ")
@@ -2270,7 +2286,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
     }
 
     override fun onDestroy() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(incomingCallRecevier)
+       // LocalBroadcastManager.getInstance(this).unregisterReceiver(incomingCallRecevier)
         localVideoTrack?.let { localParticipant?.unpublishTrack(it) }
         // localAudioTrack?.let { localParticipant?.unpublishTrack(it) }
 //        screenShareCapturerManager.endForeground()

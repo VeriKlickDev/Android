@@ -1,7 +1,5 @@
 package com.domain.constant
 
-import com.twilio.video.VideoTrack
-
 object AppConstants {
 
     const val USER_DATA_STORE_KEY = "user_data_store_key"
@@ -23,7 +21,7 @@ object AppConstants {
     const val MEETING_USER_ID = "twilio_user_id"
 
     const val PRIVACY_ACTION = "privacy_action"
-    const val IN_COMING_CALL_ACTION = "IN_COMING_CALL_ACTION"
+
     const val CHAT_ACCESS_TOKEN = "chat_access_token"
     const val CHAT_CHANNEL = "chat_channel"
     const val CHAT_SENDER= "chat_sender"
@@ -38,6 +36,12 @@ object AppConstants {
     const val LOGIN_WITH_OTP= "login_with_otp"
     const val LOGGED_WITH_OTP= "login_with_otp"
     const val CANDIDATE_ID= "candidate_id"
+
+    //call broadcast
+    const val IN_COMING_CALL_ACTION = "IN_COMING_CALL_ACTION"
+    const val IN_COMING_CALL_ACTION_IDL_ENDED = "IN_COMING_CALL_ACTION_IDL_ENDED"
+    const val IN_COMING_CALL_ACTION_RINGING = "IN_COMING_CALL_ACTION_RINGING"
+    const val IN_COMING_CALL_ACTION_ATTENDED = "IN_COMING_CALL_ACTION_ATTENDED"
 }
 
 
