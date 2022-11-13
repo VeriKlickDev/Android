@@ -531,6 +531,8 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
 
              */
+
+
             setBlankBackground(false)
             removeAllSinksAndSetnew(it?.videoTrack!!, false)
 
@@ -788,6 +790,16 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
         if (isSink) {
             Log.d(TAG, "removeAllSinksAndSetnew: remove sinks add new")
+           /* if (videoTrack!=null)
+            {
+                setBlankBackground(false)
+                binding.tvNoParticipant.text="hello world"
+                videoTrack!!.addSink(binding.primaryVideoView)
+            }else
+            {
+                setBlankBackground(true)
+                binding.tvNoParticipant.text="Video Not Available"
+            }*/
             videoTrack!!.addSink(binding.primaryVideoView)
             lastVideoTrack=videoTrack
         }
@@ -1235,8 +1247,14 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                         candidateName?.firstOrNull()?.userFirstName!!,
                         "remote"
                     )
+                }else
+                {
+                    setBlankBackground(true)
+                    binding.tvNoParticipant.text="Video Not Available"
                 }
+
             }
+
             if (it.videoTrack?.name.equals("screen"))
             {
                 if (it.videoTrack!=null) {
@@ -2328,6 +2346,12 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
 
         removeRemoteParticipant(participant)
+
+        if(remoteParticipantVideoList.size==1)
+        {
+            viewModel.setCurrentVisibleUser(localParticipant!!.identity,localVideoTrack,"You","remote")
+        }
+
         //  currentRemoteVideoTrack?.removeSink(binding.primaryVideoView)
         //  localVideoTrack?.addSink(binding.primaryVideoView)
     }
