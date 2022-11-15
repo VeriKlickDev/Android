@@ -51,9 +51,11 @@ class JoinMeetingActivity :AppCompatActivity() {
                     //host https://ui2.veriklick.in/video-session/EIFfAgSkvLzhZwt9fy4o
                     //interviewer
                     //candidate https://ui2.veriklick.in/video-session/7Oa8Dd6xhwrpKdkgJdRo    412345
-                    //5 https://ui2.veriklick.in/video-session/MlH8hjxfv32xguzleXiH
+                    //5 https://ui2.veriklick.in/video-session/NYIe4s9A2jbldMKAL9xN
                     //2
-                   // getInterviewDetails("7Oa8Dd6xhwrpKdkgJdRo")
+
+                    // https://ui2.veriklick.in/video-session/y3uE1C3l5huKLDLaxQPm
+                   // getInterviewDetails("y3uE1C3l5huKLDLaxQPm")
                      getInterviewDetails(accessCode)
                     //  showToast(this,"Under Development")
                     hideKeyboard(this)
@@ -61,7 +63,7 @@ class JoinMeetingActivity :AppCompatActivity() {
                 {
                     showCustomSnackbarOnTop(getString(R.string.txt_url_required))
                     //showToast(this,getString(R.string.txt_url_required))
-                }
+                 }
             }else
             {
                 showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))

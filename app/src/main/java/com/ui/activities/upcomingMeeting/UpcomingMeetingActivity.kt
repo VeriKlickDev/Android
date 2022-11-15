@@ -690,10 +690,11 @@ private  var ob: BodyScheduledMeetingBean? = null
                 }
                 401 -> {
                     dismissProgressDialog()
-                    data?.videoAccessCode = accessCode //remove all code
+                    showCustomSnackbarOnTop(data?.aPIResponse?.message.toString())
+                  /*  data?.videoAccessCode = accessCode //remove all code
                     CurrentMeetingDataSaver.setData(data!!)
                     joinMeeting(accessCode)
-                    CurrentMeetingDataSaver.setData(data)
+                    CurrentMeetingDataSaver.setData(data)*/
                 }
             }
         })

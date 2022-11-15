@@ -317,9 +317,9 @@ class ActivityFeedBackForm : AppCompatActivity() {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             Log.d(TAG, "onItemSelected: selected ${recommendationList.get(position)}")
             if (position==0){
-                ( view as TextView).setTextColor(ContextCompat.getColor(this@ActivityFeedBackForm,R.color.grey))
+              //  ( view as TextView).setTextColor(ContextCompat.getColor(this@ActivityFeedBackForm,R.color.grey))
             }else{
-                ( view as TextView).setTextColor(ContextCompat.getColor(this@ActivityFeedBackForm,R.color.black))
+              //  ( view as TextView).setTextColor(ContextCompat.getColor(this@ActivityFeedBackForm,R.color.black))
                 recommendationSelected=recommendationList[position].toString()
             }
 
@@ -449,22 +449,32 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 binding.tvDescription.text = data.AppliedPostion
                 appliedPosition = data.AppliedPostion.toString()
 
-                if (!data.Recommendation.toString().equals(""))
+                if (!data.Recommendation.toString().equals("") || data.Recommendation!=null)
                 {
                     binding.etRemart.setText(data.Recommendation)
                     binding.remarkError.isVisible=false
                 }else
                 {
+                    binding.etRemart.setText("")
                     binding.remarkError.isVisible=true
                 }
 
 
-                if (!data.CandidateAssessmentPanelMembers[0].Designation.equals("null") || data.CandidateAssessmentPanelMembers[0].Designation!=null) {
-                    binding.etRole.setText(data.CandidateAssessmentPanelMembers[0].Designation!!.toString())
-                    binding.roleError.isVisible=false
-                }else
+                try {
+                    if (!data.CandidateAssessmentPanelMembers[0].Designation.toString().equals("null") || data.CandidateAssessmentPanelMembers[0].Designation!=null) {
+                            binding.etRole.setText(data.CandidateAssessmentPanelMembers[0].Designation!!.toString())
+
+                        binding.roleError.isVisible=false
+                    }else
+                    {
+                        binding.roleError.isVisible=true
+                    }
+
+                }catch (e:Exception)
                 {
-                    binding.roleError.isVisible=true
+                    Log.d(
+                        TAG,
+                        "setDataToViews: exception candidate designation ${e.printStackTrace()}")
                 }
 
                 recommendationList.add(0, "Select Recommendation")
@@ -514,11 +524,21 @@ class ActivityFeedBackForm : AppCompatActivity() {
                     }
                 binding.spinnerInterviewRemark.adapter = spinnerAdapter
                 binding.spinnerInterviewRemark.onItemSelectedListener = spinnerItemListener
-//            spinnerAdapter.notifyDataSetChanged()
+
+                spinnerAdapter.notifyDataSetChanged()
 
                 //  spinnerAdapter.notifyDataSetChanged()
 
-                binding.etOverallRemark.setText(data.CodingTestRemarksForVideo.toString())
+                if (data.CodingTestRemarksForVideo.toString().equals("null"))
+                {
+                    binding.etOverallRemark.setText("")
+                }else
+                {
+                    binding.etOverallRemark.setText(data.CodingTestRemarksForVideo.toString())
+                }
+
+
+
                 if (!data.Comments.equals("null") || data.Comments!=null) {
                     val spinnerPos = spinnerAdapter.getPosition(data.Comments.toString())
                     binding.spinnerInterviewRemark.setSelection(spinnerPos)

@@ -94,6 +94,7 @@
             <EditText
                 android:id="@+id/et_otp"
                 android:maxLines="1"
+                android:singleLine="true"
                 android:layout_marginTop="@dimen/_15sp"
                 android:textSize="@dimen/_16sdp"
                 android:hint="@string/txt_six_digit_otp"
