@@ -9,6 +9,14 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/_10sp"
         android:id="@+id/parentLayout"
@@ -147,9 +155,10 @@
                 android:text="@string/txt_verify_otp"
                 android:textSize="@dimen/_18sdp" />
 
-
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-
     </androidx.appcompat.widget.LinearLayoutCompat>
+        </ScrollView>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
 </layout>

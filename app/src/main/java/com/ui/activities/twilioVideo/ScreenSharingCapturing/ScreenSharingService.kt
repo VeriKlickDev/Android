@@ -8,6 +8,7 @@ import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
 import android.util.Log
+import com.data.helpers.TwilioHelper
 import com.domain.constant.AppConstants
 import com.example.twillioproject.R
 
@@ -35,6 +36,12 @@ class ScreenSharingService : Service() {
         stopForeground(true)
     }
 
+    override fun onDestroy() {
+        println("destroyed service called")
+        TwilioHelper.disConnectRoom()
+        super.onDestroy()
+    }
+
     override fun onCreate() {
         Log.d("checkservice", "startForeground: service created")
         super.onCreate()
@@ -55,7 +62,7 @@ class ScreenSharingService : Service() {
         val notification: Notification = notificationBuilder
             .setOngoing(true)
             .setSmallIcon(R.drawable.ic_share_screen_white)
-            .setContentTitle("ScreenCapturerService is running in the foreground")
+            .setContentTitle("Screen Sharing is running in the foreground")
             .setCategory(Notification.CATEGORY_SERVICE)
             .build()
         startForeground(notificationId, notification)

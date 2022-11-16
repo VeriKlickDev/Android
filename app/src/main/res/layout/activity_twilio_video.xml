@@ -132,7 +132,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
             android:elevation="@dimen/_5sp"
-            android:text="Username"
             android:gravity="center"
             style="@style/textStyle.White.Black_16"
             app:layout_constraintBottom_toTopOf="@+id/tv_meeting_time"
@@ -196,20 +195,21 @@
 
                 <LinearLayout
                     android:id="@+id/ll_extraButtons"
-                    android:layout_width="wrap_content"
+                    android:layout_width="170sp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginBottom="@dimen/_5sp"
                     android:background="@drawable/shape_rectangle_rounded_dark_transparent_grey_mini_50"
                     android:elevation="@dimen/_10sp"
                     android:gravity="left"
+
                     android:paddingVertical="@dimen/_5sp"
                     android:orientation="vertical"
                     android:paddingHorizontal="@dimen/_10sp"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
@@ -275,7 +275,7 @@
 
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
@@ -308,7 +308,7 @@
 
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
@@ -321,8 +321,6 @@
                             android:layout_height="@dimen/_40sdp"
                             android:src="@drawable/ic_share_screen_white"
                             android:padding="@dimen/_10sp"
-
-
                             />
 
                         <TextView
@@ -341,7 +339,7 @@
 
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
