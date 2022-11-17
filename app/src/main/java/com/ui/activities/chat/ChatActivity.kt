@@ -43,6 +43,8 @@ class ChatActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this).get(ChatActivityViewModel::class.java)
 
+        getChatToken()
+
         DEFAULT_CONVERSATION_NAME = CurrentMeetingDataSaver.getData().chatChannel.toString()
         Log.d(TAG, "onCreate: channel name $DEFAULT_CONVERSATION_NAME")
         msgsObserver()
@@ -80,8 +82,20 @@ class ChatActivity : AppCompatActivity() {
             //binding.tvConnectedMembersCount.text=(intent.getStringExtra(AppConstants.CONNECT_PARTICIPANT).toString().toInt()+1).toString()+" Member"
         }
 
-        initializeWithAccessToken(intent.getStringExtra(AppConstants.CHAT_ACCESS_TOKEN))
-        showProgressDialog()
+       /* CurrentConnectUserList.getListForAddParticipantActivity().observe(this,Observer{
+            if (it!=null)
+            {
+                binding.tvConnectedMembersCount.text =it.size.toString()+" Member"
+            }else
+            {
+                binding.tvConnectedMembersCount.text="1"+" Member"
+            }
+        })
+*/
+
+
+        // initializeWithAccessToken(intent.getStringExtra(AppConstants.CHAT_ACCESS_TOKEN))
+       // showProgressDialog()
 
 
       /*  CurrentMeetingDataSaver.getIsRoomDisconnected().observe(this, Observer {
@@ -93,6 +107,17 @@ class ChatActivity : AppCompatActivity() {
 */
 
     }
+
+    fun getChatToken()
+    {
+       // showProgressDialog()
+        viewModel.getChatToken(CurrentMeetingDataSaver.getData().identity.toString(), response = { data, code ->
+           // dismissProgressDialog()
+            initializeWithAccessToken(data?.Token.toString())
+
+        })
+    }
+
 
 
     private fun initializeWithAccessToken(token: String?) {

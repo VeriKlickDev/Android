@@ -36,6 +36,7 @@ import com.domain.IncomingCallCallback
 import com.domain.OnViewClicked
 import com.domain.constant.AppConstants
 import com.example.twillioproject.R
+import com.example.twillioproject.databinding.CustomSnackbarGlobalBinding
 import com.example.twillioproject.databinding.LayoutPrivacyPolicyBinding
 import com.example.twillioproject.databinding.LayoutProgressBinding
 import com.example.twillioproject.databinding.LayoutSuccessMsgSnackbarPlayerBinding
@@ -53,7 +54,7 @@ import java.util.regex.Pattern
 
 var ispsswdok = false
 var isemailok = false
- var error:String=""
+var error: String = ""
 fun emailValidator(
     context: Context,
     email: String,
@@ -67,37 +68,60 @@ fun emailValidator(
 
     if (mEmail.isEmpty()) {
         validateEmail(false, "", context.getString(R.string.txt_required))
-        error= context.getString(R.string.txt_enter_valid_email)
-    }
-    else {
+        error = context.getString(R.string.txt_enter_valid_email)
+    } else {
         if (EMAIL_ADDRESS_PATTERN.matcher(mEmail).matches()) {
             isEmailOk = true
             isemailok = true
-        }
-        else {
+        } else {
             mEmail = "null"
             isemailok = false
             isEmailOk = false
             validateEmail(isEmailOk, mEmail, context.getString(R.string.txt_enter_valid_email))
-            error= context.getString(R.string.txt_enter_valid_email)
+            error = context.getString(R.string.txt_enter_valid_email)
         }
     }
     validateEmail(isEmailOk, mEmail, null)
 }
 
+fun checkSpecialCharatersInString(
+    str: String,
+    response: (isValide: Boolean, text: String) -> Unit
+) {
+    if (str.matches("[A-Za-z][^.]".toRegex())) {
+        response(true, str)
+    } else {
+        response(false, str)
+    }
+}
+
+fun Context.showCustomToast(str:String)
+{
+    Handler(Looper.getMainLooper()).post({
+        val toast=Toast(this)
+        toast.setGravity(Gravity.TOP,0,0)
+        val layout =CustomSnackbarGlobalBinding.inflate(LayoutInflater.from(this))
+        layout.customsnackbarTextviewGlobal.text=str
+        toast.view=layout.root
+        toast.duration=Toast.LENGTH_LONG
+        toast.show()
+    })
+
+}
+
+
 fun validate(
     email: String,
     psswd: String,
-    onSuccess: (email: String, psswd: String, isSuccess: Boolean,error:String?) -> Unit
+    onSuccess: (email: String, psswd: String, isSuccess: Boolean, error: String?) -> Unit
 ) {
 
     if (ispsswdok == true && isemailok == true) {
         Log.d("textcheck", "onCreate: success $email $psswd")
-        onSuccess(email, psswd, true,null)
-    }
-    else {
+        onSuccess(email, psswd, true, null)
+    } else {
         Log.d("textcheck", "onCreate: failed $email $psswd")
-        onSuccess(email, psswd, false,error)
+        onSuccess(email, psswd, false, error)
     }
 }
 
@@ -107,20 +131,19 @@ fun passwordValidator(
     password: String,
     validatePassword: (isPasswordOk: Boolean, mPassword: String?, error: String?) -> Unit
 ) {
-   /* val PASSWORD_PATTERN: Pattern =
-        Pattern.compile("^" + "(?=.*[@#$%^&+=])" + "(?=\\S+$)" + ".{4,}" + "$");
-*/
+    /* val PASSWORD_PATTERN: Pattern =
+         Pattern.compile("^" + "(?=.*[@#$%^&+=])" + "(?=\\S+$)" + ".{4,}" + "$");
+ */
     if (password.isEmpty()) {
         validatePassword(false, null, context.getString(R.string.txt_required))
         ispsswdok = false
-    }
-    else if (password.length <= 6) {
+    } else if (password.length <= 6) {
         validatePassword(
             false,
             null,
             context.getString(R.string.txt_password_must_be_greaterthan_6)
         )
-        error=context.getString(R.string.txt_password_must_be_greaterthan_6)
+        error = context.getString(R.string.txt_password_must_be_greaterthan_6)
         ispsswdok = false
     }
     /* else if (!PASSWORD_PATTERN.matcher(password).matches()) {
@@ -134,7 +157,7 @@ fun passwordValidator(
 
 }
 
- var progressbar: Dialog?=null
+var progressbar: Dialog? = null
 fun Context.showProgressDialog() {
     android.os.Handler(Looper.getMainLooper()).post(Runnable {
         //val layoutView = LayoutInflater.from(this).inflate(R.layout.layout_progress, null, false)
@@ -151,9 +174,9 @@ fun Context.showProgressDialog() {
 
 fun Context.dismissProgressDialog() {
     android.os.Handler(Looper.getMainLooper()).post(Runnable {
-        progressbar?.let{
-        it.dismiss()
-    }
+        progressbar?.let {
+            it.dismiss()
+        }
     })
 
 }
@@ -206,10 +229,9 @@ fun Context.showCustomSnackbarOnTop(msg: String) {
 
 }
 
-fun Context.checkIncomingCall(incomingCallStatus:IncomingCallCallback)
-{
+fun Context.checkIncomingCall(incomingCallStatus: IncomingCallCallback) {
     androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this).registerReceiver(
-        object:BroadcastReceiver(){
+        object : BroadcastReceiver() {
             override fun onReceive(p0: Context?, p1: Intent?) {
                 incomingCallStatus.onRecieved(true)
             }
@@ -219,28 +241,31 @@ fun Context.checkIncomingCall(incomingCallStatus:IncomingCallCallback)
 }
 
 
-
-
-fun Context.showPrivacyPolicy(parent: ViewGroup, onClicked:(action:Boolean, dialog:Dialog)->Unit, onClickedText:(url:String,action:Int)->Unit) {
+fun Context.showPrivacyPolicy(
+    parent: ViewGroup,
+    onClicked: (action: Boolean, dialog: Dialog) -> Unit,
+    onClickedText: (url: String, action: Int) -> Unit
+) {
     val dialog = Dialog(this)
-    val dialogBinding = LayoutPrivacyPolicyBinding.inflate(LayoutInflater.from(this),parent,false)
+    val dialogBinding = LayoutPrivacyPolicyBinding.inflate(LayoutInflater.from(this), parent, false)
     dialog.setContentView(dialogBinding.root)
     dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
     dialogBinding.btnAgree.setOnClickListener {
-        onClicked(true,dialog)
+        onClicked(true, dialog)
 
     }
     dialogBinding.btnCancel.setOnClickListener {
-        onClicked(false,dialog)
+        onClicked(false, dialog)
     }
 
-    dialogBinding.tvPrivacyPolicy.text="I have read and agree to the Terms and Conditions  and Privacy Policy. This meeting may be recorded. By joining the meeting you are also giving your consent to record this meeting otherwise click cancel to leave the meeting."
+    dialogBinding.tvPrivacyPolicy.text =
+        "I have read and agree to the Terms and Conditions  and Privacy Policy. This meeting may be recorded. By joining the meeting you are also giving your consent to record this meeting otherwise click cancel to leave the meeting."
     dialogBinding.tvPrivacyPolicy.makeLinks(Pair("Terms and Conditions", View.OnClickListener {
-    onClickedText("https://veriklick.com/terms-of-use/",1)
+        onClickedText("https://veriklick.com/terms-of-use/", 1)
     }))
     dialogBinding.tvPrivacyPolicy.makeLinks(Pair("Privacy Policy", View.OnClickListener {
-        onClickedText("https://veriklick.com/privacy-policy/",2)
+        onClickedText("https://veriklick.com/privacy-policy/", 2)
     }))
 
 
@@ -289,10 +314,12 @@ fun Context.requestVideoPermissions(isGrant: (isGranted: Boolean) -> Unit) {
         Manifest.permission.READ_PHONE_STATE
     ) {
         Log.d("permissioncheck", "requestVideoPermissions: $it ")
-        if (it.granted.contains(android.Manifest.permission.CAMERA) && it.granted.contains(Manifest.permission.RECORD_AUDIO) && it.granted.contains(Manifest.permission.READ_PHONE_STATE)) {
+        if (it.granted.contains(android.Manifest.permission.CAMERA) && it.granted.contains(Manifest.permission.RECORD_AUDIO) && it.granted.contains(
+                Manifest.permission.READ_PHONE_STATE
+            )
+        ) {
             isGrant(true)
-        }
-        else {
+        } else {
             isGrant(false)
         }
     }
@@ -307,38 +334,34 @@ fun Context.requestWriteExternamlStoragePermissions(isGrant: (isGranted: Boolean
         Log.d("permissioncheck", "requestVideoPermissions: $it ")
         if (it.granted.contains(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             isGrant(true)
-        }
-        else {
+        } else {
             isGrant(false)
         }
     }
 }
 
 
-
-
 fun Context.checkInternet(): Boolean {
     val connectivityManager =
         this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
-            val networkInfo = connectivityManager.activeNetworkInfo
-            if (networkInfo != null) {
-                return networkInfo.isConnected
+    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+        val networkInfo = connectivityManager.activeNetworkInfo
+        if (networkInfo != null) {
+            return networkInfo.isConnected
+        }
+    } else {
+        val network = connectivityManager.activeNetwork
+        if (network != null) {
+            val networkCapabilities =
+                connectivityManager.getNetworkCapabilities(network)
+            if (networkCapabilities != null) {
+                return networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || networkCapabilities.hasTransport(
+                    NetworkCapabilities.TRANSPORT_WIFI
+                )
             }
         }
-        else {
-            val network = connectivityManager.activeNetwork
-            if (network != null) {
-                val networkCapabilities =
-                    connectivityManager.getNetworkCapabilities(network)
-                if (networkCapabilities != null) {
-                    return networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || networkCapabilities.hasTransport(
-                        NetworkCapabilities.TRANSPORT_WIFI
-                    )
-                }
-            }
-        }
+    }
     return false
 }
 
@@ -352,26 +375,26 @@ fun Context.showToast(context: Context, txt: String) {
 
 fun View.showSnackBar(txt: String) {
     Handler(Looper.getMainLooper()).post(kotlinx.coroutines.Runnable {
-        Snackbar.make(this,txt,Snackbar.LENGTH_LONG).show()
+        Snackbar.make(this, txt, Snackbar.LENGTH_LONG).show()
     })
 }
 
-fun change24to12hoursFormat(time:String):String{
+fun change24to12hoursFormat(time: String): String {
     val sdf = SimpleDateFormat("HH:mm")
-    val datef=sdf.parse(time)
+    val datef = sdf.parse(time)
     val sdf2 = SimpleDateFormat("hh:mm a")
-    val dateFinal=sdf2.format(datef)
+    val dateFinal = sdf2.format(datef)
     return dateFinal.toString()
 }
 
-fun changeDatefrom_yyyymmdd_to_mmddyyyy(date:String):String
-{
+fun changeDatefrom_yyyymmdd_to_mmddyyyy(date: String): String {
     val sdf = SimpleDateFormat("yyyy-MM-dd")
-    val datef=sdf.parse(date)
+    val datef = sdf.parse(date)
     val sdf2 = SimpleDateFormat("MMM-dd-yyy")
-    val dateFinal=sdf2.format(datef)
-return dateFinal.toString()
+    val dateFinal = sdf2.format(datef)
+    return dateFinal.toString()
 }
+
 fun Context.requestScreenCapturePermission(
     context: Context,
     onResult: (intent: Intent, reqCode: Int) -> Unit
@@ -451,8 +474,6 @@ fun decodeLoginToken(JWTEncoded: String, response: (ob: ResponseJWTTokenLogin) -
 }
 
 
-
-
 @Throws(java.lang.Exception::class)
 fun decodeChatToken(JWTEncoded: String, response: (ob: ResponseChatFromToken) -> Unit) {
     try {
@@ -460,7 +481,7 @@ fun decodeChatToken(JWTEncoded: String, response: (ob: ResponseChatFromToken) ->
         var tokenArray = mutableListOf<String>()
         for (i in split) {
             val index = split.indexOf(i)
-             tokenArray.add(i)
+            tokenArray.add(i)
             if (index == 1) {
                 break
             }
@@ -478,7 +499,6 @@ fun decodeChatToken(JWTEncoded: String, response: (ob: ResponseChatFromToken) ->
 }
 
 
-
 fun decodeBase64(str: String): String {
     val decoder: Base64.Decoder = Base64.getDecoder()
     val decoded = String(decoder.decode(str))
@@ -487,13 +507,12 @@ fun decodeBase64(str: String): String {
 }
 
 
-
-    fun hideKeyboard(activity: Activity) {
-        val view = activity.currentFocus
-        if (view != null) {
-            val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(view.windowToken, 0)
-        }
+fun hideKeyboard(activity: Activity) {
+    val view = activity.currentFocus
+    if (view != null) {
+        val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
 }
 
 
@@ -508,37 +527,36 @@ fun Context.getCurrentUtcFormatedDate(): String {
     val day = sdf.calendar.get(Calendar.DAY_OF_MONTH)
     val year = sdf.calendar.get(Calendar.YEAR)
 
-    var timeUtclenght=utcTime1.length
-    var timeUtc=utcTime1.subSequence(10,timeUtclenght)
-    val finalUtcTime=year.toString()+"-"+date.toString()+"-"+(day).toString()+timeUtc.toString()
+    var timeUtclenght = utcTime1.length
+    var timeUtc = utcTime1.subSequence(10, timeUtclenght)
+    val finalUtcTime =
+        year.toString() + "-" + date.toString() + "-" + (day).toString() + timeUtc.toString()
     Log.d("utcformatted", "getCurrentUtcFormatedDate:  $finalUtcTime")
 
 
-   /* var current = LocalDateTime.now()
-    var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
-    var utcTime = SimpleTimeZone.getTimeZone("UTC").toZoneId()
-    val formatted = current.format(formatter)*/
+    /* var current = LocalDateTime.now()
+     var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
+     var utcTime = SimpleTimeZone.getTimeZone("UTC").toZoneId()
+     val formatted = current.format(formatter)*/
     return finalUtcTime
 }
 
-fun getUtcDateToAMPM(date:String):String
-{
+fun getUtcDateToAMPM(date: String): String {
 
     val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     sdf.setTimeZone(TimeZone.getTimeZone("UTC"))
     //var utcTime1: String = sdf.format(Date())
 
-    val date1 =  sdf.parse(date)
+    val date1 = sdf.parse(date)
     val sdf2 = SimpleDateFormat("hh:mm a")
 
-    val time1 =sdf2.format(date1)
+    val time1 = sdf2.format(date1)
 //    val finaltime=hour.toString()+":"+minutes.toString()+" "+zone
 
 //    Log.d("checkdate", "getUtcDateToAMPM: ${finaltime}")
 
     return time1
 }
-
 
 
 fun Context.getCurrentUtcFormatedDateIntervalofMonth(): String {
@@ -552,9 +570,10 @@ fun Context.getCurrentUtcFormatedDateIntervalofMonth(): String {
     val day = sdf.calendar.get(Calendar.DAY_OF_MONTH)
     val year = sdf.calendar.get(Calendar.YEAR)
 
-    var timeUtclenght=utcTime1.length
-    var timeUtc=utcTime1.subSequence(10,timeUtclenght)
-    val finalUtcTime=year.toString()+"-"+(date+1).toString()+"-"+(day).toString()+timeUtc.toString()
+    var timeUtclenght = utcTime1.length
+    var timeUtc = utcTime1.subSequence(10, timeUtclenght)
+    val finalUtcTime =
+        year.toString() + "-" + (date + 1).toString() + "-" + (day).toString() + timeUtc.toString()
     Log.d("utcformatted", "getCurrentUtcFormatedDate:  $finalUtcTime")
 
 
@@ -569,15 +588,16 @@ fun Context.getCurrentUtcFormatedDateIntervalofMonth(): String {
 fun Context.getCurrentDate(): String? {
     val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     var datetime: String = sdf.format(Date())
-    val datefull=sdf.format(Date())
+    val datefull = sdf.format(Date())
 
     val date = sdf.calendar.get(Calendar.MONTH) + 1
     val day = sdf.calendar.get(Calendar.DAY_OF_MONTH)
     val year = sdf.calendar.get(Calendar.YEAR)
 
-    val datesubstring=datetime.subSequence(10,datefull.length)
+    val datesubstring = datetime.subSequence(10, datefull.length)
 
-    val finalUtcTime=year.toString()+"-"+(date).toString()+"-"+(day).toString()+datesubstring.toString()
+    val finalUtcTime =
+        year.toString() + "-" + (date).toString() + "-" + (day).toString() + datesubstring.toString()
 
 
     return finalUtcTime
@@ -672,7 +692,7 @@ fun Context.getCurrentUtcFormatedDateOfPastWeek(): String {
 }
 */
 
-fun EditText.getEditTextWithFlow() : Flow<String> {
+fun EditText.getEditTextWithFlow(): Flow<String> {
     return callbackFlow<String> {
         this@getEditTextWithFlow.addTextChangedListener {
             trySend(it.toString())
@@ -684,15 +704,16 @@ fun EditText.getEditTextWithFlow() : Flow<String> {
 fun Context.getIntervalMonthDate(): String? {
     val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     var datetime: String = sdf.format(Date())
-    val datefull=sdf.format(Date())
+    val datefull = sdf.format(Date())
 
     val date = sdf.calendar.get(Calendar.MONTH) + 1
     val day = sdf.calendar.get(Calendar.DAY_OF_MONTH)
     val year = sdf.calendar.get(Calendar.YEAR)
 
-    val datesubstring=datetime.subSequence(10,datefull.length)
+    val datesubstring = datetime.subSequence(10, datefull.length)
 
-    val finalUtcTime=year.toString()+"-"+(date+1).toString()+"-"+(day).toString()+datesubstring.toString()
+    val finalUtcTime =
+        year.toString() + "-" + (date + 1).toString() + "-" + (day).toString() + datesubstring.toString()
 
 
     return finalUtcTime
@@ -701,14 +722,14 @@ fun Context.getIntervalMonthDate(): String? {
 fun Context.getCurrentDayOfYear(): Int {
     val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     var datetime: String = sdf.format(Date())
-    val datefull=sdf.format(Date())
+    val datefull = sdf.format(Date())
 
     val date = sdf.calendar.get(Calendar.MONTH) + 1
     val day = sdf.calendar.get(Calendar.DAY_OF_MONTH)
     val year = sdf.calendar.get(Calendar.YEAR)
-    val dayofYear=sdf.calendar.get(Calendar.DAY_OF_YEAR)
+    val dayofYear = sdf.calendar.get(Calendar.DAY_OF_YEAR)
 
-    val datesubstring=datetime.subSequence(10,datefull.length)
+    val datesubstring = datetime.subSequence(10, datefull.length)
 
     //val finalUtcTime=year.toString()+"-"+(date+1).toString()+"-"+(day).toString()+datesubstring.toString()
 
@@ -716,30 +737,26 @@ fun Context.getCurrentDayOfYear(): Int {
     return dayofYear
 }
 
-fun getDateWithMonthName(date:String,action:Int):String {
+fun getDateWithMonthName(date: String, action: Int): String {
     var sdfOb: SimpleDateFormat
     if (date.contains("Z")) {
         sdfOb = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-    }
-    else {
+    } else {
         sdfOb = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     }
 
-    val sdfFormated:SimpleDateFormat
+    val sdfFormated: SimpleDateFormat
     if (action == 1) {
         sdfFormated = SimpleDateFormat("dd-MMM")
-    }
-    else
-    {
+    } else {
         sdfFormated = SimpleDateFormat("dd-MMM-yyyy")
     }
 
-    val date1 =  sdfOb.parse(date)
+    val date1 = sdfOb.parse(date)
 
-   val time1 = sdfFormated.format(date1)
-  return time1
+    val time1 = sdfFormated.format(date1)
+    return time1
 }
-
 
 
 const val MIN_DISTANCE = 150

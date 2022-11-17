@@ -105,6 +105,7 @@
                 android:singleLine="true"
                 android:layout_marginTop="@dimen/_15sp"
                 android:textSize="@dimen/_16sdp"
+                android:digits="0123456789qwertzuiopasdfghjklyxcvbnm_-QWERTYUIOPASDFGHJKLZXCVBNM"
                 android:hint="@string/txt_six_digit_otp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

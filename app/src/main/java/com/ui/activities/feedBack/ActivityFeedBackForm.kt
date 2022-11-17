@@ -167,7 +167,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
     fun addNewItem() {
         Log.d(TAG, "addNewItem: before ${skillsList.size} ")
-        skillsList.add(AssessSkills(value = "others", Comments = ""))
+        skillsList.add(AssessSkills(value = "other", Comments = ""))
         skillsAdapter.notifyItemInserted(skillsList.size)
         Log.d(TAG, "addNewItem: AFTER ${skillsList.size}")
     }
@@ -278,7 +278,8 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
                         }
                         200 -> {
-                            showCustomSnackbarOnTop(data?.aPIResponse?.message!!)
+                            showCustomToast(data?.aPIResponse?.message!!.toString())
+                            //showCustomSnackbarOnTop(data?.aPIResponse?.message!!)
                             //showToast(this, data?.aPIResponse?.message!!)
                             finish()
                         }
@@ -431,6 +432,8 @@ class ActivityFeedBackForm : AppCompatActivity() {
     private var interviewName = ""
     private var designation = ""
 
+
+
     private val recommendationList = mutableListOf<String>()
     fun setDataToViews(data: ResponseFeedBack) {
 
@@ -446,7 +449,9 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 }
 
                 binding.tvJobId.text = data.jobid.toString()
+
                 binding.tvDescription.text = data.AppliedPostion
+
                 appliedPosition = data.AppliedPostion.toString()
 
                 if (!data.Recommendation.toString().equals("") || data.Recommendation!=null)

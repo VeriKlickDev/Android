@@ -29,7 +29,9 @@
             android:drawablePadding="@dimen/_10sp"
             android:id="@+id/et_firstname"
             android:maxLines="1"
+            android:maxLength="50"
             android:singleLine="true"
+            android:digits="0123456789qwertzuiopasdfghjklyxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
             android:imeOptions="actionNext"
             android:layout_gravity="center_horizontal"
             android:layout_width="match_parent"
@@ -40,6 +42,17 @@
             style="@style/editext.style.base"
             android:hint="@string/hint_firstname" />
 
+        <TextView
+            android:id="@+id/tv_firsname_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_12sp"
+            android:fontFamily="@font/sarabun_medium"
+            android:gravity="left"
+            android:textColor="@color/red"
+            android:textSize="@dimen/_10sp"
+            android:visibility="invisible" />
+
 
         <EditText
             
@@ -47,20 +60,30 @@
             android:id="@+id/et_lastname"
             android:maxLines="1"
             android:singleLine="true"
+            android:maxLength="50"
+            android:digits="0123456789qwertzuiopasdfghjklyxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
             android:layout_gravity="center_horizontal"
             android:layout_width="match_parent"
             android:imeOptions="actionNext"
-            android:ems="50"
-            android:maxEms="50"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_10sp"
             style="@style/editext.style.base"
-            android:layout_marginVertical="@dimen/_15sp"
             android:hint="@string/hint_lastname" />
 
 
+        <TextView
+            android:id="@+id/tv_lastname_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_12sp"
+            android:fontFamily="@font/sarabun_medium"
+            android:gravity="left"
+            android:textColor="@color/red"
+            android:textSize="@dimen/_10sp"
+            android:visibility="invisible" />
+
+
         <EditText
-            
             android:drawablePadding="@dimen/_10sp"
             android:id="@+id/et_email"
             android:maxLines="1"
@@ -68,8 +91,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_width="match_parent"
             android:singleLine="true"
-            android:ems="100"
-            android:maxEms="100"
+            android:maxLength="100"
+            android:digits="0123456789qwertzuiopasdfghjklyxcvbnm@.QWERTYUIOPASDFGHJKLZXCVBNM+-_"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_10sp"
             style="@style/editext.style.base"
@@ -97,6 +120,7 @@
             android:layout_height="wrap_content"
             android:imeOptions="actionDone"
             android:singleLine="true"
+            android:digits="0123456789+*"
             android:inputType="phone"
             android:ems="10"
             android:maxLength="10"

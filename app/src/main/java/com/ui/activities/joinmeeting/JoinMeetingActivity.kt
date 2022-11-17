@@ -198,7 +198,6 @@ handleObserver()
                         requestVideoPermissions {
                             if (it)
                             {
-
                                  showPrivacyPolicy(binding.root as ViewGroup,onClicked = { it, dialog->
                                if (it)
                                {
@@ -214,7 +213,6 @@ handleObserver()
                                        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
                                        dialog.dismiss()
                                    }
-
                                }else
                                {
                                    dialog.dismiss()

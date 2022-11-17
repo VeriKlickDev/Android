@@ -3,10 +3,14 @@ package com.ui.listadapters
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
+import com.data.checkSpecialCharatersInString
 import com.data.dataHolders.InvitationDataModel
 import com.data.emailValidator
 import com.data.getEditTextWithFlow
@@ -76,22 +80,66 @@ class AddParticipantListAdapter(
         }
 
         holder.binding.etFirstname.addTextChangedListener {
+
+           /* checkSpecialCharatersInString(it.toString()){isValide, text ->
+                if (isValide)
+                {
+
+                }else
+                {
+                    bindingg.tvFirsnameError.visibility=VISIBLE
+                    bindingg.tvFirsnameError.text="special characters and space not allowed"
+                }
+            }*/
+
+            if (it?.length==50)
+            {
+                bindingg.tvFirsnameError.visibility=VISIBLE
+                bindingg.tvFirsnameError.text="Firstname must be below 50 character"
+            }else
+            {
+                bindingg.tvFirsnameError.visibility=INVISIBLE
+            }
+
+
+
             list.get(position).firstName = it.toString()
            // list[position].InterviewerTimezone=list[position].InterviewerTimezone
         }
         holder.binding.etLastname.addTextChangedListener {
+
+            if (it?.length==50)
+            {
+                bindingg.tvLastnameError.visibility=VISIBLE
+                bindingg.tvLastnameError.text="Lastname must be below 50 character"
+            }else
+            {
+                bindingg.tvLastnameError.visibility=INVISIBLE
+            }
+
             list.get(position).lastName = it.toString()
            // list[position].InterviewerTimezone=list[position].InterviewerTimezone
         }
         holder.binding.etEmail.addTextChangedListener {
+
+            if (it?.length==50)
+            {
+                bindingg.tvEmailError.visibility=VISIBLE
+                bindingg.tvEmailError.text="Lastname must be below 50 character"
+            }else
+            {
+                bindingg.tvEmailError.visibility=INVISIBLE
+            }
+
+
             emailValidator(context,it.toString()){isEmailOk, mEmail, error ->
             if (isEmailOk)
             {
-                bindingg.tvEmailError.isVisible=false
+                bindingg.tvEmailError.visibility=INVISIBLE
                 list.get(position).email = it.toString()
             }else
             {
-                bindingg.tvEmailError.isVisible=true
+                bindingg.tvEmailError.visibility=VISIBLE
                 bindingg.tvEmailError.setText(context.getString(R.string.txt_enter_valid_email))
             }
             }
@@ -104,10 +152,11 @@ class AddParticipantListAdapter(
              if (bindingg.etPhoneNumber.text.toString().toInt()>10 )
              {
                  bindingg.tvPhoneError.setText("Phone no. should be 10 digits.")
-                 bindingg.tvPhoneError.isVisible=true
-             }else
+                 bindingg.tvPhoneError.visibility=VISIBLE
+             }
+             else
              {
-                 bindingg.tvPhoneError.isVisible=false
+                 bindingg.tvPhoneError.visibility=INVISIBLE
                  list.get(position).phone = it.toString()
              }
 
@@ -155,15 +204,15 @@ class AddParticipantListAdapter(
     fun handleEmailIsExists(position: Int,action:Int) {
         if (action==1)
         {
-            bindingg.tvEmailError.isVisible = false
+            bindingg.tvEmailError.visibility=INVISIBLE
         }
        else {
             if (adapterPosition == position) {
-                bindingg.tvEmailError.isVisible = true
+                bindingg.tvEmailError.visibility=VISIBLE
                 bindingg.tvEmailError.setText(context.getText(R.string.txt_email_already_exists))
             }
             else {
-                bindingg.tvEmailError.isVisible = false
+                bindingg.tvEmailError.visibility=INVISIBLE
             }
             list.get(position).email = ""
         }
@@ -173,15 +222,15 @@ class AddParticipantListAdapter(
 
       if (action==1)
       {
-          bindingg.tvPhoneError.isVisible = false
+          bindingg.tvPhoneError.visibility=INVISIBLE
       }else {
 
           if (adapterPosition == position) {
-              bindingg.tvPhoneError.isVisible = true
+              bindingg.tvPhoneError.visibility=VISIBLE
               bindingg.tvPhoneError.setText(context.getText(R.string.txt_phone_already_exists))
           }
           else {
-              bindingg.tvPhoneError.isVisible = false
+              bindingg.tvPhoneError.visibility=INVISIBLE
           }
           list.get(position).phone = ""
       }

@@ -16,8 +16,8 @@ class InComingCallDetector() : BroadcastReceiver() {
         val state = p1?.getStringExtra(TelephonyManager.EXTRA_STATE)
 
         if(state.equals(TelephonyManager.EXTRA_STATE_RINGING)){
-            intent.putExtra(AppConstants.IN_COMING_CALL_ACTION,AppConstants.IN_COMING_CALL_ACTION_RINGING)
-            p0?.let { LocalBroadcastManager.getInstance(it).sendBroadcast(intent.setAction(AppConstants.IN_COMING_CALL_ACTION)) }
+           // intent.putExtra(AppConstants.IN_COMING_CALL_ACTION,AppConstants.IN_COMING_CALL_ACTION_RINGING)
+           // p0?.let { LocalBroadcastManager.getInstance(it).sendBroadcast(intent.setAction(AppConstants.IN_COMING_CALL_ACTION)) }
         }
         if ((state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK))){
             //CALL RECIEVED

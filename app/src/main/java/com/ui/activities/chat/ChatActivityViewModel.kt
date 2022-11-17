@@ -3,16 +3,20 @@ package com.ui.activities.chat
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.data.repositoryImpl.RepositoryImpl
 import com.domain.BaseModels.ChatMessagesModel
+import com.domain.BaseModels.ResponseChatToken
 import com.twilio.conversations.CallbackListener
 import com.twilio.conversations.Conversation
 import com.twilio.conversations.ConversationsClient
 import com.twilio.conversations.ErrorInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ChatActivityViewModel @Inject constructor() : ViewModel() {
+class ChatActivityViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : ViewModel() {
 
     val TAG="chatcheck"
      fun loadChannels(conversationName:String, result: ConversationsClient, onCallBack:(action:Int, conversation: Conversation?, error:String?)->Unit) {
@@ -79,6 +83,36 @@ class ChatActivityViewModel @Inject constructor() : ViewModel() {
         chatlist.clear()
     }
 
+
+
+    fun getChatToken(
+        identity: String,
+        response: (data: ResponseChatToken?, code: Int) -> Unit
+    ) {
+        try {
+            viewModelScope.launch {
+                val result = repositoryImpl.getChatToken(identity)
+                if (result.isSuccessful) {
+                    if (result.body() != null) {
+                        if (result.code() == 200) {
+                            response(result.body()!!, result.code())
+                        }
+                    }
+                    else {
+                        response(result.body()!!, result.code())
+                    }
+                }
+                else {
+                    response(result.body()!!, result.code())
+                }
+
+            }
+
+        } catch (e: Exception) {
+            response(null, 500)
+        }
+
+    }
 
 
 

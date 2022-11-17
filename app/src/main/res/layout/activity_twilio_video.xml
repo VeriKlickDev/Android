@@ -202,11 +202,10 @@
                     android:background="@drawable/shape_rectangle_rounded_dark_transparent_grey_mini_50"
                     android:elevation="@dimen/_10sp"
                     android:gravity="left"
-
                     android:paddingVertical="@dimen/_5sp"
                     android:orientation="vertical"
                     android:paddingHorizontal="@dimen/_10sp"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:layout_width="match_parent"

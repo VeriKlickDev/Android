@@ -30,7 +30,7 @@
     <string name="txt_client">Client : &#160;</string>
     <string name="txt_candidate">Candidate</string>
     <string name="txt_Upcoming_Meetings">Meetings</string>
-    <string name="txt_permission_required">Permission Required</string>
+    <string name="txt_permission_required">Camera and Mic permission Required</string>
     <string name="txt_email">Email</string>
     <string name="txt_description_Forgot_password">Enter the email address used to log in to VeriKlick and then click on the  Forgot Password button below to receive an email from VeriKlick with instructions on how to reset your password</string>
     <string name="txt_wrong_credentials">Wrong Credentials</string>

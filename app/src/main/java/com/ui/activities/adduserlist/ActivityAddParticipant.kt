@@ -1,10 +1,14 @@
 package com.ui.activities.adduserlist
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.View
+import android.view.View.INVISIBLE
+import android.widget.ScrollView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -32,7 +36,6 @@ class ActivityAddParticipant : AppCompatActivity() {
         setContentView(binding.root)
 
         val randomStr=UUID.randomUUID()
-
 
         interviewList.add(InvitationDataModel(uid = randomStr.toString()))//, InterviewerTimezone = CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone.toString()))
 
@@ -247,7 +250,7 @@ class ActivityAddParticipant : AppCompatActivity() {
 
     fun sendInvitation()
     {
-        binding.invitationProgress.isVisible=true
+        binding.invitationProgress.visibility= View.VISIBLE
         binding.btnPostdata.text=""
         binding.btnPostdata.isEnabled=false
         viewModel.sendInvitationtoUsers(distinctinvitationList, onDataResponse = {
@@ -256,11 +259,12 @@ class ActivityAddParticipant : AppCompatActivity() {
             when (action) {
                 200 -> {
                     binding.btnPostdata.text=getString(R.string.txt_invite)
-                    binding.invitationProgress.isVisible=false
+                    binding.invitationProgress.visibility=View.INVISIBLE
                     //Toast.makeText(this,data?.APIResponse?.Message!!,Toast.LENGTH_LONG).show()
                      //showToast(this,data?.APIResponse?.Message!!)
                     //Snackbar.make(binding.root,data?.APIResponse?.Message!!,Snackbar.LENGTH_LONG).show()
-                    showCustomSnackbarOnTop(data?.APIResponse?.Message!!)
+                    //showCustomSnackbarOnTop(data?.APIResponse?.Message!!)
+                    showCustomToast(data?.APIResponse?.Message!!)
                     interviewList.clear()
                     adapter.notifyDataSetChanged()
                     Handler(Looper.getMainLooper()).postDelayed({onBackPressed()},1000)
@@ -269,32 +273,33 @@ class ActivityAddParticipant : AppCompatActivity() {
                 }
                 400 -> {
                     binding.btnPostdata.text=getString(R.string.txt_invite)
-                    binding.invitationProgress.isVisible=false
-                    showCustomSnackbarOnTop(data?.APIResponse?.Message!!)
+                    binding.invitationProgress.visibility=INVISIBLE
+                    showCustomToast(data?.APIResponse?.Message!!)
+                    //showCustomSnackbarOnTop(data?.APIResponse?.Message!!)
                     //showToast(this,data?.APIResponse?.Message!!)
                     binding.btnPostdata.isEnabled=true
                 }
                 404 -> {
                     binding.btnPostdata.text=getString(R.string.txt_invite)
-                    binding.invitationProgress.isVisible=false
+                    binding.invitationProgress.visibility= INVISIBLE
                     binding.btnPostdata.isEnabled=true
                   //  showToast(this,getString(R.string.txt_failed_to_Invitation))
                 }
                 404 -> {
                     binding.btnPostdata.text=getString(R.string.txt_invite)
-                    binding.invitationProgress.isVisible=false
+                    binding.invitationProgress.visibility= INVISIBLE
                     binding.btnPostdata.isEnabled=true
                   //  showToast(this,getString(R.string.txt_failed_to_Invitation))
                 }
                 404 -> {
                     binding.btnPostdata.text=getString(R.string.txt_invite)
-                    binding.invitationProgress.isVisible=false
+                    binding.invitationProgress.visibility= INVISIBLE
                     binding.btnPostdata.isEnabled=true
                 }
                 500 -> {
                    // showToast(this,getString(R.string.txt_something_went_wrong))
                     binding.btnPostdata.text=getString(R.string.txt_invite)
-                    binding.invitationProgress.isVisible=false
+                    binding.invitationProgress.visibility= INVISIBLE
                     binding.btnPostdata.isEnabled=true
                 }
             }
@@ -309,12 +314,16 @@ class ActivityAddParticipant : AppCompatActivity() {
         //, InterviewerTimezone =CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone.toString()
         val element = InvitationDataModel(uid = randomStr.toString())
         interviewList.add(element)
+        val pos =interviewList.indexOf(element)
        // InvitationDataHolder.setItemToList(InvitationDataModel(uid = randomStr.toString() , index = interviewList.size-1))
-        adapter.notifyItemInserted(interviewList.indexOf(element))
+        adapter.notifyItemInserted(pos)
         Log.d(TAG, "addNewInterViewer: ${interviewList.size}")
 
         adapter.dataList.forEach {
             Log.d(TAG, "addNewInterViewer: list item ${it.index}  ${it.firstName} ${it.uid}")
+        }
+        binding.scrollview.post {
+            binding.scrollview.fullScroll(View.FOCUS_DOWN);
         }
 
     }

@@ -280,13 +280,19 @@ private  var ob: BodyScheduledMeetingBean? = null
             }
             7 -> {
 
-                val dObject=WeeksDataHolder.getCurrentDates()
-                ob?.from=dObject?.utc
-                ob?.fromdate=dObject?.ist
+                try{
 
-                ob?.to=dObject!!.utcx
-                ob?.todate=dObject?.istx
+                    val dObject=WeeksDataHolder.getCurrentDates()
+                    ob?.from=dObject?.utc
+                    ob?.fromdate=dObject?.ist
 
+                    ob?.to=dObject!!.utcx
+                    ob?.todate=dObject?.istx
+
+
+                }catch (e:Exception){
+
+                }
                 binding.swipetorefresh.isRefreshing = false
 
             }

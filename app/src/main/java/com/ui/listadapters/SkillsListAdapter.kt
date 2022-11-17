@@ -38,7 +38,7 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
 
         }
 
-        holder.binding.btnRemoveSkill.isVisible = list[position].value.equals("others")
+        holder.binding.btnRemoveSkill.isVisible = list[position].value.equals("other")
     }
 
     override fun getItemCount(): Int {
@@ -55,6 +55,15 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
             binding.etComment.setText(data.Comments.toString())
             binding.etTitle.setText(data.ManualCatagory)
             //
+
+           // list[adapterPosition].Ratings =    binding.ratingbarWireframing.progress.toDouble()
+           // list[adapterPosition].value=    binding.tvSkills.text.toString()
+          //  list[adapterPosition].Comments=binding.etComment.text.toString()
+          //  list[adapterPosition].ManualCatagory=    binding.etTitle.text.toString()
+          //  list[adapterPosition].Catagory=binding.tvSkills.text.toString()
+
+
+
 
             Log.d(TAG, "dataBind: id is ${data.Id} assment id ${data.CandidateAssessmentId} ")
 
@@ -85,7 +94,7 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
             })
 
             Log.d("datachecking", "dataBind: data is  out ${data.value} ")
-            if (data.value.equals("others") )
+            if (data.value.equals("other") )
             {
                 Log.d("datachecking", "dataBind: data is in if ")
                 binding.etTitle.isVisible=true
@@ -112,17 +121,15 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
                     }else{
                         binding.skillsError.isVisible=false
                     }
-
-                        data.ManualCatagory=it.toString()
-
-
+                        data.Catagory="OTHER"
+                        data.ManualCatagory=it.toString().uppercase()
                     // ob.Comments=data.Comments
                 }
 
             binding.etComment.addTextChangedListener {
                 if (binding.etTitle.isVisible==false)
                 {
-                    data.Catagory=data.value
+                    data.Catagory=data.value?.uppercase()
                 }
 
                 if (binding.etComment.text.toString().equals(""))
@@ -132,7 +139,7 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
                     binding.commentError.isVisible=false
                 }
 
-
+                data.Catagory=binding.tvSkills.text.toString().uppercase()
                 data.Comments=it.toString()
                 Log.d("datachecking", "dataBind: comment ${data.Comments}  ")
             }

@@ -197,8 +197,8 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
         CurrentMeetingDataSaver.getData()?.users?.forEach {
             if (it.userType.contains("C")) {
-              //uncomment /* binding.tvNoParticipant.text =
-                  //  "Waiting for " + it.userFirstName + " " + it.userLastName + " to join..."
+               binding.tvNoParticipant.text =
+                    "Waiting for " + it.userFirstName + " " + it.userLastName + " to join..."
             }
         }
 
@@ -227,7 +227,14 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
 
             if (checkInternet()) {
-                viewModel.getChatToken(identity.toString(), response = { data, code ->
+
+                binding.btnSendMessage.isClickable = true
+                val intent = Intent(this, ChatActivity::class.java)
+                intent.putExtra(AppConstants.CONNECT_PARTICIPANT,remoteParticipantVideoList.size.toString())
+                startActivity(intent)
+
+
+              /*  viewModel.getChatToken(identity.toString(), response = { data, code ->
                     Log.d("chatcheck", "onCreate: data $data  chat channel $identity")
                     binding.btnSendMessage.isClickable = true
                     val intent = Intent(this, ChatActivity::class.java)
@@ -243,6 +250,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                     startActivity(intent)
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                 })
+                */
 
             } else {
                 Snackbar.make(
@@ -468,7 +476,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
         CallStatusHolder.getCallStatus().observe(this){
             isCallinProgress=it
+            if (it)
                 endCall()
+
         }
 
 
@@ -697,7 +707,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
                         binding.tvUsername.text = it.userName
 
-                        // currentRemoteVideoTrack!!.addSink(binding.primaryVideoView)
+                         currentRemoteVideoTrack!!.addSink(binding.primaryVideoView)
                     } else {
 
                         Log.d(TAG, "handleObserver else part : list.foreach al ${it.userName}")
@@ -1251,7 +1261,6 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 )
   */
 
-
                 Log.d(TAG, "setConnectUser: identity contains c")
 
                 if (it.videoTrack!=null) {
@@ -1280,7 +1289,6 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                     )
                 }
             }
-
         }
 
         remoteParticipantVideoListWithCandidate.add(
