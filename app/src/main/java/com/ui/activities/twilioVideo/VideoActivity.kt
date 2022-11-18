@@ -420,14 +420,18 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             if (!CurrentMeetingDataSaver.getData().identity!!.contains("C")) {
 
                 CurrentConnectUserList.getListofParticipant().forEach {
-                    if (it.identity!!.contains("C")) {
-                        Log.d(TAG, "endCall: called feedback form")
-                        val intent = Intent(this@VideoActivity, ActivityFeedBackForm::class.java)
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        startActivity(intent)
-                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-                        isNotCandidate = false
-                    }
+                  if(CurrentMeetingDataSaver.getData().isPresenter==false) {
+
+                      if (it.identity!!.contains("C")) {
+                          Log.d(TAG, "endCall: called feedback form")
+                          val intent = Intent(this@VideoActivity, ActivityFeedBackForm::class.java)
+                          intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                          startActivity(intent)
+                          overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                          isNotCandidate = false
+                      }
+                  }
+
                 }
             }
         }

@@ -18,6 +18,7 @@ import com.domain.BaseModels.ResponseUpcomintMeeting
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.LayoutItemUpcomingMeetingBinding
 import com.google.gson.Gson
+import okhttp3.internal.lockAndWaitNanos
 import java.util.logging.Handler
 
 class UpcomingMeetingAdapter(
@@ -45,6 +46,13 @@ class UpcomingMeetingAdapter(
         val videoAccessCode = ob.firstOrNull()?.VideoCallAccessCode?.replace("/", "")
         Log.d("checkvideocode", "handleObserver:  video code in list ${videoAccessCode} ")
 
+    if (list[position].mSMeetingMode.equals("veriklick")){
+
+
+
+    }
+
+
         holder.binding.btnJoin.setOnClickListener {
             onClick(list.get(position), videoAccessCode.toString(), 1)
         }
@@ -52,11 +60,26 @@ class UpcomingMeetingAdapter(
             onClick(list.get(position), videoAccessCode.toString(), 2)
         }
 
-        if (holder.binding.btnFeedback.text.toString() == "Feedback") {
-            holder.binding.btnFeedback.setOnClickListener {
+
+        /*    holder.binding.btnFeedback.setOnClickListener {
+                if (holder.binding.btnFeedback.text.toString() == "Feedback") {
                 onClick(data, videoAccessCode.toString(), 3)
             }
+        }*/
+
+
+            holder.binding.btnFeedback.setOnClickListener {
+                if (holder.binding.btnFeedback.text.toString().lowercase().trim().equals("Teams Meeting".lowercase().trim())) {
+                onClick(data, videoAccessCode.toString(), 4)
+            }
+                if (holder.binding.btnFeedback.text.toString() == "Feedback") {
+                    onClick(data, videoAccessCode.toString(), 3)
+                }
+
         }
+
+
+
 
     }
 
@@ -123,56 +146,75 @@ class UpcomingMeetingAdapter(
             )
             val date = data.interviewDateTime.subSequence(0, 10)
 
-            when (data.status.trim()) {
-                "Attended" -> {
-                    Log.d(TAG, "onBindViewHolder: attended when")
-                    binding.btnJoin.visibility = View.GONE
-                    binding.btnFeedback.isVisible = true
-                    binding.btnFeedback.isEnabled = true
-                    binding.btnFeedback.setTextColor(context.getColor(R.color.attended_text_color))
-                    binding.btnFeedback.background = ContextCompat.getDrawable(
-                        binding.btnFeedback.context,
-                        R.drawable.shape_rectangle_rounded_light_green
-                    )
-                    binding.btnFeedback.text = "Feedback"
-                }
-                "Scheduled" -> {
-                    Log.d(TAG, "onBindViewHolder: schee when")
-                    binding.btnFeedback.visibility = View.GONE
-                    binding.btnFeedback.setTextColor(context.getColor(R.color.white))
-                    binding.btnJoin.isVisible = true
-                }
-                "NotScheduled" -> {
-                    Log.d(TAG, "onBindViewHolder: not sched when")
-                    binding.btnJoin.visibility = View.GONE
-                    binding.btnFeedback.isVisible = true
-                    binding.btnFeedback.isEnabled = false
-                    binding.btnFeedback.text = "Missed"
-                    binding.btnFeedback.setTextColor(context.getColor(R.color.missed_text_color))
-                    binding.btnFeedback.background = ContextCompat.getDrawable(
-                        binding.btnFeedback.context,
-                        R.drawable.shape_rectangle_rounded_red_10
-                    )
-                }
-                "Cancelled" -> {
-                    Log.d(TAG, "onBindViewHolder: canceled when")
-                    binding.btnJoin.visibility = View.GONE
-                    binding.btnFeedback.isVisible = true
-                    binding.btnFeedback.isEnabled = false
-                    binding.btnFeedback.setTextColor(context.getColor(R.color.canceled_text_color))
-                    binding.btnFeedback.background =
-                        ContextCompat.getDrawable(
+
+            if (data.mSMeetingMode.equals("veriklick"))
+            {
+
+                when (data.status.trim()) {
+                    "Attended" -> {
+                        Log.d(TAG, "onBindViewHolder: attended when")
+                        binding.btnJoin.visibility = View.GONE
+                        binding.btnFeedback.isVisible = true
+                        binding.btnFeedback.isEnabled = true
+                        binding.btnFeedback.setTextColor(context.getColor(R.color.attended_text_color))
+                        binding.btnFeedback.background = ContextCompat.getDrawable(
                             binding.btnFeedback.context,
-                            R.drawable.shape_rectangle_rounded_dark_transparent_grey_mini
+                            R.drawable.shape_rectangle_rounded_light_green
                         )
-                    binding.btnFeedback.text = "Cancelled"
+                        binding.btnFeedback.text = "Feedback"
+                    }
+                    "Scheduled" -> {
+                        Log.d(TAG, "onBindViewHolder: schee when")
+                        binding.btnFeedback.visibility = View.GONE
+                        binding.btnFeedback.setTextColor(context.getColor(R.color.white))
+                        binding.btnJoin.isVisible = true
+                    }
+                    "NotScheduled" -> {
+                        Log.d(TAG, "onBindViewHolder: not sched when")
+                        binding.btnJoin.visibility = View.GONE
+                        binding.btnFeedback.isVisible = true
+                        binding.btnFeedback.isEnabled = false
+                        binding.btnFeedback.text = "Missed"
+                        binding.btnFeedback.setTextColor(context.getColor(R.color.missed_text_color))
+                        binding.btnFeedback.background = ContextCompat.getDrawable(
+                            binding.btnFeedback.context,
+                            R.drawable.shape_rectangle_rounded_red_10
+                        )
+                    }
+                    "Cancelled" -> {
+                        Log.d(TAG, "onBindViewHolder: canceled when")
+                        binding.btnJoin.visibility = View.GONE
+                        binding.btnFeedback.isVisible = true
+                        binding.btnFeedback.isEnabled = false
+                        binding.btnFeedback.setTextColor(context.getColor(R.color.canceled_text_color))
+                        binding.btnFeedback.background =
+                            ContextCompat.getDrawable(
+                                binding.btnFeedback.context,
+                                R.drawable.shape_rectangle_rounded_dark_transparent_grey_mini
+                            )
+                        binding.btnFeedback.text = "Cancelled"
+                    }
+                    else -> {
+                        binding.btnJoin.visibility = View.VISIBLE
+                        binding.btnFeedback.visibility = View.GONE
+                        binding.btnFeedback.background = null
+                    }
                 }
-                else -> {
-                    binding.btnJoin.visibility = View.VISIBLE
-                    binding.btnFeedback.visibility = View.GONE
-                    binding.btnFeedback.background = null
-                }
+            }else
+            {
+
+                binding.btnJoin.visibility = View.GONE
+                binding.btnFeedback.isVisible = true
+                binding.btnFeedback.isEnabled = false
+                binding.btnFeedback.text = "Teams Meeting"
+                binding.btnFeedback.setTextColor(context.getColor(R.color.white))
+                binding.btnFeedback.background = ContextCompat.getDrawable(
+                    binding.btnFeedback.context,
+                    R.drawable.shape_rectangle_rounded_red_10_teams
+                )
+                binding.btnFeedback.isEnabled=true
             }
+
 
         }
 

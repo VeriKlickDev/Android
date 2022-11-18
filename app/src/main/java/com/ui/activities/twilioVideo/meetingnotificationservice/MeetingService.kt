@@ -1,10 +1,16 @@
 package com.ui.activities.twilioVideo.meetingnotificationservice
 
+import android.annotation.SuppressLint
 import android.app.*
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
 import android.util.Log
+import android.widget.RemoteViews
+import android.widget.RemoteViews.RemoteView
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompatExtras
+import androidx.core.content.ContextCompat
 import com.data.helpers.TwilioHelper
 import com.domain.constant.AppConstants
 import com.example.twillioproject.R
@@ -48,6 +54,7 @@ class MeetingService : Service() {
         super.onCreate()
     }
 
+    @SuppressLint("RemoteViewLayout")
     fun startForeground() {
         Log.d(TAG, "startForeground: in service class started forground ")
         val chan = NotificationChannel(
@@ -70,15 +77,38 @@ class MeetingService : Service() {
         val manager = (getSystemService(NOTIFICATION_SERVICE) as NotificationManager)
         manager.createNotificationChannel(chan)
         val notificationId = System.currentTimeMillis().toInt()
-        val notificationBuilder: Notification.Builder = Notification.Builder(this@MeetingService, AppConstants.MEETING_CHANNEL_ID)
 
-        val notification: Notification = notificationBuilder
+        //   val notificationBuilder: Notification.Builder = Notification.Builder(this@MeetingService, AppConstants.MEETING_CHANNEL_ID)
+
+        val notificationCompat=NotificationCompat.Builder(applicationContext, AppConstants.MEETING_CHANNEL_ID)
+
+
+        val notificationLayout = RemoteViews(packageName, R.layout.layout_custom_notification)
+        val notificationLayoutExpanded = RemoteViews(packageName,  R.layout.layout_custom_notification)
+
+
+        val notification: Notification = notificationCompat
+            .setSmallIcon(R.drawable.ic_videocam_24_blue)
+            .setContentTitle("Veriklick Meeting is Running")
+            .setColor(ContextCompat.getColor(this, R.color.skyblue_light1))
+            //.setStyle(NotificationCompat.DecoratedCustomViewStyle())
+            .setContentIntent(pendingIntent)
             .setOngoing(true)
+            //.setContent(notificationLayout)
+            .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
+            .setCustomContentView(notificationLayout)
+            .setCustomBigContentView(notificationLayoutExpanded)
+            .build()
+
+            /*.setOngoing(true)
             .setSmallIcon(R.drawable.ic_videocam_24_blue)
             .setContentTitle("Veriklick Meeting is Running")
             .setCategory(Notification.CATEGORY_SERVICE)
             .setContentIntent(pendingIntent)
-            .build()
+            .build()*/
+
+
+
 
         startForeground(notificationId, notification)
     }

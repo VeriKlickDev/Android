@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.os.postDelayed
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
@@ -281,7 +282,9 @@ class ActivityFeedBackForm : AppCompatActivity() {
                             showCustomToast(data?.aPIResponse?.message!!.toString())
                             //showCustomSnackbarOnTop(data?.aPIResponse?.message!!)
                             //showToast(this, data?.aPIResponse?.message!!)
-                            finish()
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                finish()
+                            },1000)
                         }
                         400 -> {
 
@@ -299,7 +302,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
                         TAG,
                         "postData: data status $status ${data?.jobid}  ${data?.aPIResponse?.message}"
                     )
-                    finish()
+                   // finish()
                 })
 
         } else {

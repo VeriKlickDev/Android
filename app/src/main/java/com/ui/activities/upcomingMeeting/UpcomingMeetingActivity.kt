@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -544,12 +545,28 @@ private  var ob: BodyScheduledMeetingBean? = null
                     val intent = Intent(this, ActivityFeedBackForm::class.java)
                     intent.putExtra(AppConstants.CANDIDATE_ID, data.candidateId)
                     startActivity(intent)
+                    overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
+                }
+                4->{
+                    handleJoin(data, videoAccessCode)
+
                 }
             }
         }
         binding.rvUpcomingMeeting.adapter = adapter
         //adapter.notifyDataSetChanged()
     }
+
+    private fun jumpToTeams(link: String)
+    {
+        val sendIntent = Intent(Intent.ACTION_VIEW,
+            Uri.parse(link))
+
+        if (sendIntent.resolveActivity(packageManager) != null) {
+            startActivity(sendIntent)
+        }
+    }
+
 
     override fun onCreateContextMenu(
         menu: ContextMenu?,
@@ -626,7 +643,14 @@ private  var ob: BodyScheduledMeetingBean? = null
         //getInterviewDetails()
         if (checkInternet()) {
             accessCode = videoAccessCode
-            getInterviewDetails(videoAccessCode)
+            if (data.mSMeetingMode.equals("veriklick"))
+            {
+                getInterviewDetails(videoAccessCode,false)
+            }else
+            {
+                getInterviewDetails(videoAccessCode,true)
+            }
+
             // getAccessCodeById(data)
             // showToast(this,"Under Development")
         } else {
@@ -664,7 +688,7 @@ private  var ob: BodyScheduledMeetingBean? = null
     }
 
 
-    fun getInterviewDetails(accessCode: String) {
+    fun getInterviewDetails(accessCode: String,isMsTeams:Boolean) {
         showProgressDialog()
         viewModel.getVideoSessionDetails(accessCode, onDataResponse = { data, event ->
 
@@ -674,7 +698,16 @@ private  var ob: BodyScheduledMeetingBean? = null
                     Log.d(TAG, "meeting data in 200 ${data}")
                     data?.videoAccessCode = accessCode
                     CurrentMeetingDataSaver.setData(data!!)
-                    joinMeeting(accessCode)
+
+                    if (isMsTeams){
+                        //jumpToTeams()
+                        data
+                    }else{
+                        joinMeeting(accessCode)
+                    }
+
+
+
                     CurrentMeetingDataSaver.setData(data)
                     // Log.d(TAG, "host : ${data.token}  ${data.roomName}")
                     // TwilioHelper.setTwilioCredentials(data.token.toString(), data.roomName.toString())
@@ -795,7 +828,7 @@ private  var ob: BodyScheduledMeetingBean? = null
             dialog.setPositiveButton(getString(R.string.txt_join_again),
                 object : DialogInterface.OnClickListener {
                     override fun onClick(p0: DialogInterface?, p1: Int) {
-                        getInterviewDetails(accessCode)
+                        getInterviewDetails(accessCode,false)
                     }
                 })
             dialog.setNegativeButton("Cancel", object : DialogInterface.OnClickListener {
@@ -806,8 +839,6 @@ private  var ob: BodyScheduledMeetingBean? = null
             dialog.show()
         })
     }
-
-
 }
 
 

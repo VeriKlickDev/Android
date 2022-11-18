@@ -10,11 +10,8 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
-import com.data.checkSpecialCharatersInString
+import com.data.*
 import com.data.dataHolders.InvitationDataModel
-import com.data.emailValidator
-import com.data.getEditTextWithFlow
-import com.data.showToast
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.LayoutAddParticipantBinding
 import kotlinx.coroutines.*
@@ -47,6 +44,21 @@ class AddParticipantListAdapter(
         holder.dataBind(list.get(position))
 
         holder.binding.btnCross.isVisible = list.size != 1
+
+     /*   if (list.size==1)
+        {
+            holder.binding.btnAddinterviewer.isVisible=true
+        }*/
+        if (position==list.size-1)
+        {
+            holder.binding.btnAddinterviewer.isVisible=true
+        }
+        else{
+            holder.binding.btnAddinterviewer.isVisible=false
+        }
+
+
+
         Log.d("checklistsize", "onBindViewHolder: ${list.size}")
 
         holder.binding.btnAddinterviewer.isVisible = position == list.size - 1
@@ -67,7 +79,7 @@ class AddParticipantListAdapter(
         //  checkEmailExists(holder.binding.etEmail,position)
         //  checkPhoneExists(holder.binding.etPhoneNumber,position)
 
-        CoroutineScope(Dispatchers.Default).launch {
+     /*uncomment   CoroutineScope(Dispatchers.Default).launch {
             holder.binding.etEmail.getEditTextWithFlow().debounce(1000).collectLatest {
                 onEditextChanged(it, 1, position)
             }
@@ -78,7 +90,7 @@ class AddParticipantListAdapter(
                 onEditextChanged(it, 2, position)
             }
         }
-
+*/
         holder.binding.etFirstname.addTextChangedListener {
 
            /* checkSpecialCharatersInString(it.toString()){isValide, text ->
@@ -136,30 +148,32 @@ class AddParticipantListAdapter(
             if (isEmailOk)
             {
                 bindingg.tvEmailError.visibility=INVISIBLE
-                list.get(position).email = it.toString()
+
+                        onEditextChanged(it.toString(), 1, position)
+                //list.get(position).email = it.toString()
             }else
             {
                 bindingg.tvEmailError.visibility=VISIBLE
                 bindingg.tvEmailError.setText(context.getString(R.string.txt_enter_valid_email))
             }
             }
-
+            list.get(position).email = it.toString()
 
            // list[position].InterviewerTimezone=list[position].InterviewerTimezone
         }
         holder.binding.etPhoneNumber.addTextChangedListener {
          try {
-             if (bindingg.etPhoneNumber.text.toString().toInt()>10 )
+             if (bindingg.etPhoneNumber.text.toString().length.toInt()!=10 )
              {
                  bindingg.tvPhoneError.setText("Phone no. should be 10 digits.")
                  bindingg.tvPhoneError.visibility=VISIBLE
              }
              else
              {
+                 onEditextChanged(bindingg.etPhoneNumber.text.toString(), 2, position)
                  bindingg.tvPhoneError.visibility=INVISIBLE
-                 list.get(position).phone = it.toString()
              }
-
+             list.get(position).phone = it.toString()
          }catch (e:Exception)
          {
              Log.d(TAG, "onBindViewHolder: phon excetion ${e.message}")
@@ -191,22 +205,41 @@ class AddParticipantListAdapter(
                 !binding.etEmail.text.toString().equals("") &&
                 !binding.etPhoneNumber.text.toString().equals("")
             ) {
+                var isEmailOkl=false
+                emailValidator(context,binding.etEmail.text.toString()){isEmailOk, mEmail, error ->
+                    isEmailOkl=isEmailOk
+                }
+                if (binding.etPhoneNumber.text.toString().length==10 && isEmailOkl && !isEmailExists && !isPhoneExists)
+                {
+                    onClick(list.get(pos), 1, pos, list)
+                }
+                else
+                {
+                    context.showCustomToast(context.getString(R.string.txt_please_enter_valid_info))
+                    //context.showToast(context, context.getString(R.string.txt_all_fields_required))
+                }
+
                 Log.d("checkblank", "checkFields: blank not")
-                onClick(list.get(pos), 1, pos, list)
+
             }
             else {
                 Log.d("checkblank", "checkFields: blank check")
-                context.showToast(context, context.getString(R.string.txt_all_fields_required))
+                context.showCustomToast(context.getString(R.string.txt_all_fields_required))
+                //context.showToast(context, context.getString(R.string.txt_all_fields_required))
             }
         }
     }
-
-    fun handleEmailIsExists(position: Int,action:Int) {
+    private var isPhoneExists=false
+    private var isEmailExists=false
+    fun handleEmailIsExists(position: Int,action:Int,isExists:Boolean) {
+        isEmailExists=isExists
         if (action==1)
         {
-            bindingg.tvEmailError.visibility=INVISIBLE
+
+           // bindingg.tvEmailError.visibility=INVISIBLE
         }
        else {
+
             if (adapterPosition == position) {
                 bindingg.tvEmailError.visibility=VISIBLE
                 bindingg.tvEmailError.setText(context.getText(R.string.txt_email_already_exists))
@@ -214,17 +247,16 @@ class AddParticipantListAdapter(
             else {
                 bindingg.tvEmailError.visibility=INVISIBLE
             }
-            list.get(position).email = ""
+           // list.get(position).email = ""
         }
     }
 
-    fun handlePhoneIsExists(position: Int,action: Int) {
-
+    fun handlePhoneIsExists(position: Int,action: Int,isExists:Boolean) {
+        isPhoneExists=isExists
       if (action==1)
       {
-          bindingg.tvPhoneError.visibility=INVISIBLE
+        //  bindingg.tvPhoneError.visibility=INVISIBLE
       }else {
-
           if (adapterPosition == position) {
               bindingg.tvPhoneError.visibility=VISIBLE
               bindingg.tvPhoneError.setText(context.getText(R.string.txt_phone_already_exists))
@@ -232,7 +264,7 @@ class AddParticipantListAdapter(
           else {
               bindingg.tvPhoneError.visibility=INVISIBLE
           }
-          list.get(position).phone = ""
+        //  list.get(position).phone = ""
       }
     }
 

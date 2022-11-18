@@ -129,7 +129,6 @@ class ActivityAddParticipant : AppCompatActivity() {
                 }
             }
         })
-
     }
 
     var isEmpty=false
@@ -182,11 +181,12 @@ class ActivityAddParticipant : AppCompatActivity() {
             isExists ->
                 if (!isExists)
                 {
-                    adapter.handleEmailIsExists(position,1)
+                    adapter.handleEmailIsExists(position,1,isExists)
                 }else
                 {
-                    adapter.handleEmailIsExists(position,2)
-                    showToast(this,getString(R.string.txt_email_already_exists))
+                    adapter.handleEmailIsExists(position,2,isExists)
+                    showCustomToast(getString(R.string.txt_email_already_exists))
+                    //showToast(this,getString(R.string.txt_email_already_exists))
                 }
         })
         Log.d(TAG, "checkEmailExists: check text $txt")
@@ -198,13 +198,14 @@ class ActivityAddParticipant : AppCompatActivity() {
                 isExists ->
             if (!isExists)
             {
-                adapter.handlePhoneIsExists(position,1)
+                adapter.handlePhoneIsExists(position,1,isExists)
                 Log.d(TAG, "checkPhoneExists: email false")
             }else
             {
                 Log.d(TAG, "checkPhoneExists: email true")
-                adapter.handlePhoneIsExists(position,2)
-                showToast(this,getString(R.string.txt_phone_already_exists))
+                adapter.handlePhoneIsExists(position,2,isExists)
+                showCustomToast(getString(R.string.txt_phone_already_exists))
+                //showToast(this,getString(R.string.txt_phone_already_exists))
             }
         })
         Log.d(TAG, "checkEmailExists: check text $txt")
@@ -238,7 +239,8 @@ class ActivityAddParticipant : AppCompatActivity() {
                 Log.d(TAG, "postInvitation:  posting data")
             }else
             {
-                showToast(this,getString(R.string.txt_all_fields_required))
+                showCustomToast(getString(R.string.txt_all_fields_required))
+                //showToast(this,getString(R.string.txt_all_fields_required))
                 Log.d(TAG, "postInvitation:  fill all fields first")
             }
 
@@ -316,7 +318,8 @@ class ActivityAddParticipant : AppCompatActivity() {
         interviewList.add(element)
         val pos =interviewList.indexOf(element)
        // InvitationDataHolder.setItemToList(InvitationDataModel(uid = randomStr.toString() , index = interviewList.size-1))
-        adapter.notifyItemInserted(pos)
+       //uncomment adapter.notifyItemInserted(pos)
+        adapter.notifyDataSetChanged()
         Log.d(TAG, "addNewInterViewer: ${interviewList.size}")
 
         adapter.dataList.forEach {
@@ -325,7 +328,6 @@ class ActivityAddParticipant : AppCompatActivity() {
         binding.scrollview.post {
             binding.scrollview.fullScroll(View.FOCUS_DOWN);
         }
-
     }
 
     override fun onPause() {
