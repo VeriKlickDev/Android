@@ -366,4 +366,57 @@ class UpComingMeetingViewModel @Inject constructor(
     }
 
 
+/**cancel meeting*/
+
+    fun cancelMeeting(data: NewInterviewDetails,
+                onDataResponse: (data: BodyCancelMeeting?, response: Int) -> Unit
+    ) {
+        try {
+            CoroutineScope(Dispatchers.IO).launch {
+                val result = baseRepoApi.cancelMeeting(DataStoreHelper.getLoginBearerToken(),BodyCancelMeeting(InterviewSeqId=data.interviewId, SubscriberId = data.subscriberid.toString(), logedInUser = DataStoreHelper.getUserEmail()))
+                if (result.isSuccessful) {
+                    if (result.body() != null) {
+                        when (result.code()) {
+                            404 -> {
+                                onDataResponse(result.body()!!, 404)
+                            }
+                            200 -> {
+                                onDataResponse(result.body(), 200)
+                            }
+                            400 -> {
+                                onDataResponse(result.body(), 400)
+                            }
+                            401 -> {
+                                onDataResponse(result.body(), 401)
+                            }
+                        }
+                        //onDataResponse(result.body()!!,200)
+                        Log.d(TAG, "getVideoSession:  success ${result.body()}")
+
+                        Log.d(
+                            "videocon",
+                            "getVideoSession:  success ${result.body()?.aPIResponse?.Message}"
+                        )
+                    } else {
+                        onDataResponse(result.body()!!, 400)
+                        Log.d(TAG, "getVideoSession: null result")
+                    }
+                } else {
+                    onDataResponse(null, 404)
+                    Log.d(TAG, "getVideoSession: not success")
+                }
+            }
+        } catch (e: Exception) {
+            onDataResponse(null, 404)
+            Log.d(TAG, "getVideoSession: not exception")
+        }
+    }
+
+
+
+
+
+
+
+
 }

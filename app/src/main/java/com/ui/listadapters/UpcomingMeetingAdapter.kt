@@ -1,7 +1,6 @@
 package com.ui.listadapters
 
 import android.content.Context
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,15 +10,11 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.data.change24to12hoursFormat
 import com.data.changeDatefrom_yyyymmdd_to_mmddyyyy
-import com.data.dataHolders.UpcomingMeetingStatusHolder
 import com.domain.BaseModels.InterViewersListModel
 import com.domain.BaseModels.NewInterviewDetails
-import com.domain.BaseModels.ResponseUpcomintMeeting
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.LayoutItemUpcomingMeetingBinding
 import com.google.gson.Gson
-import okhttp3.internal.lockAndWaitNanos
-import java.util.logging.Handler
 
 class UpcomingMeetingAdapter(
     val context: Context,
@@ -75,6 +70,10 @@ class UpcomingMeetingAdapter(
                 if (holder.binding.btnFeedback.text.toString() == "Feedback") {
                     onClick(data, videoAccessCode.toString(), 3)
                 }
+        }
+
+        holder.binding.btnCancelMeeting.setOnClickListener {
+            onClick(data, videoAccessCode.toString(), 6)
         }
 
         holder.binding.btnRejoin.setOnClickListener {
@@ -165,6 +164,7 @@ class UpcomingMeetingAdapter(
                         )
                         binding.btnFeedback.text = "Feedback"
                         binding.btnRejoin.isVisible=true
+                        binding.btnCancelMeeting.isVisible=false
                     }
                     "Scheduled" -> {
                         Log.d(TAG, "onBindViewHolder: schee when")
@@ -172,6 +172,7 @@ class UpcomingMeetingAdapter(
                         binding.btnFeedback.setTextColor(context.getColor(R.color.white))
                         binding.btnJoin.isVisible = true
                         binding.btnRejoin.isVisible=false
+                        binding.btnCancelMeeting.isVisible=true
                     }
                     "NotScheduled" -> {
                         Log.d(TAG, "onBindViewHolder: not sched when")
@@ -185,6 +186,7 @@ class UpcomingMeetingAdapter(
                             R.drawable.shape_rectangle_rounded_red_10
                         )
                         binding.btnRejoin.isVisible=false
+                        binding.btnCancelMeeting.isVisible=false
                     }
                     "Cancelled" -> {
                         Log.d(TAG, "onBindViewHolder: canceled when")
@@ -195,16 +197,18 @@ class UpcomingMeetingAdapter(
                         binding.btnFeedback.background =
                             ContextCompat.getDrawable(
                                 binding.btnFeedback.context,
-                                R.drawable.shape_rectangle_rounded_dark_transparent_grey_mini
+                                R.drawable.shape_rectangle_rounded_dark_transparent_b_pink
                             )
                         binding.btnFeedback.text = "Cancelled"
                         binding.btnRejoin.isVisible=false
+                        binding.btnCancelMeeting.isVisible=false
                     }
                     else -> {
                         binding.btnJoin.visibility = View.VISIBLE
                         binding.btnFeedback.visibility = View.GONE
                         binding.btnFeedback.background = null
                         binding.btnRejoin.isVisible=false
+                        binding.btnCancelMeeting.isVisible=true
                     }
                 }
             }else
@@ -220,6 +224,7 @@ class UpcomingMeetingAdapter(
                     R.drawable.shape_rectangle_rounded_red_10_teams
                 )
                 binding.btnFeedback.isEnabled=true
+                binding.btnCancelMeeting.isVisible=false
             }
 
 

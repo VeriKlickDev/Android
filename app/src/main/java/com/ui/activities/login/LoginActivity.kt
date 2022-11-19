@@ -178,7 +178,6 @@ class LoginActivity : AppCompatActivity() {
                                 DataStoreHelper.setMeetingRecruiterAndUserIds(response.UserId.toString(),response.CreatedBy.toString())
                             }
 
-
                             val intent=Intent(this, UpcomingMeetingActivity::class.java)
                             CoroutineScope(Dispatchers.IO).launch {
                                 intent.putExtra(AppConstants.LOGIN_WITH_OTP,false)

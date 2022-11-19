@@ -3,6 +3,7 @@ package com.data.repositoryImpl
 
 
 
+import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.*
 import com.domain.RestApi.BaseRestApi
 import com.domain.RestApi.LoginRestApi
@@ -115,6 +116,13 @@ class RepositoryImpl  @Inject constructor(val baseRestApi: BaseRestApi,val login
 
     override suspend fun sendMailToJoinMeeting(ob: BodySendMail): Response<ResponseSendMail> {
         return baseRestApi.sendMailToJoinMeeting(ob)
+    }
+
+    override suspend fun cancelMeeting(
+        authToken: String,
+        ob: BodyCancelMeeting
+    ): Response<BodyCancelMeeting> {
+        return baseRestApi.cancelMeeting(authToken,ob)
     }
 
     /* override suspend fun setScreenSharingStatus(obj: BodyUpdateScreenShareStatus): Response<ResponseScreenSharingStatus> {

@@ -485,7 +485,6 @@ private  var ob: BodyScheduledMeetingBean? = null
         }
 
 
-
         Log.d(TAG, "handleObserver: out observer method ")
         binding.tvNoData.visibility = View.VISIBLE
 
@@ -516,7 +515,9 @@ private  var ob: BodyScheduledMeetingBean? = null
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
-    fun setupAdapter() {
+
+
+    private fun setupAdapter() {
         adapter = UpcomingMeetingAdapter(this, meetingsList) { data, videoAccessCode, action ->
             when (action) {
                 1 -> {
@@ -555,6 +556,26 @@ private  var ob: BodyScheduledMeetingBean? = null
                     CurrentUpcomingMeetingData.setData(data)
                     handleJoin(data, videoAccessCode)
                 }
+                6->{
+
+                    setHandler().post(kotlinx.coroutines.Runnable {
+                        val dialog = AlertDialog.Builder(this)
+                        dialog.setMessage(getString(R.string.txt_do_you_want_to_cancel_meeting))
+                        dialog.setPositiveButton(getString(R.string.txt_yes),
+                            object : DialogInterface.OnClickListener {
+                                override fun onClick(p0: DialogInterface?, p1: Int) {
+                                    cancelMeeting(data)
+                                }
+                            })
+                        dialog.setNegativeButton("Cancel", object : DialogInterface.OnClickListener {
+                            override fun onClick(p0: DialogInterface?, p1: Int) {
+                            }
+                        })
+                        dialog.create()
+                        dialog.show()
+                    })
+                }
+
             }
         }
         binding.rvUpcomingMeeting.adapter = adapter
@@ -740,6 +761,50 @@ private  var ob: BodyScheduledMeetingBean? = null
                 }
             }
         })
+    }
+
+    fun cancelMeeting(data: NewInterviewDetails)
+    {
+        showProgressDialog()
+        viewModel.cancelMeeting(data) { data, response ->
+
+            when (response) {
+                200 -> {
+                    dismissProgressDialog()
+                    Log.d(TAG, "meeting data in 200 ${data}")
+                    showCustomToast(data?.aPIResponse?.Message.toString())
+                    meetingsList.clear()
+                    pageno = 1
+                    handleUpcomingMeetingsList(7,1,9)
+                    // Log.d(TAG, "host : ${data.token}  ${data.roomName}")
+                    // TwilioHelper.setTwilioCredentials(data.token.toString(), data.roomName.toString())
+                    // startActivity(Intent(this@JoinMeetingActivity, VideoActivity::class.java))
+                }
+                400 -> {
+                    dismissProgressDialog()
+                    //showToast(this, "null values")
+                    showCustomSnackbarOnTop(data?.aPIResponse?.Message.toString())
+                    //showToast(this, data?.aPIResponse?.message.toString())
+                    /*data?.videoAccessCode=accessCode //remove all code
+                    data?.let { CurrentMeetingDataSaver.setData(it) }
+                    joinMeeting(accessCode)*/
+                }
+                404 -> {
+                    dismissProgressDialog()
+                    showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+                    //showToast(this, data?.aPIResponse?.message.toString())
+                }
+                401 -> {
+                    dismissProgressDialog()
+                    showCustomSnackbarOnTop(data?.aPIResponse?.Message.toString())
+                    /*  data?.videoAccessCode = accessCode //remove all code
+                      CurrentMeetingDataSaver.setData(data!!)
+                      joinMeeting(accessCode)
+                      CurrentMeetingDataSaver.setData(data)*/
+                }
+            }
+        }
+
     }
 
 

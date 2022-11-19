@@ -82,6 +82,11 @@ interface BaseRestApi {
     @POST("/api/ScheduleVideo/MailInterviewersToJoin")
     suspend fun sendMailToJoinMeeting(@Body ob: BodySendMail):Response<ResponseSendMail>
 
+    @POST("/api/ScheduleVideo/InterviewCancellationDetails")
+    suspend fun cancelMeeting(@Header("Authorization")authToken:String,@Body ob: BodyCancelMeeting):Response<BodyCancelMeeting>
+
+
+
 }
 
 
