@@ -26,7 +26,8 @@ import com.ui.activities.twilioVideo.VideoViewModel
 class ConnectedUserListAdapter(val viewModel:VideoViewModel,
     val context: Context,
     val list: List<VideoTracksBean>,
-    val onClick: (pos: Int, action: Int, data: VideoTracksBean, tlist: List<VideoTracksBean>,videoTrack:VideoTrack) -> Unit
+    val onClick: (pos: Int, action: Int, data: VideoTracksBean, tlist: List<VideoTracksBean>,videoTrack:VideoTrack) -> Unit,
+    val onLongClick: (pos: Int, action: Int) -> Unit
 ) : RecyclerView.Adapter<ConnectedUserListAdapter.ViewholderClass>() {
     val TAG = "checkconnectedUserMain"
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewholderClass {
@@ -46,11 +47,11 @@ class ConnectedUserListAdapter(val viewModel:VideoViewModel,
 
 
         holder.binding.cardView2.setOnClickListener {
-            if (list[position].videoTrack!=null)
-            onClick(position, 1, list[position], list,list[position].videoTrack!!)
-            else
-            context.showToast(context,context.getString(R.string.txt_video_not_available))
-
+            if (list[position].videoTrack!=null){
+            onClick(position, 1, list[position], list,list[position].videoTrack!!)}
+            else {
+                context.showToast(context, context.getString(R.string.txt_video_not_available))
+            }
         }
 
 
@@ -59,7 +60,6 @@ class ConnectedUserListAdapter(val viewModel:VideoViewModel,
                 onClick(position, 1, list[position], list,list[position].videoTrack!!)
             else
                 context.showToast(context,context.getString(R.string.txt_video_not_available))
-
         }
     }
 
@@ -73,7 +73,11 @@ class ConnectedUserListAdapter(val viewModel:VideoViewModel,
         fun bindData(data: VideoTracksBean) {
             binding.ivUserVideoView.mirror = true
             binding.tvUsername.text = data.userName
-           
+
+
+            binding.cardView2.setOnLongClickListener(longclick)
+
+
             if (data.videoTrack!=null)
             {
                 binding.blankvideoLayout.visibility=View.GONE
@@ -144,6 +148,16 @@ class ConnectedUserListAdapter(val viewModel:VideoViewModel,
             } catch (e: Exception) {
                 Log.d("AddUserListAdapter", "bindData: exception ${e.printStackTrace()}")
             }
+        }
+
+        val longclick= object : View.OnLongClickListener {
+            override fun onLongClick(p0: View?): Boolean {
+
+                onLongClick(adapterPosition,5)
+
+                return true
+            }
+
         }
 
         fun setMicStatus(status: Boolean) {

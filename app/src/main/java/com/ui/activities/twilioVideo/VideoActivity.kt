@@ -2,6 +2,7 @@ package com.ui.activities.twilioVideo
 
 //import com.ui.activities.chat.ChatActivity
 
+
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
@@ -338,7 +339,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 VideoTracksBean("C", null, localVideoTrack!!, "You", it.sid)
 
         }
-
+        setAdapter()
         handleObserver()
 
     }
@@ -560,7 +561,6 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
              */
 
-
             setBlankBackground(false)
             removeAllSinksAndSetnew(it?.videoTrack!!, false)
 
@@ -717,7 +717,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
                         binding.tvUsername.text = it.userName
 
-                         currentRemoteVideoTrack!!.addSink(binding.primaryVideoView)
+                     //   currentRemoteVideoTrack!!.addSink(binding.primaryVideoView)
+
+
                     } else {
 
                         Log.d(TAG, "handleObserver else part : list.foreach al ${it.userName}")
@@ -747,60 +749,149 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
                 globalParticipantList.clear()
                 globalParticipantList.addAll(tlist)
+
                 /* if (binding.tvUsername.text.toString().contains("You"))
                  {
                      localVideoTrack?.addSink(binding.primaryVideoView)
                  }
                  */
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                adapter = ConnectedUserListAdapter(viewModel,
+                    this,
+                    globalParticipantList,
+                    onLongClick={pos,action->
+
+                        Log.d(TAG, "handleObserver: longclicked")
+                        handleLongClickedonParticipant(pos)
+                    },
+                    onClick = { pos, action, data, datalist, videotrack ->
+                        try {
+
+
+                            /*  if (!datalist.isNullOrEmpty()) {
+                                  Log.d("checkonclick", "setConnectedUsersListInAdapter: on clicked")
+                                  val isCandidateExists = datalist.any { it.remoteParticipant?.identity!!.contains("C") }
+                                  isCandidateExists
+                                  Log.d("checkonclick", "setConnectedUsersListInAdapter: on clicked")
+                                  if (isCandidateExists) {
+                                      Log.d("checkonclick", "setConnectedUsersListInAdapter: candidate ")
+                                    //  handleRecyclerItemClick(pos, data, datalist,videotrack)
+                                  }
+                                  else {
+                                      Log.d(
+                                          "checkonclick",
+                                          "setConnectedUsersListInAdapter: candidate no"
+                                      )
+                                  }
+                              }
+                              */
+                            handleRecyclerItemClick(pos, data!!, datalist!!, videotrack)
+
+
+                            Log.d(TAG, "handleObserver: clicked on ${data.userName} $pos")
+                        } catch (e: Exception) {
+                            Log.d(
+                                TAG,
+                                "setConnectedUsersListInAdapter: candidate exception ${e.printStackTrace()}"
+                            )
+                        }
+                    })
+                binding.rvConnectedUsers.adapter = adapter
+
+
+
+
+
+                adapter.notifyDataSetChanged()
             }catch (e:Exception)
             {
                 Log.d(TAG, "handleObserver: exception observer ${e.message}")
             }
 
-
-
-            Log.d(TAG, "handleObserver: bottom observer list final adapter ${globalParticipantList.size}")
             CurrentConnectUserList.setListForAddParticipantActivity(globalParticipantList)
-            adapter = ConnectedUserListAdapter(viewModel,
-                this,
-                globalParticipantList,
-                onClick = { pos, action, data, datalist, videotrack ->
-                    try {
 
-                        /*
-                        if (!datalist.isNullOrEmpty()) {
-                            Log.d("checkonclick", "setConnectedUsersListInAdapter: on clicked")
-                            val isCandidateExists = datalist.any { it.remoteParticipant?.identity!!.contains("C") }
-                            Log.d("checkonclick", "setConnectedUsersListInAdapter: on clicked")
-                            if (isCandidateExists) {
-                                Log.d("checkonclick", "setConnectedUsersListInAdapter: candidate ")
-                                handleRecyclerItemClick(pos, data, datalist)
-                            }
-                            else {
-                                Log.d(
-                                    "checkonclick",
-                                    "setConnectedUsersListInAdapter: candidate no"
-                                )
-                            }
-                        }*/
-
-                        handleRecyclerItemClick(pos, data!!, datalist!!, videotrack)
-
-
-                        Log.d(TAG, "handleObserver: clicked on ${data.userName} $pos")
-                    } catch (e: Exception) {
-                        Log.d(
-                            TAG,
-                            "setConnectedUsersListInAdapter: candidate exception ${e.printStackTrace()}"
-                        )
-                    }
-                })
-            binding.rvConnectedUsers.adapter = adapter
-            adapter.notifyDataSetChanged()
+            //adapter.notifyDataSetChanged()
         }
+    }
+
+
+    private fun setAdapter()
+    {
+/*
+        adapter = ConnectedUserListAdapter(viewModel,
+            this,
+            globalParticipantList,
+            onLongClick={pos,action->
+
+                Log.d(TAG, "handleObserver: longclicked")
+                handleLongClickedonParticipant(pos)
+            },
+            onClick = { pos, action, data, datalist, videotrack ->
+                try {
+
+
+                    /*  if (!datalist.isNullOrEmpty()) {
+                          Log.d("checkonclick", "setConnectedUsersListInAdapter: on clicked")
+                          val isCandidateExists = datalist.any { it.remoteParticipant?.identity!!.contains("C") }
+                          isCandidateExists
+                          Log.d("checkonclick", "setConnectedUsersListInAdapter: on clicked")
+                          if (isCandidateExists) {
+                              Log.d("checkonclick", "setConnectedUsersListInAdapter: candidate ")
+                            //  handleRecyclerItemClick(pos, data, datalist,videotrack)
+                          }
+                          else {
+                              Log.d(
+                                  "checkonclick",
+                                  "setConnectedUsersListInAdapter: candidate no"
+                              )
+                          }
+                      }
+                      */
+                    handleRecyclerItemClick(pos, data!!, datalist!!, videotrack)
+
+
+                    Log.d(TAG, "handleObserver: clicked on ${data.userName} $pos")
+                } catch (e: Exception) {
+                    Log.d(
+                        TAG,
+                        "setConnectedUsersListInAdapter: candidate exception ${e.printStackTrace()}"
+                    )
+                }
+            })
+        binding.rvConnectedUsers.adapter = adapter
+*/
+    }
+
+
+
+    private fun handleLongClickedonParticipant(pos: Int)
+    {
+        currentVisibleUser.userName
+        currentVisibleUser.identity
+        viewModel.videoTrack.observe(this){
+            it?.identity
+            it?.username
+        }
+        viewModel.setCurrentVisibleUser("",null,"","remote")
 
     }
+
 
     private var lastVideoTrack:VideoTrack?=null
 
@@ -821,20 +912,20 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         localVideoTrack!!.removeSink(binding.primaryVideoView)
 
 
-
         if (isSink) {
             Log.d(TAG, "removeAllSinksAndSetnew: remove sinks add new")
-           /* if (videoTrack!=null)
+            if (videoTrack!=null)
             {
                 setBlankBackground(false)
                 binding.tvNoParticipant.text="hello world"
                 videoTrack!!.addSink(binding.primaryVideoView)
-            }else
+            }
+            else
             {
                 setBlankBackground(true)
                 binding.tvNoParticipant.text="Video Not Available"
-            }*/
-            videoTrack!!.addSink(binding.primaryVideoView)
+            }
+           // videoTrack!!.addSink(binding.primaryVideoView)
             lastVideoTrack=videoTrack
         }
     }
@@ -1085,7 +1176,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                     ) {
 
                         if (it.remoteParticipant?.identity!!.contains("C")) {
-                            removeAllSinksAndSetnew(null,false)
+                         //   removeAllSinksAndSetnew(null,false)
                           if (it.videoTrack!=null){
                               currentVisibleUser =
                                   VideoTracksBean(
@@ -1096,10 +1187,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                                       it.videoSid
                                   )
                               currentRemoteVideoTrack = it.videoTrack!!
-
                           } else
                           {
-                              removeAllSinksAndSetnew(null,false)
+                          //    removeAllSinksAndSetnew(null,false)
                               currentVisibleUser =
                                   VideoTracksBean(
                                       it.identity,
@@ -1122,7 +1212,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
                                 if (it.videoTrack!=null)
                                 {
-                                    removeAllSinksAndSetnew(null,false)
+                                 //   removeAllSinksAndSetnew(null,false)
                                     tlist.add(
                                         VideoTracksBean(
                                             it.identity,
@@ -1145,7 +1235,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
                                 }else
                                 {
-                                    removeAllSinksAndSetnew(null,false)
+                                 //   removeAllSinksAndSetnew(null,false)
                                     tlist.add(
                                         VideoTracksBean(
                                             it.identity,
@@ -1222,7 +1312,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                             }
 
                         }
-                        removeAllSinksAndSetnew(null,isSink = false)
+                       // removeAllSinksAndSetnew(null,isSink = false)
                         Log.d(
                             TAG,
                             "setConnectUser: candi ide 1 $identityCurrentUser   ${it.remoteParticipant?.identity}"
@@ -1456,6 +1546,11 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 ConnectedUserListAdapter(viewModel,
                     this,
                     list,
+                    onLongClick ={pos,action->
+                        Log.d(TAG, "setConnectedUsersListInAdapter: longclicked")
+                    }
+                    ,
+
                     onClick = { pos, action, data, datalist, videoTrack ->
                         Log.d(
                             "checkonclick",
@@ -1491,7 +1586,8 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                                 "setConnectedUsersListInAdapter: exception ${e.message}"
                             )
                         }
-                    })
+                    }
+                )
 
             binding.rvConnectedUsers.adapter = adapter
             adapter.notifyDataSetChanged()
@@ -1505,6 +1601,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         videoTrack: VideoTrack
     ) {
 
+        /**working*/
         Log.d(TAG, "handleRecyclerItemClick: ")
         data?.videoTrack?.let {
             lastVideoTrack=it
@@ -1512,6 +1609,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
         removeAllSinksAndSetnew(data?.videoTrack!!,false)
         viewModel.setCurrentVisibleUser(data?.identity!!, videoTrack, data.userName!!, "local")
+        /**working*/
+
+
 
         /*
         setBlankBackground(false)
@@ -2705,35 +2805,54 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                    }
 
   */
+
+         /***/
             currentRemoteParticipant = remoteParticipant
 
+            val tempList= mutableListOf<VideoTracksBean>()
+                tempList.addAll(remoteParticipantVideoList)
 
-            val tempList=remoteParticipantVideoList
-
-
-                tempList.forEachIndexed { index, videoTracksBean ->
-                    if (videoTracksBean.identity.equals(remoteParticipant.identity))
-                    {
-                        if (videoTracksBean.videoTrack==null)
-                        {
-                            remoteParticipantVideoList.removeAt(index)
+                tempList?.let {
+                    it.forEachIndexed { index, videoTracksBean ->
+                        if (videoTracksBean.identity.equals(remoteParticipant.identity)) {
+                            if (videoTracksBean.videoTrack == null) {
+                                remoteParticipantVideoList.remove(videoTracksBean)
+                            }
                         }
                     }
                 }
 
-            setConnectUser()
+           setConnectUser()
+
+                if (remoteVideoTrack!=null)
+                {
+                    addRemoteParticipantVideo(
+                        remoteVideoTrack,
+                        remoteParticipant,
+                        remoteVideoTrack.sid
+                    )
+
+                }else
+                {
+                    addRemoteParticipantVideo(
+                        null,
+                        remoteParticipant,
+                        remoteVideoTrack.sid
+                    )
+                }
 
 
 
+/***/
 
-            addRemoteParticipantVideo(
-                remoteVideoTrack,
-                remoteParticipant,
-                remoteVideoTrack.sid
-            )
-
-
-
+          /*  if (remoteVideoTrack!=null)
+            {
+                addRemoteParticipantVideo(remoteVideoTrack,remoteParticipant,remoteVideoTrack.sid)
+            }else
+            {
+                addRemoteParticipantVideo(null,remoteParticipant,remoteVideoTrack.sid)
+            }
+*/
 
             //working
            /* remoteParticipant.remoteVideoTracks.forEach { it ->
@@ -2796,7 +2915,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             Log.d(TAG, "onVideoTrackUnsubscribed: exception removing participants ${e.message}")
         }
 
-
+/***/
         if (remoteVideoTrack.name.equals("screen"))
         {
             remoteParticipantVideoList
@@ -2804,26 +2923,34 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             isParticipantExists.size
             if (isParticipantExists.size==0 || isParticipantExists==null)
             {
-                remoteParticipantVideoList.add(
-                    VideoTracksBean(
-                        remoteParticipant.identity!!,
-                        remoteParticipant!!,
-                        null,
-                        "",
-                        remoteVideoTrack.sid
+                    remoteParticipantVideoList.add(
+                        VideoTracksBean(
+                            remoteParticipant.identity!!,
+                            remoteParticipant!!,
+                            null,
+                            "",
+                            remoteVideoTrack.sid
+                        )
                     )
-                )
+
+                Handler(Looper.getMainLooper()).postDelayed({
+                    removeAllSinksAndSetnew(null,true)
+                },200)
             }
         }
 
+        /***/
 
 
         setConnectUser()
+
         // localVideoTrack?.addSink(binding.primaryVideoView)
         removeParticipantVideo(remoteVideoTrack)
 
-        removeAllSinksAndSetnew(lastVideoTrack!!,true)
-       
+        localVideoTrack.let {
+            removeAllSinksAndSetnew(it,true)
+        }
+
         if (CurrentMeetingDataSaver.getData().identity!!.contains("C"))
         {
             currentVisibleUser.userName="You"
@@ -2834,6 +2961,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             removeAllSinksAndSetnew(localVideoTrack!!,true)
         }
 
+       // setConnectUser()
 
         //localVideoTrack!!.addSink(binding.primaryVideoView)
 
