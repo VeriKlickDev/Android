@@ -365,9 +365,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 //uncomment
             try {
                 if (CurrentMeetingDataSaver.getData().identity!!.contains("C")) {
-                    /*  viewModel.setCandidateJoinedStatus { action, data ->
+                      viewModel.setCandidateJoinedStatus { action, data ->
                           Log.d(TAG, "handleObserver: candidate joined status $action")
-                      }*/
+                      }
                 }
             } catch (e: Exception) {
                 Log.d(
@@ -594,8 +594,14 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                     Log.d(TAG, "handleObserver: if part is sharing true")
                     TwilioHelper.getRoomInstance()?.localParticipant!!.publishTrack(viewModel.currentlocalVideoTrackList[0].localVideoTrack)
                 } else {
+                    try {
+                        TwilioHelper.getRoomInstance()?.localParticipant!!.publishTrack(localVideoTrack!!)    
+                    }catch (e:Exception)
+                    {
+                        Log.d(TAG, "handleObserver: exception 601 line ${e.printStackTrace()}")
+                    }
                     Log.d(TAG, "handleObserver: in elsepart of isshring local publish local")
-                    TwilioHelper.getRoomInstance()?.localParticipant!!.publishTrack(localVideoTrack!!)
+                    
                 }
             } else {
                 Log.d(TAG, "handleObserver: in null part local sink publish local")
@@ -1888,6 +1894,8 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
         videoTrackList.add(remoteParticipant)
 
+        remoteParticipant.remoteVideoTracks
+        remoteParticipant.remoteVideoTracks.size
 
         if (remoteParticipant.remoteVideoTracks.size == 0) {
             Log.d(TAG, "addRemoteParticipant: if part size 0")
@@ -1972,8 +1980,54 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                     videoSid
                 )
             )
+
+
+
             Log.d(TAG, "addRemoteParticipantVideo: vide track null")
         }
+
+            /**testing*/
+        remoteParticipantVideoList?.let { list ->
+          //  val isSameExists = list.filter { it.identity.equals(remoteParticipant.identity) }
+            //val isScreenExists = list.filter { remoteParticipant.identity.equals(it.identity) }
+
+            var isScreenExits=false
+
+            list.forEachIndexed { index, videoTracksBean ->
+                if (videoTracksBean.videoTrack?.name.equals("screen"))
+                {
+                isScreenExits=true
+                }
+
+                if (isScreenExits)
+                {
+
+                }
+            }
+
+
+
+
+        /*    if (isScreenExists.size == 1) {
+                if (isSameExists.size == 0) {
+                    remoteParticipantVideoList.add(
+                        VideoTracksBean(
+                            remoteParticipant.identity!!,
+                            remoteParticipant!!,
+                            null,
+                            "",
+                            videoSid
+                        )
+                    )
+                }
+            }
+            */
+
+
+        }
+
+
+
 
         //viewModel.setConnectUser(remoteParticipantVideoList,localVideoTrack!!)
 
@@ -2256,6 +2310,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             )
 
             //  addRemoteParticipant(room.remoteParticipants.firstOrNull()!!)
+            room.remoteParticipants
+
+            room.remoteParticipants.size
 
             room.remoteParticipants.forEach {
                 // remoteParticipantVideoList.add(VideoTracksBean(it,it.remoteVideoTracks.firstOrNull()?.videoTrack!!,"",true))

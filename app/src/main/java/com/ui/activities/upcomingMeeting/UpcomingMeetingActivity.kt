@@ -551,6 +551,10 @@ private  var ob: BodyScheduledMeetingBean? = null
                     handleJoin(data, videoAccessCode)
 
                 }
+                5->{
+                    CurrentUpcomingMeetingData.setData(data)
+                    handleJoin(data, videoAccessCode)
+                }
             }
         }
         binding.rvUpcomingMeeting.adapter = adapter

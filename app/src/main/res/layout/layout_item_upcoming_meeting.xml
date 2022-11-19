@@ -197,6 +197,25 @@
                 android:fontFamily="@font/sarabun_bold"
                 />
 
+
+            <ImageView
+                android:id="@+id/btn_rejoin"
+                android:layout_weight="3.5"
+                android:layout_marginHorizontal="@dimen/_5sp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_35sdp"
+                android:visibility="visible"
+                android:outlineProvider="none"
+                android:foreground="?selectableItemBackground"
+                android:src="@drawable/ic_videocam_24"
+                android:padding="@dimen/_5sp"
+                android:background="@drawable/shape_rectangle_rounded_15_skyblue"
+                android:fontFamily="@font/sarabun_bold"
+                />
+
+
+
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_feedback"
                 android:layout_weight="3"

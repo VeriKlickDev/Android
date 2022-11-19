@@ -75,9 +75,11 @@ class UpcomingMeetingAdapter(
                 if (holder.binding.btnFeedback.text.toString() == "Feedback") {
                     onClick(data, videoAccessCode.toString(), 3)
                 }
-
         }
 
+        holder.binding.btnRejoin.setOnClickListener {
+            onClick(data, videoAccessCode.toString(), 5)
+        }
 
 
 
@@ -162,12 +164,14 @@ class UpcomingMeetingAdapter(
                             R.drawable.shape_rectangle_rounded_light_green
                         )
                         binding.btnFeedback.text = "Feedback"
+                        binding.btnRejoin.isVisible=true
                     }
                     "Scheduled" -> {
                         Log.d(TAG, "onBindViewHolder: schee when")
                         binding.btnFeedback.visibility = View.GONE
                         binding.btnFeedback.setTextColor(context.getColor(R.color.white))
                         binding.btnJoin.isVisible = true
+                        binding.btnRejoin.isVisible=false
                     }
                     "NotScheduled" -> {
                         Log.d(TAG, "onBindViewHolder: not sched when")
@@ -180,6 +184,7 @@ class UpcomingMeetingAdapter(
                             binding.btnFeedback.context,
                             R.drawable.shape_rectangle_rounded_red_10
                         )
+                        binding.btnRejoin.isVisible=false
                     }
                     "Cancelled" -> {
                         Log.d(TAG, "onBindViewHolder: canceled when")
@@ -193,16 +198,18 @@ class UpcomingMeetingAdapter(
                                 R.drawable.shape_rectangle_rounded_dark_transparent_grey_mini
                             )
                         binding.btnFeedback.text = "Cancelled"
+                        binding.btnRejoin.isVisible=false
                     }
                     else -> {
                         binding.btnJoin.visibility = View.VISIBLE
                         binding.btnFeedback.visibility = View.GONE
                         binding.btnFeedback.background = null
+                        binding.btnRejoin.isVisible=false
                     }
                 }
             }else
             {
-
+                binding.btnRejoin.isVisible=false
                 binding.btnJoin.visibility = View.GONE
                 binding.btnFeedback.isVisible = true
                 binding.btnFeedback.isEnabled = false
