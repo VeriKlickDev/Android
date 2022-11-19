@@ -1981,13 +1981,11 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 )
             )
 
-
-
             Log.d(TAG, "addRemoteParticipantVideo: vide track null")
         }
 
             /**testing*/
-        remoteParticipantVideoList?.let { list ->
+    /*    remoteParticipantVideoList?.let { list ->
           //  val isSameExists = list.filter { it.identity.equals(remoteParticipant.identity) }
             //val isScreenExists = list.filter { remoteParticipant.identity.equals(it.identity) }
 
@@ -2024,7 +2022,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             */
 
 
-        }
+        }*/
 
 
 
@@ -2709,11 +2707,33 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
   */
             currentRemoteParticipant = remoteParticipant
 
+
+            val tempList=remoteParticipantVideoList
+
+
+                tempList.forEachIndexed { index, videoTracksBean ->
+                    if (videoTracksBean.identity.equals(remoteParticipant.identity))
+                    {
+                        if (videoTracksBean.videoTrack==null)
+                        {
+                            remoteParticipantVideoList.removeAt(index)
+                        }
+                    }
+                }
+
+            setConnectUser()
+
+
+
+
             addRemoteParticipantVideo(
                 remoteVideoTrack,
                 remoteParticipant,
                 remoteVideoTrack.sid
             )
+
+
+
 
             //working
            /* remoteParticipant.remoteVideoTracks.forEach { it ->
@@ -2775,6 +2795,27 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         } catch (e: Exception) {
             Log.d(TAG, "onVideoTrackUnsubscribed: exception removing participants ${e.message}")
         }
+
+
+        if (remoteVideoTrack.name.equals("screen"))
+        {
+            remoteParticipantVideoList
+            val isParticipantExists=remoteParticipantVideoList.filter { it.identity.equals(remoteParticipant.identity) }
+            isParticipantExists.size
+            if (isParticipantExists.size==0 || isParticipantExists==null)
+            {
+                remoteParticipantVideoList.add(
+                    VideoTracksBean(
+                        remoteParticipant.identity!!,
+                        remoteParticipant!!,
+                        null,
+                        "",
+                        remoteVideoTrack.sid
+                    )
+                )
+            }
+        }
+
 
 
         setConnectUser()

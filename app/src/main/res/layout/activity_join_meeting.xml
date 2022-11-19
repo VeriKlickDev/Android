@@ -46,7 +46,6 @@
                 android:layout_marginHorizontal="@dimen/_10sp"
                 android:layout_marginTop="@dimen/_20sp"
                 android:singleLine="true"
-                android:text="https://ui2.veriklick.in/video-session/zvGeLsGFhnPuYhBROiLf"
                 android:imeOptions="actionDone"
                 android:layout_marginBottom="@dimen/_10sp"
                 android:drawableLeft="@drawable/ic_img_link"

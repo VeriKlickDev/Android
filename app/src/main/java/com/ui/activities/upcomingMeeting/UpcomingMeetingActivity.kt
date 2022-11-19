@@ -711,7 +711,6 @@ private  var ob: BodyScheduledMeetingBean? = null
                     }
 
 
-
                     CurrentMeetingDataSaver.setData(data)
                     // Log.d(TAG, "host : ${data.token}  ${data.roomName}")
                     // TwilioHelper.setTwilioCredentials(data.token.toString(), data.roomName.toString())
