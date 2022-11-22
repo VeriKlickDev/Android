@@ -75,7 +75,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
         binding.btnSubmitButton.setOnClickListener {
             if (checkInternet()) {
-
+                binding.btnSubmitButton.isEnabled=false
                 if (recommendationSelected != null) {
                     binding.recommendationError.isVisible = false
                 } else {
@@ -218,7 +218,6 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
     fun postFeedback() {
         if (!binding.etRemart.text.toString()
-                .equals("") && !binding.etOverallRemark.text.toString()
                 .equals("") && !binding.etRole.text.toString().equals("")
         ) {
             postData()
@@ -276,7 +275,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 onDataResponse = { data, status ->
                     when (status) {
                         404 -> {
-
+                            binding.btnSubmitButton.isEnabled=true
                         }
                         200 -> {
                             showCustomToast(data?.aPIResponse?.message!!.toString())
@@ -287,12 +286,13 @@ class ActivityFeedBackForm : AppCompatActivity() {
                             },1000)
                         }
                         400 -> {
-
+                            binding.btnSubmitButton.isEnabled=true
                         }
                         401 -> {
-
+                            binding.btnSubmitButton.isEnabled=true
                         }
                         500 -> {
+                            binding.btnSubmitButton.isEnabled=true
                             showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
                             //showToast(this, getString(R.string.txt_something_went_wrong))
                         }

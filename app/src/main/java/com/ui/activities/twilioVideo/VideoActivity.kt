@@ -359,8 +359,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             binding.btnAddUserVideoActivity.isVisible = false
 
             Log.d("videocheck", "onCreate: you")
-            binding.tvUsername.text =
-                CurrentMeetingDataSaver.getData().interviewerFirstName + " (You)"
+            binding.tvUsername.text =CurrentMeetingDataSaver.getData().interviewerFirstName + " (You)"
             setBlankBackground(false)
             removeAllSinksAndSetnew(localVideoTrack!!,true)
             //working localVideoTrack?.addSink(binding.primaryVideoView)
@@ -379,13 +378,11 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 )
             }
 
-
         } else { //working
             if (CurrentMeetingDataSaver.getData().isPresenter == true) {
                 //binding.btnFeedback.isVisible=true
-
+           /**newly added*/     binding.btnAddUserVideoActivity.isVisible = true
             } else {
-
                 binding.btnAddUserVideoActivity.isVisible = false
                 // binding.btnFeedback.isVisible=false
             }
@@ -485,7 +482,6 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             isCallinProgress=it
             if (it)
                 endCall()
-
         }
 
 
@@ -507,7 +503,6 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                     binding.muteActionFab.setBackgroundResource(R.color.black_70)
                     binding.muteActionFab.setImageResource(R.drawable.ic_img_btn_mic_unmute_white)
                 }
-
             }
         })
 
@@ -918,13 +913,12 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             Log.d(TAG, "removeAllSinksAndSetnew: remove sinks add new")
             if (videoTrack!=null)
             {
-                setBlankBackground(false)
-                binding.tvNoParticipant.text="hello world"
+               // setBlankBackground(false)
                 videoTrack!!.addSink(binding.primaryVideoView)
             }
             else
             {
-                setBlankBackground(true)
+              //  setBlankBackground(true)
                 binding.tvNoParticipant.text="Video Not Available"
             }
            // videoTrack!!.addSink(binding.primaryVideoView)
@@ -1377,7 +1371,6 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                     setBlankBackground(true)
                     binding.tvNoParticipant.text="Video Not Available"
                 }
-
             }
 
             if (it.videoTrack?.name.equals("screen"))

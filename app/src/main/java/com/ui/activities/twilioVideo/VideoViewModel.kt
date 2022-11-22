@@ -282,7 +282,7 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
     {
         try {
             viewModelScope.launch {
-                val result = repositoryImpl.setCandidateJoinMeetingStatus(BodyCandidateJoinedMeetingStatus(CurrentMeetingDataSaver.getData().videoAccessCode,"Attended",CurrentMeetingDataSaver.getData().interviewModel?.subscriberid))
+                val result = repositoryImpl.setCandidateJoinMeetingStatus(BodyCandidateJoinedMeetingStatus(CurrentMeetingDataSaver.getData().videoAccessCode,"Attended",CurrentMeetingDataSaver.getData().interviewModel?.subscriberid!!.toString()))
                 if (result.isSuccessful) {
                     if (result.body() != null) {
                         onResult(200, result.body()!!)
