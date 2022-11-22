@@ -1,177 +1,34 @@
-package com.ui.activities.chat
+package com.data.twiliochat
 
-import android.os.Bundle
+import android.content.Context
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.data.*
-
-import com.data.dataHolders.CurrentConnectUserList
 import com.data.dataHolders.CurrentMeetingDataSaver
-import com.data.twiliochat.TwilioChatHelper
-
+import com.data.dismissProgressDialog
+import com.data.getUtcDateToAMPM
+import com.data.showProgressDialog
 import com.domain.BaseModels.ChatMessagesModel
 import com.domain.constant.AppConstants
 import com.example.twillioproject.R
-import com.example.twillioproject.databinding.ActivityChatBinding
 import com.twilio.conversations.*
 import com.ui.listadapters.MessagelistAdapter
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
-class ChatActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityChatBinding
-
+object TwilioChatHelper {
     private val TAG = "checkchat"
-
-    private var DEFAULT_CONVERSATION_NAME: String? = null
-    private lateinit var chatAdapter: MessagelistAdapter
-    private val chatlist = arrayListOf<Message>()
-    private var token = ""
-    private val messageList = mutableListOf<ChatMessagesModel>()
-    private lateinit var viewModel: ChatActivityViewModel
 
     private var conversationsClient: ConversationsClient? = null
     private var conversation: Conversation? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityChatBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        viewModel = ViewModelProvider(this).get(ChatActivityViewModel::class.java)
-
-        DEFAULT_CONVERSATION_NAME = CurrentMeetingDataSaver.getData().chatChannel.toString()
-        Log.d(TAG, "onCreate: channel name $DEFAULT_CONVERSATION_NAME")
-        handleObsever()
-        //  chatConversationManager!!.setListener(this@ChatActivityTest)
-        binding.rvChatMsgs.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true)
-
-        binding.btnJumpback.setOnClickListener {
-            /*val intent = Intent(this, VideoActivity::class.java)
-            intent.setAction(Intent.CATEGORY_HOME)
-            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            startActivity(intent)*/
-            onBackPressed()
-        }
-
-        binding.btnSend.setOnClickListener {
-            if (binding.etTxtMsg.text.toString().isNotEmpty()) {
-                // chatConversationManager!!.sendMessage(binding.etTxtMsg.text.toString())
-                TwilioChatHelper.sendChatMessage(binding.etTxtMsg.text.toString())
-                {
-                    binding.etTxtMsg.setText("")
-                }
-            }
-        }
-
-        if (intent.getStringExtra(AppConstants.CONNECT_PARTICIPANT) == null || intent.getStringExtra(
-                AppConstants.CONNECT_PARTICIPANT
-            ).toString().equals("null")
-        ) {
-            binding.tvConnectedMembersCount.text = "1" + " Member"
-        } else {
-            CurrentConnectUserList.getListForAddParticipantActivity().observe(this, Observer {
-                if (it != null) {
-                    binding.tvConnectedMembersCount.text = it.size.toString() + " Member"
-                }
-            })
-
-            //binding.tvConnectedMembersCount.text=(intent.getStringExtra(AppConstants.CONNECT_PARTICIPANT).toString().toInt()+1).toString()+" Member"
-        }
-
-        /* CurrentConnectUserList.getListForAddParticipantActivity().observe(this,Observer{
-            if (it!=null)
-            {
-                binding.tvConnectedMembersCount.text =it.size.toString()+" Member"
-            }else
-            {
-                binding.tvConnectedMembersCount.text="1"+" Member"
-            }
-        })
-*/
-
-
-        // initializeWithAccessToken(intent.getStringExtra(AppConstants.CHAT_ACCESS_TOKEN))
-        // showProgressDialog()
-
-
-        /*  CurrentMeetingDataSaver.getIsRoomDisconnected().observe(this, Observer {
-            if (it!=null)
-                if (it==true){
-                    finish()
-                }
-        })
-*/
-    }
-
-    fun handleObsever() {
-        TwilioChatHelper.msgLiveData.observe(this) {
-            it?.let { msgsList ->
-                chatAdapter = MessagelistAdapter(this, msgsList.reversed())
-                binding.rvChatMsgs.adapter = chatAdapter
-                // ChatMessagesHolder.setMessage(msgsList)
-            }
-        }
-
-        TwilioChatHelper.getScrollPostion().observe(this) {
-            if (it == 0) {
-                (binding.rvChatMsgs.layoutManager as LinearLayoutManager).scrollToPosition(
-                    0
-                )
-                chatAdapter.notifyItemInserted(0)
-            }
-        }
-    }
-
-    override fun finish() {
-        super.finish()
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-    }
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**working*/
-    /*
-    private fun initializeWithAccessToken(token: String?) {
+    private var DEFAULT_CONVERSATION_NAME: String? = null
+    
+    fun setInstanceOfChat(context: Context,token:String,conversationName:String)
+    {
+        DEFAULT_CONVERSATION_NAME=conversationName
         Log.d(TAG, "initializeWithAccessToken: in intialize method")
         val props = ConversationsClient.Properties.newBuilder().createProperties()
-        ConversationsClient.create(this, token!!, props, mConversationsClientCallback)
-
+        ConversationsClient.create(context, token!!, props, mConversationsClientCallback)
     }
+
 
 
     private val mConversationsClientCallback: CallbackListener<ConversationsClient> =
@@ -180,7 +37,7 @@ class ChatActivity : AppCompatActivity() {
                 conversationsClient = mconversationsClient
                 conversationsClient?.addListener(mConversationsClientListener)
                 Log.d(TAG, "Success creating Twilio Conversations Client")
-               // checkIsConversationCreated()
+                // checkIsConversationCreated()
             }
 
             override fun onError(errorInfo: ErrorInfo) {
@@ -208,10 +65,10 @@ class ChatActivity : AppCompatActivity() {
                                 TAG,
                                 "Already Exists in Conversation: $DEFAULT_CONVERSATION_NAME"
                             )
-                         /*   conversation!!.addListener(
-                                mDefaultConversationListener
-                            )*/
-                           // joinConversation()
+                            /*   conversation!!.addListener(
+                                   mDefaultConversationListener
+                               )*/
+                            // joinConversation()
                             loadPreviousMessages(conversation!!)
                         }
                         else {
@@ -232,7 +89,7 @@ class ChatActivity : AppCompatActivity() {
                     super.onError(errorInfo)
                     // createConversation()
                     Log.d(TAG, "onError: error in check conversation exsits ${errorInfo?.message}}")
-                    dismissProgressDialog()
+                    
                 }
             })
 
@@ -251,7 +108,7 @@ class ChatActivity : AppCompatActivity() {
                             "onSuccess: success to create conversation in conversation "
                         )
                         joinConversation()
-                        dismissProgressDialog()
+                        
                         conversation?.let { joinConversation() }
                         //loadChannels(conversationsClient!!)
                         //joinConversation(conversation!!)
@@ -274,7 +131,7 @@ class ChatActivity : AppCompatActivity() {
         if (conversation == null) {
             Log.d(TAG, "joinConversation: null conversation ")
             val myconversation = conversationsClient?.myConversations?.firstOrNull()
-
+            conversationsClient?.myConversations?.size
             if (myconversation != null) {
                 myconversation?.participantsList?.forEach {
                     Log.d(
@@ -299,7 +156,7 @@ class ChatActivity : AppCompatActivity() {
                                 "onSuccess: my conversaton participants list ${it.identity} "
                             )
                         }
-                        dismissProgressDialog()
+                        
                         myconversation!!.addListener(
                             mDefaultConversationListener
                         )
@@ -315,7 +172,6 @@ class ChatActivity : AppCompatActivity() {
                         )*/
                         conversation = myconversation
                         loadPreviousMessages(myconversation)
-                        dismissProgressDialog()
                     }
                 })
             }
@@ -325,7 +181,7 @@ class ChatActivity : AppCompatActivity() {
         }
         else {
             Log.d(TAG, "joinConversation: not null conversation ")
-            dismissProgressDialog()
+            conversationsClient?.myConversations?.size
             conversation!!.join(object : StatusListener {
                 override fun onSuccess() {
                     //conversation = mconversation
@@ -336,29 +192,28 @@ class ChatActivity : AppCompatActivity() {
                     conversation?.participantsList?.forEach {
                         Log.d(TAG, "onSuccess: participants list ${it.identity} ")
                     }
-                   // loadPreviousMessages(conversation!!)
+                    // loadPreviousMessages(conversation!!)
                 }
 
                 override fun onError(errorInfo: ErrorInfo) {
                     Log.e(TAG, "Error joining conversation: " + errorInfo.message)
-                    dismissProgressDialog()
+                    conversation!!.addListener(mDefaultConversationListener)
                     loadPreviousMessages(conversation!!)
                 }
             })
         }
     }
 
-
     private fun loadPreviousMessages(conversation: Conversation) {
-            dismissProgressDialog()
-            if (conversation?.synchronizationStatus?.isAtLeast(Conversation.SynchronizationStatus.ALL) == true) {
-                conversation.getLastMessages(
-                    100
-                ) { result ->
+        
+        if (conversation?.synchronizationStatus?.isAtLeast(Conversation.SynchronizationStatus.ALL) == true) {
+            conversation.getLastMessages(
+                100
+            ) { result ->
 
                 try {
                     if (!result.isNullOrEmpty()) {
-                        viewModel.clearChatList()
+                        clearChatList()
                         result.forEach {
 
                             CurrentMeetingDataSaver.getData().users?.forEach { user ->
@@ -367,25 +222,22 @@ class ChatActivity : AppCompatActivity() {
                                 if (identity.equals(it.author)) {
 
                                     if (it.author.equals(CurrentMeetingDataSaver.getData().identity)) {
-                                        viewModel.setMessages(
+                                        setMessages(
                                             it.messageBody.toString(),
                                             AppConstants.CHAT_SENDER,
                                             user.userFirstName.toString(),
                                             getUtcDateToAMPM(it.dateCreated).toString()
                                         )
-                                        (binding.rvChatMsgs.layoutManager as LinearLayoutManager).scrollToPosition(
-                                            0
-                                        )
+                                        scrollPosition.postValue(0)
                                     } else {
-                                        viewModel.setMessages(
+                                        setMessages(
                                             it.messageBody.toString(),
                                             AppConstants.CHAT_RECIEVER,
                                             user.userFirstName,
                                             getUtcDateToAMPM(it.dateCreated).toString()
                                         )
-                                        (binding.rvChatMsgs.layoutManager as LinearLayoutManager).scrollToPosition(
-                                            0
-                                        )
+                                        scrollPosition.postValue(0)
+
                                     }
                                 }
                             }
@@ -402,6 +254,13 @@ class ChatActivity : AppCompatActivity() {
             }
         }
     }
+
+    private var scrollPosition=MutableLiveData<Int>()
+
+    init {
+        scrollPosition.postValue(-1)
+    }
+    fun getScrollPostion()= scrollPosition
 
 
     private fun addParticipantToChat(identity: String, mconversation: Conversation) {
@@ -425,46 +284,42 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
-    override fun finish() {
-        super.finish()
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-    }
 
-    fun sendChatMessage(txt: String) {
+    fun sendChatMessage(txt: String,response:(isSuccess:Boolean)->Unit) {
         if (conversation != null) {
             val options = Message.options().withBody(txt)
 
             conversation!!.sendMessage(options, CallbackListener {
                 Log.d(TAG, "sendChatMessage: message sent ${it.messageBody}")
-                binding.etTxtMsg.setText("")
+                response(true)
                 // viewModel.setMessages(it.messageBody.toString(), AppConstants.CHAT_SENDER)
             })
         }
     }
 
-    fun msgsObserver() {
+   /* fun msgsObserver() {
         viewModel.msgLiveData.observe(this) {
             it?.let { msgsList ->
-                chatAdapter =MessagelistAdapter(this, msgsList.reversed())
+                chatAdapter = MessagelistAdapter(this, msgsList.reversed())
                 binding.rvChatMsgs.adapter = chatAdapter
-                dismissProgressDialog()
-               // ChatMessagesHolder.setMessage(msgsList)
+                
+                // ChatMessagesHolder.setMessage(msgsList)
             }
         }
-    }
+    }*/
 
     private val mConversationsClientListener: ConversationsClientListener =
         object : ConversationsClientListener {
-            override fun onConversationAdded(conversation: Conversation) {
+            override fun onConversationAdded(conversation2: Conversation) {
                 Log.d(TAG, "onConversationAdded: conversation added ")
-                this@ChatActivity.conversation = conversation
+                conversation = conversation2
             }
 
             override fun onConversationUpdated(
-                conversation: Conversation,
+                conversation2: Conversation,
                 updateReason: Conversation.UpdateReason
             ) {
-                this@ChatActivity.conversation = conversation
+                conversation = conversation2
                 Log.d(TAG, "onConversationUpdated: conversation updated")
                 joinConversation()
             }
@@ -473,8 +328,9 @@ class ChatActivity : AppCompatActivity() {
                 Log.d(TAG, "onError: conversation delete")
             }
 
-            override fun onConversationSynchronizationChange(conversation: Conversation) {
+            override fun onConversationSynchronizationChange(conversation1: Conversation) {
                 Log.d(TAG, "onError: conversation synchro change")
+                conversation=conversation1
             }
 
             override fun onError(errorInfo: ErrorInfo) {
@@ -483,7 +339,6 @@ class ChatActivity : AppCompatActivity() {
 
             override fun onUserUpdated(user: User, updateReason: User.UpdateReason) {
                 Log.d(TAG, "onUserUpdated: userupdated ${user.identity}")
-
             }
 
             override fun onUserSubscribed(user: User) {
@@ -500,9 +355,9 @@ class ChatActivity : AppCompatActivity() {
                     "onClientSynchronization: sync complete load channel method $synchronizationStatus"
                 )
                 if (synchronizationStatus == ConversationsClient.SynchronizationStatus.COMPLETED) {
-                    //test loadChannels()
+                    loadChannels(conversationsClient!!)
                     Log.d(TAG, "onClientSynchronization: sync complete load channel connected ")
-                    joinConversation()
+                   // joinConversation()
                 }
             }
 
@@ -562,15 +417,16 @@ class ChatActivity : AppCompatActivity() {
                 CurrentMeetingDataSaver.getData().users?.forEach { user ->
                     val identity = user.userType + user.id
                     if (identity == message.author) {
-                        viewModel.setMessages(
+                        setMessages(
                             message.messageBody,
                             usr,
                             user.userFirstName,
                             getUtcDateToAMPM(message.dateCreated)
                         )
-                        chatAdapter.notifyItemInserted(0)
+
                         //                (binding.rvChatMsgs.layoutManager as LinearLayoutManager).smoothScrollToPosition(binding.rvChatMsgs,null, 0)
-                        (binding.rvChatMsgs.layoutManager as LinearLayoutManager).scrollToPosition(0)
+
+                        scrollPosition.postValue(0)
                     }
 
                 }
@@ -619,8 +475,10 @@ class ChatActivity : AppCompatActivity() {
             Log.d(TAG, "Ended Typing: " + participant.identity)
         }
 
-        override fun onSynchronizationChanged(conversation: Conversation) {
-            loadPreviousMessages(conversation)
+        override fun onSynchronizationChanged(conversation1: Conversation) {
+            conversation=conversation1
+            loadPreviousMessages(conversation!!)
+
         }
     }
 
@@ -637,25 +495,33 @@ class ChatActivity : AppCompatActivity() {
     }
 
 
-    private fun loadChannels(result: ConversationsClient) {
+    private fun loadChannels(result1: ConversationsClient) {
         Log.d(TAG, "loadChannels: in method  ${conversationsClient?.connectionState?.name}")
 
-        result.getConversation(DEFAULT_CONVERSATION_NAME, object : CallbackListener<Conversation?> {
+        result1.getConversation(DEFAULT_CONVERSATION_NAME, object : CallbackListener<Conversation?> {
             override fun onSuccess(result: Conversation?) {
                 Log.d(TAG, "onSuccess: final on success load channel")
                 if (conversation?.status == Conversation.ConversationStatus.JOINED
                     || conversation?.status == Conversation.ConversationStatus.NOT_PARTICIPATING
                 ) {
+                    conversation=result
+                    conversation?.addListener(mDefaultConversationListener)
+                    loadPreviousMessages(conversation!!)
                     Log.d(
                         TAG,
                         "Already Exists in Conversation: $DEFAULT_CONVERSATION_NAME"
                     )
+                   // joinConversation()
+                }
+                else{
                     joinConversation()
                 }
             }
 
             override fun onError(errorInfo: ErrorInfo?) {
                 super.onError(errorInfo)
+                conversation=conversationsClient?.myConversations?.firstOrNull()
+                joinConversation()
                 Log.d(TAG, "onError: error in load channels final ${errorInfo?.message}")
 
             }
@@ -664,6 +530,18 @@ class ChatActivity : AppCompatActivity() {
 
     }
 
+    val msgLiveData= MutableLiveData<List<ChatMessagesModel>>()
+    val chatlist= mutableListOf<ChatMessagesModel>()
+    fun setMessages(msgs:String,from:String,username:String,time:String)
+    {
+        chatlist.add(ChatMessagesModel(from,msgs,username,time))
+        msgLiveData.postValue(chatlist)
+    }
+    fun clearChatList()
+    {
+        chatlist.clear()
+    }
 
 
-}*/
+
+}

@@ -37,6 +37,7 @@ import com.data.dataHolders.*
 import com.data.helpers.RoomListenerCallback
 import com.data.helpers.RoomParticipantListener
 import com.data.helpers.TwilioHelper
+import com.data.twiliochat.TwilioChatHelper
 import com.ui.activities.twilioVideo.meetingnotificationservice.MeetingServiceManager
 import com.domain.BaseModels.BodyUpdateRecordingStatus
 import com.domain.BaseModels.TokenResponseBean
@@ -233,6 +234,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 val intent = Intent(this, ChatActivity::class.java)
                 intent.putExtra(AppConstants.CONNECT_PARTICIPANT,remoteParticipantVideoList.size.toString())
                 startActivity(intent)
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
 
 
               /*  viewModel.getChatToken(identity.toString(), response = { data, code ->
@@ -1858,7 +1860,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 audioc!!,
                 videoc!!
             )
-
+            getChatToken()
             Log.d(TAG, "connectToRoom: connect to room service ${meetingManager.getServiceState()}")
             Log.d(TAG, "onCreate: sid is ${TwilioHelper.getRoomInstance()?.sid}")
         } else {
@@ -1912,6 +1914,20 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         }
 
         setDisconnectAction()
+    }
+
+    fun getChatToken() {
+        viewModel.getChatToken(
+            CurrentMeetingDataSaver.getData().identity.toString(),
+            response = { data, code ->
+                //dismissProgressDialog()
+                //  initializeWithAccessToken(data?.Token.toString())
+                TwilioChatHelper.setInstanceOfChat(
+                    this,
+                    data?.Token.toString(),
+                    CurrentMeetingDataSaver.getData().chatChannel.toString()
+                )
+            })
     }
 
     /*
