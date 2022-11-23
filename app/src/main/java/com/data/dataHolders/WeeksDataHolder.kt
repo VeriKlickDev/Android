@@ -101,7 +101,7 @@ object WeeksDataHolder {
                 istx= sdfIST.format(calx.time)
                 utcx= sdfUTC.format(calx.time)
 
-                cal.set(Calendar.HOUR_OF_DAY,12)
+                cal.set(Calendar.HOUR_OF_DAY,0)
                 cal.set(Calendar.MINUTE,0)
                 cal.add(Calendar.DAY_OF_YEAR, -7)
 
@@ -112,7 +112,7 @@ object WeeksDataHolder {
             //next week
             2->{
 
-                calx.set(Calendar.HOUR_OF_DAY,12)
+                calx.set(Calendar.HOUR_OF_DAY,0)
                 calx.set(Calendar.MINUTE,0)
                 calx.set(Calendar.SECOND,0)
 
@@ -130,7 +130,7 @@ object WeeksDataHolder {
             }
             3->{
 
-                calx.set(Calendar.HOUR_OF_DAY,12)
+                calx.set(Calendar.HOUR_OF_DAY,0)
                 calx.set(Calendar.MINUTE,0)
 
                 ist= sdfIST.format(calx.time)
@@ -149,6 +149,13 @@ object WeeksDataHolder {
 
         result(ist,utc,istx,utcx)
     }
+
+
+
+
+
+
+
 data class CurrentDatesHolderModel(val ist:String, val utc:String, val istx:String, val utcx:String,)
     private val currentDateslist= mutableListOf<CurrentDatesHolderModel>()
     fun setCurrentTime(ob:CurrentDatesHolderModel)
@@ -157,6 +164,31 @@ data class CurrentDatesHolderModel(val ist:String, val utc:String, val istx:Stri
     }
 
     fun getCurrentDates()= currentDateslist.firstOrNull()
+
+
+    fun getPreviousDateTimed18_30(date:String,result: (ist: String, utc: String) -> Unit) {
+        val cal = Calendar.getInstance()
+        val sdf=SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val date=sdf.parse(date)
+
+        val sdfIST = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val sdfUTC = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+
+        cal.time=date
+
+        cal.set(Calendar.HOUR_OF_DAY,18)
+        cal.set(Calendar.MINUTE,30)
+
+        cal.add(Calendar.DAY_OF_YEAR, -1)
+
+        istDate= sdfIST.format(cal.time)
+        utcDate=sdfUTC.format(cal.time)
+
+        result(
+            istDate !!,
+            utcDate!!
+        )
+    }
 
 
 

@@ -363,10 +363,15 @@ private  var ob: BodyScheduledMeetingBean? = null
         ob!!.Search = searchTxt
         ob!!.PageNumber = pageNumber
         ob!!.PageSize = pageSize
+
+        val fromdate=ob!!.from
+        WeeksDataHolder.getPreviousDateTimed18_30(ob!!.fromdate.toString()){ist, utc ->
+            ob!!.from=utc
+        }
+
         //  Log.d(TAG, "handleUpcomingMeetingsList: ${ob?.Recruiter} ${ob?.Subscriber}")
 
         Log.d("datecheck", "\n ${ob?.fromdate}  ${ob?.todate}  \n ${ob!!.from}  ${ob!!.to} ")
-
 
         if (ob != null) {
             if (intent.getBooleanExtra(AppConstants.LOGIN_WITH_OTP, false)) {
