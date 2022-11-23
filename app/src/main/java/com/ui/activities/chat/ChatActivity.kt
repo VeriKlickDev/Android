@@ -62,9 +62,11 @@ class ChatActivity : AppCompatActivity() {
         binding.btnSend.setOnClickListener {
             if (binding.etTxtMsg.text.toString().isNotEmpty()) {
                 // chatConversationManager!!.sendMessage(binding.etTxtMsg.text.toString())
-                TwilioChatHelper.sendChatMessage(binding.etTxtMsg.text.toString())
-                {
-                    binding.etTxtMsg.setText("")
+                if (!binding.etTxtMsg.text.toString().isBlank()){
+                    TwilioChatHelper.sendChatMessage(binding.etTxtMsg.text.toString())
+                    {
+                        binding.etTxtMsg.setText("")
+                    }
                 }
             }
         }

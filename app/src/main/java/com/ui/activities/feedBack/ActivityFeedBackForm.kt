@@ -217,9 +217,11 @@ class ActivityFeedBackForm : AppCompatActivity() {
     }
 
     fun postFeedback() {
-        if (!binding.etRemart.text.toString()
+        /*if (!binding.etRemart.text.toString()
                 .equals("") && !binding.etRole.text.toString().equals("")
-        ) {
+        )*/
+        if (!binding.etRemart.text.toString()
+                .equals("") ) {
             postData()
         } else {
             showCustomSnackbarOnTop(getString(R.string.txt_all_fields_required))
@@ -255,18 +257,35 @@ class ActivityFeedBackForm : AppCompatActivity() {
             binding.recommendationError.isVisible = false
 
             //  Log.d(TAG, "postData: check all data  appliedpos $appliedPosition recomm $recommendationSelected designation $designation intername $interviewName candidId $candidateId CANDIDATENAME ${CurrentMeetingDataSaver.getData().interviewModel?.candidate?.firstName+ CurrentMeetingDataSaver.getData().interviewModel?.candidate?.lastName} ")
+            var codingRemark="null"
+            if (binding.etOverallRemark.text.toString().equals(""))
+            {
+
+            }else
+            {
+                codingRemark=binding.etOverallRemark.text.toString()
+            }
+
+            var role=""
+            if (binding.etRole.text.toString().equals(""))
+            {
+
+            }else
+            {
+                role=binding.etRole.text.toString()
+            }
 
 
             viewModel.sendFeedback(this,
                 assesmentid,
-                binding.etRole.text.toString(),
+                role,
                 appliedPosition,
                 recommendationSelected!!,
-                binding.etRole.text.toString(),
+                role,
                 interviewName,
                 candidateId,
                 binding.etRemart.text.toString(),
-                binding.etOverallRemark.text.toString(),
+                codingRemark,
                 BodyFeedBack(
                     CandidateAssessmentSkills = skillist,
                 ),
@@ -373,7 +392,6 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 }
             }
         })
-
     }
 
     private val remarkList = arrayListOf<InterviewerRemark>()

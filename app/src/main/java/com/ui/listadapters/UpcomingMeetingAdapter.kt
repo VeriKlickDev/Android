@@ -125,7 +125,7 @@ class UpcomingMeetingAdapter(
                         11,
                         16
                     ).toString()
-                )// + " PM"
+                ).uppercase()// + " PM"
 
             /*if (timeHour >= 12)
                 binding.tvMeetingTime.text =
@@ -150,7 +150,6 @@ class UpcomingMeetingAdapter(
 
             if (data.mSMeetingMode.equals("veriklick"))
             {
-
                 when (data.status.trim()) {
                     "Attended" -> {
                         Log.d(TAG, "onBindViewHolder: attended when")

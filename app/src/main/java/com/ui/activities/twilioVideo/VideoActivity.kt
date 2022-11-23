@@ -200,7 +200,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         CurrentMeetingDataSaver.getData()?.users?.forEach {
             if (it.userType.contains("C")) {
                binding.tvNoParticipant.text =
-                    "Waiting for " + it.userFirstName + " " + it.userLastName + " to join..."
+                    "Waiting to join " + it.userFirstName + " " + it.userLastName
             }
         }
 
@@ -367,9 +367,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 //uncomment
             try {
                 if (CurrentMeetingDataSaver.getData().identity!!.contains("C")) {
-                      viewModel.setCandidateJoinedStatus { action, data ->
+                   /* uncomment 23 nov  viewModel.setCandidateJoinedStatus { action, data ->
                           Log.d(TAG, "handleObserver: candidate joined status $action")
-                      }
+                      }*/
                 }
             } catch (e: Exception) {
                 Log.d(

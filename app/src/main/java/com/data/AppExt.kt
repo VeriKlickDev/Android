@@ -55,6 +55,7 @@ import java.util.regex.Pattern
 var ispsswdok = false
 var isemailok = false
 var error: String = ""
+/**working*//*
 fun emailValidator(
     context: Context,
     email: String,
@@ -62,7 +63,7 @@ fun emailValidator(
 ) {
     var mEmail = email
     val EMAIL_ADDRESS_PATTERN: Pattern =
-        Pattern.compile("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" + "\\@" + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" + "(" + "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" + ")+");
+        Pattern.compile("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" + "\\@" + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" + "(" + "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" + ")+")
 
     var isEmailOk = false
 
@@ -83,6 +84,38 @@ fun emailValidator(
     }
     validateEmail(isEmailOk, mEmail, null)
 }
+*/
+
+fun emailValidator(
+    context: Context,
+    email: String,
+    validateEmail: (isEmailOk: Boolean, mEmail: String, error: String?) -> Unit
+) {
+    var mEmail = email
+    val EMAIL_ADDRESS_PATTERN: Pattern =
+        Pattern.compile("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" + "\\@" + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" + "(" + "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" + ")+")
+
+    var isEmailOk = false
+
+    if (mEmail.isEmpty()) {
+        validateEmail(false, "", context.getString(R.string.txt_required))
+        error = context.getString(R.string.txt_enter_valid_email)
+    } else {
+        if (android.util.Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
+            isEmailOk = true
+            isemailok = true
+        } else {
+            mEmail = "null"
+            isemailok = false
+            isEmailOk = false
+            validateEmail(isEmailOk, mEmail, context.getString(R.string.txt_enter_valid_email))
+            error = context.getString(R.string.txt_enter_valid_email)
+        }
+    }
+    validateEmail(isEmailOk, mEmail, null)
+}
+
+
 
 fun checkSpecialCharatersInString(
     str: String,
@@ -106,7 +139,6 @@ fun Context.showCustomToast(str:String)
         toast.duration=Toast.LENGTH_LONG
         toast.show()
     })
-
 }
 
 

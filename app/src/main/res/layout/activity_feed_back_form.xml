@@ -455,7 +455,7 @@
                         android:layout_height="@dimen/_55sdp"
                         android:layout_marginTop="@dimen/_15sp"
                         android:fontFamily="@font/sarabun_semibold"
-                        android:text="@string/txt_submit"
+                        android:text="@string/txt_update"
                         android:textSize="@dimen/_18sdp" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
