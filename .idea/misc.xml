@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../Library/Android/sdk/platforms/android-32/data/res/layout/simple_spinner_dropdown_item.xml" value="0.17552083333333332" />
+        <entry key="app/src/debug/res/drawable/shape_rectangle_rounded_dark_transparent_red.xml" value="0.1845" />
         <entry key="app/src/main/res/drawable-v24/shape_rectangle_rounded_10_grey.xml" value="0.166" />
         <entry key="app/src/main/res/drawable-v24/shape_rectangle_rounded_10_skyblue.xml" value="0.166" />
         <entry key="app/src/main/res/drawable/ic_add_user.xml" value="0.1535" />
@@ -12,6 +13,7 @@
         <entry key="app/src/main/res/drawable/ic_img_add_user_black.xml" value="0.176" />
         <entry key="app/src/main/res/drawable/ic_img_add_user_white.xml" value="0.176" />
         <entry key="app/src/main/res/drawable/ic_img_message_blue.xml" value="0.1535" />
+        <entry key="app/src/main/res/drawable/ic_pinn_icon.xml" value="0.1845" />
         <entry key="app/src/main/res/drawable/shape_rectangle_rounded_10_greydark.xml" value="0.166" />
         <entry key="app/src/main/res/drawable/shape_rectangle_rounded_10_white.xml" value="0.184" />
         <entry key="app/src/main/res/drawable/shape_rectangle_rounded_dark_transparent_grey_mini.xml" value="0.184" />
@@ -38,11 +40,11 @@
         <entry key="app/src/main/res/layout/layout_description_dialog.xml" value="0.25" />
         <entry key="app/src/main/res/layout/layout_dialog_add_participant.xml" value="0.1796875" />
         <entry key="app/src/main/res/layout/layout_item_candidate_skills.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/layout_item_connected_users.xml" value="0.18072916666666666" />
+        <entry key="app/src/main/res/layout/layout_item_connected_users.xml" value="0.75" />
         <entry key="app/src/main/res/layout/layout_item_connected_userstemp.xml" value="0.17239583333333333" />
         <entry key="app/src/main/res/layout/layout_item_member_video_confrence.xml" value="0.17239583333333333" />
         <entry key="app/src/main/res/layout/layout_item_reciever_chat.xml" value="0.17239583333333333" />
-        <entry key="app/src/main/res/layout/layout_item_upcoming_meeting.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/layout_item_upcoming_meeting.xml" value="0.33" />
         <entry key="app/src/main/res/layout/layout_item_video_confrence.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/layout_mute_mic_update.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/layout_otp_verification_bottomsheet.xml" value="0.17239583333333333" />

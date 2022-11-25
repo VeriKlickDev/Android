@@ -364,9 +364,13 @@ private  var ob: BodyScheduledMeetingBean? = null
         ob!!.PageNumber = pageNumber
         ob!!.PageSize = pageSize
 
-        val fromdate=ob!!.from
-        WeeksDataHolder.getPreviousDateTimed18_30(ob!!.fromdate.toString()){ist, utc ->
+
+        WeeksDataHolder.getPrevious1DateTimed18_30(ob!!.fromdate.toString()){ ist, utc ->
             ob!!.from=utc
+        }
+
+        WeeksDataHolder.getDateTimed18_29(ob!!.todate.toString()){ist, utc ->
+            ob!!.to=utc
         }
 
         //  Log.d(TAG, "handleUpcomingMeetingsList: ${ob?.Recruiter} ${ob?.Subscriber}")
@@ -734,8 +738,8 @@ private  var ob: BodyScheduledMeetingBean? = null
                         data
                     }else{
                         joinMeeting(accessCode)
+                        CallStatusHolder.setLastCallStatus(false)
                     }
-
 
                     CurrentMeetingDataSaver.setData(data)
                     // Log.d(TAG, "host : ${data.token}  ${data.roomName}")

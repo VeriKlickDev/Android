@@ -127,11 +127,11 @@ class ActivityFeedBackForm : AppCompatActivity() {
         }
 
         binding.etRole.doOnTextChanged { text, start, before, count ->
-            binding.roleError.isVisible = binding.etRole.text.toString().equals("")
+          //  binding.roleError.isVisible = binding.etRole.text.toString().equals("")
         }
 
         binding.etOverallRemark.doOnTextChanged { text, start, before, count ->
-            binding.overallRemarkError.isVisible = binding.etOverallRemark.text.toString().equals("")
+           // binding.overallRemarkError.isVisible = binding.etOverallRemark.text.toString().equals("")
         }
 
     }

@@ -11,14 +11,18 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.data.checkInternet
+import com.data.dataHolders.CallStatusHolder
 import com.data.dataHolders.CurrentConnectUserList
 import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.showCustomSnackbarOnTop
 import com.domain.BaseModels.VideoTracksBean
+import com.domain.constant.AppConstants
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityListOfMembersBinding
 import com.google.android.material.snackbar.Snackbar
 import com.ui.activities.adduserlist.ActivityAddParticipant
+import com.ui.activities.joinmeeting.JoinMeetingActivity
+import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
 import com.ui.listadapters.ConnectedMemberListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -49,9 +53,6 @@ class MemberListActivity : AppCompatActivity() {
         else {
             binding.btnAddUser.visibility = View.INVISIBLE
         }
-
-
-
 
         Log.d(TAG, "onCreate: current hight $height  $width")
 
@@ -98,6 +99,37 @@ class MemberListActivity : AppCompatActivity() {
             }
         })
 */
+
+        handleObserver()
+    }
+
+    private fun handleObserver()
+    {
+        CallStatusHolder.getCallStatus().observe(this){
+            Log.d(TAG, "handleObserver: true part$it")
+            if (it)
+            {
+                CallStatusHolder.setCallInprogressStatus(true)
+                Log.d(TAG, "handleObserver: true part")
+                finish()
+                Log.d(TAG, "handleObserver: true part")
+            }else
+            {
+                if (CallStatusHolder.getLastCallStatus())
+                {
+                    finish()
+                }
+                Log.d(TAG, "handleObserver: false part")
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (CallStatusHolder.getLastCallStatus())
+        {
+            finish()
+        }
 
     }
 

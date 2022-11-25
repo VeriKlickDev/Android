@@ -15,8 +15,8 @@ import com.twilio.conversations.*
 import com.ui.listadapters.MessagelistAdapter
 
 object TwilioChatHelper {
-    private val TAG = "checkchat"
 
+    private val TAG = "checkchat"
     private var conversationsClient: ConversationsClient? = null
     private var conversation: Conversation? = null
     private var DEFAULT_CONVERSATION_NAME: String? = null
@@ -28,8 +28,6 @@ object TwilioChatHelper {
         val props = ConversationsClient.Properties.newBuilder().createProperties()
         ConversationsClient.create(context, token!!, props, mConversationsClientCallback)
     }
-
-
 
     private val mConversationsClientCallback: CallbackListener<ConversationsClient> =
         object : CallbackListener<ConversationsClient> {
@@ -47,7 +45,6 @@ object TwilioChatHelper {
                 )
             }
         }
-
 
     private fun checkIsConversationCreated() {
         Log.d(TAG, "checking Conversation is exists: $DEFAULT_CONVERSATION_NAME")
@@ -77,7 +74,6 @@ object TwilioChatHelper {
                                 "Joining Conversation: in else part $DEFAULT_CONVERSATION_NAME"
                             )
                             joinConversation()
-
                         }
                     }
                     else {
@@ -92,7 +88,6 @@ object TwilioChatHelper {
                     
                 }
             })
-
     }
 
     fun createConversation() {
@@ -122,8 +117,6 @@ object TwilioChatHelper {
                 }
             })
     }
-
-
 
 
 
@@ -537,9 +530,11 @@ object TwilioChatHelper {
         chatlist.add(ChatMessagesModel(from,msgs,username,time))
         msgLiveData.postValue(chatlist)
     }
+
     fun clearChatList()
     {
         chatlist.clear()
+        msgLiveData.postValue(chatlist)
     }
 
 

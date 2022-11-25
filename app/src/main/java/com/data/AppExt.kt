@@ -21,12 +21,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.FrameLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.view.marginTop
 import androidx.core.widget.addTextChangedListener
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.araujo.jordan.excuseme.ExcuseMe
@@ -91,10 +89,10 @@ fun emailValidator(
     email: String,
     validateEmail: (isEmailOk: Boolean, mEmail: String, error: String?) -> Unit
 ) {
-    var mEmail = email
+    var mEmail = email.trim()
     val EMAIL_ADDRESS_PATTERN: Pattern =
         Pattern.compile("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" + "\\@" + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" + "(" + "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" + ")+")
-
+        val doubleDots=Pattern.compile("\\.\\.")
     var isEmailOk = false
 
     if (mEmail.isEmpty()) {
@@ -102,8 +100,19 @@ fun emailValidator(
         error = context.getString(R.string.txt_enter_valid_email)
     } else {
         if (android.util.Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
-            isEmailOk = true
-            isemailok = true
+
+            if (!doubleDots.matcher(mEmail).matches())
+            {
+                isEmailOk = true
+                isemailok = true
+            }else
+            {
+                mEmail = "null"
+                isemailok = false
+                isEmailOk = false
+                validateEmail(isEmailOk, mEmail, context.getString(R.string.txt_enter_valid_email))
+                error = context.getString(R.string.txt_enter_valid_email)
+            }
         } else {
             mEmail = "null"
             isemailok = false
@@ -134,6 +143,8 @@ fun Context.showCustomToast(str:String)
         val toast=Toast(this)
         toast.setGravity(Gravity.TOP,0,0)
         val layout =CustomSnackbarGlobalBinding.inflate(LayoutInflater.from(this))
+       // toast.setMargin(0f,50f)
+
         layout.customsnackbarTextviewGlobal.text=str
         toast.view=layout.root
         toast.duration=Toast.LENGTH_LONG
@@ -205,12 +216,18 @@ fun Context.showProgressDialog() {
 }
 
 fun Context.dismissProgressDialog() {
-    android.os.Handler(Looper.getMainLooper()).post(Runnable {
-        progressbar?.let {
-            it.dismiss()
-        }
-    })
+   try{
 
+       android.os.Handler(Looper.getMainLooper()).post(Runnable {
+           progressbar?.let {
+               it.dismiss()
+           }
+       })
+
+   }catch (e:Exception)
+   {
+
+   }
 }
 
 fun Context.showCustomSnackBar(msg: String) {
@@ -255,7 +272,7 @@ fun Context.showCustomSnackbarOnTop(msg: String) {
     val param = snackbarLayout.layoutParams as FrameLayout.LayoutParams
     param.gravity = Gravity.CENTER_HORIZONTAL
     layout.layoutParams = param
-    layout.setPadding(0, 10, 0, 0)
+    layout.setPadding(0, 100, 0, 0)
     snackbarLayout.addView(layout)
     snackbar.show()
 

@@ -56,7 +56,6 @@
                         android:fontFamily="@font/sarabun_regular"
                         android:textSize="@dimen/_14sp"
                         android:layout_weight="1"
-                        android:text="adfkajsdfgfgfdgadfgdfgfadfkajsdfgfgfdgadfgdfgfadfkajsdfgfgfdgadfgdfgf"
                         android:layout_gravity="center_vertical"
                         android:textColor="@color/black"/>
 

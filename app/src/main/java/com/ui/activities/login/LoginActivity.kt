@@ -58,7 +58,6 @@ class LoginActivity : AppCompatActivity() {
         var istoggle=true
         binding.btnToggleEye.setOnClickListener {
 
-
             if(istoggle)
             {
                // binding.etPassword.inputType=InputType.TYPE_CLASS_TEXT
@@ -73,6 +72,7 @@ class LoginActivity : AppCompatActivity() {
                 //binding.etPassword.inputType=InputType.TYPE_TEXT_VARIATION_PASSWORD
                 istoggle=true
             }
+            binding.tvPsswdError.visibility=View.INVISIBLE
         }
 
         binding.btnContinueGuest.setOnClickListener {

@@ -20,7 +20,7 @@
             android:layout_height="@dimen/_15sp"
             android:background="@color/grey_tranparent_dark"
             android:elevation="@dimen/_5sp"
-            android:visibility="gone"
+            android:visibility="visible"
             android:scaleType="center"
             android:src="@drawable/ic_img_muted_white"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -30,6 +30,26 @@
             app:layout_constraintTop_toTopOf="@+id/cardView2"
             app:layout_constraintVertical_bias="0.060000002"
             app:shapeAppearanceOverlay="@style/roundedCorner50" />
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_pinned"
+            android:layout_width="@dimen/_15sp"
+            android:layout_height="@dimen/_15sp"
+            android:background="@drawable/ic_pinn_icon"
+            android:elevation="@dimen/_5sp"
+            android:scaleType="center"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/cardView2"
+            app:layout_constraintHorizontal_bias="0.64"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/cardView2"
+            app:layout_constraintVertical_bias="0.060000002"
+            app:shapeAppearanceOverlay="@style/roundedCorner50" />
+
+
+
 
         <ImageView
             android:id="@+id/iv_network_status"

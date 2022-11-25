@@ -20,6 +20,7 @@ import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
+import com.data.dataHolders.CallStatusHolder
 import com.data.dataHolders.CurrentMeetingDataSaver
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityDocumentViewerBinding
@@ -77,6 +78,17 @@ class DocumentViewerActivity : AppCompatActivity() {
         binding.btnLayout.setOnClickListener {
             showDocFile(fileName)
         }
+
+        CallStatusHolder.getCallStatus().observe(this){
+            if (it)
+            {
+                finish()
+            }else
+            {
+
+            }
+        }
+
 
     }
 

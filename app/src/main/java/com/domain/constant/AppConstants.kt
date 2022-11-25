@@ -37,6 +37,10 @@ object AppConstants {
     const val LOGGED_WITH_OTP= "login_with_otp"
     const val CANDIDATE_ID= "candidate_id"
 
+    const val FROM_MEETING_LIST= "from_meeting_list"
+    const val FROM_AS_GUEST= "as_a_guest"
+
+
     //call broadcast
     const val IN_COMING_CALL_ACTION = "IN_COMING_CALL_ACTION"
     const val IN_COMING_CALL_ACTION_IDL_ENDED = "IN_COMING_CALL_ACTION_IDL_ENDED"

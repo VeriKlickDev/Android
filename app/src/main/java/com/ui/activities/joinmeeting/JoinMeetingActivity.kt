@@ -133,6 +133,8 @@ handleObserver()
                     joinMeetingCandidate(accessCode)
                     data.videoAccessCode=accessCode
                     CurrentMeetingDataSaver.setData(data)
+                    CallStatusHolder.setLastCallStatus(false)
+                    CallStatusHolder.setNavigateData(AppConstants.FROM_AS_GUEST)
                     Log.d(TAG, "getInterviewDetails: user response $data")
                     //val identityWithoutFirstChar=CurrentMeetingDataSaver.getData().identity?.substring(1,CurrentMeetingDataSaver.getData().identity?.length!!.toInt())
                     //Log.d(TAG, "getInterviewDetails: identity ${CurrentMeetingDataSaver.getData().identity} identitywitoutno $identityWithoutFirstChar")

@@ -1,5 +1,6 @@
 package com.ui.activities.adduserlist
 
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,9 +17,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.data.*
 import com.data.dataHolders.*
 import com.domain.BaseModels.ResponseTotalInterviewerCount
+import com.domain.constant.AppConstants
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityLayoutAddParticipantBinding
 import com.google.android.material.snackbar.Snackbar
+import com.ui.activities.joinmeeting.JoinMeetingActivity
+import com.ui.activities.meetingmemberslist.MemberListActivity
+import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
 
 import com.ui.listadapters.AddParticipantListAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,63 +34,67 @@ class ActivityAddParticipant : AppCompatActivity() {
     private lateinit var binding: ActivityLayoutAddParticipantBinding
     private lateinit var adapter: AddParticipantListAdapter
     private var TAG = "adapteraddcheck"
-    private lateinit var viewModel:AddUserViewModel
+    private lateinit var viewModel: AddUserViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLayoutAddParticipantBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val randomStr=UUID.randomUUID()
+        val randomStr = UUID.randomUUID()
 
         interviewList.add(InvitationDataModel(uid = randomStr.toString()))//, InterviewerTimezone = CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone.toString()))
 
-        Log.d(TAG, "onCreate: interviewtimezone ${CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone}")
+        Log.d(
+            TAG,
+            "onCreate: interviewtimezone ${CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone}"
+        )
 
-        viewModel=ViewModelProvider(this).get(AddUserViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(AddUserViewModel::class.java)
         binding.rvAdduserByLink.layoutManager = LinearLayoutManager(this)
 
-        binding.btnJumpBackAddmember.setOnClickListener{
+        binding.btnJumpBackAddmember.setOnClickListener {
             onBackPressed()
         }
 
         adapter = AddParticipantListAdapter(
             this,
             interviewList,
-            onClick = { data: InvitationDataModel, action: Int, pos:Int, list ->
+            onClick = { data: InvitationDataModel, action: Int, pos: Int, list ->
                 when (action) {
                     1 -> {
                         checkTotalParticipant()
                         Log.d(TAG, "onCreate: ")
                     }
-                    2->{
-                        removeItem(data,pos)
+                    2 -> {
+                        removeItem(data, pos)
                     }
                 }
-            }, onEditextChanged = { txt, action,position ->
-                    when(action)
-                    {
-                        1->{
-                            if (checkInternet())
-                            {
-                                checkEmailExists(txt,position)
-                            }else
-                            {
-                                Snackbar.make(binding.root,getString(com.example.twillioproject.R.string.txt_no_internet_connection),
-                                    Snackbar.LENGTH_SHORT).show()
-                            }
-
+            }, onEditextChanged = { txt, action, position ->
+                when (action) {
+                    1 -> {
+                        if (checkInternet()) {
+                            checkEmailExists(txt, position)
+                        } else {
+                            Snackbar.make(
+                                binding.root,
+                                getString(com.example.twillioproject.R.string.txt_no_internet_connection),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
                         }
-                        2->{
-                            if (checkInternet())
-                            {
-                                checkPhoneExists(txt,position)
-                            }else
-                            {
-                                Snackbar.make(binding.root,getString(com.example.twillioproject.R.string.txt_no_internet_connection),
-                                    Snackbar.LENGTH_SHORT).show()
-                            }
+
+                    }
+                    2 -> {
+                        if (checkInternet()) {
+                            checkPhoneExists(txt, position)
+                        } else {
+                            Snackbar.make(
+                                binding.root,
+                                getString(com.example.twillioproject.R.string.txt_no_internet_connection),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
                         }
                     }
+                }
             })
         binding.rvAdduserByLink.adapter = adapter
 
@@ -93,51 +102,59 @@ class ActivityAddParticipant : AppCompatActivity() {
             hideKeyboard(this)
             handleList()
         }
+        handleObserver()
+    }
 
+    private fun handleObserver() {
+        CallStatusHolder.getCallStatus().observe(this) {
+            if (it) {
+                CallStatusHolder.setLastCallStatus(true)
+                finish()
+                Log.d(TAG, "handleObserver: true part")
+            } else {
+                Log.d(TAG, "handleObserver: false part")
+            }
+        }
     }
 
     override fun finish() {
         super.finish()
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
-    private fun checkTotalParticipant()
-    {
-        viewModel.getTotoalCountOfInterviewer(CurrentMeetingDataSaver.getData().videoAccessCode!!, onResponse = {action, data ->
-            when(action)
-            {
-                200->{
-                    if(interviewList.size+data?.TotalInterviewerCount!!.toInt()>6)
-                    {
-                        showToast(this,getString(R.string.txt_cant_add_more_participant))
-                    }else
-                    {
-                        addNewInterViewer(data?.TotalInterviewerCount!!)
+    private fun checkTotalParticipant() {
+        viewModel.getTotoalCountOfInterviewer(
+            CurrentMeetingDataSaver.getData().videoAccessCode!!,
+            onResponse = { action, data ->
+                when (action) {
+                    200 -> {
+                        if (interviewList.size + data?.TotalInterviewerCount!!.toInt() > 6) {
+                            showToast(this, getString(R.string.txt_cant_add_more_participant))
+                        } else {
+                            addNewInterViewer(data?.TotalInterviewerCount!!)
+                        }
+                    }
+                    400 -> {
+                        showToast(this, data?.Message!!)
+                    }
+                    401 -> {
+                        Log.d(TAG, "checkTotalParticipant: null response")
+                    }
+                    404 -> {
+                        Log.d(TAG, "checkTotalParticipant: null response")
+                    }
+                    500 -> {
+                        Log.d(TAG, "checkTotalParticipant:exception")
                     }
                 }
-                400->{
-                    showToast(this,data?.Message!!)
-                }
-                401->{
-                    Log.d(TAG, "checkTotalParticipant: null response")
-                }
-                404->{
-                    Log.d(TAG, "checkTotalParticipant: null response")
-                }
-                500->{
-                    Log.d(TAG, "checkTotalParticipant:exception")
-                }
-            }
-        })
+            })
     }
 
-    var isEmpty=false
-    fun handleList()
-    {
-        val list=adapter.getInterviewList()
-        val isEmptylist= mutableListOf<Boolean>()
-        if (!list.isNullOrEmpty())
-        {
+    var isEmpty = false
+    fun handleList() {
+        val list = adapter.getInterviewList()
+        val isEmptylist = mutableListOf<Boolean>()
+        if (!list.isNullOrEmpty()) {
             list.forEach {
                 Log.d(TAG, "handleList: $it")
             }
@@ -145,164 +162,154 @@ class ActivityAddParticipant : AppCompatActivity() {
                 if (!it.firstName.toString().equals("") &&
                     !it.lastName.toString().equals("") &&
                     !it.email.toString().equals("") &&
-                   !it.phone.toString().equals("")
-                ){
+                    !it.phone.toString().equals("")
+                ) {
                     addFilledDataList(it)
                     isEmptylist.add(false)
                     Log.d(TAG, "handleList: fields are filled")
-                }
-                else{
+                } else {
                     isEmptylist.add(true)
                     Log.d(TAG, "handleList: empty fields")
-                    showToast(this,getString(R.string.txt_all_fields_required))
+                    showToast(this, getString(R.string.txt_all_fields_required))
                 }
             }
 
-            val isFiledEmpty=isEmptylist.any { it==true }
-            if (isFiledEmpty)
-            {
-                isEmpty=true
-            }else
-            {
-            isEmpty=false
+            val isFiledEmpty = isEmptylist.any { it == true }
+            if (isFiledEmpty) {
+                isEmpty = true
+            } else {
+                isEmpty = false
             }
 
             postInvitation()
 
-        }else
-        {
+        } else {
             Log.d(TAG, "handleList: list is empty")
         }
     }
 
-    private fun checkEmailExists(txt: String ,position:Int)
-    {
-        viewModel.getIsEmailAndPhoneExists(CurrentMeetingDataSaver.getData().interviewModel?.interviewId!!,txt,"", response = {
-            isExists ->
-                if (!isExists)
-                {
-                    adapter.handleEmailIsExists(position,1,isExists)
-                }else
-                {
-                    adapter.handleEmailIsExists(position,2,isExists)
+    private fun checkEmailExists(txt: String, position: Int) {
+        viewModel.getIsEmailAndPhoneExists(
+            CurrentMeetingDataSaver.getData().interviewModel?.interviewId!!,
+            txt,
+            "",
+            response = { isExists ->
+                if (!isExists) {
+                    adapter.handleEmailIsExists(position, 1, isExists)
+                } else {
+                    adapter.handleEmailIsExists(position, 2, isExists)
                     showCustomToast(getString(R.string.txt_email_already_exists))
                     //showToast(this,getString(R.string.txt_email_already_exists))
                 }
-        })
+            })
         Log.d(TAG, "checkEmailExists: check text $txt")
     }
 
-    private fun checkPhoneExists(txt: String,position:Int)
-    {
-        viewModel.getIsEmailAndPhoneExists(CurrentMeetingDataSaver.getData().interviewModel?.interviewId!!,"",txt, response = {
-                isExists ->
-            if (!isExists)
-            {
-                adapter.handlePhoneIsExists(position,1,isExists)
-                Log.d(TAG, "checkPhoneExists: email false")
-            }else
-            {
-                Log.d(TAG, "checkPhoneExists: email true")
-                adapter.handlePhoneIsExists(position,2,isExists)
-                showCustomToast(getString(R.string.txt_phone_already_exists))
-                //showToast(this,getString(R.string.txt_phone_already_exists))
-            }
-        })
+    private fun checkPhoneExists(txt: String, position: Int) {
+        viewModel.getIsEmailAndPhoneExists(
+            CurrentMeetingDataSaver.getData().interviewModel?.interviewId!!,
+            "",
+            txt,
+            response = { isExists ->
+                if (!isExists) {
+                    adapter.handlePhoneIsExists(position, 1, isExists)
+                    Log.d(TAG, "checkPhoneExists: email false")
+                } else {
+                    Log.d(TAG, "checkPhoneExists: email true")
+                    adapter.handlePhoneIsExists(position, 2, isExists)
+                    showCustomToast(getString(R.string.txt_phone_already_exists))
+                    //showToast(this,getString(R.string.txt_phone_already_exists))
+                }
+            })
         Log.d(TAG, "checkEmailExists: check text $txt")
     }
 
-    val invitationList= mutableListOf<InvitationDataModel>()
-    val distinctinvitationList= mutableListOf<InvitationDataModel>()
+    val invitationList = mutableListOf<InvitationDataModel>()
+    val distinctinvitationList = mutableListOf<InvitationDataModel>()
 
-    fun addFilledDataList(obj: InvitationDataModel)
-    {
+    fun addFilledDataList(obj: InvitationDataModel) {
         //Log.d(TAG, "addFilledDataList:  timezone is ${obj.InterviewerTimezone}")
         invitationList.add(obj)
     }
 
-    fun postInvitation()
-    {
-        if (!invitationList.isNullOrEmpty()){
+    fun postInvitation() {
+        if (!invitationList.isNullOrEmpty()) {
 
             Log.d(TAG, "postInvitation:  tim zone $invitationList")
             distinctinvitationList.addAll(invitationList.distinctBy { it.uid })
-            if (!isEmpty)
-            {
-                if (checkInternet())
-                {
+            if (!isEmpty) {
+                if (checkInternet()) {
                     sendInvitation()
-                }else
-                {
-                    Snackbar.make(binding.root,getString(com.example.twillioproject.R.string.txt_no_internet_connection),
-                        Snackbar.LENGTH_SHORT).show()
+                } else {
+                    Snackbar.make(
+                        binding.root,
+                        getString(com.example.twillioproject.R.string.txt_no_internet_connection),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                 }
                 Log.d(TAG, "postInvitation:  posting data")
-            }else
-            {
+            } else {
                 showCustomToast(getString(R.string.txt_all_fields_required))
                 //showToast(this,getString(R.string.txt_all_fields_required))
                 Log.d(TAG, "postInvitation:  fill all fields first")
             }
 
-        }else
-        {
+        } else {
             Log.d(TAG, "postInvitation: invitation list is null")
         }
     }
 
-    fun sendInvitation()
-    {
-        binding.invitationProgress.visibility= View.VISIBLE
-        binding.btnPostdata.text=""
-        binding.btnPostdata.isEnabled=false
-        viewModel.sendInvitationtoUsers(distinctinvitationList, onDataResponse = {
-            data, action ->
+    fun sendInvitation() {
+        binding.invitationProgress.visibility = View.VISIBLE
+        binding.btnPostdata.text = ""
+        binding.btnPostdata.isEnabled = false
+        viewModel.sendInvitationtoUsers(distinctinvitationList, onDataResponse = { data, action ->
 
             when (action) {
                 200 -> {
-                    binding.btnPostdata.text=getString(R.string.txt_invite)
-                    binding.invitationProgress.visibility=View.INVISIBLE
+                    binding.btnPostdata.text = getString(R.string.txt_invite)
+                    binding.invitationProgress.visibility = View.INVISIBLE
                     //Toast.makeText(this,data?.APIResponse?.Message!!,Toast.LENGTH_LONG).show()
-                     //showToast(this,data?.APIResponse?.Message!!)
+                    //showToast(this,data?.APIResponse?.Message!!)
                     //Snackbar.make(binding.root,data?.APIResponse?.Message!!,Snackbar.LENGTH_LONG).show()
                     //showCustomSnackbarOnTop(data?.APIResponse?.Message!!)
                     showCustomToast(data?.APIResponse?.Message!!)
                     interviewList.clear()
                     adapter.notifyDataSetChanged()
-                    Handler(Looper.getMainLooper()).postDelayed({onBackPressed()},1000)
+                    Handler(Looper.getMainLooper()).postDelayed({ onBackPressed() }, 1000)
                     Log.d(TAG, "sendInvitation: result $data")
-                    binding.btnPostdata.isEnabled=true
+                    binding.btnPostdata.isEnabled = true
                 }
                 400 -> {
-                    binding.btnPostdata.text=getString(R.string.txt_invite)
-                    binding.invitationProgress.visibility=INVISIBLE
+                    binding.btnPostdata.text = getString(R.string.txt_invite)
+                    binding.invitationProgress.visibility = INVISIBLE
                     showCustomToast(data?.APIResponse?.Message!!)
                     //showCustomSnackbarOnTop(data?.APIResponse?.Message!!)
                     //showToast(this,data?.APIResponse?.Message!!)
-                    binding.btnPostdata.isEnabled=true
+                    binding.btnPostdata.isEnabled = true
                 }
                 404 -> {
-                    binding.btnPostdata.text=getString(R.string.txt_invite)
-                    binding.invitationProgress.visibility= INVISIBLE
-                    binding.btnPostdata.isEnabled=true
-                  //  showToast(this,getString(R.string.txt_failed_to_Invitation))
+                    binding.btnPostdata.text = getString(R.string.txt_invite)
+                    binding.invitationProgress.visibility = INVISIBLE
+                    binding.btnPostdata.isEnabled = true
+                    //  showToast(this,getString(R.string.txt_failed_to_Invitation))
                 }
                 404 -> {
-                    binding.btnPostdata.text=getString(R.string.txt_invite)
-                    binding.invitationProgress.visibility= INVISIBLE
-                    binding.btnPostdata.isEnabled=true
-                  //  showToast(this,getString(R.string.txt_failed_to_Invitation))
+                    binding.btnPostdata.text = getString(R.string.txt_invite)
+                    binding.invitationProgress.visibility = INVISIBLE
+                    binding.btnPostdata.isEnabled = true
+                    //  showToast(this,getString(R.string.txt_failed_to_Invitation))
                 }
                 404 -> {
-                    binding.btnPostdata.text=getString(R.string.txt_invite)
-                    binding.invitationProgress.visibility= INVISIBLE
-                    binding.btnPostdata.isEnabled=true
+                    binding.btnPostdata.text = getString(R.string.txt_invite)
+                    binding.invitationProgress.visibility = INVISIBLE
+                    binding.btnPostdata.isEnabled = true
                 }
                 500 -> {
-                   // showToast(this,getString(R.string.txt_something_went_wrong))
-                    binding.btnPostdata.text=getString(R.string.txt_invite)
-                    binding.invitationProgress.visibility= INVISIBLE
-                    binding.btnPostdata.isEnabled=true
+                    // showToast(this,getString(R.string.txt_something_went_wrong))
+                    binding.btnPostdata.text = getString(R.string.txt_invite)
+                    binding.invitationProgress.visibility = INVISIBLE
+                    binding.btnPostdata.isEnabled = true
                 }
             }
         })
@@ -310,15 +317,15 @@ class ActivityAddParticipant : AppCompatActivity() {
 
     private val interviewList = mutableListOf<InvitationDataModel>()
 
-    private fun addNewInterViewer(interviewerCount: Int)  {
-        val randomStr=UUID.randomUUID()
+    private fun addNewInterViewer(interviewerCount: Int) {
+        val randomStr = UUID.randomUUID()
 //        InvitationDataHolder.setItem(InvitationDataModel(uid = randomStr.toString(), index = -1))
         //, InterviewerTimezone =CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone.toString()
         val element = InvitationDataModel(uid = randomStr.toString())
         interviewList.add(element)
-        val pos =interviewList.indexOf(element)
-       // InvitationDataHolder.setItemToList(InvitationDataModel(uid = randomStr.toString() , index = interviewList.size-1))
-       //uncomment adapter.notifyItemInserted(pos)
+        val pos = interviewList.indexOf(element)
+        // InvitationDataHolder.setItemToList(InvitationDataModel(uid = randomStr.toString() , index = interviewList.size-1))
+        //uncomment adapter.notifyItemInserted(pos)
         adapter.notifyDataSetChanged()
         Log.d(TAG, "addNewInterViewer: ${interviewList.size}")
 
@@ -337,15 +344,13 @@ class ActivityAddParticipant : AppCompatActivity() {
     }
 
 
-    fun removeItem(data: InvitationDataModel, pos: Int)
-    {
+    fun removeItem(data: InvitationDataModel, pos: Int) {
         try {
             interviewList.removeAt(pos)
 
             adapter.notifyDataSetChanged()
             Log.d(TAG, "removeItem: notify data set changed")
-        }catch (e:Exception)
-        {
+        } catch (e: Exception) {
             Log.d(TAG, "removeItem:exception ${e.printStackTrace()} ")
         }
     }

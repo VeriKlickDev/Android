@@ -210,20 +210,35 @@ class UpcomingMeetingAdapter(
                         binding.btnCancelMeeting.isVisible=true
                     }
                 }
-            }else
-            {
-                binding.btnRejoin.isVisible=false
-                binding.btnJoin.visibility = View.GONE
-                binding.btnFeedback.isVisible = true
-                binding.btnFeedback.isEnabled = false
-                binding.btnFeedback.text = "Teams Meeting"
-                binding.btnFeedback.setTextColor(context.getColor(R.color.white))
-                binding.btnFeedback.background = ContextCompat.getDrawable(
-                    binding.btnFeedback.context,
-                    R.drawable.shape_rectangle_rounded_red_10_teams
-                )
-                binding.btnFeedback.isEnabled=true
-                binding.btnCancelMeeting.isVisible=false
+            }else {
+                if (list[adapterPosition].status.equals("NotScheduled")) {
+                    Log.d(TAG, "onBindViewHolder: not sched when")
+                    binding.btnJoin.visibility = View.GONE
+                    binding.btnFeedback.isVisible = true
+                    binding.btnFeedback.isEnabled = false
+                    binding.btnFeedback.text = "Missed"
+                    binding.btnFeedback.setTextColor(context.getColor(R.color.missed_text_color))
+                    binding.btnFeedback.background = ContextCompat.getDrawable(
+                        binding.btnFeedback.context,
+                        R.drawable.shape_rectangle_rounded_red_10
+                    )
+                    binding.btnRejoin.isVisible=false
+                    binding.btnCancelMeeting.isVisible=false
+                } else {
+
+                    binding.btnRejoin.isVisible = false
+                    binding.btnJoin.visibility = View.GONE
+                    binding.btnFeedback.isVisible = true
+                    binding.btnFeedback.isEnabled = false
+                    binding.btnFeedback.text = "Teams Meeting"
+                    binding.btnFeedback.setTextColor(context.getColor(R.color.white))
+                    binding.btnFeedback.background = ContextCompat.getDrawable(
+                        binding.btnFeedback.context,
+                        R.drawable.shape_rectangle_rounded_red_10_teams
+                    )
+                    binding.btnFeedback.isEnabled = true
+                    binding.btnCancelMeeting.isVisible = false
+                }
             }
 
 

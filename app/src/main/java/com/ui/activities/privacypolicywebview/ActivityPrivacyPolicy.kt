@@ -1,8 +1,12 @@
 package com.harvee.yourhealthmate2.ui.privacypolicy
 
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.webkit.WebView
 import android.webkit.WebViewClient
+import com.data.dismissProgressDialog
+import com.data.showProgressDialog
 import com.domain.constant.AppConstants
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityPrivacyPolicyBinding
@@ -36,10 +40,24 @@ class ActivityPrivacyPolicy : AppCompatActivity() {
 
     private fun privacyPolicy()
     {
+        showProgressDialog()
         binding.wbPrivacyPolicy.webViewClient = WebViewClient()
+        binding.wbPrivacyPolicy.webViewClient=webViewClient
         binding.wbPrivacyPolicy.loadUrl(intent.getStringExtra(AppConstants.PRIVACY_LINK).toString())
         binding.wbPrivacyPolicy.settings.javaScriptEnabled = true
         binding.wbPrivacyPolicy.settings.setSupportZoom(true)
+    }
+
+    private val webViewClient=object : WebViewClient() {
+        override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+            super.onPageStarted(view, url, favicon)
+
+        }
+
+        override fun onPageFinished(view: WebView?, url: String?) {
+            super.onPageFinished(view, url)
+            dismissProgressDialog()
+        }
     }
 
     override fun finish() {

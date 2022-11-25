@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.data.*
+import com.data.dataHolders.CallStatusHolder
 
 import com.data.dataHolders.CurrentConnectUserList
 import com.data.dataHolders.CurrentMeetingDataSaver
@@ -83,35 +84,23 @@ class ChatActivity : AppCompatActivity() {
                 }
             })
 
-            //binding.tvConnectedMembersCount.text=(intent.getStringExtra(AppConstants.CONNECT_PARTICIPANT).toString().toInt()+1).toString()+" Member"
         }
 
-        /* CurrentConnectUserList.getListForAddParticipantActivity().observe(this,Observer{
-            if (it!=null)
-            {
-                binding.tvConnectedMembersCount.text =it.size.toString()+" Member"
-            }else
-            {
-                binding.tvConnectedMembersCount.text="1"+" Member"
-            }
-        })
-*/
-
-
-        // initializeWithAccessToken(intent.getStringExtra(AppConstants.CHAT_ACCESS_TOKEN))
-        // showProgressDialog()
-
-
-        /*  CurrentMeetingDataSaver.getIsRoomDisconnected().observe(this, Observer {
-            if (it!=null)
-                if (it==true){
-                    finish()
-                }
-        })
-*/
     }
 
     fun handleObsever() {
+
+        CallStatusHolder.getCallStatus().observe(this){
+            if (it)
+            {
+                finish()
+            }else
+            {
+
+            }
+        }
+
+
         TwilioChatHelper.msgLiveData.observe(this) {
             it?.let { msgsList ->
                 chatAdapter = MessagelistAdapter(this, msgsList.reversed())
@@ -161,7 +150,31 @@ class ChatActivity : AppCompatActivity() {
 
 
 
+/**binding.tvConnectedMembersCount.text=(intent.getStringExtra(AppConstants.CONNECT_PARTICIPANT).toString().toInt()+1).toString()+" Member"
 
+/* CurrentConnectUserList.getListForAddParticipantActivity().observe(this,Observer{
+    if (it!=null)
+    {
+        binding.tvConnectedMembersCount.text =it.size.toString()+" Member"
+    }else
+    {
+        binding.tvConnectedMembersCount.text="1"+" Member"
+    }
+})
+*/
+
+
+// initializeWithAccessToken(intent.getStringExtra(AppConstants.CHAT_ACCESS_TOKEN))
+// showProgressDialog()
+
+
+/*  CurrentMeetingDataSaver.getIsRoomDisconnected().observe(this, Observer {
+    if (it!=null)
+        if (it==true){
+            finish()
+        }
+})
+*/
 
 
 
