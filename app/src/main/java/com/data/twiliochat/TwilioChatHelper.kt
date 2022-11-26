@@ -3,16 +3,11 @@ package com.data.twiliochat
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.data.dataHolders.CurrentMeetingDataSaver
-import com.data.dismissProgressDialog
 import com.data.getUtcDateToAMPM
-import com.data.showProgressDialog
 import com.domain.BaseModels.ChatMessagesModel
 import com.domain.constant.AppConstants
-import com.example.twillioproject.R
 import com.twilio.conversations.*
-import com.ui.listadapters.MessagelistAdapter
 
 object TwilioChatHelper {
 
@@ -20,10 +15,9 @@ object TwilioChatHelper {
     private var conversationsClient: ConversationsClient? = null
     private var conversation: Conversation? = null
     private var DEFAULT_CONVERSATION_NAME: String? = null
-    
-    fun setInstanceOfChat(context: Context,token:String,conversationName:String)
-    {
-        DEFAULT_CONVERSATION_NAME=conversationName
+
+    fun setInstanceOfChat(context: Context, token: String, conversationName: String) {
+        DEFAULT_CONVERSATION_NAME = conversationName
         Log.d(TAG, "initializeWithAccessToken: in intialize method")
         val props = ConversationsClient.Properties.newBuilder().createProperties()
         ConversationsClient.create(context, token!!, props, mConversationsClientCallback)
@@ -67,16 +61,14 @@ object TwilioChatHelper {
                                )*/
                             // joinConversation()
                             loadPreviousMessages(conversation!!)
-                        }
-                        else {
+                        } else {
                             Log.d(
                                 TAG,
                                 "Joining Conversation: in else part $DEFAULT_CONVERSATION_NAME"
                             )
                             joinConversation()
                         }
-                    }
-                    else {
+                    } else {
                         Log.d(TAG, "checkIsConversationCreated: null conversation")
                     }
                 }
@@ -85,7 +77,7 @@ object TwilioChatHelper {
                     super.onError(errorInfo)
                     // createConversation()
                     Log.d(TAG, "onError: error in check conversation exsits ${errorInfo?.message}}")
-                    
+
                 }
             })
     }
@@ -103,7 +95,7 @@ object TwilioChatHelper {
                             "onSuccess: success to create conversation in conversation "
                         )
                         joinConversation()
-                        
+
                         conversation?.let { joinConversation() }
                         //loadChannels(conversationsClient!!)
                         //joinConversation(conversation!!)
@@ -117,7 +109,6 @@ object TwilioChatHelper {
                 }
             })
     }
-
 
 
     private fun joinConversation() {
@@ -149,7 +140,7 @@ object TwilioChatHelper {
                                 "onSuccess: my conversaton participants list ${it.identity} "
                             )
                         }
-                        
+
                         myconversation!!.addListener(
                             mDefaultConversationListener
                         )
@@ -167,12 +158,10 @@ object TwilioChatHelper {
                         loadPreviousMessages(myconversation)
                     }
                 })
-            }
-            else {
+            } else {
                 createConversation()
             }
-        }
-        else {
+        } else {
             Log.d(TAG, "joinConversation: not null conversation ")
             conversationsClient?.myConversations?.size
             conversation!!.join(object : StatusListener {
@@ -198,7 +187,7 @@ object TwilioChatHelper {
     }
 
     private fun loadPreviousMessages(conversation: Conversation) {
-        
+
         if (conversation?.synchronizationStatus?.isAtLeast(Conversation.SynchronizationStatus.ALL) == true) {
             conversation.getLastMessages(
                 100
@@ -215,7 +204,7 @@ object TwilioChatHelper {
                                 if (identity.equals(it.author)) {
 
                                     if (it.author.equals(CurrentMeetingDataSaver.getData().identity)) {
-                                        setMessages(
+                                        setMessagesInitial(
                                             it.messageBody.toString(),
                                             AppConstants.CHAT_SENDER,
                                             user.userFirstName.toString(),
@@ -223,7 +212,7 @@ object TwilioChatHelper {
                                         )
                                         scrollPosition.postValue(0)
                                     } else {
-                                        setMessages(
+                                        setMessagesInitial(
                                             it.messageBody.toString(),
                                             AppConstants.CHAT_RECIEVER,
                                             user.userFirstName,
@@ -248,12 +237,13 @@ object TwilioChatHelper {
         }
     }
 
-    private var scrollPosition=MutableLiveData<Int>()
+    private var scrollPosition = MutableLiveData<Int>()
 
     init {
-        scrollPosition.postValue(-1)
+        // scrollPosition.postValue(-1)
     }
-    fun getScrollPostion()= scrollPosition
+
+    fun getScrollPostion() = scrollPosition
 
 
     private fun addParticipantToChat(identity: String, mconversation: Conversation) {
@@ -271,14 +261,13 @@ object TwilioChatHelper {
                     Log.d(TAG, "onError: in adding participant ${errorInfo?.message}")
                 }
             })
-        }
-        else {
+        } else {
             Log.d(TAG, "participant already added")
         }
     }
 
 
-    fun sendChatMessage(txt: String,response:(isSuccess:Boolean)->Unit) {
+    fun sendChatMessage(txt: String, response: (isSuccess: Boolean) -> Unit) {
         if (conversation != null) {
             val options = Message.options().withBody(txt)
 
@@ -290,7 +279,7 @@ object TwilioChatHelper {
         }
     }
 
-   /* fun msgsObserver() {
+    /* fun msgsObserver() {
         viewModel.msgLiveData.observe(this) {
             it?.let { msgsList ->
                 chatAdapter = MessagelistAdapter(this, msgsList.reversed())
@@ -323,7 +312,7 @@ object TwilioChatHelper {
 
             override fun onConversationSynchronizationChange(conversation1: Conversation) {
                 Log.d(TAG, "onError: conversation synchro change")
-                conversation=conversation1
+                conversation = conversation1
             }
 
             override fun onError(errorInfo: ErrorInfo) {
@@ -350,7 +339,7 @@ object TwilioChatHelper {
                 if (synchronizationStatus == ConversationsClient.SynchronizationStatus.COMPLETED) {
                     loadChannels(conversationsClient!!)
                     Log.d(TAG, "onClientSynchronization: sync complete load channel connected ")
-                   // joinConversation()
+                    // joinConversation()
                 }
             }
 
@@ -403,29 +392,33 @@ object TwilioChatHelper {
                 val currentUser = CurrentMeetingDataSaver.getData().identity
                 val usr = if (message.author == currentUser) {
                     AppConstants.CHAT_SENDER
-                }
-                else {
+                } else {
                     AppConstants.CHAT_RECIEVER
                 }
                 CurrentMeetingDataSaver.getData().users?.forEach { user ->
                     val identity = user.userType + user.id
                     if (identity == message.author) {
-                        setMessages(
+                        addMessages(
+                            message.messageBody,
+                            usr,
+                            user.userFirstName,
+                            getUtcDateToAMPM(message.dateCreated)
+                        )
+                        setMessagesInitial(
                             message.messageBody,
                             usr,
                             user.userFirstName,
                             getUtcDateToAMPM(message.dateCreated)
                         )
 
+
                         //                (binding.rvChatMsgs.layoutManager as LinearLayoutManager).smoothScrollToPosition(binding.rvChatMsgs,null, 0)
 
                         scrollPosition.postValue(0)
                     }
-
                 }
 
-            }catch (e:Exception)
-            {
+            } catch (e: Exception) {
                 Log.e(TAG, "onMessageAdded: exception on msg added method ${e.printStackTrace()}")
             }
             /* messageList.forEach {
@@ -469,9 +462,8 @@ object TwilioChatHelper {
         }
 
         override fun onSynchronizationChanged(conversation1: Conversation) {
-            conversation=conversation1
+            conversation = conversation1
             loadPreviousMessages(conversation!!)
-
         }
     }
 
@@ -491,50 +483,68 @@ object TwilioChatHelper {
     private fun loadChannels(result1: ConversationsClient) {
         Log.d(TAG, "loadChannels: in method  ${conversationsClient?.connectionState?.name}")
 
-        result1.getConversation(DEFAULT_CONVERSATION_NAME, object : CallbackListener<Conversation?> {
-            override fun onSuccess(result: Conversation?) {
-                Log.d(TAG, "onSuccess: final on success load channel")
-                if (conversation?.status == Conversation.ConversationStatus.JOINED
-                    || conversation?.status == Conversation.ConversationStatus.NOT_PARTICIPATING
-                ) {
-                    conversation=result
-                    conversation?.addListener(mDefaultConversationListener)
-                    loadPreviousMessages(conversation!!)
-                    Log.d(
-                        TAG,
-                        "Already Exists in Conversation: $DEFAULT_CONVERSATION_NAME"
-                    )
-                   // joinConversation()
+        result1.getConversation(
+            DEFAULT_CONVERSATION_NAME,
+            object : CallbackListener<Conversation?> {
+                override fun onSuccess(result: Conversation?) {
+                    Log.d(TAG, "onSuccess: final on success load channel")
+                    if (conversation?.status == Conversation.ConversationStatus.JOINED
+                        || conversation?.status == Conversation.ConversationStatus.NOT_PARTICIPATING
+                    ) {
+                        conversation = result
+                        conversation?.addListener(mDefaultConversationListener)
+                        loadPreviousMessages(conversation!!)
+                        Log.d(
+                            TAG,
+                            "Already Exists in Conversation: $DEFAULT_CONVERSATION_NAME"
+                        )
+                        // joinConversation()
+                    } else {
+                        joinConversation()
+                    }
                 }
-                else{
+
+                override fun onError(errorInfo: ErrorInfo?) {
+                    super.onError(errorInfo)
+                    conversation = conversationsClient?.myConversations?.firstOrNull()
                     joinConversation()
+                    Log.d(TAG, "onError: error in load channels final ${errorInfo?.message}")
+
                 }
-            }
-
-            override fun onError(errorInfo: ErrorInfo?) {
-                super.onError(errorInfo)
-                conversation=conversationsClient?.myConversations?.firstOrNull()
-                joinConversation()
-                Log.d(TAG, "onError: error in load channels final ${errorInfo?.message}")
-
-            }
-        })
+            })
 
 
     }
 
-    val msgLiveData= MutableLiveData<List<ChatMessagesModel>>()
-    val chatlist= mutableListOf<ChatMessagesModel>()
-    fun setMessages(msgs:String,from:String,username:String,time:String)
-    {
-        chatlist.add(ChatMessagesModel(from,msgs,username,time))
-        msgLiveData.postValue(chatlist)
+    val allMsgLiveData = MutableLiveData<List<ChatMessagesModel>>()
+    private val chatlist = mutableListOf<ChatMessagesModel>()
+    private val chatlist2 = arrayListOf<ChatMessagesModel>()
+
+    val newMsgLiveData = MutableLiveData<ChatMessagesModel>()
+   // var  chatMessageOb=MutableLiveData<ChatMessagesModel>()
+
+
+    fun setMessagesInitial(msgs: String, from: String, username: String, time: String) {
+        //chatMessageOb.postValue(ChatMessagesModel(from,msgs,username,time))
+        chatlist.add(ChatMessagesModel(from, msgs, username, time))
+        allMsgLiveData.postValue(chatlist)
     }
+
+    fun addMessages(msgs: String, from: String, username: String, time: String) {
+        chatlist2.add(ChatMessagesModel(from, msgs, username, time))
+       // allMsgLiveData.postValue(chatlist2)
+        newMsgLiveData.postValue(ChatMessagesModel(from,msgs,username,time))
+    }
+
+    fun getChatList()= chatlist2
+
+
+    fun getAllMessages()= chatlist
 
     fun clearChatList()
     {
         chatlist.clear()
-        msgLiveData.postValue(chatlist)
+        allMsgLiveData.postValue(chatlist)
     }
 
 

@@ -93,20 +93,23 @@ class ForgotPasswordActivity : AppCompatActivity() {
             when (result) {
                 200 -> {
                     Log.d(TAG, "onCreate: success ${data.success} ${data.message}")
-                    showCustomSnackbarOnTop(data.message.toString())
+                    showCustomToast(data.message.toString())
                    // showToast(this@ForgotPasswordActivity,data.message.toString())
-                    startActivity(
-                        Intent(
-                            this,
-                            LoginActivity::class.java
-                        )
-                    )
-                    finish()
+                   setHandler().postDelayed({
+                       startActivity(
+                           Intent(
+                               this,
+                               LoginActivity::class.java
+                           )
+                       )
+                       finish()
+                   },500)
+
                 }
                 400 -> {
                     Log.d(TAG, "onCreate: null data ${data.success} ${data.message}")
                     Log.d(TAG, "onCreate: null data")
-                    showCustomSnackbarOnTop(data.message.toString())
+                    showCustomToast(data.message.toString())
                     //Toast.makeText(this,data.message.toString(),Toast.LENGTH_LONG).show()
                   //  binding.tvEmailError.setText(getString(R.string.txt_failed_to_process_try_again))
                 }
@@ -117,7 +120,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
                 401->{
                     Log.d(TAG, "onCreate: failed to process sending mail ${data.success} ${data.message}")
                     Log.d(TAG, "onCreate: failed to process sending mail")
-                    showToast(this,data.message.toString())
+                    showCustomToast(data.message.toString())
                   /* showError(getString(R.string.txt_email_not_registerd_with_us))
                     Handler(Looper.getMainLooper()).postDelayed(kotlinx.coroutines.Runnable {
                         binding.tvEmailError.visibility= View.INVISIBLE

@@ -374,9 +374,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 //uncomment
             try {
                 if (CurrentMeetingDataSaver.getData().identity!!.contains("C")) {
-                   /* uncomment 23 nov  viewModel.setCandidateJoinedStatus { action, data ->
+                      viewModel.setCandidateJoinedStatus { action, data ->
                           Log.d(TAG, "handleObserver: candidate joined status $action")
-                      }*/
+                      }
                 }
             } catch (e: Exception) {
                 Log.d(
@@ -425,20 +425,23 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
         if (!CurrentConnectUserList.getListofParticipant().isNullOrEmpty()) {
             if (!CurrentMeetingDataSaver.getData().identity!!.contains("C")) {
-
+                var isCandidateEnter=false
                 CurrentConnectUserList.getListofParticipant().forEach {
                   if(CurrentMeetingDataSaver.getData().isPresenter==false) {
 
                       if (it.identity!!.contains("C")) {
+                          isCandidateEnter=true
                           Log.d(TAG, "endCall: called feedback form")
-                          val intent = Intent(this@VideoActivity, ActivityFeedBackForm::class.java)
-                          intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                          startActivity(intent)
-                          overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-                          isNotCandidate = false
                       }
                   }
-
+                }
+                if (isCandidateEnter)
+                {
+                    val intent = Intent(this@VideoActivity, ActivityFeedBackForm::class.java)
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(intent)
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                    isNotCandidate = false
                 }
             }
         }
@@ -823,7 +826,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
     private fun setAdapter()
     {
-        (binding.rvConnectedUsers.itemAnimator as SimpleItemAnimator).supportsChangeAnimations=false
+       // (binding.rvConnectedUsers.itemAnimator as SimpleItemAnimator).supportsChangeAnimations=false
         adapter = ConnectedUserListAdapter(viewModel,
             this,
             globalParticipantList,
@@ -916,7 +919,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             else
             {
                // setBlankBackground(true)
-                binding.tvNoParticipant.text="Video Not Available"
+                //uncomment binding.tvNoParticipant.text="Video Not Available"
                 binding.tvUsername.isVisible=false
             }
 
@@ -933,6 +936,15 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             }
            // videoTrack!!.addSink(binding.primaryVideoView)
             lastVideoTrack=videoTrack
+
+            try {
+                currentVisibleUser?.let {
+                    binding.tvUsername.isVisible=!it.identity!!.contains("C")
+                }
+            }catch (e:Exception)
+            {
+                Log.d(TAG, "removeAllSinksAndSetnew: exception 944 ${e.message}")
+            }
         }
     }
 
@@ -1394,7 +1406,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 {
                     setBlankBackground(true)
                     binding.tvUsername.isVisible=false
-                    binding.tvNoParticipant.text="Video Not Available"
+                    //uncomment   binding.tvNoParticipant.text="Video Not Available"
                 }
             }
 
@@ -2582,7 +2594,6 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             Handler(Looper.getMainLooper()).postDelayed({
                 setBlankBackground(true)
                 binding.tvUsername.text=""
-
             },500)
             try{
                 PinnedItemHolder.clear()
@@ -2998,7 +3009,29 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 Handler(Looper.getMainLooper()).postDelayed({
                     removeAllSinksAndSetnew(null,false)
                     setBlankBackground(true)
-                    binding.tvNoParticipant.text=""
+
+                    var isCandidateExists=false
+
+                    CurrentConnectUserList.getListofParticipant().forEachIndexed { index, videoTracksBean ->
+                        if(videoTracksBean.identity!!.contains("C"))
+                        {
+                            isCandidateExists=true
+                            binding.tvNoParticipant.text=""
+
+                        }
+                    }
+                    if (!isCandidateExists)
+                    {
+                        CurrentMeetingDataSaver.getData().users?.forEach {
+                            if (it.userType.contains("C"))
+                            binding.tvNoParticipant.text ="Waiting to join " + it.userFirstName + " " + it.userLastName
+                        }
+                    }
+                    else
+                    {
+                        binding.tvNoParticipant.text = ""
+                    }
+
                 },500)
                 adapter.notifyDataSetChanged()
             }

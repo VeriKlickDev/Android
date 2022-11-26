@@ -209,8 +209,10 @@ class ActivityFeedBackForm : AppCompatActivity() {
         if (!isBlank) {
             binding.skillsError.isVisible = false
             postFeedback()
+
         } else {
             binding.skillsError.isVisible = true
+            binding.btnSubmitButton.isEnabled=true
             showCustomSnackbarOnTop(getString(R.string.txt_all_fields_required))
             //showToast(this, getString(R.string.txt_all_fields_required))
         }
@@ -224,6 +226,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 .equals("") ) {
             postData()
         } else {
+            binding.btnSubmitButton.isEnabled=true
             showCustomSnackbarOnTop(getString(R.string.txt_all_fields_required))
             //showToast(this, getString(R.string.txt_all_fields_required))
         }
@@ -326,6 +329,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
         } else {
             binding.recommendationError.isVisible = true
+            binding.btnSubmitButton.isEnabled=true
             showCustomSnackbarOnTop(getString(R.string.txt_all_fields_required))
             //showToast(this, getString(R.string.txt_all_fields_required))
         }
@@ -580,8 +584,10 @@ class ActivityFeedBackForm : AppCompatActivity() {
                             "null"
                         )
                     ) {
+                        binding.btnSubmitButton.setText("Update")
                         skillsList.addAll(data.CandidateAssessmentSkills)
                     } else {
+                        binding.btnSubmitButton.setText("Submit")
                         skillsList.addAll(data.assessSkills)
                     }
                 Log.d(TAG, "setDataToViews: listdata $skillsList")

@@ -38,6 +38,11 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">#817F7F</item>
+        <item name="colorControlActivated">#F8E00B</item>
+    </style>
+
     <style name="textStyle.White12" parent="Widget.AppCompat.TextView">
         <item name="fontFamily">@font/sarabun_regular</item>
         <item name="android:textSize">@dimen/_12sp</item>

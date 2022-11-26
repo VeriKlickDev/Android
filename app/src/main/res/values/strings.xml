@@ -97,7 +97,7 @@
     <string name="txt_id">ID</string>
     <string name="txt_job_des">Job Description:</string>
     <string name="txt_resend_otp">Resend OTP</string>
-    <string name="txt_addparticipant">Add Participant</string>
+    <string name="txt_addparticipant">Add \\ Remove Participant</string>
     <string name="txt_screensharing">Screen Share</string>
     <string name="txt_recording">Recording</string>
     <string name="txt_please_try_again">Please try again</string>

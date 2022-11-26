@@ -20,32 +20,12 @@ object CurrentConnectUserList {
 
     fun setListForVideoActivity(list:List<VideoTracksBean>)
     {
-        participantList.clear()
+       // participantList.clear()
         listLiveData.postValue(list)
         participantList.addAll(list)
         //listLiveDataForAddParticipant.postValue(list)
     }
-//,onDataChanged:(pos:Int,list:List<VideoTracksBean>)->Unit
-    fun setItemToParticipantList(lst :VideoTracksBean):Int
-    {
-        val templist= mutableListOf<VideoTracksBean>()
-        templist.addAll(participantList)
-        var pos =-1
-        templist.mapIndexed { index, videoTracksBean ->
-            if (lst.identity.equals(videoTracksBean.identity))
-            {
-                pos = index
-                lst.userName = videoTracksBean.userName
-                lst.remoteParticipant=videoTracksBean.remoteParticipant
-                lst.videoTrack=videoTracksBean.videoTrack
 
-                participantList[index] = lst
-            }
-        }
-        //onDataChanged(pos, participantList)
-        listLiveData.postValue(participantList)
-        return pos
-    }
 
     fun getListofParticipant()= participantList
 

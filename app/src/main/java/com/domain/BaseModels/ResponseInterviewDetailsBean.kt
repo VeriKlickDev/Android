@@ -76,7 +76,7 @@ data class InterviewModel (
 	@SerializedName("APIResponse") val aPIResponse : String?=null,
 	@SerializedName("CandidateId") val candidateId : Int?=null,
 	@SerializedName("Password") val password : String?=null,
-	@SerializedName("subscriberid") val subscriberid : String?=null,
+	@SerializedName("SubscriberId") val subscriberid : String?=null,
 	@SerializedName("selected") val selected : Boolean?=null,
 	@SerializedName("Duration") val duration : String?=null,
 	@SerializedName("interviewDuration") val interviewDuration : Int?=null,

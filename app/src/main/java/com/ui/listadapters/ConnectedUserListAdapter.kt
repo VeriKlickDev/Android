@@ -40,7 +40,7 @@ class ConnectedUserListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewholderClass, position: Int) {
-
+        
         holder.setIsRecyclable(false)
         holder.bindData(list.get(position))
 

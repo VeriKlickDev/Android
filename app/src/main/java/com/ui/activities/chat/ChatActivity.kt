@@ -5,9 +5,10 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.data.*
 import com.data.dataHolders.CallStatusHolder
+import com.data.dataHolders.ChatMessagesHolder
 
 import com.data.dataHolders.CurrentConnectUserList
 import com.data.dataHolders.CurrentMeetingDataSaver
@@ -26,7 +27,7 @@ class ChatActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityChatBinding
 
-    private val TAG = "checkchat"
+    private val TAG = "checkchatactivity"
 
     private var DEFAULT_CONVERSATION_NAME: String? = null
     private lateinit var chatAdapter: MessagelistAdapter
@@ -34,7 +35,7 @@ class ChatActivity : AppCompatActivity() {
     private var token = ""
     private val messageList = mutableListOf<ChatMessagesModel>()
     private lateinit var viewModel: ChatActivityViewModel
-
+    private  var chatList= arrayListOf<ChatMessagesModel>()
     private var conversationsClient: ConversationsClient? = null
     private var conversation: Conversation? = null
 
@@ -47,10 +48,12 @@ class ChatActivity : AppCompatActivity() {
 
         DEFAULT_CONVERSATION_NAME = CurrentMeetingDataSaver.getData().chatChannel.toString()
         Log.d(TAG, "onCreate: channel name $DEFAULT_CONVERSATION_NAME")
+        setChatAdapter()
         handleObsever()
         //  chatConversationManager!!.setListener(this@ChatActivityTest)
-        binding.rvChatMsgs.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true)
+        val layoutManager=LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true)
+        layoutManager.stackFromEnd=true
+        binding.rvChatMsgs.layoutManager =layoutManager
 
         binding.btnJumpback.setOnClickListener {
             /*val intent = Intent(this, VideoActivity::class.java)
@@ -83,9 +86,19 @@ class ChatActivity : AppCompatActivity() {
                     binding.tvConnectedMembersCount.text = it.size.toString() + " Member"
                 }
             })
-
         }
-
+    }
+    private  fun setChatAdapter()
+    {
+        chatAdapter = MessagelistAdapter(this,chatList)
+        binding.rvChatMsgs.adapter = chatAdapter
+        TwilioChatHelper.getChatList()?.let {msglist->
+            if (!msglist.isNullOrEmpty())
+            {
+                chatList.addAll(msglist)
+                chatAdapter.notifyDataSetChanged()
+            }
+        }
     }
 
     fun handleObsever() {
@@ -101,13 +114,26 @@ class ChatActivity : AppCompatActivity() {
         }
 
 
-        TwilioChatHelper.msgLiveData.observe(this) {
+        TwilioChatHelper.allMsgLiveData.observe(this) {
             it?.let { msgsList ->
-                chatAdapter = MessagelistAdapter(this, msgsList.reversed())
+                Log.d(TAG, "handleObsever: add msg")
+                chatAdapter = MessagelistAdapter(this,it.reversed())
                 binding.rvChatMsgs.adapter = chatAdapter
+                //chatAdapter.notifyDataSetChanged()
                 // ChatMessagesHolder.setMessage(msgsList)
             }
         }
+
+       /* TwilioChatHelper.newMsgLiveData.observe(this){
+            it?.let { msgsList ->
+                Log.d(TAG, "handleObsever: add msg")
+
+
+                ChatMessagesHolder.setMessage(msgsList)
+            }
+        }*/
+
+
 
         TwilioChatHelper.getScrollPostion().observe(this) {
             if (it == 0) {
@@ -119,6 +145,24 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
+    val observer= Observer<ChatMessagesModel> {
+        it?.let { msgsList ->
+            Log.d(TAG, "handleObsever: add msg")
+            chatList.add(msgsList)
+            if (chatList.size>1)
+            {chatAdapter.notifyItemInserted(chatList.size-1)
+                binding.rvChatMsgs.smoothScrollToPosition(chatList.size-1)}
+            else{
+                chatAdapter.notifyDataSetChanged()
+            }
+            // ChatMessagesHolder.setMessage(msgsList)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+       /// TwilioChatHelper.newMsgLiveData.removeObserver(observer)
+    }
     override fun finish() {
         super.finish()
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
@@ -127,7 +171,23 @@ class ChatActivity : AppCompatActivity() {
 
 }
 
+/*
+        TwilioChatHelper.newMsgLiveData.observe(this){
+            it?.let { msgsList ->
+                Log.d(TAG, "handleObsever: add msg")
+                chatList.add(msgsList)
+                if (chatList.size>1)
+                {chatAdapter.notifyItemInserted(chatList.size-1)
+                    binding.rvChatMsgs.smoothScrollToPosition(chatList.size-1)}
+                else{
+                    chatAdapter.notifyDataSetChanged()}
 
+
+                // ChatMessagesHolder.setMessage(msgsList)
+            }
+        }
+
+*/
 
 
 
