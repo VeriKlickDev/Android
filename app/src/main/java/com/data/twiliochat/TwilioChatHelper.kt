@@ -195,7 +195,7 @@ object TwilioChatHelper {
 
                 try {
                     if (!result.isNullOrEmpty()) {
-                        clearChatList()
+                       // clearChatList()
                         result.forEach {
 
                             CurrentMeetingDataSaver.getData().users?.forEach { user ->
@@ -516,11 +516,11 @@ object TwilioChatHelper {
 
     }
 
-    val allMsgLiveData = MutableLiveData<List<ChatMessagesModel>>()
-    private val chatlist = mutableListOf<ChatMessagesModel>()
+    val allMsgLiveData = MutableLiveData<ArrayList<ChatMessagesModel>>()
+    private val chatlist = arrayListOf<ChatMessagesModel>()
     private val chatlist2 = arrayListOf<ChatMessagesModel>()
 
-    val newMsgLiveData = MutableLiveData<ChatMessagesModel>()
+    val newMsgLiveData = MutableLiveData<List<ChatMessagesModel>>()
    // var  chatMessageOb=MutableLiveData<ChatMessagesModel>()
 
 
@@ -532,8 +532,10 @@ object TwilioChatHelper {
 
     fun addMessages(msgs: String, from: String, username: String, time: String) {
         chatlist2.add(ChatMessagesModel(from, msgs, username, time))
+        chatlist2.size
+        chatlist2
        // allMsgLiveData.postValue(chatlist2)
-        newMsgLiveData.postValue(ChatMessagesModel(from,msgs,username,time))
+                newMsgLiveData.postValue(chatlist2)
     }
 
     fun getChatList()= chatlist2
@@ -543,6 +545,7 @@ object TwilioChatHelper {
 
     fun clearChatList()
     {
+        chatlist2.clear()
         chatlist.clear()
         allMsgLiveData.postValue(chatlist)
     }

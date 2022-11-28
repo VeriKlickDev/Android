@@ -81,7 +81,6 @@ class ActivityAddParticipant : AppCompatActivity() {
                                 Snackbar.LENGTH_SHORT
                             ).show()
                         }
-
                     }
                     2 -> {
                         if (checkInternet()) {
@@ -106,6 +105,24 @@ class ActivityAddParticipant : AppCompatActivity() {
     }
 
     private fun handleObserver() {
+
+        AddParticipantsErrorChecker.isError.observe(this)
+        {
+            try {
+                if (it[0] && it[1] && it[2] && it[3])
+                {
+                    setSubmitButtonEnable(false)
+                }else
+                {
+                    setSubmitButtonEnable(true)
+                }
+            }catch (e:Exception)
+            {
+
+            }
+        }
+
+
         CallStatusHolder.getCallStatus().observe(this) {
             if (it) {
                 CallStatusHolder.setLastCallStatus(true)
@@ -239,6 +256,7 @@ class ActivityAddParticipant : AppCompatActivity() {
             distinctinvitationList.addAll(invitationList.distinctBy { it.uid })
             if (!isEmpty) {
                 if (checkInternet()) {
+                   // checkIsErrorExists()
                     sendInvitation()
                 } else {
                     Snackbar.make(
@@ -317,7 +335,65 @@ class ActivityAddParticipant : AppCompatActivity() {
 
     private val interviewList = mutableListOf<InvitationDataModel>()
 
+    private fun checkIsErrorExists()
+    {
+        if (!interviewList.isNullOrEmpty()){
+            var isErrorOccur=false
+            interviewList.forEachIndexed { index, invitationDataModel ->
+                if (invitationDataModel.isError) {
+                    isErrorOccur=true
+                }
+            }
+            if (isErrorOccur)
+            {
+                setSubmitButtonEnable(false)
+                showCustomToast(getString(R.string.txt_data_already_exists))
+            }else
+            {
+               // addParticipantItem()
+                setSubmitButtonEnable(true)
+            }
+        }
+    }
+
+
     private fun addNewInterViewer(interviewerCount: Int) {
+
+        if (!interviewList.isNullOrEmpty()){
+            var isErrorOccur=false
+            interviewList.forEachIndexed { index, invitationDataModel ->
+                if (invitationDataModel.isError) {
+                    isErrorOccur=true
+                }
+            }
+
+            if (isErrorOccur)
+            {
+                setSubmitButtonEnable(false)
+                showCustomToast(getString(R.string.txt_data_already_exists))
+            }else
+            {
+                addParticipantItem()
+                setSubmitButtonEnable(true)
+            }
+        }
+    }
+
+    private fun setSubmitButtonEnable(isEnable:Boolean)
+    {
+        binding.btnPostdata.isEnabled=isEnable
+        if (!isEnable)
+        {
+            binding.btnPostdata.alpha=0.6f
+        }else
+        {
+            binding.btnPostdata.alpha=1f
+        }
+    }
+
+    private fun addParticipantItem()
+    {
+
         val randomStr = UUID.randomUUID()
 //        InvitationDataHolder.setItem(InvitationDataModel(uid = randomStr.toString(), index = -1))
         //, InterviewerTimezone =CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone.toString()
@@ -336,6 +412,7 @@ class ActivityAddParticipant : AppCompatActivity() {
             binding.scrollview.fullScroll(View.FOCUS_DOWN);
         }
     }
+
 
     override fun onPause() {
         interviewList.clear()

@@ -89,19 +89,37 @@ fun emailValidator(
     email: String,
     validateEmail: (isEmailOk: Boolean, mEmail: String, error: String?) -> Unit
 ) {
+
+
+    /*
+
+    [a-zA-Z0-9._%+-]+@
+([a-zA-Z0-9-]{1,})+(\.[a-zA-Z]{2,})
+(\.[a-zA-Z]{2,})?$
+
+
+^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$
+
+     */
     var mEmail = email.trim()
+    val emailPattern="^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+"[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
     val EMAIL_ADDRESS_PATTERN: Pattern =
-        Pattern.compile("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" + "\\@" + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" + "(" + "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" + ")+")
-        val doubleDots=Pattern.compile("\\.\\.")
+        //Pattern.compile("[a-zA-Z0-9._%+-]+@" +"([a-zA-Z0-9-]{1,})+(\\.[a-zA-Z]{2,})" +"(\\.[a-zA-Z]{2,})?\$")
+      Pattern.compile(emailPattern)
+    val doubleDots=Pattern.compile("\\.\\.")
     var isEmailOk = false
 
     if (mEmail.isEmpty()) {
         validateEmail(false, "", context.getString(R.string.txt_required))
         error = context.getString(R.string.txt_enter_valid_email)
     } else {
-        if (android.util.Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
+        if (EMAIL_ADDRESS_PATTERN.matcher(mEmail).matches()) {
 
-            if (!doubleDots.matcher(mEmail).matches())
+            isEmailOk = true
+            isemailok = true
+
+           /* if (!doubleDots.matcher(mEmail).matches())
             {
                 isEmailOk = true
                 isemailok = true
@@ -112,7 +130,7 @@ fun emailValidator(
                 isEmailOk = false
                 validateEmail(isEmailOk, mEmail, context.getString(R.string.txt_enter_valid_email))
                 error = context.getString(R.string.txt_enter_valid_email)
-            }
+            }*/
         } else {
             mEmail = "null"
             isemailok = false

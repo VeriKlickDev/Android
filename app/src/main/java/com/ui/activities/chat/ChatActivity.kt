@@ -31,11 +31,11 @@ class ChatActivity : AppCompatActivity() {
 
     private var DEFAULT_CONVERSATION_NAME: String? = null
     private lateinit var chatAdapter: MessagelistAdapter
-    private val chatlist = arrayListOf<Message>()
+    //private val chatlist = arrayListOf<Message>()
     private var token = ""
     private val messageList = mutableListOf<ChatMessagesModel>()
     private lateinit var viewModel: ChatActivityViewModel
-    private  var chatList= arrayListOf<ChatMessagesModel>()
+    private  var chatList= mutableListOf<ChatMessagesModel>()
     private var conversationsClient: ConversationsClient? = null
     private var conversation: Conversation? = null
 
@@ -51,7 +51,7 @@ class ChatActivity : AppCompatActivity() {
         setChatAdapter()
         handleObsever()
         //  chatConversationManager!!.setListener(this@ChatActivityTest)
-        val layoutManager=LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true)
+        val layoutManager=LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         layoutManager.stackFromEnd=true
         binding.rvChatMsgs.layoutManager =layoutManager
 
@@ -92,16 +92,17 @@ class ChatActivity : AppCompatActivity() {
     {
         chatAdapter = MessagelistAdapter(this,chatList)
         binding.rvChatMsgs.adapter = chatAdapter
-        TwilioChatHelper.getChatList()?.let {msglist->
+      /*  TwilioChatHelper.getChatList()?.let {msglist->
             if (!msglist.isNullOrEmpty())
             {
                 chatList.addAll(msglist)
                 chatAdapter.notifyDataSetChanged()
             }
-        }
+        }*/
     }
 
     fun handleObsever() {
+
 
         CallStatusHolder.getCallStatus().observe(this){
             if (it)
@@ -114,11 +115,13 @@ class ChatActivity : AppCompatActivity() {
         }
 
 
-        TwilioChatHelper.allMsgLiveData.observe(this) {
+        TwilioChatHelper.newMsgLiveData.observe(this) {
             it?.let { msgsList ->
                 Log.d(TAG, "handleObsever: add msg")
-                chatAdapter = MessagelistAdapter(this,it.reversed())
-                binding.rvChatMsgs.adapter = chatAdapter
+                chatList.clear()
+                chatList.addAll(msgsList)
+                chatAdapter.notifyDataSetChanged()
+               // chatAdapter.notifyDataSetChanged()
                 //chatAdapter.notifyDataSetChanged()
                 // ChatMessagesHolder.setMessage(msgsList)
             }
@@ -137,10 +140,12 @@ class ChatActivity : AppCompatActivity() {
 
         TwilioChatHelper.getScrollPostion().observe(this) {
             if (it == 0) {
+                if (chatList.size>0)
                 (binding.rvChatMsgs.layoutManager as LinearLayoutManager).scrollToPosition(
-                    0
+                    chatList.size-1
                 )
-                chatAdapter.notifyItemInserted(0)
+               // if (chatList.size>0)
+               // chatAdapter.notifyItemInserted(chatList.size-1)
             }
         }
     }

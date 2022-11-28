@@ -14,6 +14,8 @@ import com.twilio.video.LocalVideoTrack
 import com.twilio.video.RemoteParticipant
 import com.twilio.video.VideoTrack
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -278,7 +280,56 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
     }
 
 
-    fun setCandidateJoinedStatus(onResult: (action: Int, data: ResponseCandidateJoinedMeetingStatus?) -> Unit)
+
+    fun getVideoSessionDetails(videoAccessCode:String,onDataResponse:(data:ResponseInterViewDetailsBean?,response:Int)->Unit)
+    {
+        try {
+            CoroutineScope(Dispatchers.IO).launch {
+                val result=repositoryImpl.requestVideoSession(videoAccessCode)
+                if (result.isSuccessful)
+                {
+                    if (result.body()!=null)
+                    {
+                        when(result.body()?.aPIResponse?.statusCode){
+                            404->{
+                                onDataResponse(result.body()!!,404)
+                            }
+                            200->{
+                                onDataResponse(result.body(),200)
+                            }
+                            400->{
+                                onDataResponse(result.body(),400)
+                            }
+                            401->{
+                                onDataResponse(result.body(),401)
+                            }
+                        }
+                        //onDataResponse(result.body()!!,200)
+                        Log.d(TAG, "getVideoSession:  success ${result.body()}")
+
+                        Log.d("videocon", "getVideoSession:  success ${result.body()?.aPIResponse?.statusCode}")
+                    }
+                    else{
+                        onDataResponse(result.body()!!,400)
+                        Log.d(TAG, "getVideoSession: null result")
+                    }
+                }else
+                {
+                    onDataResponse(null,404)
+                    Log.d(TAG, "getVideoSession: not success")
+                }
+            }
+        }catch (e:Exception)
+        {
+            onDataResponse(null,404)
+            Log.d(TAG, "getVideoSession: not exception")
+        }
+    }
+
+
+
+
+fun setCandidateJoinedStatus(onResult: (action: Int, data: ResponseCandidateJoinedMeetingStatus?) -> Unit)
     {
         try {
             viewModelScope.launch {

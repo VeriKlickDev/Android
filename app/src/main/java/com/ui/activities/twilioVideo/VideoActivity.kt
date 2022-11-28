@@ -34,14 +34,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
-import com.data.checkInternet
+import com.data.*
 import com.data.dataHolders.*
-import com.data.dismissProgressDialog
 import com.data.helpers.RoomListenerCallback
 import com.data.helpers.RoomParticipantListener
 import com.data.helpers.TwilioHelper
-import com.data.showProgressDialog
-import com.data.showToast
 import com.data.twiliochat.TwilioChatHelper
 import com.domain.BaseModels.BodyUpdateRecordingStatus
 import com.domain.BaseModels.TokenResponseBean
@@ -858,7 +855,6 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                       */
                     handleRecyclerItemClick(pos, data!!, datalist!!, videotrack)
 
-
                     Log.d(TAG, "handleObserver: clicked on ${data.userName} $pos")
                 } catch (e: Exception) {
                     Log.d(
@@ -1433,8 +1429,6 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                     if (index1!=-1)
                     adapter.notifyItemChanged(index1)
 
-
-
                 }
             }
         }
@@ -1516,6 +1510,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             // tlist.reversed().distinctBy { it.identity }
             tlist
         )
+
+
+
 
         Log.d(
             TAG,
@@ -2133,19 +2130,26 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             )
             Log.d(TAG, "addRemoteParticipantVideo: vide track not null")
         } else {
-            remoteParticipantVideoList.add(
-                VideoTracksBean(
-                    remoteParticipant.identity!!,
-                    remoteParticipant!!,
-                    null,
-                    "",
-                    videoSid
+            try {
+                remoteParticipantVideoList.add(
+                    VideoTracksBean(
+                        remoteParticipant.identity!!,
+                        remoteParticipant!!,
+                        null,
+                        "Invited Participant",
+                        videoSid
+                    )
                 )
-            )
+            }catch (e:Exception)
+            {
+                Log.d(TAG, "addRemoteParticipantVideo: exception 2149 ${e.printStackTrace()}")
+            }
 
             Log.d(TAG, "addRemoteParticipantVideo: vide track null")
         }
-
+        remoteParticipant.identity
+        remoteParticipantVideoList.size
+        remoteParticipantVideoList
             /**testing*/
     /*    remoteParticipantVideoList?.let { list ->
           //  val isSameExists = list.filter { it.identity.equals(remoteParticipant.identity) }
@@ -2182,12 +2186,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 }
             }
             */
-
-
         }*/
-
-
-
 
         //viewModel.setConnectUser(remoteParticipantVideoList,localVideoTrack!!)
 
@@ -2207,10 +2206,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
       //  currentRemoteVideoTrack = null
         }
 
-        Log.d(
-            TAG,
-            "addRemoteParticipantVideo: remote after ${remoteParticipant.identity}  ${remoteParticipantVideoList.size}"
-        )
+        Log.d(            TAG,            "addRemoteParticipantVideo: remote after ${remoteParticipant.identity}  ${remoteParticipantVideoList.size}")
 
         //testing working
         setConnectUser()
@@ -2538,9 +2534,34 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
     override fun onParticipantConnected(room: Room, participant: RemoteParticipant) {
         /***/
         //remoteParticipantVideoList.add(VideoTracksBean(participant,room.remoteParticipants.,"",true))
-        Log.d(TAG, "onParticipantConnected: called")
+        Log.d(TAG, "onParticipantConnected: called ")
+        room.remoteParticipants
+        room.remoteParticipants.size
+        room.remoteParticipants.forEach {
+            Log.d(TAG, "onParticipantConnected: participants 2550 ${it.identity}")
+        }
 
+        var identityList= mutableListOf<String>()
+
+        CurrentMeetingDataSaver.getData().users?.forEachIndexed{index,user->
+            var identity=(user.userType+user.id).uppercase().toString()
+            identityList.add(identity)
+        }
+
+        var invited=identityList.any{ it.equals(participant.identity)}
+
+
+        if (!invited)
+        {
+            getUserNames(participant)
+        }else
+        {
         addRemoteParticipant(participant!!)
+        }
+
+        //working 28_nov addRemoteParticipant(participant!!)
+
+
         //  setBlankBackground(false)
         /*  participant.remoteVideoTracks?.let {
               it[0].remoteVideoTrack?.addSink(binding.primaryVideoView)
@@ -2826,6 +2847,13 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         remoteVideoTrackPublication: RemoteVideoTrackPublication,
         remoteVideoTrack: RemoteVideoTrack
     ) {
+        room!!.remoteParticipants
+        room!!.remoteParticipants.size
+        Log.d(TAG, "onVideoTrackSubscribed: remote size ${room!!.remoteParticipants.size}")
+        room!!.remoteParticipants.forEach {
+            Log.d(TAG, "onVideoTrackSubscribed: participants is ${it.identity} videotrack ${it.remoteVideoTracks.size}")
+        }
+
         TwilioHelper.setRemoteParticipantListener(remoteParticipant)
         remoteVideoTrack
         remoteParticipant
@@ -2947,6 +2975,17 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
         remoteVideoTrack
         remoteVideoTrackPublication
+
+
+        Log.d(TAG, "onVideoTrackunSubscribed: remote size ${room!!.remoteParticipants.size}")
+
+        room!!.remoteParticipants
+        room!!.remoteParticipants.size
+        room!!.remoteParticipants.forEach {
+            Log.d(TAG, "onVideoTrackSubscribed: participants is ${it.identity} videotrack ${it.remoteVideoTracks.size}")
+        }
+
+
 
         Log.i(
             TAG, "onVideoTrackUnsubscribed: " +
@@ -3684,5 +3723,55 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             Log.d(TAG, "onAudioTrackDisabled: ")
         }
     }
+
+    private fun getUserNames(participant: RemoteParticipant)
+    {
+            viewModel.getVideoSessionDetails(CurrentMeetingDataSaver.getData().videoAccessCode.toString(), onDataResponse = { data,event ->
+
+                when (event) {
+                    200 -> {
+                        Log.d(TAG, "meeting data in 200 ${data}")
+
+                        data?.videoAccessCode=CurrentMeetingDataSaver.getData().videoAccessCode.toString()
+                        CurrentMeetingDataSaver.setData(data!!)
+
+                        CurrentMeetingDataSaver.setData(data)
+                        addRemoteParticipant(participant!!)
+                        Log.d(TAG, "getInterviewDetails: user response $data")
+                        //val identityWithoutFirstChar=CurrentMeetingDataSaver.getData().identity?.substring(1,CurrentMeetingDataSaver.getData().identity?.length!!.toInt())
+                        //Log.d(TAG, "getInterviewDetails: identity ${CurrentMeetingDataSaver.getData().identity} identitywitoutno $identityWithoutFirstChar")
+                        // Log.d(TAG, "host : ${data.token}  ${data.roomName}")
+                        // TwilioHelper.setTwilioCredentials(data.token.toString(), data.roomName.toString())
+                        // startActivity(Intent(this@JoinMeetingActivity, VideoActivity::class.java))
+                    }
+                    400 -> {
+                        //showToast(this,data?.aPIResponse?.message!!)
+                        data?.videoAccessCode=CurrentMeetingDataSaver.getData().videoAccessCode.toString()
+                        //showToast(this, "null values")
+                        /*  data?.let { CurrentMeetingDataSaver.setData(it) }
+                          joinMeetingCandidate(accessCode)*/
+                        Log.d(TAG, "getInterviewDetails: user response $data")
+                    }
+                    404 -> {
+                        //showToast(this, data?.aPIResponse?.message.toString())
+                    }
+                    401->{
+                        //showToast(this,data?.aPIResponse?.message!!)
+                         data?.videoAccessCode=CurrentMeetingDataSaver.getData().videoAccessCode.toString()
+                         CurrentMeetingDataSaver.setData(data!!)
+                         CurrentMeetingDataSaver.setData(data)
+                        Log.d(TAG, "getInterviewDetails: user response $data")
+                    }
+                }
+                Log.d(TAG, "getInterviewDetails: status ${data?.aPIResponse?.message}")
+            })
+        }
+
+
+
+
+
+
+
 
 }
