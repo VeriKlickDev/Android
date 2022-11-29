@@ -15,12 +15,12 @@ object TwilioChatHelper {
     private var conversationsClient: ConversationsClient? = null
     private var conversation: Conversation? = null
     private var DEFAULT_CONVERSATION_NAME: String? = null
+    fun setInstanceOfChat(mcontext: Context, token: String, conversationName: String) {
 
-    fun setInstanceOfChat(context: Context, token: String, conversationName: String) {
         DEFAULT_CONVERSATION_NAME = conversationName
         Log.d(TAG, "initializeWithAccessToken: in intialize method")
         val props = ConversationsClient.Properties.newBuilder().createProperties()
-        ConversationsClient.create(context, token!!, props, mConversationsClientCallback)
+        ConversationsClient.create(mcontext, token!!, props, mConversationsClientCallback)
     }
 
     private val mConversationsClientCallback: CallbackListener<ConversationsClient> =
@@ -89,6 +89,7 @@ object TwilioChatHelper {
                 override fun onSuccess(result: Conversation?) {
                     Log.d(TAG, "success to create conversation  $DEFAULT_CONVERSATION_NAME")
                     conversation = result
+
                     if (result != null) {
                         Log.d(
                             TAG,
@@ -97,6 +98,8 @@ object TwilioChatHelper {
                         joinConversation()
 
                         conversation?.let { joinConversation() }
+
+
                         //loadChannels(conversationsClient!!)
                         //joinConversation(conversation!!)
                     }
@@ -151,9 +154,9 @@ object TwilioChatHelper {
                         super.onError(errorInfo)
                         Log.e(TAG, "Error joining my conversation:  " + errorInfo?.message)
 
-/*                        myconversation!!.addListener(
+                       myconversation!!.addListener(
                             mDefaultConversationListener
-                        )*/
+                        )
                         conversation = myconversation
                         loadPreviousMessages(myconversation)
                     }
@@ -168,9 +171,7 @@ object TwilioChatHelper {
                 override fun onSuccess() {
                     //conversation = mconversation
                     Log.d(TAG, "JoionSuccess: in success to getchannelned default conversation")
-                    conversation!!.addListener(
-                        mDefaultConversationListener
-                    )
+                     conversation!!.addListener(mDefaultConversationListener)
                     conversation?.participantsList?.forEach {
                         Log.d(TAG, "onSuccess: participants list ${it.identity} ")
                     }
@@ -179,11 +180,12 @@ object TwilioChatHelper {
 
                 override fun onError(errorInfo: ErrorInfo) {
                     Log.e(TAG, "Error joining conversation: " + errorInfo.message)
-                    conversation!!.addListener(mDefaultConversationListener)
+                     conversation!!.addListener(mDefaultConversationListener)
                     loadPreviousMessages(conversation!!)
                 }
             })
         }
+       // conversation!!.addListener(mDefaultConversationListener)
     }
 
     private fun loadPreviousMessages(conversation: Conversation) {
@@ -266,16 +268,24 @@ object TwilioChatHelper {
         }
     }
 
+    var msgCallbackinterface:MessageCallBack?=null
 
-    fun sendChatMessage(txt: String, response: (isSuccess: Boolean) -> Unit) {
+    fun sendChatMessage(txt: String, msgCallBacki: MessageCallBack) {
+        Log.d(TAG, "sendChatMessage: ")
+        msgCallbackinterface=msgCallBacki
         if (conversation != null) {
             val options = Message.options().withBody(txt)
+          //  conversation!!.addListener(mDefaultConversationListener)
 
-            conversation!!.sendMessage(options, CallbackListener {
-                Log.d(TAG, "sendChatMessage: message sent ${it.messageBody}")
-                response(true)
+            conversation!!.sendMessage(options, msgCallBack)
+
                 // viewModel.setMessages(it.messageBody.toString(), AppConstants.CHAT_SENDER)
-            })
+        }
+    }
+
+    private val msgCallBack=object : CallbackListener<Message>{
+        override fun onSuccess(result: Message?) {
+        msgCallbackinterface!!.isSuccess(true)
         }
     }
 
@@ -386,9 +396,8 @@ object TwilioChatHelper {
     private val mDefaultConversationListener: ConversationListener = object : ConversationListener {
 
         override fun onMessageAdded(message: Message) {
-            Log.d(TAG, "Message added")
+            Log.d(TAG, "Message added ${message.sid}")
             try {
-
                 val currentUser = CurrentMeetingDataSaver.getData().identity
                 val usr = if (message.author == currentUser) {
                     AppConstants.CHAT_SENDER
@@ -492,7 +501,8 @@ object TwilioChatHelper {
                         || conversation?.status == Conversation.ConversationStatus.NOT_PARTICIPATING
                     ) {
                         conversation = result
-                        conversation?.addListener(mDefaultConversationListener)
+                       // conversation!!.removeListener(mDefaultConversationListener)
+                       // conversation?.addListener(mDefaultConversationListener)
                         loadPreviousMessages(conversation!!)
                         Log.d(
                             TAG,
@@ -549,7 +559,9 @@ object TwilioChatHelper {
         chatlist.clear()
         allMsgLiveData.postValue(chatlist)
     }
+}
 
 
-
+interface MessageCallBack {
+    fun isSuccess(status:Boolean)
 }

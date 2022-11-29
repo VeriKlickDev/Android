@@ -146,7 +146,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
         } else {
             binding.remarkError.isVisible = false
         }
-        if (binding.etOverallRemark.text.toString()
+      /*  if (binding.etOverallRemark.text.toString()
                 .equals("")
         ) {
             binding.overallRemarkError.isVisible = true
@@ -157,7 +157,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
             binding.roleError.isVisible = true
         } else {
             binding.roleError.isVisible = false
-        }
+        }*/
     }
 
 
@@ -494,10 +494,10 @@ class ActivityFeedBackForm : AppCompatActivity() {
                     if (!data.CandidateAssessmentPanelMembers[0].Designation.toString().equals("null") || data.CandidateAssessmentPanelMembers[0].Designation!=null) {
                             binding.etRole.setText(data.CandidateAssessmentPanelMembers[0].Designation!!.toString())
 
-                        binding.roleError.isVisible=false
+                       // binding.roleError.isVisible=false
                     }else
                     {
-                        binding.roleError.isVisible=true
+                       // binding.roleError.isVisible=true
                     }
 
                 }catch (e:Exception)

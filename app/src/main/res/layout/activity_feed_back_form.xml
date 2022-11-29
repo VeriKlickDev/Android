@@ -316,15 +316,15 @@
 
 
 
-                        <TextView
-                            style="@style/heading.TextView.Black_16"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/overallRemarkError"
-                            android:textColor="@color/red"
-                            android:visibility="visible"
-                            android:layout_marginLeft="2sp"
-                            android:text="*" />
+<!--                        <TextView-->
+<!--                            style="@style/heading.TextView.Black_16"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:id="@+id/overallRemarkError"-->
+<!--                            android:textColor="@color/red"-->
+<!--                            android:visibility="visible"-->
+<!--                            android:layout_marginLeft="2sp"-->
+<!--                            android:text="*" />-->
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -415,15 +415,15 @@
 
 
 
-                        <TextView
-                            style="@style/heading.TextView.Black_16"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/roleError"
-                            android:textColor="@color/red"
-                            android:visibility="visible"
-                            android:layout_marginLeft="@dimen/_2sp"
-                            android:text="*" />
+<!--                        <TextView-->
+<!--                            style="@style/heading.TextView.Black_16"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:id="@+id/roleError"-->
+<!--                            android:textColor="@color/red"-->
+<!--                            android:visibility="visible"-->
+<!--                            android:layout_marginLeft="@dimen/_2sp"-->
+<!--                            android:text="*" />-->
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 

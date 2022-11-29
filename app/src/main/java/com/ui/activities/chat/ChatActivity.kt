@@ -12,8 +12,8 @@ import com.data.dataHolders.ChatMessagesHolder
 
 import com.data.dataHolders.CurrentConnectUserList
 import com.data.dataHolders.CurrentMeetingDataSaver
+import com.data.twiliochat.MessageCallBack
 import com.data.twiliochat.TwilioChatHelper
-
 import com.domain.BaseModels.ChatMessagesModel
 import com.domain.constant.AppConstants
 import com.example.twillioproject.R
@@ -23,7 +23,7 @@ import com.ui.listadapters.MessagelistAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ChatActivity : AppCompatActivity() {
+class ChatActivity : AppCompatActivity(){
 
     private lateinit var binding: ActivityChatBinding
 
@@ -67,10 +67,8 @@ class ChatActivity : AppCompatActivity() {
             if (binding.etTxtMsg.text.toString().isNotEmpty()) {
                 // chatConversationManager!!.sendMessage(binding.etTxtMsg.text.toString())
                 if (!binding.etTxtMsg.text.toString().isBlank()){
-                    TwilioChatHelper.sendChatMessage(binding.etTxtMsg.text.toString())
-                    {
-                        binding.etTxtMsg.setText("")
-                    }
+                    TwilioChatHelper.sendChatMessage(binding.etTxtMsg.text.toString(),msgCallback)
+                    binding.etTxtMsg.setText("")
                 }
             }
         }
@@ -88,6 +86,14 @@ class ChatActivity : AppCompatActivity() {
             })
         }
     }
+
+    val msgCallback=object: MessageCallBack {
+        override fun isSuccess(status: Boolean) {
+            if (status)
+                binding.etTxtMsg.setText("")
+        }
+    }
+
     private  fun setChatAdapter()
     {
         chatAdapter = MessagelistAdapter(this,chatList)
@@ -172,6 +178,7 @@ class ChatActivity : AppCompatActivity() {
         super.finish()
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
+
 
 
 }
