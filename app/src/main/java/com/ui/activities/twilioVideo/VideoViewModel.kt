@@ -10,6 +10,7 @@ import com.data.dataHolders.VideoRecordingStatusHolder
 import com.data.helpers.TwilioHelper
 import com.data.repositoryImpl.RepositoryImpl
 import com.domain.BaseModels.*
+import com.google.gson.Gson
 import com.twilio.video.LocalVideoTrack
 import com.twilio.video.RemoteParticipant
 import com.twilio.video.VideoTrack
@@ -333,7 +334,10 @@ fun setCandidateJoinedStatus(onResult: (action: Int, data: ResponseCandidateJoin
     {
         try {
             viewModelScope.launch {
-                val result = repositoryImpl.setCandidateJoinMeetingStatus(BodyCandidateJoinedMeetingStatus(CurrentMeetingDataSaver.getData().videoAccessCode,"Attended",CurrentMeetingDataSaver.getData().interviewModel?.subscriberid!!.toString()))
+                //val ob=BodyCandidateJoinedMeetingStatus(CurrentMeetingDataSaver.getData().videoAccessCode,"Attended",CurrentMeetingDataSaver.getData().interviewModel?.subscriberid!!.toString())
+                val ob=BodyCandidateJoinedMeetingStatus(CurrentMeetingDataSaver.getData().videoAccessCode,"","")
+                Log.d(TAG, "setCandidateJoinedStatus: ${Gson().toJson(ob)}")
+                val result = repositoryImpl.setCandidateJoinMeetingStatus(ob)
                 if (result.isSuccessful) {
                     if (result.body() != null) {
                         onResult(200, result.body()!!)

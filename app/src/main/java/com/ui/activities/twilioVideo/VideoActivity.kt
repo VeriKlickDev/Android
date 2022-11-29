@@ -372,7 +372,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             try {
                 if (CurrentMeetingDataSaver.getData().identity!!.contains("C")) {
                       viewModel.setCandidateJoinedStatus { action, data ->
-                          Log.d(TAG, "handleObserver: candidate joined status $action")
+                          Log.d(TAG, "handleObserver: candidate joined status $action $data")
                       }
                 }
             } catch (e: Exception) {

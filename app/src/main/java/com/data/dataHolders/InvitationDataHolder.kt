@@ -108,7 +108,10 @@ data class InvitationDataModel(
     var lastName: String = "",
     var email: String = "",
     var phone: String = "",
-    var isError:Boolean=false
+    var isFirstNameError:Boolean=false,
+    var isLastNameError:Boolean=false,
+    var isEmailError:Boolean=false,
+    var isPhoneError:Boolean=false,
    // var InterviewerTimezone: String? = null
 )
 

@@ -106,23 +106,6 @@ class ActivityAddParticipant : AppCompatActivity() {
 
     private fun handleObserver() {
 
-        AddParticipantsErrorChecker.isError.observe(this)
-        {
-            try {
-                if (it[0] && it[1] && it[2] && it[3])
-                {
-                    setSubmitButtonEnable(false)
-                }else
-                {
-                    setSubmitButtonEnable(true)
-                }
-            }catch (e:Exception)
-            {
-
-            }
-        }
-
-
         CallStatusHolder.getCallStatus().observe(this) {
             if (it) {
                 CallStatusHolder.setLastCallStatus(true)
@@ -254,23 +237,47 @@ class ActivityAddParticipant : AppCompatActivity() {
 
             Log.d(TAG, "postInvitation:  tim zone $invitationList")
             distinctinvitationList.addAll(invitationList.distinctBy { it.uid })
-            if (!isEmpty) {
-                if (checkInternet()) {
-                   // checkIsErrorExists()
-                    sendInvitation()
-                } else {
-                    Snackbar.make(
-                        binding.root,
-                        getString(com.example.twillioproject.R.string.txt_no_internet_connection),
-                        Snackbar.LENGTH_SHORT
-                    ).show()
+            var isErrorOccur = false
+            if (!distinctinvitationList.isNullOrEmpty()) {
+
+                distinctinvitationList.forEachIndexed { index, invitationDataModel ->
+                    if (!invitationDataModel.isFirstNameError && !invitationDataModel.isLastNameError && !invitationDataModel.isEmailError && !invitationDataModel.isPhoneError) {
+                        isErrorOccur = true
+                    }else
+                    {
+                        isErrorOccur = false
+                    }
                 }
-                Log.d(TAG, "postInvitation:  posting data")
-            } else {
-                showCustomToast(getString(R.string.txt_all_fields_required))
-                //showToast(this,getString(R.string.txt_all_fields_required))
-                Log.d(TAG, "postInvitation:  fill all fields first")
             }
+
+            if (isErrorOccur){
+
+                if (!isEmpty) {
+                    if (checkInternet()) {
+                        // checkIsErrorExists()
+                        //showCustomToast("posted")
+                        sendInvitation()
+                    } else {
+                        Snackbar.make(
+                            binding.root,
+                            getString(com.example.twillioproject.R.string.txt_no_internet_connection),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
+                    Log.d(TAG, "postInvitation:  posting data")
+                } else {
+                    showCustomToast(getString(R.string.txt_all_fields_required))
+                    //showToast(this,getString(R.string.txt_all_fields_required))
+                    Log.d(TAG, "postInvitation:  fill all fields first")
+                }
+
+            }else
+            {
+                showCustomToast(getString(R.string.txt_please_enter_valid_info))
+            }
+
+
+
 
         } else {
             Log.d(TAG, "postInvitation: invitation list is null")
@@ -340,7 +347,7 @@ class ActivityAddParticipant : AppCompatActivity() {
         if (!interviewList.isNullOrEmpty()){
             var isErrorOccur=false
             interviewList.forEachIndexed { index, invitationDataModel ->
-                if (invitationDataModel.isError) {
+                if (invitationDataModel.isFirstNameError) {
                     isErrorOccur=true
                 }
             }
@@ -362,19 +369,19 @@ class ActivityAddParticipant : AppCompatActivity() {
         if (!interviewList.isNullOrEmpty()){
             var isErrorOccur=false
             interviewList.forEachIndexed { index, invitationDataModel ->
-                if (invitationDataModel.isError) {
+                if (invitationDataModel.isFirstNameError && invitationDataModel.isLastNameError && invitationDataModel.isEmailError && invitationDataModel.isPhoneError) {
                     isErrorOccur=true
                 }
             }
 
             if (isErrorOccur)
             {
-                setSubmitButtonEnable(false)
-                showCustomToast(getString(R.string.txt_data_already_exists))
+               // setSubmitButtonEnable(false)
+//                showCustomToast(getString(R.string.txt_data_already_exists))
             }else
             {
                 addParticipantItem()
-                setSubmitButtonEnable(true)
+               // setSubmitButtonEnable(true)
             }
         }
     }
