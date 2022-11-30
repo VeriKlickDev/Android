@@ -123,7 +123,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
     {
 
         binding.etRemart.doOnTextChanged { text, start, before, count ->
-            binding.remarkError.isVisible = binding.etRemart.text.toString().equals("")
+           // binding.remarkError.isVisible = binding.etRemart.text.toString().equals("")
         }
 
         binding.etRole.doOnTextChanged { text, start, before, count ->
@@ -142,9 +142,9 @@ class ActivityFeedBackForm : AppCompatActivity() {
         if (binding.etRemart.text.toString().trim()
                 .equals("")
         ) {
-            binding.remarkError.isVisible = true
+           // binding.remarkError.isVisible = true
         } else {
-            binding.remarkError.isVisible = false
+           // binding.remarkError.isVisible = false
         }
       /*  if (binding.etOverallRemark.text.toString()
                 .equals("")
@@ -222,14 +222,15 @@ class ActivityFeedBackForm : AppCompatActivity() {
         /*if (!binding.etRemart.text.toString()
                 .equals("") && !binding.etRole.text.toString().equals("")
         )*/
+        postData()/*working 30_nov
         if (!binding.etRemart.text.toString()
                 .equals("") ) {
-            postData()
+
         } else {
             binding.btnSubmitButton.isEnabled=true
             showCustomSnackbarOnTop(getString(R.string.txt_all_fields_required))
             //showToast(this, getString(R.string.txt_all_fields_required))
-        }
+        }*/
     }
 
     private var assesmentid = 0
@@ -279,6 +280,18 @@ class ActivityFeedBackForm : AppCompatActivity() {
             }
 
 
+            var remark=""
+            if (binding.etRemart.text.toString().equals(""))
+            {
+
+            }else
+            {
+                remark=binding.etRemart.text.toString()
+            }
+
+
+
+
             viewModel.sendFeedback(this,
                 assesmentid,
                 role,
@@ -287,7 +300,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 role,
                 interviewName,
                 candidateId,
-                binding.etRemart.text.toString(),
+                remark,
                 codingRemark,
                 BodyFeedBack(
                     CandidateAssessmentSkills = skillist,
@@ -482,11 +495,11 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 if (!data.Recommendation.toString().equals("") || data.Recommendation!=null)
                 {
                     binding.etRemart.setText(data.Recommendation)
-                    binding.remarkError.isVisible=false
+                  //  binding.remarkError.isVisible=false
                 }else
                 {
                     binding.etRemart.setText("")
-                    binding.remarkError.isVisible=true
+                   // binding.remarkError.isVisible=true
                 }
 
 

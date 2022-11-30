@@ -31,7 +31,7 @@
             android:maxLines="1"
             android:maxLength="50"
             android:singleLine="true"
-            android:digits="0123456789qwertzuiopasdfghjklyxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+            android:digits="qwertzuiopasdfghjklyxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
             android:imeOptions="actionNext"
             android:layout_gravity="center_horizontal"
             android:layout_width="match_parent"
@@ -61,7 +61,7 @@
             android:maxLines="1"
             android:singleLine="true"
             android:maxLength="50"
-            android:digits="0123456789qwertzuiopasdfghjklyxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+            android:digits="qwertzuiopasdfghjklyxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
             android:layout_gravity="center_horizontal"
             android:layout_width="match_parent"
             android:imeOptions="actionNext"
@@ -110,7 +110,6 @@
             android:textSize="@dimen/_10sp"
             android:visibility="visible" />
 
-
         <EditText
             android:drawablePadding="@dimen/_10sp"
             android:id="@+id/et_phone_number"
@@ -120,7 +119,7 @@
             android:layout_height="wrap_content"
             android:imeOptions="actionDone"
             android:singleLine="true"
-            android:digits="0123456789+*"
+            android:digits="0123456789"
             android:inputType="phone"
             android:ems="10"
             android:maxLength="10"

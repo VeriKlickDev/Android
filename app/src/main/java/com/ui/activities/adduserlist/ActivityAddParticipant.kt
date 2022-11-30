@@ -398,6 +398,14 @@ class ActivityAddParticipant : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (CallStatusHolder.checkCallOnResume())
+        {
+            finish()
+        }
+    }
+
     private fun addParticipantItem()
     {
 

@@ -48,6 +48,36 @@ class ConnectedUserListAdapter(
             holder.binding.ivPinned.isVisible = it.equals(list.get(position).identity)
         }
 
+        try {
+           Handler(Looper.getMainLooper()).postDelayed({
+               list[position].remoteParticipant?.remoteAudioTracks?.firstOrNull()?.isTrackEnabled?.let {
+                   list[position].isMicon=!it
+                   holder.binding.ivMic.isVisible=!it
+           }},200)
+        }catch (e:Exception)
+        {
+            Log.d(TAG, "onBindViewHolder: exception 55 ${e.printStackTrace()}")
+        }
+
+
+        TwilioHelper.getMicStatusLive().observe(context as VideoActivity, Observer {
+
+                try {
+                    if (it.identity.equals(list[position].identity)) {
+                    list[position].isMicon=it.micStatus
+                    holder.setMicStatus(it.micStatus)
+                }
+                }catch (e:Exception)
+                {
+                    Log.d(TAG, "bindData: exception 168 ${e.printStackTrace()}")
+                }
+
+        })
+
+
+
+
+
         /* if (list[position].remoteParticipant!=null) {
              if (list[position].remoteParticipant?.identity!!.contains("C")) {
                  holder.binding.parentLayout.visibility = View.GONE
@@ -106,11 +136,7 @@ class ConnectedUserListAdapter(
                 Log.d(TAG, "bindData: video trak null")
             }
 
-            TwilioHelper.getMicStatusLive().observe(context as VideoActivity, Observer {
-                if (it.identity.equals(data.identity)) {
-                    setMicStatus(it.micStatus)
-                }
-            })
+
 
             TwilioHelper.getNetWorkQualityLevel().observe(context as VideoActivity) {
                 if (it.identity.equals(data.identity)) {
@@ -159,7 +185,9 @@ class ConnectedUserListAdapter(
                 }
             } catch (e: Exception) {
                 Log.d("AddUserListAdapter", "bindData: exception ${e.printStackTrace()}")
+
             }
+
         }
 
         val longclick = object : View.OnLongClickListener {

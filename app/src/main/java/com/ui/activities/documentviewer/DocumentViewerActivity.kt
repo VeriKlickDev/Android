@@ -88,8 +88,14 @@ class DocumentViewerActivity : AppCompatActivity() {
 
             }
         }
+    }
 
-
+    override fun onResume() {
+        super.onResume()
+        if (CallStatusHolder.checkCallOnResume())
+        {
+            finish()
+        }
     }
 
     override fun finish() {

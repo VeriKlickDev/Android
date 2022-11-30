@@ -101,7 +101,14 @@ fun emailValidator(
 ^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$
 
+"[a-zA-Z0-9._%+-]+@
+([a-zA-Z0-9-]{1,})+(\.[a-zA-Z]{2,})
+(\.[a-zA-Z]{2,})?$"
+
      */
+
+   // val pattrn="[a-zA-Z0-9._%+-]+@([a-zA-Z0-9-]{1,})+(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?$"
+
     var mEmail = email.trim()
     val emailPattern="^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+"[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
     val EMAIL_ADDRESS_PATTERN: Pattern =

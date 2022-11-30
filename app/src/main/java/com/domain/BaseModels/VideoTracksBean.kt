@@ -7,6 +7,7 @@ data class VideoTracksBean(
     var remoteParticipant: RemoteParticipant? = null,
     var videoTrack: VideoTrack? = null,
     var userName: String? = null,
-    val videoSid: String? = null
+    val videoSid: String? = null,
+    var isMicon:Boolean=true
 )
 //,val sid:String
