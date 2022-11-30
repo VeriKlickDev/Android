@@ -101,7 +101,14 @@ fun emailValidator(
 ^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$
 
+"[a-zA-Z0-9._%+-]+@
+([a-zA-Z0-9-]{1,})+(\.[a-zA-Z]{2,})
+(\.[a-zA-Z]{2,})?$"
+
      */
+
+   // val pattrn="[a-zA-Z0-9._%+-]+@([a-zA-Z0-9-]{1,})+(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?$"
+
     var mEmail = email.trim()
     val emailPattern="^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+"[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
     val EMAIL_ADDRESS_PATTERN: Pattern =
@@ -114,7 +121,7 @@ fun emailValidator(
         validateEmail(false, "", context.getString(R.string.txt_required))
         error = context.getString(R.string.txt_enter_valid_email)
     } else {
-        if (EMAIL_ADDRESS_PATTERN.matcher(mEmail).matches()) {
+        if (android.util.Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
 
             isEmailOk = true
             isemailok = true

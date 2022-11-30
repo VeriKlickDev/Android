@@ -129,7 +129,11 @@ class MemberListActivity : AppCompatActivity() {
         if (CallStatusHolder.getLastCallStatus())
         {
             finish()
+        }else if (CallStatusHolder.checkCallOnResume())
+        {
+            finish()
         }
+
 
     }
 

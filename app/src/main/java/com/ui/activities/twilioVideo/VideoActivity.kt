@@ -166,6 +166,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         super.onCreate(savedInstanceState)
         binding = ActivityTwilioVideoBinding.inflate(LayoutInflater.from(this))
         binding.onClick = this
+        CallStatusHolder.setCallonResumeFalse()
         // requestWindowFeature(Window.FEATURE_NO_TITLE);
         // this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(binding.root)
@@ -417,6 +418,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         TwilioHelper.disConnectRoom()
         //  room!!.disconnect()
         //viewModel.endVideoCall()
+        TwilioChatHelper.removeCallBacks()
+        TwilioChatHelper.clearChatList()
+
         viewModel.setScreenSharingStatus(true, onResult = { action, data -> })
         var isNotCandidate = true
 
@@ -424,14 +428,15 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             if (!CurrentMeetingDataSaver.getData().identity!!.contains("C")) {
                 var isCandidateEnter=false
                 CurrentConnectUserList.getListofParticipant().forEach {
-                  if(CurrentMeetingDataSaver.getData().isPresenter==false) {
+                 // if(CurrentMeetingDataSaver.getData().isPresenter==false) {
 
                       if (it.identity!!.contains("C")) {
                           isCandidateEnter=true
                           Log.d(TAG, "endCall: called feedback form")
                       }
-                  }
+                  //}
                 }
+
                 if (isCandidateEnter)
                 {
                     val intent = Intent(this@VideoActivity, ActivityFeedBackForm::class.java)
@@ -442,7 +447,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 }
             }
         }
-        TwilioChatHelper.clearChatList()
+        UpcomingMeetingStatusHolder.setIsRefresh(true)
         Log.d(TAG, "endCall: service status ${meetingManager.getServiceState()}")
 
     }
@@ -2625,6 +2630,16 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
             adapter.notifyDataSetChanged()
         }
+
+        val tlist= mutableListOf<VideoTracksBean>()
+        tlist.addAll(remoteParticipantVideoList)
+        tlist.forEachIndexed { index, videoTracksBean ->
+            if (videoTracksBean.identity.equals(participant.identity))
+            {
+            remoteParticipantVideoList.remove(videoTracksBean)
+            }
+        }
+        setConnectUser()
         //  currentRemoteVideoTrack?.removeSink(binding.primaryVideoView)
         //  localVideoTrack?.addSink(binding.primaryVideoView)
     }

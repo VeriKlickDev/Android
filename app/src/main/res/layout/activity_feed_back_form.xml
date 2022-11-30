@@ -258,16 +258,16 @@
                             />
 
 
-                        <TextView
-                            style="@style/heading.TextView.Black_16"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/remarkError"
-                            android:textColor="@color/red"
-                            android:visibility="visible"
-                            android:gravity="center"
-                            android:layout_marginLeft="@dimen/_2sp"
-                            android:text="*" />
+<!--                        <TextView-->
+<!--                            style="@style/heading.TextView.Black_16"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:id="@+id/remarkError"-->
+<!--                            android:textColor="@color/red"-->
+<!--                            android:visibility="visible"-->
+<!--                            android:gravity="center"-->
+<!--                            android:layout_marginLeft="@dimen/_2sp"-->
+<!--                            android:text="*" />-->
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
                     <EditText

@@ -62,7 +62,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
 
     private var searchTxt = ""
-    private var isCallInProgress=false
+    private var isCallInProgress = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUpcomingMeetingBinding.inflate(layoutInflater)
@@ -242,13 +242,40 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         })
         setupAdapter()
 
+
+
     }
 
-private  var ob: BodyScheduledMeetingBean? = null
-    
+    private fun refereshPage() {
+        if (checkInternet()) {
+            meetingsList.clear()
+            pageno = 1
+            handleUpcomingMeetingsList(7, 1, 9)
+        } else {
+            Snackbar.make(
+                binding.root, getString(R.string.txt_no_internet_connection),
+                Snackbar.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        UpcomingMeetingStatusHolder.getRefereshStatus()?.let {
+            if (UpcomingMeetingStatusHolder.getRefereshStatus()!!)
+            {
+                refereshPage()
+                UpcomingMeetingStatusHolder.setIsRefresh(false)
+            }
+        }
+    }
+
+    private var ob: BodyScheduledMeetingBean? = null
+
     private fun handleUpcomingMeetingsList(action: Int, pageNumber: Int, pageSize: Int) {
+        Log.d(TAG, "handleUpcomingMeetingsList: refreshed")
         UpcomingMeetingStatusHolder.setStatus(status)
-       
 
         var recruiterId = ""
         var userId = ""
@@ -266,32 +293,32 @@ private  var ob: BodyScheduledMeetingBean? = null
 
         when (action) {
             //first attempt
-            0->{
-               WeeksDataHolder.getISTandUTCDate(currentDateIST!!,2){ist, utc, istx, utcx ->
-                   ob!!.from=utc
-                   ob!!.to=utcx
+            0 -> {
+                WeeksDataHolder.getISTandUTCDate(currentDateIST!!, 2) { ist, utc, istx, utcx ->
+                    ob!!.from = utc
+                    ob!!.to = utcx
 
-                   ob!!.fromdate=ist
-                   ob!!.todate=istx
+                    ob!!.fromdate = ist
+                    ob!!.todate = istx
 
-                   currentDateIST = istx
-                   currentDateUTC = utcx
-               }
-                isNextClicked=true
+                    currentDateIST = istx
+                    currentDateUTC = utcx
+                }
+                isNextClicked = true
             }
             7 -> {
 
-                try{
+                try {
 
-                    val dObject=WeeksDataHolder.getCurrentDates()
-                    ob?.from=dObject?.utc
-                    ob?.fromdate=dObject?.ist
+                    val dObject = WeeksDataHolder.getCurrentDates()
+                    ob?.from = dObject?.utc
+                    ob?.fromdate = dObject?.ist
 
-                    ob?.to=dObject!!.utcx
-                    ob?.todate=dObject?.istx
+                    ob?.to = dObject!!.utcx
+                    ob?.todate = dObject?.istx
 
 
-                }catch (e:Exception){
+                } catch (e: Exception) {
 
                 }
                 binding.swipetorefresh.isRefreshing = false
@@ -299,11 +326,11 @@ private  var ob: BodyScheduledMeetingBean? = null
             }
             //for past / previous
             1 -> {
-                WeeksDataHolder.getDecreasedDate(currentDateIST!!){ist, utc ->
-                    currentDateIST=ist
-                    currentDateUTC=utc
+                WeeksDataHolder.getDecreasedDate(currentDateIST!!) { ist, utc ->
+                    currentDateIST = ist
+                    currentDateUTC = utc
                 }
-                WeeksDataHolder.getISTandUTCDate(currentDateIST!!,1) { ist, utc, istx, utcx ->
+                WeeksDataHolder.getISTandUTCDate(currentDateIST!!, 1) { ist, utc, istx, utcx ->
                     ob!!.from = utc
                     ob!!.to = utcx
 
@@ -320,12 +347,12 @@ private  var ob: BodyScheduledMeetingBean? = null
             }
             //for next week date
             2 -> {
-                WeeksDataHolder.getIncreasedDate(currentDateIST!!){ist, utc ->
-                    currentDateIST=ist
-                    currentDateUTC=utc
+                WeeksDataHolder.getIncreasedDate(currentDateIST!!) { ist, utc ->
+                    currentDateIST = ist
+                    currentDateUTC = utc
                 }
 
-                WeeksDataHolder.getISTandUTCDate(currentDateIST!!,2) { ist, utc, istx, utcx ->
+                WeeksDataHolder.getISTandUTCDate(currentDateIST!!, 2) { ist, utc, istx, utcx ->
                     ob!!.from = utc
                     ob!!.to = utcx
 
@@ -337,7 +364,6 @@ private  var ob: BodyScheduledMeetingBean? = null
                     currentDateUTC = utcx
 
 
-
                 }
 
                 isNextClicked = true
@@ -345,7 +371,14 @@ private  var ob: BodyScheduledMeetingBean? = null
 
         }
 
-        WeeksDataHolder.setCurrentTime(WeeksDataHolder.CurrentDatesHolderModel(ob?.fromdate!!,ob?.from!!,ob?.todate!!,ob?.to!!))
+        WeeksDataHolder.setCurrentTime(
+            WeeksDataHolder.CurrentDatesHolderModel(
+                ob?.fromdate!!,
+                ob?.from!!,
+                ob?.todate!!,
+                ob?.to!!
+            )
+        )
 
         binding.tvFromdateToDate.text = getDateWithMonthName(
             ob!!.from.toString(),
@@ -365,12 +398,12 @@ private  var ob: BodyScheduledMeetingBean? = null
         ob!!.PageSize = pageSize
 
 
-        WeeksDataHolder.getPrevious1DateTimed18_30(ob!!.fromdate.toString()){ ist, utc ->
-            ob!!.from=utc
+        WeeksDataHolder.getPrevious1DateTimed18_30(ob!!.fromdate.toString()) { ist, utc ->
+            ob!!.from = utc
         }
 
-        WeeksDataHolder.getDateTimed18_29(ob!!.todate.toString()){ist, utc ->
-            ob!!.to=utc
+        WeeksDataHolder.getDateTimed18_29(ob!!.todate.toString()) { ist, utc ->
+            ob!!.to = utc
         }
 
         //  Log.d(TAG, "handleUpcomingMeetingsList: ${ob?.Recruiter} ${ob?.Subscriber}")
@@ -489,8 +522,10 @@ private  var ob: BodyScheduledMeetingBean? = null
     private val meetingsList = ArrayList<NewInterviewDetails>()
     private fun handleObserver() {
 
-        CallStatusHolder.getCallStatus().observe(this){
-            isCallInProgress=it
+
+
+        CallStatusHolder.getCallStatus().observe(this) {
+            isCallInProgress = it
         }
 
 
@@ -525,7 +560,6 @@ private  var ob: BodyScheduledMeetingBean? = null
     }
 
 
-
     private fun setupAdapter() {
         adapter = UpcomingMeetingAdapter(this, meetingsList) { data, videoAccessCode, action ->
             when (action) {
@@ -555,17 +589,17 @@ private  var ob: BodyScheduledMeetingBean? = null
                     val intent = Intent(this, ActivityFeedBackForm::class.java)
                     intent.putExtra(AppConstants.CANDIDATE_ID, data.candidateId)
                     startActivity(intent)
-                    overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                 }
-                4->{
+                4 -> {
                     handleJoin(data, videoAccessCode)
 
                 }
-                5->{
+                5 -> {
                     CurrentUpcomingMeetingData.setData(data)
                     handleJoin(data, videoAccessCode)
                 }
-                6->{
+                6 -> {
 
                     setHandler().post(kotlinx.coroutines.Runnable {
                         val dialog = AlertDialog.Builder(this)
@@ -576,10 +610,12 @@ private  var ob: BodyScheduledMeetingBean? = null
                                     cancelMeeting(data)
                                 }
                             })
-                        dialog.setNegativeButton("Cancel", object : DialogInterface.OnClickListener {
-                            override fun onClick(p0: DialogInterface?, p1: Int) {
-                            }
-                        })
+                        dialog.setNegativeButton(
+                            "Cancel",
+                            object : DialogInterface.OnClickListener {
+                                override fun onClick(p0: DialogInterface?, p1: Int) {
+                                }
+                            })
                         dialog.create()
                         dialog.show()
                     })
@@ -591,10 +627,11 @@ private  var ob: BodyScheduledMeetingBean? = null
         //adapter.notifyDataSetChanged()
     }
 
-    private fun jumpToTeams(link: String)
-    {
-        val sendIntent = Intent(Intent.ACTION_VIEW,
-            Uri.parse(link))
+    private fun jumpToTeams(link: String) {
+        val sendIntent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse(link)
+        )
 
         if (sendIntent.resolveActivity(packageManager) != null) {
             startActivity(sendIntent)
@@ -677,12 +714,10 @@ private  var ob: BodyScheduledMeetingBean? = null
         //getInterviewDetails()
         if (checkInternet()) {
             accessCode = videoAccessCode
-            if (data.mSMeetingMode.equals("veriklick"))
-            {
-                getInterviewDetails(videoAccessCode,false)
-            }else
-            {
-                getInterviewDetails(videoAccessCode,true)
+            if (data.mSMeetingMode.equals("veriklick")) {
+                getInterviewDetails(videoAccessCode, false)
+            } else {
+                getInterviewDetails(videoAccessCode, true)
             }
 
             // getAccessCodeById(data)
@@ -722,7 +757,7 @@ private  var ob: BodyScheduledMeetingBean? = null
     }
 
 
-    fun getInterviewDetails(accessCode: String,isMsTeams:Boolean) {
+    fun getInterviewDetails(accessCode: String, isMsTeams: Boolean) {
         showProgressDialog()
         viewModel.getVideoSessionDetails(accessCode, onDataResponse = { data, event ->
 
@@ -733,10 +768,10 @@ private  var ob: BodyScheduledMeetingBean? = null
                     data?.videoAccessCode = accessCode
                     CurrentMeetingDataSaver.setData(data!!)
 
-                    if (isMsTeams){
+                    if (isMsTeams) {
                         //jumpToTeams()
                         data
-                    }else{
+                    } else {
                         joinMeeting(accessCode)
                         CallStatusHolder.setLastCallStatus(false)
                     }
@@ -763,17 +798,16 @@ private  var ob: BodyScheduledMeetingBean? = null
                 401 -> {
                     dismissProgressDialog()
                     showCustomSnackbarOnTop(data?.aPIResponse?.message.toString())
-                  /*  data?.videoAccessCode = accessCode //remove all code
-                    CurrentMeetingDataSaver.setData(data!!)
-                    joinMeeting(accessCode)
-                    CurrentMeetingDataSaver.setData(data)*/
+                    /*  data?.videoAccessCode = accessCode //remove all code
+                      CurrentMeetingDataSaver.setData(data!!)
+                      joinMeeting(accessCode)
+                      CurrentMeetingDataSaver.setData(data)*/
                 }
             }
         })
     }
 
-    fun cancelMeeting(data: NewInterviewDetails)
-    {
+    fun cancelMeeting(data: NewInterviewDetails) {
         showProgressDialog()
         viewModel.cancelMeeting(data) { data, response ->
 
@@ -784,7 +818,7 @@ private  var ob: BodyScheduledMeetingBean? = null
                     showCustomToast(data?.aPIResponse?.Message.toString())
                     meetingsList.clear()
                     pageno = 1
-                    handleUpcomingMeetingsList(7,1,9)
+                    handleUpcomingMeetingsList(7, 1, 9)
                     // Log.d(TAG, "host : ${data.token}  ${data.roomName}")
                     // TwilioHelper.setTwilioCredentials(data.token.toString(), data.roomName.toString())
                     // startActivity(Intent(this@JoinMeetingActivity, VideoActivity::class.java))
@@ -817,7 +851,6 @@ private  var ob: BodyScheduledMeetingBean? = null
     }
 
 
-
     fun joinMeeting(accessCode: String) {
         // showProgressDialog()
         viewModel.getVideoSessionCandidate(accessCode, onDataResponse = { data, event ->
@@ -837,43 +870,42 @@ private  var ob: BodyScheduledMeetingBean? = null
                             data.roomName.toString()
                         )
                         requestVideoPermissions {
-                            if (it)
-                            {
-                                showPrivacyPolicy(binding.root as ViewGroup,onClicked = {it,dialog->
-                                    if (it)
-                                    {
-                                        if (isCallInProgress){
-                                            dialog.dismiss()
-                                            showCustomSnackbarOnTop(getString(R.string.txt_call_in_progress))
-                                        }else{
-                                            val intent=Intent(this, VideoActivity::class.java)
-                                            startActivity(intent)
-                                            overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
+                            if (it) {
+                                showPrivacyPolicy(binding.root as ViewGroup,
+                                    onClicked = { it, dialog ->
+                                        if (it) {
+                                            if (isCallInProgress) {
+                                                dialog.dismiss()
+                                                showCustomSnackbarOnTop(getString(R.string.txt_call_in_progress))
+                                            } else {
+                                                val intent = Intent(this, VideoActivity::class.java)
+                                                startActivity(intent)
+                                                overridePendingTransition(
+                                                    R.anim.slide_in_right,
+                                                    R.anim.slide_out_left
+                                                )
+                                                dialog.dismiss()
+                                            }
+
+                                        } else {
                                             dialog.dismiss()
                                         }
-
-                                    }else
-                                    {
-                                        dialog.dismiss()
-                                    }
-                                },
-                                    onClickedText = {link,action->
-                                        privacyPolicy(link,action)
+                                    },
+                                    onClickedText = { link, action ->
+                                        privacyPolicy(link, action)
                                     }
                                 )
 
-                            }
-                            else
-                            {
+                            } else {
 
                                 showCustomSnackbarOnTop(getString(R.string.txt_permission_required))
                                 //showToast(this,getString(R.string.txt_permission_required))
                             }
                         }
 
-                       // val intent = Intent(this, VideoActivity::class.java)
-                       // startActivity(intent)
-                       // overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                        // val intent = Intent(this, VideoActivity::class.java)
+                        // startActivity(intent)
+                        // overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     }
                 }
                 400 -> {
@@ -888,11 +920,10 @@ private  var ob: BodyScheduledMeetingBean? = null
         })
     }
 
-    fun privacyPolicy(link:String,action:Int)
-    {
-        val intent=Intent(this,ActivityPrivacyPolicy::class.java)
-        intent.putExtra(AppConstants.PRIVACY_LINK,link)
-        intent.putExtra(AppConstants.PRIVACY_ACTION,action)
+    fun privacyPolicy(link: String, action: Int) {
+        val intent = Intent(this, ActivityPrivacyPolicy::class.java)
+        intent.putExtra(AppConstants.PRIVACY_LINK, link)
+        intent.putExtra(AppConstants.PRIVACY_ACTION, action)
         startActivity(intent)
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
     }
@@ -905,7 +936,7 @@ private  var ob: BodyScheduledMeetingBean? = null
             dialog.setPositiveButton(getString(R.string.txt_join_again),
                 object : DialogInterface.OnClickListener {
                     override fun onClick(p0: DialogInterface?, p1: Int) {
-                        getInterviewDetails(accessCode,false)
+                        getInterviewDetails(accessCode, false)
                     }
                 })
             dialog.setNegativeButton("Cancel", object : DialogInterface.OnClickListener {

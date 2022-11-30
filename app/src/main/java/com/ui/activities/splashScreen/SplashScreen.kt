@@ -9,6 +9,7 @@ import android.util.Log
 import com.data.dataHolders.DataStoreHelper
 import com.data.setHandler
 import com.domain.constant.AppConstants
+import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivitySplashScreenBinding
 import com.ui.activities.login.LoginActivity
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
@@ -52,12 +53,14 @@ class SplashScreen : AppCompatActivity() {
             else {
                 Log.d("datauser", "checkEmail: login screen email $email")
                 startActivity(Intent(this, LoginActivity::class.java))
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                 finish()
             }
         }
         else {
             Log.d("datauser", "checkEmail: twilio video email else $email")
             startActivity(Intent(this, LoginActivity::class.java))
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             finish()
         }
     }
@@ -70,6 +73,7 @@ class SplashScreen : AppCompatActivity() {
         }
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             finish()
         },500)
 
