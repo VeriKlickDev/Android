@@ -96,7 +96,6 @@ object TwilioChatHelper {
                             "onSuccess: success to create conversation in conversation "
                         )
                       //  joinConversation()
-
                         conversation?.let { joinConversation() }
 
 
@@ -108,10 +107,15 @@ object TwilioChatHelper {
 
                 override fun onError(errorInfo: ErrorInfo?) {
                     super.onError(errorInfo)
+                    conversationsClient!!.myConversations.size
                     Log.e(TAG, "Error creating conversation: " + errorInfo?.message)
                 }
             })
     }
+
+
+
+
 
     private fun addConversationCallBack(conv:Conversation?)
     {
@@ -176,7 +180,7 @@ object TwilioChatHelper {
             }
         } else {
             Log.d(TAG, "joinConversation: not null conversation ")
-            conversationsClient?.myConversations?.size
+            conversationsClient?.myConversations?.firstOrNull()
             conversation!!.join(object : StatusListener {
                 override fun onSuccess() {
                     //conversation = mconversation
@@ -301,11 +305,9 @@ object TwilioChatHelper {
             conversation!!.removeAllListeners()
             conversationsClient!!.removeAllListeners()
             conversation=null
-            conversationsClient=null
-            conversation!!.removeListener(mDefaultConversationListener)
-            conversationsClient?.removeListener(mConversationsClientListener)
-
-
+           // conversationsClient=null
+           // conversation!!.removeListener(mDefaultConversationListener)
+           // conversationsClient?.removeListener(mConversationsClientListener)
 
         }catch (e:Exception)
         {
@@ -381,9 +383,12 @@ object TwilioChatHelper {
                     "onClientSynchronization: sync complete load channel method $synchronizationStatus"
                 )
                 if (synchronizationStatus == ConversationsClient.SynchronizationStatus.COMPLETED) {
-                   // loadChannels(conversationsClient!!)
+                    loadChannels(conversationsClient!!)
                     Log.d(TAG, "onClientSynchronization: sync complete load channel connected ")
-                     joinConversation()
+                   /* conversationsClient?.let {
+                        conversation=it.myConversations.firstOrNull()
+                    }
+                     joinConversation()*/
                 }
             }
 
@@ -438,6 +443,7 @@ object TwilioChatHelper {
                 } else {
                     AppConstants.CHAT_RECIEVER
                 }
+
                 CurrentMeetingDataSaver.getData().users?.forEach { user ->
                     val identity = user.userType + user.id
                     if (identity == message.author) {
@@ -555,7 +561,7 @@ object TwilioChatHelper {
 
                 override fun onError(errorInfo: ErrorInfo?) {
                     super.onError(errorInfo)
-                    conversation = conversationsClient?.myConversations?.firstOrNull()
+                   // conversation = conversationsClient?.myConversations?.firstOrNull()
                     joinConversation()
                     Log.d(TAG, "onError: error in load channels final ${errorInfo?.message}")
 

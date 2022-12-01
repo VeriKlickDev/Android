@@ -926,7 +926,6 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
             if (binding.ivBlankView.isVisible)
             {
-
                 PinnedItemHolder.clear()
                 Handler(Looper.getMainLooper()).postDelayed({
                     binding.tvUsername.isVisible=false
@@ -3076,7 +3075,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                         if(videoTracksBean.identity!!.contains("C"))
                         {
                             isCandidateExists=true
-                            binding.tvNoParticipant.text=""
+                           // binding.tvNoParticipant.text=""
 
                         }
                     }
@@ -3089,7 +3088,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                     }
                     else
                     {
-                        binding.tvNoParticipant.text = ""
+                      //  binding.tvNoParticipant.text = ""
                     }
 
                 },400)
