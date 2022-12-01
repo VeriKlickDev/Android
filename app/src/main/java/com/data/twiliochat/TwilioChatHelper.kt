@@ -66,7 +66,7 @@ object TwilioChatHelper {
                                 TAG,
                                 "Joining Conversation: in else part $DEFAULT_CONVERSATION_NAME"
                             )
-                            joinConversation()
+                           // joinConversation()
                         }
                     } else {
                         Log.d(TAG, "checkIsConversationCreated: null conversation")
@@ -123,6 +123,7 @@ object TwilioChatHelper {
     }
 
     private fun joinConversation() {
+
         if (conversation == null) {
             Log.d(TAG, "joinConversation: null conversation ")
             val myconversation = conversationsClient?.myConversations?.firstOrNull()
@@ -152,7 +153,7 @@ object TwilioChatHelper {
                             )
                         }
                        // addConversationCallBack(myconversation)
-                        myconversation!!.addListener(
+                        conversation!!.addListener(
                             mDefaultConversationListener
                         )
                         loadPreviousMessages(conversation!!)
@@ -163,10 +164,10 @@ object TwilioChatHelper {
                         Log.e(TAG, "Error joining my conversation:  " + errorInfo?.message)
 
                         //addConversationCallBack(myconversation)
-                       myconversation!!.addListener(
+                        conversation = myconversation
+                       conversation!!.addListener(
                             mDefaultConversationListener
                         )
-                        conversation = myconversation
                         loadPreviousMessages(myconversation)
                     }
                 })
@@ -297,8 +298,15 @@ object TwilioChatHelper {
     fun removeCallBacks()
     {
         try {
+            conversation!!.removeAllListeners()
+            conversationsClient!!.removeAllListeners()
+            conversation=null
+            conversationsClient=null
             conversation!!.removeListener(mDefaultConversationListener)
             conversationsClient?.removeListener(mConversationsClientListener)
+
+
+
         }catch (e:Exception)
         {
             Log.d(TAG, "removeCallBacks: exception 303 ${e.printStackTrace()}")
@@ -373,9 +381,9 @@ object TwilioChatHelper {
                     "onClientSynchronization: sync complete load channel method $synchronizationStatus"
                 )
                 if (synchronizationStatus == ConversationsClient.SynchronizationStatus.COMPLETED) {
-                    loadChannels(conversationsClient!!)
+                   // loadChannels(conversationsClient!!)
                     Log.d(TAG, "onClientSynchronization: sync complete load channel connected ")
-                   //  joinConversation()
+                     joinConversation()
                 }
             }
 
@@ -446,7 +454,6 @@ object TwilioChatHelper {
                             getUtcDateToAMPM(message.dateCreated)
                         )
 
-
                         //                (binding.rvChatMsgs.layoutManager as LinearLayoutManager).smoothScrollToPosition(binding.rvChatMsgs,null, 0)
 
                         scrollPosition.postValue(0)
@@ -498,7 +505,7 @@ object TwilioChatHelper {
 
         override fun onSynchronizationChanged(conversation1: Conversation) {
            // removeConversationCallBack()
-            conversation = conversation1
+           //working conversation = conversation1
            //loadPreviousMessages(conversation!!)
            // joinConversation()
         }

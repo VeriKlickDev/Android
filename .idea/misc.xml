@@ -13,7 +13,9 @@
         <entry key="app/src/main/res/drawable/ic_img_add_user_black.xml" value="0.176" />
         <entry key="app/src/main/res/drawable/ic_img_add_user_white.xml" value="0.176" />
         <entry key="app/src/main/res/drawable/ic_img_message_blue.xml" value="0.1535" />
+        <entry key="app/src/main/res/drawable/ic_left_meeting.xml" value="0.158" />
         <entry key="app/src/main/res/drawable/ic_pinn_icon.xml" value="0.1845" />
+        <entry key="app/src/main/res/drawable/ic_videocam_24.xml" value="0.158" />
         <entry key="app/src/main/res/drawable/shape_rectangle_rounded_10_greydark.xml" value="0.166" />
         <entry key="app/src/main/res/drawable/shape_rectangle_rounded_10_white.xml" value="0.184" />
         <entry key="app/src/main/res/drawable/shape_rectangle_rounded_dark_transparent_grey_mini.xml" value="0.184" />
@@ -42,7 +44,7 @@
         <entry key="app/src/main/res/layout/layout_item_candidate_skills.xml" value="0.22" />
         <entry key="app/src/main/res/layout/layout_item_connected_users.xml" value="0.75" />
         <entry key="app/src/main/res/layout/layout_item_connected_userstemp.xml" value="0.17239583333333333" />
-        <entry key="app/src/main/res/layout/layout_item_member_video_confrence.xml" value="0.17239583333333333" />
+        <entry key="app/src/main/res/layout/layout_item_member_video_confrence.xml" value="0.67" />
         <entry key="app/src/main/res/layout/layout_item_reciever_chat.xml" value="0.17239583333333333" />
         <entry key="app/src/main/res/layout/layout_item_upcoming_meeting.xml" value="0.33" />
         <entry key="app/src/main/res/layout/layout_item_video_confrence.xml" value="0.18072916666666666" />

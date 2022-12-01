@@ -364,7 +364,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             binding.btnAddUserVideoActivity.isVisible = false
 
             Log.d("videocheck", "onCreate: you")
-            binding.tvUsername.text =CurrentMeetingDataSaver.getData().interviewerFirstName + " (You)"
+           //candidateName with (You) binding.tvUsername.text =CurrentMeetingDataSaver.getData().interviewerFirstName + " (You)"
             setBlankBackground(false)
             removeAllSinksAndSetnew(localVideoTrack!!,true)
             //working localVideoTrack?.addSink(binding.primaryVideoView)
@@ -819,7 +819,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 Log.d(TAG, "handleObserver: exception observer ${e.message}")
             }
 
-            CurrentConnectUserList.setListForAddParticipantActivity(globalParticipantList)
+            CurrentConnectUserList.setListForAddParticipantActivity(globalParticipantList.reversed())
 
             //adapter.notifyDataSetChanged()
         }
@@ -926,9 +926,10 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
             if (binding.ivBlankView.isVisible)
             {
-                binding.tvUsername.isVisible=false
+
                 PinnedItemHolder.clear()
                 Handler(Looper.getMainLooper()).postDelayed({
+                    binding.tvUsername.isVisible=false
                     adapter.notifyDataSetChanged()
                 },200)
             }else
@@ -1417,7 +1418,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                     viewModel.setCurrentVisibleUser(
                         it.remoteParticipant?.identity!!,
                         it.videoTrack!!,
-                        candidateName?.firstOrNull()?.userFirstName!!,
+                        it.userName!!,
                         "remote"
                     )
 
@@ -2293,6 +2294,11 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
     private fun setBlankBackground(isVisible: Boolean) {
         binding.ivBlankView.isVisible = isVisible
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            binding.tvUsername.isVisible = !isVisible
+        },500)
+
     }
 
     private fun moveLocalVideoToPrimaryView() {
@@ -3086,7 +3092,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                         binding.tvNoParticipant.text = ""
                     }
 
-                },500)
+                },400)
                 adapter.notifyDataSetChanged()
             }
         }

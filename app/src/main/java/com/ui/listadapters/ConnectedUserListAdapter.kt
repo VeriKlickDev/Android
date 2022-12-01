@@ -50,10 +50,20 @@ class ConnectedUserListAdapter(
 
         try {
            Handler(Looper.getMainLooper()).postDelayed({
-               list[position].remoteParticipant?.remoteAudioTracks?.firstOrNull()?.isTrackEnabled?.let {
-                   list[position].isMicon=!it
-                   holder.binding.ivMic.isVisible=!it
-           }},200)
+               try {
+
+                   list[position].remoteParticipant?.remoteAudioTracks?.firstOrNull()?.isTrackEnabled?.let {
+                       list[position].isMicon = !it
+                       holder.binding.ivMic.isVisible = !it
+                   }
+               }catch (e:Exception)
+               {
+                   Log.d(TAG, "onBindViewHolder: excpetion 57 ${e.printStackTrace()}")
+               }
+               },200)
+
+
+
         }catch (e:Exception)
         {
             Log.d(TAG, "onBindViewHolder: exception 55 ${e.printStackTrace()}")
