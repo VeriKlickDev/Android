@@ -9,6 +9,7 @@ import com.domain.BaseModels.ChatMessagesModel
 import com.domain.constant.AppConstants
 import com.twilio.conversations.*
 
+
 object TwilioChatHelper {
 
     private val TAG = "checkchat"
@@ -96,7 +97,7 @@ object TwilioChatHelper {
                             "onSuccess: success to create conversation in conversation "
                         )
                       //  joinConversation()
-                        conversation?.let { joinConversation() }
+                        conversation?.let { joinConversation1(it) }
 
 
                         //loadChannels(conversationsClient!!)
@@ -304,7 +305,7 @@ object TwilioChatHelper {
         try {
             conversation!!.removeAllListeners()
             conversationsClient!!.removeAllListeners()
-            conversation=null
+           // conversation=null
            // conversationsClient=null
            // conversation!!.removeListener(mDefaultConversationListener)
            // conversationsClient?.removeListener(mConversationsClientListener)
@@ -387,8 +388,8 @@ object TwilioChatHelper {
                     Log.d(TAG, "onClientSynchronization: sync complete load channel connected ")
                    /* conversationsClient?.let {
                         conversation=it.myConversations.firstOrNull()
-                    }
-                     joinConversation()*/
+                    }*/
+                    // joinConversation()
                 }
             }
 
@@ -536,40 +537,96 @@ object TwilioChatHelper {
 
     private fun loadChannels(result1: ConversationsClient) {
         Log.d(TAG, "loadChannels: in method  ${conversationsClient?.connectionState?.name}")
+        if (conversationsClient == null || conversationsClient!!.getMyConversations() == null) {
+            return
+        }
+        if (!conversationsClient!!.myConversations.isNullOrEmpty())
+        {
+            joinMyConvewrsation()
+        }
+        else
+        {
+            result1.getConversation(
+                DEFAULT_CONVERSATION_NAME,
+                object : CallbackListener<Conversation?> {
+                    override fun onSuccess(result: Conversation?) {
+                        Log.d(TAG, "onSuccess: final on success load channel")
 
-        result1.getConversation(
-            DEFAULT_CONVERSATION_NAME,
-            object : CallbackListener<Conversation?> {
-                override fun onSuccess(result: Conversation?) {
-                    Log.d(TAG, "onSuccess: final on success load channel")
-                    if (conversation?.status == Conversation.ConversationStatus.JOINED
-                        || conversation?.status == Conversation.ConversationStatus.NOT_PARTICIPATING
-                    ) {
-                        conversation = result
-                       // conversation!!.removeListener(mDefaultConversationListener)
-                        conversation?.addListener(mDefaultConversationListener)
-                        loadPreviousMessages(conversation!!)
-                        Log.d(
-                            TAG,
-                            "Already Exists in Conversation: $DEFAULT_CONVERSATION_NAME"
-                        )
-                        // joinConversation()
-                    } else {
-                        joinConversation()
+                        if (result != null) {
+                            if (conversation?.status == Conversation.ConversationStatus.JOINED
+                                || conversation?.status == Conversation.ConversationStatus.NOT_PARTICIPATING
+                            ) {
+                                conversation = result
+                                // conversation!!.removeListener(mDefaultConversationListener)
+                                conversation?.addListener(mDefaultConversationListener)
+                                loadPreviousMessages(conversation!!)
+                                Log.d(
+                                    TAG,
+                                    "Already Exists in Conversation: $DEFAULT_CONVERSATION_NAME"
+                                )
+                                // joinConversation()
+                            } else {
+                                joinConversation()
+                            }
+                        }
                     }
-                }
 
-                override fun onError(errorInfo: ErrorInfo?) {
-                    super.onError(errorInfo)
-                   // conversation = conversationsClient?.myConversations?.firstOrNull()
-                    joinConversation()
-                    Log.d(TAG, "onError: error in load channels final ${errorInfo?.message}")
+                    override fun onError(errorInfo: ErrorInfo?) {
+                        super.onError(errorInfo)
+                        // conversation = conversationsClient?.myConversations?.firstOrNull()
+                        createConversation()
+                        // joinConversation()
+                        Log.d(TAG, "onError: error in load channels final ${errorInfo?.message}")
+                    }
+                })
 
-                }
-            })
+        }
 
 
     }
+
+    private fun joinMyConvewrsation()
+    {
+        conversation=conversationsClient!!.myConversations.firstOrNull()
+        conversation!!.join(object : StatusListener {
+            override fun onSuccess() {
+                conversation!!.addListener(mDefaultConversationListener)
+                return
+            }
+            override fun onError(errorInfo: ErrorInfo?) {
+                super.onError(errorInfo)
+                conversation!!.addListener(mDefaultConversationListener)
+                Log.d(TAG, "onError: $errorInfo")
+            }
+        })
+    }
+
+
+    private fun joinConversation1(mconversation:Conversation)
+    {
+        if (mconversation.getStatus() == Conversation.ConversationStatus.JOINED) {
+
+            conversation = mconversation;
+            Log.d(TAG, "Already joined default conversation");
+            conversation!!.addListener(mDefaultConversationListener);
+            return;
+        }
+            conversation!!.join(object : StatusListener {
+                override fun onSuccess() {
+                    conversation = conversation
+                    Log.d(TAG, "Joined default conversation")
+                    conversation!!.addListener(
+                        mDefaultConversationListener
+                    )
+                    loadPreviousMessages(conversation!!)
+                }
+
+                override fun onError(errorInfo: ErrorInfo) {
+                    Log.e(TAG, "Error joining conversation: " + errorInfo.message)
+                }
+            })
+    }
+
 
     val allMsgLiveData = MutableLiveData<ArrayList<ChatMessagesModel>>()
     private val chatlist = arrayListOf<ChatMessagesModel>()

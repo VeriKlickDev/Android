@@ -53,10 +53,10 @@
             android:padding="@dimen/_10sp"
             tools:context="com.ui.activities.feedBack.ActivityFeedBackForm">
 
-            <ScrollView
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:overScrollMode="never"
+                android:fillViewport="true"
                 android:paddingTop="@dimen/_10sp">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -113,9 +113,8 @@
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_marginHorizontal="@dimen/_12sp"
-                        >
+                        android:orientation="horizontal">
 
                         <TextView
                             style="@style/heading.TextView.Black_16"
@@ -124,14 +123,14 @@
                             android:text="@string/txt_Candidate_Skills" />
 
                         <TextView
+                            android:id="@+id/skillsError"
                             style="@style/heading.TextView.Black_16"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/skillsError"
-                            android:textColor="@color/red"
-                            android:visibility="gone"
                             android:layout_marginLeft="@dimen/_2sp"
-                            android:text="*" />
+                            android:text="*"
+                            android:textColor="@color/red"
+                            android:visibility="gone" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -160,28 +159,26 @@
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        >
-
-                    <TextView
-                        style="@style/heading.TextView.Black_16"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/_12sp"
-                        android:layout_marginTop="@dimen/_15sp"
-                        android:text="@string/txt_recommendation" />
+                        android:orientation="horizontal">
 
                         <TextView
                             style="@style/heading.TextView.Black_16"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/recommendationError"
+                            android:layout_marginHorizontal="@dimen/_12sp"
                             android:layout_marginTop="@dimen/_15sp"
-                            android:textColor="@color/red"
-                            android:visibility="visible"
-                            android:layout_marginLeft="-8sp"
-                            android:text="*" />
+                            android:text="@string/txt_recommendation" />
 
+                        <TextView
+                            android:id="@+id/recommendationError"
+                            style="@style/heading.TextView.Black_16"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="-8sp"
+                            android:layout_marginTop="@dimen/_15sp"
+                            android:text="*"
+                            android:textColor="@color/red"
+                            android:visibility="visible" />
 
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -189,12 +186,11 @@
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:padding="@dimen/_5sp"
-                        android:layout_marginVertical="@dimen/_10sp"
                         android:layout_marginHorizontal="@dimen/_10sp"
+                        android:layout_marginVertical="@dimen/_10sp"
                         android:background="@drawable/shape_rectangle_rounded_stroke_grey"
-                        >
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/_5sp">
                         <!--        <TextView-->
                         <!--            android:layout_width="wrap_content"-->
                         <!--            android:layout_height="wrap_content"-->
@@ -211,12 +207,12 @@
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
 
-                          <!--  <TextView
-                                android:id="@+id/tv_spinnerTitle"
-                                style="@style/heading.TextView.Grey_16"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="@string/txt_select_recommendation" />-->
+                            <!--  <TextView
+                                  android:id="@+id/tv_spinnerTitle"
+                                  style="@style/heading.TextView.Grey_16"
+                                  android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:text="@string/txt_select_recommendation" />-->
 
                             <Spinner
                                 android:id="@+id/spinner_interviewRemark"
@@ -239,49 +235,44 @@
                     <!--            />-->
 
 
-
-
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_marginHorizontal="@dimen/_10sp"
-                        android:gravity="center_vertical"
                         android:layout_marginTop="@dimen/_10sp"
-                        >
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
                         <TextView
+                            style="@style/heading.TextView.Grey_16"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_remark"
-                            style="@style/heading.TextView.Grey_16"
-                            />
+                            android:text="@string/txt_remark" />
 
 
-<!--                        <TextView-->
-<!--                            style="@style/heading.TextView.Black_16"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:id="@+id/remarkError"-->
-<!--                            android:textColor="@color/red"-->
-<!--                            android:visibility="visible"-->
-<!--                            android:gravity="center"-->
-<!--                            android:layout_marginLeft="@dimen/_2sp"-->
-<!--                            android:text="*" />-->
+                        <!--                        <TextView-->
+                        <!--                            style="@style/heading.TextView.Black_16"-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:id="@+id/remarkError"-->
+                        <!--                            android:textColor="@color/red"-->
+                        <!--                            android:visibility="visible"-->
+                        <!--                            android:gravity="center"-->
+                        <!--                            android:layout_marginLeft="@dimen/_2sp"-->
+                        <!--                            android:text="*" />-->
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
+
                     <EditText
                         android:id="@+id/et_remart"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxHeight="@dimen/_100sdp"
+                        android:layout_marginHorizontal="@dimen/_10sp"
                         android:layout_marginTop="-7sp"
                         android:backgroundTint="@color/light_grey_background"
                         android:hint="@string/txt_remark"
-                        android:layout_marginHorizontal="@dimen/_10sp"
+                        android:maxHeight="@dimen/_100sdp"
                         android:textSize="@dimen/_16sdp" />
-
-
 
 
                     <!--        <TextView-->
@@ -295,61 +286,44 @@
                     <!--            />-->
 
 
-
-
-
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
                         android:layout_marginHorizontal="@dimen/_10sp"
                         android:layout_marginTop="@dimen/_10sp"
-                        >
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
                         <TextView
+                            style="@style/heading.TextView.Grey_16"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_coding_test_remark"
-                            style="@style/heading.TextView.Grey_16"
-                            />
+                            android:text="@string/txt_coding_test_remark" />
 
 
-
-<!--                        <TextView-->
-<!--                            style="@style/heading.TextView.Black_16"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:id="@+id/overallRemarkError"-->
-<!--                            android:textColor="@color/red"-->
-<!--                            android:visibility="visible"-->
-<!--                            android:layout_marginLeft="2sp"-->
-<!--                            android:text="*" />-->
+                        <!--                        <TextView-->
+                        <!--                            style="@style/heading.TextView.Black_16"-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:id="@+id/overallRemarkError"-->
+                        <!--                            android:textColor="@color/red"-->
+                        <!--                            android:visibility="visible"-->
+                        <!--                            android:layout_marginLeft="2sp"-->
+                        <!--                            android:text="*" />-->
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
-
 
 
                     <EditText
                         android:id="@+id/et_overall_remark"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxHeight="@dimen/_100sdp"
+                        android:layout_marginHorizontal="@dimen/_10sp"
                         android:layout_marginTop="-7sp"
                         android:backgroundTint="@color/light_grey_background"
                         android:hint="@string/txt_coding_test_remark"
-                        android:layout_marginHorizontal="@dimen/_10sp"
+                        android:maxHeight="@dimen/_100sdp"
                         android:textSize="@dimen/_16sdp" />
-
-
-
-
-
-
-
-
-
-
 
 
                     <!--        <TextView-->
@@ -363,13 +337,13 @@
                     <!--            />-->
 
 
-                        <TextView
-                            style="@style/heading.TextView.Black_16"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="@dimen/_12sp"
-                            android:layout_marginTop="@dimen/_20sp"
-                            android:text="@string/txt_interviewer_name" />
+                    <TextView
+                        style="@style/heading.TextView.Black_16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_12sp"
+                        android:layout_marginTop="@dimen/_20sp"
+                        android:text="@string/txt_interviewer_name" />
 
 
                     <TextView
@@ -393,37 +367,30 @@
                     <!--            />-->
 
 
-
-
-
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
                         android:layout_marginHorizontal="@dimen/_10sp"
                         android:layout_marginTop="@dimen/_7sp"
-                        >
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
                         <TextView
+                            style="@style/heading.TextView.Grey_16"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_role"
-                            style="@style/heading.TextView.Grey_16"
-                            />
+                            android:text="@string/txt_role" />
 
 
-
-
-<!--                        <TextView-->
-<!--                            style="@style/heading.TextView.Black_16"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:id="@+id/roleError"-->
-<!--                            android:textColor="@color/red"-->
-<!--                            android:visibility="visible"-->
-<!--                            android:layout_marginLeft="@dimen/_2sp"-->
-<!--                            android:text="*" />-->
+                        <!--                        <TextView-->
+                        <!--                            style="@style/heading.TextView.Black_16"-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:id="@+id/roleError"-->
+                        <!--                            android:textColor="@color/red"-->
+                        <!--                            android:visibility="visible"-->
+                        <!--                            android:layout_marginLeft="@dimen/_2sp"-->
+                        <!--                            android:text="*" />-->
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -432,20 +399,14 @@
                         android:id="@+id/et_role"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_10sp"
+                        android:layout_marginTop="-7sp"
+                        android:backgroundTint="@color/light_grey_background"
+                        android:hint="@string/txt_role"
                         android:imeOptions="actionDone"
                         android:maxHeight="@dimen/_40sdp"
-                        android:hint="@string/txt_role"
                         android:singleLine="true"
-                        android:backgroundTint="@color/light_grey_background"
-                        android:layout_marginTop="-7sp"
-                        android:layout_marginHorizontal="@dimen/_10sp"
                         android:textSize="@dimen/_16sdp" />
-
-
-
-
-
-
 
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -459,7 +420,7 @@
                         android:textSize="@dimen/_18sdp" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
-            </ScrollView>
+            </androidx.core.widget.NestedScrollView>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>

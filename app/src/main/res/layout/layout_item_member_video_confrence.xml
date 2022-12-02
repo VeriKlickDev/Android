@@ -80,11 +80,12 @@
                 android:id="@+id/iv_left_meeting"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
-                android:scaleType="center"
+                android:scaleType="fitCenter"
+                android:padding="@dimen/_5sp"
                 android:visibility="visible"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/_5sp"
-                android:background="@drawable/ic_left_meeting"
+                android:src="@drawable/ic_left_meeting"
                 app:shapeAppearanceOverlay="@style/roundedCorner50" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.constraintlayout.widget.ConstraintLayout>

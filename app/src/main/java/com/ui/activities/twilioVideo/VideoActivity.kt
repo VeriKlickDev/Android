@@ -89,6 +89,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
     private var localParticipant: LocalParticipant? = null
     private val audioCodec: AudioCodec? = null
     private var videoCodec: VideoCodec? = null
+    private var candidateName=""
     /*audio
                 IsacCodec.NAME -> IsacCodec()
                 OpusCodec.NAME -> OpusCodec()
@@ -1205,6 +1206,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                                       user.userFirstName!!,
                                       it.videoSid
                                   )
+                              candidateName=user.userFirstName+" "+user.userLastName
                               currentRemoteVideoTrack = it.videoTrack!!
                               binding.tvUsername.isVisible=true
                           } else
@@ -1515,9 +1517,6 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             // tlist.reversed().distinctBy { it.identity }
             tlist
         )
-
-
-
 
         Log.d(
             TAG,
@@ -2645,6 +2644,13 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             }
         }
         setConnectUser()
+
+        if (participant.identity.contains("C"))
+        {
+            binding.tvNoParticipant.text="Waiting to join " +candidateName
+        }
+
+
         //  currentRemoteVideoTrack?.removeSink(binding.primaryVideoView)
         //  localVideoTrack?.addSink(binding.primaryVideoView)
     }
