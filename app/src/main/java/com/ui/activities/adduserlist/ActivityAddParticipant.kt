@@ -57,6 +57,7 @@ class ActivityAddParticipant : AppCompatActivity() {
         }
 
         adapter = AddParticipantListAdapter(
+            viewModel,
             this,
             interviewList,
             onClick = { data: InvitationDataModel, action: Int, pos: Int, list ->
@@ -408,7 +409,6 @@ class ActivityAddParticipant : AppCompatActivity() {
 
     private fun addParticipantItem()
     {
-
         val randomStr = UUID.randomUUID()
 //        InvitationDataHolder.setItem(InvitationDataModel(uid = randomStr.toString(), index = -1))
         //, InterviewerTimezone =CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone.toString()

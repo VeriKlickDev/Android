@@ -10,6 +10,8 @@ import com.data.dataHolders.InvitationDataModel
 import com.data.repositoryImpl.BaseRestRepository
 import com.domain.BaseModels.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -49,6 +51,17 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
             Log.d("adduserexception", "getIsEmailAndPasswordExists: exception  ")
         }
     }
+
+    private var searchJob: Job? = null
+
+    fun textDebounced(searchText: String,onText:(txt:String)->Unit) {
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            delay(500)
+            onText(searchText)
+        }
+    }
+
 
     fun sendInvitationtoUsers(list:List<InvitationDataModel>, onDataResponse:(data:ResponseSendInvitation?, action:Int)->Unit)
     {

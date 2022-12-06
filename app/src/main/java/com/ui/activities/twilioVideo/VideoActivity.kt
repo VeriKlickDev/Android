@@ -64,6 +64,10 @@ import com.ui.activities.twilioVideo.ScreenSharingCapturing.ScreenShareCapturerM
 import com.ui.activities.twilioVideo.meetingnotificationservice.MeetingServiceManager
 import com.ui.listadapters.ConnectedUserListAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import tvi.webrtc.VideoSink
 import kotlin.properties.Delegates
 
@@ -1975,7 +1979,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                     CurrentMeetingDataSaver.getData().chatChannel.toString()
                 )
             })
-    }
+                }
 
     /*
      * The initial state when there is no active room.

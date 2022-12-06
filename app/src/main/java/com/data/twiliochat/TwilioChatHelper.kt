@@ -3,6 +3,7 @@ package com.data.twiliochat
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.data.dataHolders.ConnectUsersListSaver
 import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.getUtcDateToAMPM
 import com.domain.BaseModels.ChatMessagesModel
@@ -96,6 +97,14 @@ object TwilioChatHelper {
                             TAG,
                             "onSuccess: success to create conversation in conversation "
                         )
+
+                       // addMySelfToConversation(CurrentMeetingDataSaver.getData().identity!!)
+
+                       /* CurrentMeetingDataSaver.getData().users?.forEach{
+                            addParticipantToChat((it.userType+it.id).toString(),
+                                conversation!!)
+                        }*/
+
                       //  joinConversation()
                         conversation?.let { joinConversation1(it) }
 
@@ -141,12 +150,12 @@ object TwilioChatHelper {
                     )
                 }
 
-                CurrentMeetingDataSaver.getData().users!!
+               /* CurrentMeetingDataSaver.getData().users!!
                     .forEach {
                         val identity = it.userType + it.id
                         addParticipantToChat(identity, myconversation)
                     }
-
+                */
                 myconversation?.join(object : StatusListener {
                     override fun onSuccess() {
                         Log.d(TAG, "Joined default myconversation")
@@ -534,6 +543,21 @@ object TwilioChatHelper {
         }
     }
 
+    fun getConversation()= conversation!!
+    fun addMySelfToConversation(identity:String)
+    {
+        val atr=Attributes.DEFAULT
+        conversation!!.addParticipantByIdentity(identity, atr,object : StatusListener {
+            override fun onSuccess() {
+                Log.d(TAG, "onSuccess: ")
+            }
+
+            override fun onError(errorInfo: ErrorInfo?) {
+                super.onError(errorInfo)
+                Log.d(TAG, "onError: ")
+            }
+        })
+    }
 
     private fun loadChannels(result1: ConversationsClient) {
         Log.d(TAG, "loadChannels: in method  ${conversationsClient?.connectionState?.name}")
@@ -557,16 +581,28 @@ object TwilioChatHelper {
                                 || conversation?.status == Conversation.ConversationStatus.NOT_PARTICIPATING
                             ) {
                                 conversation = result
+                                conversationsClient!!.myConversations.forEachIndexed { index, conversation ->
+
+                                }
+                                addMySelfToConversation(CurrentMeetingDataSaver.getData().identity!!)
                                 // conversation!!.removeListener(mDefaultConversationListener)
                                 conversation?.addListener(mDefaultConversationListener)
                                 loadPreviousMessages(conversation!!)
+                                conversation?.friendlyName
+                                conversation?.uniqueName
+
                                 Log.d(
                                     TAG,
                                     "Already Exists in Conversation: $DEFAULT_CONVERSATION_NAME"
                                 )
+                               /* CurrentMeetingDataSaver.getData().users?.forEach{
+                                    addParticipantToChat((it.userType+it.id).toString(),
+                                        conversation!!)
+                                }*/
+
                                 // joinConversation()
                             } else {
-                                joinConversation()
+                                joinConversation1(conversation!!)
                             }
                         }
                     }
@@ -579,7 +615,6 @@ object TwilioChatHelper {
                         Log.d(TAG, "onError: error in load channels final ${errorInfo?.message}")
                     }
                 })
-
         }
 
 
@@ -588,6 +623,9 @@ object TwilioChatHelper {
     private fun joinMyConvewrsation()
     {
         conversation=conversationsClient!!.myConversations.firstOrNull()
+        conversation?.friendlyName
+        conversation?.uniqueName
+
         conversation!!.join(object : StatusListener {
             override fun onSuccess() {
                 conversation!!.addListener(mDefaultConversationListener)
@@ -599,13 +637,16 @@ object TwilioChatHelper {
                 Log.d(TAG, "onError: $errorInfo")
             }
         })
+
+        addMySelfToConversation(CurrentMeetingDataSaver.getData().identity!!)
+
     }
 
 
     private fun joinConversation1(mconversation:Conversation)
     {
         if (mconversation.getStatus() == Conversation.ConversationStatus.JOINED) {
-
+            addMySelfToConversation(CurrentMeetingDataSaver.getData().identity!!)
             conversation = mconversation;
             Log.d(TAG, "Already joined default conversation");
             conversation!!.addListener(mDefaultConversationListener);
@@ -615,6 +656,7 @@ object TwilioChatHelper {
                 override fun onSuccess() {
                     conversation = conversation
                     Log.d(TAG, "Joined default conversation")
+                    addMySelfToConversation(CurrentMeetingDataSaver.getData().identity!!)
                     conversation!!.addListener(
                         mDefaultConversationListener
                     )
@@ -622,6 +664,9 @@ object TwilioChatHelper {
                 }
 
                 override fun onError(errorInfo: ErrorInfo) {
+                    conversation!!.addListener(
+                        mDefaultConversationListener
+                    )
                     Log.e(TAG, "Error joining conversation: " + errorInfo.message)
                 }
             })

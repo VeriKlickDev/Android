@@ -1,6 +1,8 @@
 package com.ui.listadapters
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,14 +11,17 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.data.*
 import com.data.dataHolders.InvitationDataModel
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.LayoutAddParticipantBinding
+import com.ui.activities.adduserlist.AddUserViewModel
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 
-class AddParticipantListAdapter(
+class AddParticipantListAdapter(val viewModel:AddUserViewModel,
     val context: Context,
     val list: List<InvitationDataModel>,
     val onClick: (data: InvitationDataModel, action: Int, position: Int, tlist: List<InvitationDataModel>) -> Unit,
@@ -142,42 +147,68 @@ class AddParticipantListAdapter(
             list.get(position).lastName = it.toString()
            // list[position].InterviewerTimezone=list[position].InterviewerTimezone
         }
-        holder.binding.etEmail.addTextChangedListener {
 
-            if (it?.length==50)
-            {
-                bindingg.tvEmailError.visibility=VISIBLE
-                bindingg.tvEmailError.text="Lastname must be below 50 character"
+        //change to add textchangelistener
 
-                list[position].isEmailError=true
-            }else
-            {
-
-                bindingg.tvEmailError.visibility=INVISIBLE
-                list[position].isEmailError=true
-            }
-
-
-            emailValidator(context,it.toString()){isEmailOk, mEmail, error ->
-            if (isEmailOk)
-            {
-                bindingg.tvEmailError.visibility=INVISIBLE
-                        onEditextChanged(it.toString(), 1, position)
-
-                list[position].isEmailError=false
-                //list.get(position).email = it.toString()
-            }else
-            {
-
-                bindingg.tvEmailError.visibility=VISIBLE
-                bindingg.tvEmailError.setText(context.getString(R.string.txt_enter_valid_email))
-                list[position].isEmailError=true
-            }
-            }
-            list.get(position).email = it.toString()
-
+       /* holder.binding.etEmail.doOnTextChanged { text, start, before, count ->
+                if (text.toString()?.length==50)
+                {
+                    bindingg.tvEmailError.visibility=VISIBLE
+                    bindingg.tvEmailError.text="Lastname must be below 50 character"
+                    list[position].isEmailError=true
+                }else
+                {
+                    bindingg.tvEmailError.visibility=INVISIBLE
+                    list[position].isEmailError=true
+                }
+                list.get(position).email = text.toString()
            // list[position].InterviewerTimezone=list[position].InterviewerTimezone
-        }
+        }*/
+
+            holder.binding.etEmail.doOnTextChanged { it, start, before, count ->
+
+                    Log.d(TAG, "onBindViewHolder: ${it.toString()}")
+
+                if (it.toString()?.length==50)
+                {
+                    bindingg.tvEmailError.visibility=VISIBLE
+                    bindingg.tvEmailError.text="Lastname must be below 50 character"
+                    list[position].isEmailError=true
+                }else
+                {
+                    bindingg.tvEmailError.visibility=INVISIBLE
+                    list[position].isEmailError=true
+                }
+                list.get(position).email = it.toString()
+
+                    emailValidator(context, it.toString()) { isEmailOk, mEmail, error ->
+
+                        Handler(Looper.getMainLooper()).postDelayed( {
+                            Log.d(
+                                TAG,
+                                "onBindViewHolder: ${it.toString()} isemailok $isEmailOk"
+                            )
+                            if (isEmailOk) {
+                                bindingg.tvEmailError.post {
+                                    bindingg.tvEmailError.visibility = INVISIBLE
+                                }
+                                onEditextChanged(it.toString(), 1, position)
+                                list[position].isEmailError = false
+                                //list.get(position).email = it.toString()
+                            } else {
+                                bindingg.tvEmailError.post {
+                                    bindingg.tvEmailError.visibility = VISIBLE
+                                }
+                                bindingg.tvEmailError.invalidate()
+                                bindingg.tvEmailError.setText(context.getString(R.string.txt_enter_valid_email))
+                                list[position].isEmailError = true
+                            }
+                        },200)
+                    }
+            }
+
+
+
         holder.binding.etPhoneNumber.addTextChangedListener {
          try {
              if (bindingg.etPhoneNumber.text.toString().length.toInt()!=10 )
@@ -189,7 +220,6 @@ class AddParticipantListAdapter(
              }
              else
              {
-
                  onEditextChanged(bindingg.etPhoneNumber.text.toString(), 2, position)
                  bindingg.tvPhoneError.visibility=INVISIBLE
                  list[position].isPhoneError=false
@@ -202,7 +232,21 @@ class AddParticipantListAdapter(
 
            // list[position].InterviewerTimezone=list[position].InterviewerTimezone
         }
-
+        CoroutineScope(Dispatchers.IO).launch {
+            bindingg.etEmail.getEditTextWithFlow().collectLatest {
+                list.forEachIndexed { index, invitationDataModel ->
+                    if (position!=index) {
+                        if (invitationDataModel.email.equals(it)) {
+                            context.showCustomToast("Entered email already added")
+                            Handler(Looper.getMainLooper()).postDelayed(
+                                { bindingg.etEmail.setText("") },
+                                2000
+                            )
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun getItemCount(): Int {

@@ -54,8 +54,6 @@ class ActivityFeedBackForm : AppCompatActivity() {
             )
         }
 
-
-
         skillsAdapter =
             SkillsListAdapter(this, skillsList) { pos, data, action ->
                 when (action) {

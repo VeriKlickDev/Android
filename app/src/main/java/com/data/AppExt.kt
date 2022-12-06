@@ -44,6 +44,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import okhttp3.internal.waitMillis
 import java.io.UnsupportedEncodingException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -124,23 +125,10 @@ fun emailValidator(
         validateEmail(false, "", context.getString(R.string.txt_required))
         error = context.getString(R.string.txt_enter_valid_email)
     } else {
-        if (EMAIL_ADDRESS_PATTERN.matcher(mEmail).matches()) {
-
+        if (android.util.Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
             isEmailOk = true
             isemailok = true
-
-           /* if (!doubleDots.matcher(mEmail).matches())
-            {
-                isEmailOk = true
-                isemailok = true
-            }else
-            {
-                mEmail = "null"
-                isemailok = false
-                isEmailOk = false
-                validateEmail(isEmailOk, mEmail, context.getString(R.string.txt_enter_valid_email))
-                error = context.getString(R.string.txt_enter_valid_email)
-            }*/
+            validateEmail(isEmailOk, mEmail, null)
         } else {
             mEmail = "null"
             isemailok = false
@@ -149,7 +137,7 @@ fun emailValidator(
             error = context.getString(R.string.txt_enter_valid_email)
         }
     }
-    validateEmail(isEmailOk, mEmail, null)
+  //  validateEmail(isEmailOk, mEmail, null)
 }
 
 
