@@ -413,7 +413,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
     private fun endCall() {
         Log.d(TAG, "endCall: ")
         //  meetingManager.unbindService()
-
+        TwilioChatHelper.removeMemeberFromConversation(CurrentMeetingDataSaver.getData().identity!!)
 
         localVideoTrack?.let { localParticipant?.unpublishTrack(it) }
         // screenShareCapturerManager.unbindService()

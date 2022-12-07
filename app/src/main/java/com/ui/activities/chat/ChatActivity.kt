@@ -86,7 +86,6 @@ class ChatActivity : AppCompatActivity(){
             })
         }
     }
-
     val msgCallback=object: MessageCallBack {
         override fun isSuccess(status: Boolean) {
             if (status)
