@@ -112,6 +112,7 @@ data class InvitationDataModel(
     var isLastNameError:Boolean=false,
     var isEmailError:Boolean=false,
     var isPhoneError:Boolean=false,
+    var isLayoutDisabled:Boolean=false
    // var InterviewerTimezone: String? = null
 )
 

@@ -417,7 +417,8 @@ class ActivityAddParticipant : AppCompatActivity() {
         val pos = interviewList.indexOf(element)
         // InvitationDataHolder.setItemToList(InvitationDataModel(uid = randomStr.toString() , index = interviewList.size-1))
         //uncomment adapter.notifyItemInserted(pos)
-        adapter.notifyDataSetChanged()
+         adapter.notifyDataSetChanged()
+        //adapter.notifyDataSetChanged()
         Log.d(TAG, "addNewInterViewer: ${interviewList.size}")
 
         adapter.dataList.forEach {

@@ -40,9 +40,29 @@ class AddParticipantListAdapter(val viewModel:AddUserViewModel,
         return ViewHolderClass(binding)
     }
 
+    fun isLayoutDisabled(sts:Boolean,binding: LayoutAddParticipantBinding)
+    {
+        binding.parentLayout.isEnabled=sts
+        if (sts)
+        {
+            binding.parentLayout.alpha=0.5f
+        }else
+        {
+            binding.parentLayout.alpha=1.0f
+        }
+
+    }
+
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
-      adapterPosition=position
+        adapterPosition = position
         holder.setIsRecyclable(false)
+
+        list.forEachIndexed { index, invitationDataModel ->
+            if (index != list.size - 1)
+            {
+                isLayoutDisabled(true,holder.binding)
+            }
+        }
 
         holder.dataBind(list.get(position))
 
@@ -120,6 +140,7 @@ class AddParticipantListAdapter(val viewModel:AddUserViewModel,
             list.get(position).firstName = it.toString()
            // list[position].InterviewerTimezone=list[position].InterviewerTimezone
         }
+
         holder.binding.etLastname.addTextChangedListener {
 
             if (it?.length==50)
@@ -183,27 +204,26 @@ class AddParticipantListAdapter(val viewModel:AddUserViewModel,
 
                     emailValidator(context, it.toString()) { isEmailOk, mEmail, error ->
 
-                        Handler(Looper.getMainLooper()).postDelayed( {
+                        Handler(Looper.getMainLooper()).post {
                             Log.d(
                                 TAG,
                                 "onBindViewHolder: ${it.toString()} isemailok $isEmailOk"
                             )
                             if (isEmailOk) {
-                                bindingg.tvEmailError.post {
+
                                     bindingg.tvEmailError.visibility = INVISIBLE
-                                }
                                 onEditextChanged(it.toString(), 1, position)
                                 list[position].isEmailError = false
+                                position
                                 //list.get(position).email = it.toString()
                             } else {
-                                bindingg.tvEmailError.post {
+
                                     bindingg.tvEmailError.visibility = VISIBLE
-                                }
-                                bindingg.tvEmailError.invalidate()
+                                position
                                 bindingg.tvEmailError.setText(context.getString(R.string.txt_enter_valid_email))
                                 list[position].isEmailError = true
                             }
-                        },200)
+                        }
                     }
             }
 
@@ -300,7 +320,6 @@ class AddParticipantListAdapter(val viewModel:AddUserViewModel,
         isEmailExists=isExists
         if (action==1)
         {
-
            // bindingg.tvEmailError.visibility=INVISIBLE
         }
        else {
@@ -309,7 +328,6 @@ class AddParticipantListAdapter(val viewModel:AddUserViewModel,
                 bindingg.tvEmailError.visibility=VISIBLE
                 bindingg.tvEmailError.setText(context.getText(R.string.txt_email_already_exists))
                 list[position].isEmailError=true
-
             }
             else {
                 bindingg.tvEmailError.visibility=INVISIBLE

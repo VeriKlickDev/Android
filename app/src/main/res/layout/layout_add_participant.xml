@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:background="@drawable/shape_rectangle_rounded_10_white"
         android:padding="@dimen/_10sp"
+        android:id="@+id/parentLayout"
         android:layout_marginHorizontal="@dimen/_10sp"
         android:layout_marginTop="@dimen/_10sp"
         android:layout_height="wrap_content">
