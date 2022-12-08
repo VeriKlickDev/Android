@@ -17,6 +17,7 @@ import com.data.*
 import com.data.dataHolders.InvitationDataModel
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.LayoutAddParticipantBinding
+import com.ui.activities.adduserlist.ActivityAddParticipant
 import com.ui.activities.adduserlist.AddUserViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
@@ -54,15 +55,15 @@ class AddParticipantListAdapter(val viewModel:AddUserViewModel,
     }
 
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
-        adapterPosition = position
         holder.setIsRecyclable(false)
+        adapterPosition = position
 
-        list.forEachIndexed { index, invitationDataModel ->
+       /* list.forEachIndexed { index, invitationDataModel ->
             if (index != list.size - 1)
             {
-                isLayoutDisabled(true,holder.binding)
+               // isLayoutDisabled(true,holder.binding)
             }
-        }
+        }*/
 
         holder.dataBind(list.get(position))
 
@@ -186,7 +187,7 @@ class AddParticipantListAdapter(val viewModel:AddUserViewModel,
            // list[position].InterviewerTimezone=list[position].InterviewerTimezone
         }*/
 
-            holder.binding.etEmail.doOnTextChanged { it, start, before, count ->
+        /*    holder.binding.etEmail.doOnTextChanged { it, start, before, count ->
 
                     Log.d(TAG, "onBindViewHolder: ${it.toString()}")
 
@@ -211,14 +212,14 @@ class AddParticipantListAdapter(val viewModel:AddUserViewModel,
                             )
                             if (isEmailOk) {
 
-                                    bindingg.tvEmailError.visibility = INVISIBLE
+                                bindingg.tvEmailError.visibility = INVISIBLE
                                 onEditextChanged(it.toString(), 1, position)
                                 list[position].isEmailError = false
+
                                 position
                                 //list.get(position).email = it.toString()
                             } else {
-
-                                    bindingg.tvEmailError.visibility = VISIBLE
+                                bindingg.tvEmailError.visibility = VISIBLE
                                 position
                                 bindingg.tvEmailError.setText(context.getString(R.string.txt_enter_valid_email))
                                 list[position].isEmailError = true
@@ -226,6 +227,51 @@ class AddParticipantListAdapter(val viewModel:AddUserViewModel,
                         }
                     }
             }
+*/
+
+
+        holder.binding.etEmail.doOnTextChanged { it, start, before, count ->
+
+            Log.d(TAG, "onBindViewHolder: ${it.toString()}")
+
+            if (it.toString()?.length==50)
+            {
+                bindingg.tvEmailError.visibility=VISIBLE
+                bindingg.tvEmailError.text="Email must be below 100 character"
+                list[position].isEmailError=true
+            }else
+            {
+                bindingg.tvEmailError.visibility=INVISIBLE
+                list[position].isEmailError=true
+            }
+            list.get(position).email = it.toString()
+
+            emailValidator(context, it.toString()) { isEmailOk, mEmail, error ->
+
+                Handler(Looper.getMainLooper()).post {
+                    Log.d(
+                        TAG,
+                        "onBindViewHolder: ${it.toString()} isemailok $isEmailOk"
+                    )
+                    if (isEmailOk) {
+
+                        bindingg.tvEmailError.visibility = INVISIBLE
+                        onEditextChanged(it.toString(), 1, position)
+                        list[position].isEmailError = false
+                        viewModel.setEmailNameError("",position)
+                        position
+                        //list.get(position).email = it.toString()
+                    } else {
+                        bindingg.tvEmailError.visibility = VISIBLE
+                        position
+                        viewModel.setEmailNameError(context.getString(R.string.txt_enter_valid_email),position)
+                        bindingg.tvEmailError.setText(context.getString(R.string.txt_enter_valid_email))
+                        list[position].isEmailError = true
+                    }
+                }
+            }
+        }
+
 
 
 
@@ -269,6 +315,14 @@ class AddParticipantListAdapter(val viewModel:AddUserViewModel,
         }
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
     override fun getItemCount(): Int {
         Log.d("timedate", "getItemCount: ${list.size}")
         return list.size
@@ -280,7 +334,37 @@ class AddParticipantListAdapter(val viewModel:AddUserViewModel,
         RecyclerView.ViewHolder(binding.root) {
         fun dataBind(data: InvitationDataModel) {
 
+            viewModel.firstNameErrorLive.observe(context as ActivityAddParticipant){
+                binding.tvFirsnameError.visibility= VISIBLE
+                if (adapterPosition==it.pos)
+                {
+                    binding.tvFirsnameError.setText(it.errorName)
+                }
+            }
 
+            viewModel.lastNameErrorLive.observe(context as ActivityAddParticipant){
+                binding.tvLastnameError.visibility= VISIBLE
+                if (adapterPosition==it.pos)
+                {
+                    binding.tvLastnameError.setText(it.errorName)
+                }
+            }
+
+            viewModel.phoneNameErrorLive.observe(context as ActivityAddParticipant){
+                binding.tvPhoneError.visibility= VISIBLE
+                if (adapterPosition==it.pos)
+                {
+                    binding.tvPhoneError.setText(it.errorName)
+                }
+            }
+
+            viewModel.emailNameErrorLive.observe(context as ActivityAddParticipant){
+                binding.tvEmailError.visibility= VISIBLE
+                if (adapterPosition==it.pos)
+                {
+                    binding.tvEmailError.setText(it.errorName)
+                }
+            }
         }
 
         fun checkFields(pos: Int) {

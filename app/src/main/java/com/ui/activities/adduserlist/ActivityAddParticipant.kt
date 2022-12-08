@@ -27,6 +27,7 @@ import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
 
 import com.ui.listadapters.AddParticipantListAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
 import java.util.*
 
 @AndroidEntryPoint
@@ -42,7 +43,15 @@ class ActivityAddParticipant : AppCompatActivity() {
 
         val randomStr = UUID.randomUUID()
 
-        interviewList.add(InvitationDataModel(uid = randomStr.toString()))//, InterviewerTimezone = CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone.toString()))
+        CoroutineScope(Dispatchers.IO).launch {
+            delay(500)
+            interviewList.add(InvitationDataModel(uid = randomStr.toString()))//, InterviewerTimezone = CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone.toString()))
+            withContext(Dispatchers.Main)
+            {
+                adapter.notifyDataSetChanged()
+            }
+        }
+
 
         Log.d(
             TAG,

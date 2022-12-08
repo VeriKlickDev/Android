@@ -1,6 +1,7 @@
 package com.ui.activities.adduserlist
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.data.dataHolders.CurrentMeetingDataSaver
@@ -61,6 +62,31 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
             onText(searchText)
         }
     }
+
+    val firstNameErrorLive=MutableLiveData<AddParticipantErrorModel>()
+    val lastNameErrorLive=MutableLiveData<AddParticipantErrorModel>()
+    val emailNameErrorLive=MutableLiveData<AddParticipantErrorModel>()
+    val phoneNameErrorLive=MutableLiveData<AddParticipantErrorModel>()
+    fun setFirstNameError(str:String,pos:Int)
+    {
+        firstNameErrorLive.postValue(AddParticipantErrorModel(str,pos))
+    }
+    fun setLastNameError(str:String,pos:Int)
+    {
+        lastNameErrorLive.postValue(AddParticipantErrorModel(str,pos))
+    }
+    fun setEmailNameError(str:String,pos:Int)
+    {
+        emailNameErrorLive.postValue(AddParticipantErrorModel(str,pos))
+    }
+    fun setPhoneNameError(str:String,pos:Int)
+    {
+        phoneNameErrorLive.postValue(AddParticipantErrorModel(str,pos))
+    }
+
+
+
+
 
 
     fun sendInvitationtoUsers(list:List<InvitationDataModel>, onDataResponse:(data:ResponseSendInvitation?, action:Int)->Unit)

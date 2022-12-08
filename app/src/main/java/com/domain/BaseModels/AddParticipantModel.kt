@@ -75,3 +75,4 @@ data class AddJobDetailsFieldsList (
     @SerializedName("Subscriber_id" ) var SubscriberId : String? = ""
 
 )
+data class AddParticipantErrorModel(var errorName:String,var pos:Int)
