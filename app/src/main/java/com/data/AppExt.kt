@@ -125,6 +125,7 @@ fun emailValidator(
         validateEmail(false, "", context.getString(R.string.txt_required))
         error = context.getString(R.string.txt_enter_valid_email)
     } else {
+
         if (android.util.Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
             isEmailOk = true
             isemailok = true

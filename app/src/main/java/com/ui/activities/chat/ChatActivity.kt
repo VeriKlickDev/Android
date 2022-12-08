@@ -125,7 +125,15 @@ class ChatActivity : AppCompatActivity(){
                 Log.d(TAG, "handleObsever: add msg")
                 chatList.clear()
                 chatList.addAll(msgsList)
-                chatAdapter.notifyDataSetChanged()
+                if (chatList.size==1)
+                {
+                    chatAdapter.notifyDataSetChanged()
+                }else
+                {
+                    chatAdapter.notifyItemChanged(chatList.size-1)
+                }
+
+                //chatAdapter.notifyDataSetChanged()
                // chatAdapter.notifyDataSetChanged()
                 //chatAdapter.notifyDataSetChanged()
                 // ChatMessagesHolder.setMessage(msgsList)

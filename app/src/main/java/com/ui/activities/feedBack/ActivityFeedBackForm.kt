@@ -131,7 +131,6 @@ class ActivityFeedBackForm : AppCompatActivity() {
         binding.etOverallRemark.doOnTextChanged { text, start, before, count ->
            // binding.overallRemarkError.isVisible = binding.etOverallRemark.text.toString().equals("")
         }
-
     }
 
 
@@ -189,11 +188,13 @@ class ActivityFeedBackForm : AppCompatActivity() {
     fun sendFeedBack() {
         Log.d(TAG, "sendFeedBack: list size ${skillsAdapter.getFeedBackList().size}")
         Log.d(TAG, "sendFeedBack: list size ${skillsAdapter.getFeedBackList()}")
-        isBlank = false
 
-        skillsAdapter.getFeedBackList().forEach {
+      /**working 8dec
+       */ isBlank = false
+
+       /* skillsAdapter.getFeedBackList().forEach {
             Log.d(TAG, "sendFeedBack: cat ${it.Catagory} comment ${it.Comments}")
-            if (it.Comments.equals("")) {//it.Catagory.equals("") ||
+            if (!it.Comments.equals("")) {//it.Catagory.equals("") ||
                 Log.d(TAG, "sendFeedBack:  blank data")
                 isBlank = true
                 // showToast(this, getString(R.string.txt_all_fields_required))
@@ -204,16 +205,25 @@ class ActivityFeedBackForm : AppCompatActivity() {
             }*/
         }
 
-        if (!isBlank) {
-            binding.skillsError.isVisible = false
-            postFeedback()
+        if (isBlank) {
+           // binding.skillsError.isVisible = false
+           // postFeedback()
+            binding.btnSubmitButton.setText("Submit")
 
         } else {
-            binding.skillsError.isVisible = true
-            binding.btnSubmitButton.isEnabled=true
-            showCustomSnackbarOnTop(getString(R.string.txt_all_fields_required))
+            binding.btnSubmitButton.setText("Update")
+          //  binding.skillsError.isVisible = true
+           // binding.btnSubmitButton.isEnabled=true
+
+
+
+        // showCustomSnackbarOnTop(getString(R.string.txt_all_fields_required))
             //showToast(this, getString(R.string.txt_all_fields_required))
         }
+*/
+
+        postFeedback()
+
     }
 
     fun postFeedback() {
@@ -233,17 +243,17 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
     private var assesmentid = 0
     fun postData() {
-        val skillist = ArrayList<CandidateAssessmentSkills>()
+        val skillist = ArrayList<AssessSkills>()
         skillsAdapter.getFeedBackList().forEach {
             skillist.add(
-                CandidateAssessmentSkills(
-                    it.CandidateAssessmentSkillsId,
-                    it.CandidateAssessmentId,
-                    it.Comments!!,
-                    it.Ratings?.toInt(),
-                    it.Catagory,
-                    it.ManualCatagory,
-                    it.CandiateAssessment
+                AssessSkills(
+                    CandidateAssessmentId = it.CandidateAssessmentId,
+                    Comments = it.Comments!!,
+                    CandidateAssessmentSkillsId = it.CandidateAssessmentSkillsId,
+                    Ratings = it.Ratings?.toDouble(),
+                    Catagory = it.Catagory,
+                    ManualCatagory = it.ManualCatagory,
+                    CandiateAssessment = it.CandiateAssessment
                 )
             )
             Log.d(
@@ -301,7 +311,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 remark,
                 codingRemark,
                 BodyFeedBack(
-                    CandidateAssessmentSkills = skillist,
+                    candidateAssessmentSkillsMobile = skillist,
                 ),
                 skillsListres,
                 remarkList,
@@ -520,6 +530,8 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
                 recommendationList.add(0, "Select Recommendation")
 
+                Log.d(TAG, "setDataToViews: ${data.candidateAssessmentSkillsMobile.size}")
+
                 data.InterviewerRemark.forEach {
                     recommendationList.add(it.Remark.toString())
                 }
@@ -579,7 +591,6 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 }
 
 
-
                 if (!data.Comments.equals("null") || data.Comments!=null) {
                     val spinnerPos = spinnerAdapter.getPosition(data.Comments.toString())
                     binding.spinnerInterviewRemark.setSelection(spinnerPos)
@@ -588,28 +599,48 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 {
                     binding.recommendationError.isVisible=true
                 }
+/*
+                if (data.Comments.toString().equals("Select Recommendation"))
+                    {
+                    binding.btnSubmitButton.setText("Submit")
+                    }else
+                {
+                    binding.btnSubmitButton.setText("Update")
+                }*/
 
 
-                if (!data.CandidateAssessmentSkills.isNullOrEmpty())
-                    if (data.CandidateAssessmentSkills[0].Catagory != null && !data.CandidateAssessmentSkills[0].Catagory.equals(
-                            "null"
-                        )
-                    ) {
-                        binding.btnSubmitButton.setText("Update")
-                        skillsList.addAll(data.CandidateAssessmentSkills)
-                    } else {
-                        binding.btnSubmitButton.setText("Submit")
-                        skillsList.addAll(data.assessSkills)
-                    }
+
+                /*  if (!data.CandidateAssessmentSkills.isNullOrEmpty())
+                      if (data.CandidateAssessmentSkills[0].Catagory != null && !data.CandidateAssessmentSkills[0].Catagory.equals(
+                              "null"
+                          )
+                      ) {
+                          binding.btnSubmitButton.setText("Update")
+                          skillsList.addAll(data.CandidateAssessmentSkills)
+                      } else {
+                          binding.btnSubmitButton.setText("Submit")
+                          skillsList.addAll(data.assessSkills)
+                      }*/
+                if (!data.candidateAssessmentSkillsMobile.isNullOrEmpty())
+                {
+                    skillsList.addAll(data.candidateAssessmentSkillsMobile)
+                }
+
                 Log.d(TAG, "setDataToViews: listdata $skillsList")
                 skillsAdapter.notifyDataSetChanged()
 
+
+                if(data.AssessmentId==0)
+                {
+                    binding.btnSubmitButton.setText("Submit")
+                }else
+                {
+                    binding.btnSubmitButton.setText("Update")
+                }
             }catch (e:Exception)
             {
                 Log.d(TAG, "setDataToViews: on data res exception ${e.message}")
             }
-
-
         })
     }
 

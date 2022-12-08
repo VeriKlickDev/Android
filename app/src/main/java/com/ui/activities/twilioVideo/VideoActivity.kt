@@ -1213,6 +1213,8 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                               candidateName=user.userFirstName+" "+user.userLastName
                               currentRemoteVideoTrack = it.videoTrack!!
                               binding.tvUsername.isVisible=true
+
+
                           } else
                           {
                           //    removeAllSinksAndSetnew(null,false)
@@ -1227,6 +1229,14 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                               currentRemoteVideoTrack = null
                               binding.tvUsername.isVisible=false
                               binding.tvNoParticipant.text="Video Not Available"
+                              candidateName=user.userFirstName+" "+user.userLastName
+                              CurrentConnectUserList.setParticipant(VideoTracksBean(
+                                  it.identity,
+                                  it.remoteParticipant!!,
+                                  null,
+                                  user.userFirstName!!,
+                                  it.videoSid
+                              ))
 
                           }
 
@@ -2651,7 +2661,8 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
         if (participant.identity.contains("C"))
         {
-            binding.tvNoParticipant.text="Waiting to join " +candidateName
+           //working 8dec binding.tvNoParticipant.text="Waiting to join " +candidateName
+            binding.tvNoParticipant.text=""
         }
 
 

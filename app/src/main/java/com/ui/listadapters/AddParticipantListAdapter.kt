@@ -298,6 +298,7 @@ class AddParticipantListAdapter(val viewModel:AddUserViewModel,
 
            // list[position].InterviewerTimezone=list[position].InterviewerTimezone
         }
+
         CoroutineScope(Dispatchers.IO).launch {
             bindingg.etEmail.getEditTextWithFlow().collectLatest {
                 list.forEachIndexed { index, invitationDataModel ->
@@ -313,6 +314,28 @@ class AddParticipantListAdapter(val viewModel:AddUserViewModel,
                 }
             }
         }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            bindingg.etPhoneNumber.getEditTextWithFlow().collectLatest {
+                list.forEachIndexed { index, invitationDataModel ->
+                    if (position!=index) {
+                        if (invitationDataModel.phone.equals(it)) {
+                            context.showCustomToast("Entered phone no. already added")
+                            Handler(Looper.getMainLooper()).postDelayed(
+                                { bindingg.etPhoneNumber.setText("") },
+                                2000
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+
+
+
     }
 
     override fun getItemViewType(position: Int): Int {

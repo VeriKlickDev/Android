@@ -23,7 +23,9 @@ data class ResponseFeedBack(
     @SerializedName("assessSkills") var assessSkills: ArrayList<AssessSkills> = arrayListOf(),
     @SerializedName("CandidateAssessmentPanelMembers") var CandidateAssessmentPanelMembers: ArrayList<CandidateAssessmentPanelMembers> = arrayListOf(),
     @SerializedName("CandidateAssessmentRecommendationList") var CandidateAssessmentRecommendationList: String? = null,
-    @SerializedName("CandidateAssessment") var CandidateAssessment: String? = null
+    @SerializedName("CandidateAssessment") var CandidateAssessment: String? = null,
+    @SerializedName("CandidateAssessmentSkillsMobile") var candidateAssessmentSkillsMobile: ArrayList<AssessSkills> = arrayListOf(),
+
 )
 
 

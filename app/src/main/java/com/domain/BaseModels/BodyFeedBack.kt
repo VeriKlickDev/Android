@@ -7,7 +7,8 @@ data class BodyFeedBack(
     @SerializedName("CandidateAssessment"                ) var CandidateAssessment                : CandidateAssessment?                       = CandidateAssessment(),
     @SerializedName("CandidateAssessmentPanelMembers"    ) var CandidateAssessmentPanelMembers    : ArrayList<CandidateAssessmentPanelMembers> = arrayListOf(),
     @SerializedName("candidateAssessmentRecommendations" ) var candidateAssessmentRecommendations : String?                                    = null,
-    @SerializedName("CandidateAssessmentSkills"          ) var CandidateAssessmentSkills          : ArrayList<CandidateAssessmentSkills>       = arrayListOf()
+    @SerializedName("CandidateAssessmentSkills"          ) var CandidateAssessmentSkills          : ArrayList<CandidateAssessmentSkills>       = arrayListOf(),
+    @SerializedName("CandidateAssessmentSkillsMobile") var candidateAssessmentSkillsMobile: ArrayList<AssessSkills> = arrayListOf(),
 )
 
 

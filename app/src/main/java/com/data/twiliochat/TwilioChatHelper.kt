@@ -395,6 +395,7 @@ object TwilioChatHelper {
             override fun onConversationAdded(conversation2: Conversation) {
                 Log.d(TAG, "onConversationAdded: conversation added ")
                 conversation = conversation2
+                conversation!!.addListener(mDefaultConversationListener)
                // addConversationCallBack(conversation)
             }
 

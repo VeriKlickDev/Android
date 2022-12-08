@@ -29,6 +29,11 @@ object CurrentConnectUserList {
 
     fun getListofParticipant()= participantList
 
+    fun setParticipant(item:VideoTracksBean)
+    {
+     participantList.add(item)
+    }
+
     fun getListForVideoActivity():LiveData<List<VideoTracksBean>>
     {
         return listLiveData
