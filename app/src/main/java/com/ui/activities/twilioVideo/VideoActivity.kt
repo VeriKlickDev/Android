@@ -3069,53 +3069,89 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         }
 
 /***/
-        if (remoteVideoTrack.name.equals("screen"))
-        {
+        if (remoteVideoTrack.name.equals("screen")) {
             remoteParticipantVideoList
-            val isParticipantExists=remoteParticipantVideoList.filter { it.identity.equals(remoteParticipant.identity) }
+            val isParticipantExists =
+                remoteParticipantVideoList.filter { it.identity.equals(remoteParticipant.identity) }
             isParticipantExists.size
-            if (isParticipantExists.size==0 || isParticipantExists==null)
-            {
-                    remoteParticipantVideoList.add(
-                        VideoTracksBean(
-                            remoteParticipant.identity!!,
-                            remoteParticipant!!,
-                            null,
-                            "",
-                            remoteVideoTrack.sid
-                        )
+            if (isParticipantExists.size == 0 || isParticipantExists == null) {
+                remoteParticipantVideoList.add(
+                    VideoTracksBean(
+                        remoteParticipant.identity!!,
+                        remoteParticipant!!,
+                        null,
+                        "",
+                        remoteVideoTrack.sid
                     )
+                )
 
                 Handler(Looper.getMainLooper()).postDelayed({
-                    removeAllSinksAndSetnew(null,false)
+                    removeAllSinksAndSetnew(null, false)
                     setBlankBackground(true)
 
-                    var isCandidateExists=false
+                    var isCandidateExists = false
 
-                    CurrentConnectUserList.getListofParticipant().forEachIndexed { index, videoTracksBean ->
-                        if(videoTracksBean.identity!!.contains("C"))
-                        {
-                            isCandidateExists=true
-                           // binding.tvNoParticipant.text=""
+                    CurrentConnectUserList.getListofParticipant()
+                        .forEachIndexed { index, videoTracksBean ->
+                            if (videoTracksBean.identity!!.contains("C")) {
+                                isCandidateExists = true
+                                // binding.tvNoParticipant.text=""
 
+                            }
                         }
-                    }
-                    if (!isCandidateExists)
-                    {
+                    if (!isCandidateExists) {
                         CurrentMeetingDataSaver.getData().users?.forEach {
                             if (it.userType.contains("C"))
-                            binding.tvNoParticipant.text ="Waiting to join " + it.userFirstName + " " + it.userLastName
+                                binding.tvNoParticipant.text =
+                                    "Waiting to join " + it.userFirstName + " " + it.userLastName
                         }
                     }
-                    else
-                    {
-                      //  binding.tvNoParticipant.text = ""
+                    else {
+                        //  binding.tvNoParticipant.text = ""
                     }
 
-                },400)
+                }, 400)
                 adapter.notifyDataSetChanged()
             }
+
         }
+        if (remoteVideoTrack.name.equals("screen")) {
+
+            val isSameExists=remoteParticipantVideoList.any { it.identity.equals(remoteParticipant.identity) }
+
+            if (isSameExists)
+            {
+                setBlankBackground(true)
+            }
+            /*
+            Handler(Looper.getMainLooper()).postDelayed({
+                removeAllSinksAndSetnew(null, false)
+                setBlankBackground(true)
+
+                var isCandidateExists = false
+
+                CurrentConnectUserList.getListofParticipant()
+                    .forEachIndexed { index, videoTracksBean ->
+                        if (videoTracksBean.identity!!.contains("C")) {
+                            isCandidateExists = true
+                            // binding.tvNoParticipant.text=""
+
+                        }
+                    }
+                if (!isCandidateExists) {
+                    CurrentMeetingDataSaver.getData().users?.forEach {
+                        if (it.userType.contains("C"))
+                            binding.tvNoParticipant.text =
+                                "Waiting to join " + it.userFirstName + " " + it.userLastName
+                    }
+                }
+                else {
+                    //  binding.tvNoParticipant.text = ""
+                }
+
+            }, 400)*/
+        }
+
 
         /***/
 

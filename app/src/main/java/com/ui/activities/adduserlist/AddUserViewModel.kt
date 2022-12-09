@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.data.dataHolders.CurrentMeetingDataSaver
-import com.data.dataHolders.CurrentUpcomingMeetingData
 import com.data.dataHolders.DataStoreHelper
 import com.data.dataHolders.InvitationDataModel
 import com.data.repositoryImpl.BaseRestRepository
@@ -20,7 +19,7 @@ import javax.inject.Inject
 class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewModel() {
 
     val TAG = "adduserviewmodel"
-    fun getIsEmailAndPhoneExists(
+    fun getIsEmailExists(
         interviewId: Int,
         email: String,
         Phone: String,
@@ -28,7 +27,7 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
     ) {
         try {
             viewModelScope.launch {
-                val result = repo.getEmailPhoneExistsDetails(
+                val result = repo.getEmailPExistsDetails(
                     IsEmailPhoneExistsModel(
                         interviewId,
                         email,
@@ -52,6 +51,45 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
             Log.d("adduserexception", "getIsEmailAndPasswordExists: exception  ")
         }
     }
+
+
+    fun getIsPhoneExists(
+        interviewId: Int,
+        email: String,
+        Phone: String,
+        response: (isExists: Boolean) -> Unit
+    ) {
+        try {
+            viewModelScope.launch {
+                val result = repo.getPhoneExistsDetails(
+                    IsEmailPhoneExistsModel(
+                        interviewId,
+                        email,
+                        Phone
+                    )
+                )
+
+                if (result.isSuccessful) {
+                    if (result.body() != null) {
+                        response(result.body()!!)
+                    }
+                    else {
+                        Log.d(TAG, "getIsEmailAndPhoneExists: null response ")
+                    }
+                }
+                else {
+                    Log.d(TAG, "getIsEmailAndPhoneExists:  response not success")
+                }
+            }
+        } catch (e: Exception) {
+            Log.d("adduserexception", "getIsEmailAndPasswordExists: exception  ")
+        }
+    }
+
+
+
+
+
 
     private var searchJob: Job? = null
 

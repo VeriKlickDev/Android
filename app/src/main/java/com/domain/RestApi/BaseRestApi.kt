@@ -32,7 +32,10 @@ interface BaseRestApi {
     suspend fun getMuteStatus( @Query("VideoAccessCode") accessCode: String):Response<ResponseMuteUmnute>
 
     @POST("/api/ScheduleVideo/GetInterviewerUserByEmail")
-    suspend fun getEmailPhoneExistsDetails( @Body obj: IsEmailPhoneExistsModel):Response<Boolean>
+    suspend fun getEmailPExistsDetails(@Body obj: IsEmailPhoneExistsModel):Response<Boolean>
+
+    @POST("/api/ScheduleVideo/GetInterviewerUserByPhone")
+    suspend fun getPhoneExistsDetails( @Body obj: IsEmailPhoneExistsModel):Response<Boolean>
 
     @POST("/api/ScheduleVideo/SaveParticipantStatus")
     suspend fun getRemoveStatus( @Body obj: BodyRemoveParticipant):Response<ResponseRemoveParticipant>

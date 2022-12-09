@@ -1,7 +1,5 @@
 package com.ui.activities.adduserlist
 
-import android.content.Intent
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -9,21 +7,13 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.View.INVISIBLE
-import android.widget.ScrollView
-import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.data.*
 import com.data.dataHolders.*
-import com.domain.BaseModels.ResponseTotalInterviewerCount
-import com.domain.constant.AppConstants
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityLayoutAddParticipantBinding
 import com.google.android.material.snackbar.Snackbar
-import com.ui.activities.joinmeeting.JoinMeetingActivity
-import com.ui.activities.meetingmemberslist.MemberListActivity
-import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
 
 import com.ui.listadapters.AddParticipantListAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -199,7 +189,7 @@ class ActivityAddParticipant : AppCompatActivity() {
     }
 
     private fun checkEmailExists(txt: String, position: Int) {
-        viewModel.getIsEmailAndPhoneExists(
+        viewModel.getIsEmailExists(
             CurrentMeetingDataSaver.getData().interviewModel?.interviewId!!,
             txt,
             "",
@@ -216,7 +206,7 @@ class ActivityAddParticipant : AppCompatActivity() {
     }
 
     private fun checkPhoneExists(txt: String, position: Int) {
-        viewModel.getIsEmailAndPhoneExists(
+        viewModel.getIsPhoneExists(
             CurrentMeetingDataSaver.getData().interviewModel?.interviewId!!,
             "",
             txt,

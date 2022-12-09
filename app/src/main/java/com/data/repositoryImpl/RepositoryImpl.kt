@@ -3,7 +3,6 @@ package com.data.repositoryImpl
 
 
 
-import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.*
 import com.domain.RestApi.BaseRestApi
 import com.domain.RestApi.LoginRestApi
@@ -49,8 +48,12 @@ class RepositoryImpl  @Inject constructor(val baseRestApi: BaseRestApi,val login
         return baseRestApi.getMuteStatus(accessCode)
     }
 
-    override suspend fun getEmailPhoneExistsDetails(obj: IsEmailPhoneExistsModel): Response<Boolean> {
-        return baseRestApi.getEmailPhoneExistsDetails(obj)
+    override suspend fun getEmailPExistsDetails(obj: IsEmailPhoneExistsModel): Response<Boolean> {
+        return baseRestApi.getEmailPExistsDetails(obj)
+    }
+
+    override suspend fun getPhoneExistsDetails(obj: IsEmailPhoneExistsModel): Response<Boolean> {
+        return baseRestApi.getPhoneExistsDetails(obj)
     }
 
     override suspend fun getRemoveStatus(obj: BodyRemoveParticipant): Response<ResponseRemoveParticipant> {

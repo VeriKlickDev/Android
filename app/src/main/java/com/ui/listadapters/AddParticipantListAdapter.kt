@@ -439,7 +439,6 @@ class AddParticipantListAdapter(val viewModel:AddUserViewModel,
             else {
                 bindingg.tvEmailError.visibility=INVISIBLE
                 list[position].isEmailError=false
-
             }
            // list.get(position).email = ""
         }

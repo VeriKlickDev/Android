@@ -55,8 +55,10 @@
     <string name="txt_invite">Invite</string>
     <string name="txt_Invitation_sent">Invitation Sent!</string>
     <string name="txt_failed_to_Invitation">Failed to send invitation</string>
-    <string name="txt_email_already_exists">Email Already Exists</string>
-    <string name="txt_phone_already_exists">Phone Already Exists</string>
+
+    <string name="txt_email_already_exists">Participant already exists with this email.</string>
+    <string name="txt_phone_already_exists">Participant already exists with this contact number.</string>
+
     <string name="txt_permissionScreenSharingGranted">Screen sharing permission Granted</string>
     <string name="txt_permissionScreenSharingNotGranted">Screen sharing permission not granted</string>
     <string name="txt_screen_sharing_error">failed to Share Screen</string>
