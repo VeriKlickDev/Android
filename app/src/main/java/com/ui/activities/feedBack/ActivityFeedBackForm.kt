@@ -17,6 +17,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
 import com.data.dataHolders.CurrentMeetingDataSaver
+import com.data.dataHolders.UpcomingMeetingStatusHolder
 import com.domain.BaseModels.*
 import com.domain.constant.AppConstants
 import com.example.twillioproject.R
@@ -224,6 +225,13 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
         postFeedback()
 
+        UpcomingMeetingStatusHolder.getIsMeetingFinished().observe(this){
+            if (it)
+            {
+                UpcomingMeetingStatusHolder.setIsRefresh(false)
+                finish()
+            }
+        }
     }
 
     fun postFeedback() {

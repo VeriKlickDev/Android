@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.data.*
 import com.data.dataHolders.CallStatusHolder
 import com.data.dataHolders.CurrentMeetingDataSaver
+import com.data.dataHolders.UpcomingMeetingStatusHolder
 import com.example.twillioproject.R
 import com.example.twillioproject.databinding.ActivityDocumentViewerBinding
 import com.google.android.material.snackbar.Snackbar
@@ -86,6 +87,14 @@ class DocumentViewerActivity : AppCompatActivity() {
             }else
             {
 
+            }
+        }
+
+        UpcomingMeetingStatusHolder.getIsMeetingFinished().observe(this){
+            if (it)
+            {
+                UpcomingMeetingStatusHolder.setIsRefresh(false)
+                finish()
             }
         }
     }
@@ -157,7 +166,6 @@ class DocumentViewerActivity : AppCompatActivity() {
             Snackbar.make(binding.root,getString(R.string.txt_no_supported_app_to_open),Snackbar.LENGTH_SHORT).show()
             Log.d(TAG, "showDocFile: exception ${e.message}")
         }
-
     }
 
 

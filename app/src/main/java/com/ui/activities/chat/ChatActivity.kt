@@ -7,11 +7,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.data.dataHolders.CallStatusHolder
-import com.data.dataHolders.ChatMessagesHolder
+import com.data.dataHolders.*
 
-import com.data.dataHolders.CurrentConnectUserList
-import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.twiliochat.MessageCallBack
 import com.data.twiliochat.TwilioChatHelper
 import com.domain.BaseModels.ChatMessagesModel
@@ -84,6 +81,13 @@ class ChatActivity : AppCompatActivity(){
                     binding.tvConnectedMembersCount.text = it.size.toString() + " Member"
                 }
             })
+        }
+        UpcomingMeetingStatusHolder.getIsMeetingFinished().observe(this){
+            if (it)
+            {
+                UpcomingMeetingStatusHolder.setIsRefresh(false)
+                finish()
+            }
         }
     }
     val msgCallback=object: MessageCallBack {

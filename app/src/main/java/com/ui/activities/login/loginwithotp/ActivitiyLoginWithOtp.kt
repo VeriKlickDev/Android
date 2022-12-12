@@ -13,6 +13,7 @@ import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import com.data.*
+import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.ResponseOtpVerificationStatus
 import com.domain.constant.AppConstants
@@ -218,6 +219,7 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
                     Log.d(TAG, "handleEmailVerification: 200 data $data")
                     if (data.Status!!.contains("VALID"))
                     {
+                        //DataStoreHelper.setToken()
                         binding.tvOtpError.text=""
                         handleVerifiedStatus(data)
                     }else {

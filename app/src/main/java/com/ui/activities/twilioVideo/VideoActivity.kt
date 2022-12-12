@@ -453,6 +453,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             }
         }
         UpcomingMeetingStatusHolder.setIsRefresh(true)
+        UpcomingMeetingStatusHolder.isMeetingFinished(true)
         Log.d(TAG, "endCall: service status ${meetingManager.getServiceState()}")
 
     }

@@ -372,7 +372,14 @@ class UpComingMeetingViewModel @Inject constructor(
                 onDataResponse: (data: BodyCancelMeeting?, response: Int) -> Unit
     ) {
         try {
+
             CoroutineScope(Dispatchers.IO).launch {
+
+                val token=DataStoreHelper.getLoginBearerToken()
+                token
+                val email=DataStoreHelper.getUserEmail()
+                email
+
                 val result = baseRepoApi.cancelMeeting(DataStoreHelper.getLoginBearerToken(),BodyCancelMeeting(InterviewSeqId=data.interviewId, SubscriberId = data.subscriberid.toString(), logedInUser = DataStoreHelper.getUserEmail()))
                 if (result.isSuccessful) {
                     if (result.body() != null) {

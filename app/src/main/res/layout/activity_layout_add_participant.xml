@@ -13,6 +13,7 @@
         android:orientation="vertical"
         android:background="@color/light_grey"
         android:keepScreenOn="true"
+        android:animateLayoutChanges="true"
         tools:context="com.ui.activities.adduserlist.ActivityAddParticipant">
 
         <androidx.constraintlayout.widget.ConstraintLayout

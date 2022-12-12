@@ -14,6 +14,7 @@ import com.data.checkInternet
 import com.data.dataHolders.CallStatusHolder
 import com.data.dataHolders.CurrentConnectUserList
 import com.data.dataHolders.CurrentMeetingDataSaver
+import com.data.dataHolders.UpcomingMeetingStatusHolder
 import com.data.showCustomSnackbarOnTop
 import com.domain.BaseModels.VideoTracksBean
 import com.domain.constant.AppConstants
@@ -122,6 +123,16 @@ class MemberListActivity : AppCompatActivity() {
                 Log.d(TAG, "handleObserver: false part")
             }
         }
+
+        UpcomingMeetingStatusHolder.getIsMeetingFinished().observe(this){
+            if (it)
+            {
+                UpcomingMeetingStatusHolder.isMeetingFinished(false)
+                finish()
+            }
+        }
+
+
     }
 
     override fun onResume() {

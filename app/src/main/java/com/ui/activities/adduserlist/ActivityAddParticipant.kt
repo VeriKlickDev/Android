@@ -33,14 +33,15 @@ class ActivityAddParticipant : AppCompatActivity() {
 
         val randomStr = UUID.randomUUID()
 
-        CoroutineScope(Dispatchers.IO).launch {
+       /* CoroutineScope(Dispatchers.IO).launch {
             delay(500)
             interviewList.add(InvitationDataModel(uid = randomStr.toString()))//, InterviewerTimezone = CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone.toString()))
             withContext(Dispatchers.Main)
             {
                 adapter.notifyDataSetChanged()
             }
-        }
+        }*/
+
 
 
         Log.d(
@@ -49,6 +50,9 @@ class ActivityAddParticipant : AppCompatActivity() {
         )
 
         viewModel = ViewModelProvider(this).get(AddUserViewModel::class.java)
+
+        checkTotalParticipant(1)
+
         binding.rvAdduserByLink.layoutManager = LinearLayoutManager(this)
 
         binding.btnJumpBackAddmember.setOnClickListener {
@@ -62,7 +66,7 @@ class ActivityAddParticipant : AppCompatActivity() {
             onClick = { data: InvitationDataModel, action: Int, pos: Int, list ->
                 when (action) {
                     1 -> {
-                        checkTotalParticipant()
+                        checkTotalParticipant(2)
                         Log.d(TAG, "onCreate: ")
                     }
                     2 -> {
@@ -115,6 +119,16 @@ class ActivityAddParticipant : AppCompatActivity() {
                 Log.d(TAG, "handleObserver: false part")
             }
         }
+
+        UpcomingMeetingStatusHolder.getIsMeetingFinished().observe(this){
+            if (it)
+            {
+                UpcomingMeetingStatusHolder.setIsRefresh(false)
+                finish()
+            }
+        }
+
+
     }
 
     override fun finish() {
@@ -122,7 +136,7 @@ class ActivityAddParticipant : AppCompatActivity() {
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
-    private fun checkTotalParticipant() {
+    private fun checkTotalParticipant(actionPerformed: Int) {
         viewModel.getTotoalCountOfInterviewer(
             CurrentMeetingDataSaver.getData().videoAccessCode!!,
             onResponse = { action, data ->
@@ -130,8 +144,14 @@ class ActivityAddParticipant : AppCompatActivity() {
                     200 -> {
                         if (interviewList.size + data?.TotalInterviewerCount!!.toInt() > 6) {
                             showToast(this, getString(R.string.txt_cant_add_more_participant))
+                            if (actionPerformed==1)
+                            {
+                                binding.btnPostdata.visibility=View.GONE
+                            }else
+                            {
+                            }
                         } else {
-                            addNewInterViewer(data?.TotalInterviewerCount!!)
+                            addNewInterViewer(actionPerformed)
                         }
                     }
                     400 -> {
@@ -364,8 +384,10 @@ class ActivityAddParticipant : AppCompatActivity() {
     }
 
 
-    private fun addNewInterViewer(interviewerCount: Int) {
+    private fun addNewInterViewer(action: Int) {
 
+
+        if (action==2){
         if (!interviewList.isNullOrEmpty()){
             var isErrorOccur=false
             interviewList.forEachIndexed { index, invitationDataModel ->
@@ -384,6 +406,10 @@ class ActivityAddParticipant : AppCompatActivity() {
                // setSubmitButtonEnable(true)
             }
         }
+        }else{
+            addParticipantItem()
+        }
+
     }
 
     private fun setSubmitButtonEnable(isEnable:Boolean)
