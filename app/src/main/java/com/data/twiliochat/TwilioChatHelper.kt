@@ -18,7 +18,12 @@ object TwilioChatHelper {
     private var conversation: Conversation? = null
     private var DEFAULT_CONVERSATION_NAME: String? = null
     fun setInstanceOfChat(mcontext: Context, token: String, conversationName: String) {
-
+        conversation?.let {
+            it.removeAllListeners()
+        }
+        conversationsClient?.let {
+            it.removeAllListeners()
+        }
         DEFAULT_CONVERSATION_NAME = conversationName
         Log.d(TAG, "initializeWithAccessToken: in intialize method $conversationName")
         val props = ConversationsClient.Properties.newBuilder().createProperties()
@@ -394,7 +399,9 @@ object TwilioChatHelper {
         object : ConversationsClientListener {
             override fun onConversationAdded(conversation2: Conversation) {
                 Log.d(TAG, "onConversationAdded: conversation added ")
+                conversation!!.removeAllListeners()
                 conversation = conversation2
+
                 conversation!!.addListener(mDefaultConversationListener)
                // addConversationCallBack(conversation)
             }
@@ -405,9 +412,12 @@ object TwilioChatHelper {
             ) {
 
                 // removeConversationCallBack()
+                conversation!!.removeAllListeners()
                 conversation = conversation2
                 conversation!!.addListener(mDefaultConversationListener)
-               // addConversationCallBack(conversation)
+
+
+                // addConversationCallBack(conversation)
                // conversation!!.addListener(mDefaultConversationListener)
                 Log.d(TAG, "onConversationUpdated: conversation updated")
                // joinConversation()

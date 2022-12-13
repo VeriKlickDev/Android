@@ -419,8 +419,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         Log.d(TAG, "endCall: ")
         //  meetingManager.unbindService()
         TwilioChatHelper.removeMemeberFromConversation(CurrentMeetingDataSaver.getData().identity!!)
-        CurrentConnectUserList.clearList()
         localVideoTrack?.let { localParticipant?.unpublishTrack(it) }
+        CurrentConnectUserList.clearList()
+
         // screenShareCapturerManager.unbindService()
         screenShareCapturerManager.endForeground()
         meetingManager.endForeground()
@@ -458,7 +459,8 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             }
         }
         UpcomingMeetingStatusHolder.setIsRefresh(true)
-        UpcomingMeetingStatusHolder.isMeetingFinished(true)
+
+       // UpcomingMeetingStatusHolder.isMeetingFinished(true)
         Log.d(TAG, "endCall: service status ${meetingManager.getServiceState()}")
 
     }
@@ -2432,7 +2434,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             "connectToRoom: participant connected service ${meetingManager.getServiceState()}"
         )
         meetingManager.startForeground()
-
+        UpcomingMeetingStatusHolder.isMeetingFinished(false)
 
         try {
             this.room = room
@@ -2592,7 +2594,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         {
         addRemoteParticipant(participant!!)
         }
-
+        UpcomingMeetingStatusHolder.isMeetingFinished(false)
         //working 28_nov addRemoteParticipant(participant!!)
 
 

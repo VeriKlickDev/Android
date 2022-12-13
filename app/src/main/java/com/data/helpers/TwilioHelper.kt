@@ -3,7 +3,9 @@ package com.data.helpers
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.data.dataHolders.CurrentConnectUserList
 import com.data.dataHolders.UpcomingMeetingStatusHolder
+import com.data.twiliochat.TwilioChatHelper
 import com.domain.BaseModels.MicStatusModel
 import com.domain.BaseModels.NetworkQualityModel
 import com.example.twillioproject.databinding.ActivityTwilioVideoBinding
@@ -68,6 +70,13 @@ object TwilioHelper {
         room?.disconnect()
         room = null
         UpcomingMeetingStatusHolder.isMeetingFinished(true)
+
+        CurrentConnectUserList.clearList()
+        TwilioChatHelper.removeCallBacks()
+        TwilioChatHelper.clearChatList()
+
+
+
     }
 
     fun setLocalParticipantListener(localParticipant: LocalParticipant)
