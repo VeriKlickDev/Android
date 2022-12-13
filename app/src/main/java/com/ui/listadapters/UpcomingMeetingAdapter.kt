@@ -211,7 +211,82 @@ class UpcomingMeetingAdapter(
                 }
             }else {
 
-                if (list[adapterPosition].status.trim().lowercase().equals("Cancelled".trim().lowercase())) {
+                when (data.status.trim()) {
+                    "Attended"     -> {
+
+                        binding.btnRejoin.isVisible = false
+                        binding.btnJoin.visibility = View.GONE
+                        binding.btnFeedback.isVisible = true
+                        binding.btnFeedback.isEnabled = false
+                        binding.btnFeedback.text = "Teams Meeting"
+                        binding.btnFeedback.setTextColor(context.getColor(R.color.white))
+                        binding.btnFeedback.background = ContextCompat.getDrawable(
+                            binding.btnFeedback.context,
+                            R.drawable.shape_rectangle_rounded_red_10_teams
+                        )
+                        binding.btnFeedback.isEnabled = true
+                        binding.btnCancelMeeting.isVisible = false
+
+
+                    }
+                    "Scheduled"    -> {
+
+                        binding.btnRejoin.isVisible = false
+                        binding.btnJoin.visibility = View.GONE
+                        binding.btnFeedback.isVisible = true
+                        binding.btnFeedback.isEnabled = false
+                        binding.btnFeedback.text = "Teams Meeting"
+                        binding.btnFeedback.setTextColor(context.getColor(R.color.white))
+                        binding.btnFeedback.background = ContextCompat.getDrawable(
+                            binding.btnFeedback.context,
+                            R.drawable.shape_rectangle_rounded_red_10_teams
+                        )
+                        binding.btnFeedback.isEnabled = true
+                        binding.btnCancelMeeting.isVisible = false
+
+                    }
+                    "NotScheduled" -> {
+                        Log.d(TAG, "onBindViewHolder: not sched when")
+                        binding.btnJoin.visibility = View.GONE
+                        binding.btnFeedback.isVisible = true
+                        binding.btnFeedback.isEnabled = false
+                        binding.btnFeedback.text = "Missed"
+                        binding.btnFeedback.setTextColor(context.getColor(R.color.missed_text_color))
+                        binding.btnFeedback.background = ContextCompat.getDrawable(
+                            binding.btnFeedback.context,
+                            R.drawable.shape_rectangle_rounded_red_10
+                        )
+                        binding.btnRejoin.isVisible = false
+                        binding.btnCancelMeeting.isVisible = false
+                    }
+                    "Cancelled"    -> {
+                        Log.d(TAG, "onBindViewHolder: canceled when")
+                        binding.btnJoin.visibility = View.GONE
+                        binding.btnFeedback.isVisible = true
+                        binding.btnFeedback.isEnabled = false
+                        binding.btnFeedback.setTextColor(context.getColor(R.color.canceled_text_color))
+                        binding.btnFeedback.background =
+                            ContextCompat.getDrawable(
+                                binding.btnFeedback.context,
+                                R.drawable.shape_rectangle_rounded_dark_transparent_b_pink
+                            )
+                        binding.btnFeedback.text = "Cancelled"
+                        binding.btnRejoin.isVisible = false
+                        binding.btnCancelMeeting.isVisible = false
+                    }
+                    else           -> {
+                        binding.btnJoin.visibility = View.VISIBLE
+                        binding.btnFeedback.visibility = View.GONE
+                        binding.btnFeedback.background = null
+                        binding.btnRejoin.isVisible = false
+                        binding.btnCancelMeeting.isVisible = true
+                    }
+                }
+            }
+
+
+
+                /*if (list[adapterPosition].status.trim().lowercase().equals("Cancelled".trim().lowercase())) {
                     Log.d(TAG, "onBindViewHolder: canceled when")
                     binding.btnJoin.visibility = View.GONE
                     binding.btnFeedback.isVisible = true
@@ -240,7 +315,7 @@ class UpcomingMeetingAdapter(
                     binding.btnFeedback.isEnabled = true
                     binding.btnCancelMeeting.isVisible = false
                 }
-            }
+            }*/
 
 
         }

@@ -208,10 +208,15 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
 
         CurrentMeetingDataSaver.getData()?.users?.forEach {
-            if (it.userType.contains("C")) {
-               binding.tvNoParticipant.text =
-                    "Waiting to join " + it.userFirstName + " " + it.userLastName
+            if (CurrentMeetingDataSaver.getData().identity!!.contains("C")){
+                binding.tvNoParticipant.text =""
+            }else
+            {
+                if (it.userType.contains("C")) {
+                    binding.tvNoParticipant.text ="Waiting to join " + it.userFirstName + " " + it.userLastName
+                }
             }
+
         }
 
         binding.btnEllipsize.setOnClickListener {
@@ -414,7 +419,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         Log.d(TAG, "endCall: ")
         //  meetingManager.unbindService()
         TwilioChatHelper.removeMemeberFromConversation(CurrentMeetingDataSaver.getData().identity!!)
-
+        CurrentConnectUserList.clearList()
         localVideoTrack?.let { localParticipant?.unpublishTrack(it) }
         // screenShareCapturerManager.unbindService()
         screenShareCapturerManager.endForeground()
@@ -1417,13 +1422,18 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                         }
                     }
                     if (index1!=-1)
-                        adapter.notifyItemChanged(index1)
+                        Handler(Looper.getMainLooper()).post({
+                            adapter.notifyItemChanged(index1)
+                            binding.tvUsername.isVisible=true
+                        })
 
-                    binding.tvUsername.isVisible=true
                 }else
                 {
-                    setBlankBackground(true)
-                    binding.tvUsername.isVisible=false
+                    Handler(Looper.getMainLooper()).post({
+                        setBlankBackground(true)
+                        binding.tvUsername.isVisible=false
+                    })
+
                     //uncomment   binding.tvNoParticipant.text="Video Not Available"
                 }
             }
@@ -3102,10 +3112,17 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                         }
                     if (!isCandidateExists) {
                         CurrentMeetingDataSaver.getData().users?.forEach {
-                            if (it.userType.contains("C"))
-                                binding.tvNoParticipant.text =
-                                    "Waiting to join " + it.userFirstName + " " + it.userLastName
+                            if (CurrentMeetingDataSaver.getData().identity!!.contains("C")){
+                                binding.tvNoParticipant.text =""
+                            }else
+                            {
+                                if (it.userType.contains("C")) {
+                                    binding.tvNoParticipant.text =
+                                        "Waiting to join " + it.userFirstName + " " + it.userLastName
+                                }
+                            }
                         }
+
                     }
                     else {
                         //  binding.tvNoParticipant.text = ""
