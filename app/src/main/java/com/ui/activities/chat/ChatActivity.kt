@@ -82,6 +82,7 @@ class ChatActivity : AppCompatActivity(){
                 }
             })
         }
+
         UpcomingMeetingStatusHolder.getIsMeetingFinished().observe(this){
             if (it)
             {

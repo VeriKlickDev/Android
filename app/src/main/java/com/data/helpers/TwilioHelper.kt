@@ -70,13 +70,8 @@ object TwilioHelper {
         room?.disconnect()
         room = null
         UpcomingMeetingStatusHolder.isMeetingFinished(true)
-
-        CurrentConnectUserList.clearList()
         TwilioChatHelper.removeCallBacks()
         TwilioChatHelper.clearChatList()
-
-
-
     }
 
     fun setLocalParticipantListener(localParticipant: LocalParticipant)

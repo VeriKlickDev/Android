@@ -115,6 +115,14 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
         handleViews()
 
+        UpcomingMeetingStatusHolder.getIsMeetingFinished().observe(this){
+            Log.d(TAG, "sendFeedBack: $it")
+            if (it)
+            {
+               // UpcomingMeetingStatusHolder.setIsRefresh(false)
+               // finish()
+            }
+        }
         // getInterviewDetails("mkpeHcXKbF95uRiWiLzJ")
     }
 
@@ -225,13 +233,8 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
         postFeedback()
 
-        UpcomingMeetingStatusHolder.getIsMeetingFinished().observe(this){
-            if (it)
-            {
-                UpcomingMeetingStatusHolder.setIsRefresh(false)
-                finish()
-            }
-        }
+
+
     }
 
     fun postFeedback() {
@@ -277,7 +280,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
             binding.recommendationError.isVisible = false
 
             //  Log.d(TAG, "postData: check all data  appliedpos $appliedPosition recomm $recommendationSelected designation $designation intername $interviewName candidId $candidateId CANDIDATENAME ${CurrentMeetingDataSaver.getData().interviewModel?.candidate?.firstName+ CurrentMeetingDataSaver.getData().interviewModel?.candidate?.lastName} ")
-            var codingRemark="null"
+            var codingRemark=""
             if (binding.etOverallRemark.text.toString().equals(""))
             {
 

@@ -420,7 +420,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         //  meetingManager.unbindService()
         TwilioChatHelper.removeMemeberFromConversation(CurrentMeetingDataSaver.getData().identity!!)
         localVideoTrack?.let { localParticipant?.unpublishTrack(it) }
-        CurrentConnectUserList.clearList()
+
 
         // screenShareCapturerManager.unbindService()
         screenShareCapturerManager.endForeground()
@@ -459,7 +459,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             }
         }
         UpcomingMeetingStatusHolder.setIsRefresh(true)
-
+        CurrentConnectUserList.clearList()
        // UpcomingMeetingStatusHolder.isMeetingFinished(true)
         Log.d(TAG, "endCall: service status ${meetingManager.getServiceState()}")
 

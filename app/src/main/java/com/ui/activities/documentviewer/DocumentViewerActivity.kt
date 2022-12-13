@@ -90,6 +90,7 @@ class DocumentViewerActivity : AppCompatActivity() {
             }
         }
 
+
         UpcomingMeetingStatusHolder.getIsMeetingFinished().observe(this){
             if (it)
             {
@@ -97,6 +98,7 @@ class DocumentViewerActivity : AppCompatActivity() {
                 finish()
             }
         }
+
     }
 
     override fun onResume() {

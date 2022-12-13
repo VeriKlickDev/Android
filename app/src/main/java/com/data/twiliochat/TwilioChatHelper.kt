@@ -399,11 +399,12 @@ object TwilioChatHelper {
         object : ConversationsClientListener {
             override fun onConversationAdded(conversation2: Conversation) {
                 Log.d(TAG, "onConversationAdded: conversation added ")
-                conversation!!.removeAllListeners()
-                conversation = conversation2
+               // conversation!!.removeAllListeners()
 
+                conversation = conversation2
                 conversation!!.addListener(mDefaultConversationListener)
-               // addConversationCallBack(conversation)
+
+            // addConversationCallBack(conversation)
             }
 
             override fun onConversationUpdated(
@@ -412,7 +413,8 @@ object TwilioChatHelper {
             ) {
 
                 // removeConversationCallBack()
-                conversation!!.removeAllListeners()
+               // conversation!!.removeAllListeners()
+
                 conversation = conversation2
                 conversation!!.addListener(mDefaultConversationListener)
 
@@ -585,7 +587,7 @@ object TwilioChatHelper {
             Log.d(TAG, "onSynchronizationChanged: ")
            // removeConversationCallBack()
            //working conversation = conversation1
-            conversation = conversation1
+           //working conversation = conversation1
            //loadPreviousMessages(conversation!!)
            // joinConversation()
         }
