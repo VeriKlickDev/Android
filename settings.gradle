@@ -28,5 +28,5 @@ dependencyResolutionManagement {
 
     }
 }
-rootProject.name = "TwillioProject"
+rootProject.name = "VeriKlick"
 include ':app'

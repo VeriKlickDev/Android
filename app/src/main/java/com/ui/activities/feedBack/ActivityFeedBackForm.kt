@@ -20,8 +20,8 @@ import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.dataHolders.UpcomingMeetingStatusHolder
 import com.domain.BaseModels.*
 import com.domain.constant.AppConstants
-import com.example.twillioproject.R
-import com.example.twillioproject.databinding.ActivityFeedBackFormBinding
+import com.veriklick.R
+import com.veriklick.databinding.ActivityFeedBackFormBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -449,10 +449,10 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 400 -> {
                     dismissProgressDialog()
                     Log.d(TAG, "getResume: not success ondata 400")
-                    showCustomSnackbarOnTop(getString(com.example.twillioproject.R.string.txt_something_went_wrong))
+                    showCustomSnackbarOnTop(getString(com.veriklick.R.string.txt_something_went_wrong))
                    /* showToast(
                         this,
-                        getString(com.example.twillioproject.R.string.txt_something_went_wrong)
+                        getString(com.veriklick.R.string.txt_something_went_wrong)
                     )*/
                     // binding.swipetorefresh.isRefreshing = false
                 }
@@ -463,20 +463,20 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 404 -> {
                     dismissProgressDialog()
                     Log.d(TAG, "getResume: not success ondata 404")
-                    showCustomSnackbarOnTop(getString(com.example.twillioproject.R.string.txt_something_went_wrong))
+                    showCustomSnackbarOnTop(getString(com.veriklick.R.string.txt_something_went_wrong))
                     /*showToast(
                         this,
-                        getString(com.example.twillioproject.R.string.txt_something_went_wrong)
+                        getString(com.veriklick.R.string.txt_something_went_wrong)
                     )*/
                     // binding.swipetorefresh.isRefreshing = false
                 }
                 500 -> {
                     dismissProgressDialog()
                     Log.d(TAG, "getResume: not success ondata 404")
-                    showCustomSnackbarOnTop(getString(com.example.twillioproject.R.string.txt_something_went_wrong))
+                    showCustomSnackbarOnTop(getString(com.veriklick.R.string.txt_something_went_wrong))
                     /*showToast(
                         this,
-                        getString(com.example.twillioproject.R.string.txt_something_went_wrong)
+                        getString(com.veriklick.R.string.txt_something_went_wrong)
                     )*/
                     // binding.swipetorefresh.isRefreshing = false
                 }

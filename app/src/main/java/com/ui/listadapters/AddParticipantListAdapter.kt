@@ -15,8 +15,8 @@ import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.data.*
 import com.data.dataHolders.InvitationDataModel
-import com.example.twillioproject.R
-import com.example.twillioproject.databinding.LayoutAddParticipantBinding
+import com.veriklick.R
+import com.veriklick.databinding.LayoutAddParticipantBinding
 import com.ui.activities.adduserlist.ActivityAddParticipant
 import com.ui.activities.adduserlist.AddUserViewModel
 import kotlinx.coroutines.*

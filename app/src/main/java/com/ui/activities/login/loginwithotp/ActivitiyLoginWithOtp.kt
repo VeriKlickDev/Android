@@ -19,9 +19,9 @@ import com.domain.BaseModels.ResponseOtpVerificationStatus
 import com.domain.constant.AppConstants
 
 
-import com.example.twillioproject.R
-import com.example.twillioproject.databinding.ActivityActivitiyLoginWithOtpBinding
-import com.example.twillioproject.databinding.LayoutOtpVerificationBottomsheetBinding
+import com.veriklick.R
+import com.veriklick.databinding.ActivityActivitiyLoginWithOtpBinding
+import com.veriklick.databinding.LayoutOtpVerificationBottomsheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
 import dagger.hilt.android.AndroidEntryPoint

@@ -9,8 +9,8 @@ import android.widget.Switch
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.domain.OnViewClicked
-import com.example.twillioproject.R
-import com.example.twillioproject.databinding.LayoutItemSenderChatBinding
+import com.veriklick.R
+import com.veriklick.databinding.LayoutItemSenderChatBinding
 
 import com.twilio.chat.Message
 

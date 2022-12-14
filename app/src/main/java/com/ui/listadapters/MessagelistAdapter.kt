@@ -7,9 +7,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.domain.BaseModels.ChatMessagesModel
 import com.domain.constant.AppConstants
-import com.example.twillioproject.R
-import com.example.twillioproject.databinding.LayoutItemRecieverChatBinding
-import com.example.twillioproject.databinding.LayoutItemSenderChatBinding
+import com.veriklick.R
+import com.veriklick.databinding.LayoutItemRecieverChatBinding
+import com.veriklick.databinding.LayoutItemSenderChatBinding
 import com.twilio.conversations.Message
 
 class MessagelistAdapter(val context: Context, val list:List<ChatMessagesModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>()

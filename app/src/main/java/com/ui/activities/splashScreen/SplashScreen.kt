@@ -9,8 +9,8 @@ import android.util.Log
 import com.data.dataHolders.DataStoreHelper
 import com.data.setHandler
 import com.domain.constant.AppConstants
-import com.example.twillioproject.R
-import com.example.twillioproject.databinding.ActivitySplashScreenBinding
+import com.veriklick.R
+import com.veriklick.databinding.ActivitySplashScreenBinding
 import com.ui.activities.login.LoginActivity
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
 import dagger.hilt.android.AndroidEntryPoint

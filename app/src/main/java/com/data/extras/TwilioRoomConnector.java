@@ -9,8 +9,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import com.example.twillioproject.R;
-import com.example.twillioproject.databinding.LayoutVideoConfrencingBinding;
+import com.veriklick.R;
+import com.veriklick.databinding.LayoutVideoConfrencingBinding;
 import com.twilio.video.VideoView;
 
 import tvi.webrtc.voiceengine.WebRtcAudioUtils;

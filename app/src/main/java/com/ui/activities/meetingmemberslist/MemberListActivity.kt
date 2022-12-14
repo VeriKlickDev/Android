@@ -18,8 +18,8 @@ import com.data.dataHolders.UpcomingMeetingStatusHolder
 import com.data.showCustomSnackbarOnTop
 import com.domain.BaseModels.VideoTracksBean
 import com.domain.constant.AppConstants
-import com.example.twillioproject.R
-import com.example.twillioproject.databinding.ActivityListOfMembersBinding
+import com.veriklick.R
+import com.veriklick.databinding.ActivityListOfMembersBinding
 import com.google.android.material.snackbar.Snackbar
 import com.ui.activities.adduserlist.ActivityAddParticipant
 import com.ui.activities.joinmeeting.JoinMeetingActivity
@@ -73,8 +73,8 @@ class MemberListActivity : AppCompatActivity() {
                                         leftUserFromMeeting(data)
                                     }else
                                     {
-                                        showCustomSnackbarOnTop(getString(com.example.twillioproject.R.string.txt_no_internet_connection))
-                                        /*Snackbar.make(binding.root,getString(com.example.twillioproject.R.string.txt_no_internet_connection),
+                                        showCustomSnackbarOnTop(getString(com.veriklick.R.string.txt_no_internet_connection))
+                                        /*Snackbar.make(binding.root,getString(com.veriklick.R.string.txt_no_internet_connection),
                                             Snackbar.LENGTH_SHORT).show()*/
                                     }
                                 }

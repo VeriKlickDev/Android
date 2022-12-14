@@ -13,7 +13,7 @@ import androidx.core.app.NotificationCompatExtras
 import androidx.core.content.ContextCompat
 import com.data.helpers.TwilioHelper
 import com.domain.constant.AppConstants
-import com.example.twillioproject.R
+import com.veriklick.R
 import com.ui.activities.twilioVideo.VideoActivity
 
 class MeetingService : Service() {

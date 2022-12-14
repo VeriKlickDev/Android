@@ -45,9 +45,9 @@ import com.domain.BaseModels.TokenResponseBean
 import com.domain.BaseModels.VideoTracksBean
 import com.domain.OnViewClicked
 import com.domain.constant.AppConstants
-import com.example.twillioproject.R
-import com.example.twillioproject.databinding.ActivityTwilioVideoBinding
-import com.example.twillioproject.databinding.LayoutMuteMicUpdateBinding
+import com.veriklick.R
+import com.veriklick.databinding.ActivityTwilioVideoBinding
+import com.veriklick.databinding.LayoutMuteMicUpdateBinding
 import com.google.android.material.snackbar.Snackbar
 import com.twilio.audioswitch.AudioDevice
 import com.twilio.audioswitch.AudioDevice.*
@@ -273,7 +273,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             } else {
                 Snackbar.make(
                     binding.root,
-                    getString(com.example.twillioproject.R.string.txt_no_internet_connection),
+                    getString(com.veriklick.R.string.txt_no_internet_connection),
                     Snackbar.LENGTH_SHORT
                 ).show()
             }
@@ -3051,6 +3051,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
         if (remoteParticipant.identity.contains("C")) {
             currentRemoteVideoTrack?.removeSink(binding.primaryVideoView)
+            if (CurrentMeetingDataSaver.getData().identity!!.contains("I"))
             setBlankBackground(true)
             //remoteParticipantVideoListWithCandidate.removeAt(0)
             //CurrentConnectUserList.setListForAddParticipantActivity(remoteParticipantVideoListWithCandidate)
@@ -3100,6 +3101,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
                 Handler(Looper.getMainLooper()).postDelayed({
                     removeAllSinksAndSetnew(null, false)
+                    if (CurrentMeetingDataSaver.getData().identity!!.contains("I"))
                     setBlankBackground(true)
 
                     var isCandidateExists = false
@@ -3109,7 +3111,6 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                             if (videoTracksBean.identity!!.contains("C")) {
                                 isCandidateExists = true
                                 // binding.tvNoParticipant.text=""
-
                             }
                         }
                     if (!isCandidateExists) {
@@ -3141,6 +3142,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
             if (isSameExists)
             {
+                if (CurrentMeetingDataSaver.getData().identity!!.contains("I"))
                 setBlankBackground(true)
             }
             /*

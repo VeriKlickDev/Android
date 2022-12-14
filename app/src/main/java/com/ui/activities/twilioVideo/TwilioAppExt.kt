@@ -5,7 +5,7 @@ import android.content.DialogInterface
 import android.graphics.*
 import android.os.Build
 import android.widget.EditText
-import com.example.twillioproject.R
+import com.veriklick.R
 import tvi.webrtc.HardwareVideoDecoderFactory
 import tvi.webrtc.HardwareVideoEncoderFactory
 import tvi.webrtc.VideoFrame

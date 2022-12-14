@@ -4,9 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.databinding.DataBindingUtil
-import com.example.twillioproject.R
+import com.veriklick.R
 
-import com.example.twillioproject.databinding.LayoutBottombuttonsBinding
+import com.veriklick.databinding.LayoutBottombuttonsBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class ButtonBottomSheet(context: Context) :BottomSheetDialog(context,R.style.bottomsheet_buttons) {

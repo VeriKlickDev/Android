@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1069314382497:android:1a53ead52fec96562caee0",
         "android_client_info": {
-          "package_name": "com.example.twillioproject"
+          "package_name": "com.veriklick"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "1069314382497-7844abj0iv4j3hfbo47fg05i48ibqfvo.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.twillioproject",
+            "package_name": "com.veriklick",
             "certificate_hash": "082dc7bd9b6406031fd76926e3416255183abf0d"
           }
         },

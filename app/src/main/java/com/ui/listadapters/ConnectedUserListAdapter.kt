@@ -18,8 +18,8 @@ import com.data.helpers.TwilioHelper
 import com.data.showToast
 import com.domain.BaseModels.NetworkQualityModel
 import com.domain.BaseModels.VideoTracksBean
-import com.example.twillioproject.R
-import com.example.twillioproject.databinding.LayoutItemConnectedUsersBinding
+import com.veriklick.R
+import com.veriklick.databinding.LayoutItemConnectedUsersBinding
 import com.twilio.video.*
 import com.ui.activities.twilioVideo.MicStatusListener
 import com.ui.activities.twilioVideo.VideoActivity

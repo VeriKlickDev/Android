@@ -16,8 +16,8 @@ import com.data.dataHolders.LocalConfrenseMic
 import com.data.helpers.TwilioHelper
 import com.domain.BaseModels.NetworkQualityModel
 import com.domain.BaseModels.VideoTracksBean
-import com.example.twillioproject.R
-import com.example.twillioproject.databinding.LayoutItemMemberVideoConfrenceBinding
+import com.veriklick.R
+import com.veriklick.databinding.LayoutItemMemberVideoConfrenceBinding
 import com.twilio.video.*
 import com.ui.activities.meetingmemberslist.MemberListActivity
 

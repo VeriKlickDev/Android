@@ -14,8 +14,8 @@ import com.data.dataHolders.CurrentConnectUserList
 import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.helpers.TwilioHelper
 import com.domain.constant.AppConstants
-import com.example.twillioproject.R
-import com.example.twillioproject.databinding.ActivityJoinMeetingBinding
+import com.veriklick.R
+import com.veriklick.databinding.ActivityJoinMeetingBinding
 import com.harvee.yourhealthmate2.ui.privacypolicy.ActivityPrivacyPolicy
 import com.ui.activities.twilioVideo.VideoActivity
 import dagger.hilt.android.AndroidEntryPoint

@@ -33,11 +33,12 @@ import com.domain.BaseModels.ResponseJWTTokenLogin
 import com.domain.IncomingCallCallback
 import com.domain.OnViewClicked
 import com.domain.constant.AppConstants
-import com.example.twillioproject.R
-import com.example.twillioproject.databinding.CustomSnackbarGlobalBinding
-import com.example.twillioproject.databinding.LayoutPrivacyPolicyBinding
-import com.example.twillioproject.databinding.LayoutProgressBinding
-import com.example.twillioproject.databinding.LayoutSuccessMsgSnackbarPlayerBinding
+import com.veriklick.*
+import com.veriklick.R
+import com.veriklick.databinding.CustomSnackbarGlobalBinding
+import com.veriklick.databinding.LayoutPrivacyPolicyBinding
+import com.veriklick.databinding.LayoutProgressBinding
+import com.veriklick.databinding.LayoutSuccessMsgSnackbarPlayerBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import kotlinx.coroutines.cancel

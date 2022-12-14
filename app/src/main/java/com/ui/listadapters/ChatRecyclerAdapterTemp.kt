@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.domain.BaseModels.ChatMessagesModel
-import com.example.twillioproject.R
-import com.example.twillioproject.databinding.LayoutItemSenderChatBinding
+import com.veriklick.R
+import com.veriklick.databinding.LayoutItemSenderChatBinding
 import com.twilio.conversations.Message
 
 //import com.twilio.chat.Message

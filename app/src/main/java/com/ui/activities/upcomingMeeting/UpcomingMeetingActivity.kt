@@ -26,9 +26,9 @@ import com.data.dataHolders.*
 import com.data.helpers.TwilioHelper
 import com.domain.BaseModels.*
 import com.domain.constant.AppConstants
-import com.example.twillioproject.R
-import com.example.twillioproject.databinding.ActivityUpcomingMeetingBinding
-import com.example.twillioproject.databinding.LayoutDescriptionDialogBinding
+import com.veriklick.R
+import com.veriklick.databinding.ActivityUpcomingMeetingBinding
+import com.veriklick.databinding.LayoutDescriptionDialogBinding
 import com.google.android.material.snackbar.Snackbar
 import com.harvee.yourhealthmate2.ui.privacypolicy.ActivityPrivacyPolicy
 import com.ui.activities.feedBack.ActivityFeedBackForm
@@ -645,7 +645,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         menuInfo: ContextMenu.ContextMenuInfo?
     ) {
         val inflater = menuInflater
-        inflater.inflate(com.example.twillioproject.R.menu.menu_filter_upcominglist, menu)
+        inflater.inflate(com.veriklick.R.menu.menu_filter_upcominglist, menu)
         menu?.setHeaderTitle("Meetings")
 
         super.onCreateContextMenu(menu, v, menuInfo)

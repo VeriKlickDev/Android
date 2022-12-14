@@ -11,7 +11,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.example.twillioproject"
+        applicationId "com.veriklick"
         minSdk 27
         targetSdk 32
         versionCode 1

@@ -11,8 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.data.*
 import com.data.dataHolders.*
-import com.example.twillioproject.R
-import com.example.twillioproject.databinding.ActivityLayoutAddParticipantBinding
+import com.veriklick.R
+import com.veriklick.databinding.ActivityLayoutAddParticipantBinding
 import com.google.android.material.snackbar.Snackbar
 
 import com.ui.listadapters.AddParticipantListAdapter
@@ -81,7 +81,7 @@ class ActivityAddParticipant : AppCompatActivity() {
                         } else {
                             Snackbar.make(
                                 binding.root,
-                                getString(com.example.twillioproject.R.string.txt_no_internet_connection),
+                                getString(com.veriklick.R.string.txt_no_internet_connection),
                                 Snackbar.LENGTH_SHORT
                             ).show()
                         }
@@ -92,7 +92,7 @@ class ActivityAddParticipant : AppCompatActivity() {
                         } else {
                             Snackbar.make(
                                 binding.root,
-                                getString(com.example.twillioproject.R.string.txt_no_internet_connection),
+                                getString(com.veriklick.R.string.txt_no_internet_connection),
                                 Snackbar.LENGTH_SHORT
                             ).show()
                         }
@@ -280,7 +280,7 @@ class ActivityAddParticipant : AppCompatActivity() {
                     } else {
                         Snackbar.make(
                             binding.root,
-                            getString(com.example.twillioproject.R.string.txt_no_internet_connection),
+                            getString(com.veriklick.R.string.txt_no_internet_connection),
                             Snackbar.LENGTH_SHORT
                         ).show()
                     }

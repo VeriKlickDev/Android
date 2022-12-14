@@ -11,8 +11,8 @@ import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
-import com.example.twillioproject.R
-import com.example.twillioproject.databinding.ActivityForgotPasswordBinding
+import com.veriklick.R
+import com.veriklick.databinding.ActivityForgotPasswordBinding
 import com.google.android.material.snackbar.Snackbar
 import com.ui.activities.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint

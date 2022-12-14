@@ -8,8 +8,8 @@ import android.webkit.WebViewClient
 import com.data.dismissProgressDialog
 import com.data.showProgressDialog
 import com.domain.constant.AppConstants
-import com.example.twillioproject.R
-import com.example.twillioproject.databinding.ActivityPrivacyPolicyBinding
+import com.veriklick.R
+import com.veriklick.databinding.ActivityPrivacyPolicyBinding
 
 class ActivityPrivacyPolicy : AppCompatActivity() {
 

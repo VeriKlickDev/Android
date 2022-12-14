@@ -23,8 +23,8 @@ import com.data.*
 import com.data.dataHolders.CallStatusHolder
 import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.dataHolders.UpcomingMeetingStatusHolder
-import com.example.twillioproject.R
-import com.example.twillioproject.databinding.ActivityDocumentViewerBinding
+import com.veriklick.R
+import com.veriklick.databinding.ActivityDocumentViewerBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -58,7 +58,7 @@ class DocumentViewerActivity : AppCompatActivity() {
             getResume()
         }else
         {
-            Snackbar.make(binding.root,getString(com.example.twillioproject.R.string.txt_no_internet_connection),
+            Snackbar.make(binding.root,getString(com.veriklick.R.string.txt_no_internet_connection),
                 Snackbar.LENGTH_SHORT).show()
         }
 
@@ -149,7 +149,7 @@ class DocumentViewerActivity : AppCompatActivity() {
     {
         try {
             val file =File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/"+fileName).toString())
-            val uri=FileProvider.getUriForFile(this,"com.example.twillioproject"+".provider",file)
+            val uri=FileProvider.getUriForFile(this,"com.veriklick"+".provider",file)
             val i = Intent(Intent.ACTION_VIEW)
             this.fileName=fileName
             if (fileName.contains(".pdf"))

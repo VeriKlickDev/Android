@@ -16,8 +16,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.data.dataHolders.DataStoreHelper
 import com.data.*
 import com.domain.constant.AppConstants
-import com.example.twillioproject.R
-import com.example.twillioproject.databinding.ActivityLoginBinding
+import com.veriklick.R
+import com.veriklick.databinding.ActivityLoginBinding
 import com.google.android.material.snackbar.Snackbar
 import com.ui.activities.forgotPassword.ForgotPasswordActivity
 import com.ui.activities.joinmeeting.JoinMeetingActivity

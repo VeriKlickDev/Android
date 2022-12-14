@@ -1,4 +1,4 @@
-package com.example.twillioproject
+package com.veriklick
 
 import org.junit.Test
 
