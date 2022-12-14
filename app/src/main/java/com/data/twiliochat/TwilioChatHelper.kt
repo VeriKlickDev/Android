@@ -365,8 +365,8 @@ object TwilioChatHelper {
     fun removeCallBacks()
     {
         try {
-            conversation!!.removeAllListeners()
-            conversationsClient!!.removeAllListeners()
+            conversation?.removeAllListeners()
+            conversationsClient?.removeAllListeners()
             conversation=null
             conversationsClient=null
            // conversation!!.removeListener(mDefaultConversationListener)
