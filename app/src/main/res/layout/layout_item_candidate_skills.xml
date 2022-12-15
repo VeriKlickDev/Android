@@ -18,7 +18,6 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:paddingTop="@dimen/_10sp"
-        android:background="@drawable/shape_rectangle_rounded_stroke_grey"
         android:paddingHorizontal="@dimen/_10sp"
         >
 
@@ -44,7 +43,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/_14sp"
             android:layout_gravity="center_vertical"
-            android:textColor="@color/black"
+            android:textColor="@color/dark_grey"
             android:layout_weight="1"
             android:ellipsize="end"
             android:id="@+id/tv_Skills"

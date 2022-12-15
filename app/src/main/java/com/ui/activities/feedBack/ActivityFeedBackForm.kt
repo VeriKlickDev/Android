@@ -16,6 +16,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
+import com.data.dataHolders.AllowToMuteHolder
 import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.dataHolders.UpcomingMeetingStatusHolder
 import com.domain.BaseModels.*
@@ -26,6 +27,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import layout.SkillsListAdapter
 
@@ -68,16 +70,17 @@ class ActivityFeedBackForm : AppCompatActivity() {
             }
         binding.rvCandidateSkills.adapter = skillsAdapter
 
-//        binding.spinnerInterviewRemark.onItemSelectedListener =
-//            spinnerItemListener
+        //        binding.spinnerInterviewRemark.onItemSelectedListener =
+        //            spinnerItemListener
 
 
         binding.btnSubmitButton.setOnClickListener {
             if (checkInternet()) {
-                binding.btnSubmitButton.isEnabled=false
+                //uncomment 15dec  binding.btnSubmitButton.isEnabled=false
                 if (recommendationSelected != null) {
                     binding.recommendationError.isVisible = false
-                } else {
+                }
+                else {
                     binding.recommendationError.isVisible = true
                 }
 
@@ -85,13 +88,14 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
                 sendFeedBack()
 
-            } else {
+            }
+            else {
                 showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
-               /* Snackbar.make(
-                    it,
-                    getString(R.string.txt_no_internet_connection),
-                    Snackbar.LENGTH_SHORT
-                ).show()*/
+                /* Snackbar.make(
+                     it,
+                     getString(R.string.txt_no_internet_connection),
+                     Snackbar.LENGTH_SHORT
+                 ).show()*/
             }
         }
 
@@ -104,66 +108,65 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
         if (checkInternet()) {
             getFeedBack()
-        } else {
+        }
+        else {
             showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
-           /* Snackbar.make(
-                binding.root,
-                getString(R.string.txt_no_internet_connection),
-                Snackbar.LENGTH_SHORT
-            ).show()*/
+            /* Snackbar.make(
+                 binding.root,
+                 getString(R.string.txt_no_internet_connection),
+                 Snackbar.LENGTH_SHORT
+             ).show()*/
         }
 
         handleViews()
 
-        UpcomingMeetingStatusHolder.getIsMeetingFinished().observe(this){
+        UpcomingMeetingStatusHolder.getIsMeetingFinished().observe(this) {
             Log.d(TAG, "sendFeedBack: $it")
-            if (it)
-            {
-               // UpcomingMeetingStatusHolder.setIsRefresh(false)
-               // finish()
+            if (it) {
+                // UpcomingMeetingStatusHolder.setIsRefresh(false)
+                // finish()
             }
         }
         // getInterviewDetails("mkpeHcXKbF95uRiWiLzJ")
     }
 
-    fun handleViews()
-    {
+    fun handleViews() {
 
         binding.etRemart.doOnTextChanged { text, start, before, count ->
-           // binding.remarkError.isVisible = binding.etRemart.text.toString().equals("")
+            // binding.remarkError.isVisible = binding.etRemart.text.toString().equals("")
         }
 
         binding.etRole.doOnTextChanged { text, start, before, count ->
-          //  binding.roleError.isVisible = binding.etRole.text.toString().equals("")
+            //  binding.roleError.isVisible = binding.etRole.text.toString().equals("")
         }
 
         binding.etOverallRemark.doOnTextChanged { text, start, before, count ->
-           // binding.overallRemarkError.isVisible = binding.etOverallRemark.text.toString().equals("")
+            // binding.overallRemarkError.isVisible = binding.etOverallRemark.text.toString().equals("")
         }
     }
-
 
 
     fun setVisible() {
         if (binding.etRemart.text.toString().trim()
                 .equals("")
         ) {
-           // binding.remarkError.isVisible = true
-        } else {
-           // binding.remarkError.isVisible = false
+            // binding.remarkError.isVisible = true
         }
-      /*  if (binding.etOverallRemark.text.toString()
-                .equals("")
-        ) {
-            binding.overallRemarkError.isVisible = true
-        } else {
-            binding.overallRemarkError.isVisible = false
+        else {
+            // binding.remarkError.isVisible = false
         }
-        if (binding.etRole.text.toString().equals("")) {
-            binding.roleError.isVisible = true
-        } else {
-            binding.roleError.isVisible = false
-        }*/
+        /*  if (binding.etOverallRemark.text.toString()
+                  .equals("")
+          ) {
+              binding.overallRemarkError.isVisible = true
+          } else {
+              binding.overallRemarkError.isVisible = false
+          }
+          if (binding.etRole.text.toString().equals("")) {
+              binding.roleError.isVisible = true
+          } else {
+              binding.roleError.isVisible = false
+          }*/
     }
 
 
@@ -198,10 +201,11 @@ class ActivityFeedBackForm : AppCompatActivity() {
         Log.d(TAG, "sendFeedBack: list size ${skillsAdapter.getFeedBackList().size}")
         Log.d(TAG, "sendFeedBack: list size ${skillsAdapter.getFeedBackList()}")
 
-      /**working 8dec
-       */ isBlank = false
+        /**working 8dec
+         */
+        isBlank = false
 
-       /* skillsAdapter.getFeedBackList().forEach {
+        /* skillsAdapter.getFeedBackList().forEach {
             Log.d(TAG, "sendFeedBack: cat ${it.Catagory} comment ${it.Comments}")
             if (!it.Comments.equals("")) {//it.Catagory.equals("") ||
                 Log.d(TAG, "sendFeedBack:  blank data")
@@ -212,27 +216,76 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 Log.d(TAG,"sendFeedBack: not blank data")
                 isBlank = true
             }*/
+        }*/
+        var isfilledOne = false
+        var isRatingFilled = false
+        var isCommentFilled = false
+        var isAllFieldMessageShow=false
+        skillsAdapter.getFeedBackList().forEach {
+            Log.d(
+                TAG,
+                "sendFeedBack: cat ${it.Catagory} comment ${it.Comments} rating ${it.Ratings?.toInt()}"
+            )
+            if (it.Ratings!!.toInt() > 0) { //it.Catagory.equals("") ||
+                Log.d(TAG, "sendFeedBack:  blank data")
+                isRatingFilled = true
+                // showToast(this, getString(R.string.txt_all_fields_required))
+            }else{
+                isRatingFilled = false
+
+            }
+            isCommentFilled = !it.Comments.equals("")
+
+            isfilledOne = isRatingFilled && isCommentFilled
+
+
+            if (!isfilledOne) {
+                if (isRatingFilled)
+                    if (!isCommentFilled) {
+                            showCustomSnackbarOnTop("Comment is required")
+                        isAllFieldMessageShow=true
+                    }else
+                    {
+                        isAllFieldMessageShow=false
+                    }
+            }
         }
 
-        if (isBlank) {
-           // binding.skillsError.isVisible = false
-           // postFeedback()
-            binding.btnSubmitButton.setText("Submit")
-
-        } else {
-            binding.btnSubmitButton.setText("Update")
-          //  binding.skillsError.isVisible = true
-           // binding.btnSubmitButton.isEnabled=true
-
-
-
-        // showCustomSnackbarOnTop(getString(R.string.txt_all_fields_required))
-            //showToast(this, getString(R.string.txt_all_fields_required))
+        if (!isCommentFilled) {
+            if (!isAllFieldMessageShow)
+            {       Handler(Looper.getMainLooper()).postDelayed({
+                    showCustomSnackbarOnTop("Fill atleast one comment Field")
+                }, 100)
         }
-*/
+        }
+        else {
+            isBlank = false
+            skillsAdapter.getFeedBackList().forEach {
+                Log.d(
+                    TAG,
+                    "sendFeedBack: cat ${it.Catagory} comment ${it.Comments} rating ${it.Ratings?.toInt()}"
+                )
+                if (it.Ratings!!.toInt() > 0) {
+                    Log.d(TAG, "sendFeedBack:  rating above ")
+                    if (it.Comments.equals("")) { //it.Catagory.equals("") ||
+                        Log.d(TAG, "sendFeedBack:  blank data")
+                        isBlank = true
+                        // showToast(this, getString(R.string.txt_all_fields_required))
+                    }
+                }
+            }
 
-        postFeedback()
+            if (!isBlank) {
+                postFeedback()
+            }
+            else {
+                //showCustomSnackbarOnTop("true")
+                // postFeedback()
+            }
+        }
 
+
+        // postFeedback()
 
 
     }
@@ -280,32 +333,29 @@ class ActivityFeedBackForm : AppCompatActivity() {
             binding.recommendationError.isVisible = false
 
             //  Log.d(TAG, "postData: check all data  appliedpos $appliedPosition recomm $recommendationSelected designation $designation intername $interviewName candidId $candidateId CANDIDATENAME ${CurrentMeetingDataSaver.getData().interviewModel?.candidate?.firstName+ CurrentMeetingDataSaver.getData().interviewModel?.candidate?.lastName} ")
-            var codingRemark=""
-            if (binding.etOverallRemark.text.toString().equals(""))
-            {
+            var codingRemark = ""
+            if (binding.etOverallRemark.text.toString().equals("")) {
 
-            }else
-            {
-                codingRemark=binding.etOverallRemark.text.toString()
+            }
+            else {
+                codingRemark = binding.etOverallRemark.text.toString()
             }
 
-            var role=""
-            if (binding.etRole.text.toString().equals(""))
-            {
+            var role = ""
+            if (binding.etRole.text.toString().equals("")) {
 
-            }else
-            {
-                role=binding.etRole.text.toString()
+            }
+            else {
+                role = binding.etRole.text.toString()
             }
 
 
-            var remark=""
-            if (binding.etRemart.text.toString().equals(""))
-            {
+            var remark = ""
+            if (binding.etRemart.text.toString().equals("")) {
 
-            }else
-            {
-                remark=binding.etRemart.text.toString()
+            }
+            else {
+                remark = binding.etRemart.text.toString()
             }
 
 
@@ -329,7 +379,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 onDataResponse = { data, status ->
                     when (status) {
                         404 -> {
-                            binding.btnSubmitButton.isEnabled=true
+                            binding.btnSubmitButton.isEnabled = true
                         }
                         200 -> {
                             showCustomToast(data?.aPIResponse?.message!!.toString())
@@ -337,16 +387,16 @@ class ActivityFeedBackForm : AppCompatActivity() {
                             //showToast(this, data?.aPIResponse?.message!!)
                             Handler(Looper.getMainLooper()).postDelayed({
                                 finish()
-                            },1000)
+                            }, 1000)
                         }
                         400 -> {
-                            binding.btnSubmitButton.isEnabled=true
+                            binding.btnSubmitButton.isEnabled = true
                         }
                         401 -> {
-                            binding.btnSubmitButton.isEnabled=true
+                            binding.btnSubmitButton.isEnabled = true
                         }
                         500 -> {
-                            binding.btnSubmitButton.isEnabled=true
+                            binding.btnSubmitButton.isEnabled = true
                             showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
                             //showToast(this, getString(R.string.txt_something_went_wrong))
                         }
@@ -356,13 +406,14 @@ class ActivityFeedBackForm : AppCompatActivity() {
                         TAG,
                         "postData: data status $status ${data?.jobid}  ${data?.aPIResponse?.message}"
                     )
-                   // finish()
+                    // finish()
                 })
 
-        } else {
+        }
+        else {
             binding.recommendationError.isVisible = true
-            binding.btnSubmitButton.isEnabled=true
-            showCustomSnackbarOnTop(getString(R.string.txt_all_fields_required))
+            binding.btnSubmitButton.isEnabled = true
+            showCustomSnackbarOnTop(getString(R.string.txt_recommendation_required))
             //showToast(this, getString(R.string.txt_all_fields_required))
         }
 
@@ -375,11 +426,12 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             Log.d(TAG, "onItemSelected: selected ${recommendationList.get(position)}")
-            if (position==0){
-              //  ( view as TextView).setTextColor(ContextCompat.getColor(this@ActivityFeedBackForm,R.color.grey))
-            }else{
-              //  ( view as TextView).setTextColor(ContextCompat.getColor(this@ActivityFeedBackForm,R.color.black))
-                recommendationSelected=recommendationList[position].toString()
+            if (position == 0) {
+                //  ( view as TextView).setTextColor(ContextCompat.getColor(this@ActivityFeedBackForm,R.color.grey))
+            }
+            else {
+                //  ( view as TextView).setTextColor(ContextCompat.getColor(this@ActivityFeedBackForm,R.color.black))
+                recommendationSelected = recommendationList[position].toString()
             }
 
         }
@@ -450,10 +502,10 @@ class ActivityFeedBackForm : AppCompatActivity() {
                     dismissProgressDialog()
                     Log.d(TAG, "getResume: not success ondata 400")
                     showCustomSnackbarOnTop(getString(com.veriklick.R.string.txt_something_went_wrong))
-                   /* showToast(
-                        this,
-                        getString(com.veriklick.R.string.txt_something_went_wrong)
-                    )*/
+                    /* showToast(
+                         this,
+                         getString(com.veriklick.R.string.txt_something_went_wrong)
+                     )*/
                     // binding.swipetorefresh.isRefreshing = false
                 }
                 401 -> {
@@ -490,7 +542,6 @@ class ActivityFeedBackForm : AppCompatActivity() {
     private var designation = ""
 
 
-
     private val recommendationList = mutableListOf<String>()
     fun setDataToViews(data: ResponseFeedBack) {
 
@@ -498,7 +549,8 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
             try {
                 interviewName = data.CandidateAssessmentPanelMembers.firstOrNull()?.Name.toString()
-                designation = data.CandidateAssessmentPanelMembers.firstOrNull()?.Designation.toString()
+                designation =
+                    data.CandidateAssessmentPanelMembers.firstOrNull()?.Designation.toString()
 
                 binding.tvName.text = ""
                 data.CandidateAssessmentPanelMembers.firstOrNull()?.Name?.let {
@@ -511,32 +563,33 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
                 appliedPosition = data.AppliedPostion.toString()
 
-                if (!data.Recommendation.toString().equals("") || data.Recommendation!=null)
-                {
+                if (!data.Recommendation.toString().equals("") || data.Recommendation != null) {
                     binding.etRemart.setText(data.Recommendation)
-                  //  binding.remarkError.isVisible=false
-                }else
-                {
+                    //  binding.remarkError.isVisible=false
+                }
+                else {
                     binding.etRemart.setText("")
-                   // binding.remarkError.isVisible=true
+                    // binding.remarkError.isVisible=true
                 }
 
 
                 try {
-                    if (!data.CandidateAssessmentPanelMembers[0].Designation.toString().equals("null") || data.CandidateAssessmentPanelMembers[0].Designation!=null) {
-                            binding.etRole.setText(data.CandidateAssessmentPanelMembers[0].Designation!!.toString())
+                    if (!data.CandidateAssessmentPanelMembers[0].Designation.toString()
+                            .equals("null") || data.CandidateAssessmentPanelMembers[0].Designation != null
+                    ) {
+                        binding.etRole.setText(data.CandidateAssessmentPanelMembers[0].Designation!!.toString())
 
-                       // binding.roleError.isVisible=false
-                    }else
-                    {
-                       // binding.roleError.isVisible=true
+                        // binding.roleError.isVisible=false
+                    }
+                    else {
+                        // binding.roleError.isVisible=true
                     }
 
-                }catch (e:Exception)
-                {
+                } catch (e: Exception) {
                     Log.d(
                         TAG,
-                        "setDataToViews: exception candidate designation ${e.printStackTrace()}")
+                        "setDataToViews: exception candidate designation ${e.printStackTrace()}"
+                    )
                 }
 
                 recommendationList.add(0, "Select Recommendation")
@@ -569,7 +622,8 @@ class ActivityFeedBackForm : AppCompatActivity() {
                                 tv.height = 0
                                 //  tv.visibility = View.GONE
                                 v = tv
-                            } else {
+                            }
+                            else {
                                 // Pass convertView as null to prevent reuse of special case views
                                 v = super.getDropDownView(
                                     position,
@@ -593,32 +647,30 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
                 //  spinnerAdapter.notifyDataSetChanged()
 
-                if (data.CodingTestRemarksForVideo.toString().equals("null"))
-                {
+                if (data.CodingTestRemarksForVideo.toString().equals("null")) {
                     binding.etOverallRemark.setText("")
-                }else
-                {
+                }
+                else {
                     binding.etOverallRemark.setText(data.CodingTestRemarksForVideo.toString())
                 }
 
 
-                if (!data.Comments.equals("null") || data.Comments!=null) {
+                if (!data.Comments.equals("null") || data.Comments != null) {
                     val spinnerPos = spinnerAdapter.getPosition(data.Comments.toString())
                     binding.spinnerInterviewRemark.setSelection(spinnerPos)
-                    binding.recommendationError.isVisible=false
-                }else
-                {
-                    binding.recommendationError.isVisible=true
+                    binding.recommendationError.isVisible = false
                 }
-/*
-                if (data.Comments.toString().equals("Select Recommendation"))
-                    {
-                    binding.btnSubmitButton.setText("Submit")
-                    }else
-                {
-                    binding.btnSubmitButton.setText("Update")
-                }*/
-
+                else {
+                    binding.recommendationError.isVisible = true
+                }
+                /*
+                                if (data.Comments.toString().equals("Select Recommendation"))
+                                    {
+                                    binding.btnSubmitButton.setText("Submit")
+                                    }else
+                                {
+                                    binding.btnSubmitButton.setText("Update")
+                                }*/
 
 
                 /*  if (!data.CandidateAssessmentSkills.isNullOrEmpty())
@@ -632,8 +684,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
                           binding.btnSubmitButton.setText("Submit")
                           skillsList.addAll(data.assessSkills)
                       }*/
-                if (!data.candidateAssessmentSkillsMobile.isNullOrEmpty())
-                {
+                if (!data.candidateAssessmentSkillsMobile.isNullOrEmpty()) {
                     skillsList.addAll(data.candidateAssessmentSkillsMobile)
                 }
 
@@ -641,15 +692,13 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 skillsAdapter.notifyDataSetChanged()
 
 
-                if(data.AssessmentId==0)
-                {
+                if (data.AssessmentId == 0) {
                     binding.btnSubmitButton.setText("Submit")
-                }else
-                {
+                }
+                else {
                     binding.btnSubmitButton.setText("Update")
                 }
-            }catch (e:Exception)
-            {
+            } catch (e: Exception) {
                 Log.d(TAG, "setDataToViews: on data res exception ${e.message}")
             }
         })

@@ -128,4 +128,5 @@
     <string name="txt_yes">Yes</string>
     <string name="txt_update">Update</string>
     <string name="txt_data_already_exists">Data already exists</string>
+    <string name="txt_recommendation_required">Recommendation field required!</string>
 </resources>

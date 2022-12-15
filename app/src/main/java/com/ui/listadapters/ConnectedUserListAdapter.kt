@@ -207,7 +207,6 @@ class ConnectedUserListAdapter(
 
                 return true
             }
-
         }
 
         fun setMicStatus(status: Boolean) {

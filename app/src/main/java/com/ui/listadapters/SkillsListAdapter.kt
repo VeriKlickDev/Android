@@ -149,7 +149,13 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
 
                 if (fromUser)
                 data.Ratings=rating.toDouble()
-
+                if (data.Ratings!!.toInt()>0)
+                {
+                    binding.commentError.isVisible=true
+                }else
+                {
+                    binding.commentError.isVisible=false
+                }
                 Log.d("checkingrating", "dataBind: ${rating.toString()} $fromUser list size is ${list.size}")
             }
 
