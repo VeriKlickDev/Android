@@ -179,22 +179,22 @@
 
 
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_cancelMeeting"
-                android:layout_weight="2.7"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_35sdp"
-                android:padding="@dimen/_2sp"
-                android:layout_marginHorizontal="@dimen/_5sp"
-                android:text="@string/txt_cancel"
-                android:visibility="visible"
-                android:textAllCaps="false"
-                android:outlineProvider="none"
-                android:textColor="@color/white"
-                android:foreground="?selectableItemBackground"
-                android:background="@drawable/shape_rectangle_rounded_dark_transparent_red"
-                android:fontFamily="@font/sarabun_bold"
-                />
+<!--            <androidx.appcompat.widget.AppCompatButton-->
+<!--                android:id="@+id/btn_cancelMeeting"-->
+<!--                android:layout_weight="2.7"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="@dimen/_35sdp"-->
+<!--                android:padding="@dimen/_2sp"-->
+<!--                android:layout_marginHorizontal="@dimen/_5sp"-->
+<!--                android:text="@string/txt_cancel"-->
+<!--                android:visibility="visible"-->
+<!--                android:textAllCaps="false"-->
+<!--                android:outlineProvider="none"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:foreground="?selectableItemBackground"-->
+<!--                android:background="@drawable/shape_rectangle_rounded_dark_transparent_red"-->
+<!--                android:fontFamily="@font/sarabun_bold"-->
+<!--                />-->
 
 
 

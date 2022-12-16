@@ -1761,6 +1761,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         currentVisibleUser.videoTrack?.let {
             it.removeSink(binding.primaryVideoView)
         }
+        localVideoTrack?.let {
+            it.removeSink(binding.primaryVideoView)
+        }
         data?.videoTrack?.let {
             it.removeSink(binding.primaryVideoView)
         }
@@ -3244,8 +3247,11 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                     }
                     else
                     {
-                        setBlankBackground(true)
+                        setBlankBackground(false)
+                        removeAllSinksAndSetnew(localVideoTrack,true)
                         binding.tvNoParticipant.setText("")
+                        binding.tvUsername.setText("")
+                        viewModel.setCurrentVisibleUser(localParticipant!!.identity, localVideoTrack, "You", "local")
                     }
                     var isCandidateExists = false
 

@@ -424,9 +424,9 @@ object TwilioChatHelper {
             override fun onConversationAdded(conversation2: Conversation) {
                 Log.d(TAG, "onConversationAdded: conversation added ")
                // conversation!!.removeAllListeners()
-                conversation?.let {
+                /*conversation?.let {
                     it.removeListener(mDefaultConversationListener)
-                }
+                }*/
                 conversation = conversation2
                 conversation!!.addListener(mDefaultConversationListener)
 
@@ -440,9 +440,9 @@ object TwilioChatHelper {
 
                 // removeConversationCallBack()
                // conversation!!.removeAllListeners()
-                conversation?.let {
+                /*conversation?.let {
                     it.removeListener(mDefaultConversationListener)
-                }
+                }*/
                 conversation = conversation2
                 conversation!!.addListener(mDefaultConversationListener)
 
