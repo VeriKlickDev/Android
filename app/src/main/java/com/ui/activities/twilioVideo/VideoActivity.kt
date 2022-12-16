@@ -2090,6 +2090,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 //dismissProgressDialog()
                 //  initializeWithAccessToken(data?.Token.toString())
                 TwilioChatHelper.removeCallBacks()
+
                 TwilioChatHelper.setInstanceOfChat(
                     this,
                     data?.Token.toString(),

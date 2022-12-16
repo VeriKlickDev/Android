@@ -76,7 +76,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
         binding.btnSubmitButton.setOnClickListener {
             if (checkInternet()) {
-                //uncomment 15dec  binding.btnSubmitButton.isEnabled=false
+                binding.btnSubmitButton.isEnabled=false
                 if (recommendationSelected != null) {
                     binding.recommendationError.isVisible = false
                 }
@@ -242,6 +242,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
             if (!isfilledOne) {
                 if (isRatingFilled)
                     if (!isCommentFilled) {
+                        binding.btnSubmitButton.isEnabled=true
                             showCustomSnackbarOnTop("Comment is required")
                         isAllFieldMessageShow=true
                     }else
@@ -254,6 +255,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
         if (!isCommentFilled) {
             if (!isAllFieldMessageShow)
             {       Handler(Looper.getMainLooper()).postDelayed({
+                binding.btnSubmitButton.isEnabled=true
                     showCustomSnackbarOnTop("Fill atleast one comment Field")
                 }, 100)
         }
@@ -433,7 +435,6 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 //  ( view as TextView).setTextColor(ContextCompat.getColor(this@ActivityFeedBackForm,R.color.black))
                 recommendationSelected = recommendationList[position].toString()
             }
-
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?) {

@@ -22,10 +22,13 @@ object TwilioChatHelper {
             it.removeAllListeners()
             it.removeListener(mDefaultConversationListener)
         }
+        conversation=null
         conversationsClient?.let {
             it.removeAllListeners()
             it.removeListener(mConversationsClientListener)
         }
+        conversationsClient=null
+
         DEFAULT_CONVERSATION_NAME = conversationName
         Log.d(TAG, "initializeWithAccessToken: in intialize method $conversationName")
         val props = ConversationsClient.Properties.newBuilder().createProperties()
@@ -180,6 +183,9 @@ object TwilioChatHelper {
         if (conversation == null) {
             Log.d(TAG, "joinConversation: null conversation ")
             val myconversation = conversationsClient?.myConversations?.firstOrNull()
+            conversationsClient?.myConversations?.mapIndexed { index, conversation ->
+                conversation.removeListener(mDefaultConversationListener)
+            }
             conversationsClient?.myConversations?.size
             if (myconversation != null) {
                 myconversation?.participantsList?.forEach {
@@ -391,6 +397,10 @@ object TwilioChatHelper {
              it.removeListener(mConversationsClientListener)
                 it.removeAllListeners()
             }
+            conversationsClient?.myConversations?.mapIndexed { index, conversation ->
+                conversation.removeListener(mDefaultConversationListener)
+            }
+
             conversation=null
             conversationsClient=null
            // conversation!!.removeListener(mDefaultConversationListener)
@@ -427,7 +437,8 @@ object TwilioChatHelper {
                 /*conversation?.let {
                     it.removeListener(mDefaultConversationListener)
                 }*/
-                conversation = conversation2
+                conversation= conversationsClient?.myConversations?.firstOrNull()
+                //conversation = conversation2
                 conversation!!.addListener(mDefaultConversationListener)
 
             // addConversationCallBack(conversation)
@@ -443,7 +454,8 @@ object TwilioChatHelper {
                 /*conversation?.let {
                     it.removeListener(mDefaultConversationListener)
                 }*/
-                conversation = conversation2
+                conversation= conversationsClient?.myConversations?.firstOrNull()
+                //conversation = conversation2
                 conversation!!.addListener(mDefaultConversationListener)
 
 
@@ -723,7 +735,11 @@ object TwilioChatHelper {
         conversation=conversationsClient!!.myConversations.firstOrNull()
         conversation?.friendlyName
         conversation?.uniqueName
-
+        conversationsClient?.let {
+            if (!it.myConversations.isNullOrEmpty()){
+                it.removeListener(mConversationsClientListener)
+            }
+        }
         conversation?.participantsList?.size
         conversation?.participantsList?.forEach {
             Log.d(TAG, "onSuccess: ${it.identity}")
