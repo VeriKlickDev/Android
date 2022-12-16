@@ -1758,6 +1758,12 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             lastVideoTrack = it
         }
 
+        currentVisibleUser.videoTrack?.let {
+            it.removeSink(binding.primaryVideoView)
+        }
+        data?.videoTrack?.let {
+            it.removeSink(binding.primaryVideoView)
+        }
         removeAllSinksAndSetnew(data?.videoTrack!!, false)
         viewModel.setCurrentVisibleUser(data?.identity!!, videoTrack, data.userName!!, "local")
         /**working*/
@@ -2080,6 +2086,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             response = { data, code ->
                 //dismissProgressDialog()
                 //  initializeWithAccessToken(data?.Token.toString())
+                TwilioChatHelper.removeCallBacks()
                 TwilioChatHelper.setInstanceOfChat(
                     this,
                     data?.Token.toString(),

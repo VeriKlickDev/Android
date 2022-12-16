@@ -20,9 +20,11 @@ object TwilioChatHelper {
     fun setInstanceOfChat(mcontext: Context, token: String, conversationName: String) {
         conversation?.let {
             it.removeAllListeners()
+            it.removeListener(mDefaultConversationListener)
         }
         conversationsClient?.let {
             it.removeAllListeners()
+            it.removeListener(mConversationsClientListener)
         }
         DEFAULT_CONVERSATION_NAME = conversationName
         Log.d(TAG, "initializeWithAccessToken: in intialize method $conversationName")
@@ -58,12 +60,18 @@ object TwilioChatHelper {
         if (conversation != null) {
             conversation!!.join(object : StatusListener {
                 override fun onSuccess() {
+                    conversation?.let {
+                        it.removeListener(mDefaultConversationListener)
+                    }
                     conversation!!.addListener(mDefaultConversationListener)
                     Log.d(TAG, "onSuccess: ")
                 }
 
                 override fun onError(errorInfo: ErrorInfo?) {
                     super.onError(errorInfo)
+                    conversation?.let {
+                        it.removeListener(mDefaultConversationListener)
+                    }
                     conversation!!.addListener(mDefaultConversationListener)
                     Log.d(TAG, "onError: ")
                 }
@@ -185,6 +193,9 @@ object TwilioChatHelper {
                 myconversation?.join(object : StatusListener {
                     override fun onSuccess() {
                         Log.d(TAG, "Joined default myconversation")
+                        conversation?.let {
+                            it.removeListener(mDefaultConversationListener)
+                        }
                         conversation = myconversation
                         myconversation?.participantsList
                        // addMySelfToConversation(CurrentMeetingDataSaver.getData().identity!!)
@@ -215,7 +226,9 @@ object TwilioChatHelper {
                                 addParticipantToChat(identity, myconversation)
                             }
 
-
+                        conversation?.let {
+                            it.removeListener(mDefaultConversationListener)
+                        }
                         conversation = myconversation
                        conversation!!.addListener(
                             mDefaultConversationListener
@@ -234,6 +247,9 @@ object TwilioChatHelper {
                     //conversation = mconversation
                     Log.d(TAG, "JoionSuccess: in success to getchannelned default conversation")
                    // addConversationCallBack(conversation!!)
+                    conversation?.let {
+                        it.removeListener(mDefaultConversationListener)
+                    }
                      conversation!!.addListener(mDefaultConversationListener)
                     conversation?.participantsList?.forEach {
                         Log.d(TAG, "onSuccess: participants list ${it.identity} ")
@@ -258,7 +274,9 @@ object TwilioChatHelper {
                             val identity = it.userType + it.id
                             addParticipantToChat(identity, conversation!!)
                         }
-
+                    conversation?.let {
+                        it.removeListener(mDefaultConversationListener)
+                    }
                     conversation!!.addListener(mDefaultConversationListener)
                     loadPreviousMessages(conversation!!)
                 }
@@ -365,8 +383,14 @@ object TwilioChatHelper {
     fun removeCallBacks()
     {
         try {
-            conversation?.removeAllListeners()
-            conversationsClient?.removeAllListeners()
+            conversation?.let {
+             it.removeListener(mDefaultConversationListener)
+                it.removeAllListeners()
+            }
+            conversationsClient?.let {
+             it.removeListener(mConversationsClientListener)
+                it.removeAllListeners()
+            }
             conversation=null
             conversationsClient=null
            // conversation!!.removeListener(mDefaultConversationListener)
@@ -400,7 +424,9 @@ object TwilioChatHelper {
             override fun onConversationAdded(conversation2: Conversation) {
                 Log.d(TAG, "onConversationAdded: conversation added ")
                // conversation!!.removeAllListeners()
-
+                conversation?.let {
+                    it.removeListener(mDefaultConversationListener)
+                }
                 conversation = conversation2
                 conversation!!.addListener(mDefaultConversationListener)
 
@@ -414,7 +440,9 @@ object TwilioChatHelper {
 
                 // removeConversationCallBack()
                // conversation!!.removeAllListeners()
-
+                conversation?.let {
+                    it.removeListener(mDefaultConversationListener)
+                }
                 conversation = conversation2
                 conversation!!.addListener(mDefaultConversationListener)
 
@@ -653,6 +681,9 @@ object TwilioChatHelper {
                                 }
                                 addMySelfToConversation(CurrentMeetingDataSaver.getData().identity!!)
                                 // conversation!!.removeListener(mDefaultConversationListener)
+                                conversation?.let {
+                                    it.removeListener(mDefaultConversationListener)
+                                }
                                 conversation?.addListener(mDefaultConversationListener)
                                 loadPreviousMessages(conversation!!)
                                 conversation?.friendlyName
@@ -746,6 +777,9 @@ object TwilioChatHelper {
     {
         if (mconversation.getStatus() == Conversation.ConversationStatus.JOINED) {
             addMySelfToConversation(CurrentMeetingDataSaver.getData().identity!!)
+            conversation?.let {
+                it.removeListener(mDefaultConversationListener)
+            }
             conversation = mconversation;
             Log.d(TAG, "Already joined default conversation");
             conversation!!.addListener(mDefaultConversationListener);
@@ -753,6 +787,9 @@ object TwilioChatHelper {
         }
             conversation!!.join(object : StatusListener {
                 override fun onSuccess() {
+                    conversation?.let {
+                        it.removeListener(mDefaultConversationListener)
+                    }
                     conversation = conversation
                     Log.d(TAG, "Joined default conversation")
                     addMySelfToConversation(CurrentMeetingDataSaver.getData().identity!!)
@@ -764,6 +801,9 @@ object TwilioChatHelper {
 
                 override fun onError(errorInfo: ErrorInfo) {
                     addMySelfToConversation(CurrentMeetingDataSaver.getData().identity!!)
+                    conversation?.let {
+                        it.removeListener(mDefaultConversationListener)
+                    }
                     conversation!!.addListener(
                         mDefaultConversationListener
                     )

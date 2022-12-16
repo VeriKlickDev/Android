@@ -222,21 +222,21 @@ class ActivityFeedBackForm : AppCompatActivity() {
         var isCommentFilled = false
         var isAllFieldMessageShow=false
         skillsAdapter.getFeedBackList().forEach {
-            Log.d(
-                TAG,
-                "sendFeedBack: cat ${it.Catagory} comment ${it.Comments} rating ${it.Ratings?.toInt()}"
-            )
+
             if (it.Ratings!!.toInt() > 0) { //it.Catagory.equals("") ||
                 Log.d(TAG, "sendFeedBack:  blank data")
                 isRatingFilled = true
                 // showToast(this, getString(R.string.txt_all_fields_required))
             }else{
-                isRatingFilled = false
-
+                //isRatingFilled = false
             }
-            isCommentFilled = !it.Comments.equals("")
 
-            isfilledOne = isRatingFilled && isCommentFilled
+
+            if (!it.Comments.equals(""))
+            isCommentFilled = true
+
+            if ( isRatingFilled && isCommentFilled)
+            isfilledOne =true
 
 
             if (!isfilledOne) {

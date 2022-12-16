@@ -121,26 +121,26 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
                     }else{
                         binding.skillsError.isVisible=false
                     }
-                        data.Catagory="OTHER"
-                        data.ManualCatagory=it.toString().uppercase()
-                    // ob.Comments=data.Comments
+                        //data.Catagory="OTHER"
+                        list[adapterPosition].Catagory="OTHER"
+                        //data.ManualCatagory=it.toString().uppercase()
+                    list[adapterPosition].ManualCatagory=it.toString().uppercase()
+
+
+                // ob.Comments=data.Comments
                 }
 
             binding.etComment.addTextChangedListener {
-                if (binding.etTitle.isVisible==false)
+                if (!binding.etTitle.isVisible)
                 {
                     data.Catagory=data.value?.uppercase()
                 }
 
-                if (binding.etComment.text.toString().equals(""))
-                {
-                    binding.commentError.isVisible=true
-                }else{
-                    binding.commentError.isVisible=false
-                }
-
-                data.Catagory=binding.tvSkills.text.toString().uppercase()
-                data.Comments=it.toString()
+               // binding.commentError.isVisible = binding.etComment.text.toString().equals("")
+                list[adapterPosition].Catagory=binding.tvSkills.text.toString().uppercase()
+                //data.Catagory=binding.tvSkills.text.toString().uppercase()
+                //data.Comments=it.toString()
+                list[adapterPosition].Comments=it.toString()
                 Log.d("datachecking", "dataBind: comment ${data.Comments}  ")
             }
 
@@ -149,6 +149,7 @@ class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkill
 
                 if (fromUser)
                 data.Ratings=rating.toDouble()
+                list[adapterPosition].Ratings=rating.toDouble()
                 if (data.Ratings!!.toInt()>0)
                 {
                     binding.commentError.isVisible=true
