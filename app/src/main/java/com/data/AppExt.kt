@@ -608,6 +608,19 @@ fun Context.getCurrentUtcFormatedDate(): String {
     return finalUtcTime
 }
 
+
+fun getCurrentDateToAMPM(): String {
+    val cal=Calendar.getInstance()
+    val date=cal.time
+    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
+
+    //val date1 = sdf.format(date.time)
+    val sdf2 = SimpleDateFormat("hh:mm a")
+    val time1 = sdf2.format(date)
+    return time1
+}
+
+
 fun getUtcDateToAMPM(date: String): String {
 
     val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")

@@ -135,7 +135,7 @@ class ChatActivity : AppCompatActivity(){
                     chatAdapter.notifyDataSetChanged()
                 }else
                 {
-                    chatAdapter.notifyItemChanged(chatList.size-1)
+                    chatAdapter.notifyItemInserted(chatList.size-1)
                 }
 
                 //chatAdapter.notifyDataSetChanged()

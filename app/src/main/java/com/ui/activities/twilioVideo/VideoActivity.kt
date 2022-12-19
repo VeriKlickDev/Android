@@ -3638,6 +3638,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         val width = displayMetrics.widthPixels
 
         val f = VideoFormat(VideoDimensions(1080, 1920), 24)
+
         screenShareTrack = LocalVideoTrack.create(
             this,
             true,
