@@ -49,7 +49,6 @@ object MicMuteUnMuteHolder {
     }
 
 
-
     fun setLocalAudioTrack(context: Context)
     {
         localAudioTrack = createLocalAudioTrack(context, true)
@@ -58,7 +57,7 @@ object MicMuteUnMuteHolder {
 
     fun setLocalAudioMicStatus(sts:Boolean,byUser:Boolean)
     {
-        localAudioTrack?.enabled=sts
+      /*  localAudioTrack?.enabled=sts
         micStatus.postValue(AudioStatusModel(sts,byUser))
 
         try {
@@ -77,7 +76,7 @@ object MicMuteUnMuteHolder {
 
         }
 
-        isAudioByUser=byUser
+        isAudioByUser=byUser*/
     }
 
 }

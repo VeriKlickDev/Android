@@ -256,7 +256,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
             if (!isAllFieldMessageShow)
             {       Handler(Looper.getMainLooper()).postDelayed({
                 binding.btnSubmitButton.isEnabled=true
-                    showCustomSnackbarOnTop("Fill atleast one comment Field")
+                    showCustomSnackbarOnTop("At least 1 Skills and comments is required")
                 }, 100)
         }
         }
