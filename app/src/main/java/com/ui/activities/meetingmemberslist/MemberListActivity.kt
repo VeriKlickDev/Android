@@ -11,16 +11,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.data.checkInternet
-import com.data.dataHolders.CallStatusHolder
-import com.data.dataHolders.CurrentConnectUserList
-import com.data.dataHolders.CurrentMeetingDataSaver
-import com.data.dataHolders.UpcomingMeetingStatusHolder
+import com.data.dataHolders.*
 import com.data.showCustomSnackbarOnTop
 import com.domain.BaseModels.VideoTracksBean
 import com.domain.constant.AppConstants
 import com.veriklick.R
 import com.veriklick.databinding.ActivityListOfMembersBinding
 import com.google.android.material.snackbar.Snackbar
+import com.twilio.video.ktx.createLocalVideoTrack
+import com.twilio.video.quickstart.kotlin.CameraCapturerCompat
 import com.ui.activities.adduserlist.ActivityAddParticipant
 import com.ui.activities.joinmeeting.JoinMeetingActivity
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
@@ -56,9 +55,18 @@ class MemberListActivity : AppCompatActivity() {
         }
 
         Log.d(TAG, "onCreate: current hight $height  $width")
+       // val cameraCapturerCompat=CameraCapturerCompat(this,CameraCapturerCompat.Source.FRONT_CAMERA)
+       // val localvideoTrack= createLocalVideoTrack(this,true,cameraCapturerCompat)
 
         CurrentConnectUserList.getListForAddParticipantActivity()
             .observe(this, Observer { listitem ->
+                listitem.mapIndexed { index, videoTracksBean ->
+                    if (videoTracksBean.userName.equals("You"))
+                    {
+                        listitem[index].videoTrack=MicMuteUnMuteHolder.getLocalVideoTrack()
+                    }
+                }
+
                 listitem?.let {
                     adapter = ConnectedMemberListAdapter(
                         this,
@@ -78,7 +86,6 @@ class MemberListActivity : AppCompatActivity() {
                                             Snackbar.LENGTH_SHORT).show()*/
                                     }
                                 }
-
                             }
                         })
                     binding.rvAddUser.adapter = adapter
