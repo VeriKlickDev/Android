@@ -9,15 +9,13 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import android.media.projection.MediaProjectionManager
-import android.os.Build
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.os.*
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
@@ -33,9 +31,14 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.SimpleItemAnimator
 import com.data.*
 import com.data.dataHolders.*
+import com.data.dataHolders.MicMuteUnMuteHolder.getLocalAudioTrack
+import com.data.dataHolders.MicMuteUnMuteHolder.getLocalVideoTrack
+import com.data.dataHolders.MicMuteUnMuteHolder.setLocalAudioMicStatus
+import com.data.dataHolders.MicMuteUnMuteHolder.setLocalAudioTrack
+import com.data.dataHolders.MicMuteUnMuteHolder.setLocalVideoTrack
+import com.data.dataHolders.MicMuteUnMuteHolder.setVideoStatus
 import com.data.helpers.RoomListenerCallback
 import com.data.helpers.RoomParticipantListener
 import com.data.helpers.TwilioHelper
@@ -45,9 +48,6 @@ import com.domain.BaseModels.TokenResponseBean
 import com.domain.BaseModels.VideoTracksBean
 import com.domain.OnViewClicked
 import com.domain.constant.AppConstants
-import com.veriklick.R
-import com.veriklick.databinding.ActivityTwilioVideoBinding
-import com.veriklick.databinding.LayoutMuteMicUpdateBinding
 import com.google.android.material.snackbar.Snackbar
 import com.twilio.audioswitch.AudioDevice
 import com.twilio.audioswitch.AudioDevice.*
@@ -63,11 +63,11 @@ import com.ui.activities.meetingmemberslist.MemberListActivity
 import com.ui.activities.twilioVideo.ScreenSharingCapturing.ScreenShareCapturerManager
 import com.ui.activities.twilioVideo.meetingnotificationservice.MeetingServiceManager
 import com.ui.listadapters.ConnectedUserListAdapter
+import com.veriklick.R
+import com.veriklick.databinding.ActivityTwilioVideoBinding
+import com.veriklick.databinding.LayoutMuteMicUpdateBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import okhttp3.internal.waitMillis
 import tvi.webrtc.VideoSink
 import kotlin.properties.Delegates
 
@@ -362,9 +362,17 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
         localParticipant?.let {
             currentVisibleUser =
-                VideoTracksBean("C", null, localVideoTrack!!, "You", it.sid)
+                VideoTracksBean("C", null, MicMuteUnMuteHolder.getLocalVideoTrack()!!, "You", it.sid)
 
         }
+
+       val receiver = ScreenLockEventDetector()
+        val filter = IntentFilter()
+        filter.addAction(Intent.ACTION_USER_PRESENT)
+        filter.addAction(Intent.ACTION_SCREEN_OFF)
+        registerReceiver(receiver, filter)
+
+
 
         handleObserver()
 
@@ -385,7 +393,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             Log.d("videocheck", "onCreate: you")
             //candidateName with (You) binding.tvUsername.text =CurrentMeetingDataSaver.getData().interviewerFirstName + " (You)"
             setBlankBackground(false)
-            removeAllSinksAndSetnew(localVideoTrack!!, true)
+            removeAllSinksAndSetnew(getLocalVideoTrack()!!, true)
             //working localVideoTrack?.addSink(binding.primaryVideoView)
 
             //uncomment
@@ -431,7 +439,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         Log.d(TAG, "endCall: ")
         //  meetingManager.unbindService()
         TwilioChatHelper.removeMemeberFromConversation(CurrentMeetingDataSaver.getData().identity!!)
-        localVideoTrack?.let { localParticipant?.unpublishTrack(it) }
+        getLocalVideoTrack()?.let { localParticipant?.unpublishTrack(it) }
 
 
         // screenShareCapturerManager.unbindService()
@@ -521,12 +529,12 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 endCall()
         }
 
-        viewModel.micStatus.observe(this, Observer {
+        MicMuteUnMuteHolder.micStatus.observe(this, Observer {
             Log.d(TAG, "handleObserver: check mic ${it} ")
 
             if (it != null) {
-                localAudioTrack?.enable(it)
-                if (!it) {
+                getLocalAudioTrack()?.enable(it.isMic)
+                if (!it.isMic) {
                     Log.d(TAG, "handleMuteUnmutebyHost: muted ")
                     // icon = R.drawable.ic_img_btn_mic_muted
                     // micStatus = getString(R.string.txt_unmute)
@@ -543,12 +551,12 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             }
         })
 
-        viewModel.videoStatus.observe(this, Observer {
+        MicMuteUnMuteHolder.videoStatus.observe(this, Observer {
             if (it != null) {
-                localVideoTrack?.enable(it)
+                getLocalVideoTrack()?.enable(it.isVideo)
                 var icon: Int = R.drawable.ic_img_btn_video
                 var isTint = false
-                if (it) {
+                if (it.isVideo) {
                     icon = R.drawable.ic_img_btn_video
                     // binding.switchCameraActionFab.show()
                     isTint = false
@@ -606,7 +614,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
             if (it?.username!!.contains("You")) {
                 Log.d(TAG, "handleObserver: visible item local video")
-                currentRemoteVideoTrack = localVideoTrack
+                currentRemoteVideoTrack = getLocalVideoTrack()
             }
             else {
                 Log.d(TAG, "handleObserver: visible item clicked video")
@@ -636,7 +644,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 else {
                     try {
                         TwilioHelper.getRoomInstance()?.localParticipant!!.publishTrack(
-                            localVideoTrack!!
+                            getLocalVideoTrack()!!
                         )
                     } catch (e: Exception) {
                         Log.d(TAG, "handleObserver: exception 601 line ${e.printStackTrace()}")
@@ -647,7 +655,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             }
             else {
                 Log.d(TAG, "handleObserver: in null part local sink publish local")
-                TwilioHelper.getRoomInstance()?.localParticipant!!.publishTrack(localVideoTrack!!)
+                TwilioHelper.getRoomInstance()?.localParticipant!!.publishTrack(getLocalVideoTrack()!!)
             }
             // localParticipant?.publishTrack(localVideoTrack!!)
 
@@ -733,7 +741,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                             index, VideoTracksBean(
                                 it.localParticipant?.identity!!,
                                 data.remoteParticipant,
-                                localVideoTrack!!,
+                                getLocalVideoTrack()!!,
                                 "You",
                                 it.localParticipant!!.sid
                             )
@@ -782,11 +790,11 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
                 val isExists = tlist.any { it.identity!!.contains(currentUserIdentity) }
                 if (isExists == false) {
-                    removeAllSinksAndSetnew(localVideoTrack!!, false)
+                    removeAllSinksAndSetnew(getLocalVideoTrack()!!, false)
                     Log.d(TAG, "handleObserver: isexidted if")
                     binding.tvUsername.text = "You"
-                    currentRemoteVideoTrack = localVideoTrack
-                    currentVisibleUser.videoTrack = localVideoTrack
+                    currentRemoteVideoTrack = getLocalVideoTrack()
+                    currentVisibleUser.videoTrack = getLocalVideoTrack()
                     removeAllSinksAndSetnew(currentRemoteVideoTrack!!, true)
                     //currentRemoteVideoTrack!!.addSink(binding.primaryVideoView)
                 }
@@ -985,7 +993,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         }
         //  currentVisibleUser.videoTrack!!.removeSink(binding.primaryVideoView)
 
-        localVideoTrack!!.removeSink(binding.primaryVideoView)
+        getLocalVideoTrack()!!.removeSink(binding.primaryVideoView)
 
 
         if (isSink) {
@@ -1035,7 +1043,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
     private fun handleMuteUnmute() {
         var icon: Int
         var micStatus = ""
-        localAudioTrack?.let {
+        getLocalAudioTrack()?.let {
             val enable = !it.isEnabled
 
             if (enable == false) {
@@ -1044,7 +1052,13 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                     if (status) {
                         Log.d(TAG, "onCreate: mic true")
                         it.enable(enable)
-                        viewModel.setMicStatus(enable)
+
+                        setLocalAudioMicStatus(enable,true)
+                        //MicMuteUnMuteHolder.setMicStatus(enable)
+                        //uncomment 20dec
+                        //viewModel.setMicStatus(enable)
+
+
                         icon = R.drawable.ic_img_btn_mic_muted
                         micStatus = getString(R.string.txt_unmute)
                         binding.muteActionFab.setImageResource(R.drawable.ic_img_btn_mic_muted)
@@ -1056,7 +1070,13 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             }
             else {
                 it.enable(enable)
-                viewModel.setMicStatus(enable)
+
+                setLocalAudioMicStatus(enable,true)
+               // MicMuteUnMuteHolder.setMicStatus(enable)
+                //uncomment 20dec
+                //viewModel.setMicStatus(enable)
+
+
                 Log.d(TAG, "onCreate: mic false")
                 icon = R.drawable.ic_mic_off_black_24dp
                 micStatus = getString(R.string.txt_mute)
@@ -1069,7 +1089,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
     private fun handleMuteUnmutebyHost() {
         var icon: Int
         var micStatus = ""
-        localAudioTrack?.let {
+        getLocalAudioTrack()?.let {
             val enable = !it.isEnabled
             it.enable(enable)
 
@@ -1077,13 +1097,23 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
             if (!enable) {
                 Log.d(TAG, "handleMuteUnmutebyHost: muted ")
-                viewModel.setMicStatus(enable)
+
+                setLocalAudioMicStatus(enable,true)
+                //MicMuteUnMuteHolder.setMicStatus(enable)
+                //uncomm 20dec
+                //viewModel.setMicStatus(enable)
+
                 icon = R.drawable.ic_img_btn_mic_muted
                 micStatus = getString(R.string.txt_unmute)
                 binding.muteActionFab.setImageResource(R.drawable.ic_img_btn_mic_muted)
             }
             else {
-                viewModel.setMicStatus(enable)
+                setLocalAudioMicStatus(enable,true)
+                //MicMuteUnMuteHolder.setMicStatus(enable)
+                //uncomm 20dec
+                //viewModel.setMicStatus(enable)
+//                viewModel.setMicStatus(enable)
+
                 Log.d(TAG, "handleMuteUnmutebyHost: muted unmuted")
                 icon = R.drawable.ic_mic_off_black_24dp
                 micStatus = getString(R.string.txt_mute)
@@ -1451,7 +1481,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 Log.d(TAG, "setConnectUser: in remove sink of local if part")
                 removeAllSinksAndSetnew(null, false)
 
-                localVideoTrack?.removeSink(binding.primaryVideoView)
+                getLocalVideoTrack()?.removeSink(binding.primaryVideoView)
                 currentRemoteVideoTrack?.removeSink(binding.primaryVideoView)
 
                 if (currentVisibleUser.videoTrack != null)
@@ -1583,13 +1613,13 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
                 viewModel.setCurrentVisibleUser(
                     localParticipant!!.identity,
-                    localVideoTrack!!,
+                    getLocalVideoTrack()!!,
                     "You",
                     "local"
                 )
 
-                currentRemoteVideoTrack = localVideoTrack
-                currentVisibleUser.videoTrack = localVideoTrack!!
+                currentRemoteVideoTrack = getLocalVideoTrack()
+                currentVisibleUser.videoTrack = getLocalVideoTrack()!!
                 currentVisibleUser.userName = "You"
             }
         }
@@ -1683,7 +1713,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
     fun setCandidateToMainScreen() {
         setBlankBackground(false)
-        localVideoTrack?.removeSink(binding.primaryVideoView)
+        getLocalVideoTrack()?.removeSink(binding.primaryVideoView)
         currentRemoteVideoTrack?.removeSink(binding.primaryVideoView)
         binding.tvUsername.setText(currentVisibleUser.userName)
         currentVisibleUser.videoTrack!!.addSink(binding.primaryVideoView)
@@ -1761,7 +1791,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         currentVisibleUser.videoTrack?.let {
             it.removeSink(binding.primaryVideoView)
         }
-        localVideoTrack?.let {
+        getLocalVideoTrack()?.let {
             it.removeSink(binding.primaryVideoView)
         }
         data?.videoTrack?.let {
@@ -1852,17 +1882,20 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
     }
 
     fun setCameraToLocalVideoTrack() {
-        localVideoTrack = if (localVideoTrack == null && checkPermissionForCameraAndMicrophone()) {
-            createLocalVideoTrack(
+        //uncomm 20dec
+       // localVideoTrack = if (localVideoTrack == null && checkPermissionForCameraAndMicrophone()) {
+         /*   createLocalVideoTrack(
                 this,
                 true,
                 cameraCapturerCompat
-            )
+            )*/
+        if (getLocalVideoTrack() == null && checkPermissionForCameraAndMicrophone()) {
+        setLocalVideoTrack(this, cameraCapturerCompat)
         }
         else {
-            localVideoTrack
+            getLocalVideoTrack()
         }
-        localVideoTrack?.let { localParticipant?.publishTrack(it) }
+        getLocalVideoTrack()?.let { localParticipant?.publishTrack(it) }
     }
 
     override fun onResume() {
@@ -1871,15 +1904,27 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
          * If the local video track was released when the app was put in the background, recreate.
          */
         Log.d(TAG, "onResume: ")
+
+        val powerManager = getSystemService(POWER_SERVICE) as PowerManager
+        val isScreenOn: Boolean = powerManager.isInteractive
+
+        if (isScreenOn) {
+            Log.d(TAG, "onPause: locked $isScreenOn")
+        }
+
+        //uncomm 20dec
+        /*
         localVideoTrack = if (localVideoTrack == null && checkPermissionForCameraAndMicrophone()) {
             createLocalVideoTrack(
                 this,
                 true,
                 cameraCapturerCompat
-            )
+            )*/
+        if (getLocalVideoTrack() == null && checkPermissionForCameraAndMicrophone()) {
+            setLocalVideoTrack(this,cameraCapturerCompat)
         }
         else {
-            localVideoTrack
+            getLocalVideoTrack()
         }
         /**
          * for add local video
@@ -1916,6 +1961,13 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
          * the track has been removed.
          */
         // localAudioTrack?.let { localParticipant?.unpublishTrack(it) }
+
+            val powerManager = getSystemService(POWER_SERVICE) as PowerManager
+            val isScreenOn: Boolean = powerManager.isInteractive
+
+            if (!isScreenOn) {
+                Log.d(TAG, "onPause: locked $isScreenOn")
+            }
 
         if (isCallinProgress)
             endCall()
@@ -1986,13 +2038,18 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
     private fun createAudioAndVideoTracks() {
         // Share your microphone
-        localAudioTrack = createLocalAudioTrack(this, true)
+        setLocalAudioTrack(this)
+        //uncomm 20dec
+        //localAudioTrack = createLocalAudioTrack(this, true)
         // Share your camera
-        localVideoTrack = createLocalVideoTrack(
+
+        setLocalVideoTrack(this,cameraCapturerCompat)
+        //uncomm 20dec
+        /*localVideoTrack = createLocalVideoTrack(
             this,
             true,
             cameraCapturerCompat
-        )
+        )*/
     }
 
     private fun setAccessToken() {
@@ -2009,7 +2066,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         //    val videotrack = LocalVideoTrack.create(this, true, cameraCapturerCompat)
         //   val audioTrack = LocalAudioTrack.create(this, true)
         if (TwilioHelper.getRoomInstance() == null && room == null) {
-            viewModel.setLocalVideoTrack(localVideoTrack!!, false)
+            viewModel.setLocalVideoTrack(getLocalVideoTrack()!!, false)
             Log.d(TAG, "connectToRoom: creating room firsttime")
             room = TwilioHelper.connectToRoom(
                 this,
@@ -2017,8 +2074,8 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
                 },
                 this,
-                localAudioTrack!!,
-                localVideoTrack!!,
+                getLocalAudioTrack()!!,
+                getLocalVideoTrack()!!,
                 audioc!!,
                 videoc!!
             )
@@ -2033,10 +2090,10 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             localParticipant = room?.localParticipant
             if (localParticipant?.localAudioTracks!!.size >= 1) {
                 localParticipant?.unpublishTrack(localParticipant?.localAudioTracks!!.firstOrNull()!!.localAudioTrack)
-                localParticipant?.publishTrack(localAudioTrack!!)
+                localParticipant?.publishTrack(getLocalAudioTrack()!!)
             }
             else {
-                localParticipant?.publishTrack(localAudioTrack!!)
+                localParticipant?.publishTrack(getLocalAudioTrack()!!)
             }
 
             /**crashes*/
@@ -2057,14 +2114,14 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                         else {
                             Log.d(TAG, "connectToRoom: publish local")
                             TwilioHelper.getRoomInstance()?.localParticipant!!.publishTrack(
-                                localVideoTrack!!
+                                getLocalVideoTrack()!!
                             )
                         }
                     }
                     else {
                         Log.d(TAG, "connectToRoom: publish local null else")
                         TwilioHelper.getRoomInstance()?.localParticipant!!.publishTrack(
-                            localVideoTrack!!
+                            getLocalVideoTrack()!!
                         )
                     }
                 }
@@ -2444,7 +2501,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
     private fun moveLocalVideoToPrimaryView() {
         if (binding.thumbnailVideoView.visibility == View.VISIBLE) {
             binding.thumbnailVideoView.visibility = View.GONE
-            with(localVideoTrack) {
+            with(getLocalVideoTrack()) {
                 this?.removeSink(binding.thumbnailVideoView)
                 this?.addSink(binding.primaryVideoView)
             }
@@ -2474,10 +2531,15 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             /*
              * Enable/disable the local video track
              */
-            localVideoTrack?.let {
+            getLocalVideoTrack()?.let {
                 var isTint = false
                 val enable = !it.isEnabled
-                viewModel.setVideoStatus(enable)
+
+                setVideoStatus(enable,true)
+                //uncomm 20dec
+                //viewModel.setVideoStatus(enable)
+
+
                 it.enable(enable)
                 val icon: Int
                 // localVideoTrack!!.enable(enable)
@@ -2594,13 +2656,13 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 VideoTracksBean(
                     localParticipant!!.identity,
                     null,
-                    localVideoTrack!!,
+                    getLocalVideoTrack()!!,
                     "You",
                     localParticipant!!.sid
                 )
             )
 
-            viewModel.setConnectUser(remoteParticipantVideoList, localVideoTrack!!)
+            viewModel.setConnectUser(remoteParticipantVideoList, getLocalVideoTrack()!!)
 
             CurrentConnectUserList.setListForAddParticipantActivity(
                 remoteParticipantVideoListWithCandidate
@@ -2661,7 +2723,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
     override fun onDestroy() {
         // LocalBroadcastManager.getInstance(this).unregisterReceiver(incomingCallRecevier)
-        localVideoTrack?.let { localParticipant?.unpublishTrack(it) }
+        getLocalVideoTrack()?.let { localParticipant?.unpublishTrack(it) }
         // localAudioTrack?.let { localParticipant?.unpublishTrack(it) }
         //        screenShareCapturerManager.endForeground()
         //        screenShareCapturerManager.unbindService()
@@ -3249,10 +3311,10 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                     else
                     {
                         setBlankBackground(false)
-                        removeAllSinksAndSetnew(localVideoTrack,true)
+                        removeAllSinksAndSetnew(getLocalVideoTrack(),true)
                         binding.tvNoParticipant.setText("")
                         binding.tvUsername.setText("")
-                        viewModel.setCurrentVisibleUser(localParticipant!!.identity, localVideoTrack, "You", "local")
+                        viewModel.setCurrentVisibleUser(localParticipant!!.identity, getLocalVideoTrack(), "You", "local")
                     }
                     var isCandidateExists = false
 
@@ -3346,11 +3408,11 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
         if (CurrentMeetingDataSaver.getData().identity!!.contains("C")) {
             currentVisibleUser.userName = "You"
-            currentVisibleUser.videoTrack = localVideoTrack
+            currentVisibleUser.videoTrack = getLocalVideoTrack()
             Handler(Looper.getMainLooper()).post(Runnable {
                 binding.tvUsername.text = "You"
             })
-            removeAllSinksAndSetnew(localVideoTrack!!, true)
+            removeAllSinksAndSetnew(getLocalVideoTrack()!!, true)
         }
 
         // setConnectUser()
@@ -3535,7 +3597,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
     }
 
     fun setAllSinkRemove() {
-        localVideoTrack?.removeSink(binding.primaryVideoView)
+        getLocalVideoTrack()?.removeSink(binding.primaryVideoView)
         currentRemoteVideoTrack?.removeSink(binding.primaryVideoView)
         currentVisibleUser.videoTrack!!.removeSink(binding.primaryVideoView)
     }
@@ -3559,8 +3621,8 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 Log.d(TAG, "shareScreen: stoped capturing")
                 currentRemoteVideoTrack?.removeSink(binding.primaryVideoView)
                 localParticipant?.unpublishTrack(currentLocalVideoTrack!!)
-                localParticipant?.publishTrack(localVideoTrack!!)
-                viewModel.setLocalVideoTrack(localVideoTrack!!, false)
+                localParticipant?.publishTrack(getLocalVideoTrack()!!)
+                viewModel.setLocalVideoTrack(getLocalVideoTrack()!!, false)
                 binding.tvScreenshareText.setText(getString(R.string.txt_screensharing))
                 // setCameraToLocalVideoTrack()
             }
@@ -3667,7 +3729,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             // localParticipant?.publishTrack(localVideoTrack!!)
             Log.d(TAG, "First frame from screen capturer available")
             viewModel.setScreenSharingStatus(false, onResult = { action, data -> })
-            localParticipant?.unpublishTrack(localVideoTrack!!)
+            localParticipant?.unpublishTrack(getLocalVideoTrack()!!)
             localParticipant?.publishTrack(screenShareTrack)
             //localVideoTrack=screenShareTrack
             currentVisibleUser.videoTrack = screenShareTrack

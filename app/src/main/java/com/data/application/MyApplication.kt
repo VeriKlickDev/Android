@@ -10,6 +10,7 @@ import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.data.dataHolders.CallStatusHolder
 import com.data.dataHolders.DataStoreHelper
+import com.data.dataHolders.MicMuteUnMuteHolder
 import com.data.dataHolders.WeeksDataHolder
 import com.data.helpers.TwilioHelper
 import com.domain.constant.AppConstants
@@ -29,6 +30,12 @@ class MyApplication :Application() {
             incomingCallRecevier,
             IntentFilter(AppConstants.IN_COMING_CALL_ACTION)
         )
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            screenLockEventReciever,
+            IntentFilter(AppConstants.SCREEN_LOCK_ACTION)
+        )
+
 
     }
     private val TAG="appClassCheck"
@@ -52,6 +59,43 @@ class MyApplication :Application() {
             Log.d(TAG, "onReceive: call recieved or attented ${p1?.getStringExtra(AppConstants.IN_COMING_CALL_ACTION)}")
         }
     }
+
+ val screenLockEventReciever= object : BroadcastReceiver() {
+     override fun onReceive(context: Context?, intent: Intent?) {
+         if(intent!!.getBooleanExtra(AppConstants.SCREEN_LOCK_ACTION,false))
+         {
+             Log.d(
+                 TAG,
+                 "onReceive: application ${
+                     intent!!.getBooleanExtra(
+                         AppConstants.SCREEN_LOCK_ACTION,
+                         false
+                     )
+                 }"
+             )
+             MicMuteUnMuteHolder.setVideoHideStatus(true,false)
+             MicMuteUnMuteHolder.setLocalAudioMicStatus(true,false)
+            // MicMuteUnMuteHolder.setMicStatus(true)
+            // MicMuteUnMuteHolder.setVideoStatus(true)
+         }else
+         {
+             MicMuteUnMuteHolder.setVideoHideStatus(false,false)
+             MicMuteUnMuteHolder.setLocalAudioMicStatus(false,false)
+            // MicMuteUnMuteHolder.setMicStatus(false)
+            // MicMuteUnMuteHolder.setVideoStatus(false)
+             Log.d(
+                 TAG,
+                 "onReceive: application ${
+                     intent!!.getBooleanExtra(
+                         AppConstants.SCREEN_LOCK_ACTION,
+                         false
+                     )
+                 }"
+             )
+         }
+     }
+ }
+
 
 
 }

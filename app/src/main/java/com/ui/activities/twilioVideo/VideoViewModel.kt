@@ -184,6 +184,7 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
         remoteVideoLiveList.postValue(tlist)
     }
 
+
     var micStatus= MutableLiveData<Boolean>()
     var videoStatus= MutableLiveData<Boolean>()
 
@@ -240,7 +241,6 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
 
         currentlocalVideoTrackList.add(0,ScreenSharingModel(localVideoTrack,isSharing))
     }
-
 
     fun setCurrentVisibleUser(identity: String,mVideoTrack: VideoTrack?,username:String,type: String)
     {

@@ -119,6 +119,15 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name="com.data.ScreenLockEventDetector"
+            android:exported="true"
+            android:enabled="true"
+            >
+        </receiver>
+
+
+
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.veriklick.provider"
