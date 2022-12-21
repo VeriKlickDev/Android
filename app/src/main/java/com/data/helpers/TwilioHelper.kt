@@ -25,8 +25,13 @@ private var room: Room? = null
 private var participantIdentity: String? = null
 private var token:String?=null
 private var roomName:String?=null
-
+private var meetingLink=""
 object TwilioHelper {
+
+    fun setMeetingLink(link:String){
+        meetingLink=link
+    }
+    fun getMeetingLink()= meetingLink
 
     fun setTwilioCredentials(
         mtoken: String,

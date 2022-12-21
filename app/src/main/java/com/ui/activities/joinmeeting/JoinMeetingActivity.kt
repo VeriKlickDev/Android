@@ -29,6 +29,7 @@ class JoinMeetingActivity :AppCompatActivity() {
     private var accessCode=""
     private  var TAG="videocon"
     private var isCallInProgress=false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityJoinMeetingBinding.inflate(layoutInflater)
@@ -119,7 +120,7 @@ handleObserver()
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
     }
 
-    fun getInterviewDetails(accessCode:String)
+    private fun getInterviewDetails(accessCode:String)
     {
         showProgressDialog()
         Log.d(TAG, "getInterviewDetails: method")
@@ -175,7 +176,7 @@ handleObserver()
     }
 
 
-    fun joinMeetingCandidate(accessCode: String)
+   private fun joinMeetingCandidate(accessCode: String)
     {
         // showProgressDialog()
         viewModel.getVideoSessionCandidate(accessCode, onDataResponse = { data, event->
@@ -210,6 +211,7 @@ handleObserver()
                                        showCustomSnackbarOnTop(getString(R.string.txt_call_in_progress))
                                    }else
                                    {
+                                       TwilioHelper.setMeetingLink(accessCode)
                                        val intent=Intent(this@JoinMeetingActivity, VideoActivity::class.java)
                                        startActivity(intent)
                                        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
@@ -221,6 +223,7 @@ handleObserver()
                                }
                                 },
                                     onClickedText = {link,action->
+                                        dismissProgressDialog()
                                         privacyPolicy(link,action)
                                     }
                                 )
@@ -245,7 +248,7 @@ handleObserver()
         })
     }
 
-    fun privacyPolicy(link:String,action:Int)
+  private  fun privacyPolicy(link:String,action:Int)
     {
         val intent=Intent(this, ActivityPrivacyPolicy::class.java)
         intent.putExtra(AppConstants.PRIVACY_LINK,link)
@@ -255,7 +258,7 @@ handleObserver()
     }
 
 
-    fun showAlertWhenNotHost()
+   private fun showAlertWhenNotHost()
     {
         setHandler().post(Runnable{
             val dialog=AlertDialog.Builder(this)
@@ -267,7 +270,7 @@ handleObserver()
             })
             dialog.setNegativeButton("Cancel" ,object : DialogInterface.OnClickListener {
                 override fun onClick(p0: DialogInterface?, p1: Int) {
-
+                    dismissProgressDialog()
                 }
             })
             dialog.create()

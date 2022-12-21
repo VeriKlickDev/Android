@@ -100,6 +100,39 @@
             android:exported="false"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name="com.ui.activities.deepLinkMeetingJoiner.VideoMeetingByLinkActivity"
+            android:configChanges="orientation"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="AppLinkUrlError">
+
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data android:scheme="https"
+                    android:host="ui2.veriklick.in"
+                    android:pathPrefix="/video-session" />
+                <!-- note that the leading "/" is required for pathPrefix-->
+            </intent-filter>
+
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data android:scheme="http"
+                    android:host="ui2.veriklick.in"
+                    android:pathPrefix="/video-session" />
+                <!-- note that the leading "/" is required for pathPrefix-->
+            </intent-filter>
+
+
+        </activity>
+
+
         <service
             android:name="com.ui.activities.twilioVideo.ScreenSharingCapturing.ScreenSharingService"
             android:enabled="true"
