@@ -44,10 +44,28 @@ object MicMuteUnMuteHolder {
 
     fun setVideoHideStatus(sts:Boolean,byUser: Boolean)
     {
-        videoStatus.postValue(VideoStatusModel(sts,byUser))
-        localVideoTrack?.enabled=sts
+        if (isVideoByUser!=null)
+        {
+            if (!sts && !byUser)
+            {
+                videoStatus.postValue(VideoStatusModel(sts,byUser))
+                localVideoTrack?.enabled=sts
+            }
+        }else
+        {
+            videoStatus.postValue(VideoStatusModel(sts,byUser))
+            localVideoTrack?.enabled=sts
+        }
+
+
     }
 
+    fun setVideoStatusByUser(sts:Boolean)
+    {
+        isVideoByUser=sts
+    }
+
+    fun getVideoStatusByUser()= isVideoByUser
 
     fun setLocalAudioTrack(context: Context)
     {

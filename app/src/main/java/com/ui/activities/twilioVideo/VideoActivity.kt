@@ -2541,6 +2541,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
 
                 it.enable(enable)
+                MicMuteUnMuteHolder.setVideoStatusByUser(enable)
                 val icon: Int
                 // localVideoTrack!!.enable(enable)
                 if (enable) {
