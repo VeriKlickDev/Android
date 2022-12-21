@@ -220,6 +220,9 @@ fun passwordValidator(
 
 var progressbar: Dialog? = null
 fun Context.showProgressDialog() {
+    progressbar?.let {
+        it.dismiss()
+    }
     android.os.Handler(Looper.getMainLooper()).post(Runnable {
         //val layoutView = LayoutInflater.from(this).inflate(R.layout.layout_progress, null, false)
         val layoutView = LayoutProgressBinding.inflate(LayoutInflater.from(this))
@@ -230,7 +233,6 @@ fun Context.showProgressDialog() {
         progressbar?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         progressbar?.show()
     })
-
 }
 
 fun Context.dismissProgressDialog() {
@@ -335,7 +337,7 @@ fun Context.showPrivacyPolicy(
         onClickedText("https://veriklick.com/privacy-policy/", 2)
     }))
 
-
+    dialog.setCancelable(false)
     dialog.create()
     dialog.show()
 }

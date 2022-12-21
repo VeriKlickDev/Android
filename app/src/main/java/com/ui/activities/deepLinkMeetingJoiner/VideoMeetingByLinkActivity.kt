@@ -60,10 +60,16 @@ class VideoMeetingByLinkActivity : AppCompatActivity() {
             showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
             Handler(Looper.getMainLooper()).postDelayed({
                                                         finish()
-            },2000)
+            },1000)
             //Snackbar.make(it,getString(R.string.txt_no_internet_connection),Snackbar.LENGTH_SHORT).show()
         }
+        CallStatusHolder.getCallStatus().observe(this){
+            isCallInProgress=it
+            Log.d(TAG, "handleObserver: call status is $it")
         }
+
+
+    }
 
 
 
@@ -104,7 +110,7 @@ class VideoMeetingByLinkActivity : AppCompatActivity() {
                     data.videoAccessCode=accessCode
                     Handler(Looper.getMainLooper()).postDelayed({
                         finish()
-                    },2000)
+                    },1000)
                     //showToast(this, "null values")
                     /*  data?.let { CurrentMeetingDataSaver.setData(it) }
                       joinMeetingCandidate(accessCode)*/
@@ -122,7 +128,7 @@ class VideoMeetingByLinkActivity : AppCompatActivity() {
 
                     Handler(Looper.getMainLooper()).postDelayed({
                         finish()
-                    },2000)
+                    },1000)
                     //showToast(this, data?.aPIResponse?.message.toString())
                 }
                 401->{
@@ -130,7 +136,7 @@ class VideoMeetingByLinkActivity : AppCompatActivity() {
                     showCustomSnackbarOnTop(data?.aPIResponse?.message!!)
                     Handler(Looper.getMainLooper()).postDelayed({
                         finish()
-                    },2000)
+                    },1000)
                     //showToast(this,data?.aPIResponse?.message!!)
                     /* data.videoAccessCode=accessCode
                      CurrentMeetingDataSaver.setData(data!!)
@@ -166,7 +172,7 @@ class VideoMeetingByLinkActivity : AppCompatActivity() {
                 })
             dialog.setNegativeButton("Cancel", object : DialogInterface.OnClickListener {
                 override fun onClick(p0: DialogInterface?, p1: Int) {
-                    Handler(Looper.getMainLooper()).postDelayed({finish()},2000)
+                    Handler(Looper.getMainLooper()).postDelayed({finish()},1000)
                 }
             })
             dialog.setCancelable(false)
@@ -203,10 +209,6 @@ class VideoMeetingByLinkActivity : AppCompatActivity() {
 
                               Handler(Looper.getMainLooper()).post {
 
-
-
-
-
                                   showPrivacyPolicy(binding.root as ViewGroup,
                                       onClicked = { it, dialog ->
                                           if (it) {
@@ -215,7 +217,7 @@ class VideoMeetingByLinkActivity : AppCompatActivity() {
                                                  showCustomSnackbarOnTop(getString(R.string.txt_call_in_progress))
                                                   Handler(Looper.getMainLooper()).postDelayed({
                                                       finish()
-                                                  }, 2000)
+                                                  }, 1000)
                                               }
                                               else {
                                                  // TwilioHelper.disConnectRoom()
@@ -228,7 +230,11 @@ class VideoMeetingByLinkActivity : AppCompatActivity() {
                                                   }
                                                   else {
                                                       dialog.dismiss()
-                                                      jumptoVideoActivity()
+                                                     // TwilioHelper.disConnectRoom()
+                                                      Handler(Looper.getMainLooper()).postDelayed({
+                                                          jumptoVideoActivity()
+                                                      },1000)
+
                                                   }
                                               }
                                           }
@@ -264,14 +270,14 @@ class VideoMeetingByLinkActivity : AppCompatActivity() {
                     showToast(this, "null values")
                     Handler(Looper.getMainLooper()).postDelayed({
                         finish()
-                    },2000)
+                    },1000)
                 }
                 404 -> {
                     dismissProgressDialog()
                     showToast(this, "response not success")
                     Handler(Looper.getMainLooper()).postDelayed({
                         finish()
-                    },2000)
+                    },1000)
                 }
             }
         })
@@ -308,7 +314,7 @@ class VideoMeetingByLinkActivity : AppCompatActivity() {
                                     TwilioHelper.disConnectRoom()
                                     Handler(Looper.getMainLooper()).postDelayed({
                                         jumptoVideoActivity()
-                                    },2000)
+                                    },1000)
                                 }
                             }
                             else
@@ -324,14 +330,14 @@ class VideoMeetingByLinkActivity : AppCompatActivity() {
                     showToast(this, "null values")
                     Handler(Looper.getMainLooper()).postDelayed({
                         finish()
-                    },2000)
+                    },1000)
                 }
                 404 -> {
                     dismissProgressDialog()
                     showToast(this, "response not success")
                     Handler(Looper.getMainLooper()).postDelayed({
                         finish()
-                    },2000)
+                    },1000)
                 }
             }
         })
@@ -372,13 +378,13 @@ class VideoMeetingByLinkActivity : AppCompatActivity() {
                         if (!TwilioHelper.getRoomInstance()?.toString().equals("")) {
                             onclick(true)
                             Handler(Looper.getMainLooper()).postDelayed({
-                                                                        jumptoVideoActivity()
+                                jumptoVideoActivity()
                             },1000)
 
                         }
                         else{
                             showCustomSnackbarOnTop("Something went wrong.")
-                            Handler(Looper.getMainLooper()).postDelayed({finish()},2000)
+                            Handler(Looper.getMainLooper()).postDelayed({finish()},1000)
                         }
                     }
                 })
@@ -386,7 +392,7 @@ class VideoMeetingByLinkActivity : AppCompatActivity() {
                 override fun onClick(p0: DialogInterface?, p1: Int) {
                     getInterviewDetails(TwilioHelper.getMeetingLink(),false)
                     onclick(true)
-                    Handler(Looper.getMainLooper()).postDelayed({finish()},2000)
+                    Handler(Looper.getMainLooper()).postDelayed({finish()},1000)
 
                 }
             })

@@ -35,6 +35,7 @@ data class NewInterviewDetails (
     @SerializedName("InterviewerList") val interviewerList : List<String>,
     @SerializedName("VideoDuration") val videoDuration : Int,
     @SerializedName("MSMeetingMode") val mSMeetingMode : String,
-    @SerializedName("VideoCallAccessCode") val VideoCallAccessCode : String=""
+    @SerializedName("VideoCallAccessCode") val VideoCallAccessCode : String="",
+    @SerializedName("MSMeetingUrl") val msMeetingUrl : String=""
 )
 data class tempclass(val name:String)

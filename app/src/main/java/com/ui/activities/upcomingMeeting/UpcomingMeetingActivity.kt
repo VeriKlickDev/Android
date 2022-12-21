@@ -26,15 +26,15 @@ import com.data.dataHolders.*
 import com.data.helpers.TwilioHelper
 import com.domain.BaseModels.*
 import com.domain.constant.AppConstants
-import com.veriklick.R
-import com.veriklick.databinding.ActivityUpcomingMeetingBinding
-import com.veriklick.databinding.LayoutDescriptionDialogBinding
 import com.google.android.material.snackbar.Snackbar
 import com.harvee.yourhealthmate2.ui.privacypolicy.ActivityPrivacyPolicy
 import com.ui.activities.feedBack.ActivityFeedBackForm
 import com.ui.activities.login.LoginActivity
 import com.ui.activities.twilioVideo.VideoActivity
 import com.ui.listadapters.UpcomingMeetingAdapter
+import com.veriklick.R
+import com.veriklick.databinding.ActivityUpcomingMeetingBinding
+import com.veriklick.databinding.LayoutDescriptionDialogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -592,8 +592,12 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                 }
                 4 -> {
-                    handleJoin(data, videoAccessCode)
+                   //showCustomSnackbarOnTop("Joining Meeting On MS Teams")
+                    setHandler().postDelayed({
+                        jumpToTeams(data.msMeetingUrl)
+                    },2000)
 
+                   // handleJoin(data, videoAccessCode)
                 }
                 5 -> {
                     CurrentUpcomingMeetingData.setData(data)
@@ -634,6 +638,9 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         )
 
         if (sendIntent.resolveActivity(packageManager) != null) {
+            startActivity(sendIntent)
+        }else
+        {
             startActivity(sendIntent)
         }
     }
@@ -710,7 +717,8 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     }
 
     fun handleJoin(data: NewInterviewDetails, videoAccessCode: String) {
-        Log.d(TAG, "handleJoin: on clicked ${data.VideoCallAccessCode} videocode $videoAccessCode")
+
+         Log.d(TAG, "handleJoin: on clicked ${data.VideoCallAccessCode} videocode $videoAccessCode")
         //getInterviewDetails()
         if (checkInternet()) {
             accessCode = videoAccessCode
@@ -770,7 +778,8 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
                     if (isMsTeams) {
                         //jumpToTeams()
-                        data
+                       // data
+
                     } else {
                         joinMeeting(accessCode)
                         CallStatusHolder.setLastCallStatus(false)

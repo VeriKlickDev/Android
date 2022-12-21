@@ -2615,6 +2615,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             TAG,
             "connectToRoom: participant connected service ${meetingManager.getServiceState()}"
         )
+        TwilioHelper.setMeetingLink(CurrentMeetingDataSaver.getData().videoAccessCode.toString())
         meetingManager.startForeground()
         UpcomingMeetingStatusHolder.isMeetingFinished(false)
 

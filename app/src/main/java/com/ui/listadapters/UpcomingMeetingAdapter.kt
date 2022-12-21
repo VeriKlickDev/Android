@@ -48,8 +48,14 @@ class UpcomingMeetingAdapter(
 
 
         holder.binding.btnJoin.setOnClickListener {
+            if (list[position].mSMeetingMode.equals("veriklick")){
             onClick(list.get(position), videoAccessCode.toString(), 1)
+            }
+            else{
+                onClick(data, videoAccessCode.toString(), 4)
+            }
         }
+
         holder.binding.btnEllipsize.setOnClickListener {
             onClick(list.get(position), videoAccessCode.toString(), 2)
         }
@@ -61,16 +67,13 @@ class UpcomingMeetingAdapter(
             }
         }*/
 
-
             holder.binding.btnFeedback.setOnClickListener {
-                if (holder.binding.btnFeedback.text.toString().lowercase().trim().equals("Teams Meeting".lowercase().trim())) {
-                onClick(data, videoAccessCode.toString(), 4)
-            }
+                //  if (holder.binding.btnFeedback.text.toString().lowercase().trim().equals("Join".lowercase().trim())) {
+
                 if (holder.binding.btnFeedback.text.toString() == "Feedback") {
                     onClick(data, videoAccessCode.toString(), 3)
                 }
-        }
-
+            }
        /* holder.binding.btnCancelMeeting.setOnClickListener {
             onClick(data, videoAccessCode.toString(), 6)
         }*/
@@ -230,8 +233,12 @@ class UpcomingMeetingAdapter(
 
                     }
                     "Scheduled"    -> {
+                        binding.btnFeedback.visibility = View.GONE
+                        binding.btnFeedback.setTextColor(context.getColor(R.color.white))
+                        binding.btnJoin.isVisible = true
+                        binding.btnRejoin.isVisible=false
 
-                        binding.btnRejoin.isVisible = false
+                        /*binding.btnRejoin.isVisible = false
                         binding.btnJoin.visibility = View.GONE
                         binding.btnFeedback.isVisible = true
                         binding.btnFeedback.isEnabled = false
@@ -241,8 +248,9 @@ class UpcomingMeetingAdapter(
                             binding.btnFeedback.context,
                             R.drawable.shape_rectangle_rounded_red_10_teams
                         )
-                        binding.btnFeedback.isEnabled = true
-                      //  binding.btnCancelMeeting.isVisible = false
+                        binding.btnFeedback.isEnabled = true*/
+
+                      //old for cancel only  binding.btnCancelMeeting.isVisible = false
 
                     }
                     "NotScheduled" -> {
