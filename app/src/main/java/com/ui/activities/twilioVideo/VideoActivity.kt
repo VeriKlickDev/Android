@@ -63,9 +63,10 @@ import com.ui.activities.meetingmemberslist.MemberListActivity
 import com.ui.activities.twilioVideo.ScreenSharingCapturing.ScreenShareCapturerManager
 import com.ui.activities.twilioVideo.meetingnotificationservice.MeetingServiceManager
 import com.ui.listadapters.ConnectedUserListAdapter
-import com.veriklick.R
-import com.veriklick.databinding.ActivityTwilioVideoBinding
-import com.veriklick.databinding.LayoutMuteMicUpdateBinding
+import com.veriKlick.*
+import com.veriKlick.R
+import com.veriKlick.databinding.ActivityTwilioVideoBinding
+import com.veriKlick.databinding.LayoutMuteMicUpdateBinding
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.internal.waitMillis
 import tvi.webrtc.VideoSink
@@ -280,7 +281,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             else {
                 Snackbar.make(
                     binding.root,
-                    getString(com.veriklick.R.string.txt_no_internet_connection),
+                    getString(R.string.txt_no_internet_connection),
                     Snackbar.LENGTH_SHORT
                 ).show()
             }

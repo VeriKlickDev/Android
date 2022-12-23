@@ -12,9 +12,11 @@ import com.data.change24to12hoursFormat
 import com.data.changeDatefrom_yyyymmdd_to_mmddyyyy
 import com.domain.BaseModels.InterViewersListModel
 import com.domain.BaseModels.NewInterviewDetails
-import com.veriklick.R
-import com.veriklick.databinding.LayoutItemUpcomingMeetingBinding
+
+
 import com.google.gson.Gson
+import com.veriKlick.R
+import com.veriKlick.databinding.LayoutItemUpcomingMeetingBinding
 
 class UpcomingMeetingAdapter(
     val context: Context,

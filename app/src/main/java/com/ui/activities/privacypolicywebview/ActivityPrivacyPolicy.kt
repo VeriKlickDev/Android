@@ -8,12 +8,12 @@ import android.webkit.WebViewClient
 import com.data.dismissProgressDialog
 import com.data.showProgressDialog
 import com.domain.constant.AppConstants
-import com.veriklick.R
-import com.veriklick.databinding.ActivityPrivacyPolicyBinding
+import com.veriKlick.*
+import com.veriKlick.databinding.ActivityPrivacyPolicyBinding
 
 class ActivityPrivacyPolicy : AppCompatActivity() {
 
-    private lateinit var binding:ActivityPrivacyPolicyBinding
+    private lateinit var binding: ActivityPrivacyPolicyBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

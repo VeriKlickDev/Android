@@ -20,8 +20,8 @@ import com.domain.constant.AppConstants
 import com.harvee.yourhealthmate2.ui.privacypolicy.ActivityPrivacyPolicy
 import com.ui.activities.joinmeeting.JoinMeetingViewModel
 import com.ui.activities.twilioVideo.VideoActivity
-import com.veriklick.R
-import com.veriklick.databinding.LayoutVideoMeetingByLinkBinding
+import com.veriKlick.*
+import com.veriKlick.databinding.LayoutVideoMeetingByLinkBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -9,10 +9,10 @@ import android.util.Log
 import com.data.dataHolders.DataStoreHelper
 import com.data.setHandler
 import com.domain.constant.AppConstants
-import com.veriklick.R
-import com.veriklick.databinding.ActivitySplashScreenBinding
+import com.veriKlick.*
 import com.ui.activities.login.LoginActivity
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
+import com.veriKlick.databinding.ActivitySplashScreenBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

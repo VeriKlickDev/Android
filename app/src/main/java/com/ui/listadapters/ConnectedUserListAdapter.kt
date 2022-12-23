@@ -18,12 +18,13 @@ import com.data.helpers.TwilioHelper
 import com.data.showToast
 import com.domain.BaseModels.NetworkQualityModel
 import com.domain.BaseModels.VideoTracksBean
-import com.veriklick.R
-import com.veriklick.databinding.LayoutItemConnectedUsersBinding
+import com.veriKlick.*
+import com.veriKlick.databinding.LayoutItemConnectedUsersBinding
 import com.twilio.video.*
 import com.ui.activities.twilioVideo.MicStatusListener
 import com.ui.activities.twilioVideo.VideoActivity
 import com.ui.activities.twilioVideo.VideoViewModel
+import com.veriKlick.R
 
 class ConnectedUserListAdapter(
     val viewModel: VideoViewModel,

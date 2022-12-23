@@ -15,8 +15,7 @@ import com.data.dataHolders.*
 import com.data.showCustomSnackbarOnTop
 import com.domain.BaseModels.VideoTracksBean
 import com.domain.constant.AppConstants
-import com.veriklick.R
-import com.veriklick.databinding.ActivityListOfMembersBinding
+import com.veriKlick.*
 import com.google.android.material.snackbar.Snackbar
 import com.twilio.video.ktx.createLocalVideoTrack
 import com.twilio.video.quickstart.kotlin.CameraCapturerCompat
@@ -24,6 +23,7 @@ import com.ui.activities.adduserlist.ActivityAddParticipant
 import com.ui.activities.joinmeeting.JoinMeetingActivity
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
 import com.ui.listadapters.ConnectedMemberListAdapter
+import com.veriKlick.databinding.ActivityListOfMembersBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -81,8 +81,8 @@ class MemberListActivity : AppCompatActivity() {
                                         leftUserFromMeeting(data)
                                     }else
                                     {
-                                        showCustomSnackbarOnTop(getString(com.veriklick.R.string.txt_no_internet_connection))
-                                        /*Snackbar.make(binding.root,getString(com.veriklick.R.string.txt_no_internet_connection),
+                                        showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                                        /*Snackbar.make(binding.root,getString(com.veriKlick.R.string.txt_no_internet_connection),
                                             Snackbar.LENGTH_SHORT).show()*/
                                     }
                                 }

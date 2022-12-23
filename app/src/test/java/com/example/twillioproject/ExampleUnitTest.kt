@@ -1,4 +1,4 @@
-package com.veriklick
+package com.veriKlick
 
 import org.junit.Test
 

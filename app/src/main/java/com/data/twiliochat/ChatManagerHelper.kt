@@ -8,7 +8,7 @@ import com.twilio.chat.ChatClient.ConnectionState
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
-import com.veriklick.R
+import com.veriKlick.R
 
 class ChatManagerHelper {
     val TAG="chatmsg"

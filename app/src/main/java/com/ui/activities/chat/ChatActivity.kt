@@ -13,10 +13,12 @@ import com.data.twiliochat.MessageCallBack
 import com.data.twiliochat.TwilioChatHelper
 import com.domain.BaseModels.ChatMessagesModel
 import com.domain.constant.AppConstants
-import com.veriklick.R
-import com.veriklick.databinding.ActivityChatBinding
+
+import com.veriKlick.*
 import com.twilio.conversations.*
 import com.ui.listadapters.MessagelistAdapter
+import com.veriKlick.R
+import com.veriKlick.databinding.ActivityChatBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

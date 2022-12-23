@@ -10,7 +10,7 @@ import android.os.IBinder
 import android.util.Log
 import com.data.helpers.TwilioHelper
 import com.domain.constant.AppConstants
-import com.veriklick.R
+import com.veriKlick.R
 
 class ScreenSharingService : Service() {
 

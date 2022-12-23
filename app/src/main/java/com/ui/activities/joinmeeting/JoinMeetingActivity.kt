@@ -14,17 +14,17 @@ import com.data.dataHolders.CurrentConnectUserList
 import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.helpers.TwilioHelper
 import com.domain.constant.AppConstants
-import com.veriklick.R
-import com.veriklick.databinding.ActivityJoinMeetingBinding
+import com.veriKlick.*
 import com.harvee.yourhealthmate2.ui.privacypolicy.ActivityPrivacyPolicy
 import com.ui.activities.twilioVideo.VideoActivity
+import com.veriKlick.databinding.ActivityJoinMeetingBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Runnable
 
 @AndroidEntryPoint
 class JoinMeetingActivity :AppCompatActivity() {
 
-    private lateinit var binding:ActivityJoinMeetingBinding
+    private lateinit var binding: ActivityJoinMeetingBinding
     private lateinit var viewModel:JoinMeetingViewModel
     private var accessCode=""
     private  var TAG="videocon"

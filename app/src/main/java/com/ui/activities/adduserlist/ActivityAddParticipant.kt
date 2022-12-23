@@ -11,21 +11,24 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.data.*
 import com.data.dataHolders.*
-import com.veriklick.R
-import com.veriklick.databinding.ActivityLayoutAddParticipantBinding
 import com.google.android.material.snackbar.Snackbar
 
 import com.ui.listadapters.AddParticipantListAdapter
+import com.veriKlick.R
+import com.veriKlick.databinding.ActivityLayoutAddParticipantBinding
+
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import java.util.*
 
 @AndroidEntryPoint
 class ActivityAddParticipant : AppCompatActivity() {
+
     private lateinit var binding: ActivityLayoutAddParticipantBinding
     private lateinit var adapter: AddParticipantListAdapter
     private var TAG = "adapteraddcheck"
     private lateinit var viewModel: AddUserViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLayoutAddParticipantBinding.inflate(layoutInflater)
@@ -81,7 +84,7 @@ class ActivityAddParticipant : AppCompatActivity() {
                         } else {
                             Snackbar.make(
                                 binding.root,
-                                getString(com.veriklick.R.string.txt_no_internet_connection),
+                                getString(R.string.txt_no_internet_connection),
                                 Snackbar.LENGTH_SHORT
                             ).show()
                         }
@@ -92,7 +95,7 @@ class ActivityAddParticipant : AppCompatActivity() {
                         } else {
                             Snackbar.make(
                                 binding.root,
-                                getString(com.veriklick.R.string.txt_no_internet_connection),
+                                getString(R.string.txt_no_internet_connection),
                                 Snackbar.LENGTH_SHORT
                             ).show()
                         }
@@ -280,7 +283,7 @@ class ActivityAddParticipant : AppCompatActivity() {
                     } else {
                         Snackbar.make(
                             binding.root,
-                            getString(com.veriklick.R.string.txt_no_internet_connection),
+                            getString(R.string.txt_no_internet_connection),
                             Snackbar.LENGTH_SHORT
                         ).show()
                     }

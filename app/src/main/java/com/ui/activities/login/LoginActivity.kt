@@ -8,6 +8,8 @@ import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
@@ -16,13 +18,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.data.dataHolders.DataStoreHelper
 import com.data.*
 import com.domain.constant.AppConstants
-import com.veriklick.R
-import com.veriklick.databinding.ActivityLoginBinding
+import com.veriKlick.*
+import com.veriKlick.databinding.ActivityLoginBinding
 import com.google.android.material.snackbar.Snackbar
 import com.ui.activities.forgotPassword.ForgotPasswordActivity
 import com.ui.activities.joinmeeting.JoinMeetingActivity
 import com.ui.activities.login.loginwithotp.ActivitiyLoginWithOtp
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
+import com.veriKlick.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -53,6 +56,17 @@ class LoginActivity : AppCompatActivity() {
         handleOnEventChanges()
 
         Log.d(TAG, "onCreate: local time ${getCurrentDate()}  \n ${getCurrentUtcFormatedDate()} \n ${getCurrentDate()} \n ${getIntervalMonthDate()} ")
+
+        /**crash code*/
+        val crashButton = Button(this)
+        crashButton.text = "Test Crash"
+        crashButton.setOnClickListener {
+            throw RuntimeException("Test Crash") // Force a crash
+        }
+
+        addContentView(crashButton, ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT))
 
 
         var istoggle=true

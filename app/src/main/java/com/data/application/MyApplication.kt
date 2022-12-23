@@ -1,11 +1,11 @@
 package com.data.application
 
+//import com.data.twiliochattemp.ChatClientWrapper
 import android.app.Application
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.telecom.Call
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.data.dataHolders.CallStatusHolder
@@ -14,8 +14,9 @@ import com.data.dataHolders.MicMuteUnMuteHolder
 import com.data.dataHolders.WeeksDataHolder
 import com.data.helpers.TwilioHelper
 import com.domain.constant.AppConstants
-//import com.data.twiliochattemp.ChatClientWrapper
+import com.google.firebase.analytics.FirebaseAnalytics
 import dagger.hilt.android.HiltAndroidApp
+
 
 @HiltAndroidApp
 class MyApplication :Application() {
@@ -25,6 +26,8 @@ class MyApplication :Application() {
         WeeksDataHolder.setCalendarInstance()
         //ChatClientWrapper.createInstance()
 
+        val mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        mFirebaseAnalytics.setUserId("veriklick")
 
         LocalBroadcastManager.getInstance(this).registerReceiver(
             incomingCallRecevier,

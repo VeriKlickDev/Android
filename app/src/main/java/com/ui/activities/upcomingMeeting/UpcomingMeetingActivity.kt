@@ -32,9 +32,9 @@ import com.ui.activities.feedBack.ActivityFeedBackForm
 import com.ui.activities.login.LoginActivity
 import com.ui.activities.twilioVideo.VideoActivity
 import com.ui.listadapters.UpcomingMeetingAdapter
-import com.veriklick.R
-import com.veriklick.databinding.ActivityUpcomingMeetingBinding
-import com.veriklick.databinding.LayoutDescriptionDialogBinding
+import com.veriKlick.*
+import com.veriKlick.databinding.ActivityUpcomingMeetingBinding
+import com.veriKlick.databinding.LayoutDescriptionDialogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -652,7 +652,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         menuInfo: ContextMenu.ContextMenuInfo?
     ) {
         val inflater = menuInflater
-        inflater.inflate(com.veriklick.R.menu.menu_filter_upcominglist, menu)
+        inflater.inflate(R.menu.menu_filter_upcominglist, menu)
         menu?.setHeaderTitle("Meetings")
 
         super.onCreateContextMenu(menu, v, menuInfo)

@@ -8,7 +8,7 @@ import com.data.dataHolders.UpcomingMeetingStatusHolder
 import com.data.twiliochat.TwilioChatHelper
 import com.domain.BaseModels.MicStatusModel
 import com.domain.BaseModels.NetworkQualityModel
-import com.veriklick.databinding.ActivityTwilioVideoBinding
+import com.veriKlick.databinding.ActivityTwilioVideoBinding
 import com.twilio.video.*
 import com.twilio.video.Video.connect
 import com.ui.activities.twilioVideo.VideoActivity

@@ -18,12 +18,11 @@ import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.ResponseOtpVerificationStatus
 import com.domain.constant.AppConstants
 
-
-import com.veriklick.R
-import com.veriklick.databinding.ActivityActivitiyLoginWithOtpBinding
-import com.veriklick.databinding.LayoutOtpVerificationBottomsheetBinding
+import com.veriKlick.*
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
+import com.veriKlick.databinding.ActivityActivitiyLoginWithOtpBinding
+import com.veriKlick.databinding.LayoutOtpVerificationBottomsheetBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -195,7 +194,7 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
     fun verifycationBottomSheetDialog()
     {
         val dialog=BottomSheetDialog(this,R.style.AppBottomSheetDialogTheme)
-        val dialogbinding=LayoutOtpVerificationBottomsheetBinding.inflate(LayoutInflater.from(this))
+        val dialogbinding= LayoutOtpVerificationBottomsheetBinding.inflate(LayoutInflater.from(this))
         dialog.setContentView(dialogbinding.root)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setCancelable(false)

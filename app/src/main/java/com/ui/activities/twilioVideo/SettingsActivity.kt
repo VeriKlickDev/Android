@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import com.veriklick.R
+import com.veriKlick.R
 import com.twilio.video.AudioCodec
 import com.twilio.video.G722Codec
 import com.twilio.video.H264Codec

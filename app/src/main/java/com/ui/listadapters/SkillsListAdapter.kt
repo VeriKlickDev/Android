@@ -10,7 +10,8 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.domain.BaseModels.AssessSkills
-import com.veriklick.databinding.LayoutItemCandidateSkillsBinding
+import com.veriKlick.databinding.LayoutItemCandidateSkillsBinding
+
 
 //, val onClick:(data: NewInterviewDetails, videoAccessCode:String, action:Int)->Unit
 class SkillsListAdapter (val context: Context, val list: MutableList<AssessSkills>,val onClicked:(pos:Int,data:AssessSkills,action:Int)->Unit) :

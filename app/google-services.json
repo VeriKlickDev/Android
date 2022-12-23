@@ -1,49 +1,42 @@
 {
   "project_info": {
-    "project_number": "1069314382497",
-    "project_id": "veriklick-491b0",
-    "storage_bucket": "veriklick-491b0.appspot.com"
+    "project_number": "676296546029",
+    "project_id": "veriklick-mobile-app",
+    "storage_bucket": "veriklick-mobile-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1069314382497:android:1a53ead52fec96562caee0",
+        "mobilesdk_app_id": "1:676296546029:android:c7780a17ea689e8cbb1ee4",
         "android_client_info": {
-          "package_name": "com.veriklick"
+          "package_name": "com.veriKlick"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1069314382497-7844abj0iv4j3hfbo47fg05i48ibqfvo.apps.googleusercontent.com",
+          "client_id": "676296546029-neboghsop7tqqqptc4p7mct3t0c7phua.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.veriklick",
+            "package_name": "com.veriKlick",
             "certificate_hash": "082dc7bd9b6406031fd76926e3416255183abf0d"
           }
         },
         {
-          "client_id": "1069314382497-o0o1rom81nuvm69cp906hohje2itslr4.apps.googleusercontent.com",
+          "client_id": "676296546029-dvp7ivj9l5bhbijgsmt3ikv3u1eet834.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCdY-379nFT14JZ-88lzZxpkOQUHLb_Yzo"
+          "current_key": "AIzaSyCde_NO_TNJS0o9uJSYjCAN8q5dJGZCiMA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1069314382497-o0o1rom81nuvm69cp906hohje2itslr4.apps.googleusercontent.com",
+              "client_id": "676296546029-dvp7ivj9l5bhbijgsmt3ikv3u1eet834.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "1069314382497-4134p2p4jgdjstmtpqus82jmods44mq0.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.sdm.veriKlick"
-              }
             }
           ]
         }

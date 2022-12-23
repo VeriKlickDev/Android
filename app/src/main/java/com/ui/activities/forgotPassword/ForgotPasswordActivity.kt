@@ -10,11 +10,11 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
+import com.veriKlick.*
 import com.data.*
-import com.veriklick.R
-import com.veriklick.databinding.ActivityForgotPasswordBinding
 import com.google.android.material.snackbar.Snackbar
 import com.ui.activities.login.LoginActivity
+import com.veriKlick.databinding.ActivityForgotPasswordBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

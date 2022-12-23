@@ -11,8 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.data.*
-import com.veriklick.R
-import com.veriklick.databinding.ActivityChatBinding
+import com.veriKlick.R
+import com.veriKlick.databinding.ActivityChatBinding
 import com.twilio.chat.Channel
 import com.twilio.chat.ChannelListener
 import com.twilio.chat.Member
