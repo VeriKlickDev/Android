@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "676296546029-1n2s7q0ibclgkthqceupftaehjd0s6sb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.veriKlick",
+            "certificate_hash": "0b2351d03bc24c2f9250eb5708833720201e4c9f"
+          }
+        },
+        {
           "client_id": "676296546029-neboghsop7tqqqptc4p7mct3t0c7phua.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -37,6 +45,13 @@
             {
               "client_id": "676296546029-dvp7ivj9l5bhbijgsmt3ikv3u1eet834.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "676296546029-1bgbgd870vdlechlc1imdduj3d3t35pb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.veriKlick"
+              }
             }
           ]
         }

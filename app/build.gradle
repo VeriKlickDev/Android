@@ -158,10 +158,15 @@ dependencies {
    // implementation "androidx.multidex:multidex:2.0.1"
     implementation 'tw.com.oneup.www:reviewbar:1.0.2'
 
-    implementation platform('com.google.firebase:firebase-bom:30.4.1')
 
     // Add the dependencies for the Crashlytics and Analytics libraries
     // When using the BoM, you don't specify versions in Firebase library dependencies
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
 
+
+
+
+
+    implementation platform('com.google.firebase:firebase-bom:31.1.1')
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 }
