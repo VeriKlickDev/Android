@@ -58,7 +58,7 @@ class LoginActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate: local time ${getCurrentDate()}  \n ${getCurrentUtcFormatedDate()} \n ${getCurrentDate()} \n ${getIntervalMonthDate()} ")
 
         /**crash code*/
-        val crashButton = Button(this)
+      /*  val crashButton = Button(this)
         crashButton.text = "Test Crash"
         crashButton.setOnClickListener {
             throw RuntimeException("Test Crash") // Force a crash
@@ -67,7 +67,7 @@ class LoginActivity : AppCompatActivity() {
         addContentView(crashButton, ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT))
-
+*/
 
         var istoggle=true
         binding.btnToggleEye.setOnClickListener {
