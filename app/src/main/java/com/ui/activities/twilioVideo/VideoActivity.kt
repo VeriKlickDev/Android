@@ -442,6 +442,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         TwilioChatHelper.removeMemeberFromConversation(CurrentMeetingDataSaver.getData().identity!!)
         getLocalVideoTrack()?.let { localParticipant?.unpublishTrack(it) }
 
+        cameraCapturerCompat.stopCapture()
 
         // screenShareCapturerManager.unbindService()
         screenShareCapturerManager.endForeground()

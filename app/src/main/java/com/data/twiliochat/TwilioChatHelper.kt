@@ -185,6 +185,7 @@ object TwilioChatHelper {
         if (conversation == null) {
             Log.d(TAG, "joinConversation: null conversation ")
             val myconversation = conversationsClient?.myConversations?.firstOrNull()
+
             conversationsClient?.myConversations?.mapIndexed { index, conversation ->
                 conversation.removeListener(mDefaultConversationListener)
             }
@@ -196,8 +197,6 @@ object TwilioChatHelper {
                         "joinConversation: my conversation user list ${it.identity} ${it.conversation.friendlyName}"
                     )
                 }
-
-
                 myconversation?.join(object : StatusListener {
                     override fun onSuccess() {
                         Log.d(TAG, "Joined default myconversation")
