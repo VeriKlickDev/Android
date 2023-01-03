@@ -58,7 +58,7 @@ class BaseModule {
     {
         val httpClient=OkHttpClient.Builder().addInterceptor(interceptor).build()
        // val httpClient=OkHttpClient.Builder().build()
-        val retrofit= Retrofit.Builder().baseUrl("https://api.veriklick.in")// https://api.veriklick.in
+        val retrofit= Retrofit.Builder().baseUrl("https://api.veriklick.com")// api.veriklick.com
             .addConverterFactory(GsonConverterFactory.create())
             .client(httpClient).build()
         return retrofit.create(BaseRestApi::class.java)
@@ -78,8 +78,8 @@ class BaseModule {
 
     {
         val httpClient=OkHttpClient.Builder().addInterceptor(interceptor).build()
-       // val httpClient=OkHttpClient.Builder().build()
-        val retrofit= Retrofit.Builder().baseUrl("https://veridialapi.veriklick.in")// https://api.veriklick.in
+       // val httpClient=OkHttpClient.Builder().build()//https://veridialapi.veriklick.com
+        val retrofit= Retrofit.Builder().baseUrl("https://veridialapi.veriklick.com")// veridialapi.veriklick.in
             .addConverterFactory(GsonConverterFactory.create())
             .client(httpClient).build()
         return retrofit.create(LoginRestApi::class.java)
