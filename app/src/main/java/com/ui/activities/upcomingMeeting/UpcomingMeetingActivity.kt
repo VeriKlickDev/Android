@@ -72,7 +72,6 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         //  WeeksDataHolder.setDayToZero()
         layoutManager = LinearLayoutManager(this)
 
-
         currentDateIST = getCurrentDate()!!
         if (checkInternet()) {
             status = "schedule"
@@ -326,14 +325,20 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             }
             //for past / previous
             1 -> {
-                WeeksDataHolder.getDecreasedDate(currentDateIST!!) { ist, utc ->
+                if(isPreClicked==true)
+                {
+                    WeeksDataHolder.getDecreasedDate(currentDateIST!!) { ist, utc ->
+                        currentDateIST = ist
+                        currentDateUTC = utc
+                    }
+                }
+               /* WeeksDataHolder.getDecreasedDate(currentDateIST!!) { ist, utc ->
                     currentDateIST = ist
                     currentDateUTC = utc
-                }
+                }*/
                 WeeksDataHolder.getISTandUTCDate(currentDateIST!!, 1) { ist, utc, istx, utcx ->
                     ob!!.from = utc
                     ob!!.to = utcx
-
 
                     ob!!.fromdate = ist
                     ob!!.todate = istx
@@ -347,10 +352,16 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             }
             //for next week date
             2 -> {
-                WeeksDataHolder.getIncreasedDate(currentDateIST!!) { ist, utc ->
+                if (isNextClicked==true){
+                    WeeksDataHolder.getIncreasedDate(currentDateIST!!) { ist, utc ->
+                        currentDateIST = ist
+                        currentDateUTC = utc
+                    }
+                }
+               /* WeeksDataHolder.getIncreasedDate(currentDateIST!!) { ist, utc ->
                     currentDateIST = ist
                     currentDateUTC = utc
-                }
+                }*/
 
                 WeeksDataHolder.getISTandUTCDate(currentDateIST!!, 2) { ist, utc, istx, utcx ->
                     ob!!.from = utc

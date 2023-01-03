@@ -58,7 +58,7 @@ class LoginActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate: local time ${getCurrentDate()}  \n ${getCurrentUtcFormatedDate()} \n ${getCurrentDate()} \n ${getIntervalMonthDate()} ")
 
         /**crash code*/
-      /*  val crashButton = Button(this)
+       /* val crashButton = Button(this)
         crashButton.text = "Test Crash"
         crashButton.setOnClickListener {
             throw RuntimeException("Test Crash") // Force a crash

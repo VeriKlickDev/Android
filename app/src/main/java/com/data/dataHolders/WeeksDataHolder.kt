@@ -103,7 +103,7 @@ object WeeksDataHolder {
 
                 cal.set(Calendar.HOUR_OF_DAY,0)
                 cal.set(Calendar.MINUTE,0)
-                cal.add(Calendar.DAY_OF_YEAR, -7)
+                cal.add(Calendar.DAY_OF_YEAR, -6)
 
                 ist= sdfIST.format(cal.time)
                 utc= sdfUTC.format(cal.time)
@@ -121,11 +121,10 @@ object WeeksDataHolder {
 
                 cal.set(Calendar.HOUR_OF_DAY,23)
                 cal.set(Calendar.MINUTE,59)
-                cal.add(Calendar.DAY_OF_YEAR, 7)
+                cal.add(Calendar.DAY_OF_YEAR, 6)
 
                 istx= sdfIST.format(cal.time)
                 utcx= sdfUTC.format(cal.time)
-
 
             }
             3->{
