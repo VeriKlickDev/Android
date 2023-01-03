@@ -128,7 +128,6 @@
                 <!-- note that the leading "/" is required for pathPrefix-->
             </intent-filter>
 
-
             <intent-filter android:label="@string/app_name" android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -150,9 +149,6 @@
                     android:pathPrefix="/video-session" />
                 <!-- note that the leading "/" is required for pathPrefix-->
             </intent-filter>
-
-
-
 
         </activity>
 
