@@ -1,6 +1,7 @@
 package com.ui.activities.joinmeeting
 
 import android.content.*
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.ViewGroup
@@ -57,7 +58,12 @@ class JoinMeetingActivity :AppCompatActivity() {
 
                     // https://ui2.veriklick.in/video-session/y3uE1C3l5huKLDLaxQPm
                    // getInterviewDetails("y3uE1C3l5huKLDLaxQPm")
-                     getInterviewDetails(accessCode)
+                    if (binding.etJoinMeeting.text.toString().lowercase().contains("microsoft") || binding.etJoinMeeting.text.toString().lowercase().contains("teams")){
+                        jumpToTeams(binding.etJoinMeeting.text.toString())
+                    }else
+                    {
+                        getInterviewDetails(accessCode)
+                    }
                     //  showToast(this,"Under Development")
                     hideKeyboard(this)
                 }else
@@ -78,6 +84,30 @@ class JoinMeetingActivity :AppCompatActivity() {
         )*/
 handleObserver()
     }
+
+
+    private fun jumpToTeams(link: String) {
+       try {
+
+           val sendIntent = Intent(
+               Intent.ACTION_VIEW,
+               Uri.parse(link)
+           )
+
+           if (sendIntent.resolveActivity(packageManager) != null) {
+               startActivity(sendIntent)
+           }else
+           {
+               startActivity(sendIntent)
+           }
+       }catch (e:Exception)
+       {
+           showCustomToast(getString(R.string.txt_no_supported_app_to_open))
+           Log.d(TAG, "jumpToTeams: exp 94 ${e.message}")
+       }
+    }
+
+
 
     fun handleObserver()
     {

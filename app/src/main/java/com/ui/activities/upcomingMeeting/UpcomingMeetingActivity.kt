@@ -374,7 +374,6 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     currentDateIST = istx
                     currentDateUTC = utcx
 
-
                 }
 
                 isNextClicked = true

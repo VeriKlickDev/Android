@@ -33,14 +33,16 @@ import com.domain.BaseModels.ResponseJWTTokenLogin
 import com.domain.IncomingCallCallback
 import com.domain.OnViewClicked
 import com.domain.constant.AppConstants
-import com.veriKlick.*
-import com.veriKlick.R
+
 import com.veriKlick.databinding.CustomSnackbarGlobalBinding
+//import com.veriKlick.databinding.CustomSnackbarGlobalBinding
 import com.veriKlick.databinding.LayoutPrivacyPolicyBinding
 import com.veriKlick.databinding.LayoutProgressBinding
 import com.veriKlick.databinding.LayoutSuccessMsgSnackbarPlayerBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import com.veriKlick.R
+
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -142,8 +144,6 @@ fun emailValidator(
   //  validateEmail(isEmailOk, mEmail, null)
 }
 
-
-
 fun checkSpecialCharatersInString(
     str: String,
     response: (isValide: Boolean, text: String) -> Unit
@@ -160,7 +160,7 @@ fun Context.showCustomToast(str:String)
     Handler(Looper.getMainLooper()).post({
         val toast=Toast(this)
         toast.setGravity(Gravity.TOP,0,0)
-        val layout =CustomSnackbarGlobalBinding.inflate(LayoutInflater.from(this))
+        val layout = CustomSnackbarGlobalBinding.inflate(LayoutInflater.from(this))
        // toast.setMargin(0f,50f)
 
         layout.customsnackbarTextviewGlobal.text=str
