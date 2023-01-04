@@ -532,7 +532,7 @@ fun decodeLoginToken(JWTEncoded: String, response: (ob: ResponseJWTTokenLogin) -
 
         val jsonData = decodeBase64(tokenArray[1])
 
-
+        Log.d("JWT_DECODED", "Body: token in json data ${jsonData}   ")
         response(Gson().fromJson(decodeBase64(tokenArray[1]), ResponseJWTTokenLogin::class.java))
         Log.d("JWT_DECODED", "Body: token in json form ${decodeBase64(tokenArray[1])}   ")
         Log.d("JWT_DECODED", "Body: token in json data ${jsonData}   ")
