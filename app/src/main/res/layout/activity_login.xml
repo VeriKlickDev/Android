@@ -41,7 +41,6 @@
                     android:text="@string/txt_start_join_video_meeting_on_the_go" />
 
 
-
                     <EditText
                         android:drawableLeft="@drawable/ic_img_message_black"
                         android:drawablePadding="@dimen/_10sp"
@@ -141,7 +140,6 @@
                     android:layout_marginTop="@dimen/_20sp"
                     >
 
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -149,7 +147,6 @@
                     android:gravity="center_vertical"
                     android:layout_weight="1"
                     >
-
 
 <!--                    <View-->
 <!--                        android:layout_width="@dimen/_25sdp"-->

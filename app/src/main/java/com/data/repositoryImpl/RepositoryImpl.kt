@@ -7,6 +7,7 @@ import com.domain.BaseModels.*
 import com.domain.RestApi.BaseRestApi
 import com.domain.RestApi.LoginRestApi
 import com.google.gson.Gson
+import retrofit2.Call
 import retrofit2.Response
 import javax.inject.Inject
 

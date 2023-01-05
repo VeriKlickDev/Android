@@ -10,9 +10,10 @@ import com.data.dataHolders.InvitationDataModel
 import com.data.repositoryImpl.BaseRestRepository
 import com.domain.BaseModels.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
@@ -129,16 +130,29 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
 
     fun sendInvitationtoUsers(list:List<InvitationDataModel>, onDataResponse:(data:ResponseSendInvitation?, action:Int)->Unit)
     {
-        viewModelScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
+            var participantObj: AddParticipantModel? = null
             try {
-                val interviewList= arrayListOf<AddInterviewerList>()
+                val interviewList = arrayListOf<AddInterviewerList>()
                 list.forEach {
-                    interviewList.add(AddInterviewerList(firstName = it.firstName, lastName = it.lastName, emailId = it.email, contactNumber = it.phone, isPresenter = false))//, InterviewerTimezone = it.InterviewerTimezone))
+                    interviewList.add(
+                        AddInterviewerList(
+                            firstName = it.firstName,
+                            lastName = it.lastName,
+                            emailId = it.email,
+                            contactNumber = it.phone,
+                            isPresenter = false
+                        )
+                    )//, InterviewerTimezone = it.InterviewerTimezone))
                 }
 
-                Log.d(TAG, "sendInvitationtoUsers: viewmodel interview list timezone $interviewList")
+                Log.d(
+                    TAG,
+                    "sendInvitationtoUsers: viewmodel interview list timezone $interviewList"
+                )
 
-                val participantObj=AddParticipantModel(MeetingMode = "veriklick",
+                participantObj = AddParticipantModel(
+                    MeetingMode = "veriklick",
                     InterviewId = CurrentMeetingDataSaver.getData()?.interviewModel?.interviewId,
                     InterviewDateTime = CurrentMeetingDataSaver.getData().interviewModel?.interviewDateTime,
                     InterviewTitle = CurrentMeetingDataSaver.getData().interviewModel?.interviewTitle,
@@ -150,9 +164,9 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
                     GoogleCalendarSyncEnabled = true,
                     OutlookCalendarSyncEnabled = true,
                     InterviewerList = interviewList
-                    )
+                )
 
-             /*   if (CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone!=null)
+                /*   if (CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone!=null)
                 {
                     participantObj.InterviewTimezone= CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone
                 }else
@@ -162,46 +176,79 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
 */
 
                 Log.d(TAG, "sendInvitationtoUsers: data here $participantObj")
-                participantObj.CandidateId=CurrentMeetingDataSaver.getData().interviewModel?.candidateId
-                participantObj.Subscriberid=DataStoreHelper.getMeetingUserId()
-
-                val result = repo.sendInvitation(participantObj)
-                Log.d(TAG, "sendInvitationtoUsers: result ${result.body()}  code ${result.code()}   error ${result.errorBody()}")
-
-                if (result.isSuccessful) {
-                    if (result.body() != null) {
-                      //  onDataResponse(result.body()!!, 200)
-                        Log.d(TAG, "getVideoSession:  success ${result.body()}   message ${result.body()?.APIResponse?.Message}")
-                    }
-                    else {
-                        onDataResponse(result.body()!!, 400)
-                        Log.d(TAG, "getVideoSession: null result")
-                    }
-                    if (result.code()==200)
-                    {
-                        onDataResponse(result.body()!!, 200)
-                    }
+                participantObj.CandidateId =
+                    CurrentMeetingDataSaver.getData().interviewModel?.candidateId
+                participantObj.Subscriberid = DataStoreHelper.getMeetingUserId()
+                if (DataStoreHelper.getMeetingUserId() == null || DataStoreHelper.getMeetingUserId()
+                        .equals("null")
+                ) {
+                    participantObj.Subscriberid =
+                        CurrentMeetingDataSaver.getData().interviewModel?.subscriberid
+                } else {
+                    participantObj.Subscriberid = DataStoreHelper.getMeetingUserId()
                 }
-                if (result.code()==500)
-                {
-                    onDataResponse(result.body()!!, 500)
-                }
-                else {
-                    if (result.code()==500)
-                    {
-                        onDataResponse(result.body()!!, 500)
-                    }
 
-                    onDataResponse(result.body()!!, 404)
-                    Log.d(TAG, "getVideoSession: not success")
-                }
+
+                Log.d(TAG, "sendInvitationtoUsers: $participantObj")
             } catch (e: Exception) {
                 onDataResponse(null, 500)
-                Log.d(TAG, "getVideoSession: exception ${e.message}")
+                Log.d(TAG, "getVideoSession: exception ${e.message} ${e.printStackTrace()} $e")
             }
+
+            /*
+*/
+            try {
+
+                participantObj?.let {
+                    val result = repo.sendInvitation(participantObj!!)
+
+                    result?.let {
+                        Log.d(
+                            TAG,
+                            "sendInvitationtoUsers: result ${result.body()}  code ${result.code()}   error ${result.errorBody()}"
+                        )
+
+                        if (result!!.isSuccessful) {
+                            if (result.body() != null) {
+                                //  onDataResponse(result.body()!!, 200)
+                                Log.d(
+                                    TAG,
+                                    "getVideoSession:  success ${result.body()}   message ${result.body()?.APIResponse?.Message}"
+                                )
+                            } else {
+                                onDataResponse(result.body()!!, 400)
+                                Log.d(TAG, "getVideoSession: null result")
+                            }
+                            if (result.code() == 200) {
+                                onDataResponse(result.body()!!, 200)
+                            }
+                        }
+                        if (result.code() == 500) {
+                            onDataResponse(result.body()!!, 500)
+                        } else {
+                            if (result.code() == 500) {
+                                onDataResponse(result.body()!!, 500)
+                            }
+                            if (result.code() == 404) {
+                                onDataResponse(result.body()!!, 404)
+                            }
+                            //onDataResponse(result.body()!!, 404)
+                            Log.d(TAG, "getVideoSession: not success")
+                        }
+                    }
+
+
+                }
+
+            } catch (e: Exception)
+            {
+
+                Log.d(TAG, "sendInvitationtoUsers: exception 204 ${e.printStackTrace()}")
+            }
+
+
         }
     }
-
 
     fun getTotoalCountOfInterviewer(videoAccessCode:String,onResponse:(action:Int,data:ResponseTotalInterviewerCount?)->Unit)
     {

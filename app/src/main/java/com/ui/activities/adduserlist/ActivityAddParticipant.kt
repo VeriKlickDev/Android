@@ -146,12 +146,14 @@ class ActivityAddParticipant : AppCompatActivity() {
                 when (action) {
                     200 -> {
                         if (interviewList.size + data?.TotalInterviewerCount!!.toInt() > 6) {
-                            showToast(this, getString(R.string.txt_cant_add_more_participant))
+                            showCustomToast(getString(R.string.txt_cant_add_more_participant))
+                            Handler(Looper.getMainLooper()).postDelayed({finish()},1000)
                             if (actionPerformed==1)
                             {
                                 binding.btnPostdata.visibility=View.GONE
                             }else
                             {
+
                             }
                         } else {
                             addNewInterViewer(actionPerformed)
@@ -311,53 +313,94 @@ class ActivityAddParticipant : AppCompatActivity() {
         binding.invitationProgress.visibility = View.VISIBLE
         binding.btnPostdata.text = ""
         binding.btnPostdata.isEnabled = false
+        val tem=CurrentMeetingDataSaver.getData()
+        tem
+        distinctinvitationList
         viewModel.sendInvitationtoUsers(distinctinvitationList, onDataResponse = { data, action ->
-
+            var isSuccess=false
             when (action) {
                 200 -> {
-                    binding.btnPostdata.text = getString(R.string.txt_invite)
-                    binding.invitationProgress.visibility = View.INVISIBLE
-                    //Toast.makeText(this,data?.APIResponse?.Message!!,Toast.LENGTH_LONG).show()
-                    //showToast(this,data?.APIResponse?.Message!!)
-                    //Snackbar.make(binding.root,data?.APIResponse?.Message!!,Snackbar.LENGTH_LONG).show()
-                    //showCustomSnackbarOnTop(data?.APIResponse?.Message!!)
-                    showCustomToast(data?.APIResponse?.Message!!)
-                    interviewList.clear()
-                    adapter.notifyDataSetChanged()
-                    Handler(Looper.getMainLooper()).postDelayed({ onBackPressed() }, 1000)
-                    Log.d(TAG, "sendInvitation: result $data")
-                    binding.btnPostdata.isEnabled = true
+                    Handler(Looper.getMainLooper()).post({
+
+                        binding.btnPostdata.text = getString(R.string.txt_invite)
+                        binding.invitationProgress.visibility = View.INVISIBLE
+                        //Toast.makeText(this,data?.APIResponse?.Message!!,Toast.LENGTH_LONG).show()
+                        //showToast(this,data?.APIResponse?.Message!!)
+                        //Snackbar.make(binding.root,data?.APIResponse?.Message!!,Snackbar.LENGTH_LONG).show()
+                        //showCustomSnackbarOnTop(data?.APIResponse?.Message!!)
+                        showCustomToast(data?.APIResponse?.Message!!)
+                        isSuccess=true
+                        interviewList.clear()
+                        adapter.notifyDataSetChanged()
+                        Handler(Looper.getMainLooper()).postDelayed({ onBackPressed() }, 1000)
+                        Log.d(TAG, "sendInvitation: result $data")
+                        binding.btnPostdata.isEnabled = true
+
+                    })
+
                 }
                 400 -> {
-                    binding.btnPostdata.text = getString(R.string.txt_invite)
-                    binding.invitationProgress.visibility = INVISIBLE
-                    showCustomToast(data?.APIResponse?.Message!!)
-                    //showCustomSnackbarOnTop(data?.APIResponse?.Message!!)
-                    //showToast(this,data?.APIResponse?.Message!!)
-                    binding.btnPostdata.isEnabled = true
+                    Handler(Looper.getMainLooper()).post({
+
+                        binding.btnPostdata.text = getString(R.string.txt_invite)
+                        binding.invitationProgress.visibility = INVISIBLE
+                        showCustomToast(data?.APIResponse?.Message!!)
+                        //showCustomSnackbarOnTop(data?.APIResponse?.Message!!)
+                        //showToast(this,data?.APIResponse?.Message!!)
+                        binding.btnPostdata.isEnabled = true
+
+                    })
+
                 }
                 404 -> {
-                    binding.btnPostdata.text = getString(R.string.txt_invite)
-                    binding.invitationProgress.visibility = INVISIBLE
-                    binding.btnPostdata.isEnabled = true
+                    Handler(Looper.getMainLooper()).post({
+
+                        binding.btnPostdata.text = getString(R.string.txt_invite)
+                        binding.invitationProgress.visibility = INVISIBLE
+                        binding.btnPostdata.isEnabled = true
+
+                    })
+
                     //  showToast(this,getString(R.string.txt_failed_to_Invitation))
                 }
                 404 -> {
-                    binding.btnPostdata.text = getString(R.string.txt_invite)
-                    binding.invitationProgress.visibility = INVISIBLE
-                    binding.btnPostdata.isEnabled = true
+                    Handler(Looper.getMainLooper()).post({
+
+                        binding.btnPostdata.text = getString(R.string.txt_invite)
+                        binding.invitationProgress.visibility = INVISIBLE
+                        binding.btnPostdata.isEnabled = true
+
+                    })
+
                     //  showToast(this,getString(R.string.txt_failed_to_Invitation))
                 }
                 404 -> {
-                    binding.btnPostdata.text = getString(R.string.txt_invite)
-                    binding.invitationProgress.visibility = INVISIBLE
-                    binding.btnPostdata.isEnabled = true
+                    Handler(Looper.getMainLooper()).post({
+
+                        binding.btnPostdata.text = getString(R.string.txt_invite)
+                        binding.invitationProgress.visibility = INVISIBLE
+                        binding.btnPostdata.isEnabled = true
+
+                    })
                 }
                 500 -> {
+                  //  Log.d(TAG, "sendInvitation: ${data!!.APIResponse?.Message}")
                     // showToast(this,getString(R.string.txt_something_went_wrong))
-                    binding.btnPostdata.text = getString(R.string.txt_invite)
-                    binding.invitationProgress.visibility = INVISIBLE
-                    binding.btnPostdata.isEnabled = true
+                    Handler(Looper.getMainLooper()).post({
+                        binding.btnPostdata.text = getString(R.string.txt_invite)
+                        binding.invitationProgress.visibility = INVISIBLE
+                        binding.btnPostdata.isEnabled = true
+                        if (!isSuccess)
+                        {
+                            showCustomToast(getString(R.string.txt_something_went_wrong))
+                            Handler(Looper.getMainLooper()).postDelayed({finish()},1000)
+                        }else
+                        {
+
+                        }
+                    })
+                   // Handler(Looper.getMainLooper()).postDelayed({finish()},1000)
+
                 }
             }
         })

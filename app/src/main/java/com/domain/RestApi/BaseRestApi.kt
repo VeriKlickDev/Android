@@ -1,7 +1,9 @@
 package com.domain.RestApi
 
+import androidx.annotation.CheckResult
 import com.domain.BaseModels.*
 import com.google.gson.Gson
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -50,7 +52,8 @@ interface BaseRestApi {
     suspend fun leftUserFromMeeting( @Body obj: BodyLeftUserFromMeeting):Response<BodyLeftUserFromMeeting>
 
     @POST("/api/ScheduleVideo/UpdateInterviewUsersDetail")
-    suspend fun sendInvitation( @Body obj: AddParticipantModel):Response<ResponseSendInvitation>
+    @CheckResult
+    suspend fun sendInvitation( @Body obj: AddParticipantModel): Response<ResponseSendInvitation>
 
     @GET
     suspend fun getFeedBackDetails(@Url url: String):Response<ResponseFeedBack>

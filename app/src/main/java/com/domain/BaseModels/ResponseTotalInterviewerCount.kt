@@ -8,5 +8,4 @@ data class ResponseTotalInterviewerCount(
     @SerializedName("StatusCode"            ) var StatusCode            : String?  = null,
     @SerializedName("Success"               ) var Success               : Boolean? = null,
     @SerializedName("TimeTaken"             ) var TimeTaken             : String?  = null
-
 )

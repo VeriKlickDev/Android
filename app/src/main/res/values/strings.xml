@@ -51,7 +51,7 @@
     <string name="hint_lastname">LastName</string>
     <string name="txt_all_fields_required">All Fields Are Required</string>
     <string name="txt_resume">Resume</string>
-    <string name="txt_something_went_wrong">Please Try Again</string>
+    <string name="txt_something_went_wrong">Something went wrong</string>
     <string name="txt_invite">Invite</string>
     <string name="txt_Invitation_sent">Invitation Sent!</string>
     <string name="txt_failed_to_Invitation">Failed to send invitation</string>

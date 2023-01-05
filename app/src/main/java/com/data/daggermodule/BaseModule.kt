@@ -1,6 +1,5 @@
 package com.data.daggermodule
 
-
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.data.dataHolders.DataStoreHelper
@@ -13,6 +12,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.Protocol
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -44,11 +44,11 @@ class BaseModule {
       // fun provideOkHttpClient():  OkHttpClient.Builder {
         return OkHttpClient.Builder()
             .addInterceptor(interceptor)
-            .readTimeout(600, TimeUnit.SECONDS)
-            .writeTimeout(900, TimeUnit.SECONDS)
+            .readTimeout(1, TimeUnit.MINUTES)
+            .writeTimeout(1, TimeUnit.MINUTES)
             //.callTimeout(60, TimeUnit.SECONDS)
-            .connectTimeout(100, TimeUnit.SECONDS)
-            .pingInterval(5, TimeUnit.SECONDS)
+            .connectTimeout(1, TimeUnit.MINUTES)
+            .pingInterval(1, TimeUnit.MINUTES)
     }
 
     @Provides
@@ -56,7 +56,11 @@ class BaseModule {
     fun getRetrofitClient(interceptor: HttpLoggingInterceptor) :BaseRestApi
    // fun getRetrofitClient() :BaseRestApi
     {
-        val httpClient=OkHttpClient.Builder().addInterceptor(interceptor).build()
+        val httpClient=OkHttpClient.Builder().protocols(listOf(Protocol.HTTP_1_1))
+            .writeTimeout(1,TimeUnit.MINUTES)
+            .readTimeout(1,TimeUnit.MINUTES)
+            .addInterceptor(interceptor)
+            .build()
        // val httpClient=OkHttpClient.Builder().build() api.veriklick.com
         //api.veriklick.in
         // api.veriklick.com
@@ -75,9 +79,8 @@ class BaseModule {
 
     @Provides
     @Singleton
-    fun getClientForLogin(interceptor: HttpLoggingInterceptor) :LoginRestApi
+    fun getClientForLogin(interceptor: HttpLoggingInterceptor) : LoginRestApi
    // fun getClientForLogin() :LoginRestApi
-
     {
         val httpClient=OkHttpClient.Builder().addInterceptor(interceptor).build()
        // val httpClient=OkHttpClient.Builder().build()//https://veridialapi.veriklick.com
