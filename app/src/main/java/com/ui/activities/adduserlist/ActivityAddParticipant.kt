@@ -332,12 +332,10 @@ class ActivityAddParticipant : AppCompatActivity() {
                         isSuccess=true
                         interviewList.clear()
                         adapter.notifyDataSetChanged()
-                        Handler(Looper.getMainLooper()).postDelayed({ onBackPressed() }, 1000)
                         Log.d(TAG, "sendInvitation: result $data")
                         binding.btnPostdata.isEnabled = true
-
                     })
-
+                    Handler(Looper.getMainLooper()).postDelayed({ finish() }, 1000)
                 }
                 400 -> {
                     Handler(Looper.getMainLooper()).post({
