@@ -404,6 +404,7 @@ class AddParticipantListAdapter(val viewModel:AddUserViewModel,
                 if (binding.etPhoneNumber.text.toString().length==10 && isEmailOkl && !isEmailExists && !isPhoneExists)
                 {
                     onClick(list.get(pos), 1, pos, list)
+                    hideKeyboard(context as ActivityAddParticipant)
                 }
                 else
                 {
