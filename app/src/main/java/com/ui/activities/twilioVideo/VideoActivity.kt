@@ -442,6 +442,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         TwilioChatHelper.removeMemeberFromConversation(CurrentMeetingDataSaver.getData().identity!!)
         getLocalVideoTrack()?.let { localParticipant?.unpublishTrack(it) }
 
+        setVideoStatus(true,true)
         cameraCapturerCompat.stopCapture()
 
         // screenShareCapturerManager.unbindService()
@@ -2540,7 +2541,6 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 setVideoStatus(enable,true)
                 //uncomm 20dec
                 //viewModel.setVideoStatus(enable)
-
 
                 it.enable(enable)
                 MicMuteUnMuteHolder.setVideoStatusByUser(enable)

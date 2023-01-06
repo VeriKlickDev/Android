@@ -147,7 +147,7 @@ class ActivityAddParticipant : AppCompatActivity() {
                     200 -> {
                         if (interviewList.size + data?.TotalInterviewerCount!!.toInt() > 6) {
                             showCustomToast(getString(R.string.txt_cant_add_more_participant))
-                            Handler(Looper.getMainLooper()).postDelayed({finish()},1000)
+                           // Handler(Looper.getMainLooper()).postDelayed({finish()},1000)
                             if (actionPerformed==1)
                             {
                                 binding.btnPostdata.visibility=View.GONE
