@@ -57,8 +57,7 @@ class AddParticipantListAdapter(val viewModel:AddUserViewModel,
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
         holder.setIsRecyclable(false)
         adapterPosition = position
-
-       /* list.forEachIndexed { index, invitationDataModel ->
+         /* list.forEachIndexed { index, invitationDataModel ->
             if (index != list.size - 1)
             {
                // isLayoutDisabled(true,holder.binding)
@@ -388,6 +387,12 @@ class AddParticipantListAdapter(val viewModel:AddUserViewModel,
                     binding.tvEmailError.setText(it.errorName)
                 }
             }
+
+            /*binding.etFirstname.setFocusable()
+            binding.etLastname.clearFocus()
+            binding.etEmail.clearFocus()
+            binding.etPhoneNumber.isFocusedByDefault=false*/
+
         }
 
         fun checkFields(pos: Int) {
