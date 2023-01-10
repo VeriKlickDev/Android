@@ -10,8 +10,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" android:usesPermissionFlags="neverForLocation"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
 
     <application
         android:name="com.data.application.MyApplication"
@@ -106,47 +107,63 @@
             android:screenOrientation="portrait"
             tools:ignore="AppLinkUrlError">
 
-            <intent-filter android:label="@string/app_name" android:autoVerify="true">
+            <intent-filter
+                android:autoVerify="true"
+                android:label="@string/app_name">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
-                <data android:scheme="https"
+                <data
                     android:host="ui2.veriklick.in"
-                    android:pathPrefix="/video-session" />
+                    android:pathPrefix="/video-session"
+                    android:scheme="https" />
                 <!-- note that the leading "/" is required for pathPrefix-->
             </intent-filter>
 
-            <intent-filter android:label="@string/app_name" android:autoVerify="true">
+            <intent-filter
+                android:autoVerify="true"
+                android:label="@string/app_name">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
-                <data android:scheme="http"
+                <data
                     android:host="ui2.veriklick.in"
-                    android:pathPrefix="/video-session" />
+                    android:pathPrefix="/video-session"
+                    android:scheme="http" />
                 <!-- note that the leading "/" is required for pathPrefix-->
             </intent-filter>
 
-            <intent-filter android:label="@string/app_name" android:autoVerify="true">
+            <intent-filter
+                android:autoVerify="true"
+                android:label="@string/app_name">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
-                <data android:scheme="https"
+                <data
                     android:host="ui2.veriklick.com"
-                    android:pathPrefix="/video-session" />
+                    android:pathPrefix="/video-session"
+                    android:scheme="https" />
                 <!-- note that the leading "/" is required for pathPrefix-->
             </intent-filter>
 
-            <intent-filter android:label="@string/app_name" android:autoVerify="true">
+            <intent-filter
+                android:autoVerify="true"
+                android:label="@string/app_name">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
-                <data android:scheme="http"
+                <data
                     android:host="ui2.veriklick.com"
-                    android:pathPrefix="/video-session" />
+                    android:pathPrefix="/video-session"
+                    android:scheme="http" />
                 <!-- note that the leading "/" is required for pathPrefix-->
             </intent-filter>
 
@@ -163,20 +180,19 @@
             android:enabled="true"
             android:foregroundServiceType="mediaPlayback" />
 
-        <receiver android:name="com.data.InComingCallDetector"
-            android:exported="true"
+        <receiver
+            android:name="com.data.InComingCallDetector"
             android:enabled="true"
-            >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
 
-        <receiver android:name="com.data.ScreenLockEventDetector"
-            android:exported="true"
+        <receiver
+            android:name="com.data.ScreenLockEventDetector"
             android:enabled="true"
-            >
-        </receiver>
+            android:exported="true"></receiver>
 
 
         <provider

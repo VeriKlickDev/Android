@@ -131,6 +131,7 @@ class LoginActivity : AppCompatActivity() {
 
     fun checkPermissions()
     {
+
         requestVideoPermissions {
             if (it)
             {
@@ -140,6 +141,9 @@ class LoginActivity : AppCompatActivity() {
                 requestVideoPermissions {
                     if (it)
                     {
+                        requestNearByPermissions(){
+                            Log.d(TAG, "onCreate: onNearbyPermission $it")
+                        }
                         //showToast(this,getString(R.string.txt_permission_required))
                     }else
                     {
@@ -150,6 +154,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
+
     }
 
     fun handleBlankfields() {

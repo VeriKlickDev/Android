@@ -23,6 +23,17 @@
         <!--            android:elevation="@dimen/_20sp"-->
         <!--            layout="@layout/layout_twilio_content_video" />-->
 
+
+        <ImageView
+            android:id="@+id/audioSwitchView"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="@dimen/_20sp"
+            android:elevation="@dimen/_12sp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
         <TextView
             android:id="@+id/video_status_textview"
             android:layout_width="wrap_content"

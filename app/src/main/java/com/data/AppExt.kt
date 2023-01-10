@@ -376,16 +376,16 @@ fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>) {
 }
 
 
-fun Context.requestVideoPermissions(isGrant: (isGranted: Boolean) -> Unit) {
+fun Context.requestNearByPermissions(isGrant: (isGranted: Boolean) -> Unit) {
     ExcuseMe.couldYouGive(this).permissionFor(
-        android.Manifest.permission.CAMERA,
-        Manifest.permission.RECORD_AUDIO,
-        Manifest.permission.READ_PHONE_STATE
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.BLUETOOTH_CONNECT,
+
     ) {
+
         Log.d("permissioncheck", "requestVideoPermissions: $it ")
-        if (it.granted.contains(android.Manifest.permission.CAMERA) && it.granted.contains(Manifest.permission.RECORD_AUDIO) && it.granted.contains(
-                Manifest.permission.READ_PHONE_STATE
-            )
+        if (  it.granted.contains(Manifest.permission.ACCESS_FINE_LOCATION) &&
+             it.granted.contains(Manifest.permission.BLUETOOTH_CONNECT)
         ) {
             isGrant(true)
         } else {
@@ -395,13 +395,50 @@ fun Context.requestVideoPermissions(isGrant: (isGranted: Boolean) -> Unit) {
 }
 
 
+
+
+
+fun Context.requestVideoPermissions(isGrant: (isGranted: Boolean) -> Unit) {
+    ExcuseMe.couldYouGive(this).permissionFor(
+        android.Manifest.permission.CAMERA,
+        Manifest.permission.RECORD_AUDIO,
+//        Manifest.permission.ACCESS_FINE_LOCATION,
+//        Manifest.permission.BLUETOOTH_CONNECT,
+        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        android.Manifest.permission.READ_EXTERNAL_STORAGE,
+        android.Manifest.permission.READ_PHONE_STATE,
+    ) {
+
+        Log.d("permissioncheck", "requestVideoPermissions: $it ")
+        if (it.granted.contains(android.Manifest.permission.CAMERA) &&
+            it.granted.contains(Manifest.permission.RECORD_AUDIO) &&
+            it.granted.contains(Manifest.permission.READ_PHONE_STATE) &&
+          //  it.granted.contains(Manifest.permission.ACCESS_FINE_LOCATION) &&
+           // it.granted.contains(Manifest.permission.BLUETOOTH_CONNECT) &&
+            it.granted.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE) &&
+            it.granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE) &&
+            it.granted.contains(Manifest.permission.READ_PHONE_STATE)
+        ) {
+            isGrant(true)
+        } else {
+            isGrant(false)
+        }
+
+    }
+
+
+
+}
+
+
 fun Context.requestWriteExternamlStoragePermissions(isGrant: (isGranted: Boolean) -> Unit) {
     ExcuseMe.couldYouGive(this).permissionFor(
         android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
         android.Manifest.permission.READ_EXTERNAL_STORAGE,
     ) {
         Log.d("permissioncheck", "requestVideoPermissions: $it ")
-        if (it.granted.contains(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+        if (it.granted.contains(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                ) {
             isGrant(true)
         } else {
             isGrant(false)

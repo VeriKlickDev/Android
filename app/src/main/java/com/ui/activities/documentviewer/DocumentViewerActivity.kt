@@ -124,7 +124,6 @@ class DocumentViewerActivity : AppCompatActivity() {
             {
                 Log.d(TAG, "giveStoragePermissionAndDownloadResume: permission granted")
                 downloadFile(fileName,"VeriKlickFiles",link)
-
             }
             else{
                 Log.d(TAG, "giveStoragePermissionAndDownloadResume: file notwritten")

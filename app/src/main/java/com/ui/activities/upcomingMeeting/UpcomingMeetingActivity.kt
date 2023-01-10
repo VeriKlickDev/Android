@@ -241,7 +241,9 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         })
         setupAdapter()
 
-
+        requestNearByPermissions(){
+            Log.d(TAG, "onCreate: onNearbyPermission $it")
+        }
 
     }
 

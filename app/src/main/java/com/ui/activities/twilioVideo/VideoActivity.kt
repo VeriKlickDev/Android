@@ -373,7 +373,12 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         filter.addAction(Intent.ACTION_SCREEN_OFF)
         registerReceiver(receiver, filter)
 
-
+        binding.audioSwitchView.setOnClickListener {
+            requestNearByPermissions(){
+                Log.d(TAG, "onCreate: onNearbyPermission $it")
+            }
+            showAudioDevices()
+        }
 
         handleObserver()
 
@@ -441,7 +446,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         //  meetingManager.unbindService()
         TwilioChatHelper.removeMemeberFromConversation(CurrentMeetingDataSaver.getData().identity!!)
         getLocalVideoTrack()?.let { localParticipant?.unpublishTrack(it) }
-
+        audioSwitch.stop()
         setVideoStatus(true,true)
         cameraCapturerCompat.stopCapture()
 
@@ -1868,7 +1873,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
              * permissions, AudioSwitch should be started after providing the user the option
              * to grant the necessary permissions for bluetooth.
              */
-            audioSwitch.start { audioDevices, audioDevice -> updateAudioDeviceIcon(audioDevice) }
+            audioSwitch.start { audioDevices, audioDevice ->
+                updateAudioDeviceIcon(audioDevice)
+            }
 
             if (cameraAndMicPermissionGranted) {
                 createAudioAndVideoTracks()
@@ -1882,6 +1889,10 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 ).show()
             }
         }
+
+
+
+
     }
 
     fun setCameraToLocalVideoTrack() {
@@ -2018,7 +2029,8 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
     private fun checkPermissionForCameraAndMicrophone(): Boolean {
         return checkPermissions(
-            arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
+            arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO,
+                )
         )
     }
 
@@ -2027,13 +2039,18 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             arrayOf(
                 Manifest.permission.CAMERA,
                 Manifest.permission.RECORD_AUDIO,
-                Manifest.permission.BLUETOOTH_CONNECT
+               // Manifest.permission.BLUETOOTH_CONNECT,
+               // Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.READ_PHONE_STATE
             )
         }
         else {
             arrayOf(
                 Manifest.permission.CAMERA,
-                Manifest.permission.RECORD_AUDIO
+                Manifest.permission.RECORD_AUDIO,
+                //Manifest.permission.BLUETOOTH_CONNECT,
+               // Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.READ_PHONE_STATE
             )
         }
         requestPermissions(permissionsList)
@@ -2059,7 +2076,6 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
 
     }
-
     private fun connectToRoom() {
         audioSwitch.activate()
 
@@ -2187,15 +2203,18 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             val audioDeviceNames = ArrayList<String>()
 
             for (a in availableAudioDevices) {
-                audioDeviceNames.add(a.name)
+                if (a.name.equals("Earpiece")){
+                    audioDeviceNames.add("Earphone")
+                }else
+                {
+                    audioDeviceNames.add(a.name)
+                }
+
             }
 
             AlertDialog.Builder(this)
                 .setTitle(R.string.room_screen_select_device)
-                .setSingleChoiceItems(
-                    audioDeviceNames.toTypedArray<CharSequence>(),
-                    selectedDeviceIndex
-                ) { dialog, index ->
+                .setSingleChoiceItems(audioDeviceNames.toTypedArray<CharSequence>(),selectedDeviceIndex) { dialog, index ->
                     dialog.dismiss()
                     val selectedAudioDevice = availableAudioDevices[index]
                     updateAudioDeviceIcon(selectedAudioDevice)
@@ -2214,7 +2233,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             is Speakerphone     -> R.drawable.ic_volume_up_white_24dp
             else                -> R.drawable.ic_phonelink_ring_white_24dp
         }
-
+        binding.audioSwitchView.setImageResource(audioDeviceMenuIcon)
         audioDeviceMenuItem?.setIcon(audioDeviceMenuIcon)
     }
 

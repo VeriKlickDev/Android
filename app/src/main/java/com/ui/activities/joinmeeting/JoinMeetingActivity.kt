@@ -40,6 +40,9 @@ class JoinMeetingActivity :AppCompatActivity() {
 
         binding.btnJumpBack.setOnClickListener { onBackPressed() }
 
+        requestNearByPermissions(){
+            Log.d(TAG, "onCreate: onNearbyPermission $it")
+        }
         binding.btnJoin.setOnClickListener {
             if (checkInternet()){
                 // startActivity(Intent(this,ActivityAddParticipant::class.java))
@@ -229,6 +232,7 @@ handleObserver()
                         CurrentConnectUserList.clearList()
 
                         requestVideoPermissions {
+                            it
                             if (it)
                             {
                                  showPrivacyPolicy(binding.root as ViewGroup,onClicked = { it, dialog->
