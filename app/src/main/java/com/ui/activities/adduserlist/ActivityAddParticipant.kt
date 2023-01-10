@@ -140,6 +140,7 @@ class ActivityAddParticipant : AppCompatActivity() {
     }
 
     private fun checkTotalParticipant(actionPerformed: Int) {
+        showProgressDialog()
         viewModel.getTotoalCountOfInterviewer(
             CurrentMeetingDataSaver.getData().videoAccessCode!!,
             onResponse = { action, data ->
@@ -151,25 +152,31 @@ class ActivityAddParticipant : AppCompatActivity() {
                             if (actionPerformed==1)
                             {
                                 binding.btnPostdata.visibility=View.GONE
-                            }else
+                            }
+                            else
                             {
 
                             }
                         } else {
                             addNewInterViewer(actionPerformed)
                         }
+                        dismissProgressDialog()
                     }
                     400 -> {
                         showToast(this, data?.Message!!)
+                        dismissProgressDialog()
                     }
                     401 -> {
                         Log.d(TAG, "checkTotalParticipant: null response")
+                        dismissProgressDialog()
                     }
                     404 -> {
                         Log.d(TAG, "checkTotalParticipant: null response")
+                        dismissProgressDialog()
                     }
                     500 -> {
                         Log.d(TAG, "checkTotalParticipant:exception")
+                        dismissProgressDialog()
                     }
                 }
             })

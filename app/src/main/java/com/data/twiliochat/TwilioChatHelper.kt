@@ -696,7 +696,6 @@ object TwilioChatHelper {
                 object : CallbackListener<Conversation?> {
                     override fun onSuccess(result: Conversation?) {
                         Log.d(TAG, "onSuccess: final on success load channel")
-
                         if (result != null) {
                             if (conversation?.status == Conversation.ConversationStatus.JOINED
                                 || conversation?.status == Conversation.ConversationStatus.NOT_PARTICIPATING
@@ -710,6 +709,7 @@ object TwilioChatHelper {
                                 conversation?.let {
                                     it.removeListener(mDefaultConversationListener)
                                 }
+
                                 conversation?.addListener(mDefaultConversationListener)
                                 loadPreviousMessages(conversation!!)
                                 conversation?.friendlyName
