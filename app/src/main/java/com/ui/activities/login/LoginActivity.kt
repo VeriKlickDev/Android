@@ -194,19 +194,27 @@ class LoginActivity : AppCompatActivity() {
                         decodeLoginToken(data.data?.accessToken!!, response = { response ->
 
                             CoroutineScope(Dispatchers.IO).launch {
-                                DataStoreHelper.setMeetingRecruiterAndUserIds(response.UserId.toString(),response.CreatedBy.toString())
+                                if (response!=null){
+                                    Log.d(TAG, "handleLoginApi: userids ${response.UserId.toString()}   ${response.CreatedBy.toString()} ")
+                                    DataStoreHelper.setMeetingRecruiterAndUserIds(response.UserId.toString(),response.CreatedBy.toString())
+
+                                    val intent=Intent(this@LoginActivity, UpcomingMeetingActivity::class.java)
+                                    CoroutineScope(Dispatchers.IO).launch {
+                                        intent.putExtra(AppConstants.LOGIN_WITH_OTP,false)
+                                    }
+
+                                    Handler(Looper.getMainLooper()).postDelayed({
+                                        startActivity(intent)
+                                        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
+                                        finish()
+                                    },500)
+
+                                }else
+                                {
+                                    showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+                                }
                             }
 
-                            val intent=Intent(this, UpcomingMeetingActivity::class.java)
-                            CoroutineScope(Dispatchers.IO).launch {
-                                intent.putExtra(AppConstants.LOGIN_WITH_OTP,false)
-                            }
-
-                            Handler(Looper.getMainLooper()).postDelayed({
-                                startActivity(intent)
-                                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
-                                finish()
-                            },500)
                             Log.d(TAG, "handleLoginApi: token decoded success $response ")
                             //DataStoreHelper.insertValue(response.Email, response.Phone.toString())
                         })

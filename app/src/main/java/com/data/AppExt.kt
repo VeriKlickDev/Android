@@ -555,7 +555,7 @@ fun Context.handleGesture(event: MotionEvent?, swipe: (swipe: Boolean) -> Unit) 
 
 
 @Throws(java.lang.Exception::class)
-fun decodeLoginToken(JWTEncoded: String, response: (ob: ResponseJWTTokenLogin) -> Unit) {
+fun decodeLoginToken(JWTEncoded: String, response: (ob: ResponseJWTTokenLogin?) -> Unit) {
     try {
         val split = JWTEncoded.split(".") //exception
         var tokenArray = mutableListOf<String>()
@@ -566,15 +566,37 @@ fun decodeLoginToken(JWTEncoded: String, response: (ob: ResponseJWTTokenLogin) -
                 break
             }
         }
-
-        val jsonData = decodeBase64(tokenArray[1])
+        if (tokenArray[0]!=null || !tokenArray[0].equals(""))
+        {
+            var jsonData:String?=null
+            decodeBase64(tokenArray[1])?.let {
+                jsonData=it
+            }
+            Log.d("TAGDE", "decodeLoginToken: decoded token ${jsonData}")
+            if (jsonData!=null){
+                jsonData?.let {
+                    response(Gson().fromJson(decodeBase64(tokenArray[1]), ResponseJWTTokenLogin::class.java))
+                    // response(Gson().fromJson(decoded, ResponseJWTTokenLogin::class.java))
+                }
+            }else
+            {
+                response(null)
+            }
+        }else
+        {
+            Log.d("TAGDE", "decodeLoginToken: decoded token null response")
+            response(null)
+        }
+        Log.d("TAGDE", "decodeLoginToken: typeArray ${tokenArray[0]}")
+        /*
 
         Log.d("JWT_DECODED", "Body: token in json data ${jsonData}   ")
-        response(Gson().fromJson(decodeBase64(tokenArray[1]), ResponseJWTTokenLogin::class.java))
+
         Log.d("JWT_DECODED", "Body: token in json form ${decodeBase64(tokenArray[1])}   ")
         Log.d("JWT_DECODED", "Body: token in json data ${jsonData}   ")
-
+*/
     } catch (e: UnsupportedEncodingException) {
+        response(null)
         Log.d("JWT_DECODED", "getJsonFromJWTToken: decoding exception ${e.printStackTrace()} ")
     }
 }
@@ -600,16 +622,28 @@ fun decodeChatToken(JWTEncoded: String, response: (ob: ResponseChatFromToken) ->
         Log.d("JWT_DECODED", "Body: token in json data ${jsonData}   ")
 
     } catch (e: UnsupportedEncodingException) {
+
         Log.d("JWT_DECODED", "getJsonFromJWTToken: decoding exception ${e.printStackTrace()} ")
+    }catch (e:Exception)
+    {
+
     }
 }
 
 
-fun decodeBase64(str: String): String {
-    val decoder: Base64.Decoder = Base64.getDecoder()
-    val decoded = String(decoder.decode(str))
-    println("Decoded Data: $decoded")
-    return decoded
+fun decodeBase64(str: String): String? {
+    var decoder: Base64.Decoder
+    var decoded:String?=null
+    try {
+         decoder = Base64.getDecoder()
+        decoded = String(decoder.decode(str))
+        println("Decoded Data: $decoded")
+    }catch (e:Exception)
+    {
+        Log.d("TAG", "decodeBase64: exception ${e.message} ")
+
+    }
+    return decoded!!
 }
 
 

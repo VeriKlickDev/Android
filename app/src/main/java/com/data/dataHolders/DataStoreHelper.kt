@@ -94,7 +94,7 @@ object DataStoreHelper {
     suspend fun getLoggedUserData(){
         decodeLoginToken(getLoginToken(), response = { response ->
             CoroutineScope(Dispatchers.IO).launch {
-                setMeetingRecruiterAndUserIds(response.UserId.toString(),response.CreatedBy.toString())
+                setMeetingRecruiterAndUserIds(response?.UserId.toString(),response?.CreatedBy.toString())
             }
         })
     }
