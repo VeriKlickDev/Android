@@ -255,7 +255,10 @@ object TwilioChatHelper {
                     Log.d(TAG, "JoionSuccess: in success to getchannelned default conversation")
                    // addConversationCallBack(conversation!!)
                     clearAllListofConversationListener()
-                    conversation!!.addListener(mDefaultConversationListener)
+                    conversation?.let {
+                        it.addListener(mDefaultConversationListener)
+                    }
+                    //conversation!!.addListener(mDefaultConversationListener)
                     conversation?.participantsList?.forEach {
                         Log.d(TAG, "onSuccess: participants list ${it.identity} ")
                     }
