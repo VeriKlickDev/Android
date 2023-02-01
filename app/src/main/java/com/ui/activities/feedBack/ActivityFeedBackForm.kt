@@ -53,7 +53,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             Log.d(
                 TAG,
-                "onCreate: recruiterId= ${CurrentMeetingDataSaver.getData().interviewModel?.recruiterId.toString()} "
+                "onCreate: recruiterId= ${CurrentMeetingDataSaver.getData()?.interviewModel?.recruiterId.toString()} "
             )
         }
 
@@ -278,7 +278,14 @@ class ActivityFeedBackForm : AppCompatActivity() {
             }
 
             if (!isBlank) {
-                postFeedback()
+                if (checkInternet())
+                {
+                    postFeedback()
+
+                }else
+                {
+                    showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                }
             }
             else {
                 //showCustomSnackbarOnTop("true")

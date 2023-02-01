@@ -26,7 +26,7 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
     {
         try {
             CoroutineScope(Dispatchers.IO).launch {
-                val result=repo.getFeedBackDetails(CurrentMeetingDataSaver.getData().videoAccessCode.toString())
+                val result=repo.getFeedBackDetails(CurrentMeetingDataSaver.getData()?.videoAccessCode.toString())
                 if (result.isSuccessful)
                 {
                     if (result.body()!=null)
@@ -64,7 +64,7 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
         viewModelScope.launch {
             try {
                 CoroutineScope(Dispatchers.IO).launch {
-                    //val candidateId=CurrentMeetingDataSaver.getData().users?.filter { it.userType.contains("C") }
+                    //val candidateId=CurrentMeetingDataSaver.getData()?.users?.filter { it.userType.contains("C") }
 
                     val memberList = arrayListOf<CandidateAssessmentPanelMembers>()
                     memberList.add( CandidateAssessmentPanelMembers(
@@ -101,7 +101,7 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
 
                         if (DataStoreHelper.getMeetingRecruiterid().equals("") || DataStoreHelper.getMeetingRecruiterid().equals("null"))
                         {
-                            obj.RecruiterId=CurrentMeetingDataSaver.getData().interviewModel?.recruiterId.toString()
+                            obj.RecruiterId=CurrentMeetingDataSaver.getData()?.interviewModel?.recruiterId.toString()
                         }else
                         {
                             obj.RecruiterId=DataStoreHelper.getMeetingRecruiterid()
@@ -109,18 +109,18 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
 
 
                     /*
-                    CurrentMeetingDataSaver.getData().interviewModel?.interviewId?.let {
+                    CurrentMeetingDataSaver.getData()?.interviewModel?.interviewId?.let {
                         obj.RecruiterId=it.toString()
                     }*/
 
                     //
-                    obj.CandidateAssessment?.CandidateName = "${CurrentMeetingDataSaver.getData().interviewModel?.candidate?.firstName} ${CurrentMeetingDataSaver.getData().interviewModel?.candidate?.lastName}"
+                    obj.CandidateAssessment?.CandidateName = "${CurrentMeetingDataSaver.getData()?.interviewModel?.candidate?.firstName} ${CurrentMeetingDataSaver.getData()?.interviewModel?.candidate?.lastName}"
                     obj.CandidateAssessment?.Date = context.getCurrentUtcFormatedDate()
                     obj.CandidateAssessment?.AppliedPostion = appliedPosition
                     obj.CandidateAssessment?.VIDEOCALLACCESSCODE =
-                        CurrentMeetingDataSaver.getData().videoAccessCode
+                        CurrentMeetingDataSaver.getData()?.videoAccessCode
                     obj.CandidateAssessment?.jobid =
-                        CurrentMeetingDataSaver.getData().interviewModel?.jobid
+                        CurrentMeetingDataSaver.getData()?.interviewModel?.jobid
                     //uncomment obj.CandidateAssessmentPanelMembers = memberList[0]
                     obj.CandidateAssessment?.RecommendationId=3
 

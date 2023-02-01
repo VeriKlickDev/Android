@@ -35,14 +35,14 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
         val userDataList = CurrentMeetingDataSaver.getData()
 
         //current user
-        val identityCurrentUser = userDataList.identity
+        val identityCurrentUser = userDataList?.identity
         Log.d("videocheck", "setConnectUser: remotlist size ${remoteParticipantVideoList.size}")
 
         remoteParticipantVideoList.forEach {
             Log.d("videocheck", "setConnectUser: remotlist looop ${it.remoteParticipant?.identity}")
         }
 
-        if (CurrentMeetingDataSaver.getData().identity!!.contains("C")) {
+        if (CurrentMeetingDataSaver.getData()?.identity!!.contains("C")) {
             Log.d("checkUseris", "setConnectUser: i am candidate")
             Log.d(
                 "checkUseris",
@@ -53,7 +53,7 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
                     "checkUseris",
                     "setConnectUser: i am Interviewer list candi loop ${it.remoteParticipant?.identity}"
                 )
-                userDataList.users?.forEach { user ->
+                userDataList?.users?.forEach { user ->
 
                     Log.d(
                         "setconn",
@@ -114,7 +114,7 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
                     "checkUseris",
                     "setConnectUser: i am Interviewer and id of intervi ${it.remoteParticipant?.identity}"
                 )
-                userDataList.users?.forEach { user ->
+                userDataList?.users?.forEach { user ->
 
                     Log.d(
                         "setconn",
@@ -335,7 +335,7 @@ fun setCandidateJoinedStatus(onResult: (action: Int, data: ResponseCandidateJoin
         try {
             viewModelScope.launch {
                 //val ob=BodyCandidateJoinedMeetingStatus(CurrentMeetingDataSaver.getData().videoAccessCode,"Attended",CurrentMeetingDataSaver.getData().interviewModel?.subscriberid!!.toString())
-                val ob=BodyCandidateJoinedMeetingStatus(CurrentMeetingDataSaver.getData().videoAccessCode,"","")
+                val ob=BodyCandidateJoinedMeetingStatus(CurrentMeetingDataSaver.getData()?.videoAccessCode,"","")
                 Log.d(TAG, "setCandidateJoinedStatus: ${Gson().toJson(ob)}")
                 val result = repositoryImpl.setCandidateJoinMeetingStatus(ob)
                 if (result.isSuccessful) {
@@ -433,7 +433,7 @@ fun setCandidateJoinedStatus(onResult: (action: Int, data: ResponseCandidateJoin
     ) {
         try {
             viewModelScope.launch {
-                val result = repositoryImpl.setScreenSharingStatus(BodyUpdateScreenShareStatus(CurrentMeetingDataSaver.getData().videoAccessCode!!,CurrentMeetingDataSaver.getData().interviewModel?.interviewId!!.toString(),status,status))
+                val result = repositoryImpl.setScreenSharingStatus(BodyUpdateScreenShareStatus(CurrentMeetingDataSaver.getData()?.videoAccessCode!!,CurrentMeetingDataSaver.getData()?.interviewModel?.interviewId!!.toString(),status,status))
                 if (result.isSuccessful) {
                     if (result.body() != null) {
 
@@ -466,7 +466,7 @@ fun setCandidateJoinedStatus(onResult: (action: Int, data: ResponseCandidateJoin
             viewModelScope.launch {
                 val result = repositoryImpl.getRecordingStatusUpdate(
                     BodyUpdateRecordingStatus(
-                        CurrentMeetingDataSaver.getData().interviewModel?.interviewId!!,
+                        CurrentMeetingDataSaver.getData()?.interviewModel?.interviewId!!,
                         CurrentMeetingDataSaver.getRoomData().roomName!!,
                         VideoRecordingStatusHolder.setStatus(),
                         "200",

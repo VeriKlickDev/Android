@@ -76,12 +76,10 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         if (checkInternet()) {
             status = "schedule"
             binding.tvHeader.setText(getString(R.string.txt_scheduled_meetings))
+
             handleUpcomingMeetingsList(0, 1, 9)
         } else {
-            Snackbar.make(
-                binding.root, getString(R.string.txt_no_internet_connection),
-                Snackbar.LENGTH_SHORT
-            ).show()
+            showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
         }
 
         binding.btnSearchShow.setOnClickListener {
@@ -110,10 +108,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 pageno = 1
                 handleUpcomingMeetingsList(7, 1, 9)
             } else {
-                Snackbar.make(
-                    binding.root, getString(R.string.txt_no_internet_connection),
-                    Snackbar.LENGTH_SHORT
-                ).show()
+                showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
             }
         }
 
@@ -141,8 +136,13 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 pageno = 1
                 isOpenedFirst = true
                 searchTxt = binding.etSearch.text.toString()
-                handleUpcomingMeetingsList(7, 1, 9)
-
+                if (checkInternet()) {
+                    handleUpcomingMeetingsList(7, 1, 9)
+                }
+                else
+                {
+                    showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                }
                 hideKeyboard(this)
                 return@OnEditorActionListener true
             }
@@ -171,7 +171,13 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 }
                 isNextClicked = false
             }
-            handleUpcomingMeetingsList(1, 1, 9)
+            if (checkInternet()) {
+                handleUpcomingMeetingsList(1, 1, 9)
+            }
+            else
+            {
+                showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+            }
         }
 
         binding.btnRightNext.setOnClickListener {
@@ -188,7 +194,13 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 }
                 isPreClicked = false
             }
-            handleUpcomingMeetingsList(2, 1, 9)
+            if (checkInternet()) {
+                handleUpcomingMeetingsList(2, 1, 9)
+            }
+            else
+            {
+                showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+            }
 
         }
 
@@ -196,7 +208,15 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             pageno = 1
             meetingsList.clear()
             searchTxt = ""
-            handleUpcomingMeetingsList(7, 1, 9)
+            if (checkInternet()) {
+                handleUpcomingMeetingsList(7, 1, 9)
+            }
+            else
+            {
+                showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+            }
+
+
             binding.etSearch.setText("")
             if (binding.tvHeader.isVisible) {
                 binding.layoutSearch.isVisible = true
@@ -214,29 +234,50 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         binding.rvUpcomingMeeting.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
+                try {
 
-                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL)
-                    iscrolled = true
+                    if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL)
+                        iscrolled = true
+
+                }catch (e:Exception)
+                {
+                    Log.d(TAG, "onScrollStateChanged: exception 221 ${e.message}")
+                }
+
             }
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                val vitem = layoutManager.childCount
-                val skipped = layoutManager.findFirstVisibleItemPosition()
-                val totalitem = layoutManager.itemCount
-                if (iscrolled && vitem + skipped == totalitem) {
+               try {
 
-                    if (contentLimit == meetingsList.size) {
+                   val vitem = layoutManager.childCount
+                   val skipped = layoutManager.findFirstVisibleItemPosition()
+                   val totalitem = layoutManager.itemCount
+                   if (iscrolled && vitem + skipped == totalitem) {
 
-                    } else {
-                        Log.d(TAG, "onScrolled: " + pageno.toString())
-                        handleUpcomingMeetingsList(7, pageno, 9)
+                       if (contentLimit == meetingsList.size) {
 
-                    }
+                       } else {
+                           Log.d(TAG, "onScrolled: " + pageno.toString())
+                           if (checkInternet()) {
+                               handleUpcomingMeetingsList(7, pageno, 9)
+                           }
+                           else
+                           {
+                               showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                           }
 
-                    Log.d(TAG, "onScrolled: " + pageno.toString())
-                    iscrolled = false
-                }
+                       }
+
+                       Log.d(TAG, "onScrolled: " + pageno.toString())
+                       iscrolled = false
+                   }
+
+               }catch (e:Exception)
+               {
+                   Log.d(TAG, "onScrolled: exception 228 ${e.message}")
+               }
+
             }
         })
         setupAdapter()
@@ -253,10 +294,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             pageno = 1
             handleUpcomingMeetingsList(7, 1, 9)
         } else {
-            Snackbar.make(
-                binding.root, getString(R.string.txt_no_internet_connection),
-                Snackbar.LENGTH_SHORT
-            ).show()
+           showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
         }
     }
 
@@ -424,11 +462,25 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
         if (ob != null) {
             if (intent.getBooleanExtra(AppConstants.LOGIN_WITH_OTP, false)) {
-                getDataWithOtp(ob!!)
+                if (checkInternet()) {
+                    getDataWithOtp(ob!!)
+                }
+                else
+                {
+                    showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                }
+
                 Log.d(TAG, "handleUpcomingMeetingsList: logged with otp")
             } else {
                 Log.d(TAG, "handleUpcomingMeetingsList: logged with email")
-                getDataWithoutOtp(ob!!)
+                if (checkInternet()) {
+                    getDataWithoutOtp(ob!!)
+                }
+                else
+                {
+                    showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                }
+
             }
         } else {
             dismissProgressDialog()
@@ -548,7 +600,9 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             if (!it.isNullOrEmpty()) {
                 Log.d(TAG, "handleObserver: ifpart not null empty $it ")
                 meetingsList.addAll(it)
-                adapter.notifyDataSetChanged()
+                Handler(Looper.getMainLooper()).postDelayed({
+                    adapter.notifyDataSetChanged()
+                },500)
             }
             if (meetingsList.size == 0) {
                 Log.d(TAG, "handleObserver: ifpart meeting size 0")
@@ -623,7 +677,14 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                         dialog.setPositiveButton(getString(R.string.txt_yes),
                             object : DialogInterface.OnClickListener {
                                 override fun onClick(p0: DialogInterface?, p1: Int) {
-                                    cancelMeeting(data)
+                                    if (checkInternet()) {
+                                        cancelMeeting(data)
+                                    }
+                                    else
+                                    {
+                                        showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                                    }
+
                                 }
                             })
                         dialog.setNegativeButton(
@@ -639,7 +700,10 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
             }
         }
-        binding.rvUpcomingMeeting.adapter = adapter
+        runOnUiThread {
+            binding.rvUpcomingMeeting.adapter = adapter
+            binding.rvUpcomingMeeting.itemAnimator=null
+        }
         //adapter.notifyDataSetChanged()
     }
 
@@ -677,14 +741,26 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 meetingsList.clear()
                 pageno = 1
                 binding.tvHeader.setText(getString(R.string.txt_all_meetings))
-                handleUpcomingMeetingsList(7, 1, 9)
+                if (checkInternet()) {
+                    handleUpcomingMeetingsList(7, 1, 9)
+                }
+                else
+                {
+                    showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                }
             }
             R.id.attended_meetings -> {
                 status = "Attended"
                 meetingsList.clear()
                 pageno = 1
                 binding.tvHeader.setText(getString(R.string.txt_attended))
-                handleUpcomingMeetingsList(7, 1, 9)
+                if (checkInternet()) {
+                    handleUpcomingMeetingsList(7, 1, 9)
+                }
+                else
+                {
+                    showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                }
 
             }
             R.id.scheduled_meetings -> {
@@ -692,21 +768,39 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 meetingsList.clear()
                 pageno = 1
                 binding.tvHeader.setText(getString(R.string.txt_scheduled_meetings))
-                handleUpcomingMeetingsList(7, 1, 9)
+                if (checkInternet()) {
+                    handleUpcomingMeetingsList(7, 1, 9)
+                }
+                else
+                {
+                    showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                }
             }
             R.id.nonscheduled_meetings -> {
                 status = "nonSchedule"
                 meetingsList.clear()
                 pageno = 1
                 binding.tvHeader.setText(getString(R.string.txt_missed))
-                handleUpcomingMeetingsList(7, 1, 9)
+                if (checkInternet()) {
+                    handleUpcomingMeetingsList(7, 1, 9)
+                }
+                else
+                {
+                    showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                }
             }
             R.id.cancel_meetings -> {
                 status = "cancel"
                 meetingsList.clear()
                 pageno = 1
                 binding.tvHeader.setText(getString(R.string.txt_canceled))
-                handleUpcomingMeetingsList(7, 1, 9)
+                if (checkInternet()) {
+                    handleUpcomingMeetingsList(7, 1, 9)
+                }
+                else
+                {
+                    showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                }
             }
         }
 
@@ -839,7 +933,13 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     showCustomToast(data?.aPIResponse?.Message.toString())
                     meetingsList.clear()
                     pageno = 1
-                    handleUpcomingMeetingsList(7, 1, 9)
+                    if (checkInternet()) {
+                        handleUpcomingMeetingsList(7, 1, 9)
+                    }
+                    else
+                    {
+                        showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                    }
                     // Log.d(TAG, "host : ${data.token}  ${data.roomName}")
                     // TwilioHelper.setTwilioCredentials(data.token.toString(), data.roomName.toString())
                     // startActivity(Intent(this@JoinMeetingActivity, VideoActivity::class.java))

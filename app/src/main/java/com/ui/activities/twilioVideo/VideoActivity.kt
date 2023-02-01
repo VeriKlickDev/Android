@@ -191,7 +191,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         //   primaryVideoView=findViewById(R.id.primary_video_view)
         //  thumbnailVideoView=findViewById(R.id.thumbnail_video_view)
 
-        //Log.d("checkobj", "onCreate: ${CurrentMeetingDataSaver.getData()}")
+        //Log.d("checkobj", "onCreate: ${CurrentMeetingDataSaver.getData()?}")
         binding.btnEndCall.setOnClickListener {
             endMeetingAlert()
             //endCall()
@@ -210,7 +210,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
 
         CurrentMeetingDataSaver.getData()?.users?.forEach {
-            if (CurrentMeetingDataSaver.getData().identity!!.contains("C")) {
+            if (CurrentMeetingDataSaver.getData()?.identity!!.contains("C")) {
                 binding.tvNoParticipant.text = ""
             }
             else {
@@ -239,7 +239,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         }
 
         binding.btnSendMessage.setOnClickListener {
-            val identity = CurrentMeetingDataSaver.getData().identity
+            val identity = CurrentMeetingDataSaver.getData()?.identity
             binding.btnSendMessage.isClickable = false
             /*Handler(Looper.getMainLooper()).postDelayed({
                 binding.btnSendMessage.isClickable=true
@@ -266,7 +266,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                       intent.putExtra(AppConstants.CHAT_ACCESS_TOKEN, data?.Token)
                       intent.putExtra(
                           AppConstants.CHAT_CHANNEL,
-                          CurrentMeetingDataSaver.getData().chatChannel
+                          CurrentMeetingDataSaver.getData()?.chatChannel
                       )
                       intent.putExtra(
                           AppConstants.CONNECT_PARTICIPANT,
@@ -315,7 +315,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             }
         }
 
-        CurrentMeetingDataSaver.getData().users?.forEach {
+        CurrentMeetingDataSaver.getData()?.users?.forEach {
             Log.d("checkobj", "onCreate: user id ${it.isPresenter} ${it.userType + it.id}")
         }
 
@@ -329,16 +329,22 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         setConnectedUserProfileList()
 
 
+        if (checkInternet()) {
+            handleParticipantsViews()
+        }
+        else
+        {
+            showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+        }
 
-        handleParticipantsViews()
 
-        //  binding.btnAllowToMute.isVisible = CurrentMeetingDataSaver.getData().isPresenter!!
+        //  binding.btnAllowToMute.isVisible = CurrentMeetingDataSaver.getData()?.isPresenter!!
 
         binding.muteActionFab.setOnClickListener {
 
             handleMuteUnmutebyHost()
             /*
-            if (CurrentMeetingDataSaver.getData().isPresenter == true) {
+            if (CurrentMeetingDataSaver.getData()?.isPresenter == true) {
                 Log.d(TAG, "onCreate: in mute host")
                 handleMuteUnmutebyHost()
             } else {
@@ -388,7 +394,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         val currentLoggedUser = CurrentMeetingDataSaver.getData()
         Log.d("currcheck", "onCreate: $currentLoggedUser")
 
-        if (CurrentMeetingDataSaver.getData().identity?.trim()?.lowercase()!!
+        if (CurrentMeetingDataSaver.getData()?.identity?.trim()?.lowercase()!!
                 .contains("C".trim().lowercase())
         ) {
 
@@ -397,14 +403,14 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             binding.btnAddUserVideoActivity.isVisible = false
 
             Log.d("videocheck", "onCreate: you")
-            //candidateName with (You) binding.tvUsername.text =CurrentMeetingDataSaver.getData().interviewerFirstName + " (You)"
+            //candidateName with (You) binding.tvUsername.text =CurrentMeetingDataSaver.getData()?.interviewerFirstName + " (You)"
             setBlankBackground(false)
             removeAllSinksAndSetnew(getLocalVideoTrack()!!, true)
             //working localVideoTrack?.addSink(binding.primaryVideoView)
 
             //uncomment
             try {
-                if (CurrentMeetingDataSaver.getData().identity!!.contains("C")) {
+                if (CurrentMeetingDataSaver.getData()?.identity!!.contains("C")) {
                     viewModel.setCandidateJoinedStatus { action, data ->
                         Log.d(TAG, "handleObserver: candidate joined status $action $data")
                     }
@@ -418,7 +424,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
         }
         else { //working
-            if (CurrentMeetingDataSaver.getData().isPresenter == true) {
+            if (CurrentMeetingDataSaver.getData()?.isPresenter == true) {
                 //binding.btnFeedback.isVisible=true
                 /**newly added*/
                 binding.btnAddUserVideoActivity.isVisible = true
@@ -430,7 +436,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             binding.btnFeedback.isVisible = true
             binding.btnRecordVideo.isVisible = true
 
-            currentLoggedUser.users?.forEach {
+            currentLoggedUser?.users?.forEach {
                 if (it.userType.trim().lowercase().equals("C".trim().lowercase())) {
                     //  binding.tvUsername.text = it.userFirstName + " " + it.userLastName
                     // localVideoTrack?.addSink(binding.primaryVideoView)
@@ -444,7 +450,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
     private fun endCall() {
         Log.d(TAG, "endCall: ")
         //  meetingManager.unbindService()
-        TwilioChatHelper.removeMemeberFromConversation(CurrentMeetingDataSaver.getData().identity!!)
+        TwilioChatHelper.removeMemeberFromConversation(CurrentMeetingDataSaver.getData()?.identity!!)
         getLocalVideoTrack()?.let { localParticipant?.unpublishTrack(it) }
         audioSwitch.stop()
         setVideoStatus(true,true)
@@ -460,14 +466,21 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         TwilioChatHelper.removeCallBacks()
         TwilioChatHelper.clearChatList()
 
-        viewModel.setScreenSharingStatus(true, onResult = { action, data -> })
+        if (checkInternet()) {
+            viewModel.setScreenSharingStatus(true, onResult = { action, data -> })
+        }
+        else
+        {
+            showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+        }
+
         var isNotCandidate = true
 
         if (!CurrentConnectUserList.getListofParticipant().isNullOrEmpty()) {
-            if (!CurrentMeetingDataSaver.getData().identity!!.contains("C")) {
+            if (!CurrentMeetingDataSaver.getData()?.identity!!.contains("C")) {
                 var isCandidateEnter = false
                 CurrentConnectUserList.getListofParticipant().forEach {
-                    // if(CurrentMeetingDataSaver.getData().isPresenter==false) {
+                    // if(CurrentMeetingDataSaver.getData()?.isPresenter==false) {
 
                     if (it.identity!!.contains("C")) {
                         isCandidateEnter = true
@@ -603,7 +616,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
             /*
 
-             if (!CurrentMeetingDataSaver.getData().userType!!.contains("C")){
+             if (!CurrentMeetingDataSaver.getData()?.userType!!.contains("C")){
                   if (it?.identity!!.contains("C"))
                   {
                       viewModel.setIsCandidateEnterMeeting(true)
@@ -644,27 +657,37 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             //currentRemoteVideoTrack?.addSink(binding.primaryVideoView)
             binding.tvUsername.text = it?.username
 
-            if (viewModel.currentlocalVideoTrackList[0] != null) {
-                if (viewModel.currentlocalVideoTrackList[0].isSharing) {
-                    Log.d(TAG, "handleObserver: if part is sharing true")
-                    TwilioHelper.getRoomInstance()?.localParticipant!!.publishTrack(viewModel.currentlocalVideoTrackList[0].localVideoTrack)
+            try {
+
+                if (viewModel.currentlocalVideoTrackList.firstOrNull() != null) {
+                    if (viewModel.currentlocalVideoTrackList[0].isSharing) {
+                        Log.d(TAG, "handleObserver: if part is sharing true")
+                        TwilioHelper.getRoomInstance()?.localParticipant!!.publishTrack(viewModel.currentlocalVideoTrackList[0].localVideoTrack)
+                    }
+                    else {
+                        try {
+                            TwilioHelper.getRoomInstance()?.localParticipant!!.publishTrack(
+                                getLocalVideoTrack()!!
+                            )
+                        } catch (e: Exception) {
+                            Log.d(TAG, "handleObserver: exception 601 line ${e.printStackTrace()}")
+                        }
+                        Log.d(TAG, "handleObserver: in elsepart of isshring local publish local")
+
+                    }
                 }
                 else {
-                    try {
-                        TwilioHelper.getRoomInstance()?.localParticipant!!.publishTrack(
-                            getLocalVideoTrack()!!
-                        )
-                    } catch (e: Exception) {
-                        Log.d(TAG, "handleObserver: exception 601 line ${e.printStackTrace()}")
-                    }
-                    Log.d(TAG, "handleObserver: in elsepart of isshring local publish local")
-
+                    Log.d(TAG, "handleObserver: in null part local sink publish local")
+                    TwilioHelper.getRoomInstance()?.localParticipant!!.publishTrack(getLocalVideoTrack()!!)
                 }
+
+            }catch (e:Exception)
+            {
+                Log.d(TAG, "handleObserver: exception 651 ${e.message}")
             }
-            else {
-                Log.d(TAG, "handleObserver: in null part local sink publish local")
-                TwilioHelper.getRoomInstance()?.localParticipant!!.publishTrack(getLocalVideoTrack()!!)
-            }
+
+
+
             // localParticipant?.publishTrack(localVideoTrack!!)
 
         })
@@ -686,7 +709,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
               currentVisibleUser.videoTrack?.addSink(binding.primaryVideoView)
               //it.videoTrack.addSink(binding.primaryVideoView)
-              if (CurrentMeetingDataSaver.getData().userType!!.contains("C"))
+              if (CurrentMeetingDataSaver.getData()?.userType!!.contains("C"))
               {
                   //localVideoTrack?.addSink(binding.primaryVideoView)
               }else {
@@ -722,9 +745,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
 
         CurrentConnectUserList.listLiveData.observe(this) { list ->
-            if (CurrentMeetingDataSaver.getData().identity?.contains("C")!!) {
+            if (CurrentMeetingDataSaver.getData()?.identity?.contains("C")!!) {
                 list.forEach {
-                    if (it.remoteParticipant?.identity.equals(CurrentMeetingDataSaver.getData().identity!!)) {
+                    if (it.remoteParticipant?.identity.equals(CurrentMeetingDataSaver.getData()?.identity!!)) {
                         currentRemoteVideoTrack = it.videoTrack
                         //working
                         Log.d(TAG, "handleObserver: current connected list live ")
@@ -1135,10 +1158,10 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
     private fun getMuteStatus(isAllow: (status: Boolean) -> Unit) {
         Log.d(
             TAG,
-            "getMuteStatus: mic status accessCode  ${CurrentMeetingDataSaver.getData().videoAccessCode}"
+            "getMuteStatus: mic status accessCode  ${CurrentMeetingDataSaver.getData()?.videoAccessCode}"
         )
         viewModel.getMuteStatus(
-            CurrentMeetingDataSaver.getData().videoAccessCode.toString(),
+            CurrentMeetingDataSaver.getData()?.videoAccessCode.toString(),
             onResult = { action, data ->
                 when (action) {
                     200 -> {
@@ -1165,7 +1188,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
     private fun handleAllowToMute() {
         viewModel.setMuteUnmuteStatus(
             AllowToMuteHolder.set(),
-            CurrentMeetingDataSaver.getData().interviewModel?.interviewId.toString(),
+            CurrentMeetingDataSaver.getData()?.interviewModel?.interviewId.toString(),
             onResult = { action, data ->
                 when (action) {
                     200 -> {
@@ -1199,14 +1222,14 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         val userDataList = CurrentMeetingDataSaver.getData()
 
         //current user
-        val identityCurrentUser = userDataList.identity
+        val identityCurrentUser = userDataList?.identity
         Log.d("videocheck", "setConnectUser: remotlist size ${remoteParticipantVideoList.size}")
 
         remoteParticipantVideoList.forEach {
             Log.d("videocheck", "setConnectUser: remotlist looop ${it.remoteParticipant?.identity}")
         }
 
-        if (CurrentMeetingDataSaver.getData().identity!!.contains("C")) {
+        if (CurrentMeetingDataSaver.getData()?.identity!!.contains("C")) {
 
             Log.d(TAG, "setConnectUser: i am candidate")
             Log.d(
@@ -1218,7 +1241,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                     TAG,
                     "setConnectUser: i am Interviewer list candi loop ${it.remoteParticipant?.identity}"
                 )
-                userDataList.users?.forEach { user ->
+                userDataList?.users?.forEach { user ->
 
                     Log.d(
                         TAG,
@@ -1306,7 +1329,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                     "setConnectUser: i am Interviewer and id of intervi ${it.remoteParticipant?.identity}"
                 )
 
-                userDataList.users?.forEach { user ->
+                userDataList?.users?.forEach { user ->
 
                     Log.d(
                         TAG,
@@ -1507,7 +1530,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         }
 
         val candidateName =
-            CurrentMeetingDataSaver.getData().users?.filter { it.userType.contains("C") }
+            CurrentMeetingDataSaver.getData()?.users?.filter { it.userType.contains("C") }
         tlist.forEach {
             if (it.remoteParticipant?.identity!!.contains("C")) {
                 /*working
@@ -1612,7 +1635,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                  }
              }*/
 
-        if (CurrentMeetingDataSaver.getData().identity?.contains("C")!!) {
+        if (CurrentMeetingDataSaver.getData()?.identity?.contains("C")!!) {
             // tlist.add(VideoTracksBean(localParticipant!!.identity,null,localVideoTrack!!,"You"))
             if (tlist.size == 0) {
                 currentVisibleUser.videoTrack!!.removeSink(binding.primaryVideoView)
@@ -1635,7 +1658,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
         }
         /*
-                if (CurrentMeetingDataSaver.getData().userType!!.contains("C"))
+                if (CurrentMeetingDataSaver.getData()?.userType!!.contains("C"))
                 {
                     CurrentConnectUserList.setListForAddParticipantActivity(
                         remoteParticipantVideoListWithCandidate.reversed().distinctBy { it.identity }
@@ -1748,7 +1771,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
                         try {
                             handleRecyclerItemClick(pos, data!!, datalist, videoTrack)
-                            /*if (CurrentMeetingDataSaver.getData().userType!!.contains("C"))
+                            /*if (CurrentMeetingDataSaver.getData()?.userType!!.contains("C"))
                             {
                                 handleRecyclerItemClick(pos, data, datalist,videoTrack)
                             }
@@ -2098,7 +2121,13 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 audioc!!,
                 videoc!!
             )
-            getChatToken()
+            if (checkInternet()) {
+                getChatToken()
+            }
+            else
+            {
+                showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+            }
             Log.d(TAG, "connectToRoom: connect to room service ${meetingManager.getServiceState()}")
             Log.d(TAG, "onCreate: sid is ${TwilioHelper.getRoomInstance()?.sid}")
         }
@@ -2161,7 +2190,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
     fun getChatToken() {
         viewModel.getChatToken(
-            CurrentMeetingDataSaver.getData().identity.toString(),
+            CurrentMeetingDataSaver.getData()?.identity.toString(),
             response = { data, code ->
                 //dismissProgressDialog()
                 //  initializeWithAccessToken(data?.Token.toString())
@@ -2170,7 +2199,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 TwilioChatHelper.setInstanceOfChat(
                     this,
                     data?.Token.toString(),
-                    CurrentMeetingDataSaver.getData().chatChannel.toString()
+                    CurrentMeetingDataSaver.getData()?.chatChannel.toString()
                 )
             })
     }
@@ -2478,7 +2507,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
               remoteParticipantVideoListWithCandidate.forEach {
                   if (remoteParticipant.identity.equals(it.remoteParticipant!!.identity))
                   {
-                      if (CurrentMeetingDataSaver.getData().identity.equals(remoteParticipant.identity))
+                      if (CurrentMeetingDataSaver.getData()?.identity.equals(remoteParticipant.identity))
                       {
 
                       }else
@@ -2624,7 +2653,13 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             }
         }
         dialogView.parentLinearLayout.setOnClickListener {
-            handleAllowToMute()
+            if (checkInternet()) {
+                handleAllowToMute()
+            }
+            else
+            {
+                showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+            }
             dialog.dismiss()
         }
         dialog.create()
@@ -2636,7 +2671,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             TAG,
             "connectToRoom: participant connected service ${meetingManager.getServiceState()}"
         )
-        TwilioHelper.setMeetingLink(CurrentMeetingDataSaver.getData().videoAccessCode.toString())
+        TwilioHelper.setMeetingLink(CurrentMeetingDataSaver.getData()?.videoAccessCode.toString())
         meetingManager.startForeground()
         UpcomingMeetingStatusHolder.isMeetingFinished(false)
 
@@ -2654,7 +2689,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
             CurrentMeetingDataSaver.setRoomData(
                 TokenResponseBean(
-                    identity = CurrentMeetingDataSaver.getData().identity,
+                    identity = CurrentMeetingDataSaver.getData()?.identity,
                     roomName = room.name!!
                 )
             )
@@ -2667,7 +2702,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
 
             //working apply other place
-            /*    if(CurrentMeetingDataSaver.getData().userType!!.contains("C"))
+            /*    if(CurrentMeetingDataSaver.getData()?.userType!!.contains("C"))
                  {
                      /* viewModel.setCandidateJoinedStatus { action, data ->
                           Log.d(TAG, "handleObserver: candidate joined status $action")
@@ -2783,7 +2818,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
         var identityList = mutableListOf<String>()
 
-        CurrentMeetingDataSaver.getData().users?.forEachIndexed { index, user ->
+        CurrentMeetingDataSaver.getData()?.users?.forEachIndexed { index, user ->
             var identity = (user.userType + user.id).uppercase().toString()
             identityList.add(identity)
         }
@@ -3276,7 +3311,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         if (remoteParticipant.identity.contains("C")) {
             currentRemoteVideoTrack?.removeSink(binding.primaryVideoView)
 
-            if (CurrentMeetingDataSaver.getData().identity!!.contains("I")) {
+            if (CurrentMeetingDataSaver.getData()?.identity!!.contains("I")) {
                 setBlankBackground(true)
             }
             else
@@ -3328,7 +3363,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
                 Handler(Looper.getMainLooper()).postDelayed({
                     removeAllSinksAndSetnew(null, false)
-                    if (CurrentMeetingDataSaver.getData().identity!!.contains("I")) {
+                    if (CurrentMeetingDataSaver.getData()?.identity!!.contains("I")) {
                         setBlankBackground(true)
                     }
                     else
@@ -3349,8 +3384,8 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                             }
                         }
                     if (!isCandidateExists) {
-                        CurrentMeetingDataSaver.getData().users?.forEach {
-                            if (CurrentMeetingDataSaver.getData().identity!!.contains("C")) {
+                        CurrentMeetingDataSaver.getData()?.users?.forEach {
+                            if (CurrentMeetingDataSaver.getData()?.identity!!.contains("C")) {
                                 binding.tvNoParticipant.text = ""
                             }
                             else {
@@ -3377,7 +3412,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 remoteParticipantVideoList.any { it.identity.equals(remoteParticipant.identity) }
 
             if (isSameExists) {
-                if (CurrentMeetingDataSaver.getData().identity!!.contains("I")) {
+                if (CurrentMeetingDataSaver.getData()?.identity!!.contains("I")) {
                     setBlankBackground(true)
                 }
                 else
@@ -3402,7 +3437,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                         }
                     }
                 if (!isCandidateExists) {
-                    CurrentMeetingDataSaver.getData().users?.forEach {
+                    CurrentMeetingDataSaver.getData()?.users?.forEach {
                         if (it.userType.contains("C"))
                             binding.tvNoParticipant.text =
                                 "Waiting to join " + it.userFirstName + " " + it.userLastName
@@ -3429,7 +3464,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
               removeAllSinksAndSetnew(it,true)
           }*/
 
-        if (CurrentMeetingDataSaver.getData().identity!!.contains("C")) {
+        if (CurrentMeetingDataSaver.getData()?.identity!!.contains("C")) {
             currentVisibleUser.userName = "You"
             currentVisibleUser.videoTrack = getLocalVideoTrack()
             Handler(Looper.getMainLooper()).post(Runnable {
@@ -3551,18 +3586,25 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             }
             R.id.btn_share_screen           -> {
                 binding.llExtraButtons.isVisible = false
-                getScreenSharingStatus {
-                    if (it) {
-                        shareScreen()
-                    }
-                    else {
-                        showToast(this, getString(R.string.txt_only_one_person_can_share_screen))
+                if (checkInternet()) {
+                    getScreenSharingStatus {
+                        if (it) {
+                            shareScreen()
+                        }
+                        else {
+                            showToast(this, getString(R.string.txt_only_one_person_can_share_screen))
+                        }
                     }
                 }
+                else
+                {
+                    showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                }
+
             }
             R.id.btn_record_video           -> {
                 binding.llExtraButtons.isVisible = false
-                if (CurrentMeetingDataSaver.getData().identity?.trim()?.lowercase()!!
+                if (CurrentMeetingDataSaver.getData()?.identity?.trim()?.lowercase()!!
                         .contains("C".trim().lowercase())
                 ) {
                     Log.d(TAG, "onViewClicked: candidate clicked recording btn")
@@ -3570,7 +3612,13 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 }
                 else {
                     if (isRoomConnected != false) {
-                        handleVideoRecording()
+                        if (checkInternet()) {
+                            handleVideoRecording()
+                        }
+                        else
+                        {
+                            showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                        }
                     }
                     else {
                         showToast(this, getString(R.string.txt_please_try_again))
@@ -3585,7 +3633,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
     fun getScreenSharingStatus(onResonse: (isSharing: Boolean) -> Unit) {
         viewModel.getScreenSharingStatus(
-            CurrentMeetingDataSaver.getData().videoAccessCode.toString(),
+            CurrentMeetingDataSaver.getData()?.videoAccessCode.toString(),
             onResult = { action, data ->
                 when (action) {
                     200 -> {
@@ -3637,7 +3685,14 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             if (CurrentMeetingDataSaver.getScreenSharingStatus()) {
                 binding.tvScreenShareStatus.isVisible = false
                 // showToast(this, getString(R.string.txt_screen_sharing_stopped))
-                viewModel.setScreenSharingStatus(true, onResult = { action, data -> })
+                if (checkInternet()) {
+                    viewModel.setScreenSharingStatus(true, onResult = { action, data -> })
+                }
+                else
+                {
+                    showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                }
+
                 CurrentMeetingDataSaver.setScreenSharingStatus(false)
                 screenShareCapturerManager.endForeground()
                 // screenShareCapturerManager.unbindService()
@@ -3751,7 +3806,14 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             CurrentMeetingDataSaver.setScreenSharingStatus(true)
             // localParticipant?.publishTrack(localVideoTrack!!)
             Log.d(TAG, "First frame from screen capturer available")
-            viewModel.setScreenSharingStatus(false, onResult = { action, data -> })
+            if (checkInternet()) {
+                viewModel.setScreenSharingStatus(false, onResult = { action, data -> })
+            }
+            else
+            {
+                showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+            }
+
             localParticipant?.unpublishTrack(getLocalVideoTrack()!!)
             localParticipant?.publishTrack(screenShareTrack)
             //localVideoTrack=screenShareTrack
@@ -4080,7 +4142,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
     private fun getUserNames(participant: RemoteParticipant) {
         viewModel.getVideoSessionDetails(
-            CurrentMeetingDataSaver.getData().videoAccessCode.toString(),
+            CurrentMeetingDataSaver.getData()?.videoAccessCode.toString(),
             onDataResponse = { data, event ->
 
                 when (event) {
@@ -4088,14 +4150,14 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                         Log.d(TAG, "meeting data in 200 ${data}")
 
                         data?.videoAccessCode =
-                            CurrentMeetingDataSaver.getData().videoAccessCode.toString()
+                            CurrentMeetingDataSaver.getData()?.videoAccessCode.toString()
                         CurrentMeetingDataSaver.setData(data!!)
 
                         CurrentMeetingDataSaver.setData(data)
                         addRemoteParticipant(participant!!)
                         Log.d(TAG, "getInterviewDetails: user response $data")
-                        //val identityWithoutFirstChar=CurrentMeetingDataSaver.getData().identity?.substring(1,CurrentMeetingDataSaver.getData().identity?.length!!.toInt())
-                        //Log.d(TAG, "getInterviewDetails: identity ${CurrentMeetingDataSaver.getData().identity} identitywitoutno $identityWithoutFirstChar")
+                        //val identityWithoutFirstChar=CurrentMeetingDataSaver.getData()?.identity?.substring(1,CurrentMeetingDataSaver.getData()?.identity?.length!!.toInt())
+                        //Log.d(TAG, "getInterviewDetails: identity ${CurrentMeetingDataSaver.getData()?.identity} identitywitoutno $identityWithoutFirstChar")
                         // Log.d(TAG, "host : ${data.token}  ${data.roomName}")
                         // TwilioHelper.setTwilioCredentials(data.token.toString(), data.roomName.toString())
                         // startActivity(Intent(this@JoinMeetingActivity, VideoActivity::class.java))
@@ -4103,7 +4165,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                     400 -> {
                         //showToast(this,data?.aPIResponse?.message!!)
                         data?.videoAccessCode =
-                            CurrentMeetingDataSaver.getData().videoAccessCode.toString()
+                            CurrentMeetingDataSaver.getData()?.videoAccessCode.toString()
                         //showToast(this, "null values")
                         /*  data?.let { CurrentMeetingDataSaver.setData(it) }
                           joinMeetingCandidate(accessCode)*/
@@ -4115,7 +4177,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                     401 -> {
                         //showToast(this,data?.aPIResponse?.message!!)
                         data?.videoAccessCode =
-                            CurrentMeetingDataSaver.getData().videoAccessCode.toString()
+                            CurrentMeetingDataSaver.getData()?.videoAccessCode.toString()
                         CurrentMeetingDataSaver.setData(data!!)
                         CurrentMeetingDataSaver.setData(data)
                         Log.d(TAG, "getInterviewDetails: user response $data")

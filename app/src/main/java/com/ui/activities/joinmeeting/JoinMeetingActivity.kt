@@ -65,7 +65,14 @@ class JoinMeetingActivity :AppCompatActivity() {
                         jumpToTeams(binding.etJoinMeeting.text.toString())
                     }else
                     {
-                        getInterviewDetails(accessCode)
+                        if (checkInternet()) {
+                            getInterviewDetails(accessCode)
+                        }
+                        else
+                        {
+                            showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                        }
+
                     }
                     //  showToast(this,"Under Development")
                     hideKeyboard(this)
@@ -299,7 +306,14 @@ handleObserver()
             dialog.setMessage(getString(R.string.txt_not_host_alert))
             dialog.setPositiveButton(getString(R.string.txt_join_again),object : DialogInterface.OnClickListener {
                 override fun onClick(p0: DialogInterface?, p1: Int) {
-                    getInterviewDetails(accessCode)
+                    if (checkInternet()) {
+                        getInterviewDetails(accessCode)
+                    }
+                    else
+                    {
+                        showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                    }
+
                 }
             })
             dialog.setNegativeButton("Cancel" ,object : DialogInterface.OnClickListener {

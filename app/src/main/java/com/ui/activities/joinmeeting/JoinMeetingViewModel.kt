@@ -51,8 +51,8 @@ class JoinMeetingViewModel @Inject constructor(val repo: BaseRestRepository) :Vi
     {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val identityWithoutFirstChar=CurrentMeetingDataSaver.getData().identity?.substring(1,CurrentMeetingDataSaver.getData().identity?.length!!.toInt())
-                val result = repo.sendMailToJoinMeeting(BodySendMail(identityWithoutFirstChar?.toInt(),CurrentMeetingDataSaver.getData().interviewModel?.subscriberid,CurrentMeetingDataSaver.getData().interviewModel?.recruiterId!!.toString()))
+                val identityWithoutFirstChar=CurrentMeetingDataSaver.getData()?.identity?.substring(1,CurrentMeetingDataSaver.getData()?.identity?.length!!.toInt())
+                val result = repo.sendMailToJoinMeeting(BodySendMail(identityWithoutFirstChar?.toInt(),CurrentMeetingDataSaver.getData()?.interviewModel?.subscriberid,CurrentMeetingDataSaver.getData()?.interviewModel?.recruiterId!!.toString()))
                 if (result.isSuccessful) {
                     if (result.body() != null) {
                         onDataResponse(result.body()!!, 200)

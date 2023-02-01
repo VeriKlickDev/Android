@@ -104,7 +104,7 @@ class ConnectedMemberListAdapter(
 
                 }
 
-                binding.ivLeftMeeting.isVisible =!CurrentMeetingDataSaver.getData().userType?.trim()!!.contains("C")
+                binding.ivLeftMeeting.isVisible =!CurrentMeetingDataSaver.getData()?.userType?.trim()!!.contains("C")
 
 
             } catch (e: Exception) {

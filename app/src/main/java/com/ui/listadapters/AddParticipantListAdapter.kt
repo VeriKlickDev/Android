@@ -3,6 +3,8 @@ package com.ui.listadapters
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +14,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doOnTextChanged
+import androidx.databinding.adapters.TextViewBindingAdapter.AfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.data.*
 import com.data.dataHolders.InvitationDataModel
@@ -38,6 +41,7 @@ class AddParticipantListAdapter(val viewModel:AddUserViewModel,
         val binding =
             LayoutAddParticipantBinding.inflate(LayoutInflater.from(context), parent, false)
         bindingg=binding
+        Log.d(TAG, "onCreateViewHolder: called")
         return ViewHolderClass(binding)
     }
 
@@ -63,6 +67,8 @@ class AddParticipantListAdapter(val viewModel:AddUserViewModel,
                // isLayoutDisabled(true,holder.binding)
             }
         }*/
+        try {
+
 
         holder.dataBind(list.get(position))
 
@@ -72,13 +78,19 @@ class AddParticipantListAdapter(val viewModel:AddUserViewModel,
         {
             holder.binding.btnAddinterviewer.isVisible=true
         }*/
-        if (position==list.size-1)
-        {
-            holder.binding.btnAddinterviewer.isVisible=true
-        }
-        else{
-            holder.binding.btnAddinterviewer.isVisible=false
-        }
+            try {
+                if (position==list.size-1)
+                {
+                    holder.binding.btnAddinterviewer.isVisible=true
+                }
+                else{
+                    holder.binding.btnAddinterviewer.isVisible=false
+                }
+            }catch (e:Exception)
+            {
+                Log.d(TAG, "onBindViewHolder: exception 81 ${e.message}")
+            }
+
 
 
 
@@ -114,6 +126,7 @@ class AddParticipantListAdapter(val viewModel:AddUserViewModel,
             }
         }
 */
+
         holder.binding.etFirstname.addTextChangedListener {
 
             if (it?.length==50)
@@ -169,67 +182,10 @@ class AddParticipantListAdapter(val viewModel:AddUserViewModel,
            // list[position].InterviewerTimezone=list[position].InterviewerTimezone
         }
 
-        //change to add textchangelistener
-
-       /* holder.binding.etEmail.doOnTextChanged { text, start, before, count ->
-                if (text.toString()?.length==50)
-                {
-                    bindingg.tvEmailError.visibility=VISIBLE
-                    bindingg.tvEmailError.text="Lastname must be below 50 character"
-                    list[position].isEmailError=true
-                }else
-                {
-                    bindingg.tvEmailError.visibility=INVISIBLE
-                    list[position].isEmailError=true
-                }
-                list.get(position).email = text.toString()
-           // list[position].InterviewerTimezone=list[position].InterviewerTimezone
-        }*/
-
-        /*    holder.binding.etEmail.doOnTextChanged { it, start, before, count ->
-
-                    Log.d(TAG, "onBindViewHolder: ${it.toString()}")
-
-                if (it.toString()?.length==50)
-                {
-                    bindingg.tvEmailError.visibility=VISIBLE
-                    bindingg.tvEmailError.text="Lastname must be below 50 character"
-                    list[position].isEmailError=true
-                }else
-                {
-                    bindingg.tvEmailError.visibility=INVISIBLE
-                    list[position].isEmailError=true
-                }
-                list.get(position).email = it.toString()
-
-                    emailValidator(context, it.toString()) { isEmailOk, mEmail, error ->
-
-                        Handler(Looper.getMainLooper()).post {
-                            Log.d(
-                                TAG,
-                                "onBindViewHolder: ${it.toString()} isemailok $isEmailOk"
-                            )
-                            if (isEmailOk) {
-
-                                bindingg.tvEmailError.visibility = INVISIBLE
-                                onEditextChanged(it.toString(), 1, position)
-                                list[position].isEmailError = false
-
-                                position
-                                //list.get(position).email = it.toString()
-                            } else {
-                                bindingg.tvEmailError.visibility = VISIBLE
-                                position
-                                bindingg.tvEmailError.setText(context.getString(R.string.txt_enter_valid_email))
-                                list[position].isEmailError = true
-                            }
-                        }
-                    }
-            }
-*/
 
 
-        holder.binding.etEmail.doOnTextChanged { it, start, before, count ->
+
+       holder.binding.etEmail.doOnTextChanged { it, start, before, count ->
 
             Log.d(TAG, "onBindViewHolder: ${it.toString()}")
 
@@ -330,12 +286,66 @@ class AddParticipantListAdapter(val viewModel:AddUserViewModel,
             }
         }
 
-
-
-
+        }catch(e:Exception)
+        {
+            Log.d(TAG, " excpetion 278: $e.message")
+        }
 
 
     }
+
+    /*val emailTextWatcher=object:TextWatcher{
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+        }
+
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+        }
+
+        override fun afterTextChanged(it: Editable?) {
+            Log.d(TAG, "onBindViewHolder: ${it.toString()}")
+
+            if (it.toString()?.length == 50) {
+                bindingg.tvEmailError.visibility = VISIBLE
+                bindingg.tvEmailError.text = "Email must be below 100 character"
+                list[adapterPosition].isEmailError = true
+            } else {
+                bindingg.tvEmailError.visibility = INVISIBLE
+                list[adapterPosition].isEmailError = true
+            }
+            list.get(adapterPosition).email = it.toString()
+
+            emailValidator(context, it.toString()) { isEmailOk, mEmail, error ->
+
+                Handler(Looper.getMainLooper()).post {
+                    Log.d(
+                        TAG,
+                        "onBindViewHolder: ${it.toString()} isemailok $isEmailOk"
+                    )
+                    if (isEmailOk) {
+
+                        bindingg.tvEmailError.visibility = INVISIBLE
+                        onEditextChanged(it.toString(), 1, adapterPosition)
+                        list[adapterPosition].isEmailError = false
+                        viewModel.setEmailNameError("", adapterPosition)
+                        //list.get(position).email = it.toString()
+                    } else {
+                        bindingg.tvEmailError.visibility = VISIBLE
+
+                        viewModel.setEmailNameError(
+                            context.getString(R.string.txt_enter_valid_email),
+                            adapterPosition
+                        )
+                        bindingg.tvEmailError.setText(context.getString(R.string.txt_enter_valid_email))
+                        list[adapterPosition].isEmailError = true
+                    }
+                }
+            }
+
+        }
+    }
+*/
 
     override fun getItemViewType(position: Int): Int {
         return position

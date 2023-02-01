@@ -49,6 +49,7 @@ class BaseModule {
             //.callTimeout(60, TimeUnit.SECONDS)
             .connectTimeout(1, TimeUnit.MINUTES)
             .pingInterval(1, TimeUnit.MINUTES)
+            .retryOnConnectionFailure(true)
     }
 
     @Provides
@@ -59,14 +60,19 @@ class BaseModule {
         val httpClient=OkHttpClient.Builder().protocols(listOf(Protocol.HTTP_1_1))
             .writeTimeout(1,TimeUnit.MINUTES)
             .readTimeout(1,TimeUnit.MINUTES)
+            .connectTimeout(1,TimeUnit.MINUTES)
             .addInterceptor(interceptor)
+            .retryOnConnectionFailure(true)
+            .followSslRedirects(true)
+            .followRedirects(true)
             .build()
        // val httpClient=OkHttpClient.Builder().build() api.veriklick.com
         //api.veriklick.in
         // api.veriklick.com
         val retrofit= Retrofit.Builder().baseUrl("https://api.veriklick.com")
             .addConverterFactory(GsonConverterFactory.create())
-            .client(httpClient).build()
+            .client(httpClient)
+            .build()
         return retrofit.create(BaseRestApi::class.java)
     }
 
@@ -82,7 +88,14 @@ class BaseModule {
     fun getClientForLogin(interceptor: HttpLoggingInterceptor) : LoginRestApi
    // fun getClientForLogin() :LoginRestApi
     {
-        val httpClient=OkHttpClient.Builder().addInterceptor(interceptor).build()
+        val httpClient=OkHttpClient.Builder().addInterceptor(interceptor)
+            .writeTimeout(1,TimeUnit.MINUTES)
+            .readTimeout(1,TimeUnit.MINUTES)
+            .connectTimeout(1,TimeUnit.MINUTES)
+            .retryOnConnectionFailure(true)
+            .followSslRedirects(true)
+            .followRedirects(true)
+            .build()
        // val httpClient=OkHttpClient.Builder().build()//https://veridialapi.veriklick.com
         //https://veridialapi.veriklick.in
         val retrofit= Retrofit.Builder().baseUrl("https://veridialapi.veriklick.com")// veridialapi.veriklick.in

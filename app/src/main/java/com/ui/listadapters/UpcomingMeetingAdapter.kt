@@ -35,18 +35,17 @@ class UpcomingMeetingAdapter(
         val data = list[position]
         holder.dataBind(data)
 
+    /*if (list[position].mSMeetingMode.equals("veriklick")){
+
+
+    }*/
+
         val ob = Gson().fromJson(
             data.interviewerList.get(0).toString(),
             Array<InterViewersListModel>::class.java
         )
-
         val videoAccessCode = ob.firstOrNull()?.VideoCallAccessCode?.replace("/", "")
         Log.d("checkvideocode", "handleObserver:  video code in list ${videoAccessCode} ")
-
-    if (list[position].mSMeetingMode.equals("veriklick")){
-
-
-    }
 
 
         holder.binding.btnJoin.setOnClickListener {
@@ -96,6 +95,7 @@ class UpcomingMeetingAdapter(
     inner class ViewHolderClass(val binding: LayoutItemUpcomingMeetingBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun dataBind(data: NewInterviewDetails) {
+
             Log.d(TAG, "onBindViewHolder: status check ${data.status}")
             binding.tvJobId.text = data.jobid
             binding.tvMeetingDate.text = changeDatefrom_yyyymmdd_to_mmddyyyy(

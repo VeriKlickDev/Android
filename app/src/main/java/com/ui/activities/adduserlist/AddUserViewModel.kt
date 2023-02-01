@@ -154,10 +154,10 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
                 participantObj = AddParticipantModel(
                     MeetingMode = "veriklick",
                     InterviewId = CurrentMeetingDataSaver.getData()?.interviewModel?.interviewId,
-                    InterviewDateTime = CurrentMeetingDataSaver.getData().interviewModel?.interviewDateTime,
-                    InterviewTitle = CurrentMeetingDataSaver.getData().interviewModel?.interviewTitle,
-                    ClientName = CurrentMeetingDataSaver.getData().interviewModel?.clientName,
-                    InterviewTimezone = CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone,
+                    InterviewDateTime = CurrentMeetingDataSaver.getData()?.interviewModel?.interviewDateTime,
+                    InterviewTitle = CurrentMeetingDataSaver.getData()?.interviewModel?.interviewTitle,
+                    ClientName = CurrentMeetingDataSaver.getData()?.interviewModel?.clientName,
+                    InterviewTimezone = CurrentMeetingDataSaver.getData()?.interviewModel?.interviewTimezone,
                     EventType = "Update",
                     CandidateId = 0,
                     IsVideoRecordEnabled = false,
@@ -166,9 +166,9 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
                     InterviewerList = interviewList
                 )
 
-                /*   if (CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone!=null)
+                /*   if (CurrentMeetingDataSaver.getData()?.interviewModel?.interviewTimezone!=null)
                 {
-                    participantObj.InterviewTimezone= CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone
+                    participantObj.InterviewTimezone= CurrentMeetingDataSaver.getData()?.interviewModel?.interviewTimezone
                 }else
                 {
                     participantObj.InterviewTimezone=CurrentUpcomingMeetingData.getData().interviewTimezone
@@ -177,13 +177,13 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
 
                 Log.d(TAG, "sendInvitationtoUsers: data here $participantObj")
                 participantObj.CandidateId =
-                    CurrentMeetingDataSaver.getData().interviewModel?.candidateId
+                    CurrentMeetingDataSaver.getData()?.interviewModel?.candidateId
                 participantObj.Subscriberid = DataStoreHelper.getMeetingUserId()
                 if (DataStoreHelper.getMeetingUserId() == null || DataStoreHelper.getMeetingUserId()
                         .equals("null")
                 ) {
                     participantObj.Subscriberid =
-                        CurrentMeetingDataSaver.getData().interviewModel?.subscriberid
+                        CurrentMeetingDataSaver.getData()?.interviewModel?.subscriberid
                 } else {
                     participantObj.Subscriberid = DataStoreHelper.getMeetingUserId()
                 }

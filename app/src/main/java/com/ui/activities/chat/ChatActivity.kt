@@ -45,7 +45,7 @@ class ChatActivity : AppCompatActivity(){
 
         viewModel = ViewModelProvider(this).get(ChatActivityViewModel::class.java)
 
-        DEFAULT_CONVERSATION_NAME = CurrentMeetingDataSaver.getData().chatChannel.toString()
+        DEFAULT_CONVERSATION_NAME = CurrentMeetingDataSaver.getData()?.chatChannel.toString()
         Log.d(TAG, "onCreate: channel name $DEFAULT_CONVERSATION_NAME")
         setChatAdapter()
         handleObsever()
@@ -384,7 +384,7 @@ class ChatActivity : AppCompatActivity(){
                     )
                 }
 
-                CurrentMeetingDataSaver.getData().users!!
+                CurrentMeetingDataSaver.getData()?.users!!
                     .forEach {
                         val identity = it.userType + it.id
                         addParticipantToChat(identity, myconversation)
@@ -462,12 +462,12 @@ class ChatActivity : AppCompatActivity(){
                         viewModel.clearChatList()
                         result.forEach {
 
-                            CurrentMeetingDataSaver.getData().users?.forEach { user ->
+                            CurrentMeetingDataSaver.getData()?.users?.forEach { user ->
 
                                 val identity = user.userType.toString() + user.id
                                 if (identity.equals(it.author)) {
 
-                                    if (it.author.equals(CurrentMeetingDataSaver.getData().identity)) {
+                                    if (it.author.equals(CurrentMeetingDataSaver.getData()?.identity)) {
                                         viewModel.setMessages(
                                             it.messageBody.toString(),
                                             AppConstants.CHAT_SENDER,
@@ -653,14 +653,14 @@ class ChatActivity : AppCompatActivity(){
             Log.d(TAG, "Message added")
             try {
 
-                val currentUser = CurrentMeetingDataSaver.getData().identity
+                val currentUser = CurrentMeetingDataSaver.getData()?.identity
                 val usr = if (message.author == currentUser) {
                     AppConstants.CHAT_SENDER
                 }
                 else {
                     AppConstants.CHAT_RECIEVER
                 }
-                CurrentMeetingDataSaver.getData().users?.forEach { user ->
+                CurrentMeetingDataSaver.getData()?.users?.forEach { user ->
                     val identity = user.userType + user.id
                     if (identity == message.author) {
                         viewModel.setMessages(

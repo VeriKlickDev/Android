@@ -47,7 +47,7 @@ class DocumentViewerActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(DocumentViewerViewModel::class.java)
 
 
-        val candidateId = CurrentMeetingDataSaver.getData().interviewModel?.candidateId
+        val candidateId = CurrentMeetingDataSaver.getData()?.interviewModel?.candidateId
         Log.d("documentcheck", "onCreate: candi Id $candidateId")
 
         binding.btnJumpBack.setOnClickListener {
@@ -177,7 +177,7 @@ class DocumentViewerActivity : AppCompatActivity() {
         // fileName -> fileName with extension
         val request = DownloadManager.Request(Uri.parse(url))
             .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
-            .setTitle(CurrentMeetingDataSaver.getData().interviewModel?.candidate?.ResumePath)
+            .setTitle(CurrentMeetingDataSaver.getData()?.interviewModel?.candidate?.ResumePath)
             .setDescription(desc)
             .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
             .setAllowedOverMetered(true)
@@ -186,7 +186,7 @@ class DocumentViewerActivity : AppCompatActivity() {
         val downloadManager= getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         val downloadID = downloadManager.enqueue(request)
         Log.d(TAG, "downloadFile: download id $downloadID")
-        showDocFile(CurrentMeetingDataSaver.getData().interviewModel?.candidate?.ResumePath!!)
+        showDocFile(CurrentMeetingDataSaver.getData()?.interviewModel?.candidate?.ResumePath!!)
     }
 
 
@@ -262,9 +262,9 @@ class DocumentViewerActivity : AppCompatActivity() {
     fun getResume() {
 
 
-        if (CurrentMeetingDataSaver.getData().interviewModel?.candidate?.ResumePath!=null)
+        if (CurrentMeetingDataSaver.getData()?.interviewModel?.candidate?.ResumePath!=null)
         {
-            viewModel.getResume(CurrentMeetingDataSaver.getData().interviewModel?.candidate?.ResumePath!!, onResumeResponse = {
+            viewModel.getResume(CurrentMeetingDataSaver.getData()?.interviewModel?.candidate?.ResumePath!!, onResumeResponse = {
                     data, fileName, action ->
                 when (action) {
                     200 -> {

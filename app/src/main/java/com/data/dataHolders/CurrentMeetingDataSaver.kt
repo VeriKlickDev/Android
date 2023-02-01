@@ -14,9 +14,9 @@ object CurrentMeetingDataSaver {
         list.add(0,ob)
     }
 
-    fun getData():ResponseInterViewDetailsBean
+    fun getData():ResponseInterViewDetailsBean?
     {
-        return list[0]
+        return list.firstOrNull()
     }
 
     fun setRoomData(obj:TokenResponseBean)

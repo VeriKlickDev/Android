@@ -47,7 +47,7 @@ class MemberListActivity : AppCompatActivity() {
         val height = displayMetrics.heightPixels
         val width = displayMetrics.widthPixels
 
-        if (CurrentMeetingDataSaver.getData().isPresenter == true) {
+        if (CurrentMeetingDataSaver.getData()?.isPresenter == true) {
             binding.btnAddUser.visibility = View.VISIBLE
         }
         else {

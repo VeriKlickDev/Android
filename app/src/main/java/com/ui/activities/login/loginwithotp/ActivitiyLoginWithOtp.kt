@@ -46,11 +46,27 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
         binding.btnSendOtp.setOnClickListener {
 
             hideKeyboard(this)
-            /**woking*/ sendOtpToEmail()
+            if (checkInternet()) {
+
+                /**woking*/ sendOtpToEmail()
+            }
+            else
+            {
+                showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+            }
         }
         binding.btnResendOtp.setOnClickListener {
             hideKeyboard(this)
-            /**woking*/ sendOtpToEmail()
+
+            if (checkInternet()) {
+                /**woking*/ sendOtpToEmail()
+
+            }
+            else
+            {
+                showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+            }
+
         }
 
         binding.parentLayout.setOnClickListener {
@@ -60,7 +76,14 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
         handleEmailOtpVerification()
 
         binding.btnVerifyOtp.setOnClickListener {
-            verifyOtp(binding.etOtp.text.toString())
+            if (checkInternet()) {
+                verifyOtp(binding.etOtp.text.toString())
+
+            }
+            else
+            {
+                showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+            }
         }
     }
 
@@ -203,7 +226,14 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
             dialog.dismiss()
         }
         dialogbinding.btnVerify.setOnClickListener {
-            verifyOtp(dialogbinding.etOtp.text.toString())
+            if (checkInternet()) {
+                verifyOtp(dialogbinding.etOtp.text.toString())
+
+            }
+            else
+            {
+                showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+            }
         }
 
         dialog.create()

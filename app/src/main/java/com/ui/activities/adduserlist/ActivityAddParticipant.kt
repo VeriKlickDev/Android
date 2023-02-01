@@ -34,27 +34,16 @@ class ActivityAddParticipant : AppCompatActivity() {
         binding = ActivityLayoutAddParticipantBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val randomStr = UUID.randomUUID()
-
-       /* CoroutineScope(Dispatchers.IO).launch {
-            delay(500)
-            interviewList.add(InvitationDataModel(uid = randomStr.toString()))//, InterviewerTimezone = CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone.toString()))
-            withContext(Dispatchers.Main)
-            {
-                adapter.notifyDataSetChanged()
-            }
-        }*/
-
-
-
-        Log.d(
-            TAG,
-            "onCreate: interviewtimezone ${CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone}"
-        )
-
         viewModel = ViewModelProvider(this).get(AddUserViewModel::class.java)
 
-        checkTotalParticipant(1)
+        if (checkInternet()) {
+
+            checkTotalParticipant(1)
+        }
+        else
+        {
+            showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+        }
 
         binding.rvAdduserByLink.layoutManager = LinearLayoutManager(this)
 
@@ -69,7 +58,14 @@ class ActivityAddParticipant : AppCompatActivity() {
             onClick = { data: InvitationDataModel, action: Int, pos: Int, list ->
                 when (action) {
                     1 -> {
-                        checkTotalParticipant(2)
+                        if (checkInternet()) {
+
+                            checkTotalParticipant(2)
+                        }
+                        else
+                        {
+                            showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                        }
                         Log.d(TAG, "onCreate: ")
                     }
                     2 -> {
@@ -82,22 +78,14 @@ class ActivityAddParticipant : AppCompatActivity() {
                         if (checkInternet()) {
                             checkEmailExists(txt, position)
                         } else {
-                            Snackbar.make(
-                                binding.root,
-                                getString(R.string.txt_no_internet_connection),
-                                Snackbar.LENGTH_SHORT
-                            ).show()
+                           showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
                         }
                     }
                     2 -> {
                         if (checkInternet()) {
                             checkPhoneExists(txt, position)
                         } else {
-                            Snackbar.make(
-                                binding.root,
-                                getString(R.string.txt_no_internet_connection),
-                                Snackbar.LENGTH_SHORT
-                            ).show()
+                           showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
                         }
                     }
                 }
@@ -142,7 +130,7 @@ class ActivityAddParticipant : AppCompatActivity() {
     private fun checkTotalParticipant(actionPerformed: Int) {
         showProgressDialog()
         viewModel.getTotoalCountOfInterviewer(
-            CurrentMeetingDataSaver.getData().videoAccessCode!!,
+            CurrentMeetingDataSaver.getData()?.videoAccessCode!!,
             onResponse = { action, data ->
                 when (action) {
                     200 -> {
@@ -222,7 +210,7 @@ class ActivityAddParticipant : AppCompatActivity() {
 
     private fun checkEmailExists(txt: String, position: Int) {
         viewModel.getIsEmailExists(
-            CurrentMeetingDataSaver.getData().interviewModel?.interviewId!!,
+            CurrentMeetingDataSaver.getData()?.interviewModel?.interviewId!!,
             txt,
             "",
             response = { isExists ->
@@ -239,7 +227,7 @@ class ActivityAddParticipant : AppCompatActivity() {
 
     private fun checkPhoneExists(txt: String, position: Int) {
         viewModel.getIsPhoneExists(
-            CurrentMeetingDataSaver.getData().interviewModel?.interviewId!!,
+            CurrentMeetingDataSaver.getData()?.interviewModel?.interviewId!!,
             "",
             txt,
             response = { isExists ->
@@ -290,11 +278,7 @@ class ActivityAddParticipant : AppCompatActivity() {
                         //showCustomToast("posted")
                         sendInvitation()
                     } else {
-                        Snackbar.make(
-                            binding.root,
-                            getString(R.string.txt_no_internet_connection),
-                            Snackbar.LENGTH_SHORT
-                        ).show()
+                       showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
                     }
                     Log.d(TAG, "postInvitation:  posting data")
                 } else {
@@ -320,8 +304,7 @@ class ActivityAddParticipant : AppCompatActivity() {
         binding.invitationProgress.visibility = View.VISIBLE
         binding.btnPostdata.text = ""
         binding.btnPostdata.isEnabled = false
-        val tem=CurrentMeetingDataSaver.getData()
-        tem
+
         distinctinvitationList
         viewModel.sendInvitationtoUsers(distinctinvitationList, onDataResponse = { data, action ->
             var isSuccess=false
@@ -486,20 +469,12 @@ class ActivityAddParticipant : AppCompatActivity() {
     private fun addParticipantItem()
     {
         val randomStr = UUID.randomUUID()
-//        InvitationDataHolder.setItem(InvitationDataModel(uid = randomStr.toString(), index = -1))
-        //, InterviewerTimezone =CurrentMeetingDataSaver.getData().interviewModel?.interviewTimezone.toString()
         val element = InvitationDataModel(uid = randomStr.toString())
         interviewList.add(element)
-        val pos = interviewList.indexOf(element)
-        // InvitationDataHolder.setItemToList(InvitationDataModel(uid = randomStr.toString() , index = interviewList.size-1))
-        //uncomment adapter.notifyItemInserted(pos)
-         adapter.notifyDataSetChanged()
-        //adapter.notifyDataSetChanged()
-        Log.d(TAG, "addNewInterViewer: ${interviewList.size}")
 
-        adapter.dataList.forEach {
-            Log.d(TAG, "addNewInterViewer: list item ${it.index}  ${it.firstName} ${it.uid}")
-        }
+            runOnUiThread {
+                adapter.notifyDataSetChanged()
+            }
         binding.scrollview.post {
             binding.scrollview.fullScroll(View.FOCUS_DOWN);
         }
@@ -515,10 +490,17 @@ class ActivityAddParticipant : AppCompatActivity() {
 
     fun removeItem(data: InvitationDataModel, pos: Int) {
         try {
-            interviewList.removeAt(pos)
+            if (pos!=-1)
+            {
+                interviewList.removeAt(pos)
+                runOnUiThread {
+                    adapter.notifyDataSetChanged()
+                }
 
-            adapter.notifyDataSetChanged()
-            Log.d(TAG, "removeItem: notify data set changed")
+            }
+            else{
+                showCustomSnackbarOnTop("Something went wrong")
+            }
         } catch (e: Exception) {
             Log.d(TAG, "removeItem:exception ${e.printStackTrace()} ")
         }

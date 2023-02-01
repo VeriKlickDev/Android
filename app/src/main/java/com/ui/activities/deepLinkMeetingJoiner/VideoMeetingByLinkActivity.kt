@@ -86,10 +86,24 @@ class VideoMeetingByLinkActivity : AppCompatActivity() {
                     CurrentMeetingDataSaver.setData(data!!)
                     if (isDeeplink)
                     {
-                        joinMeetingCandidate(accessCode)
+                        if (checkInternet()) {
+                            joinMeetingCandidate(accessCode)
+                        }
+                        else
+                        {
+                            showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                        }
+
                     }else
                     {
-                        jumptoExistingMeeting()
+                        if (checkInternet()) {
+                            jumptoExistingMeeting()
+                        }
+                        else
+                        {
+                            showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                        }
+
                     }
 
                     data.videoAccessCode=accessCode

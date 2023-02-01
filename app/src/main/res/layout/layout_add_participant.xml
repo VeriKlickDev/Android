@@ -29,7 +29,7 @@
         <EditText
             android:layout_marginTop="@dimen/_20sp"
             android:drawablePadding="@dimen/_10sp"
-            android:id="@+id/et_firstname"
+            android:id="@+id/etFirstname"
             android:maxLines="1"
             android:maxLength="50"
             android:singleLine="true"
@@ -61,7 +61,7 @@
         <EditText
             
             android:drawablePadding="@dimen/_10sp"
-            android:id="@+id/et_lastname"
+            android:id="@+id/etLastname"
             android:maxLines="1"
             android:singleLine="true"
             android:maxLength="50"
@@ -90,7 +90,7 @@
 
         <EditText
             android:drawablePadding="@dimen/_10sp"
-            android:id="@+id/et_email"
+            android:id="@+id/etEmail"
             android:maxLines="1"
             android:imeOptions="actionNext"
             android:layout_gravity="center_horizontal"
@@ -118,7 +118,7 @@
 
         <EditText
             android:drawablePadding="@dimen/_10sp"
-            android:id="@+id/et_phone_number"
+            android:id="@+id/etPhone_number"
             android:maxLines="1"
             android:layout_gravity="center_horizontal"
             android:layout_width="match_parent"
