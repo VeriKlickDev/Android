@@ -1,5 +1,7 @@
 package com.data
 
+//import com.veriKlick.databinding.CustomSnackbarGlobalBinding
+
 import android.Manifest
 import android.app.Activity
 import android.app.Dialog
@@ -23,31 +25,23 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
-import androidx.core.view.marginTop
 import androidx.core.widget.addTextChangedListener
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.araujo.jordan.excuseme.ExcuseMe
 import com.domain.BaseModels.ResponseChatFromToken
 import com.domain.BaseModels.ResponseJWTTokenLogin
 import com.domain.IncomingCallCallback
 import com.domain.OnViewClicked
-import com.domain.constant.AppConstants
-
-import com.veriKlick.databinding.CustomSnackbarGlobalBinding
-//import com.veriKlick.databinding.CustomSnackbarGlobalBinding
-import com.veriKlick.databinding.LayoutPrivacyPolicyBinding
-import com.veriKlick.databinding.LayoutProgressBinding
-import com.veriKlick.databinding.LayoutSuccessMsgSnackbarPlayerBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.veriKlick.R
-
+import com.veriKlick.databinding.CustomSnackbarGlobalBinding
+import com.veriKlick.databinding.LayoutPrivacyPolicyBinding
+import com.veriKlick.databinding.LayoutProgressBinding
+import com.veriKlick.databinding.LayoutSuccessMsgSnackbarPlayerBinding
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import okhttp3.internal.waitMillis
 import java.io.UnsupportedEncodingException
 import java.text.SimpleDateFormat
 import java.util.*

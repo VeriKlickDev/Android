@@ -1,5 +1,6 @@
 package com.data.daggermodule
 
+import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.data.dataHolders.DataStoreHelper
@@ -7,6 +8,7 @@ import com.data.repositoryImpl.BaseRestRepository
 import com.domain.RestApi.BaseRestApi
 import com.data.repositoryImpl.RepositoryImpl
 import com.domain.RestApi.LoginRestApi
+import com.veriKlick.R
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,32 +18,38 @@ import okhttp3.Protocol
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.security.KeyStore
+import java.security.cert.Certificate
+import java.security.cert.CertificateFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManagerFactory
+import javax.net.ssl.X509TrustManager
 
 @Module
 @InstallIn(SingletonComponent::class)
 class BaseModule {
-//context: Context,dataStore: DataStore<Preferences>
+    //context: Context,dataStore: DataStore<Preferences>
     @Provides
     @Singleton
-    fun userdataStoreprovider():DataStore<Preferences>
-    {
+    fun userdataStoreprovider(): DataStore<Preferences> {
         return DataStoreHelper.getDataStore()
     }
 
     @Provides
     @Singleton
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
-         val interception=HttpLoggingInterceptor()
-        interception.level=HttpLoggingInterceptor.Level.BODY
+        val interception = HttpLoggingInterceptor()
+        interception.level = HttpLoggingInterceptor.Level.BODY
+
         return interception
     }
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(interceptor: HttpLoggingInterceptor):  OkHttpClient.Builder {
-      // fun provideOkHttpClient():  OkHttpClient.Builder {
+    fun provideOkHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient.Builder {
+        // fun provideOkHttpClient():  OkHttpClient.Builder {
         return OkHttpClient.Builder()
             .addInterceptor(interceptor)
             .readTimeout(1, TimeUnit.MINUTES)
@@ -54,22 +62,22 @@ class BaseModule {
 
     @Provides
     @Singleton
-    fun getRetrofitClient(interceptor: HttpLoggingInterceptor) :BaseRestApi
-   // fun getRetrofitClient() :BaseRestApi
+    fun getRetrofitClient(interceptor: HttpLoggingInterceptor): BaseRestApi
+    // fun getRetrofitClient() :BaseRestApi
     {
-        val httpClient=OkHttpClient.Builder().protocols(listOf(Protocol.HTTP_1_1))
-            .writeTimeout(1,TimeUnit.MINUTES)
-            .readTimeout(1,TimeUnit.MINUTES)
-            .connectTimeout(1,TimeUnit.MINUTES)
+        val httpClient = OkHttpClient.Builder().protocols(listOf(Protocol.HTTP_1_1))
+            .writeTimeout(1, TimeUnit.MINUTES)
+            .readTimeout(1, TimeUnit.MINUTES)
+            .connectTimeout(1, TimeUnit.MINUTES)
             .addInterceptor(interceptor)
             .retryOnConnectionFailure(true)
             .followSslRedirects(true)
             .followRedirects(true)
             .build()
-       // val httpClient=OkHttpClient.Builder().build() api.veriklick.com
+        // val httpClient=OkHttpClient.Builder().build() api.veriklick.com
         //api.veriklick.in
         // api.veriklick.com
-        val retrofit= Retrofit.Builder().baseUrl("https://api.veriklick.com")
+        val retrofit = Retrofit.Builder().baseUrl("https://api.veriklick.com")
             .addConverterFactory(GsonConverterFactory.create())
             .client(httpClient)
             .build()
@@ -78,33 +86,63 @@ class BaseModule {
 
     @Provides
     @Singleton
-    fun getRepo(baseRestApi: BaseRestApi,loginRestApi: LoginRestApi): BaseRestRepository
-    {
-    return RepositoryImpl(baseRestApi,loginRestApi)//,loginBaseRestApi
+    fun getRepo(baseRestApi: BaseRestApi, loginRestApi: LoginRestApi): BaseRestRepository {
+        return RepositoryImpl(baseRestApi, loginRestApi)//,loginBaseRestApi
     }
 
     @Provides
     @Singleton
-    fun getClientForLogin(interceptor: HttpLoggingInterceptor) : LoginRestApi
-   // fun getClientForLogin() :LoginRestApi
+    fun getClientForLogin(interceptor: HttpLoggingInterceptor): LoginRestApi
+    // fun getClientForLogin() :LoginRestApi
     {
-        val httpClient=OkHttpClient.Builder().addInterceptor(interceptor)
-            .writeTimeout(1,TimeUnit.MINUTES)
-            .readTimeout(1,TimeUnit.MINUTES)
-            .connectTimeout(1,TimeUnit.MINUTES)
+        val httpClient = OkHttpClient.Builder().addInterceptor(interceptor)
+            .writeTimeout(1, TimeUnit.MINUTES)
+            .readTimeout(1, TimeUnit.MINUTES)
+            .connectTimeout(1, TimeUnit.MINUTES)
             .retryOnConnectionFailure(true)
             .followSslRedirects(true)
             .followRedirects(true)
             .build()
-       // val httpClient=OkHttpClient.Builder().build()//https://veridialapi.veriklick.com
+        // val httpClient=OkHttpClient.Builder().build()//https://veridialapi.veriklick.com
         //https://veridialapi.veriklick.in
-        val retrofit= Retrofit.Builder().baseUrl("https://veridialapi.veriklick.com")// veridialapi.veriklick.in
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://veridialapi.veriklick.com")// veridialapi.veriklick.in
             .addConverterFactory(GsonConverterFactory.create())
             .client(httpClient).build()
         return retrofit.create(LoginRestApi::class.java)
     }
 }
 
+  /*  private fun getUnsafeOkHttpClient(mContext: Context) :
+            OkHttpClient.Builder? {
+
+
+        var mCertificateFactory : CertificateFactory =
+            CertificateFactory.getInstance("X.509")
+        var mInputStream = mContext.resources.openRawResource(R.raw.cert)
+        var mCertificate : Certificate = mCertificateFactory.generateCertificate(mInputStream)
+        mInputStream.close()
+        val mKeyStoreType = KeyStore.getDefaultType()
+        val mKeyStore = KeyStore.getInstance(mKeyStoreType)
+        mKeyStore.load(null, null)
+        mKeyStore.setCertificateEntry("ca", mCertificate)
+
+        val mTmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm()
+        val mTrustManagerFactory = TrustManagerFactory.getInstance(mTmfAlgorithm)
+        mTrustManagerFactory.init(mKeyStore)
+
+        val mTrustManagers = mTrustManagerFactory.trustManagers
+
+        val mSslContext = SSLContext.getInstance("SSL")
+        mSslContext.init(null, mTrustManagers, null)
+        val mSslSocketFactory = mSslContext.socketFactory
+
+        val builder = OkHttpClient.Builder()
+        builder.sslSocketFactory(mSslSocketFactory, mTrustManagers[0] as X509TrustManager)
+        builder.hostnameVerifier { _, _ -> true }
+        return builder
+}
+*/
 
 
 

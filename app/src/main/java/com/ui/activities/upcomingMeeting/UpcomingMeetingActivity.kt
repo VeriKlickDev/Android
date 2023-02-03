@@ -76,8 +76,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         if (checkInternet()) {
             status = "schedule"
             binding.tvHeader.setText(getString(R.string.txt_scheduled_meetings))
-
-            handleUpcomingMeetingsList(0, 1, 9)
+             handleUpcomingMeetingsList(0, 1, 9)
         } else {
             showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
         }
@@ -107,6 +106,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 meetingsList.clear()
                 pageno = 1
                 handleUpcomingMeetingsList(7, 1, 9)
+
             } else {
                 showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
             }
