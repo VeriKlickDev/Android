@@ -15,7 +15,7 @@ android {
         applicationId "com.veriKlick"
         minSdk 27
         targetSdk 32
-        versionCode 5
+        versionCode 6
         versionName "1.0"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -124,7 +124,7 @@ dependencies {
     implementation "com.github.AraujoJordan:ExcuseMe:0.9.5"
 
     //twilio
-    implementation "com.twilio:audioswitch:1.1.5"
+
     //implementation "com.twilio:video-android:7.1.2"
     //implementation "com.twilio:chat-android-with-symbols:6.2.0"
 
@@ -138,6 +138,7 @@ dependencies {
     //twilio kotlin
     //working implementation "com.twilio:video-android-ktx:7.1.2"
     //implementation("com.twilio:video-android:7.5.1")
+    implementation "com.twilio:audioswitch:1.1.5"
     implementation 'com.twilio:video-android-ktx:7.5.1'
 
     //JWT encryption

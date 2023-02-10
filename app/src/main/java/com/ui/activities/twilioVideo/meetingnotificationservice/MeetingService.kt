@@ -108,9 +108,8 @@ class MeetingService : Service() {
             .build()*/
 
 
-
-
         startForeground(notificationId, notification)
+
     }
 
     override fun onTaskRemoved(rootIntent: Intent?) {

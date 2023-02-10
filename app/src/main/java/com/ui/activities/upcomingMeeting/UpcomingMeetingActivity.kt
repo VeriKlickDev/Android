@@ -420,7 +420,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             }
 
         }
-
+    try{
         WeeksDataHolder.setCurrentTime(
             WeeksDataHolder.CurrentDatesHolderModel(
                 ob?.fromdate!!,
@@ -429,6 +429,9 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 ob?.to!!
             )
         )
+
+        //from here
+
 
         binding.tvFromdateToDate.text = getDateWithMonthName(
             ob!!.from.toString(),
@@ -485,6 +488,13 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         } else {
             dismissProgressDialog()
         }
+
+        //to here
+    }catch (e:Exception){
+        showCustomSnackbarOnTop("Something went wrong")
+        Log.d(TAG, "handleUpcomingMeetingsList: exception 433 ${e.message}")
+    }
+
     }
 
 

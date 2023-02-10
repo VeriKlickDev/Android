@@ -51,7 +51,7 @@ class JoinMeetingActivity :AppCompatActivity() {
                     val meetingLink= binding.etJoinMeeting.text.toString()
                     val accessCodeSplit=meetingLink.splitToSequence("/")
 
-                    accessCode= accessCodeSplit.last()
+                    accessCode = accessCodeSplit.last()
                     Log.d(TAG, "onCreate: accessCode is $accessCode")
                     //host https://ui2.veriklick.in/video-session/EIFfAgSkvLzhZwt9fy4o
                     //interviewer
