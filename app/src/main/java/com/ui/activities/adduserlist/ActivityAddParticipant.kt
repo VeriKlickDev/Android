@@ -484,6 +484,7 @@ class ActivityAddParticipant : AppCompatActivity() {
     override fun onPause() {
         interviewList.clear()
         InvitationDataHolder.getList().clear()
+        dismissProgressDialog()
         super.onPause()
     }
 

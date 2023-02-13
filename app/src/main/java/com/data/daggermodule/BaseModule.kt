@@ -42,7 +42,6 @@ class BaseModule {
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
         val interception = HttpLoggingInterceptor()
         interception.level = HttpLoggingInterceptor.Level.BODY
-
         return interception
     }
 
@@ -69,7 +68,7 @@ class BaseModule {
             .writeTimeout(1, TimeUnit.MINUTES)
             .readTimeout(1, TimeUnit.MINUTES)
             .connectTimeout(1, TimeUnit.MINUTES)
-            .addInterceptor(interceptor)
+            //.addInterceptor(interceptor)
             .retryOnConnectionFailure(true)
             .followSslRedirects(true)
             .followRedirects(true)

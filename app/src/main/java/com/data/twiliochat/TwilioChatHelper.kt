@@ -265,7 +265,13 @@ object TwilioChatHelper {
                     CurrentMeetingDataSaver.getData()?.users!!
                         .forEach {
                             val identity = it.userType + it.id
-                            addParticipantToChat(identity, conversation!!)
+                            try {
+                                addParticipantToChat(identity, conversation!!)
+                            }catch (e:Exception)
+                            {
+                                Log.d(TAG, "onSuccess: excpetion 272 ${e.message}")
+                            }
+
                         }
 
 

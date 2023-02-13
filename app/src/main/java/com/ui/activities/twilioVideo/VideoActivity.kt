@@ -68,6 +68,9 @@ import com.veriKlick.R
 import com.veriKlick.databinding.ActivityTwilioVideoBinding
 import com.veriKlick.databinding.LayoutMuteMicUpdateBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.internal.waitMillis
 import tvi.webrtc.VideoSink
 import kotlin.properties.Delegates
@@ -574,7 +577,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
         MicMuteUnMuteHolder.videoStatus.observe(this, Observer {
             if (it != null) {
-                getLocalVideoTrack()?.enable(it.isVideo)
+                CoroutineScope(Dispatchers.IO).launch {
+                    getLocalVideoTrack()?.enable(it.isVideo)
+                }
                 var icon: Int = R.drawable.ic_img_btn_video
                 var isTint = false
                 if (it.isVideo) {
@@ -2780,6 +2785,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
     }
 
     override fun onDestroy() {
+        dismissProgressDialog()
         // LocalBroadcastManager.getInstance(this).unregisterReceiver(incomingCallRecevier)
         getLocalVideoTrack()?.let { localParticipant?.unpublishTrack(it) }
         // localAudioTrack?.let { localParticipant?.unpublishTrack(it) }

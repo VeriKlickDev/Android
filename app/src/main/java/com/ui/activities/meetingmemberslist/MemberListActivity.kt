@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.data.checkInternet
 import com.data.dataHolders.*
+import com.data.dismissProgressDialog
 import com.data.showCustomSnackbarOnTop
 import com.domain.BaseModels.VideoTracksBean
 import com.domain.constant.AppConstants
@@ -109,6 +110,11 @@ class MemberListActivity : AppCompatActivity() {
 */
 
         handleObserver()
+    }
+
+    override fun onDestroy() {
+        dismissProgressDialog()
+        super.onDestroy()
     }
 
     private fun handleObserver()

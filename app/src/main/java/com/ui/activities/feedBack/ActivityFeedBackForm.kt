@@ -130,6 +130,11 @@ class ActivityFeedBackForm : AppCompatActivity() {
         // getInterviewDetails("mkpeHcXKbF95uRiWiLzJ")
     }
 
+    override fun onDestroy() {
+        dismissProgressDialog()
+        super.onDestroy()
+    }
+
     fun handleViews() {
 
         binding.etRemart.doOnTextChanged { text, start, before, count ->

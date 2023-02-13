@@ -241,6 +241,11 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
 
     }
 
+    override fun onDestroy() {
+        dismissProgressDialog()
+        super.onDestroy()
+    }
+
     private fun verifyOtp(otp:String) {
         viewModel.verifyOtp(email, otp, response = { result, data, exception ->
             when (result) {

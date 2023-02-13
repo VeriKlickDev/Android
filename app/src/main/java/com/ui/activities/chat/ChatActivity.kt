@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.data.dataHolders.*
+import com.data.dismissProgressDialog
 
 import com.data.twiliochat.MessageCallBack
 import com.data.twiliochat.TwilioChatHelper
@@ -185,6 +186,7 @@ class ChatActivity : AppCompatActivity(){
     }
 
     override fun onDestroy() {
+        dismissProgressDialog()
         super.onDestroy()
        /// TwilioChatHelper.newMsgLiveData.removeObserver(observer)
     }

@@ -231,13 +231,11 @@ fun Context.showProgressDialog() {
 
 fun Context.dismissProgressDialog() {
    try{
-
        android.os.Handler(Looper.getMainLooper()).post(Runnable {
            progressbar?.let {
                it.dismiss()
            }
        })
-
    }catch (e:Exception)
    {
 

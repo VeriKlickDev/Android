@@ -125,6 +125,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        dismissProgressDialog()
         super.onDestroy()
     }
 

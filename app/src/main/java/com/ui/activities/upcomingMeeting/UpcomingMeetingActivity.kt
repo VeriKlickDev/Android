@@ -71,6 +71,8 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
         //  WeeksDataHolder.setDayToZero()
         layoutManager = LinearLayoutManager(this)
+        binding.rvUpcomingMeeting.layoutManager = layoutManager
+
 
         currentDateIST = getCurrentDate()!!
         if (checkInternet()) {
@@ -148,7 +150,8 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             }
             false
         })
-        binding.rvUpcomingMeeting.layoutManager = layoutManager
+
+
 
         handleObserver()
 
@@ -243,7 +246,6 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 {
                     Log.d(TAG, "onScrollStateChanged: exception 221 ${e.message}")
                 }
-
             }
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -288,6 +290,11 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
     }
 
+    override fun onDestroy() {
+        dismissProgressDialog()
+        super.onDestroy()
+    }
+
     private fun refereshPage() {
         if (checkInternet()) {
             meetingsList.clear()
@@ -313,113 +320,138 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     private var ob: BodyScheduledMeetingBean? = null
 
     private fun handleUpcomingMeetingsList(action: Int, pageNumber: Int, pageSize: Int) {
-        Log.d(TAG, "handleUpcomingMeetingsList: refreshed")
-        UpcomingMeetingStatusHolder.setStatus(status)
 
-        var recruiterId = ""
-        var userId = ""
-        var recruiterEmail = ""
+       try {
 
-        CoroutineScope(Dispatchers.IO).launch {
-            recruiterId = DataStoreHelper.getMeetingRecruiterid()
-            userId = DataStoreHelper.getMeetingUserId()
-            recruiterEmail = DataStoreHelper.getUserEmail()
-        }
+           Log.d(TAG, "handleUpcomingMeetingsList: refreshed")
+           UpcomingMeetingStatusHolder.setStatus(status)
 
-        ob = BodyScheduledMeetingBean(
-            Isweb = true
-        )
+           var recruiterId = ""
+           var userId = ""
+           var recruiterEmail = ""
 
-        when (action) {
-            //first attempt
-            0 -> {
-                WeeksDataHolder.getISTandUTCDate(currentDateIST!!, 2) { ist, utc, istx, utcx ->
-                    ob!!.from = utc
-                    ob!!.to = utcx
+           CoroutineScope(Dispatchers.IO).launch {
+               recruiterId = DataStoreHelper.getMeetingRecruiterid()
+               userId = DataStoreHelper.getMeetingUserId()
+               recruiterEmail = DataStoreHelper.getUserEmail()
+           }
 
-                    ob!!.fromdate = ist
-                    ob!!.todate = istx
+           ob = BodyScheduledMeetingBean(
+               Isweb = true
+           )
 
-                    currentDateIST = istx
-                    currentDateUTC = utcx
+
+
+
+
+       }catch (e:Exception){
+        showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+    }
+
+
+
+        try {
+
+            when (action) {
+                //first attempt
+                0 -> {
+                    WeeksDataHolder.getISTandUTCDate(currentDateIST!!, 2) { ist, utc, istx, utcx ->
+                        ob!!.from = utc
+                        ob!!.to = utcx
+
+                        ob!!.fromdate = ist
+                        ob!!.todate = istx
+
+                        currentDateIST = istx
+                        currentDateUTC = utcx
+                    }
+                    isNextClicked = true
                 }
-                isNextClicked = true
-            }
-            7 -> {
+                7 -> {
 
-                try {
+                    try {
 
-                    val dObject = WeeksDataHolder.getCurrentDates()
-                    ob?.from = dObject?.utc
-                    ob?.fromdate = dObject?.ist
+                        val dObject = WeeksDataHolder.getCurrentDates()
+                        ob?.from = dObject?.utc
+                        ob?.fromdate = dObject?.ist
 
-                    ob?.to = dObject!!.utcx
-                    ob?.todate = dObject?.istx
+                        ob?.to = dObject!!.utcx
+                        ob?.todate = dObject?.istx
 
 
-                } catch (e: Exception) {
+                    } catch (e: Exception) {
+
+                    }
+                    binding.swipetorefresh.isRefreshing = false
 
                 }
-                binding.swipetorefresh.isRefreshing = false
+                //for past / previous
+                1 -> {
+                    if(isPreClicked==true)
+                    {
+                        WeeksDataHolder.getDecreasedDate(currentDateIST!!) { ist, utc ->
+                            currentDateIST = ist
+                            currentDateUTC = utc
+                        }
+                    }
+                    /* WeeksDataHolder.getDecreasedDate(currentDateIST!!) { ist, utc ->
+                         currentDateIST = ist
+                         currentDateUTC = utc
+                     }*/
+                    WeeksDataHolder.getISTandUTCDate(currentDateIST!!, 1) { ist, utc, istx, utcx ->
+                        ob!!.from = utc
+                        ob!!.to = utcx
 
-            }
-            //for past / previous
-            1 -> {
-                if(isPreClicked==true)
-                {
-                    WeeksDataHolder.getDecreasedDate(currentDateIST!!) { ist, utc ->
+                        ob!!.fromdate = ist
+                        ob!!.todate = istx
+
                         currentDateIST = ist
                         currentDateUTC = utc
                     }
+
+                    isPreClicked = true
+
                 }
-               /* WeeksDataHolder.getDecreasedDate(currentDateIST!!) { ist, utc ->
-                    currentDateIST = ist
-                    currentDateUTC = utc
-                }*/
-                WeeksDataHolder.getISTandUTCDate(currentDateIST!!, 1) { ist, utc, istx, utcx ->
-                    ob!!.from = utc
-                    ob!!.to = utcx
-
-                    ob!!.fromdate = ist
-                    ob!!.todate = istx
-
-                    currentDateIST = ist
-                    currentDateUTC = utc
-                }
-
-                isPreClicked = true
-
-            }
-            //for next week date
-            2 -> {
-                if (isNextClicked==true){
-                    WeeksDataHolder.getIncreasedDate(currentDateIST!!) { ist, utc ->
-                        currentDateIST = ist
-                        currentDateUTC = utc
+                //for next week date
+                2 -> {
+                    if (isNextClicked==true){
+                        WeeksDataHolder.getIncreasedDate(currentDateIST!!) { ist, utc ->
+                            currentDateIST = ist
+                            currentDateUTC = utc
+                        }
                     }
+                    /* WeeksDataHolder.getIncreasedDate(currentDateIST!!) { ist, utc ->
+                         currentDateIST = ist
+                         currentDateUTC = utc
+                     }*/
+
+                    WeeksDataHolder.getISTandUTCDate(currentDateIST!!, 2) { ist, utc, istx, utcx ->
+                        ob!!.from = utc
+                        ob!!.to = utcx
+
+
+                        ob!!.fromdate = ist
+                        ob!!.todate = istx
+
+                        currentDateIST = istx
+                        currentDateUTC = utcx
+
+                    }
+
+                    isNextClicked = true
                 }
-               /* WeeksDataHolder.getIncreasedDate(currentDateIST!!) { ist, utc ->
-                    currentDateIST = ist
-                    currentDateUTC = utc
-                }*/
 
-                WeeksDataHolder.getISTandUTCDate(currentDateIST!!, 2) { ist, utc, istx, utcx ->
-                    ob!!.from = utc
-                    ob!!.to = utcx
-
-
-                    ob!!.fromdate = ist
-                    ob!!.todate = istx
-
-                    currentDateIST = istx
-                    currentDateUTC = utcx
-
-                }
-
-                isNextClicked = true
             }
 
+
+
+        }catch (e:Exception){
+                    showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
         }
+
+
+
+
     try{
         WeeksDataHolder.setCurrentTime(
             WeeksDataHolder.CurrentDatesHolderModel(
@@ -496,7 +528,6 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     }
 
     }
-
 
     fun getDataWithOtp(ob: BodyScheduledMeetingBean) {
         viewModel.getScheduledMeetingListwithOtp(

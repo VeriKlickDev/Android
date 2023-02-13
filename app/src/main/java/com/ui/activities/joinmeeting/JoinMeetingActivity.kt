@@ -151,6 +151,7 @@ handleObserver()
     }*/
 
     override fun onDestroy() {
+        dismissProgressDialog()
         Log.d(TAG, "onDestroy: ")
         super.onDestroy()
     }
@@ -288,6 +289,8 @@ handleObserver()
             }
         })
     }
+
+
 
   private  fun privacyPolicy(link:String,action:Int)
     {

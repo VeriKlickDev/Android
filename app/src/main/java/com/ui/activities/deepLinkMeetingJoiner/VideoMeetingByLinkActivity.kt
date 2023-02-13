@@ -164,6 +164,11 @@ class VideoMeetingByLinkActivity : AppCompatActivity() {
         })
     }
 
+    override fun onDestroy() {
+        dismissProgressDialog()
+        super.onDestroy()
+    }
+
    private fun privacyPolicy(link:String,action:Int)
     {
         val intent= Intent(this, ActivityPrivacyPolicy::class.java)

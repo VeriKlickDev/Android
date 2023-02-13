@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import com.data.dataHolders.DataStoreHelper
+import com.data.dismissProgressDialog
 import com.data.setHandler
 import com.domain.constant.AppConstants
 import com.veriKlick.*
@@ -77,6 +78,11 @@ class SplashScreen : AppCompatActivity() {
             finish()
         },500)
 
+    }
+
+    override fun onDestroy() {
+        dismissProgressDialog()
+        super.onDestroy()
     }
 
 

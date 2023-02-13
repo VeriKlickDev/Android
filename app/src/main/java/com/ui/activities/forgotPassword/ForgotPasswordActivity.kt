@@ -55,6 +55,11 @@ class ForgotPasswordActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        dismissProgressDialog()
+        super.onDestroy()
+    }
+
     override fun finish() {
         super.finish()
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
