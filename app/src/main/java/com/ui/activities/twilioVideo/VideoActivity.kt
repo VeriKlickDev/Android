@@ -577,7 +577,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
         MicMuteUnMuteHolder.videoStatus.observe(this, Observer {
             if (it != null) {
-                CoroutineScope(Dispatchers.IO).launch {
+                CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                     getLocalVideoTrack()?.enable(it.isVideo)
                 }
                 var icon: Int = R.drawable.ic_img_btn_video

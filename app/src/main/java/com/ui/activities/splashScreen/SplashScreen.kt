@@ -8,6 +8,7 @@ import android.os.Looper
 import android.util.Log
 import com.data.dataHolders.DataStoreHelper
 import com.data.dismissProgressDialog
+import com.data.exceptionHandler
 import com.data.setHandler
 import com.domain.constant.AppConstants
 import com.veriKlick.*
@@ -28,7 +29,7 @@ class SplashScreen : AppCompatActivity() {
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-          CoroutineScope(Dispatchers.IO).launch {
+          CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
               email= DataStoreHelper.getUserEmail()
           }
 
@@ -69,7 +70,7 @@ class SplashScreen : AppCompatActivity() {
     fun startActivityUpcomingMeeting()
     {
         val intent=Intent(this, UpcomingMeetingActivity::class.java)
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
             intent.putExtra(AppConstants.LOGIN_WITH_OTP,DataStoreHelper.getLoggedInStatus())
         }
         Handler(Looper.getMainLooper()).postDelayed({

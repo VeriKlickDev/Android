@@ -38,6 +38,7 @@ import com.veriKlick.databinding.CustomSnackbarGlobalBinding
 import com.veriKlick.databinding.LayoutPrivacyPolicyBinding
 import com.veriKlick.databinding.LayoutProgressBinding
 import com.veriKlick.databinding.LayoutSuccessMsgSnackbarPlayerBinding
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -241,6 +242,30 @@ fun Context.dismissProgressDialog() {
 
    }
 }
+
+
+fun dismissProgressDialogwithoutContext() {
+    try{
+        android.os.Handler(Looper.getMainLooper()).post(Runnable {
+            progressbar?.let {
+                it.dismiss()
+            }
+        })
+    }catch (e:Exception)
+    {
+
+    }
+}
+
+
+ val exceptionHandler = CoroutineExceptionHandler{_, exception->
+    // Timber.tag("API_CALL_ERROR").e(exception)
+    dismissProgressDialogwithoutContext()
+    Log.d("exceptionTAG", " exception handled by handler: ${exception.message}")
+    //context.showToast(exception.message?:context.getString(R.string.msg_something_went_wrong))
+}
+
+
 
 fun Context.showCustomSnackBar(msg: String) {
     val bindingSnack = LayoutSuccessMsgSnackbarPlayerBinding.inflate(LayoutInflater.from(this))

@@ -3,10 +3,11 @@ package com.ui.activities.twilioVideo
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+
 import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.dataHolders.DataStoreHelper
 import com.data.dataHolders.VideoRecordingStatusHolder
+import com.data.exceptionHandler
 import com.data.helpers.TwilioHelper
 import com.data.repositoryImpl.RepositoryImpl
 import com.domain.BaseModels.*
@@ -206,7 +207,7 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
         response: (data: ResponseChatToken?, code: Int) -> Unit
     ) {
         try {
-            viewModelScope.launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 val result = repositoryImpl.getChatToken(identity)
                 if (result.isSuccessful) {
                     if (result.body() != null) {
@@ -253,7 +254,7 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
         onResult: (action: Int, data: ResponseMuteUmnute?) -> Unit
     ) {
         try {
-            viewModelScope.launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 val result = repositoryImpl.setMuteUnmuteStatus(
                     BodyMuteUmnuteBean(
                         interviewId,
@@ -285,7 +286,7 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
     fun getVideoSessionDetails(videoAccessCode:String,onDataResponse:(data:ResponseInterViewDetailsBean?,response:Int)->Unit)
     {
         try {
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 val result=repositoryImpl.requestVideoSession(videoAccessCode)
                 if (result.isSuccessful)
                 {
@@ -333,7 +334,7 @@ class VideoViewModel @Inject constructor(val repositoryImpl: RepositoryImpl) : V
 fun setCandidateJoinedStatus(onResult: (action: Int, data: ResponseCandidateJoinedMeetingStatus?) -> Unit)
     {
         try {
-            viewModelScope.launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 //val ob=BodyCandidateJoinedMeetingStatus(CurrentMeetingDataSaver.getData().videoAccessCode,"Attended",CurrentMeetingDataSaver.getData().interviewModel?.subscriberid!!.toString())
                 val ob=BodyCandidateJoinedMeetingStatus(CurrentMeetingDataSaver.getData()?.videoAccessCode,"","")
                 Log.d(TAG, "setCandidateJoinedStatus: ${Gson().toJson(ob)}")
@@ -366,7 +367,7 @@ fun setCandidateJoinedStatus(onResult: (action: Int, data: ResponseCandidateJoin
         onResult: (action: Int, data: ResponseMuteUmnute?) -> Unit
     ) {
         try {
-            viewModelScope.launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 val result = repositoryImpl.getMuteStatus(accessCode)
                 if (result.isSuccessful) {
                     if (result.body() != null) {
@@ -398,7 +399,7 @@ fun setCandidateJoinedStatus(onResult: (action: Int, data: ResponseCandidateJoin
         onResult: (action: Int, data: ResponseScreenSharingStatus?) -> Unit
     ) {
         try {
-            viewModelScope.launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 val result = repositoryImpl.getScreenSharingStatus(accessCode)
                 if (result.isSuccessful) {
                     if (result.body() != null) {
@@ -432,7 +433,7 @@ fun setCandidateJoinedStatus(onResult: (action: Int, data: ResponseCandidateJoin
         onResult: (action: Int, data: BodyUpdateScreenShareStatus?) -> Unit
     ) {
         try {
-            viewModelScope.launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 val result = repositoryImpl.setScreenSharingStatus(BodyUpdateScreenShareStatus(CurrentMeetingDataSaver.getData()?.videoAccessCode!!,CurrentMeetingDataSaver.getData()?.interviewModel?.interviewId!!.toString(),status,status))
                 if (result.isSuccessful) {
                     if (result.body() != null) {
@@ -463,7 +464,7 @@ fun setCandidateJoinedStatus(onResult: (action: Int, data: ResponseCandidateJoin
         onResult: (action: Int, data: BodyUpdateRecordingStatus?) -> Unit
     ) {
         try {
-            viewModelScope.launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 val result = repositoryImpl.getRecordingStatusUpdate(
                     BodyUpdateRecordingStatus(
                         CurrentMeetingDataSaver.getData()?.interviewModel?.interviewId!!,
@@ -497,7 +498,7 @@ fun setCandidateJoinedStatus(onResult: (action: Int, data: ResponseCandidateJoin
       fun endVideoCall()
       {
           try {
-              viewModelScope.launch {
+              CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                   val result=repositoryImpl.closeMeeting(BodyMeetingClose(CurrentMeetingDataSaver.getRoomData().roomName, RoomStatus = "completed"))
 
                   if (result.isSuccessful) {

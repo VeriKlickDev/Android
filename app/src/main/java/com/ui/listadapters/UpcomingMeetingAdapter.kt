@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.data.change24to12hoursFormat
 import com.data.changeDatefrom_yyyymmdd_to_mmddyyyy
+import com.data.showCustomSnackbarOnTop
 import com.domain.BaseModels.InterViewersListModel
 import com.domain.BaseModels.NewInterviewDetails
 
@@ -49,11 +50,18 @@ class UpcomingMeetingAdapter(
 
 
         holder.binding.btnJoin.setOnClickListener {
-            if (list[position].mSMeetingMode.equals("veriklick")){
-            onClick(list.get(position), videoAccessCode.toString(), 1)
-            }
-            else{
-                onClick(data, videoAccessCode.toString(), 4)
+            try {
+
+                if (list[position].mSMeetingMode.equals("veriklick")){
+                    onClick(list.get(position), videoAccessCode.toString(), 1)
+                }
+                else{
+                    onClick(data, videoAccessCode.toString(), 4)
+                }
+            }catch (e:Exception)
+            {
+                context.showCustomSnackbarOnTop(context.getString(R.string.txt_something_went_wrong))
+                Log.d(TAG, "onBindViewHolder: exp 56 ${e.message}")
             }
         }
 

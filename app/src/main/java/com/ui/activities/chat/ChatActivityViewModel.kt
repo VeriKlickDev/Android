@@ -3,7 +3,8 @@ package com.ui.activities.chat
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.data.exceptionHandler
+
 import com.data.repositoryImpl.RepositoryImpl
 import com.domain.BaseModels.ChatMessagesModel
 import com.domain.BaseModels.ResponseChatToken
@@ -12,6 +13,8 @@ import com.twilio.conversations.Conversation
 import com.twilio.conversations.ConversationsClient
 import com.twilio.conversations.ErrorInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -90,7 +93,7 @@ class ChatActivityViewModel @Inject constructor(val repositoryImpl: RepositoryIm
         response: (data: ResponseChatToken?, code: Int) -> Unit
     ) {
         try {
-            viewModelScope.launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 val result = repositoryImpl.getChatToken(identity)
                 if (result.isSuccessful) {
                     if (result.body() != null) {

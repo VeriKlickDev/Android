@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.createDataStore
 import com.data.decodeLoginToken
+import com.data.exceptionHandler
 import com.domain.constant.AppConstants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +25,7 @@ object DataStoreHelper {
 
     fun insertValue(email:String,psswd:String)
     {
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
             val emailkey= preferencesKey<String>(AppConstants.USER_EMAIL_ID)
             dataStore.edit {
                 it[emailkey]=email
@@ -38,7 +39,7 @@ object DataStoreHelper {
 
     fun setToken(token:String)
     {
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
             val tokenKey= preferencesKey<String>(AppConstants.USER_LOGIN_TOKEN)
             dataStore.edit {
                 it[tokenKey]=token
@@ -48,7 +49,7 @@ object DataStoreHelper {
 
     fun setLoggedInWithOtp(isLoggedOtp:Boolean)
     {
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
             val tokenKey= preferencesKey<Boolean>(AppConstants.LOGGED_WITH_OTP)
             dataStore.edit {
                 it[tokenKey]=isLoggedOtp
@@ -68,7 +69,7 @@ object DataStoreHelper {
 
     fun setAccessCode(code:String)
     {
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
             val accessCode= preferencesKey<String>(AppConstants.LOGGED_USER_ACCESSCODE)
             dataStore.edit {
                 it[accessCode]=code
@@ -78,7 +79,7 @@ object DataStoreHelper {
 
     fun getAccessCode(code:(String)->Unit)
     {
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
          code( dataStore.data.first()[preferencesKey<String>(AppConstants.LOGGED_USER_ACCESSCODE)].toString())
         }
     }
@@ -93,7 +94,7 @@ object DataStoreHelper {
 
     suspend fun getLoggedUserData(){
         decodeLoginToken(getLoginToken(), response = { response ->
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 setMeetingRecruiterAndUserIds(response?.UserId.toString(),response?.CreatedBy.toString())
             }
         })
@@ -107,7 +108,7 @@ object DataStoreHelper {
 
     fun clearData()
     {
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
             dataStore.edit {
                 it.clear()
             }

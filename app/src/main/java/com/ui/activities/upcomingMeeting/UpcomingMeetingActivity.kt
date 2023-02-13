@@ -75,6 +75,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
 
         currentDateIST = getCurrentDate()!!
+
         if (checkInternet()) {
             status = "schedule"
             binding.tvHeader.setText(getString(R.string.txt_scheduled_meetings))
@@ -110,6 +111,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 handleUpcomingMeetingsList(7, 1, 9)
 
             } else {
+                binding.swipetorefresh.isRefreshing=false
                 showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
             }
         }
@@ -330,7 +332,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
            var userId = ""
            var recruiterEmail = ""
 
-           CoroutineScope(Dispatchers.IO).launch {
+           CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                recruiterId = DataStoreHelper.getMeetingRecruiterid()
                userId = DataStoreHelper.getMeetingUserId()
                recruiterEmail = DataStoreHelper.getUserEmail()

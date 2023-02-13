@@ -1,6 +1,7 @@
 package com.data.daggermodule
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.data.dataHolders.DataStoreHelper
@@ -16,8 +17,10 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.Protocol
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
 import java.security.KeyStore
 import java.security.cert.Certificate
 import java.security.cert.CertificateFactory
@@ -58,29 +61,43 @@ class BaseModule {
             .pingInterval(1, TimeUnit.MINUTES)
             .retryOnConnectionFailure(true)
     }
-
+    val TAG="moduleErrorTag"
     @Provides
     @Singleton
     fun getRetrofitClient(interceptor: HttpLoggingInterceptor): BaseRestApi
     // fun getRetrofitClient() :BaseRestApi
     {
-        val httpClient = OkHttpClient.Builder().protocols(listOf(Protocol.HTTP_1_1))
-            .writeTimeout(1, TimeUnit.MINUTES)
-            .readTimeout(1, TimeUnit.MINUTES)
-            .connectTimeout(1, TimeUnit.MINUTES)
-            //.addInterceptor(interceptor)
-            .retryOnConnectionFailure(true)
-            .followSslRedirects(true)
-            .followRedirects(true)
-            .build()
-        // val httpClient=OkHttpClient.Builder().build() api.veriklick.com
-        //api.veriklick.in
-        // api.veriklick.com
-        val retrofit = Retrofit.Builder().baseUrl("https://api.veriklick.com")
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(httpClient)
-            .build()
-        return retrofit.create(BaseRestApi::class.java)
+
+        var retrofit:Retrofit?=null
+
+        try {
+            val httpClient = OkHttpClient.Builder().protocols(listOf(Protocol.HTTP_1_1))
+                .writeTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(1, TimeUnit.MINUTES)
+                .connectTimeout(1, TimeUnit.MINUTES)
+                //.addInterceptor(interceptor)
+                .retryOnConnectionFailure(true)
+                .followSslRedirects(true)
+                .followRedirects(true)
+                .build()
+            // val httpClient=OkHttpClient.Builder().build() api.veriklick.com
+            //api.veriklick.in
+            // api.veriklick.com
+              retrofit = Retrofit.Builder().baseUrl("https://api.veriklick.com")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient)
+                .build()
+        }catch (e:HttpException){
+            Log.d(TAG, "getRetrofitClient: exception https 90 ${e.message}")
+        }catch (e:Exception)
+        {
+            Log.d(TAG, "getRetrofitClient: exception 93 ${e.message}")
+        }catch (e:IOException)
+        {
+            Log.d(TAG, "getClientForLogin: io ex ${e.message} 97")
+        }
+        val baserestapi=retrofit?.create(BaseRestApi::class.java)!!
+        return baserestapi
     }
 
     @Provides
@@ -94,21 +111,35 @@ class BaseModule {
     fun getClientForLogin(interceptor: HttpLoggingInterceptor): LoginRestApi
     // fun getClientForLogin() :LoginRestApi
     {
-        val httpClient = OkHttpClient.Builder().addInterceptor(interceptor)
-            .writeTimeout(1, TimeUnit.MINUTES)
-            .readTimeout(1, TimeUnit.MINUTES)
-            .connectTimeout(1, TimeUnit.MINUTES)
-            .retryOnConnectionFailure(true)
-            .followSslRedirects(true)
-            .followRedirects(true)
-            .build()
-        // val httpClient=OkHttpClient.Builder().build()//https://veridialapi.veriklick.com
-        //https://veridialapi.veriklick.in
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://veridialapi.veriklick.com")// veridialapi.veriklick.in
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(httpClient).build()
-        return retrofit.create(LoginRestApi::class.java)
+        var retrofit:Retrofit?=null
+        try {
+            val httpClient = OkHttpClient.Builder().addInterceptor(interceptor)
+                .writeTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(1, TimeUnit.MINUTES)
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .retryOnConnectionFailure(true)
+                .followSslRedirects(true)
+                .followRedirects(true)
+                .build()
+            // val httpClient=OkHttpClient.Builder().build()//https://veridialapi.veriklick.com
+            //https://veridialapi.veriklick.in
+             retrofit = Retrofit.Builder()
+                .baseUrl("https://veridialapi.veriklick.com")// veridialapi.veriklick.in
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient).build()
+        }catch (e:HttpException){
+            Log.d(TAG, "getRetrofitClient: exception https 127 ${e.message}")
+        }catch (e:Exception)
+        {
+            Log.d(TAG, "getRetrofitClient: exception  130 ${e.message}")
+        }
+        catch (e:IOException)
+        {
+            Log.d(TAG, "getClientForLogin: io ex ${e.message} 135")
+        }
+
+
+        return retrofit?.create(LoginRestApi::class.java)!!
     }
 }
 

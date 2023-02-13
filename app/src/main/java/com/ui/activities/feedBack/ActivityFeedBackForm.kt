@@ -50,7 +50,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this).get(FeedBackViewModel::class.java)
 
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
             Log.d(
                 TAG,
                 "onCreate: recruiterId= ${CurrentMeetingDataSaver.getData()?.interviewModel?.recruiterId.toString()} "

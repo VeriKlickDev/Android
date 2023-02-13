@@ -3,10 +3,10 @@ package com.ui.activities.adduserlist
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.dataHolders.DataStoreHelper
 import com.data.dataHolders.InvitationDataModel
+import com.data.exceptionHandler
 import com.data.repositoryImpl.BaseRestRepository
 import com.domain.BaseModels.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,7 +27,7 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
         response: (isExists: Boolean) -> Unit
     ) {
         try {
-            viewModelScope.launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 val result = repo.getEmailPExistsDetails(
                     IsEmailPhoneExistsModel(
                         interviewId,
@@ -61,7 +61,7 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
         response: (isExists: Boolean) -> Unit
     ) {
         try {
-            viewModelScope.launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 val result = repo.getPhoneExistsDetails(
                     IsEmailPhoneExistsModel(
                         interviewId,
@@ -96,7 +96,7 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
 
     fun textDebounced(searchText: String,onText:(txt:String)->Unit) {
         searchJob?.cancel()
-        searchJob = viewModelScope.launch {
+        searchJob = CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
             delay(500)
             onText(searchText)
         }
@@ -130,7 +130,7 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
 
     fun sendInvitationtoUsers(list:List<InvitationDataModel>, onDataResponse:(data:ResponseSendInvitation?, action:Int)->Unit)
     {
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
             var participantObj: AddParticipantModel? = null
             try {
                 val interviewList = arrayListOf<AddInterviewerList>()
@@ -253,7 +253,7 @@ class AddUserViewModel @Inject constructor(val repo: BaseRestRepository) :ViewMo
     fun getTotoalCountOfInterviewer(videoAccessCode:String,onResponse:(action:Int,data:ResponseTotalInterviewerCount?)->Unit)
     {
         try {
-            viewModelScope.launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 val result = repo.getTotalCountOfInterViewerInMeeting(videoAccessCode = videoAccessCode)
 
                 if (result.isSuccessful) {

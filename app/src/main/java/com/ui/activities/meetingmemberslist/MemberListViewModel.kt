@@ -2,11 +2,13 @@ package com.ui.activities.meetingmemberslist
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.data.exceptionHandler
+
 import com.data.repositoryImpl.BaseRestRepository
 import com.domain.BaseModels.BodyLeftUserFromMeeting
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,7 +19,7 @@ val TAG="memberlistviewmodelcheck"
     fun leftUser(participantSid:String,roomSid:String,onDataResponse:(data:BodyLeftUserFromMeeting,status:Int)->Unit)
     {
         try {
-            viewModelScope.launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 val result = repo.leftUserFromMeeting(
                     BodyLeftUserFromMeeting(
                         ParticipantSid = participantSid,

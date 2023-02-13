@@ -2,6 +2,7 @@ package com.ui.activities.login.loginwithotp
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.data.exceptionHandler
 import com.data.repositoryImpl.RepositoryImpl
 import com.domain.BaseModels.BodyOtpVerification
 import com.domain.BaseModels.BodyOtpVerificationStatus
@@ -20,7 +21,7 @@ private val TAG="otpviewModelCheck"
 
     fun sendOtp(email:String, response:(result:Int, data: ResponseOtpVerification, exception:String?)->Unit, actionProgress:(action:Int)->Unit) {
         try {
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 actionProgress(1)
 
                 val result = repo?.sendOtpToEmailVerification(email)
@@ -74,7 +75,7 @@ private val TAG="otpviewModelCheck"
 
     fun verifyOtp(email:String, otp:String, response:(result:Int, data: ResponseOtpVerificationStatus, exception:String?)->Unit, actionProgress:(action:Int)->Unit) {
         try {
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 actionProgress(1)
 
 

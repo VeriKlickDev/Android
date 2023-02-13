@@ -289,13 +289,13 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
     fun handleVerifiedStatus(data: ResponseOtpVerificationStatus)
     {
         DataStoreHelper.insertValue(email,data.recruiterid!!)
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
             DataStoreHelper.setMeetingRecruiterAndUserIds(data.recruiterid!!,data.subscriberId!!)
             DataStoreHelper.setLoggedInWithOtp(true)
         }
 
         val intent=Intent(this, UpcomingMeetingActivity::class.java)
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
             intent.putExtra(AppConstants.LOGIN_WITH_OTP,true)
         }
 

@@ -3,6 +3,7 @@ package com.ui.activities.documentviewer
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.data.dataHolders.CurrentMeetingDataSaver
+import com.data.exceptionHandler
 import com.data.repositoryImpl.BaseRestRepository
 import com.domain.BaseModels.BodyGetResume
 import com.domain.BaseModels.ResponseCandidateDataForIOS
@@ -21,7 +22,7 @@ val TAG="docuviewmodelcheck"
   /*  fun getDocument(onDataResponse:(obj:ResponseCandidateDataForIOS,action:Int)->Unit,onResumeResponse:(obj:ResponseResumeModel?,fileName:String,action:Int)->Unit)
     {
         try {
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 val result=baseRepo.getResumeFileName(CurrentMeetingDataSaver.getData().interviewModel?.candidateId!!.toString())
                 if (result.isSuccessful)
                 {
@@ -65,7 +66,7 @@ val TAG="docuviewmodelcheck"
     fun getResume(fileName:String,onResumeResponse:(obj: ResponseResumeModel?,fileName:String, action:Int)->Unit)
     {
         try {
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 val result=baseRepo.getResume(BodyGetResume(fileName))
                 if (result.isSuccessful)
                 {

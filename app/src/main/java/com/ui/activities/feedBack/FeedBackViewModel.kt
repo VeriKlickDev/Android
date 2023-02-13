@@ -3,10 +3,11 @@ package com.ui.activities.feedBack
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+
 import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.dataHolders.CurrentUpcomingMeetingData
 import com.data.dataHolders.DataStoreHelper
+import com.data.exceptionHandler
 import com.data.getCurrentUtcFormatedDate
 import com.data.repositoryImpl.RepositoryImpl
 import com.domain.BaseModels.*
@@ -25,7 +26,7 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
     fun getFeedBack(onResponse:(data: ResponseFeedBack?,status:Int)->Unit)
     {
         try {
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 val result=repo.getFeedBackDetails(CurrentMeetingDataSaver.getData()?.videoAccessCode.toString())
                 if (result.isSuccessful)
                 {
@@ -61,9 +62,9 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
     }
 
     fun sendFeedback(context: Context,assementId:Int,role:String,appliedPosition:String,recommendation:String,designation:String,interviewName:String,candidateId:Int,remarktxt:String,codingRemarktxt:String, obj:BodyFeedBack,skillsListRes:ArrayList<AssessSkills>,remarkList:ArrayList<InterviewerRemark>, onDataResponse:(data: ResponseBodyFeedBack?, status:Int)->Unit) {
-        viewModelScope.launch {
+        CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
             try {
-                CoroutineScope(Dispatchers.IO).launch {
+                CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                     //val candidateId=CurrentMeetingDataSaver.getData()?.users?.filter { it.userType.contains("C") }
 
                     val memberList = arrayListOf<CandidateAssessmentPanelMembers>()
@@ -191,7 +192,7 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
     {
         try {
 
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 val result=repo.requestVideoSession(videoAccessCode)
                 if (result.isSuccessful)
                 {

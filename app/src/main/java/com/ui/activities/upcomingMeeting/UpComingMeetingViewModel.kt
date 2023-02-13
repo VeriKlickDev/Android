@@ -3,16 +3,23 @@ package com.ui.activities.upcomingMeeting
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.dataHolders.DataStoreHelper
+import com.data.dismissProgressDialog
+import com.data.dismissProgressDialogwithoutContext
+import com.data.exceptionHandler
+import com.data.showCustomSnackbarOnTop
 import com.domain.BaseModels.*
 import com.domain.RestApi.BaseRestApi
 import com.domain.RestApi.LoginRestApi
+import com.veriKlick.R
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,7 +38,7 @@ class UpComingMeetingViewModel @Inject constructor(
     ) {
         try {
 
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 actionProgress(1)
                 Log.d(
                     TAG,
@@ -76,6 +83,14 @@ class UpComingMeetingViewModel @Inject constructor(
             actionProgress(0)
             response(500, e.printStackTrace().toString(),null)
         }
+        catch (e: HttpException) {
+         //   onDataResponse(null, 404)
+            Log.d(TAG, "getVideoSession: not exception https exception ${e.message} 82")
+        }
+        catch (e:IOException)
+        {
+            Log.d(TAG, "getClientForLogin: io ex ${e.message} 87")
+        }
     }
 
 
@@ -86,7 +101,7 @@ class UpComingMeetingViewModel @Inject constructor(
     ) {
         try {
 
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 actionProgress(1)
                 Log.d(
                     TAG,
@@ -131,6 +146,14 @@ class UpComingMeetingViewModel @Inject constructor(
             actionProgress(0)
             response(500, e.printStackTrace().toString(),null)
         }
+        catch (e: HttpException) {
+         //   onDataResponse(null, 404)
+            Log.d(TAG, "getVideoSession: not exception https exception 137 ${e.message}")
+        }
+        catch (e:IOException)
+        {
+            Log.d(TAG, "getClientForLogin: io ex ${e.message} 146")
+        }
     }
 
 
@@ -140,7 +163,7 @@ class UpComingMeetingViewModel @Inject constructor(
     fun getVideoSessionDetails(videoAccessCode:String,onDataResponse:(data: ResponseInterViewDetailsBean?, response:Int)->Unit)
     {
         try {
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 val result=baseRepoApi.requestVideoSession(videoAccessCode)
                 if (result.isSuccessful)
                 {
@@ -187,7 +210,7 @@ class UpComingMeetingViewModel @Inject constructor(
         onDataResponse: (data: TokenResponseBean, response: Int) -> Unit
     ) {
         try {
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 val result = baseRepoApi.getTwilioVideoTokenHost(videoAccessCode)
                 if (result.isSuccessful) {
                     if (result.body() != null) {
@@ -203,7 +226,15 @@ class UpComingMeetingViewModel @Inject constructor(
                 }
             }
         } catch (e: Exception) {
-            Log.d(TAG, "getVideoSession: not exception")
+            Log.d(TAG, "getVideoSession: 207 not exception")
+        }
+        catch (e: HttpException) {
+         //   onDataResponse(null, 404)
+            Log.d(TAG, "getVideoSession: 211 not exception https exception ${e.message}")
+        }
+        catch (e:IOException)
+        {
+            Log.d(TAG, "getClientForLogin: io ex ${e.message} 224")
         }
     }
 
@@ -212,7 +243,7 @@ class UpComingMeetingViewModel @Inject constructor(
         onDataResponse: (data: ResponseInterviewerAccessCodeByID?, response: Int) -> Unit
     ) {
         try {
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 val result = baseRepoApi.getInterviewAccessCodeById(id)
                 if (result.isSuccessful) {
                     if (result.body() != null) {
@@ -241,6 +272,13 @@ class UpComingMeetingViewModel @Inject constructor(
             }
         } catch (e: Exception) {
             Log.d(TAG, "getVideoSession: not exception")
+        } catch (e: HttpException) {
+         //   onDataResponse(null, 404)
+            Log.d(TAG, "getVideoSession: 247 not exception https exception ${e.message}")
+        }
+        catch (e:IOException)
+        {
+            Log.d(TAG, "getClientForLogin: io ex ${e.message} 264")
         }
     }
 
@@ -250,7 +288,7 @@ class UpComingMeetingViewModel @Inject constructor(
         onResult: (action: Int, data: ResponseMuteUmnute?) -> Unit
     ) {
         try {
-            viewModelScope.launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 val result = baseRepoApi.setMuteUnmuteStatus(
                     BodyMuteUmnuteBean(
                         interviewId,
@@ -273,6 +311,14 @@ class UpComingMeetingViewModel @Inject constructor(
         } catch (e: Exception) {
             onResult(500, null)
         }
+        catch (e: HttpException) {
+         //   onDataResponse(null, 404)
+            Log.d(TAG, "getVideoSession: 294not exception https exception ${e.message}")
+        }
+        catch (e:IOException)
+        {
+            Log.d(TAG, "getClientForLogin: io ex ${e.message} 299")
+        }
     }
 
 
@@ -280,7 +326,7 @@ class UpComingMeetingViewModel @Inject constructor(
         videoAccessCode: String,
         onDataResponse: (data: TokenResponseBean, response: Int) -> Unit
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
 
             /* flow<Response<TokenResponseBean>>{
                 repo.getTwilioVideoTokenCandidate(videoAccessCode)
@@ -315,6 +361,14 @@ class UpComingMeetingViewModel @Inject constructor(
             } catch (e: Exception) {
                 Log.d(TAG, "getVideoSession: exception ${e.message}")
             }
+            catch (e: HttpException) {
+               // onDataResponse(null, 404)
+                Log.d(TAG, "getVideoSession: not exception https exception 321 ${e.message}")
+            }
+            catch (e:IOException)
+            {
+                Log.d(TAG, "getClientForLogin: io ex ${e.message} 345")
+            }
         }
     }
 
@@ -325,7 +379,7 @@ class UpComingMeetingViewModel @Inject constructor(
     ) {
         try {
 
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 val result = baseRepoApi.requestVideoSession(videoAccessCode)
                 if (result.isSuccessful) {
                     if (result.body() != null) {
@@ -363,6 +417,14 @@ class UpComingMeetingViewModel @Inject constructor(
             onDataResponse(null, 404)
             Log.d(TAG, "getVideoSession: not exception")
         }
+        catch (e:HttpException){
+            Log.d(TAG, "getVideoSession: not exception https 391 ${e.message}")
+            onDataResponse(null, 404)
+        }
+        catch (e:IOException)
+        {
+            Log.d(TAG, "getClientForLogin: io ex ${e.message} 397")
+        }
     }
 
 
@@ -373,7 +435,7 @@ class UpComingMeetingViewModel @Inject constructor(
     ) {
         try {
 
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
 
                 val token=DataStoreHelper.getLoginBearerToken()
                 token
@@ -416,6 +478,14 @@ class UpComingMeetingViewModel @Inject constructor(
         } catch (e: Exception) {
             onDataResponse(null, 404)
             Log.d(TAG, "getVideoSession: not exception")
+        }
+        catch (e: HttpException) {
+            onDataResponse(null, 404)
+            Log.d(TAG, "getVideoSession: not exception https exception 450 ${e.message}")
+        }
+        catch (e: IOException)
+        {
+            Log.d(TAG, "getClientForLogin: io ex ${e.message} 455")
         }
     }
 

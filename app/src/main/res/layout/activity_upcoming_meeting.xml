@@ -170,7 +170,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Date to from "
+                    android:text="-- to --"
                     android:gravity="center"
                     android:id="@+id/tv_fromdate_toDate"
                     android:fontFamily="@font/sarabun_semibold"

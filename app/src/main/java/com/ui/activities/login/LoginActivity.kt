@@ -194,13 +194,13 @@ class LoginActivity : AppCompatActivity() {
                         DataStoreHelper.setLoggedInWithOtp(false)
                         decodeLoginToken(data.data?.accessToken!!, response = { response ->
 
-                            CoroutineScope(Dispatchers.IO).launch {
+                            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                                 if (response!=null){
                                     Log.d(TAG, "handleLoginApi: userids ${response.UserId.toString()}   ${response.CreatedBy.toString()} ")
                                     DataStoreHelper.setMeetingRecruiterAndUserIds(response.UserId.toString(),response.CreatedBy.toString())
 
                                     val intent=Intent(this@LoginActivity, UpcomingMeetingActivity::class.java)
-                                    CoroutineScope(Dispatchers.IO).launch {
+                                    CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                                         intent.putExtra(AppConstants.LOGIN_WITH_OTP,false)
                                     }
 
@@ -254,7 +254,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun checkTextFieldsAndPerformAction() {
-        CoroutineScope(Dispatchers.IO)
+        CoroutineScope(Dispatchers.IO+exceptionHandler)
             .launch {
 
                     validate(

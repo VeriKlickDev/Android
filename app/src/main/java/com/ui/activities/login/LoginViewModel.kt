@@ -2,6 +2,7 @@ package com.ui.activities.login
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.data.exceptionHandler
 import com.data.repositoryImpl.BaseRestRepository
 import com.domain.BaseModels.*
 import com.domain.RestApi.LoginRestApi
@@ -19,7 +20,7 @@ class LoginViewModel @Inject constructor(val baserepo: BaseRestRepository, val l
     fun getVideoSession(videoAccessCode:String)
     {
         try {
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 val result = baserepo.getTwilioVideoTokenHost(videoAccessCode)
                 if (result.isSuccessful) {
                     if (result.body() != null) {
@@ -42,7 +43,7 @@ class LoginViewModel @Inject constructor(val baserepo: BaseRestRepository, val l
 
     fun login(email:String,password:String,response:(result:Int,data: LoginResponseBean,exception:String?)->Unit,actionProgress:(action:Int)->Unit) {
         try {
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 actionProgress(1)
                 val result = loginRestApi?.login(BodyLoginBean( userName = email, password = password, RecruiterEmail = email))
                 if (result?.isSuccessful!!) {

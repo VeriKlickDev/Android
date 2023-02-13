@@ -254,7 +254,7 @@ class AddParticipantListAdapter(val viewModel:AddUserViewModel,
            // list[position].InterviewerTimezone=list[position].InterviewerTimezone
         }
 
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
             bindingg.etEmail.getEditTextWithFlow().collectLatest {
                 list.forEachIndexed { index, invitationDataModel ->
                     if (position!=index) {
@@ -270,7 +270,7 @@ class AddParticipantListAdapter(val viewModel:AddUserViewModel,
             }
         }
 
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
             bindingg.etPhoneNumber.getEditTextWithFlow().collectLatest {
                 list.forEachIndexed { index, invitationDataModel ->
                     if (position!=index) {

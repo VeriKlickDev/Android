@@ -2,6 +2,7 @@ package com.ui.activities.forgotPassword
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.data.exceptionHandler
 import com.domain.BaseModels.BodyForgotPasswordBean
 import com.domain.BaseModels.BodyLoginBean
 import com.domain.BaseModels.LoginData
@@ -22,7 +23,7 @@ class ForgotPasswordViewModel @Inject constructor(val loginRestApi: LoginRestApi
     fun sendMailForForgotPassword(email:String, response:(result:Int, data: ResponseForgotPassword, exception:String?)->Unit, actionProgress:(action:Int)->Unit) {
 
         try {
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 actionProgress(1)
                 val result = loginRestApi?.sendMailForforgotPassword(BodyForgotPasswordBean(  email))
                 if (result?.isSuccessful!!) {
