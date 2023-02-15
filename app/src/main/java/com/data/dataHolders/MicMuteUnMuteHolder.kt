@@ -24,7 +24,7 @@ object MicMuteUnMuteHolder {
 
     fun setMicStatus(mic:Boolean)
     {
-        //micStatus.postValue(mic)
+       // micStatus.postValue(mic)
     }
 
     fun setVideoStatus(video:Boolean,byUser: Boolean)
@@ -76,6 +76,7 @@ object MicMuteUnMuteHolder {
 
     fun setLocalAudioMicStatus(sts:Boolean,byUser:Boolean)
     {
+        micStatus.postValue(AudioStatusModel(sts,byUser))
       /*  localAudioTrack?.enabled=sts
         micStatus.postValue(AudioStatusModel(sts,byUser))
 

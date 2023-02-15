@@ -109,7 +109,6 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 meetingsList.clear()
                 pageno = 1
                 handleUpcomingMeetingsList(7, 1, 9)
-
             } else {
                 binding.swipetorefresh.isRefreshing=false
                 showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))

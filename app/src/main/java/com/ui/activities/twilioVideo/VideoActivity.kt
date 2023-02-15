@@ -86,6 +86,8 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
               endCall()
           }
       }*/
+    var videoc = Vp8Codec() //video/VP8/90000/1,fmtps:[]]
+    var audioc = G722Codec()
     lateinit var binding: ActivityTwilioVideoBinding
     private val globalParticipantList = mutableListOf<VideoTracksBean>()
     private val CAMERA_MIC_PERMISSION_REQUEST_CODE = 1
@@ -361,12 +363,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         //        }
 
         binding.btnEllipsize.setOnClickListener {
-            if (binding.llExtraButtons.visibility == View.VISIBLE) {
-                binding.llExtraButtons.isVisible = false
-            }
-            else {
-                binding.llExtraButtons.isVisible = true
-            }
+            binding.llExtraButtons.isVisible = binding.llExtraButtons.visibility != View.VISIBLE
             //handleAllowToMute()
         }
 
@@ -394,59 +391,57 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
     }
 
     fun handleParticipantsViews() {
-        val currentLoggedUser = CurrentMeetingDataSaver.getData()
-        Log.d("currcheck", "onCreate: $currentLoggedUser")
+        try {
+            val currentLoggedUser = CurrentMeetingDataSaver.getData()
+            Log.d("currcheck", "onCreate: $currentLoggedUser")
 
-        if (CurrentMeetingDataSaver.getData()?.identity?.trim()?.lowercase()!!
-                .contains("C".trim().lowercase())
-        ) {
+            if (CurrentMeetingDataSaver.getData()?.identity?.trim()?.lowercase()!!
+                    .contains("C".trim().lowercase())
+            ) {
 
-            binding.btnFeedback.isVisible = false
-            //  binding.btnRecordVideo.isVisible=false
-            binding.btnAddUserVideoActivity.isVisible = false
+                binding.btnFeedback.isVisible = false
+                //  binding.btnRecordVideo.isVisible=false
+                binding.btnAddUserVideoActivity.isVisible = false
 
-            Log.d("videocheck", "onCreate: you")
-            //candidateName with (You) binding.tvUsername.text =CurrentMeetingDataSaver.getData()?.interviewerFirstName + " (You)"
-            setBlankBackground(false)
-            removeAllSinksAndSetnew(getLocalVideoTrack()!!, true)
-            //working localVideoTrack?.addSink(binding.primaryVideoView)
+                Log.d("videocheck", "onCreate: you")
+                //candidateName with (You) binding.tvUsername.text =CurrentMeetingDataSaver.getData()?.interviewerFirstName + " (You)"
+                setBlankBackground(false)
+                removeAllSinksAndSetnew(getLocalVideoTrack()!!, true)
+                //working localVideoTrack?.addSink(binding.primaryVideoView)
 
-            //uncomment
-            try {
-                if (CurrentMeetingDataSaver.getData()?.identity!!.contains("C")) {
-                    viewModel.setCandidateJoinedStatus { action, data ->
-                        Log.d(TAG, "handleObserver: candidate joined status $action $data")
+                //uncomment
+                try {
+                    if (CurrentMeetingDataSaver.getData()?.identity!!.contains("C")) {
+                        viewModel.setCandidateJoinedStatus { action, data ->
+                            Log.d(TAG, "handleObserver: candidate joined status $action $data")
+                        }
+                    }
+                } catch (e: Exception) {
+                    showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+                    Log.d(
+                        TAG,
+                        "handleParticipantsViews: exception handle views of participants ${e.message}"
+                    )
+                }
+            }
+            else { //working
+                binding.btnAddUserVideoActivity.isVisible = CurrentMeetingDataSaver.getData()?.isPresenter == true
+                binding.btnFeedback.isVisible = true
+                binding.btnRecordVideo.isVisible = true
+
+                currentLoggedUser?.users?.forEach {
+                    if (it.userType.trim().lowercase().equals("C".trim().lowercase())) {
+                        //  binding.tvUsername.text = it.userFirstName + " " + it.userLastName
+                        // localVideoTrack?.addSink(binding.primaryVideoView)
+                        // localblankVideoTrack.addSink(binding.primaryVideoView)
                     }
                 }
-            } catch (e: Exception) {
-                Log.d(
-                    TAG,
-                    "handleParticipantsViews: exception handle views of participants ${e.message}"
-                )
             }
-
+        }catch (e:Exception)
+        {
+            showCustomSnackbarOnTop(getString(R.string.txt_please_try_again))
         }
-        else { //working
-            if (CurrentMeetingDataSaver.getData()?.isPresenter == true) {
-                //binding.btnFeedback.isVisible=true
-                /**newly added*/
-                binding.btnAddUserVideoActivity.isVisible = true
-            }
-            else {
-                binding.btnAddUserVideoActivity.isVisible = false
-                // binding.btnFeedback.isVisible=false
-            }
-            binding.btnFeedback.isVisible = true
-            binding.btnRecordVideo.isVisible = true
 
-            currentLoggedUser?.users?.forEach {
-                if (it.userType.trim().lowercase().equals("C".trim().lowercase())) {
-                    //  binding.tvUsername.text = it.userFirstName + " " + it.userLastName
-                    // localVideoTrack?.addSink(binding.primaryVideoView)
-                    // localblankVideoTrack.addSink(binding.primaryVideoView)
-                }
-            }
-        }
     }
 
 
@@ -507,8 +502,84 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         Log.d(TAG, "endCall: service status ${meetingManager.getServiceState()}")
 
     }
-    //Are you sure to leave the meeting?
 
+    private fun forceCloseMeeting()
+    {
+        Log.d(TAG, "endCall: ")
+        //  meetingManager.unbindService()
+        TwilioChatHelper.removeMemeberFromConversation(CurrentMeetingDataSaver.getData()?.identity!!)
+        getLocalVideoTrack()?.let { localParticipant?.unpublishTrack(it) }
+        audioSwitch.stop()
+        setVideoStatus(true,true)
+        cameraCapturerCompat.stopCapture()
+
+        // screenShareCapturerManager.unbindService()
+        screenShareCapturerManager.endForeground()
+        meetingManager.endForeground()
+        // localVideoTrack!!.release()
+        TwilioHelper.disConnectRoom()
+        //  room!!.disconnect()
+        //viewModel.endVideoCall()
+        TwilioChatHelper.removeCallBacks()
+        TwilioChatHelper.clearChatList()
+
+        if (checkInternet()) {
+            viewModel.setScreenSharingStatus(true, onResult = { action, data -> })
+        }
+        else
+        {
+            showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+        }
+
+        var isNotCandidate = true
+
+        if (!CurrentConnectUserList.getListofParticipant().isNullOrEmpty()) {
+            if (!CurrentMeetingDataSaver.getData()?.identity!!.contains("C")) {
+                var isCandidateEnter = false
+                CurrentConnectUserList.getListofParticipant().forEach {
+                    // if(CurrentMeetingDataSaver.getData()?.isPresenter==false) {
+
+                    if (it.identity!!.contains("C")) {
+                        isCandidateEnter = true
+                        Log.d(TAG, "endCall: called feedback form")
+                    }
+                    //}
+                }
+
+                if (isCandidateEnter) {
+                    val intent = Intent(this@VideoActivity, ActivityFeedBackForm::class.java)
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(intent)
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                    isNotCandidate = false
+                }
+            }
+        }
+        UpcomingMeetingStatusHolder.setIsRefresh(true)
+        CurrentConnectUserList.clearList()
+        // UpcomingMeetingStatusHolder.isMeetingFinished(true)
+        Log.d(TAG, "endCall: service status ${meetingManager.getServiceState()}")
+        finish()
+    }
+
+    private fun forceCloseMeetingAlert() {
+        val alertdialog = AlertDialog.Builder(this)
+        alertdialog.setPositiveButton("Ok", object : DialogInterface.OnClickListener {
+            override fun onClick(p0: DialogInterface?, p1: Int) {
+                forceCloseMeeting()
+                //  isEndCall=true
+            }
+        })
+        alertdialog.setMessage(getString(R.string.txt_close_the_meeting))
+        alertdialog.setCancelable(false)
+        alertdialog.create()
+        alertdialog.show()
+
+    }
+
+
+
+    //Are you sure to leave the meeting?
     private fun endMeetingAlert() {
         val alertdialog = AlertDialog.Builder(this)
         alertdialog.setPositiveButton("Yes", object : DialogInterface.OnClickListener {
@@ -557,20 +628,28 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             Log.d(TAG, "handleObserver: check mic ${it} ")
 
             if (it != null) {
-                getLocalAudioTrack()?.enable(it.isMic)
-                if (!it.isMic) {
-                    Log.d(TAG, "handleMuteUnmutebyHost: muted ")
-                    // icon = R.drawable.ic_img_btn_mic_muted
-                    // micStatus = getString(R.string.txt_unmute)
-                    binding.muteActionFab.setImageResource(R.drawable.ic_img_btn_mic_muted)
+                try {
+                    getLocalAudioTrack()?.enable(it.isMic)
 
-                }
-                else {
-                    Log.d(TAG, "handleMuteUnmutebyHost: muted unmuted")
-                    // icon = R.drawable.ic_mic_off_black_24dp
-                    // micStatus = getString(R.string.txt_mute)
-                    binding.muteActionFab.setBackgroundResource(R.color.black_70)
-                    binding.muteActionFab.setImageResource(R.drawable.ic_img_btn_mic_unmute_white)
+                    if (!it.isMic) {
+                        Log.d(TAG, "handleMuteUnmutebyHost: muted ")
+                        // icon = R.drawable.ic_img_btn_mic_muted
+                        // micStatus = getString(R.string.txt_unmute)
+                        binding.muteActionFab.setImageResource(R.drawable.ic_img_btn_mic_muted)
+
+                    }
+                    else {
+                        Log.d(TAG, "handleMuteUnmutebyHost: muted unmuted")
+                        // icon = R.drawable.ic_mic_off_black_24dp
+                        // micStatus = getString(R.string.txt_mute)
+                        binding.muteActionFab.setBackgroundResource(R.color.black_70)
+                        binding.muteActionFab.setImageResource(R.drawable.ic_img_btn_mic_unmute_white)
+                    }
+
+                }catch (e:Exception)
+                {
+                    showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+                    Log.d(TAG, "handleObserver: ${e.message}")
                 }
             }
         })
@@ -2104,93 +2183,118 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
 
     }
+
     private fun connectToRoom() {
         audioSwitch.activate()
+        try {
+             videoc = Vp8Codec() //video/VP8/90000/1,fmtps:[]]
+             audioc = G722Codec()
+        }catch (e:Exception)
+        {
+            Log.d(TAG, "connectToRoom: ${e.message}")
+        }
 
         //val videoc = H264Codec()
-        val videoc = Vp8Codec() //video/VP8/90000/1,fmtps:[]]
-        val audioc = G722Codec()
+
         //    val videotrack = LocalVideoTrack.create(this, true, cameraCapturerCompat)
         //   val audioTrack = LocalAudioTrack.create(this, true)
-        if (TwilioHelper.getRoomInstance() == null && room == null) {
-            viewModel.setLocalVideoTrack(getLocalVideoTrack()!!, false)
-            Log.d(TAG, "connectToRoom: creating room firsttime")
-            room = TwilioHelper.connectToRoom(
-                this,
-                onRoomEvent = { action ->
+        Handler(Looper.getMainLooper()).postDelayed({
 
-                },
-                this,
-                getLocalAudioTrack()!!,
-                getLocalVideoTrack()!!,
-                audioc!!,
-                videoc!!
-            )
-            if (checkInternet()) {
-                getChatToken()
-            }
-            else
-            {
-                showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
-            }
-            Log.d(TAG, "connectToRoom: connect to room service ${meetingManager.getServiceState()}")
-            Log.d(TAG, "onCreate: sid is ${TwilioHelper.getRoomInstance()?.sid}")
-        }
-        else {
 
-            Log.d(TAG, "connectToRoom: on resume else part ")
-            room = TwilioHelper.getRoomInstance()
-            localParticipant = room?.localParticipant
-            if (localParticipant?.localAudioTracks!!.size >= 1) {
-                localParticipant?.unpublishTrack(localParticipant?.localAudioTracks!!.firstOrNull()!!.localAudioTrack)
-                localParticipant?.publishTrack(getLocalAudioTrack()!!)
+            if (TwilioHelper.getRoomInstance() == null && room == null) {
+                try {
+                    viewModel.setLocalVideoTrack(getLocalVideoTrack()!!, false)
+                    Log.d(TAG, "connectToRoom: creating room firsttime")
+
+
+                        room = TwilioHelper.connectToRoom(
+                            this,
+                            onRoomEvent = { action ->
+
+                            },
+                            this,
+                            getLocalAudioTrack()!!,
+                            getLocalVideoTrack()!!,
+                            audioc!!,
+                            videoc!!
+                        )
+
+
+                    if (checkInternet()) {
+                        getChatToken()
+                    }
+                    else
+                    {
+                        showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                    }
+                    Log.d(TAG, "connectToRoom: connect to room service ${meetingManager.getServiceState()}")
+                    Log.d(TAG, "onCreate: sid is ${TwilioHelper.getRoomInstance()?.sid}")
+
+                }catch (e:Exception)
+                {
+                    Log.d(TAG, "connectToRoom: 2155 ${e.message}")
+                    showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong_rejoin_meeting))
+                    forceCloseMeetingAlert()
+                }
             }
             else {
-                localParticipant?.publishTrack(getLocalAudioTrack()!!)
-            }
 
-            /**crashes*/
-            Log.d(
-                TAG,
-                "connectToRoom: ${localParticipant?.audioTracks?.size}  ${localParticipant?.localAudioTracks?.size}"
-            )
+                Log.d(TAG, "connectToRoom: on resume else part ")
+                room = TwilioHelper.getRoomInstance()
+                localParticipant = room?.localParticipant
+                if (localParticipant?.localAudioTracks!!.size >= 1) {
+                    localParticipant?.unpublishTrack(localParticipant?.localAudioTracks!!.firstOrNull()!!.localAudioTrack)
+                    localParticipant?.publishTrack(getLocalAudioTrack()!!)
+                }
+                else {
+                    localParticipant?.publishTrack(getLocalAudioTrack()!!)
+                }
 
-            try {
+                /**crashes*/
+                Log.d(
+                    TAG,
+                    "connectToRoom: ${localParticipant?.audioTracks?.size}  ${localParticipant?.localAudioTracks?.size}"
+                )
 
-                if (!viewModel.currentlocalVideoTrackList.isNullOrEmpty()) {
-                    if (viewModel.currentlocalVideoTrackList?.get(0) != null) {
-                        if (viewModel.currentlocalVideoTrackList[0].isSharing) {
-                            TwilioHelper.getRoomInstance()?.localParticipant!!.publishTrack(
-                                viewModel.currentlocalVideoTrackList[0].localVideoTrack
-                            )
+                try {
+
+                    if (!viewModel.currentlocalVideoTrackList.isNullOrEmpty()) {
+                        if (viewModel.currentlocalVideoTrackList?.get(0) != null) {
+                            if (viewModel.currentlocalVideoTrackList[0].isSharing) {
+                                TwilioHelper.getRoomInstance()?.localParticipant!!.publishTrack(
+                                    viewModel.currentlocalVideoTrackList[0].localVideoTrack
+                                )
+                            }
+                            else {
+                                Log.d(TAG, "connectToRoom: publish local")
+                                TwilioHelper.getRoomInstance()?.localParticipant!!.publishTrack(
+                                    getLocalVideoTrack()!!
+                                )
+                            }
                         }
                         else {
-                            Log.d(TAG, "connectToRoom: publish local")
+                            Log.d(TAG, "connectToRoom: publish local null else")
                             TwilioHelper.getRoomInstance()?.localParticipant!!.publishTrack(
                                 getLocalVideoTrack()!!
                             )
                         }
                     }
                     else {
-                        Log.d(TAG, "connectToRoom: publish local null else")
-                        TwilioHelper.getRoomInstance()?.localParticipant!!.publishTrack(
-                            getLocalVideoTrack()!!
-                        )
-                    }
-                }
-                else {
 
+                    }
+                } catch (e: Exception) {
+                    Log.d(TAG, "connectToRoom: exception ${e.message}")
                 }
-            } catch (e: Exception) {
-                Log.d(TAG, "connectToRoom: exception ${e.message}")
+
+
+                // Log.d(TAG, "connectToRoom: creating room second or after")
+                // TwilioHelper.getExistingRoomInstance(this)
             }
 
-
-            // Log.d(TAG, "connectToRoom: creating room second or after")
-            // TwilioHelper.getExistingRoomInstance(this)
-        }
+        },500)
 
         setDisconnectAction()
+
     }
 
     fun getChatToken() {
