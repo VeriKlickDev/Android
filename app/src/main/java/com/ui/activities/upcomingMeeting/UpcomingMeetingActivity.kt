@@ -237,8 +237,8 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
         binding.rvUpcomingMeeting.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
                 try {
+                    super.onScrollStateChanged(recyclerView, newState)
 
                     if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL)
                         iscrolled = true
@@ -250,8 +250,9 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             }
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                try {
                 super.onScrolled(recyclerView, dx, dy)
-               try {
+
 
                    val vitem = layoutManager.childCount
                    val skipped = layoutManager.findFirstVisibleItemPosition()

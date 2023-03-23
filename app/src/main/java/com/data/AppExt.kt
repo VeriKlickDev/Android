@@ -6,7 +6,10 @@ import android.Manifest
 import android.app.Activity
 import android.app.Dialog
 import android.content.*
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.media.projection.MediaProjectionManager
 import android.net.ConnectivityManager

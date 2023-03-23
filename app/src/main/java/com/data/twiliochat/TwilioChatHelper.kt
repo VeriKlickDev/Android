@@ -2,6 +2,7 @@ package com.data.twiliochat
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.data.dataHolders.ConnectUsersListSaver
 import com.data.dataHolders.CurrentMeetingDataSaver
@@ -11,6 +12,10 @@ import com.data.getUtcDateToAMPM
 import com.domain.BaseModels.ChatMessagesModel
 import com.domain.constant.AppConstants
 import com.twilio.conversations.*
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 object TwilioChatHelper {
@@ -226,21 +231,31 @@ object TwilioChatHelper {
                         Log.e(TAG, "Error joining my conversation:  " + errorInfo?.message)
                        // addMySelfToConversation(CurrentMeetingDataSaver.getData()?.identity!!)
                         //addConversationCallBack(myconversation)
+                        CoroutineScope(Dispatchers.IO+ CoroutineExceptionHandler { coroutineContext, throwable ->
+                            Log.d(
+                                TAG,
+                                "onError: coroutine exception ${throwable.message.toString()}")
+                        }).launch {
+                            try {
+                                CurrentMeetingDataSaver.getData()?.users!!
+                                    .forEach {
+                                        val identity = it.userType + it.id
+                                        addParticipantToChat(identity, myconversation)
+                                    }
 
-                        CurrentMeetingDataSaver.getData()?.users!!
-                            .forEach {
-                                val identity = it.userType + it.id
-                                addParticipantToChat(identity, myconversation)
+                                conversation?.let {
+                                    it.removeListener(mDefaultConversationListener)
+                                }
+                                conversation = myconversation
+                                conversation!!.addListener(
+                                    mDefaultConversationListener
+                                )
+                                loadPreviousMessages(myconversation)
+                            }catch (e:Exception)
+                            {
+                                Log.d(TAG, "onError: exception ${e.message}")
                             }
-
-                        conversation?.let {
-                            it.removeListener(mDefaultConversationListener)
                         }
-                        conversation = myconversation
-                       conversation!!.addListener(
-                            mDefaultConversationListener
-                        )
-                        loadPreviousMessages(myconversation)
                     }
                 })
             } else {
@@ -656,12 +671,12 @@ object TwilioChatHelper {
         }
     }
 
-    fun removeConversationCallBack()
+    private fun removeConversationCallBack()
     {
         conversation!!.removeListener(mDefaultConversationListener)
     }
 
-    val statusListener = object : StatusListener {
+     private val statusListener = object : StatusListener {
         override fun onSuccess() {
             Log.d(TAG, "onSuccess: to add participant")
         }
@@ -673,7 +688,7 @@ object TwilioChatHelper {
     }
 
     fun getConversation()= conversation!!
-    fun addMySelfToConversation(identity:String)
+    private fun addMySelfToConversation(identity:String)
     {
         val atr=Attributes.DEFAULT
 //crashed
@@ -879,17 +894,18 @@ object TwilioChatHelper {
     private val chatlist = arrayListOf<ChatMessagesModel>()
     private val chatlist2 = arrayListOf<ChatMessagesModel>()
 
+        /**observe for latest messages*/
     val newMsgLiveData = MutableLiveData<List<ChatMessagesModel>>()
    // var  chatMessageOb=MutableLiveData<ChatMessagesModel>()
 
 
-    fun setMessagesInitial(msgs: String, from: String, username: String, time: String) {
+   private fun setMessagesInitial(msgs: String, from: String, username: String, time: String) {
         //chatMessageOb.postValue(ChatMessagesModel(from,msgs,username,time))
         chatlist.add(ChatMessagesModel(from, msgs, username, time))
         allMsgLiveData.postValue(chatlist)
     }
 
-    fun addMessages(msgs: String, from: String, username: String, time: String) {
+    private fun addMessages(msgs: String, from: String, username: String, time: String) {
         chatlist2.add(ChatMessagesModel(from, msgs, username, time))
         chatlist2.size
         chatlist2
