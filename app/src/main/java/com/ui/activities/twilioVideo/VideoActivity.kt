@@ -68,6 +68,7 @@ import com.veriKlick.R
 import com.veriKlick.databinding.ActivityTwilioVideoBinding
 import com.veriKlick.databinding.LayoutMuteMicUpdateBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -847,25 +848,28 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             val tlist = mutableListOf<VideoTracksBean>()
             tlist.addAll(list)
 
-            list?.mapIndexed { index, data ->
-                if (data.userName!!.contains("You")) {
+            try {
+                list?.mapIndexed { index, data ->
+                    if (data.userName!!.contains("You")) {
 
-
-                    TwilioHelper.getRoomInstance()?.let {
-                        tlist.set(
-                            index, VideoTracksBean(
-                                it.localParticipant?.identity!!,
-                                data.remoteParticipant,
-                                getLocalVideoTrack()!!,
-                                "You",
-                                it.localParticipant!!.sid
+                        TwilioHelper.getRoomInstance()?.let {
+                            tlist.set(
+                                index, VideoTracksBean(
+                                    it.localParticipant?.identity!!,
+                                    data.remoteParticipant,
+                                    getLocalVideoTrack()!!,
+                                    "You",
+                                    it.localParticipant!!.sid
+                                )
                             )
-                        )
+                        }
                     }
                 }
-
-
+            }catch (e:Exception)
+            {
+                showCustomToast(getString(R.string.txt_something_went_wrong))
             }
+
 
             try {
                 tlist.forEach {
@@ -1204,38 +1208,59 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
     private fun handleMuteUnmutebyHost() {
         var icon: Int
         var micStatus = ""
-        getLocalAudioTrack()?.let {
-            val enable = !it.isEnabled
-            it.enable(enable)
-
-            LocalConfrenseMic.setLocalParticipantMic(enable)
-
-            if (!enable) {
-                Log.d(TAG, "handleMuteUnmutebyHost: muted ")
-
-                setLocalAudioMicStatus(enable,true)
-                //MicMuteUnMuteHolder.setMicStatus(enable)
-                //uncomm 20dec
-                //viewModel.setMicStatus(enable)
-
-                icon = R.drawable.ic_img_btn_mic_muted
-                micStatus = getString(R.string.txt_unmute)
-                binding.muteActionFab.setImageResource(R.drawable.ic_img_btn_mic_muted)
+        CoroutineScope(Dispatchers.IO+ CoroutineExceptionHandler { coroutineContext, throwable ->
+            runOnUiThread {
+                showCustomToast(getString(R.string.txt_something_went_wrong))
             }
-            else {
-                setLocalAudioMicStatus(enable,true)
-                //MicMuteUnMuteHolder.setMicStatus(enable)
-                //uncomm 20dec
-                //viewModel.setMicStatus(enable)
+        }).launch {
+            try {
+
+                getLocalAudioTrack()?.let {
+                    val enable = !it.isEnabled
+                    it.enable(enable)
+
+                    LocalConfrenseMic.setLocalParticipantMic(enable)
+
+                    if (!enable) {
+                        Log.d(TAG, "handleMuteUnmutebyHost: muted ")
+
+                        setLocalAudioMicStatus(enable,true)
+                        //MicMuteUnMuteHolder.setMicStatus(enable)
+                        //uncomm 20dec
+                        //viewModel.setMicStatus(enable)
+                        runOnUiThread {
+                            icon = R.drawable.ic_img_btn_mic_muted
+                            micStatus = getString(R.string.txt_unmute)
+                            binding.muteActionFab.setImageResource(R.drawable.ic_img_btn_mic_muted)
+                        }
+
+                    }
+                    else {
+                        setLocalAudioMicStatus(enable,true)
+                        //MicMuteUnMuteHolder.setMicStatus(enable)
+                        //uncomm 20dec
+                        //viewModel.setMicStatus(enable)
 //                viewModel.setMicStatus(enable)
 
-                Log.d(TAG, "handleMuteUnmutebyHost: muted unmuted")
-                icon = R.drawable.ic_mic_off_black_24dp
-                micStatus = getString(R.string.txt_mute)
-                binding.muteActionFab.setBackgroundResource(R.color.black_70)
-                binding.muteActionFab.setImageResource(R.drawable.ic_img_btn_mic_unmute_white)
+                        Log.d(TAG, "handleMuteUnmutebyHost: muted unmuted")
+                        runOnUiThread {
+                            icon = R.drawable.ic_mic_off_black_24dp
+                            micStatus = getString(R.string.txt_mute)
+                            binding.muteActionFab.setBackgroundResource(R.color.black_70)
+                            binding.muteActionFab.setImageResource(R.drawable.ic_img_btn_mic_unmute_white)
+                        }
+                    }
+                }
+
+            }catch (e:Exception)
+            {
+                runOnUiThread {
+                    showCustomToast(getString(R.string.txt_something_went_wrong))
+                }
             }
         }
+
+
     }
 
 
@@ -1996,10 +2021,6 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 ).show()
             }
         }
-
-
-
-
     }
 
     fun setCameraToLocalVideoTrack() {
@@ -2108,10 +2129,25 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
     private fun checkPermissions(permissions: Array<String>): Boolean {
         var shouldCheck = true
-        for (permission in permissions) {
-            shouldCheck = shouldCheck and (PackageManager.PERMISSION_GRANTED ==
-                    ContextCompat.checkSelfPermission(this, permission))
-        }
+       CoroutineScope(Dispatchers.IO+ CoroutineExceptionHandler { coroutineContext, throwable ->
+           runOnUiThread {
+               showCustomToast(getString(R.string.txt_something_went_wrong))
+           }
+       }).launch {
+           try {
+               for (permission in permissions) {
+                   shouldCheck = shouldCheck and (PackageManager.PERMISSION_GRANTED ==
+                           ContextCompat.checkSelfPermission(this@VideoActivity, permission))
+               }
+           }catch (e:Exception)
+           {
+               runOnUiThread {
+                   showCustomToast(getString(R.string.txt_something_went_wrong))
+               }
+
+           }
+       }
+
         return shouldCheck
     }
 

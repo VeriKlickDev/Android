@@ -69,8 +69,11 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
 
                     val memberList = arrayListOf<CandidateAssessmentPanelMembers>()
                     memberList.add( CandidateAssessmentPanelMembers(
-                        Name = interviewName,
-                        Designation = designation,
+                        //Name = interviewName,
+                        //Designation = designation,
+                        Name = null,
+                        Designation = null,
+
                         CandiateAssessment = "null",
                         CandidateAssesmentId = 0,
                         PanelMemberId = 0

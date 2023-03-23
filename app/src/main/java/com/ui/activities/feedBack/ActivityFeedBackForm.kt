@@ -141,9 +141,10 @@ class ActivityFeedBackForm : AppCompatActivity() {
             // binding.remarkError.isVisible = binding.etRemart.text.toString().equals("")
         }
 
-        binding.etRole.doOnTextChanged { text, start, before, count ->
+        /**23march*/
+        /*binding.etRole.doOnTextChanged { text, start, before, count ->
             //  binding.roleError.isVisible = binding.etRole.text.toString().equals("")
-        }
+        }*/
 
         binding.etOverallRemark.doOnTextChanged { text, start, before, count ->
             // binding.overallRemarkError.isVisible = binding.etOverallRemark.text.toString().equals("")
@@ -354,14 +355,15 @@ class ActivityFeedBackForm : AppCompatActivity() {
             else {
                 codingRemark = binding.etOverallRemark.text.toString()
             }
-
+            /**23march*/
+            /*
             var role = ""
             if (binding.etRole.text.toString().equals("")) {
 
             }
             else {
                 role = binding.etRole.text.toString()
-            }
+            }*/
 
 
             var remark = ""
@@ -377,10 +379,12 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
             viewModel.sendFeedback(this,
                 assesmentid,
-                role,
+                //role,
+                "",
                 appliedPosition,
                 recommendationSelected!!,
-                role,
+                //role,
+                "",
                 interviewName,
                 candidateId,
                 remark,
@@ -394,6 +398,12 @@ class ActivityFeedBackForm : AppCompatActivity() {
                     when (status) {
                         404 -> {
                             binding.btnSubmitButton.isEnabled = true
+                            /*showCustomToast(data?.aPIResponse?.message!!.toString())
+                            //showCustomSnackbarOnTop(data?.aPIResponse?.message!!)
+                            //showToast(this, data?.aPIResponse?.message!!)
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                finish()
+                            }, 1000)*/
                         }
                         200 -> {
                             showCustomToast(data?.aPIResponse?.message!!.toString())
@@ -565,10 +575,13 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 designation =
                     data.CandidateAssessmentPanelMembers.firstOrNull()?.Designation.toString()
 
+
+                /**23march*/
+                /*
                 binding.tvName.text = ""
                 data.CandidateAssessmentPanelMembers.firstOrNull()?.Name?.let {
                     binding.tvName.text = data.CandidateAssessmentPanelMembers.firstOrNull()?.Name
-                }
+                }*/
 
                 binding.tvJobId.text = data.jobid.toString()
 
@@ -590,7 +603,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
                     if (!data.CandidateAssessmentPanelMembers[0].Designation.toString()
                             .equals("null") || data.CandidateAssessmentPanelMembers[0].Designation != null
                     ) {
-                        binding.etRole.setText(data.CandidateAssessmentPanelMembers[0].Designation!!.toString())
+                       /**23march*/// binding.etRole.setText(data.CandidateAssessmentPanelMembers[0].Designation!!.toString())
 
                         // binding.roleError.isVisible=false
                     }
@@ -705,7 +718,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 skillsAdapter.notifyDataSetChanged()
 
 
-                if (data.AssessmentId == 0) {
+                if (data.Recommendation == null || data.Recommendation == "null") {
                     binding.btnSubmitButton.setText("Submit")
                 }
                 else {
