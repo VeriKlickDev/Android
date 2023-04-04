@@ -110,10 +110,17 @@
 
     <string name="txt_Resume_not_available">Resume Not Available</string>
     <string name="txt_all_meetings">All Meetings</string>
-    <string name="txt_scheduled_meetings">Scheduled</string>
+    <string name="txt_scheduled">Scheduled</string>
     <string name="txt_canceled">Cancelled</string>
     <string name="txt_missed">Missed</string>
     <string name="txt_attended">Attended</string>
+
+    <string name="txt_scheduled_meetings">Scheduled Meetings</string>
+    <string name="txt_canceled_meetings">Cancelled Meetings</string>
+    <string name="txt_missed_meetings">Missed Meetings</string>
+    <string name="txt_attended_meetings">Attended Meetings</string>
+
+
     <string name="txt_sharingscreenstatus">You\'re sharing your screen to everyone</string>
     <string name="txt_video_not_available">Video Not Available</string>
     <string name="txt_add_member">Add Members</string>
@@ -133,4 +140,9 @@
     <string name="txt_meeting_already_running">Meeting is Already Running</string>
     <string name="txt_join_anyway">Join anyway?</string>
     <string name="txt_close_the_meeting">Close the meeting</string>
+    <string name="txt_press_back_again_to_exit">Press again to exit</string>
+    <string name="txt_create_candidate">Create Candidate</string>
+    <string name="txt_version">App Version</string>
+    <string name="txt_app_version">App Version</string>
+    <string name="txt_logout">Log Out</string>
 </resources>

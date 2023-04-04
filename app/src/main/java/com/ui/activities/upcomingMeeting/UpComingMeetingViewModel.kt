@@ -1,6 +1,9 @@
 package com.ui.activities.upcomingMeeting
 
+import android.os.Handler
 import android.util.Log
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.data.dataHolders.CurrentMeetingDataSaver
@@ -12,6 +15,8 @@ import com.data.showCustomSnackbarOnTop
 import com.domain.BaseModels.*
 import com.domain.RestApi.BaseRestApi
 import com.domain.RestApi.LoginRestApi
+import com.ui.activities.upcomingMeeting.CandidateList.CandidateListFragment
+import com.ui.activities.upcomingMeeting.UpComingFragment.UpcomingListFragment
 import com.veriKlick.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -491,7 +496,15 @@ class UpComingMeetingViewModel @Inject constructor(
 
 
 
+    val fragList= mutableListOf<Fragment>()
 
+    fun createInstanceOfFragments(fragmentManager: FragmentManager){
+        
+            fragList.addAll(fragmentManager.fragments)
+        Log.d(TAG, "createInstanceOfFragments: viewmodel fragment size ${fragList.size} ${fragmentManager.fragments.size} ")
+    }
+
+    fun getFragmentsList()=fragList
 
 
 

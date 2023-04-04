@@ -52,6 +52,9 @@ object AppConstants {
     const val SCREEN_OFF_ACTION = "SCREEN_OFF"
     const val SCREEN_LOCK_ACTION = "SCREEN_LOCK_EVENT"
 
+    const val UPCOMING_LIST_FRAGMENT = "upcoming_list_fragment"
+    const val CANDIDATE_LIST_FRAGMENT = "candidate_list_fragment"
+
 }
 
 

@@ -6,7 +6,6 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,14 +14,8 @@ import com.data.dataHolders.*
 import com.data.dismissProgressDialog
 import com.data.showCustomSnackbarOnTop
 import com.domain.BaseModels.VideoTracksBean
-import com.domain.constant.AppConstants
 import com.veriKlick.*
-import com.google.android.material.snackbar.Snackbar
-import com.twilio.video.ktx.createLocalVideoTrack
-import com.twilio.video.quickstart.kotlin.CameraCapturerCompat
 import com.ui.activities.adduserlist.ActivityAddParticipant
-import com.ui.activities.joinmeeting.JoinMeetingActivity
-import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
 import com.ui.listadapters.ConnectedMemberListAdapter
 import com.veriKlick.databinding.ActivityListOfMembersBinding
 import dagger.hilt.android.AndroidEntryPoint

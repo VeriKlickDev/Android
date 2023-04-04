@@ -217,4 +217,23 @@
     </style>
 
 
+    <style name="drawertheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="colorPrimary">@color/skyblue_light1</item>
+        <item name="colorPrimaryVariant">#00FFFFFF</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/skyblue_light1</item>
+        <item name="colorSecondaryVariant">@color/skyblue_light1</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">@color/white</item>
+    </style>
+
+    <style name="sarabun_text_style">
+        <item name="android:fontFamily">@font/sarabun_medium</item>
+    </style>
+
+
+
 </resources>
