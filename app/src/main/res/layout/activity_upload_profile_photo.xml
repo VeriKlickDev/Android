@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.ui.activities.uploadProfilePhoto.UploadProfilePhoto">
+
+
+
+        <TextView
+            android:id="@+id/tv_join_meeting"
+            style="@style/textview.Style.TvStyleWhiteRounded_30"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:text="@string/txt_upload_profile_photo" />
+
+        <TextView
+            style="@style/textview.Style.WhiteRounded_18"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Lorem Ipsum is simply dummy." />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_50sdp"
+            >
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="155sp"
+                android:layout_height="155sp"
+                android:layout_gravity="center"
+                android:background="@drawable/shape_dotted_round_circle"
+                android:cropToPadding="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/roundedCorner50" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_uploadImage"
+                android:layout_width="@dimen/_150sdp"
+                android:layout_height="@dimen/_150sdp"
+                android:layout_gravity="center"
+                android:scaleType="center"
+                android:src="@drawable/img_add_user_photo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/roundedCorner50" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_50sdp"
+            >
+            <TextView
+                android:id="@+id/tv_txt_start_meeting"
+                style="@style/textview.Style.WhiteRounded_18_noMargin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/txt_tap_to_upload_your_picture" />
+            <TextView
+
+                style="@style/textview.Style.WhiteRounded_18_noMargin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red"
+                android:layout_gravity="center_horizontal"
+                android:text="*" />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_upload_image"
+            style="@style/button.Style.Blue.Rounded"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_55sdp"
+            android:layout_marginTop="@dimen/_15sp"
+            android:text="@string/txt_upload"
+            android:textSize="@dimen/_18sdp" />
+
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
+
+</layout>

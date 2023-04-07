@@ -1,5 +1,6 @@
 package com.ui.activities.upcomingMeeting.CandidateList
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
+import com.ui.activities.uploadProfilePhoto.UploadProfilePhoto
 import com.veriKlick.R
 import com.veriKlick.databinding.FragmentCandidateListBinding
 
@@ -24,9 +26,9 @@ class CandidateListFragment : Fragment() {
         binding=FragmentCandidateListBinding.inflate(layoutInflater)
 
         binding.tvHelloworld.setOnClickListener {
-            (requireActivity() as UpcomingMeetingActivity).openDrawer()
+            //(requireActivity() as UpcomingMeetingActivity).openDrawer()
+            startActivity(Intent( requireActivity(),UploadProfilePhoto::class.java))
         }
-        // Inflate the layout for this fragment
         return binding.root
     }
 

@@ -204,6 +204,12 @@
         <item name="android:layout_marginHorizontal">@dimen/_10sp</item>
     </style>
 
+    <style name="textview.Style.WhiteRounded_18_noMargin" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">@dimen/_18sdp</item>
+        <item name="android:fontFamily">@font/sarabun_regular</item>
+    </style>
+
+
     <style name="textview.Style.TvStyleWhiteRounded_30" parent="textview.Style.WhiteRounded_18">
         <item name="android:textSize">@dimen/_30sdp</item>
         <item name="android:layout_marginHorizontal">@dimen/_10sp</item>

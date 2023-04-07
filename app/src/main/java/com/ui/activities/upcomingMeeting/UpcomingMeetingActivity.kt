@@ -18,6 +18,7 @@ import com.ui.activities.upcomingMeeting.CandidateList.CandidateListFragment
 import com.ui.activities.upcomingMeeting.UpComingFragment.UpcomingListFragment
 import com.veriKlick.*
 import com.veriKlick.databinding.ActivityUpcomingMeetingBinding
+import com.veriKlick.databinding.ActivityUploadProfilePhotoBinding
 import com.veriKlick.databinding.DrawerUserIconLayoutBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -64,10 +65,14 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         binding.btnLogout.setOnClickListener {
             logout()
         }
-
+        setDrawerListener()
 
     }
 
+    override fun onResume() {
+        dismissProgressDialog()
+        super.onResume()
+    }
 
     fun setDrawabletoMenuItem(){
         binding.tvAppVersion.setText(getString(R.string.txt_app_version)+ " 1.1")
@@ -86,18 +91,9 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         binding.drawerLayout.closeDrawer(Gravity.LEFT)
 
     }
-    fun openDrawer()
+
+    fun setDrawerListener()
     {
-        binding.drawerLayout.openDrawer(Gravity.LEFT)
-      //  val drawerCount=DrawerUserIconLayoutBinding.inflate(LayoutInflater.from(this))
-
-/*        binding.navViewDrawer.menu.getItem(1).subMenu?.getItem(0)?.setActionView(drawerCount.root)
-
-        binding.navViewDrawer.menu.getItem(1).subMenu?.getItem(1)?.setActionView(R.layout.drawer_user_icon_layout)
-        binding.navViewDrawer.menu.getItem(1).subMenu?.getItem(2)?.setActionView(R.layout.drawer_user_icon_layout)
-  */    //  binding.navViewDrawer.menu.getItem(1).subMenu?.getItem(3)?.setActionView(R.layout.drawer_user_icon_layout)
-      // binding.navViewDrawer.menu.getItem(1).subMenu?.getItem(4)?.setActionView(R.layout.drawer_user_icon_layout)
-
         binding.navView.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navdrawerCandidateId -> {
@@ -142,9 +138,28 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     upcomingFragment?.getMeetingList(4)
                     closeDrawer()
                 }
+                /* R.id.navdrawercreateCandidate -> {
+                     startActivity(Intent(this,ActivityUploadProfilePhotoBinding::class.java))
+                 }*/
             }
             true
         }
+
+    }
+
+
+    fun openDrawer()
+    {
+        binding.drawerLayout.openDrawer(Gravity.LEFT)
+      //  val drawerCount=DrawerUserIconLayoutBinding.inflate(LayoutInflater.from(this))
+
+/*        binding.navViewDrawer.menu.getItem(1).subMenu?.getItem(0)?.setActionView(drawerCount.root)
+
+        binding.navViewDrawer.menu.getItem(1).subMenu?.getItem(1)?.setActionView(R.layout.drawer_user_icon_layout)
+        binding.navViewDrawer.menu.getItem(1).subMenu?.getItem(2)?.setActionView(R.layout.drawer_user_icon_layout)
+  */    //  binding.navViewDrawer.menu.getItem(1).subMenu?.getItem(3)?.setActionView(R.layout.drawer_user_icon_layout)
+      // binding.navViewDrawer.menu.getItem(1).subMenu?.getItem(4)?.setActionView(R.layout.drawer_user_icon_layout)
+
 
     }
 

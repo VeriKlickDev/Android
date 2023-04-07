@@ -7,15 +7,34 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" android:usesPermissionFlags="neverForLocation"/>
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_SCAN"
+        android:usesPermissionFlags="neverForLocation" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <queries>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.PICK" />
+
+            <data android:mimeType="*/*" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.GET_CONTENT" />
+        </intent>
+    </queries>
 
 
     <application
         android:name="com.data.application.MyApplication"
-        android:allowBackup="false"
+        android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher_verklick"
@@ -23,9 +42,24 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_verklick_round"
         android:supportsRtl="true"
+        android:preserveLegacyExternalStorage="true"
+        android:requestRawExternalStorageAccess="true"
         android:theme="@style/Theme.TwillioProject"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+        <activity
+            android:name="com.ui.activities.uploadProfilePhoto.UploadProfilePhoto"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name="com.ui.activities.login.loginwithotp.ActivitiyLoginWithOtp"
             android:exported="false" />
@@ -98,14 +132,12 @@
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.ui.activities.deepLinkMeetingJoiner.VideoMeetingByLinkActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="AppLinkUrlError">
-
             <intent-filter
                 android:autoVerify="true"
                 android:label="@string/app_name">
@@ -118,9 +150,8 @@
                     android:host="ui2.veriklick.in"
                     android:pathPrefix="/video-session"
                     android:scheme="https" />
-                <!-- note that the leading "/" is required for pathPrefix-->
+                <!-- note that the leading "/" is required for pathPrefix -->
             </intent-filter>
-
             <intent-filter
                 android:autoVerify="true"
                 android:label="@string/app_name">
@@ -133,9 +164,8 @@
                     android:host="ui2.veriklick.in"
                     android:pathPrefix="/video-session"
                     android:scheme="http" />
-                <!-- note that the leading "/" is required for pathPrefix-->
+                <!-- note that the leading "/" is required for pathPrefix -->
             </intent-filter>
-
             <intent-filter
                 android:autoVerify="true"
                 android:label="@string/app_name">
@@ -148,9 +178,8 @@
                     android:host="ui2.veriklick.com"
                     android:pathPrefix="/video-session"
                     android:scheme="https" />
-                <!-- note that the leading "/" is required for pathPrefix-->
+                <!-- note that the leading "/" is required for pathPrefix -->
             </intent-filter>
-
             <intent-filter
                 android:autoVerify="true"
                 android:label="@string/app_name">
@@ -163,17 +192,14 @@
                     android:host="ui2.veriklick.com"
                     android:pathPrefix="/video-session"
                     android:scheme="http" />
-                <!-- note that the leading "/" is required for pathPrefix-->
+                <!-- note that the leading "/" is required for pathPrefix -->
             </intent-filter>
-
         </activity>
-
 
         <service
             android:name="com.ui.activities.twilioVideo.ScreenSharingCapturing.ScreenSharingService"
             android:enabled="true"
             android:foregroundServiceType="mediaProjection" />
-
         <service
             android:name="com.ui.activities.twilioVideo.meetingnotificationservice.MeetingService"
             android:enabled="true"
@@ -187,12 +213,10 @@
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name="com.data.ScreenLockEventDetector"
             android:enabled="true"
-            android:exported="true"></receiver>
-
+            android:exported="true" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
