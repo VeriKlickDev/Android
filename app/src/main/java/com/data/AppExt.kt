@@ -15,6 +15,7 @@ import android.media.projection.MediaProjectionManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.text.*
@@ -46,6 +47,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import java.io.File
 import java.io.UnsupportedEncodingException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -168,6 +170,16 @@ fun Context.showCustomToast(str:String)
     })
 }
 
+
+fun Context.getEmptyFile(fileName: String): File {
+    val baseDir: File? = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+    val folderG = File(baseDir, "tapApp")
+    if (folderG.exists()) return File(folderG, fileName)
+    return if (folderG.mkdirs()) File(
+        folderG,
+        fileName
+    ) else File(Environment.getExternalStorageDirectory(), fileName)
+}
 
 fun validate(
     email: String,
@@ -413,6 +425,25 @@ fun Context.requestNearByPermissions(isGrant: (isGranted: Boolean) -> Unit) {
         }
     }
 }
+
+
+fun Context.requestStoragePermissions(isGrant: (isGranted: Boolean) -> Unit) {
+    ExcuseMe.couldYouGive(this).permissionFor(
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        ) {
+        Log.d("permissioncheck", "requestVideoPermissions: $it ")
+        if (it.granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE) &&
+            it.granted.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        ) {
+            isGrant(true)
+        } else {
+            isGrant(false)
+        }
+    }
+}
+
+
 
 
 

@@ -145,4 +145,7 @@
     <string name="txt_version">App Version</string>
     <string name="txt_app_version">App Version</string>
     <string name="txt_logout">Log Out</string>
+    <string name="txt_upload_profile_photo">Upload a profile photo</string>
+    <string name="txt_tap_to_upload_your_picture">Tap upload your picture here or click on upload</string>
+    <string name="txt_upload">Upload</string>
 </resources>
