@@ -171,9 +171,9 @@ fun Context.showCustomToast(str:String)
 }
 
 
-fun Context.getEmptyFile(fileName: String): File {
+fun Context.getEmptyFile(fileName: String,dirName:String): File {
     val baseDir: File? = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-    val folderG = File(baseDir, "tapApp")
+    val folderG = File(baseDir, dirName)
     if (folderG.exists()) return File(folderG, fileName)
     return if (folderG.mkdirs()) File(
         folderG,
