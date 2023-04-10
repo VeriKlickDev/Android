@@ -53,8 +53,6 @@ import com.twilio.audioswitch.AudioDevice
 import com.twilio.audioswitch.AudioDevice.*
 import com.twilio.audioswitch.AudioSwitch
 import com.twilio.video.*
-import com.twilio.video.ktx.createLocalAudioTrack
-import com.twilio.video.ktx.createLocalVideoTrack
 import com.twilio.video.quickstart.kotlin.CameraCapturerCompat
 import com.ui.activities.chat.ChatActivity
 import com.ui.activities.documentviewer.DocumentViewerActivity
@@ -72,7 +70,6 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.internal.waitMillis
 import tvi.webrtc.VideoSink
 import kotlin.properties.Delegates
 
