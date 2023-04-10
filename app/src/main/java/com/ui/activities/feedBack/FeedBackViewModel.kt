@@ -61,7 +61,7 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
 
     }
 
-    fun sendFeedback(context: Context,assementId:Int,role:String,appliedPosition:String,recommendation:String,designation:String,interviewName:String,candidateId:Int,remarktxt:String,codingRemarktxt:String, obj:BodyFeedBack,skillsListRes:ArrayList<AssessSkills>,remarkList:ArrayList<InterviewerRemark>, onDataResponse:(data: ResponseBodyFeedBack?, status:Int)->Unit) {
+    fun sendFeedback(context: Context,recommendationId: Int,assementId:Int,role:String,appliedPosition:String,recommendation:String,designation:String,interviewName:String,candidateId:Int,remarktxt:String,codingRemarktxt:String, obj:BodyFeedBack,skillsListRes:ArrayList<AssessSkills>,remarkList:ArrayList<InterviewerRemark>, onDataResponse:(data: ResponseBodyFeedBack?, status:Int)->Unit) {
         CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
             try {
                 CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
@@ -82,9 +82,13 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
                     //obj.CandidateAssessment?.Recommendation = recommendation
 
                     obj?.CandidateAssessment?.Remark=remarkList
+                    //10april
+                    //obj.CandidateAssessment?.Recommendation=remarktxt
+                    //obj.CandidateAssessment?.Comments=recommendation
 
-                    obj.CandidateAssessment?.Recommendation=remarktxt
-                    obj.CandidateAssessment?.Comments=recommendation
+                    obj.CandidateAssessment?.Recommendation=recommendation
+                    obj.CandidateAssessment?.Comments=remarktxt
+                    obj.CandidateAssessment?.RecommendationId=recommendationId
 
                     obj?.CandidateAssessment?.Skills=skillsListRes
                     obj?.CandidateAssessment?.AssessmentId=assementId
@@ -126,7 +130,7 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
                     obj.CandidateAssessment?.jobid =
                         CurrentMeetingDataSaver.getData()?.interviewModel?.jobid
                     //uncomment obj.CandidateAssessmentPanelMembers = memberList[0]
-                    obj.CandidateAssessment?.RecommendationId=3
+                    //10april obj.CandidateAssessment?.RecommendationId=3
 
 
                     CurrentMeetingDataSaver.getData()?.let {
