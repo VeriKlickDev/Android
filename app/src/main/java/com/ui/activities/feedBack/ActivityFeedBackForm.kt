@@ -42,6 +42,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
     private lateinit var skillsAdapter: SkillsListAdapter
     private val skillsList = mutableListOf<AssessSkills>()
     private var appliedPosition: String = ""
+    private val recommendationIddList = mutableListOf<InterviewerRemark>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -374,10 +375,8 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 remark = binding.etRemart.text.toString()
             }
 
-
-
-
             viewModel.sendFeedback(this,
+                recommendationId,
                 assesmentid,
                 //role,
                 "",
@@ -445,7 +444,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
     private var recommendationSelected: String? = null
     private var isOpenedFirst = false
-
+    private var recommendationId=-1
     private val spinnerItemListener = object : AdapterView.OnItemSelectedListener {
 
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -456,6 +455,15 @@ class ActivityFeedBackForm : AppCompatActivity() {
             else {
                 //  ( view as TextView).setTextColor(ContextCompat.getColor(this@ActivityFeedBackForm,R.color.black))
                 recommendationSelected = recommendationList[position].toString()
+                if (!recommendationList.isNullOrEmpty())
+                {
+                    recommendationIddList.forEach {
+                        if (it.Remark.toString().lowercase().trim().equals(recommendationList[position].lowercase().trim()))
+                        {
+                            recommendationId=it.Idd!!
+                        }
+                    }
+                }
             }
         }
 
@@ -590,7 +598,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 appliedPosition = data.AppliedPostion.toString()
 
                 if (!data.Recommendation.toString().equals("") || data.Recommendation != null) {
-                    binding.etRemart.setText(data.Recommendation)
+                    binding.etRemart.setText(data.Comments)
                     //  binding.remarkError.isVisible=false
                 }
                 else {
@@ -618,11 +626,14 @@ class ActivityFeedBackForm : AppCompatActivity() {
                     )
                 }
 
-                recommendationList.add(0, "Select Recommendation")
+
+                recommendationIddList.add(0, InterviewerRemark(Idd = null, "Select Recommendation"))
+                recommendationList.add(0,"Select Recommendation")
 
                 Log.d(TAG, "setDataToViews: ${data.candidateAssessmentSkillsMobile.size}")
 
                 data.InterviewerRemark.forEach {
+                    recommendationIddList.add(InterviewerRemark(Idd = it.Idd, Remark = it.Remark.toString()))
                     recommendationList.add(it.Remark.toString())
                 }
                 Log.e(TAG, "setDataToViews: " + (recommendationList.size ?: 0).toString())
@@ -680,15 +691,27 @@ class ActivityFeedBackForm : AppCompatActivity() {
                     binding.etOverallRemark.setText(data.CodingTestRemarksForVideo.toString())
                 }
 
-
-                if (!data.Comments.equals("null") || data.Comments != null) {
-                    val spinnerPos = spinnerAdapter.getPosition(data.Comments.toString())
+                if (!data.Recommendation.equals("null") || data.Recommendation != null) {
+                    //InterviewerRemark(data.RecommendationId,data.Recommendation.toString())
+                    val spinnerPos = spinnerAdapter.getPosition(data.Recommendation)
                     binding.spinnerInterviewRemark.setSelection(spinnerPos)
                     binding.recommendationError.isVisible = false
                 }
                 else {
                     binding.recommendationError.isVisible = true
                 }
+
+
+              /*apr10  if (!data.Comments.equals("null") || data.Comments != null) {
+                    val spinnerPos = spinnerAdapter.getPosition(data.Comments.toString())
+                    binding.spinnerInterviewRemark.setSelection(spinnerPos)
+                    binding.recommendationError.isVisible = false
+                }
+                else {
+                    binding.recommendationError.isVisible = true
+                }*/
+
+
                 /*
                                 if (data.Comments.toString().equals("Select Recommendation"))
                                     {
