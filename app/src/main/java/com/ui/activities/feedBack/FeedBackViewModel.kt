@@ -58,7 +58,6 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
             onResponse(null,500)
             Log.d(TAG, "getVideoSession: not exception")
         }
-
     }
 
     fun sendFeedback(context: Context,recommendationId: Int,assementId:Int,role:String,appliedPosition:String,recommendation:String,designation:String,interviewName:String,candidateId:Int,remarktxt:String,codingRemarktxt:String, obj:BodyFeedBack,skillsListRes:ArrayList<AssessSkills>,remarkList:ArrayList<InterviewerRemark>, onDataResponse:(data: ResponseBodyFeedBack?, status:Int)->Unit) {
