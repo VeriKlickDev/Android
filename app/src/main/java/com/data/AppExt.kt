@@ -14,6 +14,7 @@ import android.graphics.drawable.ColorDrawable
 import android.media.projection.MediaProjectionManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.os.Handler
@@ -168,6 +169,17 @@ fun Context.showCustomToast(str:String)
         toast.duration=Toast.LENGTH_LONG
         toast.show()
     })
+}
+
+fun Context.getTempFileNameInCache() :Uri
+{
+    val projDir=File(filesDir,"cropped")
+    if (!projDir.exists())
+        projDir.mkdirs();
+
+    val file =  File.createTempFile("cropped", ".png",cacheDir)
+
+    return  Uri.fromFile(file)
 }
 
 

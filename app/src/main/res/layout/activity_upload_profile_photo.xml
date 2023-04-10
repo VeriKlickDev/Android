@@ -18,8 +18,6 @@
         android:orientation="vertical"
         tools:context="com.ui.activities.uploadProfilePhoto.UploadProfilePhoto">
 
-
-
         <TextView
             android:id="@+id/tv_join_meeting"
             style="@style/textview.Style.TvStyleWhiteRounded_30"
@@ -62,11 +60,12 @@
                 android:layout_gravity="center"
                 android:scaleType="centerInside"
                 android:src="@drawable/img_add_user_photo"
+                app:shapeAppearanceOverlay="@style/roundedCorner50"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="@style/roundedCorner50" />
+                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

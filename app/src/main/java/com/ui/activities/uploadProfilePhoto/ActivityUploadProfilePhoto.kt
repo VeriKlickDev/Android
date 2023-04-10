@@ -10,10 +10,8 @@ import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import com.data.getEmptyFile
-import com.data.requestStoragePermissions
-import com.data.setHandler
-import com.data.showCustomToast
+import com.data.*
+import com.veriKlick.R
 import com.veriKlick.databinding.ActivityUploadProfilePhotoBinding
 import com.yalantis.ucrop.UCrop
 import java.io.File
@@ -48,11 +46,6 @@ class UploadProfilePhoto : AppCompatActivity() {
 
     val contractorCamera=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
        try {
-         /*  val image=it.data?.extras?.get("data") as Bitmap
-           var imageUri=it.data
-           binding.ivUploadImage.scaleType=ImageView.ScaleType.CENTER_CROP
-           binding.ivUploadImage.setImageBitmap(image)*/
-          // val imageUri =it.data?.extras?.get("data") as Uri
 
            Log.d(TAG, "imageUri: uri $imageUri")
            //val file = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "MyPhoto.jpg")
@@ -67,8 +60,6 @@ class UploadProfilePhoto : AppCompatActivity() {
 
                getImageFromCamera(imageUri!!)
 
-
-
        }catch (e:Exception)
        {
            Log.d(TAG, "error: ${e.printStackTrace()}")
@@ -79,24 +70,26 @@ class UploadProfilePhoto : AppCompatActivity() {
 
     fun getImageFromCamera(sourceUri: Uri)
     {
-        val projDir=File(filesDir,"cropped")
-        if (!projDir.exists())
-            projDir.mkdirs();
 
-//       val file = File(projDir, "Caputured"+System.currentTimeMillis()+".png")
-//        file.createNewFile()
-   val file =     File.createTempFile("cropped", ".png",cacheDir)
-//        desUri=FileProvider.getUriForFile(this,"com.veriKlick.provider",file)
-         desUri = Uri.fromFile(file)
+        try {
+            desUri =getTempFileNameInCache()
 
-        //var fileDes= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath()
+            Log.d(TAG, "getImageFromCamera: source uri $sourceUri desUri $desUri")
+            binding.ivUploadImage.setImageURI(sourceUri)
+            var option=UCrop.Options()
+            option.setCircleDimmedLayer(true)
+            option.setCropGridColumnCount(3)
+            option.setCropGridRowCount(3)
+                option.withAspectRatio("100".toString().toFloat(),"100".toString().toFloat())
 
-        Log.d(TAG, "getImageFromCamera: source uri $sourceUri desUri $desUri")
-        binding.ivUploadImage.setImageURI(sourceUri)
-        UCrop.of(sourceUri,desUri!!)
-//            .withAspectRatio("100".toFloat(), "100".toFloat())
-//            .withMaxResultSize(500,500)
-            .start(this)
+            UCrop.of(sourceUri,desUri!!)
+                .withOptions(option)
+                .start(this)
+
+        }catch (e:Exception)
+        {
+            showCustomToast(getString(R.string.txt_something_went_wrong))
+        }
 
     }
 
