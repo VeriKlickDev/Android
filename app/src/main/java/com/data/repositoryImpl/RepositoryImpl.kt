@@ -129,6 +129,14 @@ class RepositoryImpl  @Inject constructor(val baseRestApi: BaseRestApi,val login
         return baseRestApi.cancelMeeting(authToken,ob)
     }
 
+    override suspend fun getCandidateList(
+        ob: BodyCandidateList,
+        recid: String,
+        subscriberid: String
+    ): Response<ResponseCandidateList> {
+        return baseRestApi.getCandidateList(ob,recid,subscriberid)
+    }
+
     /* override suspend fun setScreenSharingStatus(obj: BodyUpdateScreenShareStatus): Response<ResponseScreenSharingStatus> {
          return baseRestApi.setScreenSharingStatus(obj)
      }*/
@@ -144,5 +152,8 @@ class RepositoryImpl  @Inject constructor(val baseRestApi: BaseRestApi,val login
     override suspend fun sendMailForforgotPassword(ob: BodyForgotPasswordBean): Response<ResponseForgotPassword> {
         return loginRestApi.sendMailForforgotPassword(ob)
     }
+
+
+
 
 }

@@ -10,14 +10,12 @@
         android:layout_height="match_parent"
         tools:context="com.ui.activities.upcomingMeeting.CandidateList.CandidateListFragment">
 
-        <!-- TODO: Update blank fragment layout -->
-
         <TextView
             android:textSize="@dimen/_25sdp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_helloworld"
-            android:text="@string/hello_blank_fragment" />
+            android:text="candidateLIst Fragment" />
 
     </FrameLayout>
 </layout>

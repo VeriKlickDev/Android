@@ -1,25 +1,17 @@
 package com.ui.activities.upcomingMeeting
 
-import android.os.Handler
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.dataHolders.DataStoreHelper
-import com.data.dismissProgressDialog
-import com.data.dismissProgressDialogwithoutContext
 import com.data.exceptionHandler
-import com.data.showCustomSnackbarOnTop
 import com.domain.BaseModels.*
 import com.domain.RestApi.BaseRestApi
 import com.domain.RestApi.LoginRestApi
-import com.ui.activities.upcomingMeeting.CandidateList.CandidateListFragment
-import com.ui.activities.upcomingMeeting.UpComingFragment.UpcomingListFragment
-import com.veriKlick.R
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -506,6 +498,40 @@ class UpComingMeetingViewModel @Inject constructor(
 
     fun getFragmentsList()=fragList
 
+
+
+    private var candidateListMutable = MutableLiveData<ResponseCandidateList>()
+    var candidateListLive: LiveData<ResponseCandidateList>? = null
+
+    fun getCandidateList(ob: BodyCandidateList, recid: String, subsId: String, respnse:(isSuccess:Boolean, errorCode:Int, msg:String)->Unit) {
+        CoroutineScope(Dispatchers.IO + exceptionHandler)
+            .launch {
+                try {
+                    val response = baseRepoApi.getCandidateList(ob, recid, subsId)
+                    if (response.isSuccessful) {
+                        when (response.code()) {
+                            200 -> {
+                                respnse(true,200,"")
+                                candidateListMutable.postValue(response.body())
+                            }
+                            401 -> {
+                                respnse(false,401,"")
+                            }
+                            400 -> {
+                                respnse(false,400,"")
+                            }
+                            500 -> {
+                                respnse(false,500,"")
+                            }
+                        }
+                    } else {
+                        respnse(false,501,"Response not success")
+                    }
+                } catch (e: Exception) {
+                    respnse(false,502,e.message.toString())
+                }
+            }
+    }
 
 
 

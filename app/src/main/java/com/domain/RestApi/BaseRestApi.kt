@@ -91,6 +91,8 @@ interface BaseRestApi {
     @POST("/api/ScheduleVideo/InterviewCancellationDetails")
     suspend fun cancelMeeting(@Header("Authorization")authToken:String,@Body ob: BodyCancelMeeting):Response<BodyCancelMeeting>
 
+    @POST("/api/Recruiter/GetSavedProfilesListByUserId/")
+    suspend fun getCandidateList(@Body ob: BodyCandidateList,@Query("recid", encoded = false) recid:String,@Query("subscriberid", encoded = false) subscriberid:String ):Response<ResponseCandidateList>
 
 
 }

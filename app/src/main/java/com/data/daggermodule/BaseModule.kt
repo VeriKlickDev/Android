@@ -75,7 +75,7 @@ class BaseModule {
                 .writeTimeout(1, TimeUnit.MINUTES)
                 .readTimeout(1, TimeUnit.MINUTES)
                 .connectTimeout(1, TimeUnit.MINUTES)
-                //.addInterceptor(interceptor)
+                .addInterceptor(interceptor)
                 .retryOnConnectionFailure(true)
                 .followSslRedirects(true)
                 .followRedirects(true)
@@ -83,7 +83,7 @@ class BaseModule {
             // val httpClient=OkHttpClient.Builder().build() api.veriklick.com
             //api.veriklick.in
             // api.veriklick.com
-              retrofit = Retrofit.Builder().baseUrl("https://api.veriklick.com")
+              retrofit = Retrofit.Builder().baseUrl("https://api.veriklick.in")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient)
                 .build()
@@ -117,6 +117,7 @@ class BaseModule {
                 .writeTimeout(1, TimeUnit.MINUTES)
                 .readTimeout(1, TimeUnit.MINUTES)
                 .connectTimeout(1, TimeUnit.MINUTES)
+                .addInterceptor(interceptor)
                 .retryOnConnectionFailure(true)
                 .followSslRedirects(true)
                 .followRedirects(true)
