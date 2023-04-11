@@ -53,6 +53,15 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
+        <activity android:name="com.ui.activities.upcomingMeeting.audioRecord.AudioMainActivity"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            />
+        <activity android:name="com.ui.activities.upcomingMeeting.audioRecord.PlayActivity"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            />
+
         <activity
             android:name="com.ui.activities.uploadProfilePhoto.UploadProfilePhoto"
             android:exported="false">

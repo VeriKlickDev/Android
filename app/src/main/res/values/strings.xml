@@ -148,4 +148,13 @@
     <string name="txt_upload_profile_photo">Upload a profile photo</string>
     <string name="txt_tap_to_upload_your_picture">Tap upload your picture here or click on upload</string>
     <string name="txt_upload">Upload</string>
+
+    <string name="record">Record</string>
+    <string name="stop">Stop</string>
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="resume">Resume</string>
+    <string name="zero_time">00:00</string>
+    <string name="txt_record_your_voice">Record your voice</string>
+
 </resources>

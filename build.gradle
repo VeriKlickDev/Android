@@ -6,18 +6,36 @@ buildscript {
     }
 }
 buildscript {
+    ext {
+        kotlin_version = '1.8.20'
+    }
     repositories {
         // other repositories...
+        google()
         mavenCentral()
         maven {
         url "https://maven.google.com"
         name 'Google'}
-
+        jcenter()
         maven { url 'https://jitpack.io' }
 
     }
     dependencies {
         // other plugins...
+   /*     classpath 'com.google.dagger:hilt-android-gradle-plugin:2.42'
+
+        classpath 'com.android.tools.build:gradle:7.2.2'
+
+        // Make sure that you have the Google services Gradle plugin dependency
+        //working classpath 'com.google.gms:google-services:4.3.13'
+        classpath 'com.google.gms:google-services:4.3.13'
+        // Add the dependency for the Crashlytics Gradle plugin
+        //working classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.2'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.2'
+       //working  classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.20"
+        //classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.20"
+        //classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.30"
+*/
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.42'
 
         classpath 'com.android.tools.build:gradle:7.2.0'
@@ -27,6 +45,7 @@ buildscript {
 
         // Add the dependency for the Crashlytics Gradle plugin
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.30"
 
     }
 
@@ -55,10 +74,16 @@ buildscript {
 
 
 plugins {
-    id 'com.android.application' version '7.2.1' apply false
+  /*  id 'com.android.application' version '7.2.1' apply false
     //id 'com.android.library' version '7.2.1' apply false
     id 'com.android.library' version '7.3.1' apply false
     id 'org.jetbrains.kotlin.android' version '1.7.10' apply false
+    id "org.jetbrains.kotlin.kapt" version "1.2.40"
+*/
+    id 'com.android.application' version '7.2.1' apply false
+    id 'com.android.library' version '7.2.1' apply false
+    id 'org.jetbrains.kotlin.android' version '1.7.10' apply false
+
 }
 
 task clean(type: Delete) {

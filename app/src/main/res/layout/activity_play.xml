@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context="com.ui.activities.upcomingMeeting.audioRecord.PlayActivity">
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/linearLayoutCompat2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50sp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.075"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_record_your_voice"
+                android:textColor="@color/black"
+                android:textSize="25sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_record_your_voice"
+                android:textColor="@color/grey"
+                android:textSize="15sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.imn.iivisu.PlayerVisualizer
+            android:id="@+id/visualizer"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_300sdp"
+            android:layout_marginTop="24dp"
+            android:background="@color/white"
+            app:approximateBarDuration="75"
+            app:backgroundBarPrimeColor="@color/gray"
+            app:barWidth="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat2"
+            app:loadedBarPrimeColor="@color/skyblue_light1"
+            app:maxAmp="100"
+            app:spaceBetweenBar="2dp" />
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/linearLayoutCompat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/visualizer"
+            app:layout_constraintVertical_bias="0.07999998">
+
+            <ImageView
+                android:layout_height="35sp"
+                android:layout_width="35sp"
+                android:id="@+id/seek_backward_button"
+                android:layout_margin="@dimen/_32sdp"
+                android:background="@drawable/ic_baseline_delete_24"
+                app:shapeAppearanceOverlay="@style/roundedCorner50" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/timeline_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/zero_time"
+                    android:textColor="@color/skyblue_light1"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toTopOf="@+id/play_button"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/play_button"
+                    style="@style/Veriklick.IconButtonBlue"
+                    android:layout_margin="@dimen/_32sdp"
+                    app:contentPadding="@dimen/_10sp"
+                    android:background="@color/skyblue_light1"
+                    app:icon="@drawable/ic_play_arrow_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/roundedCorner50" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_height="35sp"
+                android:layout_width="35sp"
+                android:id="@+id/seek_forward_button"
+                style="@style/Veriklick.IconButtonGrey"
+                android:layout_margin="@dimen/_32sdp"
+                android:background="@color/lightGreen"
+                android:src="@drawable/ic_baseline_check_24"
+                app:contentPadding="@dimen/_4sdp"
+                app:shapeAppearanceOverlay="@style/roundedCorner50" />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="150sp"
+            android:layout_height="wrap_content"
+            android:text="Upload"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_roundedcorner_blue_10"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat"
+            app:layout_constraintVertical_bias="0.29" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

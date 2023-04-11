@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
+import com.ui.activities.upcomingMeeting.audioRecord.AudioMainActivity
+import com.ui.activities.upcomingMeeting.audioRecord.PlayActivity
 import com.ui.activities.uploadProfilePhoto.UploadProfilePhoto
 import com.veriKlick.R
 import com.veriKlick.databinding.FragmentCandidateListBinding
@@ -27,7 +29,8 @@ class CandidateListFragment : Fragment() {
 
         binding.tvHelloworld.setOnClickListener {
             //(requireActivity() as UpcomingMeetingActivity).openDrawer()
-            startActivity(Intent( requireActivity(),UploadProfilePhoto::class.java))
+            //startActivity(Intent( requireActivity(),UploadProfilePhoto::class.java))
+            startActivity(Intent( requireActivity(),AudioMainActivity::class.java))
         }
         return binding.root
     }

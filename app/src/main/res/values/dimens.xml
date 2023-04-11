@@ -29,6 +29,8 @@
     <dimen name="_90sdp">90sp</dimen>
     <dimen name="_200sdp">200sp</dimen>
     <dimen name="_160sp">160sp</dimen>
+    <dimen name="_300sdp">300sp</dimen>
+    <dimen name="_32sdp">32sp</dimen>
 
 
 </resources>

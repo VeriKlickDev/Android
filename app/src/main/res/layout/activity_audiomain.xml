@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        tools:context=".AudioMainActivity">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/linearLayoutCompat3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:orientation="vertical"
+            android:layout_marginLeft="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.075"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Record your voice"
+                android:textColor="@color/black"
+                android:textSize="25sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Record Your Voice"
+                android:textColor="@color/grey"
+                android:textSize="15sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.imn.iivisu.RecorderVisualizer
+            android:id="@+id/visualizer"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_300sdp"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            app:approximateBarDuration="75"
+            app:backgroundBarPrimeColor="@color/gray"
+            app:barWidth="3dp"
+            android:layout_gravity="center_horizontal"
+            app:loadedBarPrimeColor="@color/skyblue_light1"
+            app:maxAmp="100"
+            app:spaceBetweenBar="2dp" />
+
+        <TextView
+            android:id="@+id/timeline_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/zero_time"
+            android:textColor="@color/skyblue_light1"
+            android:textSize="24sp"
+            android:layout_gravity="center_horizontal" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/record_button"
+            android:layout_width="60sp"
+            android:layout_height="60sp"
+            android:layout_marginBottom="208dp"
+            android:background="@color/skyblue_light1"
+            android:gravity="center"
+            android:src="@drawable/ic_baseline_mic_24_blue"
+            app:contentPadding="17sp"
+            android:layout_gravity="center_horizontal"
+            app:shapeAppearanceOverlay="@style/roundedCorner50" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>
