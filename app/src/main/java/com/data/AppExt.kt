@@ -433,8 +433,8 @@ fun Context.requestVideoPermissions(isGrant: (isGranted: Boolean) -> Unit) {
         if (it.granted.contains(android.Manifest.permission.CAMERA) &&
             it.granted.contains(Manifest.permission.RECORD_AUDIO) &&
             it.granted.contains(Manifest.permission.READ_PHONE_STATE) &&
-          //  it.granted.contains(Manifest.permission.ACCESS_FINE_LOCATION) &&
-           // it.granted.contains(Manifest.permission.BLUETOOTH_CONNECT) &&
+            //  it.granted.contains(Manifest.permission.ACCESS_FINE_LOCATION) &&
+            // it.granted.contains(Manifest.permission.BLUETOOTH_CONNECT) &&
             it.granted.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE) &&
             it.granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE) &&
             it.granted.contains(Manifest.permission.READ_PHONE_STATE)
@@ -443,11 +443,29 @@ fun Context.requestVideoPermissions(isGrant: (isGranted: Boolean) -> Unit) {
         } else {
             isGrant(false)
         }
+    }
+}
+
+
+fun Context.requestCameraAndMicPermissions(isGrant: (isGranted: Boolean) -> Unit) {
+    ExcuseMe.couldYouGive(this).permissionFor(
+        Manifest.permission.CAMERA,
+        Manifest.permission.RECORD_AUDIO,
+        android.Manifest.permission.READ_PHONE_STATE,
+
+    ) {
+
+        Log.d("permissioncheck", "requestVideoPermissions: $it ")
+        if (it.granted.contains(Manifest.permission.CAMERA) &&
+            it.granted.contains(Manifest.permission.RECORD_AUDIO) &&
+            it.granted.contains(Manifest.permission.READ_PHONE_STATE)
+        ) {
+            isGrant(true)
+        } else {
+            isGrant(false)
+        }
 
     }
-
-
-
 }
 
 

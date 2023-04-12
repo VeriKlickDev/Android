@@ -1033,7 +1033,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                             data.token.toString(),
                             data.roomName.toString()
                         )
-                        requestVideoPermissions {
+                        requestCameraAndMicPermissions {
                             if (it) {
                                 showPrivacyPolicy(binding.root as ViewGroup,
                                     onClicked = { it, dialog ->
