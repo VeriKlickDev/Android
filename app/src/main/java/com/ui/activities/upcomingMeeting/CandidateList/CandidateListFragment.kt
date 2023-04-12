@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
+import com.data.cryptoJs.CryptoJsHelper
 import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.BodyCandidateList
@@ -32,7 +33,7 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
         Log.d(TAG, "onCreate: candidateListFragment")
         
     }
-
+    private val jsEncryptor=CryptoJsHelper()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -66,8 +67,14 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
         CoroutineScope(Dispatchers.IO).launch {
             var reicd=DataStoreHelper.getMeetingRecruiterid()
             var subsId=DataStoreHelper.getMeetingUserId()
+            var enReic=jsEncryptor.encryptPlainTextWithRandomIV(reicd,"Synk@1234")
+            var enSubs=jsEncryptor.encryptPlainTextWithRandomIV(subsId,"Synk@1234")
             val ob=BodyCandidateList()
-            viewModel.getCandidateList(ob, recid = reicd,subsId){response, errorCode, msg ->
+
+            Log.d(TAG, "getCandidateList: enreic ${enReic.toString()} ensubs ${enSubs.toString()}")
+
+            /*
+            viewModel.getCandidateList(ob, recid = enReic,enSubs){response, errorCode, msg ->
                 if (response)
                 {
                     Log.d(TAG, "getCandidateList: response sucess")
@@ -75,7 +82,7 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
                 {
                     Log.d(TAG, "getCandidateList: response not found/success $errorCode $msg")
                 }
-            }
+            }*/
         }
     }
 
