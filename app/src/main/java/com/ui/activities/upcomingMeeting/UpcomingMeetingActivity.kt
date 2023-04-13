@@ -26,7 +26,6 @@ import com.data.dataHolders.*
 import com.data.helpers.TwilioHelper
 import com.domain.BaseModels.*
 import com.domain.constant.AppConstants
-import com.google.android.material.snackbar.Snackbar
 import com.harvee.yourhealthmate2.ui.privacypolicy.ActivityPrivacyPolicy
 import com.ui.activities.feedBack.ActivityFeedBackForm
 import com.ui.activities.login.LoginActivity
@@ -39,6 +38,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlin.concurrent.thread
 
 
 @AndroidEntryPoint
@@ -72,6 +72,13 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         //  WeeksDataHolder.setDayToZero()
         layoutManager = LinearLayoutManager(this)
         binding.rvUpcomingMeeting.layoutManager = layoutManager
+
+        thread {
+            Thread.sleep(500)
+            requestNotficationPermission {
+                Log.d(TAG, "onCreate: request Notification permission $it")
+            }
+        }
 
 
         currentDateIST = getCurrentDate()!!

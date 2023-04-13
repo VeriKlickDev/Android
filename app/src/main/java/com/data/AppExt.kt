@@ -6,10 +6,7 @@ import android.Manifest
 import android.app.Activity
 import android.app.Dialog
 import android.content.*
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.media.projection.MediaProjectionManager
 import android.net.ConnectivityManager
@@ -415,6 +412,17 @@ fun Context.requestNearByPermissions(isGrant: (isGranted: Boolean) -> Unit) {
 }
 
 
+fun Context.requestNotficationPermission(isGrant: (isGranted: Boolean) -> Unit)
+{
+    ExcuseMe.couldYouGive(this).permissionFor(Manifest.permission.POST_NOTIFICATIONS){
+        if (it.granted.contains(Manifest.permission.POST_NOTIFICATIONS)
+        ) {
+            isGrant(true)
+        } else {
+            isGrant(false)
+        }
+    }
+}
 
 
 
@@ -426,7 +434,8 @@ fun Context.requestVideoPermissions(isGrant: (isGranted: Boolean) -> Unit) {
 //        Manifest.permission.BLUETOOTH_CONNECT,
         android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
         android.Manifest.permission.READ_EXTERNAL_STORAGE,
-        android.Manifest.permission.READ_PHONE_STATE,
+        android.Manifest.permission.READ_PHONE_STATE
+
     ) {
 
         Log.d("permissioncheck", "requestVideoPermissions: $it ")
@@ -451,8 +460,7 @@ fun Context.requestCameraAndMicPermissions(isGrant: (isGranted: Boolean) -> Unit
     ExcuseMe.couldYouGive(this).permissionFor(
         Manifest.permission.CAMERA,
         Manifest.permission.RECORD_AUDIO,
-        android.Manifest.permission.READ_PHONE_STATE,
-
+        Manifest.permission.READ_PHONE_STATE,
     ) {
 
         Log.d("permissioncheck", "requestVideoPermissions: $it ")

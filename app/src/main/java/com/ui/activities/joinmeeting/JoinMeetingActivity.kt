@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.data.*
 import com.data.dataHolders.CallStatusHolder
 import com.data.dataHolders.CurrentConnectUserList
@@ -21,6 +20,7 @@ import com.ui.activities.twilioVideo.VideoActivity
 import com.veriKlick.databinding.ActivityJoinMeetingBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Runnable
+import kotlin.concurrent.thread
 
 @AndroidEntryPoint
 class JoinMeetingActivity :AppCompatActivity() {
@@ -42,6 +42,12 @@ class JoinMeetingActivity :AppCompatActivity() {
 
         requestNearByPermissions(){
             Log.d(TAG, "onCreate: onNearbyPermission $it")
+        }
+        thread{
+            Thread.sleep(500)
+            requestNotficationPermission {
+                Log.d(TAG, "onCreate: request Notification permission $it")
+            }
         }
         binding.btnJoin.setOnClickListener {
             if (checkInternet()){
@@ -240,7 +246,6 @@ handleObserver()
                         CurrentConnectUserList.clearList()
 
                         requestVideoPermissions {
-                            it
                             if (it)
                             {
                                  showPrivacyPolicy(binding.root as ViewGroup,onClicked = { it, dialog->
