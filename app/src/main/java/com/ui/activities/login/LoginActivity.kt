@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.data.dataHolders.DataStoreHelper
 import com.data.*
 import com.domain.constant.AppConstants
-import com.veriKlick.*
 import com.veriKlick.databinding.ActivityLoginBinding
 import com.ui.activities.forgotPassword.ForgotPasswordActivity
 import com.ui.activities.joinmeeting.JoinMeetingActivity
@@ -27,6 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlin.concurrent.thread
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -36,7 +36,8 @@ class LoginActivity : AppCompatActivity() {
     private var mError = ""
     lateinit var binding: ActivityLoginBinding
     private val TAG = "loginActivitytest"
-    private var existingTime=""
+    private var existingTime = ""
+
     //lateinit var navController: NavController
     private lateinit var viewModel: LoginViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,72 +53,72 @@ class LoginActivity : AppCompatActivity() {
 
         handleOnEventChanges()
 
-        Log.d(TAG, "onCreate: local time ${getCurrentDate()}  \n ${getCurrentUtcFormatedDate()} \n ${getCurrentDate()} \n ${getIntervalMonthDate()} ")
+        Log.d(
+            TAG,
+            "onCreate: local time ${getCurrentDate()}  \n ${getCurrentUtcFormatedDate()} \n ${getCurrentDate()} \n ${getIntervalMonthDate()} "
+        )
 
         /**crash code*/
-       /* val crashButton = Button(this)
-        crashButton.text = "Test Crash"
-        crashButton.setOnClickListener {
-            throw RuntimeException("Test Crash") // Force a crash
-        }
+        /* val crashButton = Button(this)
+         crashButton.text = "Test Crash"
+         crashButton.setOnClickListener {
+             throw RuntimeException("Test Crash") // Force a crash
+         }
 
-        addContentView(crashButton, ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT))
-*/
+         addContentView(crashButton, ViewGroup.LayoutParams(
+             ViewGroup.LayoutParams.MATCH_PARENT,
+             ViewGroup.LayoutParams.WRAP_CONTENT))
+ */
 
-        var istoggle=true
+        var istoggle = true
         binding.btnToggleEye.setOnClickListener {
 
-            if(istoggle)
-            {
-               // binding.etPassword.inputType=InputType.TYPE_CLASS_TEXT
+            if (istoggle) {
+                // binding.etPassword.inputType=InputType.TYPE_CLASS_TEXT
                 binding.btnToggleEye.setBackgroundResource(R.drawable.ic_img_toggle_eye)
                 binding.etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                istoggle=false
-            }
-            else
-            {
+                istoggle = false
+            } else {
                 binding.btnToggleEye.setBackgroundResource(R.drawable.ic_img_toggle_eye_hide)
                 binding.etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 //binding.etPassword.inputType=InputType.TYPE_TEXT_VARIATION_PASSWORD
-                istoggle=true
+                istoggle = true
             }
-            binding.tvPsswdError.visibility=View.INVISIBLE
+            binding.tvPsswdError.visibility = View.INVISIBLE
         }
 
         binding.btnContinueGuest.setOnClickListener {
-           // viewModel.getVideoSession("I2D8o1imAlVv3JVIxKdG")
-            val intent=Intent(this@LoginActivity,JoinMeetingActivity::class.java)
+            // viewModel.getVideoSession("I2D8o1imAlVv3JVIxKdG")
+            val intent = Intent(this@LoginActivity, JoinMeetingActivity::class.java)
             startActivity(intent)
-            overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
 
         binding.tvForgotPassword.setOnClickListener {
-            val intent=Intent(this,ForgotPasswordActivity::class.java)
+            val intent = Intent(this, ForgotPasswordActivity::class.java)
             startActivity(intent)
-            overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
 
         binding.btnSubmitButton.setOnClickListener {
 
-           handleBlankfields()
+            handleBlankfields()
             if (!binding.etPassword.text.toString().equals(""))
-            if(binding.etPassword.text.toString().length>6) {
-                binding.tvPsswdError.isVisible=true
-                checkTextFieldsAndPerformAction()
-            }else
-            {
-                binding.tvPsswdError.isVisible=true
-                binding.tvPsswdError.text=getString(R.string.txt_password_must_be_greaterthan_6)
-            }
+                if (binding.etPassword.text.toString().length > 6) {
+                    binding.tvPsswdError.isVisible = true
+                    checkTextFieldsAndPerformAction()
+                } else {
+                    binding.tvPsswdError.isVisible = true
+                    binding.tvPsswdError.text =
+                        getString(R.string.txt_password_must_be_greaterthan_6)
+                }
             hideKeyboard(this)
         }
 
         binding.btnOtpLogin.setOnClickListener {
-            val intent=Intent(this,ActivitiyLoginWithOtp::class.java)
+            val intent = Intent(this, ActivitiyLoginWithOtp::class.java)
             startActivity(intent)
-            overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
     }
 
@@ -127,26 +128,36 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-    fun checkPermissions()
-    {
-
+    fun checkPermissions() {
         requestVideoPermissions {
-            if (it)
-            {
-
-            }else
-            {
+            if (it) {
+                thread {
+                    Thread.sleep(500)
+                    requestNotficationPermission {
+                        Log.d(TAG, "onCreate: request Notification permission $it")
+                    }
+                }
+            } else {
                 requestVideoPermissions {
-                    if (it)
-                    {
-                        requestNearByPermissions(){
+                    if (it) {
+                        requestNearByPermissions() {
+                            thread {
+                                Thread.sleep(500)
+                                requestNotficationPermission {
+                                    Log.d(TAG, "onCreate: request Notification permission $it")
+                                }
+                            }
                             Log.d(TAG, "onCreate: onNearbyPermission $it")
                         }
                         //showToast(this,getString(R.string.txt_permission_required))
-                    }else
-                    {
+                    } else {
                         requestVideoPermissions {
-
+                            thread {
+                                Thread.sleep(500)
+                                requestNotficationPermission {
+                                    Log.d(TAG, "onCreate: request Notification permission $it")
+                                }
+                            }
                         }
                     }
                 }
@@ -155,17 +166,18 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
+
+
+
     fun handleBlankfields() {
         if (binding.etEmail.text.toString().equals("")) {
             binding.tvEmailError.text = getString(R.string.txt_required)
-        }
-        else {
+        } else {
             binding.tvEmailError.text = ""
         }
         if (binding.etPassword.text.toString().equals("")) {
             binding.tvPsswdError.text = getString(R.string.txt_required)
-        }
-        else {
+        } else {
             binding.tvPsswdError.text = ""
         }
     }
@@ -179,36 +191,47 @@ class LoginActivity : AppCompatActivity() {
     fun handleLoginApi(email: String, psswd: String) {
         viewModel.login(
             //encrypt(email), encrypt(psswd) ,
-            email,psswd,
+            email, psswd,
             response = { result, data, exception ->
                 when (result) {
                     200 -> {
                         Log.d(TAG, "onCreate: success ${data.data?.accessToken}")
                         DataStoreHelper.setToken(data.data?.accessToken!!)
-                       // DataStoreHelper.insertValue(email,psswd)
+                        // DataStoreHelper.insertValue(email,psswd)
 
-                        DataStoreHelper.insertValue(email,psswd)
+                        DataStoreHelper.insertValue(email, psswd)
                         DataStoreHelper.setLoggedInWithOtp(false)
                         decodeLoginToken(data.data?.accessToken!!, response = { response ->
 
-                            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
-                                if (response!=null){
-                                    Log.d(TAG, "handleLoginApi: userids ${response.UserId.toString()}   ${response.CreatedBy.toString()} ")
-                                    DataStoreHelper.setMeetingRecruiterAndUserIds(response.UserId.toString(),response.CreatedBy.toString())
+                            CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+                                if (response != null) {
+                                    Log.d(
+                                        TAG,
+                                        "handleLoginApi: userids ${response.UserId.toString()}   ${response.CreatedBy.toString()} "
+                                    )
+                                    DataStoreHelper.setMeetingRecruiterAndUserIds(
+                                        response.UserId.toString(),
+                                        response.CreatedBy.toString()
+                                    )
 
-                                    val intent=Intent(this@LoginActivity, UpcomingMeetingActivity::class.java)
-                                    CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
-                                        intent.putExtra(AppConstants.LOGIN_WITH_OTP,false)
+                                    val intent = Intent(
+                                        this@LoginActivity,
+                                        UpcomingMeetingActivity::class.java
+                                    )
+                                    CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+                                        intent.putExtra(AppConstants.LOGIN_WITH_OTP, false)
                                     }
 
                                     Handler(Looper.getMainLooper()).postDelayed({
                                         startActivity(intent)
-                                        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
+                                        overridePendingTransition(
+                                            R.anim.slide_in_right,
+                                            R.anim.slide_out_left
+                                        )
                                         finish()
-                                    },500)
+                                    }, 500)
 
-                                }else
-                                {
+                                } else {
                                     showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
                                 }
                             }
@@ -224,7 +247,7 @@ class LoginActivity : AppCompatActivity() {
                     404 -> {
                         Log.d(TAG, "onCreate: not found ")
                     }
-                    401->{
+                    401 -> {
                         Log.d(TAG, "onCreate: wrong credentials")
                         Log.d(TAG, "onCreate: wrong credentials")
                         //data.message.toString()
@@ -242,8 +265,7 @@ class LoginActivity : AppCompatActivity() {
                 if (action == 1) {
                     Log.d(TAG, "handleLoginApi: visible progress ")
                     showProgressDialog()
-                }
-                else {
+                } else {
                     Log.d(TAG, "handleLoginApi: not visible progress ")
                     dismissProgressDialog()
                 }
@@ -251,31 +273,29 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun checkTextFieldsAndPerformAction() {
-        CoroutineScope(Dispatchers.IO+exceptionHandler)
+        CoroutineScope(Dispatchers.IO + exceptionHandler)
             .launch {
 
-                    validate(
-                        binding.etEmail.text.toString(),
-                        binding.etPassword.text.toString()
-                    ) { email, psswd, isSuccess ,error->
-                        if (isSuccess) {
-                            if (checkInternet()){
-                                    handleLoginApi(email, psswd)
-                            }else
-                            {
-                                showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
-                             /*   Snackbar.make(binding.root,getString(R.string.txt_no_internet_connection),
-                                    Snackbar.LENGTH_SHORT).show()*/
-                            }
-
-                            Log.d("textcheck", "click on success btn $email $psswd ")
+                validate(
+                    binding.etEmail.text.toString(),
+                    binding.etPassword.text.toString()
+                ) { email, psswd, isSuccess, error ->
+                    if (isSuccess) {
+                        if (checkInternet()) {
+                            handleLoginApi(email, psswd)
+                        } else {
+                            showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                            /*   Snackbar.make(binding.root,getString(R.string.txt_no_internet_connection),
+                                   Snackbar.LENGTH_SHORT).show()*/
                         }
-                        else {
 
-                        }
+                        Log.d("textcheck", "click on success btn $email $psswd ")
+                    } else {
+
                     }
-                Log.d("TAG", "onCreate: ${DataStoreHelper.getUserEmail()}")
                 }
+                Log.d("TAG", "onCreate: ${DataStoreHelper.getUserEmail()}")
+            }
 
 
     }
@@ -289,8 +309,7 @@ class LoginActivity : AppCompatActivity() {
                 if (isOk) {
                     mEmail = email
                     binding.tvEmailError.visibility = View.INVISIBLE
-                }
-                else {
+                } else {
                     if (error != null)
                     //binding.etEmail.error = error
                         binding.tvEmailError.text = error
@@ -304,8 +323,7 @@ class LoginActivity : AppCompatActivity() {
                 if (isOk) {
                     Log.d("textcheck", "onCreate: empty $psswd")
                     binding.tvPsswdError.visibility = View.INVISIBLE
-                }
-                else {
+                } else {
                     if (error != null) {
                         mError = error
                     }

@@ -424,12 +424,11 @@ fun Context.requestNearByPermissions(isGrant: (isGranted: Boolean) -> Unit) {
     ExcuseMe.couldYouGive(this).permissionFor(
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.BLUETOOTH_CONNECT,
-
-    ) {
+        ) {
 
         Log.d("permissioncheck", "requestVideoPermissions: $it ")
         if (  it.granted.contains(Manifest.permission.ACCESS_FINE_LOCATION) &&
-             it.granted.contains(Manifest.permission.BLUETOOTH_CONNECT)
+            it.granted.contains(Manifest.permission.BLUETOOTH_CONNECT)
         ) {
             isGrant(true)
         } else {
@@ -439,14 +438,10 @@ fun Context.requestNearByPermissions(isGrant: (isGranted: Boolean) -> Unit) {
 }
 
 
-fun Context.requestStoragePermissions(isGrant: (isGranted: Boolean) -> Unit) {
-    ExcuseMe.couldYouGive(this).permissionFor(
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        ) {
-        Log.d("permissioncheck", "requestVideoPermissions: $it ")
-        if (it.granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE) &&
-            it.granted.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+fun Context.requestNotficationPermission(isGrant: (isGranted: Boolean) -> Unit)
+{
+    ExcuseMe.couldYouGive(this).permissionFor(Manifest.permission.POST_NOTIFICATIONS){
+        if (it.granted.contains(Manifest.permission.POST_NOTIFICATIONS)
         ) {
             isGrant(true)
         } else {
@@ -454,10 +449,6 @@ fun Context.requestStoragePermissions(isGrant: (isGranted: Boolean) -> Unit) {
         }
     }
 }
-
-
-
-
 
 
 
@@ -470,27 +461,49 @@ fun Context.requestVideoPermissions(isGrant: (isGranted: Boolean) -> Unit) {
         android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
         android.Manifest.permission.READ_EXTERNAL_STORAGE,
         android.Manifest.permission.READ_PHONE_STATE,
+
     ) {
 
         Log.d("permissioncheck", "requestVideoPermissions: $it ")
         if (it.granted.contains(android.Manifest.permission.CAMERA) &&
             it.granted.contains(Manifest.permission.RECORD_AUDIO) &&
             it.granted.contains(Manifest.permission.READ_PHONE_STATE) &&
-          //  it.granted.contains(Manifest.permission.ACCESS_FINE_LOCATION) &&
-           // it.granted.contains(Manifest.permission.BLUETOOTH_CONNECT) &&
+            //  it.granted.contains(Manifest.permission.ACCESS_FINE_LOCATION) &&
+            // it.granted.contains(Manifest.permission.BLUETOOTH_CONNECT) &&
             it.granted.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE) &&
-            it.granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE) &&
-            it.granted.contains(Manifest.permission.READ_PHONE_STATE)
+            it.granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE)
         ) {
+          //  requestNotficationPermission{}
             isGrant(true)
         } else {
+           // requestNotficationPermission{}
+            isGrant(false)
+        }
+    }
+}
+
+fun Context.requestCameraAndMicPermissions(isGrant: (isGranted: Boolean) -> Unit) {
+    ExcuseMe.couldYouGive(this).permissionFor(
+        Manifest.permission.CAMERA,
+        Manifest.permission.RECORD_AUDIO,
+        Manifest.permission.READ_PHONE_STATE,
+
+    ) {
+
+        Log.d("permissioncheck", "requestVideoPermissions: $it ")
+        if (it.granted.contains(Manifest.permission.CAMERA) &&
+            it.granted.contains(Manifest.permission.RECORD_AUDIO) &&
+            it.granted.contains(Manifest.permission.READ_PHONE_STATE)
+
+        ) {
+           // requestNotficationPermission {  }
+            isGrant(true)
+        } else {
+          //  requestNotficationPermission {  }
             isGrant(false)
         }
 
     }
-
-
-
 }
 
 
@@ -500,15 +513,15 @@ fun Context.requestWriteExternamlStoragePermissions(isGrant: (isGranted: Boolean
         android.Manifest.permission.READ_EXTERNAL_STORAGE,
     ) {
         Log.d("permissioncheck", "requestVideoPermissions: $it ")
-        if (it.granted.contains(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                ) {
+        if (it.granted.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE) &&
+            it.granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE)
+        ) {
             isGrant(true)
         } else {
             isGrant(false)
         }
     }
 }
-
 
 fun Context.checkInternet(): Boolean {
     val connectivityManager =

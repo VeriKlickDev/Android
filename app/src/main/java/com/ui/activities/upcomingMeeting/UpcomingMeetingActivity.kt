@@ -21,6 +21,7 @@ import com.veriKlick.databinding.ActivityUpcomingMeetingBinding
 import com.veriKlick.databinding.ActivityUploadProfilePhotoBinding
 import com.veriKlick.databinding.DrawerUserIconLayoutBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.concurrent.thread
 
 
 @AndroidEntryPoint
@@ -39,6 +40,19 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         setContentView(binding.root)
         viewModel = ViewModelProvider(this).get(UpComingMeetingViewModel::class.java)
         fragManager=supportFragmentManager
+
+
+        thread {
+            Thread.sleep(500)
+            requestNotficationPermission {
+                Log.d(TAG, "onCreate: request Notification permission $it")
+                requestNearByPermissions {
+
+                }
+            }
+
+
+        }
 
         fragManager?.let {
             Log.d(TAG, "onCreate: not null fragmanager")

@@ -27,7 +27,7 @@ class UploadProfilePhoto : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        requestStoragePermissions {
+        requestWriteExternamlStoragePermissions {
 
         }
 

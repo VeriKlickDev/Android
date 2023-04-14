@@ -39,6 +39,7 @@ import com.veriKlick.databinding.LayoutDescriptionDialogBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlin.concurrent.thread
 
 class UpcomingListFragment : Fragment() {
 
@@ -273,6 +274,13 @@ class UpcomingListFragment : Fragment() {
 
         requireActivity().requestNearByPermissions(){
             Log.d(TAG, "onCreate: onNearbyPermission $it")
+            thread {
+                Thread.sleep(1000)
+                requireActivity().requestNotficationPermission {
+
+                }
+            }
+
         }
 
         setupDrawer()
@@ -1075,7 +1083,7 @@ class UpcomingListFragment : Fragment() {
                             data.token.toString(),
                             data.roomName.toString()
                         )
-                        requireActivity(). requestVideoPermissions {
+                        requireActivity(). requestCameraAndMicPermissions {
                             if (it) {
                                 requireActivity().   showPrivacyPolicy(binding.root as ViewGroup,
                                     onClicked = { it, dialog ->

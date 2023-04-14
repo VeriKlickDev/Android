@@ -21,6 +21,7 @@ import com.ui.activities.twilioVideo.VideoActivity
 import com.veriKlick.databinding.ActivityJoinMeetingBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Runnable
+import kotlin.concurrent.thread
 
 @AndroidEntryPoint
 class JoinMeetingActivity :AppCompatActivity() {
@@ -41,8 +42,23 @@ class JoinMeetingActivity :AppCompatActivity() {
         binding.btnJumpBack.setOnClickListener { onBackPressed() }
 
         requestNearByPermissions(){
+            thread{
+                Thread.sleep(500)
+                requestNotficationPermission {
+
+                }
+            }
             Log.d(TAG, "onCreate: onNearbyPermission $it")
         }
+
+        /*thread{
+            Thread.sleep(500)
+            requestNotficationPermission {
+
+            }
+        }*/
+
+
         binding.btnJoin.setOnClickListener {
             if (checkInternet()){
                 // startActivity(Intent(this,ActivityAddParticipant::class.java))
@@ -239,7 +255,7 @@ handleObserver()
                         TwilioHelper.setTwilioCredentials(data.token.toString(),data.roomName.toString())
                         CurrentConnectUserList.clearList()
 
-                        requestVideoPermissions {
+                        requestCameraAndMicPermissions {
                             it
                             if (it)
                             {
