@@ -245,7 +245,7 @@ handleObserver()
                         TwilioHelper.setTwilioCredentials(data.token.toString(),data.roomName.toString())
                         CurrentConnectUserList.clearList()
 
-                        requestVideoPermissions {
+                        requestCameraAndMicPermissions {
                             if (it)
                             {
                                  showPrivacyPolicy(binding.root as ViewGroup,onClicked = { it, dialog->

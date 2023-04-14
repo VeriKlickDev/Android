@@ -169,7 +169,6 @@
 
         </activity>
 
-
         <service
             android:name="com.ui.activities.twilioVideo.ScreenSharingCapturing.ScreenSharingService"
             android:enabled="true"

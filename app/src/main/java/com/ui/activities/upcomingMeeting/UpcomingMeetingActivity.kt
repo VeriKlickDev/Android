@@ -80,7 +80,6 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             }
         }
 
-
         currentDateIST = getCurrentDate()!!
 
         if (checkInternet()) {
