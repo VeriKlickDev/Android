@@ -3,7 +3,6 @@ package com.domain.RestApi
 import androidx.annotation.CheckResult
 import com.domain.BaseModels.*
 import com.google.gson.Gson
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -91,8 +90,8 @@ interface BaseRestApi {
     @POST("/api/ScheduleVideo/InterviewCancellationDetails")
     suspend fun cancelMeeting(@Header("Authorization")authToken:String,@Body ob: BodyCancelMeeting):Response<BodyCancelMeeting>
 
-    @POST("/api/Recruiter/GetSavedProfilesListByUserId/")
-    suspend fun getCandidateList(@Body ob: BodyCandidateList,@Query("recid", encoded = false) recid:String,@Query("subscriberid", encoded = false) subscriberid:String ):Response<ResponseCandidateList>
+    @POST
+    suspend fun getCandidateList(@Header("Authorization")authToken:String?,@Url url:String,@Body ob:BodyCandidateList):Response<ResponseCandidateList>
 
 
 }

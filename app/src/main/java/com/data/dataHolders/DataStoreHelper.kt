@@ -88,6 +88,10 @@ object DataStoreHelper {
         return "Bearer "+ dataStore.data.first()[preferencesKey<String>(AppConstants.USER_LOGIN_TOKEN)].toString()
     }
 
+    suspend fun getLoginAuthToken():String{
+        return dataStore.data.first()[preferencesKey<String>(AppConstants.USER_LOGIN_TOKEN)].toString()
+    }
+
     suspend fun getUserEmail():String{
         return dataStore.data.first()[preferencesKey<String>(AppConstants.USER_EMAIL_ID)].toString()
     }

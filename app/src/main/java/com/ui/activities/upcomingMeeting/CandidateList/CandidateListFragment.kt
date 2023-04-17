@@ -14,6 +14,7 @@ import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.BodyCandidateList
 import com.domain.BaseModels.CurrentVideoUserModel
+import com.ui.activities.login.LoginActivity
 import com.ui.activities.upcomingMeeting.UpComingMeetingViewModel
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
 import com.ui.activities.upcomingMeeting.audioRecord.AudioMainActivity
@@ -45,6 +46,7 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
             //(requireActivity() as UpcomingMeetingActivity).openDrawer()
             //startActivity(Intent( requireActivity(),UploadProfilePhoto::class.java))
             startActivity(Intent( requireActivity(),AudioMainActivity::class.java))
+            //startActivity(Intent( requireActivity(),LoginActivity::class.java))
         }
         handleObserver()
         getCandidateList()
@@ -55,6 +57,8 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
     {
         Log.d(TAG, "handleObserver: ")
      viewModel.candidateListLive?.observe(requireActivity()){
+         Log.d(TAG, "handleObserver: in candidate list fragement")
+         Log.d(TAG, "handleObserver: in candidate list fragement data ${it.savedProfileDetail.size}")
          it?.let {
              Log.d(TAG, "handleObserver: candidate data $it")
          }
@@ -67,14 +71,19 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
         CoroutineScope(Dispatchers.IO).launch {
             var reicd=DataStoreHelper.getMeetingRecruiterid()
             var subsId=DataStoreHelper.getMeetingUserId()
-            var enReic=jsEncryptor.encryptPlainTextWithRandomIV(reicd,"Synk@1234")
-            var enSubs=jsEncryptor.encryptPlainTextWithRandomIV(subsId,"Synk@1234")
+           // var enReic=jsEncryptor.encryptPlainTextWithRandomIV(reicd,"Synk@1234")
+           // var enSubs=jsEncryptor.encryptPlainTextWithRandomIV(subsId,"Synk@1234")
+
             val ob=BodyCandidateList()
 
-            Log.d(TAG, "getCandidateList: enreic ${enReic.toString()} ensubs ${enSubs.toString()}")
+            Log.d(TAG, "getCandidateList: enreic ${reicd.toString()} ensubs ${subsId.toString()}")
 
-            /*
-            viewModel.getCandidateList(ob, recid = enReic,enSubs){response, errorCode, msg ->
+
+            var top=""
+            var skip=""
+            var searchexp=""
+            var category=""
+            viewModel.getCandidateList(ob, recid = reicd,subsId,top,skip, searchExpression = searchexp, category = category){response, errorCode, msg ->
                 if (response)
                 {
                     Log.d(TAG, "getCandidateList: response sucess")
@@ -82,7 +91,7 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
                 {
                     Log.d(TAG, "getCandidateList: response not found/success $errorCode $msg")
                 }
-            }*/
+            }
         }
     }
 

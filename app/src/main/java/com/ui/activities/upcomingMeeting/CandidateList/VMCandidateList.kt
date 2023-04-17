@@ -3,6 +3,7 @@ package com.ui.activities.upcomingMeeting.CandidateList
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.data.dataHolders.DataStoreHelper
 import com.data.exceptionHandler
 import com.domain.BaseModels.BodyCandidateList
 import com.domain.BaseModels.ResponseCandidateList
@@ -18,11 +19,14 @@ class VMCandidateList @Inject constructor(val baseRestApi: BaseRestApi) : ViewMo
     private var candidateListMutable = MutableLiveData<ResponseCandidateList>()
     var candidateListLive: LiveData<ResponseCandidateList>? = null
 
-    fun getCandidateList(ob: BodyCandidateList, recid: String, subsId: String,error:(isError:Boolean,errorCode:Int,msg:String)->Unit) {
+    fun getCandidateList(ob: BodyCandidateList, recid: String, subsId: String,top:String,skip:String,searchExpression:String,category:String,error:(isError:Boolean,errorCode:Int,msg:String)->Unit) {
         CoroutineScope(Dispatchers.IO + exceptionHandler)
             .launch {
                 try {
-                    val response = baseRestApi.getCandidateList(ob, recid, subsId)
+                    var endPoint = "/api/Recruiter/GetSavedProfilesListByUserId/"
+                    var url = endPoint + recid + "/" + subsId + "?Top=" + top + "" + "&" + "skip=" + skip + "&" + "SearchExpression=" + searchExpression + "&" + "Category=" + category
+                    val authToken=DataStoreHelper.getLoginAuthToken()
+                    val response = baseRestApi.getCandidateList(authToken,url,ob)
                     if (response.isSuccessful) {
                         when (response.code()) {
                             200 -> {

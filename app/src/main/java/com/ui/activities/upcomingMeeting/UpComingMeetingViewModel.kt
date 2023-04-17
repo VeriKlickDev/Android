@@ -501,13 +501,17 @@ class UpComingMeetingViewModel @Inject constructor(
 
 
     private var candidateListMutable = MutableLiveData<ResponseCandidateList>()
-    var candidateListLive: LiveData<ResponseCandidateList>? = null
+    var candidateListLive: LiveData<ResponseCandidateList>? = candidateListMutable
 
-    fun getCandidateList(ob: BodyCandidateList, recid: String, subsId: String, respnse:(isSuccess:Boolean, errorCode:Int, msg:String)->Unit) {
+    fun getCandidateList(ob: BodyCandidateList, recid: String, subsId: String,top:String,skip:String,searchExpression:String,category:String, respnse:(isSuccess:Boolean, errorCode:Int, msg:String)->Unit) {
         CoroutineScope(Dispatchers.IO + exceptionHandler)
             .launch {
                 try {
-                    val response = baseRepoApi.getCandidateList(ob, recid, subsId)
+                    val authToken=DataStoreHelper.getLoginAuthToken()
+                    Log.d(TAG, "getCandidateList: token in upviewmodel $authToken")
+                    var endPoint = "/api/Recruiter/GetSavedProfilesListByUserId/"
+                    var url = endPoint + recid + "/" + subsId + "?Top=" + top + "" + "&" + "skip=" + skip + "&" + "SearchExpression=" + searchExpression + "&" + "Category=" + category
+                    val response = baseRepoApi.getCandidateList(authToken,url,ob)
                     if (response.isSuccessful) {
                         when (response.code()) {
                             200 -> {

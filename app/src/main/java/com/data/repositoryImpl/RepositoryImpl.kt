@@ -1,20 +1,23 @@
 package com.data.repositoryImpl
 
 
-
-
+import android.util.Log
+import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.*
 import com.domain.RestApi.BaseRestApi
 import com.domain.RestApi.LoginRestApi
 import com.google.gson.Gson
-import retrofit2.Call
 import retrofit2.Response
+import retrofit2.http.Body
 import javax.inject.Inject
 
-class RepositoryImpl  @Inject constructor(val baseRestApi: BaseRestApi,val loginRestApi: LoginRestApi): BaseRestRepository {
+class RepositoryImpl @Inject constructor(
+    val baseRestApi: BaseRestApi,
+    val loginRestApi: LoginRestApi
+) : BaseRestRepository {
 
     override suspend fun requestVideoSession(videoAccessCode: String): Response<ResponseInterViewDetailsBean> {
-    return baseRestApi.requestVideoSession(videoAccessCode)
+        return baseRestApi.requestVideoSession(videoAccessCode)
     }
 
 
@@ -30,7 +33,7 @@ class RepositoryImpl  @Inject constructor(val baseRestApi: BaseRestApi,val login
         token: String,
         ob: BodyScheduledMeetingBean
     ): Response<ResponseScheduledMeetingBean> {
-        return baseRestApi.getScheduledMeetingsList(token,ob)
+        return baseRestApi.getScheduledMeetingsList(token, ob)
     }
 
     override suspend fun getInterviewAccessCodeById(id: Int): Response<ResponseInterviewerAccessCodeByID> {
@@ -62,7 +65,7 @@ class RepositoryImpl  @Inject constructor(val baseRestApi: BaseRestApi,val login
     }
 
     override suspend fun getResumeFileName(id: String): Response<ResponseCandidateDataForIOS> {
-        return baseRestApi.getResumeFileName("/api/CandidateDataForIOS/"+id)
+        return baseRestApi.getResumeFileName("/api/CandidateDataForIOS/" + id)
     }
 
     override suspend fun getRecordingStatusUpdate(obj: BodyUpdateRecordingStatus): Response<BodyUpdateRecordingStatus> {
@@ -78,7 +81,7 @@ class RepositoryImpl  @Inject constructor(val baseRestApi: BaseRestApi,val login
     }
 
     override suspend fun getFeedBackDetails(accessCode: String): Response<ResponseFeedBack> {
-        return baseRestApi.getFeedBackDetails("/api/ScheduleVideo/GetCandidateAssessementDetailsByIdVideoAccessCode/"+accessCode)
+        return baseRestApi.getFeedBackDetails("/api/ScheduleVideo/GetCandidateAssessementDetailsByIdVideoAccessCode/" + accessCode)
     }
 
     override suspend fun sendFeedBack(obj: BodyFeedBack): Response<ResponseBodyFeedBack> {
@@ -126,34 +129,35 @@ class RepositoryImpl  @Inject constructor(val baseRestApi: BaseRestApi,val login
         authToken: String,
         ob: BodyCancelMeeting
     ): Response<BodyCancelMeeting> {
-        return baseRestApi.cancelMeeting(authToken,ob)
+        return baseRestApi.cancelMeeting(authToken, ob)
     }
 
     override suspend fun getCandidateList(
-        ob: BodyCandidateList,
-        recid: String,
-        subscriberid: String
+        authToken: String?,
+        url: String,
+        ob: BodyCandidateList
     ): Response<ResponseCandidateList> {
-        return baseRestApi.getCandidateList(ob,recid,subscriberid)
+        return baseRestApi.getCandidateList(authToken = authToken, url, ob)
     }
+
+
+
 
     /* override suspend fun setScreenSharingStatus(obj: BodyUpdateScreenShareStatus): Response<ResponseScreenSharingStatus> {
          return baseRestApi.setScreenSharingStatus(obj)
      }*/
 
     override suspend fun getResume(fileName: BodyGetResume): Response<ResponseResumeModel> {
-       return loginRestApi.getResume(fileName)
+        return loginRestApi.getResume(fileName)
     }
 
-    override suspend fun login(ob:BodyLoginBean): Response<LoginResponseBean> {
+    override suspend fun login(ob: BodyLoginBean): Response<LoginResponseBean> {
         return loginRestApi.login(ob)
     }
 
     override suspend fun sendMailForforgotPassword(ob: BodyForgotPasswordBean): Response<ResponseForgotPassword> {
         return loginRestApi.sendMailForforgotPassword(ob)
     }
-
-
 
 
 }

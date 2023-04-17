@@ -26,8 +26,8 @@ data class BodyCandidateList(
     @SerializedName("techStatus"          ) var techStatus          : String? = "All",
     @SerializedName("search"              ) var search              : String? = "",
     @SerializedName("recruitervalue"      ) var recruitervalue      : String? = "",
-    @SerializedName("RecruiterSearch"     ) var RecruiterSearch     : String? = ""
-
+    @SerializedName("RecruiterSearch"     ) var RecruiterSearch     : String? = "",
+    @SerializedName("IsMobile"     ) var IsMobile     : Boolean? = true
 )
 
 data class ResponseCandidateList (

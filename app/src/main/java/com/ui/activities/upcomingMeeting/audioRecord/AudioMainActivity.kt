@@ -25,7 +25,7 @@ class AudioMainActivity : AppCompatActivity() {
         binding = ActivityAudiomainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+       // AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
         checkAudioPermission(AUDIO_PERMISSION_REQUEST_CODE)
 
