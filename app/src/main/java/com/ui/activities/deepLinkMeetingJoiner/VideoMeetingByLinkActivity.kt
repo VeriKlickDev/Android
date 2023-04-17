@@ -222,7 +222,7 @@ class VideoMeetingByLinkActivity : AppCompatActivity() {
                         TwilioHelper.setTwilioCredentials(data.token.toString(),data.roomName.toString())
                         CurrentConnectUserList.clearList()
 
-                        requestVideoPermissions {
+                        requestCameraAndMicPermissions {
                             if (it)
                             {
 
@@ -323,7 +323,7 @@ class VideoMeetingByLinkActivity : AppCompatActivity() {
                         TwilioHelper.setTwilioCredentials(data.token.toString(),data.roomName.toString())
                         CurrentConnectUserList.clearList()
 
-                        requestVideoPermissions {
+                        requestCameraAndMicPermissions {
                             if (it)
                             {
                                 if (TwilioHelper.getRoomInstance()==null){
