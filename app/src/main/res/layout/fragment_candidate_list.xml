@@ -10,12 +10,11 @@
         android:layout_height="match_parent"
         tools:context="com.ui.activities.upcomingMeeting.CandidateList.CandidateListFragment">
 
-        <TextView
-            android:textSize="@dimen/_25sdp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_helloworld"
-            android:text="candidateLIst Fragment" />
+      <androidx.recyclerview.widget.RecyclerView
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+            android:id="@+id/rv_candidateList"
+          />
 
     </FrameLayout>
 </layout>

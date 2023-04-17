@@ -7,8 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.data.cryptoJs.CryptoJsHelper
 import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.dataHolders.DataStoreHelper
@@ -20,6 +22,7 @@ import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
 import com.ui.activities.upcomingMeeting.audioRecord.AudioMainActivity
 import com.ui.activities.upcomingMeeting.audioRecord.PlayActivity
 import com.ui.activities.uploadProfilePhoto.UploadProfilePhoto
+import com.ui.listadapters.CandidateListAdapter
 import com.veriKlick.R
 import com.veriKlick.databinding.FragmentCandidateListBinding
 import kotlinx.coroutines.CoroutineScope
@@ -29,10 +32,15 @@ import kotlinx.coroutines.launch
 class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment() {
     lateinit var binding:FragmentCandidateListBinding
     val TAG ="candidateList"
+
+    var recyclerAdapter:CandidateListAdapter?=null
+    var layoutManager:LinearLayoutManager?=null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate: candidateListFragment")
-        
+
+
     }
     private val jsEncryptor=CryptoJsHelper()
     override fun onCreateView(
@@ -42,12 +50,15 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
         Log.d(TAG, "onCreateView: onCreateView")
         binding=FragmentCandidateListBinding.inflate(layoutInflater)
 
-        binding.tvHelloworld.setOnClickListener {
-            //(requireActivity() as UpcomingMeetingActivity).openDrawer()
-            //startActivity(Intent( requireActivity(),UploadProfilePhoto::class.java))
-            startActivity(Intent( requireActivity(),AudioMainActivity::class.java))
-            //startActivity(Intent( requireActivity(),LoginActivity::class.java))
-        }
+
+        binding.rvCandidateList.layoutManager=layoutManager
+        recyclerAdapter= CandidateListAdapter(requireActivity(), arrayListOf(), onClick = {data, videoAccessCode, action ->
+
+
+        })
+        binding.rvCandidateList.adapter=recyclerAdapter
+
+
         handleObserver()
         getCandidateList()
         return binding.root
@@ -61,6 +72,7 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
          Log.d(TAG, "handleObserver: in candidate list fragement data ${it.savedProfileDetail.size}")
          it?.let {
              Log.d(TAG, "handleObserver: candidate data $it")
+             recyclerAdapter?.notifyDataSetChanged()
          }
      }
     }
