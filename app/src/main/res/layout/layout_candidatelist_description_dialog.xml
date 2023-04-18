@@ -10,7 +10,7 @@
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/white"
+        android:background="@drawable/shape_rectangle_rounded_10_white"
         android:padding="@dimen/_10sp"
         >
         <ImageView
@@ -21,7 +21,6 @@
             android:padding="@dimen/_3sdp"
             android:elevation="@dimen/_5sp"
             android:layout_gravity="end"
-            android:layout_margin="@dimen/_10sp"
             />
 
 

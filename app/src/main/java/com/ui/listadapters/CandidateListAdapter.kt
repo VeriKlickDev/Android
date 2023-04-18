@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.data.change24to12hoursFormat
 import com.data.changeDatefrom_yyyymmdd_to_mmddyyyy
 import com.data.showCustomSnackbarOnTop
@@ -61,7 +62,12 @@ class CandidateListAdapter(val context: Context,
             binding.tvPrimarySkill.setText(data.primarySkills)
             binding.tvSecondarySkill.setText(data.Skills)
             Log.d(TAG, "dataBind: data of candidate list $data")
-            onClick(data,1)
+            binding.btnEllipsize.setOnClickListener {
+                onClick(data,1)
+            }
+            Glide.with(context).load(data.FullProfileUrl.toString()).into(binding.ivUserImage)
+
+
 
 
         }

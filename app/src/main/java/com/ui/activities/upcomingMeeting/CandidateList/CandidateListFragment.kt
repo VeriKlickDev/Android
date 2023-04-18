@@ -98,7 +98,7 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
             }
         }
         dialogBinding.tvCreatedOn.setText(data.CreatedDate)
-        dialogBinding.tvLastUpdateOn.setText(data.LastInterviewDetails)
+        dialogBinding.tvLastUpdateOn.setText(data.LastInterviewDetailss)
 
         dialog.create()
         dialog.show()

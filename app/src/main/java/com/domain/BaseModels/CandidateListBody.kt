@@ -41,6 +41,7 @@ data class ResponseCandidateList (
 
 
 data class SavedProfileDetail (
+    @SerializedName("FullProfileUrl"                     ) var FullProfileUrl                     : String? = null,
 
     @SerializedName("id"                                 ) var id                                 : Int?    = null,
     @SerializedName("MadeAssagement"                     ) var MadeAssagement                     : String? = null,
