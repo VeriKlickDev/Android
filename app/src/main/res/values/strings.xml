@@ -161,5 +161,8 @@
     <string name="txt_created_by">Created by</string>
     <string name="txt_last_update_on">Last update on</string>
     <string name="txt_last_update_by">Last update by</string>
+    <string name="txt_call">Call</string>
+    <string name="txt_sms">Sms</string>
+    <string name="txt_image_not_available">Image not available</string>
 
 </resources>

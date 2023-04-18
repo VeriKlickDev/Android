@@ -126,6 +126,8 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
     {
 
         binding.swipetorefresh.setOnRefreshListener {
+            candidateList.clear()
+            recyclerAdapter?.notifyDataSetChanged()
             getCandidateList()
         }
 

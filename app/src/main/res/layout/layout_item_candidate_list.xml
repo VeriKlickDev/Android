@@ -84,15 +84,38 @@
                             android:layout_marginLeft="@dimen/_10sp"
 
                             >
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:layout_width="@dimen/_80sdp"
-                                android:layout_height="@dimen/_80sdp"
-                                android:id="@+id/iv_userImage"
-                                android:scaleType="centerInside"
-                                android:background="@color/light_grey"
-                                app:shapeAppearanceOverlay="@style/roundedCorner50"
-                                android:src="@drawable/ic_img_add_user_white"
-                                />
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <com.google.android.material.imageview.ShapeableImageView
+                                    android:id="@+id/iv_userImage"
+                                    android:layout_width="@dimen/_80sdp"
+                                    android:layout_height="@dimen/_80sdp"
+                                    android:background="@color/light_grey"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/ic_add_user"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:shapeAppearanceOverlay="@style/roundedCorner50" />
+
+<!--                                <TextView-->
+<!--                                    android:id="@+id/tv_imgNotAvailable"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="@string/txt_image_not_available"-->
+<!--                                    android:elevation="@dimen/_5sp"-->
+<!--                                    android:textSize="@dimen/_8sdp"-->
+<!--                                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                                    app:layout_constraintTop_toTopOf="@+id/iv_userImage" />-->
+
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
 
                             <TextView
                                 android:id="@+id/tv_experience"
@@ -208,11 +231,23 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_join"
-                    android:layout_weight="2.5"
+                    android:id="@+id/btn_call"
+                    android:layout_weight="3"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_35sdp"
-                    android:text="@string/txt_join"
+                    android:text="@string/txt_call"
+                    android:visibility="visible"
+                    android:outlineProvider="none"
+                    android:foreground="?selectableItemBackground"
+                    style="@style/button.Style.Blue.Rounded.WithouPadding"
+                    android:fontFamily="@font/sarabun_bold" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_sms"
+                    android:layout_weight="3"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:text="@string/txt_sms"
+                    android:layout_marginLeft="@dimen/_5sp"
                     android:visibility="visible"
                     android:outlineProvider="none"
                     android:foreground="?selectableItemBackground"

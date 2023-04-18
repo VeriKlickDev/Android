@@ -54,18 +54,27 @@ class CandidateListAdapter(val context: Context,
     inner class ViewHolderClass(val binding: LayoutItemCandidateListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun dataBind(data: SavedProfileDetail) {
-            Log.d(TAG, "dataBind: can list rating ${data.Experience} ${data.Score}")
             binding.tvUsername.setText(data.Name)
             binding.tvUserEmail.setText(data.Email)
             binding.tvExperience.setText(data.Experience+" Years")
-            binding.ratingbarWireframing.progress=data.Score!!.toInt()
+            binding.ratingbarWireframing.progress=data.Average!!.toInt()
             binding.tvPrimarySkill.setText(data.primarySkills)
             binding.tvSecondarySkill.setText(data.Skills)
-            Log.d(TAG, "dataBind: data of candidate list $data")
             binding.btnEllipsize.setOnClickListener {
                 onClick(data,1)
             }
-            Glide.with(context).load(data.FullProfileUrl.toString()).into(binding.ivUserImage)
+            if (!data.FullProfileUrl.equals("")){
+                Log.d(TAG, "dataBind: not null img ${data.FullProfileUrl}")
+                binding.ivUserImage.setContentPadding(0,0,0,0)
+                Glide.with(context).load(data.FullProfileUrl.toString()).into(binding.ivUserImage)
+            }else
+            {
+                Log.d(TAG, "dataBind: null ${data.FullProfileUrl}")
+                binding.ivUserImage.setContentPadding(10,10,10,10)
+                binding.ivUserImage.setImageResource(R.drawable.ic_user_white)
+
+            }
+
 
 
 
