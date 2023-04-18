@@ -903,7 +903,7 @@ class UpcomingListFragment : Fragment() {
 
     fun showDescDialog(data: NewInterviewDetails) {
         val dialog = Dialog(requireActivity())
-        val dialogBinding = LayoutDescriptionDialogBinding.inflate(LayoutInflater.from(requireActivity()))
+        val dialogBinding = LayoutDescriptionDialogBinding.inflate(LayoutInflater.from(requireActivity()),binding.root as ViewGroup,false)
         dialog.setContentView(dialogBinding.root)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialogBinding.btnCross.setOnClickListener {

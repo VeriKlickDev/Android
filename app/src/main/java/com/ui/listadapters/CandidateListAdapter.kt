@@ -17,17 +17,18 @@ import com.domain.BaseModels.ResponseCandidateList
 import com.domain.BaseModels.SavedProfileDetail
 import com.google.gson.Gson
 import com.veriKlick.R
+import com.veriKlick.databinding.LayoutItemCandidateListBinding
 import com.veriKlick.databinding.LayoutItemUpcomingMeetingBinding
 
 class CandidateListAdapter(val context: Context,
-                           val list: List<SavedProfileDetail>,
-                           val onClick: (data: NewInterviewDetails, videoAccessCode: String, action: Int) -> Unit) : RecyclerView.Adapter<CandidateListAdapter.ViewHolderClass>()
+                           val list: MutableList<SavedProfileDetail>,
+                           val onClick: (data: SavedProfileDetail, action: Int) -> Unit) : RecyclerView.Adapter<CandidateListAdapter.ViewHolderClass>()
 {
 
     private val TAG = "upcomingAdapterListCheck"
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass {
         val binding =
-            LayoutItemUpcomingMeetingBinding.inflate(LayoutInflater.from(context), parent, false)
+            LayoutItemCandidateListBinding.inflate(LayoutInflater.from(context), parent, false)
         return ViewHolderClass(binding)
     }
 
@@ -36,16 +37,31 @@ class CandidateListAdapter(val context: Context,
         holder.dataBind(data)
 
     }
+    fun addList(tlist:List<SavedProfileDetail>)
+    {
+        Log.d(TAG, "addList: tlist size is ${tlist.size}")
+        list.clear()
+        list.addAll(tlist)
+        notifyDataSetChanged()
+    }
 
     override fun getItemCount(): Int {
         Log.d("timedate", "getItemCount: ${list.size}")
         return list.size
     }
 
-    inner class ViewHolderClass(val binding: LayoutItemUpcomingMeetingBinding) :
+    inner class ViewHolderClass(val binding: LayoutItemCandidateListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun dataBind(data: SavedProfileDetail) {
-
+            Log.d(TAG, "dataBind: can list rating ${data.Experience} ${data.Score}")
+            binding.tvUsername.setText(data.Name)
+            binding.tvUserEmail.setText(data.Email)
+            binding.tvExperience.setText(data.Experience+" Years")
+            binding.ratingbarWireframing.progress=data.Score!!.toInt()
+            binding.tvPrimarySkill.setText(data.primarySkills)
+            binding.tvSecondarySkill.setText(data.Skills)
+            Log.d(TAG, "dataBind: data of candidate list $data")
+            onClick(data,1)
 
 
         }

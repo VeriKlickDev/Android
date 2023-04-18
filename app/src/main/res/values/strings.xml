@@ -156,5 +156,10 @@
     <string name="resume">Resume</string>
     <string name="zero_time">00:00</string>
     <string name="txt_record_your_voice">Record your voice</string>
+    <string name="txt_internal_id">Internal ID</string>
+    <string name="txt_created_on">Created on</string>
+    <string name="txt_created_by">Created by</string>
+    <string name="txt_last_update_on">Last update on</string>
+    <string name="txt_last_update_by">Last update by</string>
 
 </resources>

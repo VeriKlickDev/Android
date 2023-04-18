@@ -31,6 +31,7 @@
     <dimen name="_160sp">160sp</dimen>
     <dimen name="_300sdp">300sp</dimen>
     <dimen name="_32sdp">32sp</dimen>
+    <dimen name="_17sdp">17sp</dimen>
 
 
 </resources>

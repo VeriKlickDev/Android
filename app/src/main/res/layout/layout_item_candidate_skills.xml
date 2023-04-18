@@ -56,7 +56,6 @@
             app:reviewScoreMax="5"
             android:max="5"
             android:theme="@style/RatingBar"
-            android:progress="2"
             style="@style/Widget.AppCompat.RatingBar.Indicator"
             android:isIndicator="false"
             />
