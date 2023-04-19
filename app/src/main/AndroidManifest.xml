@@ -7,11 +7,11 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.BLUETOOTH_SCAN"
@@ -32,7 +32,6 @@
         </intent>
     </queries>
 
-
     <application
         android:name="com.data.application.MyApplication"
         android:allowBackup="true"
@@ -40,29 +39,40 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher_verklick"
         android:label="@string/app_name"
+        android:preserveLegacyExternalStorage="true"
         android:requestLegacyExternalStorage="true"
+        android:requestRawExternalStorageAccess="true"
         android:roundIcon="@mipmap/ic_launcher_verklick_round"
         android:supportsRtl="true"
-        android:preserveLegacyExternalStorage="true"
-        android:requestRawExternalStorageAccess="true"
         android:theme="@style/Theme.TwillioProject"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ActivityCandidateQuestinnaire"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="com.ui.activities.createCandidate.ActivityCreateCandidate"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-
-        <activity android:name="com.ui.activities.upcomingMeeting.audioRecord.AudioMainActivity"
-            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name="com.ui.activities.upcomingMeeting.audioRecord.AudioMainActivity"
             android:exported="true"
-            />
-        <activity android:name="com.ui.activities.upcomingMeeting.audioRecord.PlayActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ui.activities.upcomingMeeting.audioRecord.PlayActivity"
             android:exported="true"
-            />
-
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.ui.activities.uploadProfilePhoto.UploadProfilePhoto"
             android:exported="false">

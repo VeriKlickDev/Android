@@ -13,6 +13,8 @@ import com.data.*
 import com.data.dataHolders.DataStoreHelper
 import com.domain.constant.AppConstants
 import com.google.android.material.navigation.NavigationView
+import com.ui.activities.candidateQuestionnaire.ActivityCandidateQuestinnaire
+import com.ui.activities.createCandidate.ActivityCreateCandidate
 import com.ui.activities.login.LoginActivity
 import com.ui.activities.upcomingMeeting.CandidateList.CandidateListFragment
 import com.ui.activities.upcomingMeeting.UpComingFragment.UpcomingListFragment
@@ -152,9 +154,12 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     upcomingFragment?.getMeetingList(4)
                     closeDrawer()
                 }
-                /* R.id.navdrawercreateCandidate -> {
-                     startActivity(Intent(this,ActivityUploadProfilePhotoBinding::class.java))
-                 }*/
+                 R.id.navdrawercreateCandidate -> {
+                     closeDrawer()
+                     setHandler().postDelayed({
+                         startActivity(Intent(this,ActivityCandidateQuestinnaire::class.java))
+                     },200)
+                 }
             }
             true
         }
@@ -164,16 +169,8 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
     fun openDrawer()
     {
+        Log.d(TAG, "openDrawer: open")
         binding.drawerLayout.openDrawer(Gravity.LEFT)
-      //  val drawerCount=DrawerUserIconLayoutBinding.inflate(LayoutInflater.from(this))
-
-/*        binding.navViewDrawer.menu.getItem(1).subMenu?.getItem(0)?.setActionView(drawerCount.root)
-
-        binding.navViewDrawer.menu.getItem(1).subMenu?.getItem(1)?.setActionView(R.layout.drawer_user_icon_layout)
-        binding.navViewDrawer.menu.getItem(1).subMenu?.getItem(2)?.setActionView(R.layout.drawer_user_icon_layout)
-  */    //  binding.navViewDrawer.menu.getItem(1).subMenu?.getItem(3)?.setActionView(R.layout.drawer_user_icon_layout)
-      // binding.navViewDrawer.menu.getItem(1).subMenu?.getItem(4)?.setActionView(R.layout.drawer_user_icon_layout)
-
 
     }
 

@@ -164,5 +164,12 @@
     <string name="txt_call">Call</string>
     <string name="txt_sms">Sms</string>
     <string name="txt_image_not_available">Image not available</string>
+    <string name="txt_profile_details">Profile Details</string>
+    <string name="txt_professional_details">Professional Details</string>
+    <string name="txt_next">Next</string>
+    <string name="txt_phoneNo">Phone no.</string>
+    <string name="txt_primaryNumber">Primary Number</string>
+    <string name="txt_code">Code</string>
+    <string name="txt_four_digit_ssn">Last 4 Digit Of SSN</string>
 
 </resources>
