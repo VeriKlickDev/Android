@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -19,25 +20,50 @@ import com.veriKlick.databinding.LayoutItemCandidateListBinding
 import com.veriKlick.databinding.LayoutItemCandidateQuestionsListBinding
 import com.veriKlick.databinding.LayoutItemUpcomingMeetingBinding
 
-class CandidateQuestionnaireListAdapter(val context: Context,
-                                        val list: MutableList<CandidateQuestionnaireModel>,
-                                        val onClick: (data: CandidateQuestionnaireModel, action: Int) -> Unit) : RecyclerView.Adapter<CandidateQuestionnaireListAdapter.ViewHolderClass>()
-{
+class CandidateQuestionnaireListAdapter(
+    val context: Context,
+    val list: MutableList<CandidateQuestionnaireModel>,
+    val onClick: (data: CandidateQuestionnaireModel, action: Int) -> Unit
+) : RecyclerView.Adapter<CandidateQuestionnaireListAdapter.ViewHolderClass>() {
 
     private val TAG = "upcomingAdapterListCheck"
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass {
         val binding =
-            LayoutItemCandidateQuestionsListBinding.inflate(LayoutInflater.from(context), parent, false)
+            LayoutItemCandidateQuestionsListBinding.inflate(
+                LayoutInflater.from(context),
+                parent,
+                false
+            )
         return ViewHolderClass(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
+        holder.setIsRecyclable(false)
         val data = list[position]
         holder.dataBind(data)
 
+        if (list[position].answer!=null)
+        {
+            if (list[position].answer.equals("Yes"))
+            {
+                Log.d(TAG, "onBindViewHolder: yes ")
+                holder.binding.rbYes.isChecked=true
+                holder.binding.rbNo.isChecked=false
+            }else if (list[position].answer.equals("No"))
+            {
+                Log.d(TAG, "onBindViewHolder: no ")
+                holder.binding.rbYes.isChecked=false
+                holder.binding.rbNo.isChecked=true
+            }
+        }else
+        {
+           // holder.binding.rbYes.isChecked=false
+           // holder.binding.rbNo.isChecked=false
+        }
+
     }
-    fun addList(tlist:List<CandidateQuestionnaireModel>)
-    {
+
+    fun addList(tlist: List<CandidateQuestionnaireModel>) {
         Log.d(TAG, "addList: tlist size is ${tlist.size}")
         list.clear()
         list.addAll(tlist)
@@ -49,14 +75,27 @@ class CandidateQuestionnaireListAdapter(val context: Context,
         return list.size
     }
 
+
+
     inner class ViewHolderClass(val binding: LayoutItemCandidateQuestionsListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun dataBind(data: CandidateQuestionnaireModel) {
+            binding.tvQuestion.setText(data.question)
 
-
-
-
-
+            binding.rbGroup.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener {
+                override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
+                    when (checkedId) {
+                        R.id.rb_yes -> {
+                            list.set(adapterPosition,
+                                CandidateQuestionnaireModel(list[adapterPosition].question,"Yes")
+                            )
+                        }
+                        R.id.rb_no -> {
+                            list.set(adapterPosition,CandidateQuestionnaireModel(list[adapterPosition].question,"No"))
+                        }
+                    }
+                }
+            })
         }
 
 

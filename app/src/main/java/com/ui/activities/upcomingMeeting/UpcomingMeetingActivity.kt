@@ -224,8 +224,6 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     fun attatchFragment(fragNo:Int)
     {
 
-
-
         try {
             if (!viewModel.getFragmentsList().isNullOrEmpty())
             {
