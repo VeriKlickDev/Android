@@ -30,7 +30,6 @@ import com.ui.activities.upcomingMeeting.UpComingMeetingViewModel
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
 import com.ui.activities.upcomingMeeting.audioRecord.AudioMainActivity
 import com.ui.activities.upcomingMeeting.audioRecord.PlayActivity
-import com.ui.activities.uploadProfilePhoto.UploadProfilePhoto
 import com.ui.listadapters.CandidateListAdapter
 import com.veriKlick.R
 import com.veriKlick.databinding.FragmentCandidateListBinding

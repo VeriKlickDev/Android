@@ -1,26 +1,33 @@
 package com.ui.activities.uploadProfilePhoto
 
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import androidx.lifecycle.ViewModelProvider
 import com.data.*
+import com.domain.BaseModels.BodyCandidateImageModel
 import com.veriKlick.R
 import com.veriKlick.databinding.ActivityUploadProfilePhotoBinding
 import com.yalantis.ucrop.UCrop
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 
-
-class UploadProfilePhoto : AppCompatActivity() {
+@AndroidEntryPoint
+class ActivityUploadProfilePhoto : AppCompatActivity() {
     private lateinit var binding: ActivityUploadProfilePhotoBinding
     private var imageUri:Uri?=null
     private var imageFile:File?=null
+    private var finalUserImageUri:Uri?=null
+    private var viewModel:VMUploadProfilePhoto?=null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityUploadProfilePhotoBinding.inflate(layoutInflater)
@@ -31,6 +38,8 @@ class UploadProfilePhoto : AppCompatActivity() {
 
         }
 
+        viewModel=ViewModelProvider(this).get(VMUploadProfilePhoto::class.java)
+
         binding.ivUploadImage.setOnClickListener {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
@@ -40,6 +49,11 @@ class UploadProfilePhoto : AppCompatActivity() {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
             contractorCamera.launch(intent)
         }
+
+        binding.btnUploadImage.setOnClickListener {
+            uploadImage()
+        }
+
 
     }
     val TAG="tavactivityupload"
@@ -75,7 +89,7 @@ class UploadProfilePhoto : AppCompatActivity() {
             desUri =getTempFileNameInCache()
 
             Log.d(TAG, "getImageFromCamera: source uri $sourceUri desUri $desUri")
-            binding.ivUploadImage.setImageURI(sourceUri)
+           // binding.ivUploadImage.setImageURI(sourceUri)
             var option=UCrop.Options()
             option.setCircleDimmedLayer(true)
             option.setCropGridColumnCount(3)
@@ -100,6 +114,7 @@ class UploadProfilePhoto : AppCompatActivity() {
         if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
             val resultUri = UCrop.getOutput(data!!)
             binding.ivUploadImage.setImageURI(resultUri)
+            finalUserImageUri=resultUri
             Log.d(TAG, "onActivityResult: destUri $desUri")
         } else if (resultCode == UCrop.RESULT_ERROR) {
             val cropError = UCrop.getError(data!!)
@@ -107,6 +122,43 @@ class UploadProfilePhoto : AppCompatActivity() {
         }
     }
 
+    private fun uploadImage()
+    {
+        if (finalUserImageUri!=null)
+        {
+            uploadProfilePhoto()
+        }else
+        {
+            showCustomSnackbarOnTop(getString(R.string.txt_please_select_photo_first))
+        }
+
+    }
+
+
+    private fun uploadProfilePhoto()
+    {
+        CoroutineScope(Dispatchers.IO+ exceptionHandler).launch {
+            try {
+                var imageBitmap= uriToBitmap(finalUserImageUri!!)
+                if (imageBitmap!=null)
+                {
+                    val image= convertBitmapToBase64(imageBitmap)
+                   // binding.ivUploadImage.setImageBitmap(imageBitmap)
+                    /*viewModel?.updateUserImage(BodyCandidateImageModel()){isSuccess, errorCode, msg ->
+
+                    } */
+                }else
+                {
+                    showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+                }
+
+            }catch (e:Exception)
+            {
+                Log.d(TAG, "uploadProfilePhoto: ")
+            }
+        }
+
+    }
 
 }
 

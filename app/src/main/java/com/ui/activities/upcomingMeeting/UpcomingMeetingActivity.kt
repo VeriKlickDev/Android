@@ -18,6 +18,7 @@ import com.ui.activities.createCandidate.ActivityCreateCandidate
 import com.ui.activities.login.LoginActivity
 import com.ui.activities.upcomingMeeting.CandidateList.CandidateListFragment
 import com.ui.activities.upcomingMeeting.UpComingFragment.UpcomingListFragment
+import com.ui.activities.uploadProfilePhoto.ActivityUploadProfilePhoto
 import com.veriKlick.*
 import com.veriKlick.databinding.ActivityUpcomingMeetingBinding
 import com.veriKlick.databinding.ActivityUploadProfilePhotoBinding
@@ -157,7 +158,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                  R.id.navdrawercreateCandidate -> {
                      closeDrawer()
                      setHandler().postDelayed({
-                         startActivity(Intent(this,ActivityCandidateQuestinnaire::class.java))
+                         startActivity(Intent(this,ActivityUploadProfilePhoto::class.java))
                      },200)
                  }
             }

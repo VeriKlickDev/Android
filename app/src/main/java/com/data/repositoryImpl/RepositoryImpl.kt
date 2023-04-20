@@ -7,8 +7,10 @@ import com.domain.BaseModels.*
 import com.domain.RestApi.BaseRestApi
 import com.domain.RestApi.LoginRestApi
 import com.google.gson.Gson
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.Multipart
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
@@ -149,6 +151,14 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun getResume(fileName: BodyGetResume): Response<ResponseResumeModel> {
         return loginRestApi.getResume(fileName)
+    }
+
+    override suspend fun updateUserImage(ob: BodyCandidateImageModel): Response<ResponseCandidateImageModel> {
+        return loginRestApi.updateUserImage(ob)
+    }
+
+    override suspend fun updateUserResume(ob: BodyCandidateResume,filePart:MultipartBody.Part): Response<ResponseCandidateResume> {
+        return loginRestApi.updateUserResume(ob,filePart)
     }
 
     override suspend fun login(ob: BodyLoginBean): Response<LoginResponseBean> {

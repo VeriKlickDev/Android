@@ -172,5 +172,6 @@
     <string name="txt_code">Code</string>
     <string name="txt_four_digit_ssn">Last 4 Digit Of SSN</string>
     <string name="txt_all_quesiton_required">All question required</string>
+    <string name="txt_please_select_photo_first">Please select photo first</string>
 
 </resources>

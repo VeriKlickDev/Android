@@ -93,7 +93,6 @@ interface BaseRestApi {
     @POST
     suspend fun getCandidateList(@Header("Authorization")authToken:String?,@Url url:String,@Body ob:BodyCandidateList):Response<ResponseCandidateList>
 
-
 }
 
 

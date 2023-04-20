@@ -9,16 +9,12 @@ import android.content.*
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.media.projection.MediaProjectionManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
-import android.os.Build
-import android.os.Environment
-import android.os.Handler
-import android.os.Looper
+import android.os.*
 import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
@@ -48,8 +44,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import java.io.File
-import java.io.UnsupportedEncodingException
+import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
@@ -169,6 +164,20 @@ fun Context.showCustomToast(str:String)
         toast.duration=Toast.LENGTH_LONG
         toast.show()
     })
+}
+
+fun Context.uriToBitmap(selectedFileUri: Uri) :Bitmap {
+    var image:Bitmap?=null
+    try {
+        val parcelFileDescriptor: ParcelFileDescriptor? =getContentResolver().openFileDescriptor(selectedFileUri, "r")
+        val fileDescriptor: FileDescriptor = parcelFileDescriptor!!.fileDescriptor
+        image = BitmapFactory.decodeFileDescriptor(fileDescriptor)
+        parcelFileDescriptor.close()
+    } catch (e: IOException) {
+        e.printStackTrace()
+        print("uri to bitmap ${e.message}")
+    }
+    return image!!
 }
 
 fun Context.getTempFileNameInCache() :Uri
@@ -450,6 +459,24 @@ fun Context.requestNotficationPermission(isGrant: (isGranted: Boolean) -> Unit)
     }
 }
 
+
+fun convertBitmapToBytes(bmp: Bitmap) : ByteArray
+{
+    val stream = ByteArrayOutputStream()
+    bmp.compress(Bitmap.CompressFormat.PNG, 100, stream)
+    val byteArray : ByteArray = stream.toByteArray()
+    bmp.recycle()
+    return byteArray
+}
+
+fun convertBitmapToBase64(btmp:Bitmap) : String
+{
+    val byteArrayOutputStream = ByteArrayOutputStream()
+    btmp.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+    val byteArray = byteArrayOutputStream.toByteArray()
+    var encodedd=android.util.Base64.encodeToString(byteArray,android.util.Base64.DEFAULT)
+    return encodedd
+}
 
 
 fun Context.requestVideoPermissions(isGrant: (isGranted: Boolean) -> Unit) {

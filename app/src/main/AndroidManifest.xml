@@ -74,7 +74,7 @@
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ui.activities.uploadProfilePhoto.UploadProfilePhoto"
+            android:name="com.ui.activities.uploadProfilePhoto.ActivityUploadProfilePhoto"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
