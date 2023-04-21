@@ -30,5 +30,17 @@ data class ResponseCandidateResume (
     @SerializedName("message"      ) var message      : String?  = null,
     @SerializedName("data"         ) var data         : String?  = null,
     @SerializedName("errorMessage" ) var errorMessage : String?  = null
+)
+
+data class BodyCandidateImageUpdate (
+
+    @SerializedName("CandidateID" ) var CandidateID : Int?     = null,
+    @SerializedName("ImageName"   ) var ImageName   : String?  = null,
+    @SerializedName("ResumeFile"  ) var ResumeFile  : String?  = null,
+    @SerializedName("UpdatedBy"   ) var UpdatedBy   : String?  = null,
+    @SerializedName("Message"     ) var Message     : String?  = null,
+    @SerializedName("StatusCode"  ) var StatusCode  : String?  = null,
+    @SerializedName("Success"     ) var Success     : Boolean? = null,
+    @SerializedName("TimeTaken"   ) var TimeTaken   : String?  = null
 
 )

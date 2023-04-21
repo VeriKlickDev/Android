@@ -1,18 +1,24 @@
 package com.ui.activities.uploadProfilePhoto
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.LayoutInflater
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
+import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.BodyCandidateImageModel
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.veriKlick.R
 import com.veriKlick.databinding.ActivityUploadProfilePhotoBinding
+import com.veriKlick.databinding.LayoutChooseImageFromSourceBinding
 import com.yalantis.ucrop.UCrop
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -24,10 +30,10 @@ import java.io.File
 class ActivityUploadProfilePhoto : AppCompatActivity() {
     private lateinit var binding: ActivityUploadProfilePhotoBinding
     private var imageUri:Uri?=null
-    private var imageFile:File?=null
     private var finalUserImageUri:Uri?=null
     private var viewModel:VMUploadProfilePhoto?=null
-
+    private var imageName:String?=null
+    private var imageFile:File?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityUploadProfilePhotoBinding.inflate(layoutInflater)
@@ -41,13 +47,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
         viewModel=ViewModelProvider(this).get(VMUploadProfilePhoto::class.java)
 
         binding.ivUploadImage.setOnClickListener {
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-
-            imageFile = getEmptyFile("Caputured"+System.currentTimeMillis()+".png","captureImage")
-            imageUri = FileProvider.getUriForFile(this,"com.veriKlick.provider",imageFile!!)
-
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
-            contractorCamera.launch(intent)
+            getImageBottomSheet()
         }
 
         binding.btnUploadImage.setOnClickListener {
@@ -58,21 +58,22 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
     }
     val TAG="tavactivityupload"
 
+    private fun getImageFromCamera()
+    {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+        imageFile = getEmptyFile("Caputured"+System.currentTimeMillis()+".png","captureImage")
+        imageUri = FileProvider.getUriForFile(this,"com.veriKlick.provider",imageFile!!)
+
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+        contractorCamera.launch(intent)
+    }
+
     val contractorCamera=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
        try {
 
            Log.d(TAG, "imageUri: uri $imageUri")
-           //val file = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "MyPhoto.jpg")
-           // binding.ivUploadImage.setImageURI(imageUri)
-          // Log.d(TAG, ": contractor file $file ${this.applicationContext.packageName + ".provider"}")
-//            var fileTemp=FileProvider.getUriForFile(this,"com.veriKlick.provider",getEmptyFile("Caputured"+System.currentTimeMillis()+".png"))
-          /* val uri = FileProvider.getUriForFile(
-               this,
-               this.applicationContext.packageName + ".provider",
-               file
-           )*/
-
-               getImageFromCamera(imageUri!!)
+           getImageFromCamera(imageUri!!)
 
        }catch (e:Exception)
        {
@@ -80,6 +81,23 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
        }
 
     }
+
+    val contractorGallery=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        try {
+
+            Log.d(TAG, "imageUri: uri $imageUri")
+            imageUri = it?.data?.data
+           // binding.ivUploadImage.setImageURI(imageUri)
+
+            getImageFromCamera(imageUri!!)
+
+        }catch (e:Exception)
+        {
+            Log.d(TAG, "error: ${e.printStackTrace()}")
+        }
+
+    }
+
     var desUri=Uri.parse("")
 
     fun getImageFromCamera(sourceUri: Uri)
@@ -134,6 +152,33 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
 
     }
 
+    fun getImageBottomSheet()
+    {
+        val dialog= BottomSheetDialog(this,R.style.AppBottomSheetDialogTheme)
+        val dialogbinding= LayoutChooseImageFromSourceBinding.inflate(LayoutInflater.from(this))
+        dialog.setContentView(dialogbinding.root)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialogbinding.ivGallery.setOnClickListener {
+            getImageFromGallery()
+            dialog.dismiss()
+        }
+        dialogbinding.ivCamera.setOnClickListener {
+            getImageFromCamera()
+            dialog.dismiss()
+        }
+
+        dialog.create()
+        dialog.show()
+
+    }
+
+
+    fun getImageFromGallery()
+    {
+        val intent=Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        contractorGallery.launch(intent)
+    }
 
     private fun uploadProfilePhoto()
     {
@@ -143,10 +188,37 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                 if (imageBitmap!=null)
                 {
                     val image= convertBitmapToBase64(imageBitmap)
+                    val subsId=DataStoreHelper.getMeetingUserId()
                    // binding.ivUploadImage.setImageBitmap(imageBitmap)
-                    /*viewModel?.updateUserImage(BodyCandidateImageModel()){isSuccess, errorCode, msg ->
+                    var imageName=subsId+"/IMG_${System.currentTimeMillis()}.png"
+                    Log.d(TAG, "uploadProfilePhoto: image name $imageName")
+                    viewModel?.updateUserImage(BodyCandidateImageModel(image,subsId+"/IMG_${System.currentTimeMillis()}.png","upload")){isSuccess, code, msg ->
+                    when(code)
+                    {
+                        200->{
+                            Log.d(TAG, "uploadProfilePhoto: $msg")
+                        }
+                        400->{
+                            Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
+                        }
+                        401->{
+                            Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
+                        }
+                        500->{
+                            Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
+                        }
+                        501->{
+                            Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
+                        }
+                        404->{
+                            Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
+                        }
+                        503->{
+                            Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
+                        }
 
-                    } */
+                    }
+                    }
                 }else
                 {
                     showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))

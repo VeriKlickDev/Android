@@ -12,26 +12,25 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class VMUploadProfilePhoto @Inject constructor(val loginRestApi: LoginRestApi,val baseRestApi: BaseRestApi) : ViewModel() {
 
 
-    fun updateUserImage(ob:BodyCandidateImageModel, respnse:(isSuccess:Boolean, errorCode:Int, msg:String)->Unit)
+    fun updateUserImage(ob:BodyCandidateImageModel, respnse:(isSuccess:Boolean, code:Int, msg:String)->Unit)
     {
         CoroutineScope(Dispatchers.IO + exceptionHandler)
             .launch {
                 try {
 
-                    //val authToken=DataStoreHelper.getLoginAuthToken()
-                    val response = loginRestApi.updateUserImage(ob)
-                    if (response.isSuccessful) {
+                    val authToken=DataStoreHelper.getLoginBearerToken()
+                    val response = loginRestApi.updateFreshUserImage(authToken,ob)
+                    if (response.isSuccessful)
+                    {
                         when (response.code()) {
                             200 -> {
-                                respnse(true,200,"")
+                                respnse(true,200,response.body()!!.message.toString())
                             }
                             401 -> {
                                 respnse(false,401,"")
@@ -67,12 +66,13 @@ class VMUploadProfilePhoto @Inject constructor(val loginRestApi: LoginRestApi,va
         CoroutineScope(Dispatchers.IO + exceptionHandler)
             .launch {
                 try {
-                    //val authToken=DataStoreHelper.getLoginAuthToken()
-                    val response = loginRestApi.updateUserResume(ob,imgPart)
-                    if (response.isSuccessful) {
+                    val authToken= DataStoreHelper.getLoginBearerToken()
+                    val response = loginRestApi.updateUserResume(authToken,ob,imgPart)
+                    if (response.isSuccessful)
+                    {
                         when (response.code()) {
                             200 -> {
-                                respnse(true,200,"")
+                                respnse(true,200,response.body()?.message.toString())
                             }
                             401 -> {
                                 respnse(false,401,"")
