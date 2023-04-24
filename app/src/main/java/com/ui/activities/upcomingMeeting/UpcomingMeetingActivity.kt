@@ -75,9 +75,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
         //UpcomingListFragment.getInstance()
         setDrawabletoMenuItem()
-        binding.ivBuger.setOnClickListener {
 
-        }
 
         binding.btnLogout.setOnClickListener {
             logout()

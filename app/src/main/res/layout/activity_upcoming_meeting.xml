@@ -22,13 +22,6 @@
             tools:context="com.ui.activities.upcomingMeeting.UpcomingMeetingActivity"
             >
 
-            <ImageView
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_50sdp"
-                android:background="@drawable/img_bugericon"
-                android:id="@+id/iv_buger"
-                android:layout_margin="@dimen/_10sp"
-                />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -37,6 +30,8 @@
             android:layout_height="match_parent"
             android:id="@+id/fragment_container"
             />
+
+
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/nav_view"

@@ -73,6 +73,10 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
         })
         binding.rvCandidateList.adapter=recyclerAdapter
 
+        binding.btnHamburger.setOnClickListener {
+            (requireActivity() as UpcomingMeetingActivity).openDrawer()
+        }
+
         setupRecyclerPagination()
         handleObserver()
         getCandidateList()
@@ -123,7 +127,6 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
 
     private fun setupRecyclerPagination()
     {
-
         binding.swipetorefresh.setOnRefreshListener {
             candidateList.clear()
             recyclerAdapter?.notifyDataSetChanged()

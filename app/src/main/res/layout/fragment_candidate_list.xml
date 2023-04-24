@@ -9,10 +9,127 @@
 
 
 
-    <FrameLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context="com.ui.activities.upcomingMeeting.CandidateList.CandidateListFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical">
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/btn_hamburger"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_gravity="center"
+                android:padding="@dimen/_5sp"
+                android:scaleType="center"
+                android:src="@drawable/ic_hamburger_menu"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.03"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+<!--            <com.google.android.material.imageview.ShapeableImageView-->
+<!--                android:layout_width="@dimen/_30sdp"-->
+<!--                android:layout_height="@dimen/_30sdp"-->
+<!--                android:id="@+id/btn_logout"-->
+<!--                android:layout_marginLeft="10sp"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:padding="@dimen/_5sp"-->
+<!--                android:scaleType="center"-->
+<!--                android:src="@drawable/ic_hamburger_menu" />-->
+
+
+            <TextView
+                android:id="@+id/tv_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sp"
+                android:layout_weight="1"
+                android:fontFamily="@font/sarabun_semibold"
+                android:gravity="center"
+                android:text="@string/txt_candidate_list"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_18sdp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+<!--            <androidx.appcompat.widget.LinearLayoutCompat-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:background="@drawable/shape_rectangle_rounded_10_grey"-->
+<!--                android:gravity="center"-->
+<!--                android:id="@+id/layout_search"-->
+<!--                android:visibility="gone"-->
+<!--                android:layout_weight="1"-->
+<!--                android:paddingHorizontal="@dimen/_10sp">-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/et_search"-->
+<!--                    android:background="@null"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="@dimen/_40sdp"-->
+<!--                    android:layout_marginHorizontal="@dimen/_10sp"-->
+<!--                    android:visibility="visible"-->
+<!--                    android:textSize="@dimen/_15sp"-->
+<!--                    android:singleLine="true"-->
+<!--                    android:imeOptions="actionSearch"-->
+<!--                    android:hint="@string/txt_search"-->
+<!--                    android:layout_weight="0.2" />-->
+
+<!--            </androidx.appcompat.widget.LinearLayoutCompat>-->
+
+
+<!--            <com.google.android.material.imageview.ShapeableImageView-->
+<!--                android:layout_width="@dimen/_30sdp"-->
+<!--                android:layout_height="@dimen/_30sdp"-->
+<!--                android:id="@+id/btn_search_show"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:scaleType="fitCenter"-->
+<!--                android:padding="@dimen/_5sp"-->
+<!--                android:layout_marginRight="@dimen/_30sdp"-->
+<!--                android:visibility="visible"-->
+<!--                android:layout_marginLeft="-20sp"-->
+<!--                android:src="@drawable/ic_search_black" />-->
+
+
+<!--            <com.google.android.material.imageview.ShapeableImageView-->
+<!--                android:layout_width="@dimen/_20sp"-->
+<!--                android:layout_height="@dimen/_20sp"-->
+<!--                android:id="@+id/btn_cross"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginRight="@dimen/_30sdp"-->
+<!--                android:visibility="gone"-->
+<!--                android:padding="@dimen/_2sp"-->
+<!--                android:src="@drawable/ic_cross" />-->
+
+
+<!--            <com.google.android.material.imageview.ShapeableImageView-->
+<!--                android:layout_height="@dimen/_25sdp"-->
+<!--                android:layout_width="@dimen/_20sp"-->
+<!--                android:id="@+id/btn_ellipsize"-->
+<!--                android:scaleType="fitCenter"-->
+<!--                android:padding="@dimen/_5sp"-->
+<!--                android:layout_gravity="center_vertical"-->
+<!--                android:layout_marginLeft="-20sp"-->
+<!--                android:layout_marginRight="@dimen/_10sp"-->
+<!--                android:src="@drawable/ic_btn_ellipsize_grey" />-->
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipetorefresh"
@@ -32,6 +149,6 @@
             android:id="@+id/rv_candidateList"
           />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-    </FrameLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </layout>

@@ -82,6 +82,10 @@ class UpcomingMeetingAdapter(
                 if (holder.binding.btnFeedback.text.toString() == "Feedback") {
                     onClick(data, videoAccessCode.toString(), 3)
                 }
+                if (holder.binding.btnFeedback.text.toString() == "Teams Meeting") {
+                    onClick(data, videoAccessCode.toString(), 4)
+                }
+
             }
        /* holder.binding.btnCancelMeeting.setOnClickListener {
             onClick(data, videoAccessCode.toString(), 6)
