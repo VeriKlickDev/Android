@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
@@ -39,6 +40,9 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
         binding=ActivityUploadProfilePhotoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.btnJumpBack.setOnClickListener {
+            onBackPressed.handleOnBackPressed()
+        }
 
         requestWriteExternamlStoragePermissions {
 
@@ -57,6 +61,13 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
 
     }
     val TAG="tavactivityupload"
+
+    val onBackPressed=object:OnBackPressedCallback(true){
+        override fun handleOnBackPressed() {
+            Log.d(TAG, "handleOnBackPressed: on back pressed")
+            finish()
+        }
+    }
 
     private fun getImageFromCamera()
     {

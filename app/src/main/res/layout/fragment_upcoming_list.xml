@@ -38,7 +38,7 @@
                         android:layout_marginLeft="10sp"
                         android:layout_gravity="center"
                         android:scaleType="center"
-                        android:src="@drawable/ic_img_left_meeting_black" />
+                        android:src="@drawable/ic_hamburger_menu" />
 
                     <TextView
                         android:layout_width="match_parent"
