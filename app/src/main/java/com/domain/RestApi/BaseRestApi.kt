@@ -102,7 +102,7 @@ interface BaseRestApi {
     @GET("/api/Common/GetCountryCode")
     suspend fun getCountryCodeList():Response<List<ResponseCountryCode>>
 
-    @GET("/api/Common/GetCityListById/{code}/{searchString}")
+    @GET
     suspend fun getCityByIDList(@Url url: String):Response<List<ResponseCity>>
 
     @GET

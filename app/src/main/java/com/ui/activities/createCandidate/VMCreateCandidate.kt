@@ -93,7 +93,7 @@ class VMCreateCandidate @Inject constructor(val baseRestApi: BaseRestApi) : View
         CoroutineScope(Dispatchers.IO + exceptionHandler)
             .launch {
                 try {
-                    val url="/api/Common/GetStateListById/$searchString/$id"
+                    val url="/api/Common/GetStateListById/$searchString/${id}"
                     val response=baseRestApi.getStateByIDList(url)
                     //val authToken= DataStoreHelper.getLoginAuthToken()
                     //Log.d(TAG, "getCandidateList: token in upviewmodel $authToken")
@@ -125,11 +125,11 @@ class VMCreateCandidate @Inject constructor(val baseRestApi: BaseRestApi) : View
     }
 
 
-    fun getCityByidList(searchString: String,id:String, respnse:(data:List<ResponseCity>?,isSuccess:Boolean, errorCode:Int, msg:String)->Unit) {
+    fun getCityByidList(shortName:String,searchString:String, respnse:(data:List<ResponseCity>?,isSuccess:Boolean, errorCode:Int, msg:String)->Unit) {
         CoroutineScope(Dispatchers.IO + exceptionHandler)
             .launch {
                 try {
-                    val url="/api/Common/GetStateListById/$searchString/$id"
+                    val url="/api/Common/GetCityListById/$shortName/$searchString"
                     val response=baseRestApi.getCityByIDList(url)
                     //val authToken= DataStoreHelper.getLoginAuthToken()
                     //Log.d(TAG, "getCandidateList: token in upviewmodel $authToken")

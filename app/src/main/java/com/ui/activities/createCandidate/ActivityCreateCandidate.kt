@@ -199,8 +199,17 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     if (!countryListMain.isNullOrEmpty()){
                         countryListMain.forEach {
                             if (it.SortName.toString().equals(countryStringList[position])){
-                                getCityListFromApi("All",it.Id.toString())
-                                getStateListFromApi(it.SortName.toString(),"All")
+                                //getCityListFromApi("All",it.Id.toString())
+                                cityStringList.clear()
+                                cityStringList.add("Select City")
+                                stateStringList.clear()
+                                stateStringList.add("Select State")
+                                runOnUiThread {
+                                    stateSpinnerAdapter?.notifyDataSetChanged()
+                                }
+
+
+                                getStateListFromApi("All",it.Id.toString())
                                 countryStr=countryStringList[position]
                             }
                         }
@@ -236,10 +245,9 @@ class ActivityCreateCandidate : AppCompatActivity() {
 
                     if (!stateListmain.isNullOrEmpty()) {
                         stateListmain.forEach {
-                            if (stateStringList[position].toString()
-                                    .equals(it.Shortname.toString())
+                            if (stateStringList[position].toString().equals(it.StateName.toString())
                             ) {
-
+                                getCityListFromApi(it.Shortname.toString(),"All")
                             }
                         }
                     }
@@ -442,8 +450,8 @@ class ActivityCreateCandidate : AppCompatActivity() {
         }
     }
 
-    private fun getStateListFromApi(stateShortName:String,searchString: String){
-        viewModel?.getStateByidList(stateShortName,searchString) { data, isSuccess, errorCode, msg ->
+    private fun getStateListFromApi(searchString: String,id: String){
+        viewModel?.getStateByidList(searchString,id) { data, isSuccess, errorCode, msg ->
             if (isSuccess)
             {
                 stateListmain.clear()
