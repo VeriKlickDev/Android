@@ -93,6 +93,21 @@ interface BaseRestApi {
     @POST
     suspend fun getCandidateList(@Header("Authorization")authToken:String?,@Url url:String,@Body ob:BodyCandidateList):Response<ResponseCandidateList>
 
+    @GET("/api/Common/GetCountry")
+    suspend fun getCountryNamesList():Response<List<ResponseCountryName>>
+
+   /* @GET("/api/Common/GetNationalityList")
+    suspend fun getCitizenShipList():Response<List<ResponseNationality>>
+*/
+    @GET("/api/Common/GetCountryCode")
+    suspend fun getCountryCodeList():Response<List<ResponseCountryCode>>
+
+    @GET("/api/Common/GetCityListById/{code}/{searchString}")
+    suspend fun getCityByIDList(@Url url: String):Response<List<ResponseCity>>
+
+    @GET
+    suspend fun getStateByIDList(@Url url:String):Response<List<ResponseState>>
+
 }
 
 

@@ -138,8 +138,25 @@ class RepositoryImpl @Inject constructor(
         return baseRestApi.getCandidateList(authToken = authToken, url, ob)
     }
 
+    override suspend fun getCountryNamesList(): Response<List<ResponseCountryName>> {
+        return baseRestApi.getCountryNamesList()
+    }
 
+    /*override suspend fun getCitizenShipList(): Response<List<ResponseNationality>> {
+        return baseRestApi.getCitizenShipList()
+    }*/
 
+    override suspend fun getCountryCodeList(): Response<List<ResponseCountryCode>> {
+        return baseRestApi.getCountryCodeList()
+    }
+
+    override suspend fun getCityByIDList(url:String): Response<List<ResponseCity>> {
+        return baseRestApi.getCityByIDList(url)
+    }
+
+    override suspend fun getStateByIDList(url: String): Response<List<ResponseState>> {
+        return baseRestApi.getStateByIDList(url)
+    }
 
     /* override suspend fun setScreenSharingStatus(obj: BodyUpdateScreenShareStatus): Response<ResponseScreenSharingStatus> {
          return baseRestApi.setScreenSharingStatus(obj)

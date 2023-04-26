@@ -156,7 +156,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                  R.id.navdrawercreateCandidate -> {
                      closeDrawer()
                      setHandler().postDelayed({
-                         startActivity(Intent(this,ActivityUploadProfilePhoto::class.java))
+                         startActivity(Intent(this,ActivityCreateCandidate::class.java))
                      },200)
                  }
             }
@@ -226,7 +226,10 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         try {
             if (!viewModel.getFragmentsList().isNullOrEmpty())
             {
-                fragManager?.beginTransaction()?.show(viewModel.getFragmentsList().get(fragNo))?.commit()
+
+               val fragTrans= fragManager?.beginTransaction()
+                //fragTrans?.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
+                   fragTrans?.show(viewModel.getFragmentsList().get(fragNo))?.commit()
                 Log.d(TAG, "replaceFragment: no null detached")
             }else
             {

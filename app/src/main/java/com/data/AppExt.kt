@@ -249,6 +249,12 @@ fun passwordValidator(
 
 }
 
+fun Context.phoneValidator(phone:String):Boolean
+{
+return phone.length == 10
+}
+
+
 var progressbar: Dialog? = null
 fun Context.showProgressDialog() {
     progressbar?.let {
@@ -548,6 +554,42 @@ fun Context.requestWriteExternamlStoragePermissions(isGrant: (isGranted: Boolean
             isGrant(false)
         }
     }
+}
+
+
+
+
+fun Context.getArrayAdapterOneItemSelected(mlist:List<String>) : ArrayAdapter<String>{
+    return object :
+        ArrayAdapter<String>(
+            this, android.R.layout.simple_spinner_dropdown_item,
+            mlist
+        ) {
+        override fun getDropDownView(
+            position: Int,
+            convertView: View?,
+            parent: ViewGroup
+        ): View {
+
+            var v: View? = null
+            if (position === 0) {
+                val tv = TextView(context)
+                tv.height = 0
+                v = tv
+            }
+            else {
+                v = super.getDropDownView(
+                    position,
+                    null,
+                    parent
+                )
+            }
+            return v!!
+
+        }
+    }
+
+
 }
 
 fun Context.checkInternet(): Boolean {

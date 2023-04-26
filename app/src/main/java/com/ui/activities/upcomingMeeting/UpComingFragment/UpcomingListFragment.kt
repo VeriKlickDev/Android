@@ -293,6 +293,11 @@ class UpcomingListFragment : Fragment() {
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        Log.d(TAG, "onDestroyView: upcoming list fragment")
+    }
 
     private fun logout()
     {

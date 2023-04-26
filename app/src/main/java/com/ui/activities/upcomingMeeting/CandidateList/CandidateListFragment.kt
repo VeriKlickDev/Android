@@ -83,6 +83,7 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
         return binding.root
     }
 
+
     private fun handleContextMenuforItem(data:SavedProfileDetail)
     {
         val dialog = Dialog(requireActivity())

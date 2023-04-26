@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.TwillioProject" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.VeriklickBase" parent="Theme.AppCompat.Light.NoActionBar">
 
         <item name="colorPrimary">@color/skyblue_light1</item>
         <item name="colorPrimaryVariant">#00FFFFFF</item>
@@ -50,7 +50,7 @@
     </style>
 
 
-    <style name="Theme.TwillioProject1" parent="Theme.TwillioProject">
+    <style name="Theme.TwillioProject1" parent="Theme.VeriklickBase">
         <item name="android:windowLayoutInDisplayCutoutMode">always</item>
         <item name="android:windowFullscreen">true</item>
     </style>
@@ -293,6 +293,9 @@
         <item name="strokeColor">@color/skyblue_light1</item>
     </style>
 
-
+    <style name="Custom_textinputlayout_filledbox" parent="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="hintTextColor">?attr/colorPrimary</item>
+        <item name="android:textColorHint">@drawable/selector_text_input_layout</item>
+    </style>
 
 </resources>
