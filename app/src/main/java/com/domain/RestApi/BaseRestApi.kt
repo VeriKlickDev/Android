@@ -42,7 +42,7 @@ interface BaseRestApi {
     suspend fun getRemoveStatus( @Body obj: BodyRemoveParticipant):Response<ResponseRemoveParticipant>
 
     @GET
-    suspend fun getResumeFileName(@Url url: String):Response<ResponseCandidateDataForIOS>
+    suspend fun getResumeFileName(@Header("Authorization") authToken: String,@Url url: String):Response<ResponseCandidateDataForIOS>
 
     @POST("/api/ScheduleVideo/UpdateInterviewRecordingStatus")
     suspend fun getRecordingStatusUpdate( @Body obj: BodyUpdateRecordingStatus):Response<BodyUpdateRecordingStatus>
@@ -107,6 +107,13 @@ interface BaseRestApi {
 
     @GET
     suspend fun getStateByIDList(@Url url:String):Response<List<ResponseState>>
+
+    @POST("/api/Messaging/SendMessage")
+    suspend fun sendSMSToCandidate(@Body ob:BodySMSCandidate):Response<ResponseSMSCadidate>
+
+    @POST("/api/JobSeeker")
+    suspend fun createCandidate(@Body ob:BodyCreateCandidate):Response<String>
+
 
 }
 

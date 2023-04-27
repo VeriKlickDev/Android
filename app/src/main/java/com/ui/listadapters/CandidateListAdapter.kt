@@ -63,6 +63,14 @@ class CandidateListAdapter(val context: Context,
             binding.btnEllipsize.setOnClickListener {
                 onClick(data,1)
             }
+            binding.btnCall.setOnClickListener {
+                onClick(data,2)
+            }
+            binding.btnSms.setOnClickListener {
+                onClick(data,3)
+            }
+
+
             if (!data.FullProfileUrl.equals("")){
                 Log.d(TAG, "dataBind: not null img ${data.FullProfileUrl}")
                 binding.ivUserImage.setContentPadding(0,0,0,0)

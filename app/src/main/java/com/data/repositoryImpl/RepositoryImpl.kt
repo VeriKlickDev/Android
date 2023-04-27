@@ -62,8 +62,8 @@ class RepositoryImpl @Inject constructor(
         return baseRestApi.getRemoveStatus(obj)
     }
 
-    override suspend fun getResumeFileName(id: String): Response<ResponseCandidateDataForIOS> {
-        return baseRestApi.getResumeFileName("/api/CandidateDataForIOS/" + id)
+    override suspend fun getResumeFileName(token: String,url: String): Response<ResponseCandidateDataForIOS> {
+        return baseRestApi.getResumeFileName(authToken =token ,url)
     }
 
     override suspend fun getRecordingStatusUpdate(obj: BodyUpdateRecordingStatus): Response<BodyUpdateRecordingStatus> {
@@ -136,6 +136,14 @@ class RepositoryImpl @Inject constructor(
         ob: BodyCandidateList
     ): Response<ResponseCandidateList> {
         return baseRestApi.getCandidateList(authToken = authToken, url, ob)
+    }
+
+    override suspend fun sendSMSToCandidate(ob: BodySMSCandidate): Response<ResponseSMSCadidate> {
+        return baseRestApi.sendSMSToCandidate(ob)
+    }
+
+    override suspend fun createCandidate(ob: BodyCreateCandidate): Response<String> {
+        return baseRestApi.createCandidate(ob)
     }
 
     override suspend fun getCountryNamesList(): Response<List<ResponseCountryName>> {

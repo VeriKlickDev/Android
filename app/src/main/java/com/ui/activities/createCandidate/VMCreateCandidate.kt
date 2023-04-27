@@ -162,4 +162,88 @@ class VMCreateCandidate @Inject constructor(val baseRestApi: BaseRestApi) : View
 
 
 
+    fun createCandidate(creatingObject:BodyCreateCandidate, respnse:(data:String?,isSuccess:Boolean, errorCode:Int, msg:String)->Unit) {
+        CoroutineScope(Dispatchers.IO + exceptionHandler)
+            .launch {
+                try {
+                    val response=baseRestApi.createCandidate(creatingObject)
+                    //val authToken= DataStoreHelper.getLoginAuthToken()
+                    //Log.d(TAG, "getCandidateList: token in upviewmodel $authToken")
+                    if (response.isSuccessful) {
+                        when (response.code()) {
+                            200 -> {
+                                respnse(response.body()!!,true,200,"")
+                            }
+                            401 -> {
+                                respnse(null,false,401,"")
+                            }
+                            400 -> {
+                                respnse(null,false,400,"")
+                            }
+                            500 -> {
+                                respnse(null,false,500,"")
+                            }
+                            501 -> {
+                                respnse(null,false,501,"")
+                            }
+                        }
+                    } else {
+                        respnse(null,false,502,"Response not success")
+                    }
+                } catch (e: Exception) {
+                    respnse(null,false,503,e.message.toString())
+                }
+            }
+    }
+
+    private val userProfileDataList= mutableListOf<ResponseCandidateDataForIOS?>()
+    fun getUserProfileData()=
+     if (userProfileDataList.isNullOrEmpty())
+     {
+         null
+     }else
+     {
+         userProfileDataList[0]
+     }
+
+    fun getCandidateDetails( candidateId:String,respnse:(data:ResponseCandidateDataForIOS?,isSuccess:Boolean, errorCode:Int, msg:String)->Unit) {
+        CoroutineScope(Dispatchers.IO + exceptionHandler)
+            .launch {
+                try {
+
+                    val response=baseRestApi.getResumeFileName(DataStoreHelper.getLoginBearerToken(),"/api/CandidateDataForIOS/" + candidateId)
+                    if (response.isSuccessful) {
+                        when (response.code()) {
+                            200 -> {//response.body()!!
+                                userProfileDataList.clear()
+                                userProfileDataList.add(response.body()!!)
+                                userProfileDataList
+                                respnse(response.body()!!,true,200,"")
+                            }
+                            401 -> {
+                                respnse(null,false,401,"")
+                            }
+                            400 -> {
+                                respnse(null,false,400,"")
+                            }
+                            500 -> {
+                                respnse(null,false,500,"")
+                            }
+                            501 -> {
+                                respnse(null,false,501,"")
+                            }
+                        }
+                    } else {
+                        respnse(null,false,502,"Response not success")
+                    }
+                } catch (e: Exception) {
+                    respnse(null,false,503,e.message.toString())
+                }
+            }
+    }
+
+
+
+
+
 }

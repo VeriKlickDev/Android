@@ -40,38 +40,45 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment() {
-    lateinit var binding:FragmentCandidateListBinding
-    val TAG ="candidateList"
-    var iscrolled=false
-    var recyclerAdapter:CandidateListAdapter?=null
-    var layoutManager:LinearLayoutManager?=null
-    private var skipPage=1
-    private var contentLimit=0
-    private val candidateList= mutableListOf <SavedProfileDetail>()
+    lateinit var binding: FragmentCandidateListBinding
+    val TAG = "candidateList"
+    var iscrolled = false
+    var recyclerAdapter: CandidateListAdapter? = null
+    var layoutManager: LinearLayoutManager? = null
+    private var skipPage = 1
+    private var contentLimit = 0
+    private val candidateList = mutableListOf<SavedProfileDetail>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate: candidateListFragment")
 
 
     }
-    private val jsEncryptor=CryptoJsHelper()
+
+    private val jsEncryptor = CryptoJsHelper()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         Log.d(TAG, "onCreateView: onCreateView")
-        binding=FragmentCandidateListBinding.inflate(layoutInflater)
-        layoutManager= LinearLayoutManager(requireActivity())
-        binding.rvCandidateList.layoutManager=layoutManager
-        recyclerAdapter= CandidateListAdapter(requireActivity(), arrayListOf(), onClick = {data,  action ->
-            when(action)
-            {
-             1->{
-                 handleContextMenuforItem(data)
-             }
-            }
-        })
-        binding.rvCandidateList.adapter=recyclerAdapter
+        binding = FragmentCandidateListBinding.inflate(layoutInflater)
+        layoutManager = LinearLayoutManager(requireActivity())
+        binding.rvCandidateList.layoutManager = layoutManager
+        recyclerAdapter =
+            CandidateListAdapter(requireActivity(), arrayListOf(), onClick = { data, action ->
+                when (action) {
+                    1 -> {
+                        handleContextMenuforItem(data)
+                    }
+                    2 -> {
+                        handleCall(data)
+                    }
+                    3 -> {
+                        handleSMS(data)
+                    }
+                }
+            })
+        binding.rvCandidateList.adapter = recyclerAdapter
 
         binding.btnHamburger.setOnClickListener {
             (requireActivity() as UpcomingMeetingActivity).openDrawer()
@@ -83,19 +90,28 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
         return binding.root
     }
 
-
-    private fun handleContextMenuforItem(data:SavedProfileDetail)
+    private fun handleCall(data: SavedProfileDetail)
     {
+        data.id.toString()
+        Log.d(TAG, "handleCall: candidate id ${data.id.toString()}")
+    }
+    private fun handleSMS(data: SavedProfileDetail)
+    {
+
+    }
+
+    private fun handleContextMenuforItem(data: SavedProfileDetail) {
         val dialog = Dialog(requireActivity())
-        val dialogBinding = LayoutCandidatelistDescriptionDialogBinding.inflate(LayoutInflater.from(requireActivity()))
+        val dialogBinding =
+            LayoutCandidatelistDescriptionDialogBinding.inflate(LayoutInflater.from(requireActivity()))
         dialog.setContentView(dialogBinding.root)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialogBinding.btnCross.setOnClickListener {
             dialog.dismiss()
         }
         dialogBinding.tvInternalId.setText(data.id.toString())
-        CoroutineScope(Dispatchers.IO+ exceptionHandler).launch {
-            var createdBy=DataStoreHelper.getMeetingRecruiterid()
+        CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            var createdBy = DataStoreHelper.getMeetingRecruiterid()
             requireActivity().runOnUiThread {
                 dialogBinding.tvCreatedBy.setText(createdBy)
                 dialogBinding.tvLastUpdateBy.setText(createdBy)
@@ -109,25 +125,26 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
     }
 
 
-    private fun handleObserver()
-    {
+    private fun handleObserver() {
         Log.d(TAG, "handleObserver: ")
-     viewModel.candidateListLive?.observe(requireActivity()){
-         Log.d(TAG, "handleObserver: in candidate list fragement")
-         Log.d(TAG, "handleObserver: in candidate list fragement data ${it.savedProfileDetail.size}")
-         it?.let {
-             contentLimit=it.totalCount!!.toInt()
-             Log.d(TAG, "handleObserver: total count is ${it.totalCount}")
-             Log.d(TAG, "handleObserver: candidate data $it")
-             candidateList.addAll(it.savedProfileDetail)
-             recyclerAdapter?.addList(candidateList)
-             recyclerAdapter?.notifyDataSetChanged()
-         }
-     }
+        viewModel.candidateListLive?.observe(requireActivity()) {
+            Log.d(TAG, "handleObserver: in candidate list fragement")
+            Log.d(
+                TAG,
+                "handleObserver: in candidate list fragement data ${it.savedProfileDetail.size}"
+            )
+            it?.let {
+                contentLimit = it.totalCount!!.toInt()
+                Log.d(TAG, "handleObserver: total count is ${it.totalCount}")
+                Log.d(TAG, "handleObserver: candidate data $it")
+                candidateList.addAll(it.savedProfileDetail)
+                recyclerAdapter?.addList(candidateList)
+                recyclerAdapter?.notifyDataSetChanged()
+            }
+        }
     }
 
-    private fun setupRecyclerPagination()
-    {
+    private fun setupRecyclerPagination() {
         binding.swipetorefresh.setOnRefreshListener {
             candidateList.clear()
             recyclerAdapter?.notifyDataSetChanged()
@@ -142,8 +159,7 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
                     if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL)
                         iscrolled = true
 
-                }catch (e:Exception)
-                {
+                } catch (e: Exception) {
                     Log.d(TAG, "onScrollStateChanged: exception 221 ${e.message}")
                 }
             }
@@ -164,7 +180,7 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
                             } else {
                                 Log.d(TAG, "onScrolled: " + skipPage.toString())
                                 if (requireActivity().checkInternet()) {
-                                getCandidateList()
+                                    getCandidateList()
                                 } else {
                                     requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
                                 }
@@ -176,8 +192,7 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
                         }
                     }
 
-                }catch (e:Exception)
-                {
+                } catch (e: Exception) {
                     Log.d(TAG, "onScrolled: exception 228 ${e.message}")
                 }
 
@@ -186,32 +201,37 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
     }
 
 
-    private fun getCandidateList()
-    {
+    private fun getCandidateList() {
         Log.d(TAG, "getCandidateList: ")
         CoroutineScope(Dispatchers.IO).launch {
-            var reicd=DataStoreHelper.getMeetingRecruiterid()
-            var subsId=DataStoreHelper.getMeetingUserId()
-           // var enReic=jsEncryptor.encryptPlainTextWithRandomIV(reicd,"Synk@1234")
-           // var enSubs=jsEncryptor.encryptPlainTextWithRandomIV(subsId,"Synk@1234")
+            var reicd = DataStoreHelper.getMeetingRecruiterid()
+            var subsId = DataStoreHelper.getMeetingUserId()
+            // var enReic=jsEncryptor.encryptPlainTextWithRandomIV(reicd,"Synk@1234")
+            // var enSubs=jsEncryptor.encryptPlainTextWithRandomIV(subsId,"Synk@1234")
 
-            val ob=BodyCandidateList()
+            val ob = BodyCandidateList()
 
             Log.d(TAG, "getCandidateList: enreic ${reicd.toString()} ensubs ${subsId.toString()}")
 
 
-            var top=""
-            var searchexp=""
-            var category=""
-            viewModel.getCandidateList(ob, recid = reicd,subsId,top,skipPage.toString(), searchExpression = searchexp, category = category){response, errorCode, msg ->
-                if (response)
-                {
-                    binding.swipetorefresh.isRefreshing=false
+            var top = ""
+            var searchexp = ""
+            var category = ""
+            viewModel.getCandidateList(
+                ob,
+                recid = reicd,
+                subsId,
+                top,
+                skipPage.toString(),
+                searchExpression = searchexp,
+                category = category
+            ) { response, errorCode, msg ->
+                if (response) {
+                    binding.swipetorefresh.isRefreshing = false
                     Log.d(TAG, "getCandidateList: response sucess")
                     skipPage++
-                }else
-                {
-                    binding.swipetorefresh.isRefreshing=false
+                } else {
+                    binding.swipetorefresh.isRefreshing = false
                     Log.d(TAG, "getCandidateList: response not found/success $errorCode $msg")
                 }
             }
@@ -220,9 +240,9 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
 
 
     companion object {
-    @JvmStatic
-        fun getInstance(viewModel:UpComingMeetingViewModel): Fragment{
+        @JvmStatic
+        fun getInstance(viewModel: UpComingMeetingViewModel): Fragment {
             return CandidateListFragment(viewModel)
-    }
+        }
     }
 }
