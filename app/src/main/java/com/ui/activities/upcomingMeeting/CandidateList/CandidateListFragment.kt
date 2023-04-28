@@ -142,14 +142,14 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
             dialogBinding.btnSend.setOnClickListener {
                 if (!dialogBinding.etsms.text.toString().equals("")) {
                     obj.MessageText = dialogBinding.etsms.text.toString()
+                    viewModel?.sendProfileLink(obj) { data, isSuccess, errorCode, msg ->
+                        if (isSuccess) {
+                            requireActivity().showCustomSnackbarOnTop(data?.ResponseMessage.toString())
+                        }
+                    }
                     Log.d("TAG", "postData: sending sms is ${Gson().toJson(obj)}")
                 } else {
                     Log.d(TAG, "handleSMS: blank")
-                }
-                viewModel?.sendProfileLink(obj) { data, isSuccess, errorCode, msg ->
-                    if (isSuccess) {
-                        requireActivity().showCustomSnackbarOnTop(data?.ResponseMessage.toString())
-                    }
                 }
             }
             dialog.create()
