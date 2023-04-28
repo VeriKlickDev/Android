@@ -2,14 +2,14 @@ package com.ui.activities.createCandidate
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.ContactsContract.Data
+
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
+
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
-import android.widget.TextView
+
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
@@ -21,7 +21,6 @@ import com.veriKlick.databinding.ActivityCreateCandidateBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 
@@ -30,7 +29,6 @@ class ActivityCreateCandidate : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreateCandidateBinding
     private var viewModel: VMCreateCandidate? = null
-    private val TAG = "acitivityCreateCan"
 
     private var isEmailok=false
     private var isPhoneok=false
@@ -46,7 +44,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateCandidateBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this).get(VMCreateCandidate::class.java)
+        viewModel = ViewModelProvider(this)[VMCreateCandidate::class.java]
 
         handleTextWatcher()
 
@@ -71,10 +69,22 @@ class ActivityCreateCandidate : AppCompatActivity() {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             if (position==0)
             {
+                val ob=countryCodeListMain.find { "${it.codedisplay} ${it.Name}".contains("United States") }
+                iscountryCode=ob?.codedisplay
+                countryCodeList.forEachIndexed { index, s ->
+                    if (s == "+1 United States")
+                    {
+                        runOnUiThread {
+                            binding.spinnerCountryCode.setSelection(index)
+                            spinnerCountryCodeAdapter.notifyDataSetChanged()
+                        }
+
+                    }
+                }
 
             }else
             {
-                val ob=countryCodeListMain.find { "${it.codedisplay} ${it.Name}".equals(countryCodeList[position]) }
+                val ob=countryCodeListMain.find { "${it.codedisplay} ${it.Name}" == countryCodeList[position] }
                 iscountryCode=ob?.codedisplay    
             }
         }
@@ -82,12 +92,11 @@ class ActivityCreateCandidate : AppCompatActivity() {
         override fun onNothingSelected(parent: AdapterView<*>?) {
             
         }
-
     }
 
     private fun getCountryCodeList()
     {
-        viewModel?.getCountyCodeList{data, isSuccess, errorCode, msg ->
+        viewModel?.getCountyCodeList{ data, isSuccess, _, _ ->
             if (isSuccess)
             {
                 countryCodeListMain.clear()
@@ -104,37 +113,27 @@ class ActivityCreateCandidate : AppCompatActivity() {
 
     private fun handleTextWatcher()
     {
-        binding.etEmail.doOnTextChanged { text, start, before, count ->
-            emailValidator(this, text.toString()) { isEmailOk, mEmail, error ->
+        binding.etEmail.doOnTextChanged { text, _, _, _ ->
+            emailValidator(this, text.toString()) { isEmailOk, _, _ ->
                 isEmailok=isEmailOk
-                if (isEmailOk)
-                    Log.d(TAG, "onCreate: email valid $mEmail")
-                else
-                    binding.etEmail.setError("Invalid")
-                Log.d(TAG, "onCreate: email not valid $mEmail")
+                if (!isEmailOk)
+                    binding.etEmail.error = "Invalid"
             }
         }
 
-        binding.etPhoneno.doOnTextChanged { text, start, before, count ->
+        binding.etPhoneno.doOnTextChanged { text, _, _, _ ->
             isPhoneok=phoneValidator(text.toString())
-            if (phoneValidator(text.toString()))
-            {
-                Log.d(TAG, "onCreate: phone valid")
-            }else
-            {
-                Log.d(TAG, "onCreate: phone invalid")
-                binding.etPhoneno.setError("Invalid")
-            }
+            if (!phoneValidator(text.toString()))
+                binding.etPhoneno.error = "Invalid"
         }
 
-        binding.etFirstname.doOnTextChanged { text, start, before, count ->
+        binding.etFirstname.doOnTextChanged { text, _, _, _ ->
             val pattern="[a-zA-Z0-9]+[a-zA-Z0-9\\s]*"
             val ptrn=Pattern.compile(pattern)
             isFirstName=ptrn.matcher(text.toString()).matches()
-
         }
 
-        binding.etLastname.doOnTextChanged { text, start, before, count ->
+        binding.etLastname.doOnTextChanged { text, _, _, _ ->
             val pattern="[a-zA-Z0-9]+[a-zA-Z0-9\\s]*"
             val ptrn=Pattern.compile(pattern)
             isLastName=ptrn.matcher(text.toString()).matches()
@@ -156,7 +155,6 @@ class ActivityCreateCandidate : AppCompatActivity() {
 
     private fun postData()
     {
-        Log.d(TAG, "postData: success")
         try {
             CoroutineScope(Dispatchers.IO+ exceptionHandler).launch {
                 val obj=BodySMSCandidate()
@@ -167,7 +165,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                 obj.email=binding.etEmail.text.toString()
                 obj.MessageText="SPL"
                 obj.ReceiverNumber=iscountryCode+binding.etPhoneno.text.toString()
-                Log.d(TAG, "postData: sending sms is ${Gson().toJson(obj)}")
+                Log.d("TAG", "postData: sending sms is ${Gson().toJson(obj)}")
                 viewModel?.sendProfileLink(obj){data, isSuccess, errorCode, msg ->
                     if (isSuccess)
                     {

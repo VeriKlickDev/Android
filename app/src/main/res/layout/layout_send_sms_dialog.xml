@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="350sp"
+        android:background="@drawable/shape_rectangle_rounded_10_white"
+        android:padding="@dimen/_10sp"
+        android:id="@+id/parentLayout"
+        android:focusableInTouchMode="true"
+        android:layout_marginHorizontal="@dimen/_10sp"
+        android:layout_marginTop="@dimen/_10sp"
+        android:layout_height="wrap_content">
+
+
+
+        <ImageView
+            android:layout_width="@dimen/_17sdp"
+            android:layout_height="@dimen/_17sdp"
+            android:layout_gravity="right"
+            android:layout_margin="@dimen/_10sp"
+            android:id="@+id/btn_cross"
+            android:backgroundTint="@color/grey"
+            android:background="@drawable/ic_cross"/>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="320sp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sp"
+                android:text="Name"
+                style="@style/heading.TextView.Grey_16"
+                android:visibility="visible" />
+            <TextView
+                android:id="@+id/tv_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textColor="@color/black"
+                style="@style/heading.TextView.Grey_16"
+                android:visibility="visible" />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <EditText
+            android:layout_marginTop="@dimen/_20sp"
+            android:drawablePadding="@dimen/_10sp"
+            android:id="@+id/etsms"
+            android:maxLines="1"
+            android:maxLength="50"
+            android:singleLine="true"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:digits=" qwertzuiopasdfghjklyxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+            android:imeOptions="actionNext"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_100sdp"
+            android:gravity="start"
+            android:background="@drawable/shape_rectangle_rounded_stroke_grey"
+            android:padding="@dimen/_5sp"
+            android:layout_marginHorizontal="@dimen/_10sp"
+            style="@style/editext.style.base.greyStroke"
+            android:hint="@string/txt_sms" />
+
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_send"
+            android:layout_width="150sp"
+            android:layout_height="@dimen/_45sdp"
+            style="@style/button.Style.Blue.Rounded"
+            android:layout_marginTop="@dimen/_20sp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/txt_send"
+            android:textSize="@dimen/_15sp"
+            android:layout_margin="@dimen/_10sp"
+            />
+
+
+    </LinearLayout>
+</layout>

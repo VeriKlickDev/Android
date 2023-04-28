@@ -23,8 +23,10 @@ import com.data.dataHolders.DataStoreHelper
 import com.data.exceptionHandler
 import com.data.showCustomSnackbarOnTop
 import com.domain.BaseModels.BodyCandidateList
+import com.domain.BaseModels.BodySMSCandidate
 import com.domain.BaseModels.CurrentVideoUserModel
 import com.domain.BaseModels.SavedProfileDetail
+import com.google.gson.Gson
 import com.ui.activities.login.LoginActivity
 import com.ui.activities.upcomingMeeting.UpComingMeetingViewModel
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
@@ -35,6 +37,8 @@ import com.veriKlick.R
 import com.veriKlick.databinding.FragmentCandidateListBinding
 import com.veriKlick.databinding.LayoutCandidatelistDescriptionDialogBinding
 import com.veriKlick.databinding.LayoutDescriptionDialogBinding
+import com.veriKlick.databinding.LayoutItemSenderChatBinding
+import com.veriKlick.databinding.LayoutSendSmsDialogBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -90,15 +94,70 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
         return binding.root
     }
 
-    private fun handleCall(data: SavedProfileDetail)
-    {
+    private fun handleCall(data: SavedProfileDetail) {
         data.id.toString()
         Log.d(TAG, "handleCall: candidate id ${data.id.toString()}")
     }
-    private fun handleSMS(data: SavedProfileDetail)
-    {
 
+    private fun handleSMS(data: SavedProfileDetail) {
+        try {
+            CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+                val obj = BodySMSCandidate()
+                obj.Subscriberid = DataStoreHelper.getMeetingUserId()
+                obj.userid = DataStoreHelper.getMeetingRecruiterid().toInt()
+                var firstName = data.Name?.substring(0, data.Name?.indexOf(" ")!!.toInt())
+                var lastName =
+                    data.Name?.substring(data.Name?.indexOf(" ")!!.toInt() + 2, data?.Name!!.length)
+                obj.FirstName = firstName
+                obj.LastName = lastName
+                obj.email = data.Email
+                obj.ReceiverNumber = data.Phone
+                showSendSmsCandidate(obj, data)
+
+
+            }
+        } catch (e: Exception) {
+            requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+        }
     }
+
+    fun showSendSmsCandidate(obj: BodySMSCandidate, data: SavedProfileDetail) {
+        requireActivity().runOnUiThread {
+            val dialog = Dialog(requireActivity())
+
+            val dialogBinding =
+                LayoutSendSmsDialogBinding.inflate(LayoutInflater.from(requireContext()))
+            dialog.setContentView(dialogBinding.root)
+            Log.d(TAG, "showSendSmsCandidate: ")
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialogBinding.btnCross.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+                requireActivity().runOnUiThread {
+                    dialogBinding.tvUsername.setText(data.Name)
+                }
+            }
+            dialogBinding.btnSend.setOnClickListener {
+                if (!dialogBinding.etsms.text.toString().equals("")) {
+                    obj.MessageText = dialogBinding.etsms.text.toString()
+                    Log.d("TAG", "postData: sending sms is ${Gson().toJson(obj)}")
+                } else {
+                    Log.d(TAG, "handleSMS: blank")
+                }
+                viewModel?.sendProfileLink(obj) { data, isSuccess, errorCode, msg ->
+                    if (isSuccess) {
+                        requireActivity().showCustomSnackbarOnTop(data?.ResponseMessage.toString())
+                    }
+                }
+            }
+            dialog.create()
+            dialog.show()
+
+        }
+    }
+
 
     private fun handleContextMenuforItem(data: SavedProfileDetail) {
         val dialog = Dialog(requireActivity())

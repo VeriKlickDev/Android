@@ -118,6 +118,12 @@
         <item name="backgroundTint">@color/light_grey</item>
     </style>
 
+    <style name="editext.style.base.greyStroke" parent="Widget.AppCompat.EditText">
+        <item name="android:drawablePadding">@dimen/_10sp</item>
+        <item name="android:textSize">@dimen/_18sdp</item>
+        <item name="android:fontFamily">@font/sarabun_regular</item>
+    </style>
+
 
 
     <style name="editext.style.base.withoutPadding" parent="Widget.AppCompat.EditText">
