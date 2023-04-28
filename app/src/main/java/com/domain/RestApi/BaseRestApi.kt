@@ -109,7 +109,7 @@ interface BaseRestApi {
     suspend fun getStateByIDList(@Url url:String):Response<List<ResponseState>>
 
     @POST("/api/Messaging/SendMessage")
-    suspend fun sendSMSToCandidate(@Body ob:BodySMSCandidate):Response<ResponseSMSCadidate>
+    suspend fun sendSMSToCandidate(@Body ob:BodySMSCandidate,@Header("Authorization")token: String):Response<ResponseSMSCadidate>
 
     @POST("/api/JobSeeker")
     suspend fun createCandidate(@Body ob:BodyCreateCandidate):Response<String>

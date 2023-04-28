@@ -174,5 +174,8 @@
     <string name="txt_all_quesiton_required">All question required</string>
     <string name="txt_please_select_photo_first">Please select photo first</string>
     <string name="txt_candidate_list">Candidate\'s List</string>
+    <string name="txt_createProfile">Create Profile</string>
+    <string name="txt_invalid_or_blank_data">Invalid or blank data</string>
+    <string name="txt_sendLink">Send Link</string>
 
 </resources>

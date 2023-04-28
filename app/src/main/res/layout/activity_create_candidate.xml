@@ -49,7 +49,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_30sdp"
-                            android:text="@string/txt_profile_details" />
+                            android:text="@string/txt_createProfile" />
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="match_parent"
@@ -78,21 +78,21 @@
 
 
 
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Middle Name"
-                                android:minWidth="32dp"
-                                android:minHeight="48dp"
-                                >
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_45sdp"
-                                    android:id="@+id/et_middlename"
-                                    android:singleLine="true"
-                                    android:maxLength="30"
-                                    />
-                            </com.google.android.material.textfield.TextInputLayout>
+<!--                            <com.google.android.material.textfield.TextInputLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:hint="Middle Name"-->
+<!--                                android:minWidth="32dp"-->
+<!--                                android:minHeight="48dp"-->
+<!--                                >-->
+<!--                                <com.google.android.material.textfield.TextInputEditText-->
+<!--                                    android:layout_width="match_parent"-->
+<!--                                    android:layout_height="@dimen/_45sdp"-->
+<!--                                    android:id="@+id/et_middlename"-->
+<!--                                    android:singleLine="true"-->
+<!--                                    android:maxLength="30"-->
+<!--                                    />-->
+<!--                            </com.google.android.material.textfield.TextInputLayout>-->
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
@@ -127,13 +127,6 @@
                                     />
                             </com.google.android.material.textfield.TextInputLayout>
 
-                            <TextView
-                                android:id="@+id/tv_txt_start_meeting"
-                                style="@style/textview.Style.WhiteRounded_18_withoutPaddingMargin"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginVertical="@dimen/_10sp"
-                                android:text="@string/txt_primaryNumber" />
 
                             <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="match_parent"
@@ -141,24 +134,31 @@
                                 android:orientation="horizontal"
                                 >
 
-                               <Spinner
-                                   android:layout_width="match_parent"
-                                   android:layout_height="@dimen/_50sdp"
-                                   android:layout_weight="0.5"
-                                   android:layout_marginRight="@dimen/_10sp"
-                                   android:id="@+id/spinnerCountryCode"
-                                   />
+                                <Spinner
+                                    android:layout_width="@dimen/_100sdp"
+                                    android:layout_height="@dimen/_60sdp"
+                                    android:layout_gravity="center_vertical"
+                                    android:id="@+id/spinnerCountryCode"
 
-                                <EditText
-                                    android:id="@+id/et_phoneno"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_45sdp"
-                                    android:hint="@string/txt_phoneNo"
-                                    android:layout_weight="0.3"
-                                    android:singleLine="true"
-                                    android:maxLength="10"
-                                    android:inputType="number"
                                     />
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/txt_phoneNo"
+                                    android:layout_marginVertical="@dimen/_10sp"
+                                    android:minWidth="32dp"
+                                    android:minHeight="48dp"
+                                    >
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/_45sdp"
+                                        android:id="@+id/et_phoneno"
+                                        android:singleLine="true"
+                                        android:maxLength="10"
+                                        android:inputType="phone"
+                                        />
+                                </com.google.android.material.textfield.TextInputLayout>
 
 
 
@@ -183,123 +183,6 @@
 
 
 
-                            <androidx.appcompat.widget.AppCompatSpinner
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_45sdp"
-                                android:id="@+id/spinnerCountry"
-                                android:background="@drawable/shape_rectangle_rounded_stroke_grey"
-                                />
-
-                            <androidx.appcompat.widget.AppCompatSpinner
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_45sdp"
-                                android:id="@+id/spinnerState"
-                                android:layout_marginVertical="@dimen/_10sp"
-                                android:background="@drawable/shape_rectangle_rounded_stroke_grey"
-                                />
-
-                            <androidx.appcompat.widget.AppCompatSpinner
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_45sdp"
-                                android:id="@+id/spinnerCity"
-                                android:background="@drawable/shape_rectangle_rounded_stroke_grey"
-                                />
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Street"
-                                android:minWidth="32dp"
-                                android:minHeight="48dp"
-                                android:layout_marginVertical="@dimen/_10sp"
-                                >
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="45sp"
-                                    android:id="@+id/et_street"
-                                    android:singleLine="true"
-                                    android:maxLength="100"
-                                    />
-                            </com.google.android.material.textfield.TextInputLayout>
-
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Zip"
-                                android:minWidth="32dp"
-                                android:minHeight="48dp"
-                                >
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="45sp"
-                                    android:id="@+id/et_zipCode"
-                                    android:singleLine="true"
-                                    android:maxLength="10"
-                                    />
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            <androidx.appcompat.widget.AppCompatSpinner
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_45sdp"
-                                android:id="@+id/spinnerJobtype"
-                                android:background="@drawable/shape_rectangle_rounded_stroke_grey"
-                                android:digits="0123456789"
-                                android:maxLength="10"
-                                android:layout_marginVertical="@dimen/_10sp"
-                                />
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Experience"
-                                android:minWidth="32dp"
-                                android:minHeight="48dp"
-                                >
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_45sdp"
-                                    android:id="@+id/et_experience"
-                                    android:singleLine="true"
-                                    android:inputType="number"
-                                    android:maxLength="2"
-                                    />
-                            </com.google.android.material.textfield.TextInputLayout>
-
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Primary Skills"
-                                android:minWidth="32dp"
-                                android:minHeight="48dp"
-                                >
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_45sdp"
-                                    android:id="@+id/et_primarySkills"
-                                    android:singleLine="true"
-                                    android:maxLength="100"
-                                    />
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Secondary Skills"
-                                android:minWidth="32dp"
-                                android:minHeight="48dp"
-                                android:layout_marginVertical="@dimen/_10sp"
-                                >
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_45sdp"
-                                    android:id="@+id/et_secondarySkills"
-                                    android:singleLine="true"
-                                    android:maxLength="500"
-                                    />
-                            </com.google.android.material.textfield.TextInputLayout>
-
 
                             <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/btn_submit"
@@ -307,7 +190,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/_55sdp"
                                 android:layout_marginTop="@dimen/_15sp"
-                                android:text="@string/txt_submit"
+                                android:text="@string/txt_sendLink"
                                 android:foreground="?selectableItemBackground"
                                 android:textSize="@dimen/_18sdp" />
 

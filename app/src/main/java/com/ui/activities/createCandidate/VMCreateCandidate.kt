@@ -243,6 +243,39 @@ class VMCreateCandidate @Inject constructor(val baseRestApi: BaseRestApi) : View
     }
 
 
+    fun sendProfileLink(bodySMSCandidate: BodySMSCandidate,respnse:(data:ResponseSMSCadidate?,isSuccess:Boolean, errorCode:Int, msg:String)->Unit) {
+        CoroutineScope(Dispatchers.IO + exceptionHandler)
+            .launch {
+                try {
+                    val authToken= DataStoreHelper.getLoginBearerToken()
+                    val response=baseRestApi.sendSMSToCandidate(bodySMSCandidate,authToken)
+                    if (response.isSuccessful) {
+                        when (response.code()) {
+                            200 -> {//response.body()!!
+                                respnse(response.body()!!,true,200,response?.body()!!.ResponseMessage.toString())
+                            }
+                            401 -> {
+                                respnse(null,false,401,"")
+                            }
+                            400 -> {
+                                respnse(null,false,400,"")
+                            }
+                            500 -> {
+                                respnse(null,false,500,"")
+                            }
+                            501 -> {
+                                respnse(null,false,501,"")
+                            }
+                        }
+                    } else {
+                        respnse(null,false,502,"Response not success")
+                    }
+                } catch (e: Exception) {
+                    respnse(null,false,503,e.message.toString())
+                }
+            }
+    }
+
 
 
 

@@ -138,8 +138,8 @@ class RepositoryImpl @Inject constructor(
         return baseRestApi.getCandidateList(authToken = authToken, url, ob)
     }
 
-    override suspend fun sendSMSToCandidate(ob: BodySMSCandidate): Response<ResponseSMSCadidate> {
-        return baseRestApi.sendSMSToCandidate(ob)
+    override suspend fun sendSMSToCandidate(ob: BodySMSCandidate,token: String): Response<ResponseSMSCadidate> {
+        return baseRestApi.sendSMSToCandidate(ob,token)
     }
 
     override suspend fun createCandidate(ob: BodyCreateCandidate): Response<String> {
