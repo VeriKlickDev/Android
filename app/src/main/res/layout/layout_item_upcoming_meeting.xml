@@ -197,19 +197,18 @@
 <!--                />-->
 
 
-
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_join"
-                android:layout_weight="2.5"
+                style="@style/button.Style.Blue.Rounded.WithouPadding"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_35sdp"
+                android:layout_weight="2.5"
+                android:fontFamily="@font/sarabun_bold"
+                android:foreground="?selectableItemBackground"
+                android:outlineProvider="none"
                 android:text="@string/txt_join"
                 android:visibility="visible"
-                android:outlineProvider="none"
-                android:foreground="?selectableItemBackground"
-                style="@style/button.Style.Blue.Rounded.WithouPadding"
-                android:fontFamily="@font/sarabun_bold"
-                />
+                tools:ignore="TouchTargetSizeCheck" />
 
 
 

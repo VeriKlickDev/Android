@@ -61,7 +61,7 @@
                             <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="First Name"
+                                android:hint="@string/txt_firstName"
                                 app:hintTextColor="@color/skyblue_light1"
                                 android:minWidth="32dp"
                                 android:layout_marginVertical="@dimen/_10sp"
@@ -97,7 +97,7 @@
                             <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Last Name"
+                                android:hint="@string/txt_lastName"
                                 android:minWidth="32dp"
                                 android:minHeight="48dp"
                                 >
@@ -113,7 +113,7 @@
                             <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Email"
+                                android:hint="@string/txt_email"
                                 android:layout_marginVertical="@dimen/_10sp"
                                 android:minWidth="32dp"
                                 android:minHeight="48dp"

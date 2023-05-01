@@ -24,7 +24,7 @@
 
             <item
                 android:id="@+id/navdrawerCandidateId"
-                android:title="List Candidate" />
+                android:title="@string/txt_list_candidate" />
 
             <item
                 android:id="@+id/navdrawercreateCandidate"

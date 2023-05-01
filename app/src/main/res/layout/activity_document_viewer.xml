@@ -121,7 +121,7 @@
                 android:fontFamily="@font/sarabun_regular"
                 android:textColor="@color/white"
                 android:padding="@dimen/_10sp"
-                android:text="Open Again"
+                android:text="@string/txt_open_again"
                 />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

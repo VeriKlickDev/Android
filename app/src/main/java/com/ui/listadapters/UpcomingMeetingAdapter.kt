@@ -82,7 +82,7 @@ class UpcomingMeetingAdapter(
                 if (holder.binding.btnFeedback.text.toString() == "Feedback") {
                     onClick(data, videoAccessCode.toString(), 3)
                 }
-                if (holder.binding.btnFeedback.text.toString() == "Teams Meeting") {
+                if (holder.binding.btnFeedback.text.toString() == context.getString(R.string.txt_teams_meeting)) {
                     onClick(data, videoAccessCode.toString(), 4)
                 }
 
@@ -177,7 +177,7 @@ class UpcomingMeetingAdapter(
                             binding.btnFeedback.context,
                             R.drawable.shape_rectangle_rounded_light_green
                         )
-                        binding.btnFeedback.text = "Feedback"
+                        binding.btnFeedback.text = context.getString(R.string.txt_feedback)
                         binding.btnRejoin.isVisible=true
                        // binding.btnCancelMeeting.isVisible=false
                     }
@@ -194,7 +194,7 @@ class UpcomingMeetingAdapter(
                         binding.btnJoin.visibility = View.GONE
                         binding.btnFeedback.isVisible = true
                         binding.btnFeedback.isEnabled = false
-                        binding.btnFeedback.text = "Missed"
+                        binding.btnFeedback.text = context.getString(R.string.txt_missed)
                         binding.btnFeedback.setTextColor(context.getColor(R.color.missed_text_color))
                         binding.btnFeedback.background = ContextCompat.getDrawable(
                             binding.btnFeedback.context,
@@ -214,7 +214,7 @@ class UpcomingMeetingAdapter(
                                 binding.btnFeedback.context,
                                 R.drawable.shape_rectangle_rounded_dark_transparent_b_pink
                             )
-                        binding.btnFeedback.text = "Cancelled"
+                        binding.btnFeedback.text = context.getString(R.string.txt_cancelled)
                         binding.btnRejoin.isVisible=false
                        // binding.btnCancelMeeting.isVisible=false
                     }
@@ -235,7 +235,7 @@ class UpcomingMeetingAdapter(
                         binding.btnJoin.visibility = View.GONE
                         binding.btnFeedback.isVisible = true
                         binding.btnFeedback.isEnabled = false
-                        binding.btnFeedback.text = "Teams Meeting"
+                        binding.btnFeedback.text = context.getString(R.string.txt_teams_meeting)
                         binding.btnFeedback.setTextColor(context.getColor(R.color.white))
                         binding.btnFeedback.background = ContextCompat.getDrawable(
                             binding.btnFeedback.context,
@@ -272,7 +272,7 @@ class UpcomingMeetingAdapter(
                         binding.btnJoin.visibility = View.GONE
                         binding.btnFeedback.isVisible = true
                         binding.btnFeedback.isEnabled = false
-                        binding.btnFeedback.text = "Missed"
+                        binding.btnFeedback.text = context.getString(R.string.txt_missed)
                         binding.btnFeedback.setTextColor(context.getColor(R.color.missed_text_color))
                         binding.btnFeedback.background = ContextCompat.getDrawable(
                             binding.btnFeedback.context,
@@ -292,7 +292,7 @@ class UpcomingMeetingAdapter(
                                 binding.btnFeedback.context,
                                 R.drawable.shape_rectangle_rounded_dark_transparent_b_pink
                             )
-                        binding.btnFeedback.text = "Cancelled"
+                        binding.btnFeedback.text = context.getString(R.string.txt_cancelled)
                         binding.btnRejoin.isVisible = false
                        // binding.btnCancelMeeting.isVisible = false
                     }

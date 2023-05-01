@@ -55,13 +55,6 @@
             android:layout_marginTop="@dimen/_20sp"
             android:drawablePadding="@dimen/_10sp"
             android:id="@+id/etsms"
-            android:maxLines="1"
-            android:maxLength="50"
-            android:singleLine="true"
-            android:focusableInTouchMode="true"
-            android:focusable="true"
-            android:digits=" qwertzuiopasdfghjklyxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
-            android:imeOptions="actionNext"
             android:layout_gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_100sdp"
@@ -71,7 +64,6 @@
             android:layout_marginHorizontal="@dimen/_10sp"
             style="@style/editext.style.base.greyStroke"
             android:hint="@string/txt_sms" />
-
 
 
         <androidx.appcompat.widget.AppCompatButton

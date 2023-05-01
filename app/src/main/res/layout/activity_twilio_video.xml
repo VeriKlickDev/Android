@@ -130,7 +130,7 @@
                 android:id="@+id/tv_no_participant"
                 android:textColor="@color/white"
                 android:gravity="center"
-                android:text="Candidate Not Joined Yet"
+                android:text="@string/txt_candidate_Not_Joined_Yet"
                 android:fontFamily="@font/sarabun_regular"
                 android:textSize="@dimen/_20sp"
                 />

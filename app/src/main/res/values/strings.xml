@@ -111,7 +111,7 @@
     <string name="txt_Resume_not_available">Resume Not Available</string>
     <string name="txt_all_meetings">All Meetings</string>
     <string name="txt_scheduled">Scheduled</string>
-    <string name="txt_canceled">Cancelled</string>
+    <string name="txt_cancelled">Cancelled</string>
     <string name="txt_missed">Missed</string>
     <string name="txt_attended">Attended</string>
 
@@ -127,7 +127,8 @@
     <string name="txt_you_are_not_authorized_to_record_video">you are not authorized to record video</string>
     <string name="txt_stop_screensharing">Stop Screen Share</string>
     <string name="txt_privacy_policy"><u>Privacy Policy</u></string>
-    <string name="txt_term_and_condition"><u>Term and Conditions</u></string>
+    <string name="txt_term_and_condition_underline"><u>Terms and Conditions</u></string>
+    <string name="txt_term_and_condition">Terms and Conditions</string>
     <string name="txt_cancel">Cancel</string>
     <string name="txt_agree">Agree</string>
     <string name="txt_call_in_progress">Call in Progress</string>
@@ -177,5 +178,21 @@
     <string name="txt_createProfile">Create Profile</string>
     <string name="txt_invalid_or_blank_data">Invalid or blank data</string>
     <string name="txt_sendLink">Send Link</string>
+    <string name="txt_list_candidate">List Candidate</string>
+    <string name="txt_ok">Ok</string>
+    <string name="txt_teams_meeting">Teams Meeting</string>
+
+
+    <string name="txt_candidate_Not_Joined_Yet">Candidate Not Joined Yet</string>
+    <string name="txt_open_again">Open Again</string>
+    <string name="txt_firstName">First Name</string>
+    <string name="txt_lastName">Last Name</string>
+    <string name="txt_GroupChat">Group Chat</string>
+    <string name="txt_unknownUser">Unknown User</string>
+    <string name="txt_veriklick_meeting_is_running">Veriklick Meeting is Running</string>
+    <string name="txt_privacy_policy_full_text">I have read and agree to the Terms and Conditions  and Privacy Policy. This meeting may be recorded. By joining the meeting you are also giving your consent to record this meeting otherwise click cancel to leave the meeting.</string>
+    <string name="txt_privacy_policy_url">https://veriklick.com/terms-of-use/</string>
+    <string name="txt_term_of_use_url">https://veriklick.com/privacy-policy/</string>
+
 
 </resources>

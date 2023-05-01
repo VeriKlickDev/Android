@@ -381,7 +381,7 @@ class UpcomingListFragment : Fragment() {
                  status = "cancel"
                  meetingsList.clear()
                  pageno = 1
-                 binding.tvHeader.setText(getString(R.string.txt_canceled))
+                 binding.tvHeader.setText(getString(R.string.txt_cancelled))
                  if (requireActivity().checkInternet()) {
                      handleUpcomingMeetingsList(7, 1, 9)
                  }
@@ -1239,7 +1239,7 @@ class UpcomingListFragment : Fragment() {
                 status = "cancel"
                 meetingsList.clear()
                 pageno = 1
-                binding.tvHeader.setText(getString(R.string.txt_canceled))
+                binding.tvHeader.setText(getString(R.string.txt_cancelled))
                 if (requireActivity().checkInternet()) {
                     handleUpcomingMeetingsList(7, 1, 9)
                 }

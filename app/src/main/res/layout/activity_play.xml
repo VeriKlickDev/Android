@@ -136,8 +136,9 @@
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="150sp"
             android:layout_height="wrap_content"
-            android:text="Upload"
+            android:text="@string/txt_upload"
             android:textColor="@color/white"
+            android:textAllCaps="false"
             android:background="@drawable/shape_roundedcorner_blue_10"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

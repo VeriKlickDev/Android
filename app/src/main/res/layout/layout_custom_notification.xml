@@ -32,7 +32,7 @@
                 android:layout_marginLeft="@dimen/_10sp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Veriklick Meeting is Running"
+                android:text="@string/txt_veriklick_meeting_is_running"
                 style="@style/textStyle.White.Black_16" />
 
 

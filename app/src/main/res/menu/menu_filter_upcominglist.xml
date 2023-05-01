@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/all_meetings" android:title="All" />
-    <item android:id="@+id/scheduled_meetings" android:title="Scheduled" />
-    <item android:id="@+id/attended_meetings" android:title="Attended" />
-    <item android:id="@+id/nonscheduled_meetings" android:title="Missed" />
-    <item android:id="@+id/cancel_meetings" android:title="Cancelled" />
+    <item android:id="@+id/all_meetings" android:title="@string/txt_all_meetings" />
+    <item android:id="@+id/scheduled_meetings" android:title="@string/txt_scheduled" />
+    <item android:id="@+id/attended_meetings" android:title="@string/txt_attended" />
+    <item android:id="@+id/nonscheduled_meetings" android:title="@string/txt_missed" />
+    <item android:id="@+id/cancel_meetings" android:title="@string/txt_cancelled" />
 
 </menu>

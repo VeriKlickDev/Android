@@ -387,13 +387,22 @@ fun Context.showPrivacyPolicy(
         onClicked(false, dialog)
     }
 
-    dialogBinding.tvPrivacyPolicy.text =
-        "I have read and agree to the Terms and Conditions  and Privacy Policy. This meeting may be recorded. By joining the meeting you are also giving your consent to record this meeting otherwise click cancel to leave the meeting."
-    dialogBinding.tvPrivacyPolicy.makeLinks(Pair("Terms and Conditions", View.OnClickListener {
+
+    dialogBinding.tvPrivacyPolicy.text = getString(R.string.txt_privacy_policy_full_text)
+    Log.d("TAG", "showPrivacyPolicy: text eng full text ${getString(R.string.txt_privacy_policy_full_text)}")
+    Log.d("TAG", "showPrivacyPolicy: text eng termcon   ${getString(R.string.txt_term_and_condition)}")
+   // getString(R.string.txt_privacy_policy_url)
+   // getString(R.string.txt_term_of_use_url)
+
+    //"I have read and agree to the Terms and Conditions  and Privacy Policy. This meeting may be recorded. By joining the meeting you are also giving your consent to record this meeting otherwise click cancel to leave the meeting."
+    dialogBinding.tvPrivacyPolicy.makeLinks(Pair(getString(R.string.txt_term_and_condition), View.OnClickListener {
         onClickedText("https://veriklick.com/terms-of-use/", 1)
+   //     onClickedText(getString(R.string.txt_term_of_use_url), 1)
     }))
-    dialogBinding.tvPrivacyPolicy.makeLinks(Pair("Privacy Policy", View.OnClickListener {
+    //getString(R.string.txt_privacy_policy)
+    dialogBinding.tvPrivacyPolicy.makeLinks(Pair(getString(R.string.txt_privacy_policy), View.OnClickListener {
         onClickedText("https://veriklick.com/privacy-policy/", 2)
+     //   onClickedText(getString(R.string.txt_privacy_policy_url), 2)
     }))
 
     dialog.setCancelable(false)

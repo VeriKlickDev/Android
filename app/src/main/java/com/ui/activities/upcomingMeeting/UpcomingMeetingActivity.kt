@@ -177,13 +177,13 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     {
         val dialog = AlertDialog.Builder(this)
         dialog.setMessage(getString(R.string.txt_do_you_want_to_logout))
-        dialog.setPositiveButton("ok", DialogInterface.OnClickListener { dialogInterface, i ->
+        dialog.setPositiveButton(getString(R.string.txt_ok), DialogInterface.OnClickListener { dialogInterface, i ->
             DataStoreHelper.clearData()
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
         })
         dialog.setNegativeButton(
-            "cancel",
+            getString(R.string.txt_cancel),
             DialogInterface.OnClickListener { dialogInterface, i ->
 
             })
