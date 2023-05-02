@@ -31,6 +31,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:paddingTop="@dimen/_10sp"
                     android:layout_weight="0.5">
 
                     <!--                client name-->
@@ -57,6 +58,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/btn_ellipsize"
+                            android:visibility="gone"
                             android:padding="@dimen/_10sp"
                             android:elevation="@dimen/_5sp"
                             android:layout_gravity="right"
@@ -209,7 +211,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Primary : "
+                        android:text="@string/txt_primary"
                         android:textSize="@dimen/_14sp"
                         android:layout_gravity="top"
                         android:ellipsize="end"
@@ -296,7 +298,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Secondary : "
+                    android:text="@string/txt_secondary"
                     android:textSize="@dimen/_14sp"
                     android:ellipsize="end"
                     android:fontFamily="@font/sarabun_regular"

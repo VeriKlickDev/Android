@@ -16,12 +16,10 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.data.checkInternet
+import com.data.*
 import com.data.cryptoJs.CryptoJsHelper
 import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.dataHolders.DataStoreHelper
-import com.data.exceptionHandler
-import com.data.showCustomSnackbarOnTop
 import com.domain.BaseModels.BodyCandidateList
 import com.domain.BaseModels.BodySMSCandidate
 import com.domain.BaseModels.CurrentVideoUserModel
@@ -176,8 +174,8 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
                 dialogBinding.tvLastUpdateBy.setText(createdBy)
             }
         }
-        dialogBinding.tvCreatedOn.setText(data.CreatedDate)
-        dialogBinding.tvLastUpdateOn.setText(data.LastInterviewDetailss)
+        dialogBinding.tvCreatedOn.setText(getUtcDateToISTMMDDYYYY(data.CreatedDate.toString()))
+        dialogBinding.tvLastUpdateOn.setText(getUtcDateToISTMMDDYYYY( data.LastInterviewDetailss.toString()))
 
         dialog.create()
         dialog.show()

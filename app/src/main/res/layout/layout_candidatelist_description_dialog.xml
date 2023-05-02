@@ -7,7 +7,7 @@
 
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/shape_rectangle_rounded_10_white"
@@ -43,41 +43,44 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_internal_id"
+                android:singleLine="true"
                 android:fontFamily="@font/sarabun_regular" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_created_on"
+                android:singleLine="true"
                 android:fontFamily="@font/sarabun_regular" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_created_by"
+                android:singleLine="true"
                 android:fontFamily="@font/sarabun_regular" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_last_update_on"
+                android:singleLine="true"
                 android:fontFamily="@font/sarabun_regular" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_last_update_by"
+                android:singleLine="true"
                 android:fontFamily="@font/sarabun_regular" />
 
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <Space
-            android:layout_width="@dimen/_10sp"
-            android:layout_height="match_parent"/>
 
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="2"
+            android:layout_marginLeft="@dimen/_10sp"
             android:orientation="vertical"
             >
             <TextView
@@ -94,7 +97,6 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:ellipsize="end"
-
                 android:id="@+id/tv_createdOn"
                 android:textSize="@dimen/_14sp"
                 android:fontFamily="@font/sarabun_regular"

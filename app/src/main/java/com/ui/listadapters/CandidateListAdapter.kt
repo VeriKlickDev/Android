@@ -56,7 +56,7 @@ class CandidateListAdapter(val context: Context,
         fun dataBind(data: SavedProfileDetail) {
             binding.tvUsername.setText(data.Name)
             binding.tvUserEmail.setText(data.Email)
-            binding.tvExperience.setText(data.Experience+" Years")
+            binding.tvExperience.setText(data.Experience+" ${context.getString(R.string.txt_years)}")
             binding.ratingbarWireframing.progress=data.Average!!.toInt()
             binding.tvPrimarySkill.setText(data.primarySkills)
             binding.tvSecondarySkill.setText(data.Skills)

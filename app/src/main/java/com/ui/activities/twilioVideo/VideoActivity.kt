@@ -219,10 +219,10 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             else {
                 if (it.userType.contains("C")) {
                     binding.tvNoParticipant.text =
-                        "Waiting to join " + it.userFirstName + " " + it.userLastName
+                        "${getString(R.string.txt_waiting_to_join)} " + it.userFirstName + " " + it.userLastName
                 }
             }
-
+            
         }
 
         binding.btnEllipsize.setOnClickListener {
@@ -580,13 +580,13 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
     //Are you sure to leave the meeting?
     private fun endMeetingAlert() {
         val alertdialog = AlertDialog.Builder(this)
-        alertdialog.setPositiveButton("Yes", object : DialogInterface.OnClickListener {
+        alertdialog.setPositiveButton(getString(R.string.txt_yes), object : DialogInterface.OnClickListener {
             override fun onClick(p0: DialogInterface?, p1: Int) {
                 endCall()
                 //  isEndCall=true
             }
         })
-        alertdialog.setNegativeButton("Cancel", object : DialogInterface.OnClickListener {
+        alertdialog.setNegativeButton(getString(R.string.txt_cancel), object : DialogInterface.OnClickListener {
             override fun onClick(p0: DialogInterface?, p1: Int) {
 
             }
@@ -3074,7 +3074,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         setConnectUser()
 
         if (participant.identity.contains("C")) {
-            //working 8dec binding.tvNoParticipant.text="Waiting to join " +candidateName
+            //working 8dec binding.tvNoParticipant.text="${getString(R.string.txt_waiting_to_join)} " +candidateName
             binding.tvNoParticipant.text = ""
         }
 
@@ -3534,7 +3534,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                             else {
                                 if (it.userType.contains("C")) {
                                     binding.tvNoParticipant.text =
-                                        "Waiting to join " + it.userFirstName + " " + it.userLastName
+                                        "${getString(R.string.txt_waiting_to_join)} " + it.userFirstName + " " + it.userLastName
                                 }
                             }
                         }
@@ -3583,7 +3583,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                     CurrentMeetingDataSaver.getData()?.users?.forEach {
                         if (it.userType.contains("C"))
                             binding.tvNoParticipant.text =
-                                "Waiting to join " + it.userFirstName + " " + it.userLastName
+                                "${getString(R.string.txt_waiting_to_join)} " + it.userFirstName + " " + it.userLastName
                     }
                 }
                 else {

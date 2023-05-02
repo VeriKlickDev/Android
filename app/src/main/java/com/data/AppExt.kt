@@ -391,6 +391,8 @@ fun Context.showPrivacyPolicy(
     dialogBinding.tvPrivacyPolicy.text = getString(R.string.txt_privacy_policy_full_text)
     Log.d("TAG", "showPrivacyPolicy: text eng full text ${getString(R.string.txt_privacy_policy_full_text)}")
     Log.d("TAG", "showPrivacyPolicy: text eng termcon   ${getString(R.string.txt_term_and_condition)}")
+    Log.d("TAG", "showPrivacyPolicy: text eng termcon   ${getString(R.string.txt_privacy_policy)}")
+
    // getString(R.string.txt_privacy_policy_url)
    // getString(R.string.txt_term_of_use_url)
 
@@ -856,6 +858,24 @@ fun getUtcDateToAMPM(date: String): String {
 
     val date1 = sdf.parse(date)
     val sdf2 = SimpleDateFormat("hh:mm a")
+
+    val time1 = sdf2.format(date1)
+//    val finaltime=hour.toString()+":"+minutes.toString()+" "+zone
+
+//    Log.d("checkdate", "getUtcDateToAMPM: ${finaltime}")
+
+    return time1
+}
+
+
+fun getUtcDateToISTMMDDYYYY(date: String): String {
+
+    val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
+    sdf.setTimeZone(TimeZone.getTimeZone("UTC"))
+    //var utcTime1: String = sdf.format(Date())
+
+    val date1 = sdf.parse(date)
+    val sdf2 = SimpleDateFormat("MM-dd-yyyy")
 
     val time1 = sdf2.format(date1)
 //    val finaltime=hour.toString()+":"+minutes.toString()+" "+zone

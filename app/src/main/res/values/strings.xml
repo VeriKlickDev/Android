@@ -193,6 +193,10 @@
     <string name="txt_privacy_policy_full_text">I have read and agree to the Terms and Conditions  and Privacy Policy. This meeting may be recorded. By joining the meeting you are also giving your consent to record this meeting otherwise click cancel to leave the meeting.</string>
     <string name="txt_privacy_policy_url">https://veriklick.com/terms-of-use/</string>
     <string name="txt_term_of_use_url">https://veriklick.com/privacy-policy/</string>
+    <string name="txt_waiting_to_join">Waiting to join</string>
+    <string name="txt_secondary">Secondary : </string>
+    <string name="txt_primary">Primary : </string>
+    <string name="txt_years">Years</string>
 
 
 </resources>
