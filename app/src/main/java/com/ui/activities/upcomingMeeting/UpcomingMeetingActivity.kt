@@ -51,7 +51,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     private var status = ""
     private var pageno = 1
     private var iscrolled = false
-    private lateinit var layoutManager: LinearLayoutManager
+    private lateinit var layoutManager: LinearLayoutManagerWrapper
     private var isOpenedFirst = false
 
     private var currentDateIST: String? = null
@@ -70,7 +70,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(UpComingMeetingViewModel::class.java)
 
         //  WeeksDataHolder.setDayToZero()
-        layoutManager = LinearLayoutManager(this)
+        layoutManager = LinearLayoutManagerWrapper(this)
         binding.rvUpcomingMeeting.layoutManager = layoutManager
 
         thread {
@@ -105,14 +105,14 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         }
 /*
         binding.btnSearch.setOnClickListener {
-            meetingsList.clear()
+            clearUpcomingList()
             handleUpcomingMeetingsList(0, binding.etSearch.text.toString(),1,9)
         }
 */
 
         binding.swipetorefresh.setOnRefreshListener {
             if (checkInternet()) {
-                meetingsList.clear()
+                clearUpcomingList()
                 pageno = 1
                 handleUpcomingMeetingsList(7, 1, 9)
             } else {
@@ -141,7 +141,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         }
         binding.etSearch.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                meetingsList.clear()
+                clearUpcomingList()
                 pageno = 1
                 isOpenedFirst = true
                 searchTxt = binding.etSearch.text.toString()
@@ -170,7 +170,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
         binding.btnLeftPrevious.setOnClickListener {
 
-            meetingsList.clear()
+            clearUpcomingList()
             pageno = 1
 
             if (isNextClicked) {
@@ -192,7 +192,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
         binding.btnRightNext.setOnClickListener {
 
-            meetingsList.clear()
+            clearUpcomingList()
             pageno = 1
 
             if (isPreClicked) {
@@ -216,7 +216,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
         binding.btnCross.setOnClickListener {
             pageno = 1
-            meetingsList.clear()
+            clearUpcomingList()
             searchTxt = ""
             if (checkInternet()) {
                 handleUpcomingMeetingsList(7, 1, 9)
@@ -305,7 +305,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
     private fun refereshPage() {
         if (checkInternet()) {
-            meetingsList.clear()
+            clearUpcomingList()
             pageno = 1
             handleUpcomingMeetingsList(7, 1, 9)
         } else {
@@ -543,9 +543,9 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 if (it == 1) {
                     binding.swipetorefresh.isRefreshing = false
                     if (isOpenedFirst) {
-                        Handler(Looper.getMainLooper()).post(Runnable {
+                        /*Handler(Looper.getMainLooper()).post(Runnable {
                             binding.progressBar.isVisible = true
-                        })
+                        })*/
                     } else {
                         showProgressDialog()
                         isOpenedFirst = true
@@ -554,10 +554,10 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     binding.swipetorefresh.isRefreshing = false
                     dismissProgressDialog()
 
-                    Handler(Looper.getMainLooper()).post(Runnable {
+                    /*Handler(Looper.getMainLooper()).post(Runnable {
                         binding.progressBar.isVisible = false
 
-                    })
+                    })*/
 
                 }
             },
@@ -582,9 +582,9 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 if (it == 1) {
                     binding.swipetorefresh.isRefreshing = false
                     if (isOpenedFirst) {
-                        Handler(Looper.getMainLooper()).post(Runnable {
+                      /*  Handler(Looper.getMainLooper()).post(Runnable {
                             binding.progressBar.isVisible = true
-                        })
+                        })*/
                     } else {
                         showProgressDialog()
                         isOpenedFirst = true
@@ -593,10 +593,10 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     binding.swipetorefresh.isRefreshing = false
                     dismissProgressDialog()
 
-                    Handler(Looper.getMainLooper()).post(Runnable {
+                   /* Handler(Looper.getMainLooper()).post(Runnable {
                         binding.progressBar.isVisible = false
 
-                    })
+                    })*/
 
                 }
             },
@@ -605,6 +605,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 when (result) {
                     200 -> {
                         try {
+                            adapter.totalSize=data?.totalCount
                             pageno++
                             contentLimit = data?.totalCount!!
                         } catch (e: Exception) {
@@ -635,12 +636,9 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     private val meetingsList = ArrayList<NewInterviewDetails>()
     private fun handleObserver() {
 
-
-
         CallStatusHolder.getCallStatus().observe(this) {
             isCallInProgress = it
         }
-
 
         Log.d(TAG, "handleObserver: out observer method ")
         binding.tvNoData.visibility = View.VISIBLE
@@ -649,9 +647,10 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             if (!it.isNullOrEmpty()) {
                 Log.d(TAG, "handleObserver: ifpart not null empty $it ")
                 meetingsList.addAll(it)
-                Handler(Looper.getMainLooper()).postDelayed({
+                adapter.swapList(meetingsList)
+               /* Handler(Looper.getMainLooper()).postDelayed({
                     adapter.notifyDataSetChanged()
-                },500)
+                },500)*/
             }
             if (meetingsList.size == 0) {
                 Log.d(TAG, "handleObserver: ifpart meeting size 0")
@@ -787,7 +786,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.all_meetings -> {
                 status = ""
-                meetingsList.clear()
+                clearUpcomingList()
                 pageno = 1
                 binding.tvHeader.setText(getString(R.string.txt_all_meetings))
                 if (checkInternet()) {
@@ -800,7 +799,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             }
             R.id.attended_meetings -> {
                 status = "Attended"
-                meetingsList.clear()
+                clearUpcomingList()
                 pageno = 1
                 binding.tvHeader.setText(getString(R.string.txt_attended))
                 if (checkInternet()) {
@@ -814,7 +813,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             }
             R.id.scheduled_meetings -> {
                 status = "schedule"
-                meetingsList.clear()
+                clearUpcomingList()
                 pageno = 1
                 binding.tvHeader.setText(getString(R.string.txt_scheduled_meetings))
                 if (checkInternet()) {
@@ -827,7 +826,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             }
             R.id.nonscheduled_meetings -> {
                 status = "nonSchedule"
-                meetingsList.clear()
+                clearUpcomingList()
                 pageno = 1
                 binding.tvHeader.setText(getString(R.string.txt_missed))
                 if (checkInternet()) {
@@ -840,9 +839,9 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             }
             R.id.cancel_meetings -> {
                 status = "cancel"
-                meetingsList.clear()
+                clearUpcomingList()
                 pageno = 1
-                binding.tvHeader.setText(getString(R.string.txt_canceled))
+                binding.tvHeader.setText(getString(R.string.txt_cancelled))
                 if (checkInternet()) {
                     handleUpcomingMeetingsList(7, 1, 9)
                 }
@@ -893,7 +892,11 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             ).show()*/
         }
     }
-
+    
+    fun clearUpcomingList()
+    {
+       meetingsList.clear()
+    }
 
     fun getAccessCodeById(data: NewInterviewDetails) {
         Log.d(TAG, "getAccessCodeById: data gotted ${data?.interviewId}")
@@ -980,7 +983,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     dismissProgressDialog()
                     Log.d(TAG, "meeting data in 200 ${data}")
                     showCustomToast(data?.aPIResponse?.Message.toString())
-                    meetingsList.clear()
+                    clearUpcomingList()
                     pageno = 1
                     if (checkInternet()) {
                         handleUpcomingMeetingsList(7, 1, 9)
