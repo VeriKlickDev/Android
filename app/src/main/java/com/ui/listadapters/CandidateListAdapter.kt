@@ -51,6 +51,7 @@ class CandidateListAdapter(val context: Context,
         return list.size
     }
 
+    var totalCount:Int?=null
     inner class ViewHolderClass(val binding: LayoutItemCandidateListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun dataBind(data: SavedProfileDetail) {
@@ -82,11 +83,16 @@ class CandidateListAdapter(val context: Context,
                 binding.ivUserImage.setImageResource(R.drawable.ic_user_white)
 
             }
+            try {
+                binding.progressBar.isVisible=list.size-1==adapterPosition
+                if (totalCount==list.size)
+                {
+                    binding.progressBar.isVisible=false
+                }
+            }catch (e:Exception)
+            {
 
-
-
-
-
+            }
         }
 
 

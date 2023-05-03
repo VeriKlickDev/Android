@@ -9,7 +9,9 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
 
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -226,6 +228,7 @@
                         android:fontFamily="@font/sarabun_regular"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_14sp"
+                        android:layout_marginLeft="@dimen/_5sp"
                         android:singleLine="true"
                         />
 
@@ -311,6 +314,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_secondarySkill"
                     android:fontFamily="@font/sarabun_regular"
+                    android:layout_marginLeft="@dimen/_5sp"
                     android:textColor="@color/grey"
                     android:textSize="@dimen/_14sp"
                     android:maxLines="2"
@@ -324,6 +328,14 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <ProgressBar
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:id="@+id/progressBar"
+            android:visibility="visible"
+            android:layout_marginTop="-5sp"
+            android:layout_gravity="center_horizontal"
+            />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+
 import androidx.recyclerview.widget.RecyclerView
 import com.data.*
 import com.data.dataHolders.*
@@ -57,7 +57,7 @@ class UpcomingListFragment : Fragment() {
 
 
         //  WeeksDataHolder.setDayToZero()
-        layoutManager = LinearLayoutManager(requireActivity())
+        layoutManager = LinearLayoutManagerWrapper(requireActivity())
         binding.rvUpcomingMeeting.layoutManager = layoutManager
 
 
@@ -93,7 +93,8 @@ class UpcomingListFragment : Fragment() {
 
         binding.swipetorefresh.setOnRefreshListener {
             if (requireActivity().checkInternet()) {
-                meetingsList.clear()
+
+                clearList()
                 pageno = 1
                 handleUpcomingMeetingsList(7, 1, 9)
             } else {
@@ -123,7 +124,7 @@ class UpcomingListFragment : Fragment() {
 
         binding.etSearch.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                meetingsList.clear()
+                clearList()
                 pageno = 1
                 isOpenedFirst = true
                 searchTxt = binding.etSearch.text.toString()
@@ -149,8 +150,7 @@ class UpcomingListFragment : Fragment() {
 
 
         binding.btnLeftPrevious.setOnClickListener {
-
-            meetingsList.clear()
+            clearList()
             pageno = 1
 
             if (isNextClicked) {
@@ -172,7 +172,7 @@ class UpcomingListFragment : Fragment() {
 
         binding.btnRightNext.setOnClickListener {
 
-            meetingsList.clear()
+            clearList()
             pageno = 1
 
             if (isPreClicked) {
@@ -196,7 +196,7 @@ class UpcomingListFragment : Fragment() {
 
         binding.btnCross.setOnClickListener {
             pageno = 1
-            meetingsList.clear()
+            clearList()
             searchTxt = ""
             if (requireActivity().checkInternet()) {
                 handleUpcomingMeetingsList(7, 1, 9)
@@ -293,9 +293,14 @@ class UpcomingListFragment : Fragment() {
         return binding.root
     }
 
+    private fun clearList()
+    {
+        meetingsList.clear()
+        adapter.swapList(meetingsList)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
-
         Log.d(TAG, "onDestroyView: upcoming list fragment")
     }
 
@@ -324,7 +329,8 @@ class UpcomingListFragment : Fragment() {
          when (action) {
              0 -> {
                  status = ""
-                 meetingsList.clear()
+
+                 clearList()
                  pageno = 1
 
                  binding.tvHeader.setText(getString(R.string.txt_all_meetings))
@@ -339,7 +345,7 @@ class UpcomingListFragment : Fragment() {
              }
              1 -> {
                  status = "Attended"
-                 meetingsList.clear()
+                 clearList()
                  pageno = 1
                  binding.tvHeader.setText(getString(R.string.txt_attended))
                  if (requireActivity().checkInternet()) {
@@ -353,7 +359,7 @@ class UpcomingListFragment : Fragment() {
              }
              2 -> {
                  status = "schedule"
-                 meetingsList.clear()
+                 clearList()
                  pageno = 1
                  binding.tvHeader.setText(getString(R.string.txt_scheduled))
                  if (requireActivity().checkInternet()) {
@@ -366,7 +372,7 @@ class UpcomingListFragment : Fragment() {
              }
              3 -> {
                  status = "nonSchedule"
-                 meetingsList.clear()
+                 clearList()
                  pageno = 1
                  binding.tvHeader.setText(getString(R.string.txt_missed))
                  if (requireActivity().checkInternet()) {
@@ -379,7 +385,7 @@ class UpcomingListFragment : Fragment() {
              }
              4 -> {
                  status = "cancel"
-                 meetingsList.clear()
+                 clearList()
                  pageno = 1
                  binding.tvHeader.setText(getString(R.string.txt_cancelled))
                  if (requireActivity().checkInternet()) {
@@ -412,7 +418,7 @@ class UpcomingListFragment : Fragment() {
     private var status = ""
     private var pageno = 1
     private var iscrolled = false
-    private lateinit var layoutManager: LinearLayoutManager
+    private lateinit var layoutManager: LinearLayoutManagerWrapper
     private var isOpenedFirst = false
 
     private var currentDateIST: String? = null
@@ -438,7 +444,7 @@ class UpcomingListFragment : Fragment() {
 
     private fun refereshPage() {
         if (requireActivity().checkInternet()) {
-            meetingsList.clear()
+            clearList()
             pageno = 1
             handleUpcomingMeetingsList(7, 1, 9)
         } else {
@@ -677,7 +683,7 @@ class UpcomingListFragment : Fragment() {
                     binding.swipetorefresh.isRefreshing = false
                     if (isOpenedFirst) {
                         Handler(Looper.getMainLooper()).post(Runnable {
-                            binding.progressBar.isVisible = true
+                            //may 3 2023   binding.progressBar.isVisible = true
                         })
                     } else {
                         requireActivity().showProgressDialog()
@@ -688,7 +694,7 @@ class UpcomingListFragment : Fragment() {
                     requireActivity().dismissProgressDialog()
 
                     Handler(Looper.getMainLooper()).post(Runnable {
-                        binding.progressBar.isVisible = false
+                        //may 3 2023  binding.progressBar.isVisible = false
 
                     })
 
@@ -716,7 +722,7 @@ class UpcomingListFragment : Fragment() {
                     binding.swipetorefresh.isRefreshing = false
                     if (isOpenedFirst) {
                         Handler(Looper.getMainLooper()).post(Runnable {
-                            binding.progressBar.isVisible = true
+                            //may 3 2023   binding.progressBar.isVisible = true
                         })
                     } else {
                         requireActivity().showProgressDialog()
@@ -727,19 +733,20 @@ class UpcomingListFragment : Fragment() {
                     requireActivity().dismissProgressDialog()
 
                     Handler(Looper.getMainLooper()).post(Runnable {
-                        binding.progressBar.isVisible = false
+                      //may 3 2023  binding.progressBar.isVisible = false
 
                     })
 
                 }
             },
-            response = { result, exception, data ->
+            response = { result, exception, data,totalSize ->
 
                 when (result) {
                     200 -> {
                         try {
                             pageno++
                             contentLimit = data?.totalCount!!
+                            adapter.totalSize=totalSize
                         } catch (e: Exception) {
 
                         }
@@ -781,9 +788,11 @@ class UpcomingListFragment : Fragment() {
         viewModel.scheduledMeetingLiveData.observe(requireActivity(), Observer {
             if (!it.isNullOrEmpty()) {
                 Log.d(TAG, "handleObserver: ifpart not null empty $it ")
+                //3 may 2023
                 meetingsList.addAll(it)
+                adapter.swapList(meetingsList)
                 Handler(Looper.getMainLooper()).postDelayed({
-                    adapter.notifyDataSetChanged()
+                    //adapter.notifyDataSetChanged()
                 },500)
             }
             if (meetingsList.size == 0) {
@@ -1029,7 +1038,7 @@ class UpcomingListFragment : Fragment() {
                     requireActivity().dismissProgressDialog()
                     Log.d(TAG, "meeting data in 200 ${data}")
                     requireActivity().showCustomToast(data?.aPIResponse?.Message.toString())
-                    meetingsList.clear()
+                    clearList()
                     pageno = 1
                     if (requireActivity().checkInternet()) {
                         handleUpcomingMeetingsList(7, 1, 9)
@@ -1184,7 +1193,7 @@ class UpcomingListFragment : Fragment() {
         when (item.itemId) {
             R.id.all_meetings -> {
                 status = ""
-                meetingsList.clear()
+                clearList()
                 pageno = 1
                 binding.tvHeader.setText(getString(R.string.txt_all_meetings))
                 if (requireActivity().checkInternet()) {
@@ -1197,7 +1206,7 @@ class UpcomingListFragment : Fragment() {
             }
             R.id.attended_meetings -> {
                 status = "Attended"
-                meetingsList.clear()
+                clearList()
                 pageno = 1
                 binding.tvHeader.setText(getString(R.string.txt_attended))
                 if (requireActivity().checkInternet()) {
@@ -1211,7 +1220,7 @@ class UpcomingListFragment : Fragment() {
             }
             R.id.scheduled_meetings -> {
                 status = "schedule"
-                meetingsList.clear()
+                clearList()
                 pageno = 1
                 binding.tvHeader.setText(getString(R.string.txt_scheduled_meetings))
                 if (requireActivity().checkInternet()) {
@@ -1224,7 +1233,8 @@ class UpcomingListFragment : Fragment() {
             }
             R.id.nonscheduled_meetings -> {
                 status = "nonSchedule"
-                meetingsList.clear()
+
+                clearList()
                 pageno = 1
                 binding.tvHeader.setText(getString(R.string.txt_missed))
                 if (requireActivity().checkInternet()) {
@@ -1237,7 +1247,7 @@ class UpcomingListFragment : Fragment() {
             }
             R.id.cancel_meetings -> {
                 status = "cancel"
-                meetingsList.clear()
+                clearList()
                 pageno = 1
                 binding.tvHeader.setText(getString(R.string.txt_cancelled))
                 if (requireActivity().checkInternet()) {

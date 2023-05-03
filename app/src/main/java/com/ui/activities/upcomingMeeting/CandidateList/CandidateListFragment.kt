@@ -192,6 +192,7 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
             )
             it?.let {
                 contentLimit = it.totalCount!!.toInt()
+                recyclerAdapter?.totalCount=it.totalCount!!.toInt()
                 Log.d(TAG, "handleObserver: total count is ${it.totalCount}")
                 Log.d(TAG, "handleObserver: candidate data $it")
                 candidateList.addAll(it.savedProfileDetail)
@@ -259,6 +260,7 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
 
 
     private fun getCandidateList() {
+
         Log.d(TAG, "getCandidateList: ")
         CoroutineScope(Dispatchers.IO).launch {
             var reicd = DataStoreHelper.getMeetingRecruiterid()

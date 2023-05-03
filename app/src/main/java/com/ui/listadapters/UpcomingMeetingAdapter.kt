@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.data.DiffUtilHelperUpcomingMeeting
 import com.data.change24to12hoursFormat
 import com.data.changeDatefrom_yyyymmdd_to_mmddyyyy
 import com.data.showCustomSnackbarOnTop
@@ -32,72 +34,88 @@ class UpcomingMeetingAdapter(
         return ViewHolderClass(binding)
     }
 
+    fun swapList(newlist:List<NewInterviewDetails>)
+    {
+        var diffList=DiffUtil.calculateDiff(DiffUtilHelperUpcomingMeeting(list,list))
+        diffList.dispatchUpdatesTo(this)
+        notifyDataSetChanged()
+    }
+
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
-        val data = list[position]
-        holder.dataBind(data)
+       try {
 
-    /*if (list[position].mSMeetingMode.equals("veriklick")){
+           val data = list[position]
+           holder.dataBind(data)
 
-
-    }*/
-
-        val ob = Gson().fromJson(
-            data.interviewerList.get(0).toString(),
-            Array<InterViewersListModel>::class.java
-        )
-        val videoAccessCode = ob.firstOrNull()?.VideoCallAccessCode?.replace("/", "")
-        Log.d("checkvideocode", "handleObserver:  video code in list ${videoAccessCode} ")
+           /*if (list[position].mSMeetingMode.equals("veriklick")){
 
 
-        holder.binding.btnJoin.setOnClickListener {
-            try {
+           }*/
 
-                if (list[position].mSMeetingMode.equals("veriklick")){
-                    onClick(list.get(position), videoAccessCode.toString(), 1)
-                }
-                else{
-                    onClick(data, videoAccessCode.toString(), 4)
-                }
-            }catch (e:Exception)
-            {
-                context.showCustomSnackbarOnTop(context.getString(R.string.txt_something_went_wrong))
-                Log.d(TAG, "onBindViewHolder: exp 56 ${e.message}")
-            }
-        }
-
-        holder.binding.btnEllipsize.setOnClickListener {
-            onClick(list.get(position), videoAccessCode.toString(), 2)
-        }
+           val ob = Gson().fromJson(
+               data.interviewerList.get(0).toString(),
+               Array<InterViewersListModel>::class.java
+           )
+           val videoAccessCode = ob.firstOrNull()?.VideoCallAccessCode?.replace("/", "")
+           Log.d("checkvideocode", "handleObserver:  video code in list ${videoAccessCode} ")
 
 
-        /*    holder.binding.btnFeedback.setOnClickListener {
-                if (holder.binding.btnFeedback.text.toString() == "Feedback") {
-                onClick(data, videoAccessCode.toString(), 3)
-            }
-        }*/
+           holder.binding.btnJoin.setOnClickListener {
+               try {
 
-            holder.binding.btnFeedback.setOnClickListener {
-                //  if (holder.binding.btnFeedback.text.toString().lowercase().trim().equals("Join".lowercase().trim())) {
+                   if (list[position].mSMeetingMode.equals("veriklick")){
+                       onClick(list.get(position), videoAccessCode.toString(), 1)
+                   }
+                   else{
+                       onClick(data, videoAccessCode.toString(), 4)
+                   }
+               }catch (e:Exception)
+               {
+                   context.showCustomSnackbarOnTop(context.getString(R.string.txt_something_went_wrong))
+                   Log.d(TAG, "onBindViewHolder: exp 56 ${e.message}")
+               }
+           }
 
-                if (holder.binding.btnFeedback.text.toString() == "Feedback") {
-                    onClick(data, videoAccessCode.toString(), 3)
-                }
-                if (holder.binding.btnFeedback.text.toString() == context.getString(R.string.txt_teams_meeting)) {
-                    onClick(data, videoAccessCode.toString(), 4)
-                }
-
-            }
-       /* holder.binding.btnCancelMeeting.setOnClickListener {
-            onClick(data, videoAccessCode.toString(), 6)
-        }*/
-
-        holder.binding.btnRejoin.setOnClickListener {
-            onClick(data, videoAccessCode.toString(), 5)
-        }
+           holder.binding.btnEllipsize.setOnClickListener {
+               onClick(list.get(position), videoAccessCode.toString(), 2)
+           }
 
 
+           /*    holder.binding.btnFeedback.setOnClickListener {
+                   if (holder.binding.btnFeedback.text.toString() == "Feedback") {
+                   onClick(data, videoAccessCode.toString(), 3)
+               }
+           }*/
+
+           holder.binding.btnFeedback.setOnClickListener {
+               //  if (holder.binding.btnFeedback.text.toString().lowercase().trim().equals("Join".lowercase().trim())) {
+
+               if (holder.binding.btnFeedback.text.toString() == "Feedback") {
+                   onClick(data, videoAccessCode.toString(), 3)
+               }
+               if (holder.binding.btnFeedback.text.toString() == context.getString(R.string.txt_teams_meeting)) {
+                   onClick(data, videoAccessCode.toString(), 4)
+               }
+
+           }
+           /* holder.binding.btnCancelMeeting.setOnClickListener {
+                onClick(data, videoAccessCode.toString(), 6)
+            }*/
+
+           holder.binding.btnRejoin.setOnClickListener {
+               onClick(data, videoAccessCode.toString(), 5)
+           }
+
+
+
+       }catch (e:Exception)
+       {
+           Log.d(TAG, "onBindViewHolder: exception viewHolder ${e.message}")
+       }
 
     }
+
+    var totalSize:Int?=null
 
     override fun getItemCount(): Int {
         Log.d("timedate", "getItemCount: ${list.size}")
@@ -338,7 +356,16 @@ class UpcomingMeetingAdapter(
                     binding.btnCancelMeeting.isVisible = false
                 }
             }*/
+            try {
+                binding.progressBar.isVisible=list.size-1==adapterPosition
+                if (list.size==totalSize)
+                {
+                    binding.progressBar.isVisible=false
+                }
+            }catch (e:Exception)
+            {
 
+            }
 
         }
 
