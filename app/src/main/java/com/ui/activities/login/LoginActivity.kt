@@ -1,14 +1,22 @@
 package com.ui.activities.login
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.Settings
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
@@ -16,16 +24,19 @@ import androidx.lifecycle.ViewModelProvider
 import com.data.dataHolders.DataStoreHelper
 import com.data.*
 import com.domain.constant.AppConstants
+import com.google.firebase.messaging.RemoteMessage
 import com.veriKlick.databinding.ActivityLoginBinding
 import com.ui.activities.forgotPassword.ForgotPasswordActivity
 import com.ui.activities.joinmeeting.JoinMeetingActivity
 import com.ui.activities.login.loginwithotp.ActivitiyLoginWithOtp
+import com.ui.activities.twilioVideo.VideoActivity
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
 import com.veriKlick.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.internal.notify
 import kotlin.concurrent.thread
 
 @AndroidEntryPoint
@@ -89,9 +100,12 @@ class LoginActivity : AppCompatActivity() {
 
         binding.btnContinueGuest.setOnClickListener {
             // viewModel.getVideoSession("I2D8o1imAlVv3JVIxKdG")
+
             val intent = Intent(this@LoginActivity, JoinMeetingActivity::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+
+
         }
 
         binding.tvForgotPassword.setOnClickListener {
@@ -126,7 +140,6 @@ class LoginActivity : AppCompatActivity() {
         dismissProgressDialog()
         super.onDestroy()
     }
-
 
     fun checkPermissions() {
         requestVideoPermissions {
@@ -165,8 +178,6 @@ class LoginActivity : AppCompatActivity() {
         }
 
     }
-
-
 
 
     fun handleBlankfields() {

@@ -33,6 +33,10 @@ object AppConstants {
     const val MEETING_CHANNEL_ID= "veriklick_meeting_channel"
     const val MEETING_CHANNEL_NAME= "veriklick_meeting_channel"
 
+    const val FIREBASE_CHANNEL_ID= "veriklick_firebase_channel_id"
+    const val FIREBASE_CHANNEL_NAME= "veriklick_firebase_channel"
+
+
     const val LOGIN_WITH_OTP= "login_with_otp"
     const val LOGGED_WITH_OTP= "login_with_otp"
     const val CANDIDATE_ID= "candidate_id"
