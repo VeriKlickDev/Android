@@ -276,9 +276,15 @@ class UpcomingListFragment : Fragment() {
             Log.d(TAG, "onCreate: onNearbyPermission $it")
             thread {
                 Thread.sleep(1000)
-                requireActivity().requestNotficationPermission {
+               try {
+                   requireActivity().requestNotficationPermission {
 
-                }
+                   }
+               }catch (e:Exception)
+               {
+                   Log.d(TAG, "onCreateView: exception 285 ${e.message}")
+               }
+
             }
 
         }

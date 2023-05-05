@@ -297,7 +297,6 @@
                 android:id="@+id/tv_candidate"
                 android:fontFamily="@font/sarabun_regular"
                 android:textSize="@dimen/_14sp"
-                android:text="asdfadfsdf"
                 android:textColor="@color/black"
                  />
 

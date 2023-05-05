@@ -10,6 +10,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.data.dataHolders.CallStatusHolder
 import com.data.dataHolders.DataStoreHelper
@@ -17,7 +18,10 @@ import com.data.dataHolders.MicMuteUnMuteHolder
 import com.data.dataHolders.WeeksDataHolder
 import com.data.helpers.TwilioHelper
 import com.domain.constant.AppConstants
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.messaging.FirebaseMessaging
+import com.veriKlick.R
 import dagger.hilt.android.HiltAndroidApp
 
 
@@ -42,6 +46,51 @@ class MyApplication :Application() {
             screenLockEventReciever,
             IntentFilter(AppConstants.SCREEN_LOCK_ACTION)
         )
+
+       // setFirebaseFCMtoken()
+        setTopic()
+    }
+
+    private fun setFirebaseFCMtoken()
+    {
+        Log.d(TAG, "setFirebaseFCMtoken: ")
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }else
+            {
+                Log.d(TAG, "setFirebaseFCMtoken: success")
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+
+            // Log and toast
+            //val msg = getString(R.string.msg_token_fmt, token)
+           // Log.d(TAG, msg)
+           // Log.d(TAG, "setFirebaseFCMtoken: token ${token.toString()}")
+           // Toast.makeText(baseContext, token.toString(), Toast.LENGTH_SHORT).show()
+        })
+
+
+    }
+
+    private fun setTopic()
+    {
+
+        FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.firebaseNotificationTopic))
+            .addOnCompleteListener { task ->
+                var msg = "Subscribed"
+                if (!task.isSuccessful) {
+                    msg = "Subscribe failed"
+                }else
+                {
+                    Log.d(TAG, "setTopic: failed")
+                }
+                Log.d(TAG, msg)
+                Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+            }
 
     }
 

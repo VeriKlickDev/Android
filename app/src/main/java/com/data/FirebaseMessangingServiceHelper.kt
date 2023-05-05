@@ -39,12 +39,16 @@ class FirebaseMessangingServiceHelper : FirebaseMessagingService() {
 
     private fun showNotificaiton(msg:RemoteMessage)
      {
-        Log.d(TAG, "startForeground: in service class started forground ")
+        Log.d(TAG, "startForeground: in service class started forground  ${msg.data}")
         val chan = NotificationChannel(
             AppConstants.FIREBASE_CHANNEL_ID,
             AppConstants.FIREBASE_CHANNEL_NAME,
             NotificationManager.IMPORTANCE_HIGH
         )
+
+         val map=msg.data.toMap()
+         val title=map.get("title")
+         val body=map.get("body")
 
         /*val videoScreenIntent= Intent(applicationContext, VideoActivity::class.java)
         videoScreenIntent?.setAction(Intent.ACTION_MAIN)
@@ -74,8 +78,8 @@ class FirebaseMessangingServiceHelper : FirebaseMessagingService() {
 
         val notification: Notification = notificationCompat
             .setSmallIcon(R.drawable.ic_img_message)
-            .setContentTitle(msg.notification?.title.toString())
-            .setContentText(msg.notification?.body.toString())
+            .setContentTitle(title)
+            .setContentText(body)
             .setColor(ContextCompat.getColor(this, R.color.skyblue_light1))
             //.setStyle(NotificationCompat.DecoratedCustomViewStyle())
             .setContentIntent(pendingIntent)
