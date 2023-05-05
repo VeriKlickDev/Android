@@ -17,11 +17,14 @@ import com.ui.activities.twilioVideo.VideoActivity
 import com.veriKlick.R
 
 class FirebaseMessangingServiceHelper : FirebaseMessagingService() {
-    private val TAG="firebasemssg"
+    private val TAG = "firebasemssg"
     override fun onMessageReceived(message: RemoteMessage) {
 
         message
-        Log.d(TAG, "onMessageReceived: on message recieved ${message.data} ${message.rawData} ${message.notification.toString()}  ${message}")
+        Log.d(
+            TAG,
+            "onMessageReceived: on message recieved ${message.data} ${message.rawData} ${message.notification.toString()}  ${message}"
+        )
         showNotificaiton(message)
         super.onMessageReceived(message)
     }
@@ -36,9 +39,7 @@ class FirebaseMessangingServiceHelper : FirebaseMessagingService() {
   */
 
 
-
-    private fun showNotificaiton(msg:RemoteMessage)
-     {
+    private fun showNotificaiton(msg: RemoteMessage) {
         Log.d(TAG, "startForeground: in service class started forground  ${msg.data}")
         val chan = NotificationChannel(
             AppConstants.FIREBASE_CHANNEL_ID,
@@ -46,9 +47,9 @@ class FirebaseMessangingServiceHelper : FirebaseMessagingService() {
             NotificationManager.IMPORTANCE_HIGH
         )
 
-         val map=msg.data.toMap()
-         val title=map.get("title")
-         val body=map.get("body")
+        val map = msg.data.toMap()
+        val title = map.get("title")
+        val body = map.get("body")
 
         /*val videoScreenIntent= Intent(applicationContext, VideoActivity::class.java)
         videoScreenIntent?.setAction(Intent.ACTION_MAIN)
@@ -57,23 +58,25 @@ class FirebaseMessangingServiceHelper : FirebaseMessagingService() {
                     or Intent.FLAG_ACTIVITY_SINGLE_TOP
         )*/
 
-         val  i =  Intent(android.content.Intent.ACTION_VIEW);
-         i.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.veriKlick"));
+        val i = Intent(android.content.Intent.ACTION_VIEW);
+        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.veriKlick"));
 
 
-        val pendingIntent=PendingIntent.getActivity(applicationContext,10002,i, PendingIntent.FLAG_MUTABLE)
+        val pendingIntent =
+            PendingIntent.getActivity(applicationContext, 10002, i, PendingIntent.FLAG_MUTABLE)
 
         val manager = (getSystemService(NOTIFICATION_SERVICE) as NotificationManager)
         manager.createNotificationChannel(chan)
-        val notificationId = System.currentTimeMillis().toInt()
+
 
         //   val notificationBuilder: Notification.Builder = Notification.Builder(this@MeetingService, AppConstants.MEETING_CHANNEL_ID)
 
-        val notificationCompat= NotificationCompat.Builder(applicationContext, AppConstants.FIREBASE_CHANNEL_ID)
+        val notificationCompat =
+            NotificationCompat.Builder(applicationContext, AppConstants.FIREBASE_CHANNEL_ID)
 
 
-       // val notificationLayout = RemoteViews(packageName, R.layout.layout_custom_notification)
-       // val notificationLayoutExpanded = RemoteViews(packageName,  R.layout.layout_custom_notification)
+        // val notificationLayout = RemoteViews(packageName, R.layout.layout_custom_notification)
+        // val notificationLayoutExpanded = RemoteViews(packageName,  R.layout.layout_custom_notification)
 
 
         val notification: Notification = notificationCompat
@@ -87,15 +90,15 @@ class FirebaseMessangingServiceHelper : FirebaseMessagingService() {
             .setOngoing(true)
             //.setContent(notificationLayout)
             .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
-           // .setCustomContentView(notificationLayout)
-           // .setCustomBigContentView(notificationLayoutExpanded)
+            // .setCustomContentView(notificationLayout)
+            // .setCustomBigContentView(notificationLayoutExpanded)
             .build()
-         manager.notify(AppConstants.FIREBASE_CHANNEL_NAME,10002,notification)
+        manager.notify(AppConstants.FIREBASE_CHANNEL_NAME, 10002, notification)
 
 
     }
-    private fun showNotificaiton(msg: String,title:String)
-    {
+
+    private fun showNotificaiton(msg: String, title: String) {
         Log.d(TAG, "startForeground: in service class started forground ")
         val chan = NotificationChannel(
             AppConstants.FIREBASE_CHANNEL_ID,
@@ -103,19 +106,20 @@ class FirebaseMessangingServiceHelper : FirebaseMessagingService() {
             NotificationManager.IMPORTANCE_HIGH
         )
 
-        val  i =  Intent(android.content.Intent.ACTION_VIEW);
+        val i = Intent(android.content.Intent.ACTION_VIEW);
         i.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.veriKlick"));
 
 
-        val pendingIntent=
-            PendingIntent.getActivity(applicationContext,10113,i, PendingIntent.FLAG_MUTABLE)
+        val pendingIntent =
+            PendingIntent.getActivity(applicationContext, 10113, i, PendingIntent.FLAG_MUTABLE)
 
         val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         manager.createNotificationChannel(chan)
 
         //   val notificationBuilder: Notification.Builder = Notification.Builder(this@MeetingService, AppConstants.MEETING_CHANNEL_ID)
 
-        val notificationCompat= NotificationCompat.Builder(applicationContext, AppConstants.FIREBASE_CHANNEL_ID)
+        val notificationCompat =
+            NotificationCompat.Builder(applicationContext, AppConstants.FIREBASE_CHANNEL_ID)
 
 
         // val notificationLayout = RemoteViews(packageName, R.layout.layout_custom_notification)
@@ -138,7 +142,7 @@ class FirebaseMessangingServiceHelper : FirebaseMessagingService() {
             .build()
 
 
-        manager.notify(AppConstants.FIREBASE_CHANNEL_NAME,10005,notification)
+        manager.notify(AppConstants.FIREBASE_CHANNEL_NAME, 10005, notification)
 
     }
 
