@@ -2,8 +2,10 @@ package com.ui.activities.upcomingMeeting.audioRecord
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
+import com.data.dataHolders.CreateProfileDeepLinkHolder
+import com.ui.activities.createCandiateForm.ActivityCreateCandidateForm
 import com.ui.activities.upcomingMeeting.audioRecord.recorder.Recorder
 import com.ui.activities.upcomingMeeting.audioRecord.utils.checkAudioPermission
 import com.ui.activities.upcomingMeeting.audioRecord.utils.formatAsTime
@@ -25,8 +27,13 @@ class AudioMainActivity : AppCompatActivity() {
         binding = ActivityAudiomainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-       // AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        Log.d("TAG", "onCreate: in audio activity link ${CreateProfileDeepLinkHolder.get()}")
 
+       // AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        binding.btnSkip.setOnClickListener {
+            val intent=Intent(this,ActivityCreateCandidateForm::class.java)
+            startActivity(intent)
+        }
         checkAudioPermission(AUDIO_PERMISSION_REQUEST_CODE)
 
         initUI()

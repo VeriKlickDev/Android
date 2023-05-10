@@ -181,7 +181,7 @@
         <item name="android:fontFamily">@font/sarabun_regular</item>
     </style>
 
-    <style name="button.Style.lightBlue.Rounded.elevation" parent="Widget.AppCompat.Button">
+    <style name="button.Style.lightBlue.Rounded.elevation.stroke" parent="Widget.AppCompat.Button">
         <item name="android:background">@drawable/shape_rectangle_rounded_stroke_blue</item>
         <item name="android:textColor">@color/skyblue_light1</item>
         <item name="android:layout_marginHorizontal">@dimen/_10sp</item>
@@ -302,6 +302,11 @@
     <style name="Custom_textinputlayout_filledbox" parent="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="hintTextColor">?attr/colorPrimary</item>
         <item name="android:textColorHint">@drawable/selector_text_input_layout</item>
+    </style>
+
+    <style name="custom_style_dialog">
+
+
     </style>
 
 </resources>

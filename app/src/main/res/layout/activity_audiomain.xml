@@ -69,13 +69,23 @@
             android:id="@+id/record_button"
             android:layout_width="60sp"
             android:layout_height="60sp"
-            android:layout_marginBottom="208dp"
+            android:layout_marginBottom="@dimen/_100sdp"
             android:background="@color/skyblue_light1"
             android:gravity="center"
             android:src="@drawable/ic_baseline_mic_24_blue"
             app:contentPadding="17sp"
             android:layout_gravity="center_horizontal"
             app:shapeAppearanceOverlay="@style/roundedCorner50" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_skip"
+            style="@style/button.Style.lightBlue.Rounded.elevation.stroke"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_55sdp"
+            android:layout_marginTop="@dimen/_15sp"
+            android:text="@string/txt_skip"
+            android:textSize="@dimen/_18sdp" />
+
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

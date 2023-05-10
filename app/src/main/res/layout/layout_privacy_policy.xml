@@ -55,7 +55,7 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_cancel"
-                    style="@style/button.Style.lightBlue.Rounded.elevation"
+                    style="@style/button.Style.lightBlue.Rounded.elevation.stroke"
                     android:layout_width="match_parent"
                     android:fontFamily="@font/sarabun_bold"
                     android:layout_height="@dimen/_40sdp"

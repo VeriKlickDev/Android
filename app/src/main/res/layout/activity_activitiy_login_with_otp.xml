@@ -142,7 +142,7 @@
                 android:layout_height="@dimen/_55sdp"
                 android:visibility="gone"
                 android:layout_marginTop="@dimen/_10sp"
-                style="@style/button.Style.lightBlue.Rounded.elevation"
+                style="@style/button.Style.lightBlue.Rounded.elevation.stroke"
                 android:text="@string/txt_resend_otp"
                 android:textSize="@dimen/_18sdp" />
 

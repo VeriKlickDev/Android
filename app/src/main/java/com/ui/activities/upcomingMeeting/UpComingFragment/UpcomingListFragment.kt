@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -15,11 +16,10 @@ import android.view.inputmethod.EditorInfo
 import android.widget.AbsListView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-
 import androidx.recyclerview.widget.RecyclerView
 import com.data.*
 import com.data.dataHolders.*
@@ -39,7 +39,9 @@ import com.veriKlick.databinding.LayoutDescriptionDialogBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 import kotlin.concurrent.thread
+
 
 class UpcomingListFragment : Fragment() {
 
@@ -923,7 +925,17 @@ class UpcomingListFragment : Fragment() {
 
     fun showDescDialog(data: NewInterviewDetails) {
         val dialog = Dialog(requireActivity())
-        val dialogBinding = LayoutDescriptionDialogBinding.inflate(LayoutInflater.from(requireActivity()),binding.root as ViewGroup,false)
+        val dialogBinding = LayoutDescriptionDialogBinding.inflate(requireActivity().layoutInflater)
+
+
+        /*val params = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        params.setMargins(20,0,20,0)
+        dialogBinding.root.setLayoutParams(params)
+*/
+
         dialog.setContentView(dialogBinding.root)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialogBinding.btnCross.setOnClickListener {
@@ -933,6 +945,10 @@ class UpcomingListFragment : Fragment() {
         dialogBinding.tvUserId.text = data.jobid.toString()
         dialog.create()
         dialog.show()
+
+        /*val displaySize: Point = requireActivity()
+        val width: Int = displaySize.x - 10 - 10
+        dialog.window?.setLayout(width, 0)*/
     }
 
     fun handleJoin(data: NewInterviewDetails, videoAccessCode: String) {

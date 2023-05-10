@@ -14,9 +14,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
+import com.data.dataHolders.CreateProfileDeepLinkHolder
 import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.BodyCandidateImageModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.ui.activities.upcomingMeeting.audioRecord.AudioMainActivity
 import com.veriKlick.R
 import com.veriKlick.databinding.ActivityUploadProfilePhotoBinding
 import com.veriKlick.databinding.LayoutChooseImageFromSourceBinding
@@ -40,6 +42,17 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
         binding=ActivityUploadProfilePhotoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val deepLinkingIntent = intent
+        val schemestr=deepLinkingIntent.scheme
+        val pathstr=deepLinkingIntent.data!!.path
+
+        Log.d(TAG, "onCreate: intent data from deeplink   ${getString(R.string.url_createCandidatebase)+pathstr.toString()}")
+        if (!pathstr.equals("") || !pathstr.equals("null") || pathstr!=null)
+        CreateProfileDeepLinkHolder.setLink(getString(R.string.url_createCandidatebase)+pathstr.toString())
+
+        Log.d(TAG, "onCreate: intent data from deeplink from holder ${CreateProfileDeepLinkHolder.get()}")
+
+
         binding.btnJumpBack.setOnClickListener {
             onBackPressed.handleOnBackPressed()
         }
@@ -57,6 +70,11 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
         binding.btnUploadImage.setOnClickListener {
             uploadImage()
         }
+        binding.btnSkip.setOnClickListener {
+            val intent=Intent(this,AudioMainActivity::class.java)
+            startActivity(intent)
+        }
+
 
 
     }

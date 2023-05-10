@@ -198,6 +198,9 @@
     <string name="txt_secondary">Secondary : </string>
     <string name="txt_primary">Primary : </string>
     <string name="txt_years">Years</string>
+    <string name="txt_skip">Skip</string>
+    <string name="url_createCandidatebase">https://ui2.veriklick.in</string>
+
 
 
 </resources>

@@ -199,5 +199,5 @@
     <string name="txt_secondary">Secundaria : </string>
     <string name="txt_primary">Primaria : </string>
     <string name="txt_years">años</string>
-
+    <string name="txt_skip">saltar</string>
 </resources>
