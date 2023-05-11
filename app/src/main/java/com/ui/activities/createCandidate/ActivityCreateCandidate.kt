@@ -162,7 +162,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                 obj.userid=DataStoreHelper.getMeetingRecruiterid().toInt()
                 obj.FirstName=binding.etFirstname.text.toString()
                 obj.LastName=binding.etLastname.text.toString()
-                obj.email=binding.etEmail.text.toString()
+                obj.UserEmailid=binding.etEmail.text.toString()
                 obj.MessageText="SPL"
                 obj.ReceiverNumber=iscountryCode+binding.etPhoneno.text.toString()
                 Log.d("TAG", "postData: sending sms is ${Gson().toJson(obj)}")

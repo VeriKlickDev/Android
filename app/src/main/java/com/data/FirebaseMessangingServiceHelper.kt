@@ -109,7 +109,6 @@ class FirebaseMessangingServiceHelper : FirebaseMessagingService() {
         val i = Intent(android.content.Intent.ACTION_VIEW);
         i.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.veriKlick"));
 
-
         val pendingIntent =
             PendingIntent.getActivity(applicationContext, 10113, i, PendingIntent.FLAG_MUTABLE)
 

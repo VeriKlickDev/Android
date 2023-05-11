@@ -89,7 +89,7 @@ class MyApplication :Application() {
                     Log.d(TAG, "setTopic: failed")
                 }
                 Log.d(TAG, msg)
-                Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+               // Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
             }
 
     }

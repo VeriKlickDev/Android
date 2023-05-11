@@ -7,13 +7,19 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="@dimen/_10sp"
+            android:layout_marginTop="@dimen/_5sp"
+            android:layout_marginHorizontal="@dimen/_10sp"
+            android:background="@drawable/shape_rectangle_rounded_10_white"
+            android:elevation="@dimen/_5sp"
+            android:layout_marginBottom="@dimen/_10sp"
             >
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -43,7 +49,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/rb_yes"
-                    android:text="Yes"
+                    android:text="@string/txt_yes"
                     android:fontFamily="@font/sarabun_medium"
                     />
 
@@ -51,21 +57,41 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/rb_no"
-                    android:text="No"
+                    android:text="@string/txt_no"
+                    android:layout_marginLeft="@dimen/_16sdp"
+                    android:fontFamily="@font/sarabun_medium"
+                    />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rb_other"
+                    android:text="@string/txt_other"
                     android:layout_marginLeft="@dimen/_16sdp"
                     android:fontFamily="@font/sarabun_medium"
                     />
 
             </RadioGroup>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_answer"
-            android:fontFamily="@font/sarabun_medium"
-            android:textSize="@dimen/_17sdp"
-            android:textColor="@color/black"
-            />
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/tv_answer"-->
+<!--            android:fontFamily="@font/sarabun_medium"-->
+<!--            android:textSize="@dimen/_17sdp"-->
+<!--            android:textColor="@color/black"-->
+<!--            />-->
+
+            <EditText
+                android:id="@+id/et_detailedAnswer"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                style="@style/editext.style.base.greyStroke"
+                android:layout_marginBottom="@dimen/_10sp"
+                android:visibility="gone"
+                android:background="@drawable/shape_rectangle_rounded_stroke_grey"
+                />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.LinearLayoutCompat>

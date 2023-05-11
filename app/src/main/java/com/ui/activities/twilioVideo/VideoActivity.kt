@@ -2158,7 +2158,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 )
         }
         if (displayRational) {
-            Toast.makeText(this, "R.string.permissions_needed", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.txt_permission_required), Toast.LENGTH_LONG).show()
         }
         else {
             ActivityCompat.requestPermissions(

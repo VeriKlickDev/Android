@@ -77,14 +77,24 @@
             android:layout_gravity="center_horizontal"
             app:shapeAppearanceOverlay="@style/roundedCorner50" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_skip"
-            style="@style/button.Style.lightBlue.Rounded.elevation.stroke"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_55sdp"
-            android:layout_marginTop="@dimen/_15sp"
-            android:text="@string/txt_skip"
-            android:textSize="@dimen/_18sdp" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="bottom"
+            >
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_skip"
+                style="@style/button.Style.lightBlue.Rounded.elevation.stroke"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_55sdp"
+                android:layout_marginTop="@dimen/_15sp"
+                android:text="@string/txt_skip"
+                android:textSize="@dimen/_18sdp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>

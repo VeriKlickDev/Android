@@ -25,6 +25,7 @@ import com.domain.BaseModels.BodySMSCandidate
 import com.domain.BaseModels.CurrentVideoUserModel
 import com.domain.BaseModels.SavedProfileDetail
 import com.google.gson.Gson
+import com.ui.activities.candidateQuestionnaire.ActivityCandidateQuestinnaire
 import com.ui.activities.login.LoginActivity
 import com.ui.activities.upcomingMeeting.UpComingMeetingViewModel
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
@@ -86,6 +87,9 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
             (requireActivity() as UpcomingMeetingActivity).openDrawer()
         }
 
+        binding.tvHeader.setOnClickListener {
+            startActivity(Intent(requireActivity(),ActivityCandidateQuestinnaire::class.java))
+        }
         setupRecyclerPagination()
         handleObserver()
         getCandidateList()
@@ -108,7 +112,7 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
                     data.Name?.substring(data.Name?.indexOf(" ")!!.toInt() + 2, data?.Name!!.length)
                 obj.FirstName = firstName
                 obj.LastName = lastName
-                obj.email = data.Email
+                obj.UserEmailid = data.Email
                 obj.ReceiverNumber = data.Phone
                 showSendSmsCandidate(obj, data)
 

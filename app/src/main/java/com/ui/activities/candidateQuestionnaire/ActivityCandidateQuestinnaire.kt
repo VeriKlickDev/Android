@@ -7,16 +7,20 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.data.showCustomSnackbarOnTop
 import com.domain.BaseModels.CandidateQuestionnaireModel
+import com.domain.BaseModels.Options
+import com.domain.BaseModels.Question
 import com.domain.BaseModels.SavedProfileDetail
 import com.ui.listadapters.CandidateQuestionnaireListAdapter
 import com.veriKlick.R
 import com.veriKlick.databinding.ActivityCandidateQuestinnaireBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ActivityCandidateQuestinnaire : AppCompatActivity() {
     private var binding:ActivityCandidateQuestinnaireBinding?=null
     private var viewModel:VMCandidateQuestionnaire?=null
     private var questionAdapter:CandidateQuestionnaireListAdapter?=null
-    private var questionList= mutableListOf<CandidateQuestionnaireModel>()
+    private var questionList= mutableListOf<Question>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +28,7 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
         binding=ActivityCandidateQuestinnaireBinding.inflate(layoutInflater)
         setContentView(binding?.root)
         viewModel=ViewModelProvider(this).get(VMCandidateQuestionnaire::class.java)
-        questionAdapter= CandidateQuestionnaireListAdapter(this,questionList!!){data: CandidateQuestionnaireModel, action: Int ->
-
+        questionAdapter = CandidateQuestionnaireListAdapter(this,questionList!!){data: CandidateQuestionnaireModel, action: Int ->
 
         }
         binding?.rvQuestions?.layoutManager=LinearLayoutManager(this)
@@ -34,12 +37,16 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
         binding?.btnSubmit?.setOnClickListener {
             getAllQuestionsList()
         }
+        binding?.btnJumpBack?.setOnClickListener {
+        onBackPressedDispatcher.onBackPressed()
+        }
     }
+
     private var isAnswer=false
     fun getAllQuestionsList(){
         if (!questionAdapter?.list.isNullOrEmpty()){
             questionAdapter?.list
-            isAnswer= questionAdapter?.list?.any { it.answer==null } == false
+            isAnswer= questionAdapter?.list?.any { it.Answer==null || it.Answer.equals("") } == false
         }
 
         if (isAnswer)
@@ -54,9 +61,27 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
 
     private fun addQuestion()
     {
+        var quesType="M"
         for (i in 0..5)
-        questionList.add(CandidateQuestionnaireModel("what is $i in range",null))
+        {
+            if (i%2==1)
+            {
+                questionList.add(Question(i,"what is $i in range"))
+            }else
+            {
+                questionList.add(Question(i,"what is $i in range"))
+            }
+        }
+
         questionAdapter?.notifyDataSetChanged()
+    }
+
+    private fun getOptions():ArrayList<Options>
+    {
+        val listt= arrayListOf<Options>()
+        for (i in 0..3)
+            listt.add(Options(i,"option $i"))
+        return listt
     }
 
 }
