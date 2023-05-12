@@ -25,7 +25,8 @@ data class ResponseQuestionnaire (
 data class Options (
 
     @SerializedName("OptionId"   ) var OptionId   : Int?    = null,
-    @SerializedName("OptionDesc" ) var OptionDesc : String? = null
+    @SerializedName("OptionDesc" ) var OptionDesc : String? = null,
+    var selectedItem:Int=-1
 
 )
 

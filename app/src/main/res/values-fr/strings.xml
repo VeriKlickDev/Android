@@ -199,5 +199,9 @@
     <string name="txt_skip">sauter</string>
     <string name="txt_questionnaire">questionnaire</string>
 
+    <string name="txt_other">Autre</string>
+    <string name="txt_no">Non</string>
+    <string name="txt_your_msg_here">Votre message ici...</string>
+
 
 </resources>

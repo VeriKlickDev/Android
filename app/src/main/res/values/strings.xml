@@ -203,6 +203,7 @@
     <string name="txt_questionnaire">Questionnaire</string>
     <string name="txt_other">Other</string>
     <string name="txt_no">No</string>
+    <string name="txt_your_msg_here">Your message here...</string>
 
 
 </resources>

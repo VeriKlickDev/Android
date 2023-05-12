@@ -12,6 +12,7 @@ import android.widget.SearchView.OnQueryTextListener
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.data.change24to12hoursFormat
@@ -20,15 +21,19 @@ import com.data.showCustomSnackbarOnTop
 import com.domain.BaseModels.*
 import com.google.gson.Gson
 import com.veriKlick.R
+import com.veriKlick.databinding.LayoutAnswerSubselectionBinding
 import com.veriKlick.databinding.LayoutItemCandidateListBinding
 import com.veriKlick.databinding.LayoutItemCandidateQuestionsListBinding
 import com.veriKlick.databinding.LayoutItemUpcomingMeetingBinding
+import java.lang.reflect.Executable
 
 class CandidateQuestionnaireListAdapter(
     val context: Context,
     val list: MutableList<Question>,
     val onClick: (data: CandidateQuestionnaireModel, action: Int) -> Unit
 ) : RecyclerView.Adapter<CandidateQuestionnaireListAdapter.ViewHolderClass>() {
+
+    private lateinit var sublistAdapter: AnswerSubSelectionAdapter
 
     private val TAG = "upcomingAdapterListCheck"
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass {
@@ -42,35 +47,11 @@ class CandidateQuestionnaireListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
+
         holder.setIsRecyclable(false)
         val data = list[position]
         holder.dataBind(data)
 
-
-        Log.d(TAG, "onBindViewHolder: tabs ${list[position].selectedTab}")
-        when (list[position].selectedTab) {
-            context.getString(R.string.txt_yes) -> {
-                holder.binding.rbYes.isChecked = true
-                holder.binding.rbNo.isChecked = false
-                holder.binding.rbOther.isChecked = false
-                holder.binding.etDetailedAnswer.isVisible=false
-            }
-            context.getString(R.string.txt_no) -> {
-                holder.binding.rbYes.isChecked = false
-                holder.binding.rbNo.isChecked = true
-                holder.binding.rbOther.isChecked = false
-                holder.binding.etDetailedAnswer.isVisible=false
-            }
-            context.getString(R.string.txt_other) -> {
-                holder.binding.rbYes.isChecked = false
-                holder.binding.rbNo.isChecked = false
-                holder.binding.rbOther.isChecked = true
-                holder.binding.etDetailedAnswer.isVisible=true
-                holder.binding.etDetailedAnswer.setText(list[position].Answer)
-            }
-        }
-        //if (list[position].Answer.toString().equals("") || list[position].Answer == null)
-          //  holder.binding.etDetailedAnswer.setText("")
     }
 
     fun addList(tlist: List<Question>) {
@@ -89,55 +70,74 @@ class CandidateQuestionnaireListAdapter(
     inner class ViewHolderClass(val binding: LayoutItemCandidateQuestionsListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun dataBind(data: Question) {
+            if (data.QuestionType.equals("M"))
+            {
+                binding.rvAnswers.isVisible=true
+                binding.etDetailedAnswer.isVisible=false
+                setSublistAdapter(binding,1,data.Options)
+            }
+            if (data.QuestionType.equals("D"))
+            {
+                binding.etDetailedAnswer.isVisible=true
+                binding.rvAnswers.isVisible=false
+            }
+
+
             binding.tvQuestion.setText(data.QuestionDesc)
 
-            binding.etDetailedAnswer.isVisible=data.QuestionType.equals("M")
+        }
+    }
 
-            var editext: String? = null
-
-           /* binding.etDetailedAnswer.doOnTextChanged { text, start, before, count ->
-                list[adapterPosition].Answer = text.toString()
-            }*/
-            binding.etDetailedAnswer.addTextChangedListener(txtController!!)
-
-            // list[adapterPosition].Answer = binding.etDetailedAnswer.text.toString()
-
-            binding.rbYes.setOnClickListener {
-                list[adapterPosition].selectedTab = context.getString(R.string.txt_yes)
-                //editext=null
-                list[adapterPosition].Answer = null
-                binding.etDetailedAnswer.isVisible = false
-                list[adapterPosition] =
-                    Question(
-                        data.QuestionId,
-                        list[adapterPosition].QuestionDesc,
-                        context.getString(R.string.txt_yes)
-                    )
-                binding.etDetailedAnswer.setText("")
-
-            }
-            binding.rbNo.setOnClickListener {
-                list[adapterPosition].selectedTab = context.getString(R.string.txt_no)
-                Log.d(TAG, "onCheckedChanged: no pressed")
-                binding.etDetailedAnswer.isVisible = false
-                list[adapterPosition].Answer = context.getString(R.string.txt_no)
-                Log.d(TAG, "onCheckedChanged: no pressed ${list[adapterPosition]}")
-                binding.etDetailedAnswer.setText("")
-            }
-
-
-            binding.rbOther.setOnClickListener {
-                list[adapterPosition].selectedTab = context.getString(R.string.txt_other)
-                binding.etDetailedAnswer.isVisible = true
-                list[adapterPosition].Answer = editext
-                Log.d(TAG, "dataBind: other ${list[adapterPosition]}")
-            }
+    private fun setSublistAdapter(binding: LayoutItemCandidateQuestionsListBinding,answerType:Int,listt:MutableList<Options>)
+    {
+        binding.rvAnswers.layoutManager = LinearLayoutManager(context)
+        sublistAdapter = AnswerSubSelectionAdapter(context,answerType, listt) { data, action, pos ->
 
 
         }
-        private val txtController=object:TextWatcher{
+        binding.rvAnswers.adapter = sublistAdapter
+    }
+
+
+}
+
+class AnswerSubSelectionAdapter(
+    val context: Context,
+    val answerType: Int,
+    val list: MutableList<Options>,
+    onClick: (data: Options, action: Int, position: Int) -> Unit
+) : RecyclerView.Adapter<AnswerSubSelectionAdapter.AnswerSubSelectionViewHolder>() {
+
+
+    inner class AnswerSubSelectionViewHolder(val binding: LayoutAnswerSubselectionBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun setViews(data: Options) {
+            binding.tvAnswer.setText(data.OptionDesc)
+
+            binding.llParent.setOnClickListener {
+               try {
+                   list?.let {
+                       it.forEach {
+                           //it.selectedItem=-1
+                           //list.set(adapterPosition,it)
+                           it.selectedItem=-1
+                           list.set(adapterPosition,it)
+                       }
+                   }
+                   data.selectedItem=adapterPosition
+                   list.set(adapterPosition,data)
+               }catch (e:Exception)
+               {
+                   Log.d(TAG, "setViews: exception ${e.message}")
+               }
+                notifyDataSetChanged()
+
+            }
+        }
+
+        private val txtController = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                list[adapterPosition].Answer = s.toString()
+
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -147,12 +147,44 @@ class CandidateQuestionnaireListAdapter(
             override fun afterTextChanged(s: Editable?) {
 
             }
-
-
         }
 
 
     }
 
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): AnswerSubSelectionViewHolder {
+        val binding =
+            LayoutAnswerSubselectionBinding.inflate(LayoutInflater.from(context), parent, false)
+        return AnswerSubSelectionViewHolder(binding)
+    }
+    private val TAG="sublistcheck"
+    override fun onBindViewHolder(holder: AnswerSubSelectionViewHolder, position: Int) {
+        holder.setIsRecyclable(false)
+        holder.setViews(list[position])
+
+        try {
+            if (list[position].selectedItem == position) {
+                holder.binding.llParent.setBackgroundResource(R.drawable.shape_roundedcorner_blue_10)
+                holder.binding.tvAnswer.setTextColor(context.getColor(R.color.white))
+            } else if (list[position].selectedItem ==-1) {
+                holder.binding.llParent.setBackgroundResource(R.drawable.shape_rectangle_rounded_10_white)
+                holder.binding.tvAnswer.setTextColor(context.getColor(R.color.black))
+            }
+        }catch (e:Exception)
+        {
+            Log.d(TAG, "onBindViewHolder: exception ${e.message}")
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return list.size
+    }
+
 
 }
+
+
+

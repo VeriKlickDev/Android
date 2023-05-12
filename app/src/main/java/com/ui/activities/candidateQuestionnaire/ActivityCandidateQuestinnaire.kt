@@ -66,10 +66,10 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
         {
             if (i%2==1)
             {
-                questionList.add(Question(i,"what is $i in range"))
+                questionList.add(Question(i,"what is $i in range","D",getOptions()))
             }else
             {
-                questionList.add(Question(i,"what is $i in range"))
+                questionList.add(Question(i,"what is $i in range","M",getOptions()))
             }
         }
 

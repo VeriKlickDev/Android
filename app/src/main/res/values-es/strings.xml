@@ -202,4 +202,8 @@
     <string name="txt_skip">saltar</string>
     <string name="txt_questionnaire">cuestionario</string>
 
+    <string name="txt_other">Otro</string>
+    <string name="txt_no">No</string>
+    <string name="txt_your_msg_here">Su mensaje aquí...</string>
+
 </resources>

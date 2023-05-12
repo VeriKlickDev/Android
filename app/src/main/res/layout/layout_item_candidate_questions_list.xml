@@ -35,43 +35,26 @@
             android:fontFamily="@font/sarabun_medium"
             android:text="hellsadklfjklasjdfkljasfd"
             android:textSize="@dimen/_20sp"
+            android:layout_marginHorizontal="@dimen/_10sp"
             android:textColor="@color/black"
             />
 
-            <RadioGroup
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/rb_group"
-                android:orientation="horizontal"
+                android:orientation="vertical"
+                android:background="@drawable/shape_rectangle_rounded_stroke_grey"
                 >
 
-                <RadioButton
-                    android:layout_width="wrap_content"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/rb_yes"
-                    android:text="@string/txt_yes"
-                    android:fontFamily="@font/sarabun_medium"
+                    android:id="@+id/rv_answers"
                     />
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/rb_no"
-                    android:text="@string/txt_no"
-                    android:layout_marginLeft="@dimen/_16sdp"
-                    android:fontFamily="@font/sarabun_medium"
-                    />
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/rb_other"
-                    android:text="@string/txt_other"
-                    android:layout_marginLeft="@dimen/_16sdp"
-                    android:fontFamily="@font/sarabun_medium"
-                    />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-            </RadioGroup>
 
 <!--        <TextView-->
 <!--            android:layout_width="match_parent"-->
@@ -93,6 +76,19 @@
                 />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="@dimen/_10sp"
+                android:id="@+id/et_other"
+                android:maxHeight="@dimen/_100sdp"
+                android:paddingHorizontal="@dimen/_10sp"
+                style="@style/editext.style.base.greyStroke"
+                android:background="@drawable/shape_rectangle_rounded_stroke_grey"
+                android:layout_marginVertical="@dimen/_10sp"
+                android:hint="@string/txt_your_msg_here"
+                />
         </androidx.appcompat.widget.LinearLayoutCompat>
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
