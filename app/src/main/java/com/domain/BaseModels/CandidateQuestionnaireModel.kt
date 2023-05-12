@@ -36,7 +36,7 @@ data class Question (
     @SerializedName("QuestionDesc" ) var QuestionDesc : String?            = null,
     @SerializedName("QuestionType" ) var QuestionType : String?            = null,
     @SerializedName("Options"      ) var Options      : ArrayList<Options> = arrayListOf(),
-  /*answer added*/  @SerializedName("Answer" ) var Answer : String?            = null
+  /*answer added*/  @SerializedName("Answer" ) var Answer : Options?            = null
 ,@SerializedName("tab" ) var selectedTab : String?            = null
 
 )

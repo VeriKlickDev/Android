@@ -70,33 +70,41 @@ class CandidateQuestionnaireListAdapter(
     inner class ViewHolderClass(val binding: LayoutItemCandidateQuestionsListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun dataBind(data: Question) {
+
+            binding.etOther.setText(data.Answer?.OptionDesc)
+
             if (data.QuestionType.equals("M"))
             {
                 binding.rvAnswers.isVisible=true
-                binding.etDetailedAnswer.isVisible=false
-                setSublistAdapter(binding,1,data.Options)
+                binding.etOther.isVisible=false
+                binding.rvAnswers.layoutManager = LinearLayoutManager(context)
+                sublistAdapter = AnswerSubSelectionAdapter(context,1, data.Options) { subdata, action, pos ->
+                    when (action)
+                    {
+                        1->{
+                            val ob=data.Options[pos]
+                            data.Answer=ob
+                            list.set(adapterPosition,data)
+                        }
+                    }
+
+                }
+                binding.rvAnswers.adapter = sublistAdapter
             }
             if (data.QuestionType.equals("D"))
             {
-                binding.etDetailedAnswer.isVisible=true
+                binding.etOther.isVisible=true
                 binding.rvAnswers.isVisible=false
+                binding.etOther.doOnTextChanged { text, start, before, count ->
+                    data.Answer=Options(101,text.toString())
+                    list.set(adapterPosition,data)
+                }
             }
 
-
             binding.tvQuestion.setText(data.QuestionDesc)
-
         }
     }
 
-    private fun setSublistAdapter(binding: LayoutItemCandidateQuestionsListBinding,answerType:Int,listt:MutableList<Options>)
-    {
-        binding.rvAnswers.layoutManager = LinearLayoutManager(context)
-        sublistAdapter = AnswerSubSelectionAdapter(context,answerType, listt) { data, action, pos ->
-
-
-        }
-        binding.rvAnswers.adapter = sublistAdapter
-    }
 
 
 }
@@ -105,7 +113,7 @@ class AnswerSubSelectionAdapter(
     val context: Context,
     val answerType: Int,
     val list: MutableList<Options>,
-    onClick: (data: Options, action: Int, position: Int) -> Unit
+    val onClick: (data: Options, action: Int, position: Int) -> Unit
 ) : RecyclerView.Adapter<AnswerSubSelectionAdapter.AnswerSubSelectionViewHolder>() {
 
 
@@ -124,6 +132,7 @@ class AnswerSubSelectionAdapter(
                            list.set(adapterPosition,it)
                        }
                    }
+                   onClick(list[adapterPosition],1,adapterPosition)
                    data.selectedItem=adapterPosition
                    list.set(adapterPosition,data)
                }catch (e:Exception)

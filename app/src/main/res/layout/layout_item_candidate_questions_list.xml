@@ -65,15 +65,6 @@
 <!--            android:textColor="@color/black"-->
 <!--            />-->
 
-            <EditText
-                android:id="@+id/et_detailedAnswer"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp"
-                style="@style/editext.style.base.greyStroke"
-                android:layout_marginBottom="@dimen/_10sp"
-                android:visibility="gone"
-                android:background="@drawable/shape_rectangle_rounded_stroke_grey"
-                />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
             <EditText

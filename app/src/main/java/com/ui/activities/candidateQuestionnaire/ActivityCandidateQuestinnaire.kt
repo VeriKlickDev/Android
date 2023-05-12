@@ -46,7 +46,7 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
     fun getAllQuestionsList(){
         if (!questionAdapter?.list.isNullOrEmpty()){
             questionAdapter?.list
-            isAnswer= questionAdapter?.list?.any { it.Answer==null || it.Answer.equals("") } == false
+            isAnswer= questionAdapter?.list?.any { it.Answer==null || it.Answer?.OptionDesc.equals("") } == false
         }
 
         if (isAnswer)
