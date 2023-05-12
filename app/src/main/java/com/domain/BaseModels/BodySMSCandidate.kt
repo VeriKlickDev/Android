@@ -8,10 +8,12 @@ data class BodySMSCandidate (
     @SerializedName("ReceiverNumber" ) var ReceiverNumber : String? = null,
     @SerializedName("Subscriberid"   ) var Subscriberid   : String? = null,
     @SerializedName("UserEmailid"          ) var UserEmailid      : String? = null,
-    @SerializedName("email"          ) var email      : String? = null,
+    @SerializedName("emailid"          ) var email      : String? = null,
     @SerializedName("MessageText"    ) var MessageText    : String? = null,
     @SerializedName("FirstName"      ) var FirstName      : String? = null,
-    @SerializedName("LastName"       ) var LastName       : String? = null
+    @SerializedName("LastName"       ) var LastName       : String? = null,
+    @SerializedName("Language"       ) var language       : String? = null,
+    @SerializedName("ReceiverID"       ) var recieverId       : String? = null
 
 )
 

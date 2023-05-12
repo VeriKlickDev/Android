@@ -35,7 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:layout_marginHorizontal="16sp"
+
                     >
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
@@ -58,27 +58,23 @@
                             android:layout_marginHorizontal="@dimen/_10sp"
                             >
 
-                            <com.google.android.material.textfield.TextInputLayout
+
+                            <EditText
+                                android:id="@+id/et_firstname"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:hint="@string/txt_firstName"
+                                android:imeOptions="actionNext"
+                                android:textSize="@dimen/_18sdp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/txt_firstName"
-                                app:hintTextColor="@color/skyblue_light1"
-                                android:minWidth="32dp"
-                                android:layout_marginVertical="@dimen/_10sp"
-                                android:minHeight="48dp"
-                                >
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_45sdp"
-                                    android:id="@+id/et_firstname"
-                                    android:singleLine="true"
-                                    android:maxLength="30"
-                                    />
-                            </com.google.android.material.textfield.TextInputLayout>
+                                android:layout_marginHorizontal="@dimen/_10sp"
+                                style="@style/editext.style.base"
+                                />
 
 
 
-<!--                            <com.google.android.material.textfield.TextInputLayout-->
+                            <!--                            <com.google.android.material.textfield.TextInputLayout-->
 <!--                                android:layout_width="match_parent"-->
 <!--                                android:layout_height="wrap_content"-->
 <!--                                android:hint="Middle Name"-->
@@ -94,44 +90,37 @@
 <!--                                    />-->
 <!--                            </com.google.android.material.textfield.TextInputLayout>-->
 
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                            <EditText
+                                android:id="@+id/et_Lastname"
+                                android:maxLines="1"
+                                android:singleLine="true"
                                 android:hint="@string/txt_lastName"
-                                android:minWidth="32dp"
-                                android:minHeight="48dp"
-                                >
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_45sdp"
-                                    android:id="@+id/et_Lastname"
-                                    android:singleLine="true"
-                                    android:maxLength="30"
-                                    />
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            <com.google.android.material.textfield.TextInputLayout
+                                android:imeOptions="actionNext"
+                                android:layout_marginVertical="@dimen/_10sp"
+                                android:textSize="@dimen/_18sdp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/_10sp"
+                                style="@style/editext.style.base"
+                                />
+                            <EditText
+                                android:id="@+id/et_email"
+                                android:maxLines="1"
+                                android:singleLine="true"
                                 android:hint="@string/txt_email"
-                                android:layout_marginVertical="@dimen/_10sp"
-                                android:minWidth="32dp"
-                                android:minHeight="48dp"
-                                >
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_45sdp"
-                                    android:id="@+id/et_email"
-                                    android:singleLine="true"
-                                    android:maxLength="100"
-                                    />
-                            </com.google.android.material.textfield.TextInputLayout>
-
+                                android:imeOptions="actionNext"
+                                android:textSize="@dimen/_18sdp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/_10sp"
+                                style="@style/editext.style.base"
+                                />
 
                             <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
+                                android:layout_marginVertical="@dimen/_10sp"
                                 >
 
                                 <Spinner
@@ -139,26 +128,23 @@
                                     android:layout_height="@dimen/_60sdp"
                                     android:layout_gravity="center_vertical"
                                     android:id="@+id/spinnerCountryCode"
-
                                     />
 
-                                <com.google.android.material.textfield.TextInputLayout
+                                <EditText
+                                    android:id="@+id/et_phoneno"
+                                    android:maxLines="1"
+                                    android:singleLine="true"
+                                    android:maxLength="10"
+                                    android:inputType="phone"
+                                    android:hint="@string/txt_phoneNo"
+                                    android:imeOptions="actionDone"
+                                    android:digits="0123456789"
+                                    android:textSize="@dimen/_18sdp"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:hint="@string/txt_phoneNo"
-                                    android:layout_marginVertical="@dimen/_10sp"
-                                    android:minWidth="32dp"
-                                    android:minHeight="48dp"
-                                    >
-                                    <com.google.android.material.textfield.TextInputEditText
-                                        android:layout_width="match_parent"
-                                        android:layout_height="@dimen/_45sdp"
-                                        android:id="@+id/et_phoneno"
-                                        android:singleLine="true"
-                                        android:maxLength="10"
-                                        android:inputType="phone"
-                                        />
-                                </com.google.android.material.textfield.TextInputLayout>
+                                    android:layout_marginHorizontal="@dimen/_10sp"
+                                    style="@style/editext.style.base"
+                                    />
 
 
 

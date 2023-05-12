@@ -164,6 +164,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                 obj.LastName=binding.etLastname.text.toString()
                 obj.UserEmailid=binding.etEmail.text.toString()
                 obj.email=binding.etEmail.text.toString()
+                obj.language=getString(R.string.languageSelect)
                 obj.MessageText="SPL"
                 obj.ReceiverNumber=iscountryCode+binding.etPhoneno.text.toString()
                 Log.d("TAG", "postData: sending sms is ${Gson().toJson(obj)}")

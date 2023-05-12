@@ -205,6 +205,9 @@
     <string name="txt_no">No</string>
     <string name="txt_your_msg_here">Your message here...</string>
     <string name="txt_question">Question</string>
+    <string name="languageSelect">en</string>
+    <string name="txt_your_introduction">Your Introduction</string>
+
 
 
 </resources>

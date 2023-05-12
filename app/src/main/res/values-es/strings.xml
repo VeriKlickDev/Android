@@ -205,5 +205,6 @@
     <string name="txt_other">Otro</string>
     <string name="txt_no">No</string>
     <string name="txt_your_msg_here">Su mensaje aquí...</string>
-
+    <string name="languageSelect">sp</string>
+    <string name="txt_your_introduction">Tu introducción</string>
 </resources>

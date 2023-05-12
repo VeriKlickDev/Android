@@ -34,7 +34,7 @@
             android:id="@+id/tv_question"
             android:fontFamily="@font/sarabun_medium"
             android:text="hellsadklfjklasjdfkljasfd"
-            android:textSize="@dimen/_20sp"
+            android:textSize="@dimen/_17sdp"
             android:layout_marginHorizontal="@dimen/_10sp"
             android:textColor="@color/black"
             />

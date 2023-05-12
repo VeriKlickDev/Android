@@ -6,9 +6,6 @@
 
     </data>
 
-
-
-
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,7 +17,6 @@
             android:layout_height="@dimen/_52sdp"
             android:gravity="center_vertical"
             android:layout_gravity="center_vertical">
-
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/btn_hamburger"
