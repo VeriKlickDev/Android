@@ -88,7 +88,7 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
         }
 
         binding.tvHeader.setOnClickListener {
-            startActivity(Intent(requireActivity(),ActivityCandidateQuestinnaire::class.java))
+           // startActivity(Intent(requireActivity(),ActivityCandidateQuestinnaire::class.java))
         }
         setupRecyclerPagination()
         handleObserver()
