@@ -101,7 +101,7 @@ class CandidateQuestionnaireListAdapter(
                 }
             }
 
-            binding.tvQuestion.setText(data.QuestionDesc)
+            binding.tvQuestion.setText("Q${adapterPosition+1}"+". "+data.QuestionDesc)
         }
     }
 
@@ -180,7 +180,7 @@ class AnswerSubSelectionAdapter(
                 holder.binding.tvAnswer.setTextColor(context.getColor(R.color.white))
             } else if (list[position].selectedItem ==-1) {
                 holder.binding.llParent.setBackgroundResource(R.drawable.shape_rectangle_rounded_10_white)
-                holder.binding.tvAnswer.setTextColor(context.getColor(R.color.black))
+                holder.binding.tvAnswer.setTextColor(context.getColor(R.color.grey))
             }
         }catch (e:Exception)
         {
