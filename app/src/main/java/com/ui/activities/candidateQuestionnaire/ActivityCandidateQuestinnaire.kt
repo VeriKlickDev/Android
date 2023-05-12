@@ -62,7 +62,7 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
     private fun addQuestion()
     {
         var quesType="M"
-        for (i in 0..5)
+        for (i in 0..10)
         {
             if (i%2==1)
             {

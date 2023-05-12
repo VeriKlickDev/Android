@@ -18,8 +18,8 @@
             android:layout_marginTop="@dimen/_5sp"
             android:layout_marginHorizontal="@dimen/_10sp"
             android:background="@drawable/shape_rectangle_rounded_10_white"
-            android:elevation="@dimen/_5sp"
-            android:layout_marginBottom="@dimen/_10sp"
+            android:elevation="@dimen/_3sdp"
+            android:layout_marginBottom="@dimen/_5sp"
             >
 
         <androidx.appcompat.widget.LinearLayoutCompat

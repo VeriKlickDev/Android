@@ -13,14 +13,13 @@
         android:orientation="vertical"
         >
 
-
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:elevation="@dimen/_5sp"
-            android:layout_marginHorizontal="@dimen/_10sp"
-            android:layout_marginVertical="@dimen/_7sp"
+            android:elevation="@dimen/_3sdp"
+            android:layout_marginHorizontal="@dimen/_8sdp"
+            android:layout_marginVertical="@dimen/_5sp"
             android:background="@drawable/shape_rectangle_rounded_10_white">
 
             <androidx.appcompat.widget.LinearLayoutCompat
