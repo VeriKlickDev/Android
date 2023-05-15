@@ -37,12 +37,49 @@ data class Question (
     @SerializedName("QuestionType" ) var QuestionType : String?            = null,
     @SerializedName("Options"      ) var Options      : ArrayList<Options> = arrayListOf(),
   /*answer added*/  @SerializedName("Answer" ) var Answer : Options?            = null
-,@SerializedName("tab" ) var selectedTab : String?            = null
+    ,@SerializedName("tab" ) var selectedTab : String?            = null
+    ,@SerializedName("optionId" ) var optionId : String?            = null
 
 )
 
 data class QuestionList (
 
     @SerializedName("Question" ) var Question : ArrayList<Question> = arrayListOf()
+
+)
+
+data class BodyQuestionnaire (
+
+    @SerializedName("answerMasterModels" ) var answerMasterModels : ArrayList<AnswerMasterModels> = arrayListOf(),
+    @SerializedName("Message"            ) var Message            : String?                       = null,
+    @SerializedName("StatusCode"         ) var StatusCode         : String?                       = null,
+    @SerializedName("Success"            ) var Success            : Boolean?                      = null,
+    @SerializedName("TimeTaken"          ) var TimeTaken          : String?                       = null
+
+)
+
+data class AnswerMasterModels (
+
+    @SerializedName("AnswerId"      ) var AnswerId      : Int?    = null,
+    @SerializedName("TemplateId"    ) var TemplateId    : Int?    = null,
+    @SerializedName("QuestionId"    ) var QuestionId    : Int?    = null,
+    @SerializedName("OptionId"      ) var OptionId      : Int?    = null,
+    @SerializedName("AnswerDesc"    ) var AnswerDesc    : String? = null,
+    @SerializedName("CandidateId"   ) var CandidateId   : Int?    = null,
+    @SerializedName("AnswerGivenOn" ) var AnswerGivenOn : String? = null,
+    @SerializedName("Id"            ) var Id            : Int?    = null,
+    @SerializedName("Name"          ) var Name          : String? = null
+
+)
+
+data class ResponseQuestionnaireTemplate (
+
+    @SerializedName("questionierTemplates" ) var questionierTemplates : ArrayList<QuestionierTemplates> = arrayListOf()
+
+)
+data class QuestionierTemplates (
+
+    @SerializedName("TemplateName" ) var TemplateName : String? = null,
+    @SerializedName("TemplateId"   ) var TemplateId   : Int?    = null
 
 )

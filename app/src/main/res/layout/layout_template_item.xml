@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="@dimen/_16sdp"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/textview.Style.WhiteRounded_18_withoutPaddingMargin"
+            android:text="hello world"
+            android:textSize="@dimen/_20sp"
+            android:id="@+id/tv_templateName"
+            android:layout_weight="0.4"
+            android:layout_gravity="center_vertical"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_send"
+            style="@style/button.Style.lightBlue.Rounded.elevation.stroke"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:text="@string/txt_send"
+            android:textSize="@dimen/_18sdp"/>
+
+
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

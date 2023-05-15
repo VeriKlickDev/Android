@@ -20,10 +20,8 @@ import com.data.*
 import com.data.cryptoJs.CryptoJsHelper
 import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.dataHolders.DataStoreHelper
-import com.domain.BaseModels.BodyCandidateList
-import com.domain.BaseModels.BodySMSCandidate
-import com.domain.BaseModels.CurrentVideoUserModel
-import com.domain.BaseModels.SavedProfileDetail
+import com.domain.BaseModels.*
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.ui.activities.candidateQuestionnaire.ActivityCandidateQuestinnaire
 import com.ui.activities.login.LoginActivity
@@ -33,14 +31,11 @@ import com.ui.activities.upcomingMeeting.audioRecord.AudioMainActivity
 import com.ui.activities.upcomingMeeting.audioRecord.PlayActivity
 import com.ui.listadapters.CandidateListAdapter
 import com.veriKlick.R
-import com.veriKlick.databinding.FragmentCandidateListBinding
-import com.veriKlick.databinding.LayoutCandidatelistDescriptionDialogBinding
-import com.veriKlick.databinding.LayoutDescriptionDialogBinding
-import com.veriKlick.databinding.LayoutItemSenderChatBinding
-import com.veriKlick.databinding.LayoutSendSmsDialogBinding
+import com.veriKlick.databinding.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.xml.transform.Templates
 
 class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment() {
     lateinit var binding: FragmentCandidateListBinding
@@ -77,7 +72,8 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
                         handleCall(data)
                     }
                     3 -> {
-                        handleSMS(data)
+                        //handleSMS(1,data)
+                        showtemplateBottomsheet(data)
                     }
                 }
             })
@@ -93,6 +89,10 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
         setupRecyclerPagination()
         handleObserver()
         getCandidateList()
+        CoroutineScope(Dispatchers.IO+ exceptionHandler).launch {
+            getTemplateList(DataStoreHelper.getMeetingRecruiterid())
+        }
+
         return binding.root
     }
 
@@ -101,22 +101,28 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
         Log.d(TAG, "handleCall: candidate id ${data.id.toString()}")
     }
 
-    private fun handleSMS(data: SavedProfileDetail) {
+    private fun handleSMS(action:Int,data: SavedProfileDetail) {
         try {
             CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
                 val obj = BodySMSCandidate()
                 obj.Subscriberid = DataStoreHelper.getMeetingUserId()
                 obj.userid = DataStoreHelper.getMeetingRecruiterid().toInt()
-                var firstName = data.Name?.substring(0, data.Name?.indexOf(" ")!!.toInt())
-                var lastName =
-                    data.Name?.substring(data.Name?.indexOf(" ")!!.toInt() + 2, data?.Name!!.length)
-                obj.FirstName = firstName
-                obj.LastName = lastName
+
+                //var firstName = data.Name?.substring(0, data.Name?.indexOf(" ")!!.toInt())
+                //var lastName =data.Name?.substring(data.Name?.indexOf(" ")!!.toInt() + 2, data?.Name!!.length)
                 obj.UserEmailid = data.Email
                 obj.ReceiverNumber = data.Phone
-                showSendSmsCandidate(obj, data)
+                when(action)
+                {
+                    1->{
+                        showSendSmsCandidate(obj, data)
+                    }
+                    2->{
+                        //obj.recieverId=data.Id
+                        obj.MessageText="QAL"
 
-
+                    }
+                }
             }
         } catch (e: Exception) {
             requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
@@ -157,6 +163,55 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
             dialog.create()
             dialog.show()
 
+        }
+    }
+
+    private val templateList= mutableListOf<QuestionierTemplates>()
+    private var adapterTemplate:TemplatesListAdapter?=null
+    private fun showtemplateBottomsheet(savedProfile: SavedProfileDetail)
+    {
+
+
+        val dialog= BottomSheetDialog(requireActivity(),R.style.AppBottomSheetDialogTheme)
+        val dialogbinding= LayoutChooseQuestionTemplateBinding.inflate(LayoutInflater.from(requireActivity()))
+        dialog.setContentView(dialogbinding.root)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialogbinding.rvTemplates.layoutManager=LinearLayoutManager(requireActivity())
+        adapterTemplate=TemplatesListAdapter(requireActivity(),templateList){data, action, pos ->
+        when(action)
+        {
+            1->{
+                handleSMS(2,savedProfile)
+            }
+        }
+        }
+        dialogbinding.rvTemplates.adapter=adapterTemplate
+
+        dialog.create()
+        dialog.show()
+
+    }
+
+    private fun getTemplateList(recruiterId:String)
+    {
+        try{
+            viewModel.getQuestionnaireList(recruiterId){data, isSuccess, errorCode, msg ->
+            if (isSuccess)
+            {
+                templateList.clear()
+                templateList.addAll(data?.questionierTemplates!!)
+                requireActivity().runOnUiThread {
+                    adapterTemplate?.notifyDataSetChanged()
+                }
+            }else{
+                requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+            }
+            }
+
+        }catch (e:Exception)
+        {
+            Log.e(TAG, "getTemplateList: exception 210 ${e.message}", )
         }
     }
 

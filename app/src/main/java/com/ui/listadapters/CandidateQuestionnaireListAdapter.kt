@@ -84,6 +84,7 @@ class CandidateQuestionnaireListAdapter(
                         1->{
                             val ob=data.Options[pos]
                             data.Answer=ob
+                            data.optionId=subdata.OptionId.toString()
                             list.set(adapterPosition,data)
                         }
                     }
@@ -96,7 +97,7 @@ class CandidateQuestionnaireListAdapter(
                 binding.etOther.isVisible=true
                 binding.rvAnswers.isVisible=false
                 binding.etOther.doOnTextChanged { text, start, before, count ->
-                    data.Answer=Options(101,text.toString())
+                    data.Answer=Options(0,text.toString())
                     list.set(adapterPosition,data)
                 }
             }

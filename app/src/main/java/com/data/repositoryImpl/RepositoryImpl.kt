@@ -146,12 +146,16 @@ class RepositoryImpl @Inject constructor(
         return baseRestApi.createCandidate(ob)
     }
 
-    override suspend fun getQuestionnaireTemplateList(recruiterId: String): Response<List<ResponseState>> {
+    override suspend fun getQuestionnaireTemplateList(recruiterId: String): Response<ResponseQuestionnaireTemplate> {
         return baseRestApi.getQuestionnaireTemplateList(recruiterId)
     }
 
-    override suspend fun getQuestionnaireList(authToken:String,templateId: String): Response<ResponseQuestionnaire> {
-        return baseRestApi.getQuestionnaireList(authToken,templateId)
+    override suspend fun getQuestionnaireList(templateId: String): Response<ResponseQuestionnaire> {
+        return baseRestApi.getQuestionnaireList(templateId)
+    }
+
+    override suspend fun postQuestionnaire(ob: BodyQuestionnaire): Response<BodyQuestionnaire> {
+        return baseRestApi.postQuestionnaire(ob)
     }
 
     override suspend fun getCountryNamesList(): Response<List<ResponseCountryName>> {
