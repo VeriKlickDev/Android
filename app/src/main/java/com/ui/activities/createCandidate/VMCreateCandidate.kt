@@ -57,6 +57,7 @@ class VMCreateCandidate @Inject constructor(val baseRestApi: BaseRestApi) : View
         CoroutineScope(Dispatchers.IO + exceptionHandler)
             .launch {
                 try {
+
                     val response=baseRestApi.getCountryCodeList()
                     //val authToken= DataStoreHelper.getLoginAuthToken()
                     //Log.d(TAG, "getCandidateList: token in upviewmodel $authToken")

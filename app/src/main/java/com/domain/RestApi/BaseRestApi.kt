@@ -114,8 +114,12 @@ interface BaseRestApi {
     @POST("/api/JobSeeker")
     suspend fun createCandidate(@Body ob:BodyCreateCandidate):Response<String>
 
+    @GET("/api/Questionier/GetRecruiterTemplate/{RecruiterId}")
+    suspend fun getQuestionnaireTemplateList(@Query("RecruiterId") recruiterId:String):Response<List<ResponseState>>
+
+    @GET("/api/Questionier/GetQuestionier/{templateId}")
+    suspend fun getQuestionnaireList(@Header("Authorization")token: String,@Query("templateId") templateId:String):Response<ResponseQuestionnaire>
 
 }
-
 
 //@GET("/api/ScheduleVideo/GetInterviewUserDetails/{VideoAccessCode}")

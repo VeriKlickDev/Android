@@ -50,12 +50,39 @@
 
         <activity
             android:name="com.ui.activities.candidateQuestionnaire.ActivityCandidateQuestinnaire"
-            android:exported="false"
+            android:exported="true"
             android:screenOrientation="portrait"
             >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
+
+            <intent-filter
+                android:autoVerify="true"
+                android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data
+                    android:host="ui2.veriklick.in"
+                    android:pathPrefix="/CandidateQuestionierAnswer/QuestionsForm"
+                    android:scheme="https" />
+            </intent-filter>
+
+            <intent-filter
+                android:autoVerify="true"
+                android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data
+                    android:host="ui2.veriklick.in"
+                    android:pathPrefix="/CandidateQuestionierAnswer/QuestionsForm"
+                    android:scheme="http" />
+            </intent-filter>
+
         </activity>
         <activity
             android:name="com.ui.activities.createCandidate.ActivityCreateCandidate"

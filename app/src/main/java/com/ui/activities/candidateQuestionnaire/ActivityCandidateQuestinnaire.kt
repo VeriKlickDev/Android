@@ -2,6 +2,7 @@ package com.ui.activities.candidateQuestionnaire
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,6 +34,14 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
         }
         binding?.rvQuestions?.layoutManager=LinearLayoutManager(this)
         binding?.rvQuestions?.adapter=questionAdapter
+
+        val deepLinkingIntent = intent
+        val schemestr=deepLinkingIntent.scheme
+        val pathstr=deepLinkingIntent.data!!.path
+
+        Log.d("TAG", "onCreate: deeplink $deepLinkingIntent $schemestr $pathstr")
+
+
         addQuestion()
         binding?.btnSubmit?.setOnClickListener {
             getAllQuestionsList()
