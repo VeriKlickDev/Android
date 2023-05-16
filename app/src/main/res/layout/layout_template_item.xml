@@ -15,6 +15,9 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginHorizontal="@dimen/_16sdp"
+            android:paddingLeft="@dimen/_10sp"
+            android:background="@drawable/shape_rectangle_rounded_stroke_grey"
+            android:layout_marginBottom="@dimen/_10sp"
             >
 
             <TextView
@@ -40,13 +43,7 @@
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="1sp"
-            android:background="@color/light_grey"
-            android:layout_marginTop="@dimen/_5sp"
-            android:layout_marginHorizontal="@dimen/_16sdp"
-            />
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
