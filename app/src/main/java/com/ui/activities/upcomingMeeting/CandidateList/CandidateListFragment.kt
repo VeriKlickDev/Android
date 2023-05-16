@@ -102,6 +102,7 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
 
     private fun handleCall(data: SavedProfileDetail) {
         data.id.toString()
+        requireActivity().showCustomSnackbarOnTop("under progress")
         Log.d(TAG, "handleCall: candidate id ${data.id.toString()}")
     }
 
@@ -152,7 +153,6 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
                    sendMessage(obj)
                }
            })
-
            alertDialog.setTitle(getString(R.string.txt_do_you_want_to_send_sms))
            alertDialog.create()
            alertDialog.show()
