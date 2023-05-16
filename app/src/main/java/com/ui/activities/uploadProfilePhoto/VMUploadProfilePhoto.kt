@@ -18,7 +18,7 @@ import javax.inject.Inject
 class VMUploadProfilePhoto @Inject constructor(val loginRestApi: LoginRestApi,val baseRestApi: BaseRestApi) : ViewModel() {
 
 
-    fun updateUserImage(ob:BodyCandidateImageModel, respnse:(isSuccess:Boolean, code:Int, msg:String)->Unit)
+    fun updateUserImageFresh(ob:BodyCandidateImageModel, respnse:(isSuccess:Boolean, code:Int, msg:String)->Unit)
     {
         CoroutineScope(Dispatchers.IO + exceptionHandler)
             .launch {
@@ -54,6 +54,42 @@ class VMUploadProfilePhoto @Inject constructor(val loginRestApi: LoginRestApi,va
             }
     }
 
+
+    fun updateUserImageWithoutAuth(ob:BodyCandidateImageModel, respnse:(isSuccess:Boolean, code:Int, msg:String)->Unit)
+    {
+        CoroutineScope(Dispatchers.IO + exceptionHandler)
+            .launch {
+                try {
+
+                    val authToken=DataStoreHelper.getLoginBearerToken()
+                    val response = baseRestApi.updateFreshUserImageWithoutAuth(ob)
+                    if (response.isSuccessful)
+                    {
+                        when (response.code()) {
+                            200 -> {
+                                respnse(true,200,response.body()!!.message.toString())
+                            }
+                            401 -> {
+                                respnse(false,401,response.body()!!.message.toString())
+                            }
+                            400 -> {
+                                respnse(false,400,response.body()!!.message.toString())
+                            }
+                            500 -> {
+                                respnse(false,500,response.body()!!.message.toString())
+                            }
+                            501 -> {
+                                respnse(false,501,response.body()!!.message.toString())
+                            }
+                        }
+                    } else {
+                        respnse(false,503,"Response not success")
+                    }
+                } catch (e: Exception) {
+                    respnse(false,502,e.message.toString())
+                }
+            }
+    }
 
     /*                    var filee= File(finalUserImage?.path)
          var imgPart=MultipartBody.Part.createFormData(

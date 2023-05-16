@@ -221,28 +221,34 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                    // binding.ivUploadImage.setImageBitmap(imageBitmap)
                     var imageName=subsId+"/IMG_${System.currentTimeMillis()}.png"
                     Log.d(TAG, "uploadProfilePhoto: image name $imageName")
-                    viewModel?.updateUserImage(BodyCandidateImageModel(image,subsId+"/IMG_${System.currentTimeMillis()}.png","upload")){isSuccess, code, msg ->
+                    viewModel?.updateUserImageWithoutAuth(BodyCandidateImageModel(image,subsId+"/IMG_${System.currentTimeMillis()}.png","upload")){isSuccess, code, msg ->
                     when(code)
                     {
                         200->{
                             Log.d(TAG, "uploadProfilePhoto: $msg")
+                            showCustomSnackbarOnTop(msg)
                         }
                         400->{
+                            showCustomSnackbarOnTop(msg)
                             Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                         }
                         401->{
+                            showCustomSnackbarOnTop(msg)
                             Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                         }
                         500->{
+                            showCustomSnackbarOnTop(msg)
                             Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                         }
                         501->{
+                            showCustomSnackbarOnTop(msg)
                             Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                         }
                         404->{
                             Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                         }
                         503->{
+                            showCustomSnackbarOnTop(msg)
                             Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                         }
 

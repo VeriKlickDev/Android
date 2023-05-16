@@ -190,6 +190,10 @@ class RepositoryImpl @Inject constructor(
         return loginRestApi.updateFreshUserImage(token,ob)
     }
 
+    override suspend fun updateFreshUserImageWithoutAuth(ob: BodyCandidateImageModel): Response<ResponseCandidateImageModel> {
+        return baseRestApi.updateFreshUserImageWithoutAuth(ob)
+    }
+
     override suspend fun updateUserResume(token: String,ob: BodyCandidateResume,filePart:MultipartBody.Part): Response<ResponseCandidateResume> {
         return loginRestApi.updateUserResume(token,ob,filePart)
     }
