@@ -203,15 +203,11 @@
     <string name="txt_no">Non</string>
     <string name="txt_your_msg_here">Votre message ici...</string>
     <string name="languageSelect">fr</string>
-    <string name="txt_say_Introduction">Dire l'introduction</string>
+    <string name="txt_say_Introduction">Dire l\'introduction</string>
 
-
-    <string name="failed_to_send_message">Échec de l'envoi du SMS</string>
+    <string name="failed_to_send_message">Échec de l\'envoi du SMS</string>
     <string name="txt_do_you_want_to_send_sms">Voulez-vous envoyer des SMS ?</string>
     <string name="txt_custom_sms">SMS personnalisés</string>
     <string name="txt_templates">Modèles</string>
-
-
-
 
 </resources>
