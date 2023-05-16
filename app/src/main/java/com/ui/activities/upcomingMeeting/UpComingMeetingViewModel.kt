@@ -541,7 +541,7 @@ class UpComingMeetingViewModel @Inject constructor(
         CoroutineScope(Dispatchers.IO + exceptionHandler)
             .launch {
                 try {
-                    val authToken= DataStoreHelper.getLoginBearerToken()
+                    val authToken= DataStoreHelper.getLoginAuthToken()
                     val response=baseRepoApi.sendSMSToCandidate(bodySMSCandidate,authToken)
                     if (response.isSuccessful) {
                         when (response.code()) {
@@ -549,20 +549,20 @@ class UpComingMeetingViewModel @Inject constructor(
                                 respnse(response.body()!!,true,200,response?.body()!!.ResponseMessage.toString())
                             }
                             401 -> {
-                                respnse(null,false,401,"")
+                                respnse(null,false,401,response.body()?.ErrorMessage.toString())
                             }
                             400 -> {
-                                respnse(null,false,400,"")
+                                respnse(null,false,400,response.body()?.ErrorMessage.toString())
                             }
                             500 -> {
-                                respnse(null,false,500,"")
+                                respnse(null,false,500,response.body()?.ErrorMessage.toString())
                             }
                             501 -> {
-                                respnse(null,false,501,"")
+                                respnse(null,false,501,response.body()?.ErrorMessage.toString())
                             }
                         }
                     } else {
-                        respnse(null,false,502,"Response not success")
+                        respnse(null,false,502,"")
                     }
                 } catch (e: Exception) {
                     respnse(null,false,503,e.message.toString())

@@ -13,7 +13,8 @@ data class BodySMSCandidate (
    // @SerializedName("FirstName"      ) var FirstName      : String? = null,
    // @SerializedName("LastName"       ) var LastName       : String? = null,
     @SerializedName("Language"       ) var language       : String? = null,
-    @SerializedName("ReceiverID"       ) var recieverId       : String? = null
+    @SerializedName("ReceiverID"       ) var recieverId       : String? = null,
+    @SerializedName("TemplateId"       ) var templateId       : String? = null,
 
 )
 

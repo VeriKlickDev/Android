@@ -118,7 +118,7 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
                     obj.QuestionId=it.QuestionId
                     obj.AnswerDesc=it.Answer?.OptionDesc.toString()
                     obj.OptionId=it.Answer?.OptionId.toString().toInt()
-                    obj.AnswerId=it.Answer?.OptionId?.toInt()
+                   // obj.AnswerId=it.Answer?.OptionId?.toInt()
                     obj.TemplateId=templateId.toString().toInt()
                     obj.AnswerGivenOn=getCurrentUtcFormatedDate()
                     answerList.add(obj)
@@ -143,29 +143,6 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
         }
 
     }
-    private fun addQuestion()
-    {
-        var quesType="M"
-        for (i in 0..10)
-        {
-            if (i%2==1)
-            {
-                questionList.add(Question(i,"what is $i in range","D",getOptions()))
-            }else
-            {
-                questionList.add(Question(i,"what is $i in range","M",getOptions()))
-            }
-        }
 
-        questionAdapter?.notifyDataSetChanged()
-    }
-
-    private fun getOptions():ArrayList<Options>
-    {
-        val listt= arrayListOf<Options>()
-        for (i in 0..3)
-            listt.add(Options(i,"option $i"))
-        return listt
-    }
 
 }

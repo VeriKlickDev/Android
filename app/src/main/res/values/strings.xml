@@ -207,7 +207,7 @@
     <string name="txt_question">Question</string>
     <string name="languageSelect">en</string>
     <string name="txt_your_introduction">Your Introduction</string>
-
+    <string name="failed_to_send_message">Failed to send SMS</string>
 
 
 </resources>

@@ -7,22 +7,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.domain.BaseModels.QuestionierTemplates
 import com.veriKlick.databinding.LayoutTemplateItemBinding
 
-class TemplatesListAdapter(val context: Context,val list:List<QuestionierTemplates>,val onclick:(data:QuestionierTemplates,action:Int,pos:Int)->Unit) : RecyclerView.Adapter<TemplatesListAdapter.ViewHolderClass>() {
+class TemplatesListAdapter(
+    val context: Context,
+    val list: List<QuestionierTemplates>,
+    val onclick: (data: QuestionierTemplates, action: Int, pos: Int) -> Unit
+) : RecyclerView.Adapter<TemplatesListAdapter.ViewHolderClass>() {
 
-inner class ViewHolderClass(val binding: LayoutTemplateItemBinding) :RecyclerView.ViewHolder(binding.root)
-{
-fun dataBind(data: QuestionierTemplates)
-{
-    binding.btnSend.setOnClickListener {
-        onclick(data,1,adapterPosition)
+    inner class ViewHolderClass(val binding: LayoutTemplateItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun dataBind(data: QuestionierTemplates) {
+            binding.btnSend.setOnClickListener {
+                onclick(data, 1, adapterPosition)
+            }
+            binding.tvTemplateName.setText(data.TemplateName)
+        }
     }
-    binding.tvTemplateName.setText(data.TemplateName)
-
-}
-}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass {
-        val binding=LayoutTemplateItemBinding.inflate(LayoutInflater.from(context),parent,false)
+        val binding = LayoutTemplateItemBinding.inflate(LayoutInflater.from(context), parent, false)
         return ViewHolderClass(binding)
     }
 
@@ -31,6 +33,6 @@ fun dataBind(data: QuestionierTemplates)
     }
 
     override fun getItemCount(): Int {
-     return list .size
+        return list.size
     }
 }

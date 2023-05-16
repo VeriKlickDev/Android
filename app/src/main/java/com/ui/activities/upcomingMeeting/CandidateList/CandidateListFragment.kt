@@ -74,6 +74,7 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
                     3 -> {
                         //handleSMS(1,data)
                         showtemplateBottomsheet(data)
+
                     }
                 }
             })
@@ -101,7 +102,7 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
         Log.d(TAG, "handleCall: candidate id ${data.id.toString()}")
     }
 
-    private fun handleSMS(action:Int,data: SavedProfileDetail) {
+    private fun handleSMS(action:Int,data: SavedProfileDetail,templateId:Int?) {
         try {
             CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
                 val obj = BodySMSCandidate()
@@ -111,16 +112,21 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
                 //var firstName = data.Name?.substring(0, data.Name?.indexOf(" ")!!.toInt())
                 //var lastName =data.Name?.substring(data.Name?.indexOf(" ")!!.toInt() + 2, data?.Name!!.length)
                 obj.UserEmailid = data.Email
-                obj.ReceiverNumber = data.Phone
+                obj.email=data.Email
+
+                obj.ReceiverNumber = "+"+data.Countrycode.toString()+data.Phone
                 when(action)
                 {
                     1->{
+                        obj.language=getString(R.string.languageSelect)
                         showSendSmsCandidate(obj, data)
                     }
                     2->{
                         //obj.recieverId=data.Id
                         obj.MessageText="QAL"
-
+                        obj.recieverId=data.id.toString()
+                        obj.templateId=templateId.toString()
+                        sendMessage(obj)
                     }
                 }
             }
@@ -129,7 +135,28 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
         }
     }
 
-    fun showSendSmsCandidate(obj: BodySMSCandidate, data: SavedProfileDetail) {
+    private fun sendMessage(obj: BodySMSCandidate)
+    {
+        Log.d(TAG, "sendMessage: send object $obj jsonobject ${Gson().toJson(obj)}")
+
+        viewModel?.sendProfileLink(obj) { data, isSuccess, errorCode, msg ->
+            if (isSuccess) {
+                requireActivity().showCustomSnackbarOnTop(data?.ResponseMessage.toString())
+            }
+            else
+            {
+                if (errorCode!=502)
+                {
+                    requireActivity().showCustomSnackbarOnTop(msg)
+                }else{
+                    requireActivity().showCustomSnackbarOnTop(getString(R.string.failed_to_send_message))
+                }
+
+            }
+        }
+    }
+
+    private fun showSendSmsCandidate(obj: BodySMSCandidate, data: SavedProfileDetail) {
         requireActivity().runOnUiThread {
             val dialog = Dialog(requireActivity())
 
@@ -182,7 +209,8 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
         when(action)
         {
             1->{
-                handleSMS(2,savedProfile)
+                handleSMS(2,savedProfile,data.TemplateId)
+                dialog.dismiss()
             }
         }
         }
