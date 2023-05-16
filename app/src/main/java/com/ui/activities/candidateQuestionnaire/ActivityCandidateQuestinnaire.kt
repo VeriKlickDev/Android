@@ -96,7 +96,6 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
 
     private fun postQuestionnaire()
     {
-        showCustomSnackbarOnTop("Success")
         val deepLinkingIntent = intent
         val pathstr=deepLinkingIntent.data!!.path
 

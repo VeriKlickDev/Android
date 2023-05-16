@@ -208,6 +208,7 @@
     <string name="languageSelect">en</string>
     <string name="txt_your_introduction">Your Introduction</string>
     <string name="failed_to_send_message">Failed to send SMS</string>
+    <string name="txt_do_you_want_to_send_sms">Do you want to send SMS?</string>
 
 
 </resources>

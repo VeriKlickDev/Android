@@ -1,6 +1,8 @@
 package com.ui.activities.upcomingMeeting.CandidateList
 
+import android.app.AlertDialog
 import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -126,7 +128,7 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
                         obj.MessageText="QAL"
                         obj.recieverId=data.id.toString()
                         obj.templateId=templateId.toString()
-                        sendMessage(obj)
+                        alertDialogForSendingSMS(obj)
                     }
                 }
             }
@@ -134,6 +136,28 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
             requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
         }
     }
+
+    private fun alertDialogForSendingSMS(obj: BodySMSCandidate)
+    {
+       requireActivity().runOnUiThread {
+           val alertDialog=AlertDialog.Builder(requireContext())
+           alertDialog.setNegativeButton(getString(R.string.txt_no),object : DialogInterface.OnClickListener {
+               override fun onClick(dialog: DialogInterface?, which: Int) {
+
+               }
+           })
+           alertDialog.setPositiveButton(getString(R.string.txt_yes),object : DialogInterface.OnClickListener {
+               override fun onClick(dialog: DialogInterface?, which: Int) {
+                   sendMessage(obj)
+               }
+           })
+
+           alertDialog.setTitle(getString(R.string.txt_do_you_want_to_send_sms))
+           alertDialog.create()
+           alertDialog.show()
+       }
+    }
+
 
     private fun sendMessage(obj: BodySMSCandidate)
     {
@@ -151,7 +175,6 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
                 }else{
                     requireActivity().showCustomSnackbarOnTop(getString(R.string.failed_to_send_message))
                 }
-
             }
         }
     }
