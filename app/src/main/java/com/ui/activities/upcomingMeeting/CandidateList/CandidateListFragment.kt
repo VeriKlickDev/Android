@@ -68,14 +68,15 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
             CandidateListAdapter(requireActivity(), arrayListOf(), onClick = { data, action ->
                 when (action) {
                     1 -> {
-                        handleContextMenuforItem(data)
+                        showtemplateBottomsheet(data)
+                        //handleContextMenuforItem(data)
                     }
                     2 -> {
                         handleCall(data)
                     }
                     3 -> {
-                        //handleSMS(1,data)
-                        showtemplateBottomsheet(data)
+                        handleSMS(1,data,null)
+                        //showtemplateBottomsheet(data)
 
                     }
                 }
@@ -200,13 +201,29 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
             dialogBinding.btnSend.setOnClickListener {
                 if (!dialogBinding.etsms.text.toString().equals("")) {
                     obj.MessageText = dialogBinding.etsms.text.toString()
+                    requireActivity().runOnUiThread {
+                        requireActivity().showProgressDialog()
+                    }
+                    dialog.dismiss()
                     viewModel?.sendProfileLink(obj) { data, isSuccess, errorCode, msg ->
                         if (isSuccess) {
+                            requireActivity().runOnUiThread {
+                                requireActivity().dismissProgressDialog()
+                            }
                             requireActivity().showCustomSnackbarOnTop(data?.ResponseMessage.toString())
+                        }else
+                        {
+                            requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+                            requireActivity().runOnUiThread {
+                                requireActivity().dismissProgressDialog()
+                            }
                         }
                     }
                     Log.d("TAG", "postData: sending sms is ${Gson().toJson(obj)}")
                 } else {
+                    requireActivity().runOnUiThread {
+                        requireActivity().dismissProgressDialog()
+                    }
                     Log.d(TAG, "handleSMS: blank")
                 }
             }
@@ -220,8 +237,6 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
     private var adapterTemplate:TemplatesListAdapter?=null
     private fun showtemplateBottomsheet(savedProfile: SavedProfileDetail)
     {
-
-
         val dialog= BottomSheetDialog(requireActivity(),R.style.AppBottomSheetDialogTheme)
         val dialogbinding= LayoutChooseQuestionTemplateBinding.inflate(LayoutInflater.from(requireActivity()))
         dialog.setContentView(dialogbinding.root)

@@ -159,10 +159,10 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                          startActivity(Intent(this,ActivityCreateCandidate::class.java))
                      },200)
                  }
-                R.id.navdrawerQuestonnaireScreen -> {
+                /*R.id.navdrawerQuestonnaireScreen -> {
                     closeDrawer()
                     startActivity(Intent(this,ActivityCandidateQuestinnaire::class.java))
-                }
+                }*/
             }
             true
         }

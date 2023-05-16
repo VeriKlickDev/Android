@@ -30,9 +30,4 @@
         android:id="@+id/navdrawercreateCandidate"
         android:title="@string/txt_create_candidate" />
 
-    <item
-        android:id="@+id/navdrawerQuestonnaireScreen"
-        android:title="QuestionnaireScreen" />
-
-
 </menu>
