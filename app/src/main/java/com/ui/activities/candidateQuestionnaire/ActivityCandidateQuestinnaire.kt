@@ -2,13 +2,12 @@ package com.ui.activities.candidateQuestionnaire
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.data.getCurrentUtcFormatedDate
-import com.data.showCustomSnackbarOnTop
-import com.data.showCustomToast
+import com.data.*
 import com.domain.BaseModels.*
 import com.google.gson.Gson
 import com.ui.listadapters.CandidateQuestionnaireListAdapter
@@ -55,19 +54,20 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
             val accessToken=pathlist?.get(pathlist!!.size-1)
             val candidateId=pathlist?.get(3)
             val templateId=pathlist?.get(4)
-
+            runOnUiThread { showProgressDialog() }
             viewModel?.getQuestionnaireList(templateId.toString(),accessToken.toString()){data, isSuccess, errorCode, msg ->
                 if (isSuccess)
                 {
                     //val list=data?.QuestionList
+                    runOnUiThread { dismissProgressDialog() }
                     runOnUiThread {
                         questionList.addAll(data?.QuestionList?.get(0)?.Question!!)
                         questionAdapter?.notifyDataSetChanged()
                     }
-
                 }else
                 {
                     runOnUiThread {
+                        runOnUiThread { dismissProgressDialog() }
                         showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
                     }
                 }
@@ -130,9 +130,21 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
             Log.d("TAG", "postQuestionnaire: final model ${Gson().toJson(answerList)}")
 
             bodyQuestionnaire.answerMasterModels.addAll(answerList)
+            runOnUiThread { showProgressDialog() }
+
             viewModel?.postQuestionnaires(bodyQuestionnaire){data, isSuccess, errorCode, msg ->
                runOnUiThread {
-                   showCustomSnackbarOnTop(msg)
+                   if (isSuccess)
+                   {
+                       showCustomSnackbarOnTop(msg)
+
+                       runOnUiThread { dismissProgressDialog() }
+                       if (isSuccess){
+                           setHandler().postDelayed(Runnable {
+                               finish()
+                           },2000)
+                       }
+                   }
                }
             }
 
