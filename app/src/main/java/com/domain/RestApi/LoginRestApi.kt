@@ -33,6 +33,11 @@ interface LoginRestApi {
     @POST("/api/v1/Account/UpdateImage")
     suspend fun updateFreshUserImage(@Header ("Authorization")auth:String, @Body ob: BodyCandidateImageModel):Response<ResponseCandidateImageModel>
 
+    //@Multipart
+    @POST("/api/v1/Account/UpdateImageWithoutAuth")
+    suspend fun updateFreshUserImageWithoutAuth( @Body ob: BodyCandidateImageModel):Response<ResponseCandidateImageModel>
+//@Header ("Authorization")auth:String,
+
     @Multipart
     @POST("v1/Account/GetVKUserProfileImage")
     suspend fun updateUserResume(@Header("Authorization")auth:String, @Body ob: BodyCandidateResume,@Part resumePart:MultipartBody.Part):Response<ResponseCandidateResume>

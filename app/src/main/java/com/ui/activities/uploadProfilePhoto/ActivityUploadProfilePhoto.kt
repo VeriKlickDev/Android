@@ -251,6 +251,10 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                             showCustomSnackbarOnTop(msg)
                             Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                         }
+                        502->{
+                            showCustomSnackbarOnTop(msg)
+                            Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
+                        }
 
                     }
                     }

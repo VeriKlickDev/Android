@@ -123,11 +123,6 @@ interface BaseRestApi {
     @POST("/api/Questionier/SaveQuestionierAnswers")
     suspend fun postQuestionnaire(@Body ob:BodyQuestionnaire):Response<BodyQuestionnaire>
 
-    @Multipart
-    @POST("/api/v1/Account/UpdateImageWithoutAuth")
-    suspend fun updateFreshUserImageWithoutAuth( @Body ob: BodyCandidateImageModel):Response<ResponseCandidateImageModel>
-//@Header ("Authorization")auth:String,
-
 }
 
 //@GET("/api/ScheduleVideo/GetInterviewUserDetails/{VideoAccessCode}")

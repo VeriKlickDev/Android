@@ -62,7 +62,7 @@ class VMUploadProfilePhoto @Inject constructor(val loginRestApi: LoginRestApi,va
                 try {
 
                     val authToken=DataStoreHelper.getLoginBearerToken()
-                    val response = baseRestApi.updateFreshUserImageWithoutAuth(ob)
+                    val response = loginRestApi.updateFreshUserImageWithoutAuth(ob)
                     if (response.isSuccessful)
                     {
                         when (response.code()) {
