@@ -1,9 +1,13 @@
 package com.ui.activities.createCandidate
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 
 import android.widget.AdapterView
@@ -18,6 +22,8 @@ import com.domain.BaseModels.*
 import com.google.gson.Gson
 import com.veriKlick.R
 import com.veriKlick.databinding.ActivityCreateCandidateBinding
+import com.veriKlick.databinding.LayoutChooseLanguageDialogBinding
+import com.veriKlick.databinding.LayoutSendSmsDialogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -110,6 +116,90 @@ class ActivityCreateCandidate : AppCompatActivity() {
     }
 
 
+    private fun chooseLanguage(obj:BodySMSCandidate)
+    {
+        this.runOnUiThread {
+            val dialog = Dialog(this)
+
+            val dialogBinding =
+                LayoutChooseLanguageDialogBinding.inflate(LayoutInflater.from(this))
+            dialog.setContentView(dialogBinding.root)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialogBinding.btnCross.setOnClickListener {
+                dialog.dismiss()
+            }
+            val language= mutableListOf<String>()
+            val languageStringList= mutableListOf<ModelLanguageSelect>()
+
+
+            languageStringList.add(ModelLanguageSelect(getString(R.string.txt_english),"en"))
+            languageStringList.add(ModelLanguageSelect(getString(R.string.txt_spanish),"es"))
+            languageStringList.add(ModelLanguageSelect(getString(R.string.txt_french),"fr"))
+
+            language.add(getString(R.string.txt_select_language))
+            language.add(getString(R.string.txt_english))
+            language.add(getString(R.string.txt_spanish))
+            language.add(getString(R.string.txt_french))
+            var selectedLanguage:String?=null
+            CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+                runOnUiThread {
+
+                    // dialogBinding.tvUsername.setText(data.Name)
+
+                    val langAdapter = getArrayAdapterOneItemSelected(language)
+                    dialogBinding.spinnerLanguage.onItemSelectedListener =
+                        object : OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: View?,
+                                position: Int,
+                                id: Long
+                            ) {
+                                if (position != 0) {
+                                    languageStringList.forEach {
+                                        if (it.language.equals(language[position]))
+                                        {
+                                            selectedLanguage = it.langCode
+                                        }
+                                    }
+
+                                }
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                            }
+
+                        }
+
+                    dialogBinding.spinnerLanguage.adapter = langAdapter
+
+                    dialogBinding.btnSubmitButton.setOnClickListener {
+                        if (selectedLanguage!=null)
+                        {
+                            dialog.dismiss()
+                            obj.language=selectedLanguage
+                            viewModel?.sendProfileLink(obj){data, isSuccess, errorCode, msg ->
+                            if (isSuccess)
+                            {
+                                showCustomSnackbarOnTop(data?.ResponseMessage.toString())
+                            }
+                        }
+                        }else
+                        {
+                            showCustomSnackbarOnTop(getString(R.string.txt_please_select_language))
+                        }
+                    }
+                }
+
+            }
+
+            dialog.create()
+            dialog.show()
+
+        }
+        
+    }
 
     private fun handleTextWatcher()
     {
@@ -168,12 +258,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                 obj.MessageText="SPL"
                 obj.ReceiverNumber=iscountryCode+binding.etPhoneno.text.toString()
                 Log.d("TAG", "postData: sending sms is ${Gson().toJson(obj)}")
-                viewModel?.sendProfileLink(obj){data, isSuccess, errorCode, msg ->
-                    if (isSuccess)
-                    {
-                        showCustomSnackbarOnTop(data?.ResponseMessage.toString())
-                    }
-                }
+               chooseLanguage(obj)
             }
 
         }catch (e:Exception)

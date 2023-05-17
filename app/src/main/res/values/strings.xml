@@ -216,4 +216,12 @@
     <string name="txt_are_you_sure">Are you sure?</string>
 
 
+    <string name="txt_choose_language">Choose language</string>
+    <string name="txt_please_select_language">please Select language first</string>
+    <string name="txt_select_language">Select language</string>
+    <string name="txt_english">English</string>
+    <string name="txt_spanish">Spanish</string>
+    <string name="txt_french">French</string>
+
+
 </resources>

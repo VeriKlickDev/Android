@@ -212,4 +212,11 @@
 
 
     <string name="txt_are_you_sure">Es-tu sûr?</string>
+
+    <string name="txt_english">Anglais</string>
+    <string name="txt_spanish">espagnol</string>
+    <string name="txt_french">français</string>
+
+
+
 </resources>

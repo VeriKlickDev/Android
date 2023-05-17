@@ -138,6 +138,8 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
         }
     }
 
+
+
     private fun alertDialogForSendingSMS(obj: BodySMSCandidate)
     {
        requireActivity().runOnUiThread {

@@ -214,5 +214,10 @@
     <string name="txt_templates">plantillas</string>
 
     <string name="txt_are_you_sure">Estas seguro</string>
+    <string name="txt_english">inglés</string>
+    <string name="txt_spanish">Español</string>
+    <string name="txt_french">francés</string>
+
+
 
 </resources>
