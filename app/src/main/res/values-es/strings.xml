@@ -213,4 +213,6 @@
     <string name="txt_custom_sms">SMS personalizados</string>
     <string name="txt_templates">plantillas</string>
 
+    <string name="txt_are_you_sure">Estas seguro</string>
+
 </resources>

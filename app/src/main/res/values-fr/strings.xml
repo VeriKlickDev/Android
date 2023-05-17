@@ -210,4 +210,6 @@
     <string name="txt_custom_sms">SMS personnalisés</string>
     <string name="txt_templates">Modèles</string>
 
+
+    <string name="txt_are_you_sure">Es-tu sûr?</string>
 </resources>
