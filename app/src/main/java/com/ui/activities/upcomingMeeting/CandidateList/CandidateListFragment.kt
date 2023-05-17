@@ -1,11 +1,14 @@
 package com.ui.activities.upcomingMeeting.CandidateList
 
+import android.Manifest
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -13,31 +16,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
-import android.widget.LinearLayout
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.data.*
 import com.data.cryptoJs.CryptoJsHelper
-import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.*
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
-import com.ui.activities.candidateQuestionnaire.ActivityCandidateQuestinnaire
-import com.ui.activities.login.LoginActivity
 import com.ui.activities.upcomingMeeting.UpComingMeetingViewModel
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
-import com.ui.activities.upcomingMeeting.audioRecord.AudioMainActivity
-import com.ui.activities.upcomingMeeting.audioRecord.PlayActivity
 import com.ui.listadapters.CandidateListAdapter
 import com.veriKlick.R
 import com.veriKlick.databinding.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.xml.transform.Templates
 
 class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment() {
     lateinit var binding: FragmentCandidateListBinding
@@ -100,9 +97,11 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
         return binding.root
     }
 
+    private var phoneno=""
     private fun handleCall(data: SavedProfileDetail) {
-        data.id.toString()
-        requireActivity().showCustomSnackbarOnTop("under progress")
+        phoneno="+"+data.Countrycode+data.Phone
+        checkPermissionForCall()
+        //requireActivity().showCustomSnackbarOnTop("under progress")
         Log.d(TAG, "handleCall: candidate id ${data.id.toString()}")
     }
 
@@ -381,6 +380,64 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
 
             }
         })
+    }
+
+    fun checkPermissionForCall() {
+        if (ContextCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.CALL_PHONE)
+            != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
+                    Manifest.permission.CALL_PHONE)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed, we can request the permission.
+                callPermission.launch(Manifest.permission.CALL_PHONE)
+                /*ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.CALL_PHONE),
+                    42)*/
+            }
+        } else {
+            // Permission has already been granted
+            callPhone()
+        }
+    }
+
+    private val callPermission=registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            callPhone()
+        } else {
+
+        }
+    }
+
+
+
+   private fun callPhone(){
+       requireActivity().runOnUiThread {
+           val alertDialog=AlertDialog.Builder(requireContext())
+           alertDialog.setNegativeButton(getString(R.string.txt_no),object : DialogInterface.OnClickListener {
+               override fun onClick(dialog: DialogInterface?, which: Int) {
+
+               }
+           })
+           alertDialog.setPositiveButton(getString(R.string.txt_yes),object : DialogInterface.OnClickListener {
+               override fun onClick(dialog: DialogInterface?, which: Int) {
+                   val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneno))
+                   startActivity(intent)
+               }
+           })
+           alertDialog.setTitle(getString(R.string.txt_are_you_sure))
+           alertDialog.create()
+           alertDialog.show()
+       }
+
     }
 
 
