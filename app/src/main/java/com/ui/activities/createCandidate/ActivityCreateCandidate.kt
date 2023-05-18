@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
@@ -187,7 +188,11 @@ class ActivityCreateCandidate : AppCompatActivity() {
                         }
                         }else
                         {
-                            showCustomSnackbarOnTop(getString(R.string.txt_please_select_language))
+                            dialogBinding.tvError.visibility=View.VISIBLE
+                            setHandler().postDelayed({
+                                dialogBinding.tvError.visibility=View.INVISIBLE
+                            },3000)
+                            //showCustomSnackbarOnTop(getString(R.string.txt_please_select_language))
                         }
                     }
                 }

@@ -214,7 +214,6 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
                             requireActivity().showCustomSnackbarOnTop(data?.ResponseMessage.toString())
                         }else
                         {
-                            requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
                             requireActivity().runOnUiThread {
                                 requireActivity().dismissProgressDialog()
                             }
