@@ -30,10 +30,10 @@ class AudioMainActivity : AppCompatActivity() {
         Log.d("TAG", "onCreate: in audio activity link ${CreateProfileDeepLinkHolder.get()}")
 
        // AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        binding.btnSkip.setOnClickListener {
+       /**18may binding.btnSkip.setOnClickListener {
             val intent=Intent(this,ActivityCreateCandidateForm::class.java)
             startActivity(intent)
-        }
+        }*/
         checkAudioPermission(AUDIO_PERMISSION_REQUEST_CODE)
 
         initUI()
