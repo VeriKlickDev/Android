@@ -1,5 +1,8 @@
 package com.data.dataHolders
 
+import android.util.Log
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
 
 private val doRefresh= mutableListOf<Boolean>()
@@ -24,5 +27,20 @@ object UpcomingMeetingStatusHolder {
     fun getRefereshStatus()= doRefresh.firstOrNull()
 
     fun getIsMeetingFinished()= doRefreshLive
+
+
+    /***/
+    val fragList= mutableListOf<Fragment>()
+    private var fragmentManagerr: FragmentManager?=null
+    fun getFragManager() = fragmentManagerr
+    fun createInstanceOfFragments(fragmentManager: FragmentManager){
+        fragmentManagerr=fragmentManager
+        fragList.addAll(fragmentManager.fragments)
+        Log.d("TAG", "createInstanceOfFragments: viewmodel fragment size ${fragList.size} ${fragmentManager.fragments.size} ")
+    }
+
+    fun getFragmentsList()=fragList
+
+
 
 }

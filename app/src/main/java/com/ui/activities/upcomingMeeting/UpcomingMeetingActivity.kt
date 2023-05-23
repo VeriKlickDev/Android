@@ -11,18 +11,14 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
 import com.data.dataHolders.DataStoreHelper
+import com.data.dataHolders.UpcomingMeetingStatusHolder
 import com.domain.constant.AppConstants
-import com.google.android.material.navigation.NavigationView
-import com.ui.activities.candidateQuestionnaire.ActivityCandidateQuestinnaire
 import com.ui.activities.createCandidate.ActivityCreateCandidate
 import com.ui.activities.login.LoginActivity
 import com.ui.activities.upcomingMeeting.CandidateList.CandidateListFragment
 import com.ui.activities.upcomingMeeting.UpComingFragment.UpcomingListFragment
-import com.ui.activities.uploadProfilePhoto.ActivityUploadProfilePhoto
 import com.veriKlick.*
 import com.veriKlick.databinding.ActivityUpcomingMeetingBinding
-import com.veriKlick.databinding.ActivityUploadProfilePhotoBinding
-import com.veriKlick.databinding.DrawerUserIconLayoutBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.concurrent.thread
 
@@ -43,6 +39,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         setContentView(binding.root)
         viewModel = ViewModelProvider(this).get(UpComingMeetingViewModel::class.java)
         fragManager=supportFragmentManager
+        //setInstance()
 
 
         thread {
@@ -80,11 +77,16 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         binding.btnLogout.setOnClickListener {
             logout()
         }
+
         setDrawerListener()
 
     }
 
+
     override fun onResume() {
+       // if (fragManager?.fragments?.size==0)
+       // setInstance()
+
         dismissProgressDialog()
         super.onResume()
     }

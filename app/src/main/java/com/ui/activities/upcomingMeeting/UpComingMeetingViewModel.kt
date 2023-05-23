@@ -489,9 +489,10 @@ class UpComingMeetingViewModel @Inject constructor(
 
 
     val fragList= mutableListOf<Fragment>()
-
+    private var fragmentManagerr:FragmentManager?=null
+    fun getFragManager() = fragmentManagerr
     fun createInstanceOfFragments(fragmentManager: FragmentManager){
-        
+        fragmentManagerr=fragmentManager
             fragList.addAll(fragmentManager.fragments)
         Log.d(TAG, "createInstanceOfFragments: viewmodel fragment size ${fragList.size} ${fragmentManager.fragments.size} ")
     }

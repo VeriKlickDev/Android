@@ -1,10 +1,13 @@
 package com.ui.activities.candidateQuestionnaire
 
+import android.app.AlertDialog
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
-import androidx.lifecycle.ViewModel
+import android.widget.TimePicker
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.data.*
@@ -14,6 +17,7 @@ import com.ui.listadapters.CandidateQuestionnaireListAdapter
 import com.veriKlick.R
 import com.veriKlick.databinding.ActivityCandidateQuestinnaireBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class ActivityCandidateQuestinnaire : AppCompatActivity() {
@@ -86,7 +90,7 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
         }
         if (isAnswer)
         {
-            postQuestionnaire()
+            buildQuestionnaireData()
         }else
         {
             showCustomSnackbarOnTop(getString(R.string.txt_all_quesiton_required))
@@ -94,7 +98,133 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
 
     }
 
-    private fun postQuestionnaire()
+    private fun scheduleMeetingDate(bodyQuestionnaire: BodyQuestionnaire)
+    {
+        runOnUiThread {
+            val alertDialog= AlertDialog.Builder(this)
+            alertDialog.setNegativeButton(getString(R.string.txt_skip),object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface?, which: Int) {
+                    runOnUiThread {
+                        bodyQuestionnaire.Availability_For_Interview=getCurrentUtcFormatedDate()
+                        postQuestionnaireData(bodyQuestionnaire)
+                    }
+
+                }
+            })
+            alertDialog.setPositiveButton(getString(R.string.txt_yes),object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface?, which: Int) {
+                   // bodyQuestionnaire.Availability_For_Interview=
+                   // postQuestionnaireData(bodyQuestionnaire)
+                    runOnUiThread {
+                        selectDate {
+                            bodyQuestionnaire.Availability_For_Interview=it
+                            postQuestionnaireData(bodyQuestionnaire)
+                        }
+                    }
+                }
+            })
+            alertDialog.setTitle(getString(R.string.txt_do_you_want_to_send_sms))
+            alertDialog.create()
+            alertDialog.show()
+        }
+
+
+    }
+
+    private val TAG="timeselectorcheck"
+    fun selectDate(timeSelected: (time: String) -> Unit) {
+        Log.d(TAG, "selectTime: method")
+
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
+
+        val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+
+            // Display Selected date in textbox
+            val scheduleDate="$year-$monthOfYear-${dayOfMonth}"
+            var scheduleFullDate=""
+            var isTimeSelected=false
+            selectTime {
+                isTimeSelected=true
+                scheduleFullDate="${scheduleDate}T${it}:00Z"
+                Log.d(TAG, "selectDate: time selected $scheduleFullDate")
+                timeSelected(scheduleFullDate)
+            }
+        }, year, month, day)
+
+        dpd.show()
+
+       /* */
+    }
+
+
+    private fun selectTime(timeSelected: (time: String?) -> Unit)
+    {
+        val timePicker = TimePickerDialog(
+            this,
+            R.style.TimePickerTheme,
+            object : TimePickerDialog.OnTimeSetListener {
+                override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+                    Log.d(TAG, "onTimeSet: hourofday $hourOfDay min ${minute}")
+                    if (minute == 0) {
+                        if (hourOfDay > 12) {
+                            timeSelected("$hourOfDay:" + minute + "0" + "PM")
+                        }
+                        else {
+                            timeSelected("$hourOfDay:" + minute + "0" + "AM")
+                        }
+                    }
+                    else {
+                        timeSelected("$hourOfDay:$minute")
+
+                        if (hourOfDay > 12) {
+                            //timeSelected("$hourOfDay:$minute" + "PM")
+                            timeSelected("$hourOfDay:$minute")
+                        }
+                        else {
+                            //timeSelected("$hourOfDay:$minute" + "AM")
+                            timeSelected("$hourOfDay:$minute")
+                        }
+                    }
+                }
+            },
+            12,
+            60,
+            false
+        )
+        timePicker
+        //timePicker.window?.setBackgroundDrawable(ColorDrawable(Color.BLACK))
+        timePicker.create()
+        timePicker.show()
+    }
+
+
+
+    private fun postQuestionnaireData(bodyQuestionnaire: BodyQuestionnaire)
+    {
+        runOnUiThread { showProgressDialog() }
+        viewModel?.postQuestionnaires(bodyQuestionnaire){data, isSuccess, errorCode, msg ->
+            runOnUiThread {
+                if (isSuccess)
+                {
+                    runOnUiThread { dismissProgressDialog() }
+                    setHandler().postDelayed({
+                        showCustomSnackbarOnTop(msg)
+                    },500)
+                    if (isSuccess){
+                        setHandler().postDelayed(Runnable {
+                            finish()
+                        },2000)
+                    }
+                }
+            }
+        }
+
+    }
+
+    private fun buildQuestionnaireData()
     {
         val deepLinkingIntent = intent
         val pathstr=deepLinkingIntent.data!!.path
@@ -130,9 +260,10 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
             Log.d("TAG", "postQuestionnaire: final model ${Gson().toJson(answerList)}")
 
             bodyQuestionnaire.answerMasterModels.addAll(answerList)
-            runOnUiThread { showProgressDialog() }
-
-            viewModel?.postQuestionnaires(bodyQuestionnaire){data, isSuccess, errorCode, msg ->
+           // runOnUiThread { showProgressDialog() }
+            scheduleMeetingDate(bodyQuestionnaire)
+            /**may23_2023*/
+            /*viewModel?.postQuestionnaires(bodyQuestionnaire){data, isSuccess, errorCode, msg ->
                runOnUiThread {
                    if (isSuccess)
                    {
@@ -146,7 +277,7 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
                        }
                    }
                }
-            }
+            }*/
 
         }catch (e:Exception)
         {
