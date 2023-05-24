@@ -105,10 +105,9 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
             alertDialog.setNegativeButton(getString(R.string.txt_skip),object : DialogInterface.OnClickListener {
                 override fun onClick(dialog: DialogInterface?, which: Int) {
                     runOnUiThread {
-                        bodyQuestionnaire.Availability_For_Interview=getCurrentUtcFormatedDate()
+                       // bodyQuestionnaire.Availability_For_Interview=getCurrentUtcFormatedDate()
                         postQuestionnaireData(bodyQuestionnaire)
                     }
-
                 }
             })
             alertDialog.setPositiveButton(getString(R.string.txt_yes),object : DialogInterface.OnClickListener {
