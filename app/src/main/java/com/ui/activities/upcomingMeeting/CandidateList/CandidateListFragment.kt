@@ -36,8 +36,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment() {
+class CandidateListFragment() : Fragment() {
     lateinit var binding: FragmentCandidateListBinding
+    private lateinit var viewModel: UpComingMeetingViewModel
     val TAG = "candidateList"
     var iscrolled = false
     var recyclerAdapter: CandidateListAdapter? = null
@@ -45,18 +46,14 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
     private var skipPage = 1
     private var contentLimit = 0
     private val candidateList = mutableListOf<SavedProfileDetail>()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.d(TAG, "onCreate: candidateListFragment")
 
-
-    }
 
     private val jsEncryptor = CryptoJsHelper()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewModel=(requireActivity() as UpcomingMeetingActivity).getViewModel()
         Log.d(TAG, "onCreateView: onCreateView")
         binding = FragmentCandidateListBinding.inflate(layoutInflater)
         layoutManager = LinearLayoutManager(requireActivity())
@@ -483,8 +480,11 @@ class CandidateListFragment(val viewModel: UpComingMeetingViewModel) : Fragment(
 
     companion object {
         @JvmStatic
-        fun getInstance(viewModel: UpComingMeetingViewModel): Fragment {
+        /*fun getInstance(viewModel: UpComingMeetingViewModel): Fragment {
             return CandidateListFragment(viewModel)
+        }*/
+        fun getInstance(): Fragment {
+            return CandidateListFragment()
         }
     }
 }

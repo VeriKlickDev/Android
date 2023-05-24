@@ -50,24 +50,39 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
                 }
             }
-
-
         }
 
-        fragManager?.let {
-            Log.d(TAG, "onCreate: not null fragmanager")
-            it.beginTransaction().add(R.id.fragment_container,UpcomingListFragment.getInstance(),AppConstants.UPCOMING_LIST_FRAGMENT).commit()
-            it.beginTransaction().add(R.id.fragment_container,CandidateListFragment.getInstance(viewModel),AppConstants.CANDIDATE_LIST_FRAGMENT).commit()
+        fragManager?.beginTransaction()?.replace(R.id.fragment_container,UpcomingListFragment.getInstance())?.commit()
 
-            setHandler().post{
-                Log.d(TAG, "onCreate: sizze ${it.fragments.size}")
-                viewModel.createInstanceOfFragments(it)
-                upcomingFragment=viewModel.getFragmentsList().get(0) as UpcomingListFragment
-                hideAllFragment()
-                Log.d(TAG, "onCreate: ids ${fragManager?.fragments?.get(0)?.id}  ${fragManager?.fragments?.get(1)?.id}")
-                attatchFragment(0)
+       /* if (viewModel.getFragManager()!=null)
+        {
+            fragManager=viewModel.getFragManager()
+            upcomingFragment=viewModel.getFragmentsList().get(0) as UpcomingListFragment
+            hideAllFragment()
+            Log.d(TAG, "onCreate: ids ${fragManager?.fragments?.get(0)?.id}  ${fragManager?.fragments?.get(1)?.id}")
+            attatchFragment(0)
+        }else
+        {
+            fragManager?.let {
+                Log.d(TAG, "onCreate: not null fragmanager")
+                it.beginTransaction().add(R.id.fragment_container,UpcomingListFragment.getInstance(),AppConstants.UPCOMING_LIST_FRAGMENT).commit()
+                it.beginTransaction().add(R.id.fragment_container,CandidateListFragment.getInstance(),AppConstants.CANDIDATE_LIST_FRAGMENT).commit()
+
+                setHandler().post{
+                    Log.d(TAG, "onCreate: sizze ${it.fragments.size}")
+                    viewModel.createInstanceOfFragments(it)
+                    upcomingFragment=viewModel.getFragmentsList().get(0) as UpcomingListFragment
+                    hideAllFragment()
+                    Log.d(TAG, "onCreate: ids ${fragManager?.fragments?.get(0)?.id}  ${fragManager?.fragments?.get(1)?.id}")
+                    attatchFragment(0)
+                }
             }
         }
+*/
+
+
+
+
        // upcomingFragment=viewModel.getFragmentsList().get(0) as UpcomingListFragment
 
         //UpcomingListFragment.getInstance()
@@ -106,8 +121,9 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     fun closeDrawer()
     {
         binding.drawerLayout.closeDrawer(Gravity.LEFT)
-
     }
+
+    fun getViewModel()=viewModel
 
     fun setDrawerListener()
     {
@@ -115,16 +131,18 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.navdrawerCandidateId -> {
                     Log.d(TAG, "onNavigationItemSelected: candidate list clicked")
-                    //CandidateListFragment.newInstance()
-                    hideAllFragment()
-                    attatchFragment(1)
+                    //hideAllFragment()
+                    //attatchFragment(1)
+                    supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,CandidateListFragment.getInstance())?.commit()
                     closeDrawer()
                 }
                 R.id.navdrawerall_meetings -> {
-                    //  replaceFragment(viewModel.getFragmentsList().get(0))
-                    hideAllFragment()
-                    attatchFragment(0)
-                    upcomingFragment?.getMeetingList(0)
+
+                   // hideAllFragment()
+                   // attatchFragment(0)
+                   // upcomingFragment?.getMeetingList(0)
+
+                    supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,UpcomingListFragment.getInstance())?.commit()
                     closeDrawer()
                 }
                 R.id.navdrawerscheduled_meetings -> {

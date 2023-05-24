@@ -56,6 +56,8 @@ class UpcomingListFragment : Fragment() {
 
         binding = FragmentUpcomingListBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(requireActivity()).get(UpComingMeetingViewModel::class.java)
+        requireActivity().dismissProgressDialog()
+        meetingsList.clear()
 
 
         //  WeeksDataHolder.setDayToZero()
@@ -143,7 +145,7 @@ class UpcomingListFragment : Fragment() {
 
 
 
-        handleObserver()
+       // handleObserver()
 
         binding.btnEllipsize.setOnClickListener {
             registerForContextMenu(it)
@@ -273,7 +275,7 @@ class UpcomingListFragment : Fragment() {
             }
         })
         setupAdapter()
-
+        handleObserver()
         requireActivity().requestNearByPermissions(){
             Log.d(TAG, "onCreate: onNearbyPermission $it")
             thread {
@@ -783,8 +785,6 @@ class UpcomingListFragment : Fragment() {
     private val meetingsList = ArrayList<NewInterviewDetails>()
     private fun handleObserver() {
 
-
-
         CallStatusHolder.getCallStatus().observe(requireActivity()) {
             isCallInProgress = it
         }
@@ -794,6 +794,11 @@ class UpcomingListFragment : Fragment() {
         binding.tvNoData.visibility = View.VISIBLE
 
         viewModel.scheduledMeetingLiveData.observe(requireActivity(), Observer {
+            if (it.firstOrNull()==meetingsList.firstOrNull())
+            {
+                meetingsList.clear()
+                adapter.notifyDataSetChanged()
+            }
             if (!it.isNullOrEmpty()) {
                 Log.d(TAG, "handleObserver: ifpart not null empty $it ")
                 //3 may 2023

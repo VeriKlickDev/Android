@@ -26,6 +26,10 @@ class UpComingMeetingViewModel @Inject constructor(
 ) : ViewModel() {
     private val TAG = "upcomingViewModel"
 
+    init {
+        Log.d(TAG, "init viemwodel upcoming meeting: ")
+    }
+
     val scheduledMeetingLiveData = MutableLiveData<List<NewInterviewDetails>>()
 
     fun getScheduledMeetingList(

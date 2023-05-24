@@ -272,6 +272,8 @@ fun Context.showProgressDialog() {
     })
 }
 
+
+
 fun Context.dismissProgressDialog() {
    try{
        android.os.Handler(Looper.getMainLooper()).post(Runnable {
