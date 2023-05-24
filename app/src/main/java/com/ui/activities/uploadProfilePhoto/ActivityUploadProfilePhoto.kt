@@ -14,9 +14,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
+import com.data.dataHolders.CandidateImageAndAudioHolder
 import com.data.dataHolders.CreateProfileDeepLinkHolder
 import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.BodyCandidateImageModel
+import com.domain.BaseModels.CandidateDeepLinkDataModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.ui.activities.upcomingMeeting.audioRecord.AudioMainActivity
 import com.veriKlick.R
@@ -37,6 +39,8 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
     private var viewModel:VMUploadProfilePhoto?=null
     private var imageName:String?=null
     private var imageFile:File?=null
+    private var pathstr:String?=null
+    private var recruiterId:String?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityUploadProfilePhotoBinding.inflate(layoutInflater)
@@ -44,7 +48,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
 
         val deepLinkingIntent = intent
         val schemestr=deepLinkingIntent.scheme
-        val pathstr=deepLinkingIntent.data!!.path
+        pathstr=deepLinkingIntent.data!!.path
 
         Log.d(TAG, "onCreate: intent data from deeplink   ${getString(R.string.url_createCandidatebase)+pathstr.toString()}")
         if (!pathstr.equals("") || !pathstr.equals("null") || pathstr!=null)
@@ -73,12 +77,49 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
         binding.btnSkip.setOnClickListener {
             val intent=Intent(this,AudioMainActivity::class.java)
             startActivity(intent)
+            overridePendingTransition(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left
+            )
         }
 
 
-
+        loadRecruiterData()
     }
-    val TAG="tavactivityupload"
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+    }
+
+    val TAG="checkLoadRecruiterData"
+    private fun loadRecruiterData() {
+        try {
+            var splitList = pathstr?.split("/")
+            var id = splitList?.get(splitList.size - 2)
+            var token = splitList?.get(splitList.size - 1)
+
+
+
+            Log.d(TAG, "loadRecruiterData: url id $id  token $token")
+            runOnUiThread { showProgressDialog() }
+            viewModel?.getRecruiterDetails(id.toString(),token.toString()){data,isSuccess, errorCode, msg ->
+                runOnUiThread { dismissProgressDialog() }
+                if (errorCode==200)
+                {
+                    CandidateImageAndAudioHolder.setDeepLinkData(CandidateDeepLinkDataModel(token,data?.RecruiterId))
+                    recruiterId=data?.RecruiterId
+                    Log.d(TAG, "loadRecruiterData: success data $data")
+                }else
+                {
+                    runOnUiThread { showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong)) }
+                }
+            }
+        }catch (e:Exception)
+        {
+            Log.d(TAG, "loadRecruiterData: exception 92 ${e.message}")
+        }
+    }
 
     val onBackPressed=object:OnBackPressedCallback(true){
         override fun handleOnBackPressed() {
@@ -163,6 +204,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
             binding.ivUploadImage.setImageURI(resultUri)
             finalUserImageUri=resultUri
             Log.d(TAG, "onActivityResult: destUri $desUri")
+
         } else if (resultCode == UCrop.RESULT_ERROR) {
             val cropError = UCrop.getError(data!!)
             Log.d(TAG, "onActivityResult: error ")
@@ -217,47 +259,50 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                 if (imageBitmap!=null)
                 {
                     val image= convertBitmapToBase64(imageBitmap)
-                    val subsId=DataStoreHelper.getMeetingUserId()
+                    //val subsId=DataStoreHelper.getMeetingUserId()
+                    var subsId=recruiterId
                    // binding.ivUploadImage.setImageBitmap(imageBitmap)
                     var imageName=subsId+"/IMG_${System.currentTimeMillis()}.png"
                     Log.d(TAG, "uploadProfilePhoto: image name $imageName")
+                    CandidateImageAndAudioHolder.setImage(BodyCandidateImageModel(image,subsId+"/IMG_${System.currentTimeMillis()}.png","upload"))
                     viewModel?.updateUserImageWithoutAuth(BodyCandidateImageModel(image,subsId+"/IMG_${System.currentTimeMillis()}.png","upload")){isSuccess, code, msg ->
-                    when(code)
-                    {
-                        200->{
-                            Log.d(TAG, "uploadProfilePhoto: $msg")
-                            showCustomSnackbarOnTop(msg)
-                        }
-                        400->{
-                            showCustomSnackbarOnTop(msg)
-                            Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
-                        }
-                        401->{
-                            showCustomSnackbarOnTop(msg)
-                            Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
-                        }
-                        500->{
-                            showCustomSnackbarOnTop(msg)
-                            Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
-                        }
-                        501->{
-                            showCustomSnackbarOnTop(msg)
-                            Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
-                        }
-                        404->{
-                            Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
-                        }
-                        503->{
-                            showCustomSnackbarOnTop(msg)
-                            Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
-                        }
-                        502->{
-                            showCustomSnackbarOnTop(msg)
-                            Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
-                        }
+                        when(code)
+                        {
+                            200->{
+                                Log.d(TAG, "uploadProfilePhoto: $msg")
+                                showCustomSnackbarOnTop(msg)
+                            }
+                            400->{
+                                showCustomSnackbarOnTop(msg)
+                                Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
+                            }
+                            401->{
+                                showCustomSnackbarOnTop(msg)
+                                Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
+                            }
+                            500->{
+                                showCustomSnackbarOnTop(msg)
+                                Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
+                            }
+                            501->{
+                                showCustomSnackbarOnTop(msg)
+                                Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
+                            }
+                            404->{
+                                Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
+                            }
+                            503->{
+                                showCustomSnackbarOnTop(msg)
+                                Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
+                            }
+                            502->{
+                                showCustomSnackbarOnTop(msg)
+                                Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
+                            }
 
+                        }
                     }
-                    }
+
                 }else
                 {
                     showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))

@@ -117,7 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_55sdp"
                 android:layout_marginTop="@dimen/_15sp"
-                android:text="@string/txt_upload"
+                android:text="@string/txt_update"
                 android:textSize="@dimen/_18sdp" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -126,7 +126,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_55sdp"
                 android:layout_marginTop="@dimen/_15sp"
-                android:text="@string/txt_skip"
+                android:text="@string/txt_next"
                 android:textSize="@dimen/_18sdp" />
 
 

@@ -6,7 +6,9 @@ import com.domain.RestApi.BaseRestApi
 import com.domain.RestApi.LoginRestApi
 import com.google.gson.Gson
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
+import java.io.File
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
@@ -158,6 +160,10 @@ class RepositoryImpl @Inject constructor(
         return baseRestApi.postQuestionnaire(ob)
     }
 
+    override suspend fun getRecruiterDetailsWithID(url: String): Response<ResponseRecruiterDetails> {
+        return baseRestApi.getRecruiterDetailsWithID(url)
+    }
+
     override suspend fun getCountryNamesList(): Response<List<ResponseCountryName>> {
         return baseRestApi.getCountryNamesList()
     }
@@ -192,6 +198,16 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun updateFreshUserImageWithoutAuth(ob: BodyCandidateImageModel): Response<ResponseCandidateImageModel> {
         return loginRestApi.updateFreshUserImageWithoutAuth(ob)
+    }
+
+    override suspend fun updateUserAudio(
+        file: MultipartBody.Part,
+        AudioFileName: MultipartBody.Part,
+        RecruiterId: MultipartBody.Part,
+        Profile_Url: MultipartBody.Part,
+        Token_Id: MultipartBody.Part
+    ): Response<ResponseAudioRecord> {
+        return baseRestApi.updateUserAudio(file,AudioFileName,RecruiterId,Profile_Url,Token_Id)
     }
 
     override suspend fun updateUserResume(token: String,ob: BodyCandidateResume,filePart:MultipartBody.Part): Response<ResponseCandidateResume> {

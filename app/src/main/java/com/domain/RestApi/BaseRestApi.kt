@@ -3,6 +3,8 @@ package com.domain.RestApi
 import androidx.annotation.CheckResult
 import com.domain.BaseModels.*
 import com.google.gson.Gson
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -122,6 +124,20 @@ interface BaseRestApi {
 
     @POST("/api/Questionier/SaveQuestionierAnswers")
     suspend fun postQuestionnaire(@Body ob:BodyQuestionnaire):Response<BodyQuestionnaire>
+
+    @GET
+    suspend fun getRecruiterDetailsWithID(@Url url:String):Response<ResponseRecruiterDetails>
+
+    @Multipart
+    @POST("api/Audio/AudioFileReceive")
+    suspend fun updateUserAudio(
+        @Part file: MultipartBody.Part,
+        @Part AudioFileName: MultipartBody.Part,
+        @Part RecruiterId: MultipartBody.Part,
+        @Part Profile_Url: MultipartBody.Part,
+        @Part Token_Id: MultipartBody.Part,
+    ):Response<ResponseAudioRecord>
+
 
 }
 

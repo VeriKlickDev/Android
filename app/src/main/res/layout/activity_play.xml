@@ -13,17 +13,28 @@
         android:background="@color/white"
         tools:context="com.ui.activities.upcomingMeeting.audioRecord.PlayActivity">
 
+        <ImageView
+            android:id="@+id/btn_jump_back"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_margin="@dimen/_16sdp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_arrow_back_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/linearLayoutCompat2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50sp"
+            android:layout_marginTop="16dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.075"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/btn_jump_back">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -115,16 +126,16 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:layout_height="35sp"
-                android:layout_width="35sp"
-                android:id="@+id/seek_forward_button"
-                style="@style/Veriklick.IconButtonGrey"
-                android:layout_margin="@dimen/_32sdp"
-                android:background="@color/lightGreen"
-                android:src="@drawable/ic_baseline_check_24"
-                app:contentPadding="@dimen/_4sdp"
-                app:shapeAppearanceOverlay="@style/roundedCorner50" />
+<!--            <com.google.android.material.imageview.ShapeableImageView-->
+<!--                android:layout_height="35sp"-->
+<!--                android:layout_width="35sp"-->
+<!--                android:id="@+id/seek_forward_button"-->
+<!--                style="@style/Veriklick.IconButtonGrey"-->
+<!--                android:layout_margin="@dimen/_32sdp"-->
+<!--                android:background="@color/lightGreen"-->
+<!--                android:src="@drawable/ic_baseline_check_24"-->
+<!--                app:contentPadding="@dimen/_4sdp"-->
+<!--                app:shapeAppearanceOverlay="@style/roundedCorner50" />-->
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -139,6 +150,7 @@
             android:text="@string/txt_upload"
             android:textColor="@color/white"
             android:textAllCaps="false"
+            android:id="@+id/btn_uploadData"
             android:background="@drawable/shape_roundedcorner_blue_10"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

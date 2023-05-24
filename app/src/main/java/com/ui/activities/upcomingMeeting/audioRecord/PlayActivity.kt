@@ -1,10 +1,20 @@
 package com.ui.activities.upcomingMeeting.audioRecord
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.data.dataHolders.CandidateImageAndAudioHolder
+import com.data.dismissProgressDialog
+import com.data.setHandler
+import com.data.showCustomSnackbarOnTop
+import com.data.showProgressDialog
+import com.domain.BaseModels.BodyCandidateImageAudioModel
+import com.domain.BaseModels.CandidateDeepLinkDataModel
 import com.ui.activities.upcomingMeeting.audioRecord.player.AudioPlayer
+import com.ui.activities.upcomingMeeting.audioRecord.player.VMPlayAudio
 import com.ui.activities.upcomingMeeting.audioRecord.utils.formatAsTime
 import com.ui.activities.upcomingMeeting.audioRecord.utils.getDrawableCompat
 import com.veriKlick.R
@@ -17,11 +27,73 @@ class PlayActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPlayBinding
     private lateinit var player: AudioPlayer
-
+    private lateinit var viewModel:VMPlayAudio
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPlayBinding.inflate(layoutInflater)
+        viewModel=ViewModelProvider(this).get(VMPlayAudio::class.java)
         setContentView(binding.root)
+
+        binding.btnJumpBack.setOnClickListener {onBackPressedDispatcher.onBackPressed()}
+        binding.btnUploadData.setOnClickListener {
+        uploadData()
+        }
+    }
+
+    private val TAG="playAudioActivity"
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+    }
+
+    private fun uploadData()
+    {
+        try {
+            runOnUiThread { showProgressDialog() }
+            viewModel?.updateUserImageWithoutAuth{isSuccess, code, msg ->
+                runOnUiThread {dismissProgressDialog() }
+                when(code)
+                {
+                    200->{
+                        Log.d(TAG, "uploadProfilePhoto: $msg")
+                        showCustomSnackbarOnTop(msg)
+                       // setHandler().postDelayed({finish()},3000)
+                    }
+                    400->{
+                        showCustomSnackbarOnTop(msg)
+                        Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
+                    }
+                    401->{
+                        showCustomSnackbarOnTop(msg)
+                        Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
+                    }
+                    500->{
+                        showCustomSnackbarOnTop(msg)
+                        Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
+                    }
+                    501->{
+                        showCustomSnackbarOnTop(msg)
+                        Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
+                    }
+                    404->{
+                        Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
+                    }
+                    503->{
+                        showCustomSnackbarOnTop(msg)
+                        Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
+                    }
+                    502->{
+                        showCustomSnackbarOnTop(msg)
+                        Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
+                    }
+
+                }
+            }
+        }catch (e:Exception)
+        {
+            Log.d(TAG, "uploadData: exception ${e.message}")
+        }
     }
 
 
@@ -36,6 +108,8 @@ class PlayActivity : AppCompatActivity() {
         player.release()
         super.onStop()
     }
+
+
 
     private fun initUI() = with(binding) {
         visualizer.apply {
@@ -56,10 +130,10 @@ class PlayActivity : AppCompatActivity() {
             }
         }
         playButton.setOnClickListener { player.togglePlay() }
-        seekForwardButton.setOnClickListener {
+        /*seekForwardButton.setOnClickListener {
             //visualizer.seekOver(SEEK_OVER_AMOUNT)
             Toast.makeText(this@PlayActivity,"Saved",Toast.LENGTH_SHORT).show()
-        }
+        }*/
         seekBackwardButton.setOnClickListener {
             //visualizer.seekOver(-SEEK_OVER_AMOUNT)
             onBackPressed()

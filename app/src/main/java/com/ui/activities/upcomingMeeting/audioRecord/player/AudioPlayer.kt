@@ -2,11 +2,11 @@ package com.ui.activities.upcomingMeeting.audioRecord.player
 
 import android.content.Context
 import android.util.Log
+import com.data.dataHolders.CandidateImageAndAudioHolder
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.firebase.firestore.EventListener
 import com.ui.activities.upcomingMeeting.audioRecord.recorder.Recorder
 import com.ui.activities.upcomingMeeting.audioRecord.utils.SingletonHolder
 import com.ui.activities.upcomingMeeting.audioRecord.utils.WAVE_HEADER_SIZE
@@ -14,7 +14,6 @@ import com.ui.activities.upcomingMeeting.audioRecord.utils.recordFile
 import com.ui.activities.upcomingMeeting.audioRecord.utils.toMediaSource
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import java.io.File
 import java.nio.ByteBuffer
@@ -55,8 +54,11 @@ class AudioPlayer private constructor(context: Context) : Player.EventListener {
             prepare()
             addListener(this@AudioPlayer)
         }
+        CandidateImageAndAudioHolder.setAudio(recordFile)
         return this
     }
+
+    fun getRecordedFile()=recordFile.toMediaSource()
 
     fun togglePlay() {
         if (!player.isPlaying) {

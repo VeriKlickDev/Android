@@ -34,6 +34,7 @@ class AudioMainActivity : AppCompatActivity() {
             val intent=Intent(this,ActivityCreateCandidateForm::class.java)
             startActivity(intent)
         }*/
+        binding.btnJumpBack.setOnClickListener {onBackPressedDispatcher.onBackPressed()}
         checkAudioPermission(AUDIO_PERMISSION_REQUEST_CODE)
 
         initUI()
@@ -54,6 +55,11 @@ class AudioMainActivity : AppCompatActivity() {
         visualizer.ampNormalizer = { sqrt(it.toFloat()).toInt() }
     }
 
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+    }
+
     private fun listenOnRecorderStates() = with(binding) {
         recorder = Recorder.getInstance(applicationContext).init().apply {
             onStart = { recordButton.setImageDrawable(getDrawableCompat(R.drawable.ic_stop_24)) }
@@ -61,7 +67,13 @@ class AudioMainActivity : AppCompatActivity() {
                 visualizer.clear()
                 timelineTextView.text = 0L.formatAsTime()
                 recordButton.setImageDrawable(getDrawableCompat(R.drawable.ic_record_24))
-                startActivity(Intent(this@AudioMainActivity, PlayActivity::class.java))
+                val intent=Intent(this@AudioMainActivity, PlayActivity::class.java)
+                startActivity(intent)
+                overridePendingTransition(
+                    R.anim.slide_in_right,
+                    R.anim.slide_out_left
+                )
+               // finish()
             }
             onAmpListener = {
                 runOnUiThread {
