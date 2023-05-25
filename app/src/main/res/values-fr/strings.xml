@@ -217,6 +217,7 @@
     <string name="txt_spanish">espagnol</string>
     <string name="txt_french">français</string>
 
-
+    <string name="txt_no_template">Aucun modèle</string>
+    <string name="txt_provide_your_availability_for_meeting">Indiquez votre disponibilité pour la réunion</string>
 
 </resources>
