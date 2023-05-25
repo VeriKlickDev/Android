@@ -321,7 +321,7 @@
         <item name="android:numbersTextColor">#000000</item>
         <item name="android:numbersBackgroundColor">@color/black</item>
         <item name="android:numbersSelectorColor">@color/skyblue_light1</item>
-        <item name="android:headerBackground">@color/white</item>
+        <item name="android:headerBackground">@color/skyblue_light1</item>
 
     </style>
 

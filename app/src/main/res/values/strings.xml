@@ -223,6 +223,7 @@
     <string name="txt_spanish">Spanish</string>
     <string name="txt_french">French</string>
     <string name="txt_no_template">No templates</string>
+    <string name="txt_provide_your_availability_for_meeting">Provide your availability for meeting</string>
 
 
 </resources>

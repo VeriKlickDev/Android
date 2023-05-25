@@ -323,8 +323,15 @@ class CandidateListFragment() : Fragment() {
                 Log.d(TAG, "handleObserver: candidate data $it")
                 candidateList.addAll(it.savedProfileDetail)
                 recyclerAdapter?.addList(candidateList)
-                recyclerAdapter?.notifyDataSetChanged()
+
             }
+                try {
+                    recyclerAdapter?.notifyDataSetChanged()
+                }catch (e:Exception)
+                {
+                    Log.d(TAG, "handleObserver: exception 332 ${e.message}")
+                }
+
         }
     }
 
@@ -443,8 +450,15 @@ class CandidateListFragment() : Fragment() {
     }
 
 
+    private var isLoadFirst=false
     private fun getCandidateList() {
-       // requireActivity().runOnUiThread { requireActivity().showProgressDialog() }
+        requireActivity().runOnUiThread {
+            if (!isLoadFirst){
+                binding.progressBar.isVisible=true
+                binding.rvCandidateList.isVisible=false
+            }
+        }
+
         Log.d(TAG, "getCandidateList: ")
         CoroutineScope(Dispatchers.IO).launch {
             var reicd = DataStoreHelper.getMeetingRecruiterid()
@@ -468,13 +482,22 @@ class CandidateListFragment() : Fragment() {
                 searchExpression = searchexp,
                 category = category
             ) { response, errorCode, msg ->
-               // requireActivity().runOnUiThread { requireActivity().dismissProgressDialog() }
+
+               isLoadFirst=true
                 if (response) {
-                    binding.swipetorefresh.isRefreshing = false
+                    requireActivity().runOnUiThread {
+                        binding.rvCandidateList.isVisible=true
+                        binding.progressBar.isVisible=false
+                        binding.swipetorefresh.isRefreshing = false
+                    }
                     Log.d(TAG, "getCandidateList: response sucess")
                     skipPage++
                 } else {
-                    binding.swipetorefresh.isRefreshing = false
+                    requireActivity().runOnUiThread {
+                        binding.rvCandidateList.isVisible=true
+                        binding.progressBar.isVisible=false
+                        binding.swipetorefresh.isRefreshing = false
+                    }
                     Log.d(TAG, "getCandidateList: response not found/success $errorCode $msg")
                 }
             }

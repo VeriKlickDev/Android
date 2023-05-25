@@ -204,8 +204,17 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            >
 
+                            <ProgressBar
+                                android:layout_width="@dimen/_35sdp"
+                                android:layout_height="@dimen/_35sdp"
+                                android:id="@+id/progressbar_upcomingList"
+                                android:layout_gravity="center"
+                                android:visibility="gone"
+                                />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -221,7 +230,9 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:id="@+id/rv_upcomingMeeting"
-                                android:elevation="@dimen/_10sp" />
+                                android:elevation="@dimen/_10sp"
+                                android:visibility="gone"
+                                />
 
 <!--                            <ProgressBar-->
 <!--                                android:layout_width="@dimen/_30sdp"-->

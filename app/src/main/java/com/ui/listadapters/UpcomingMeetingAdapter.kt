@@ -1,6 +1,7 @@
 package com.ui.listadapters
 
 import android.content.Context
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,7 @@ import com.domain.BaseModels.NewInterviewDetails
 import com.google.gson.Gson
 import com.veriKlick.R
 import com.veriKlick.databinding.LayoutItemUpcomingMeetingBinding
+import java.util.logging.Handler
 
 class UpcomingMeetingAdapter(
     val context: Context,
@@ -358,6 +360,9 @@ class UpcomingMeetingAdapter(
             }*/
             try {
                 binding.progressBar.isVisible=list.size-1==adapterPosition
+                android.os.Handler(Looper.getMainLooper()).postDelayed({
+                    binding.progressBar.isVisible=false
+                },4000)
                 if (list.size==totalSize)
                 {
                     binding.progressBar.isVisible=false

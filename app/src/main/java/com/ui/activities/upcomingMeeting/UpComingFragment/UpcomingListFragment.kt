@@ -133,6 +133,7 @@ class UpcomingListFragment : Fragment() {
                 isOpenedFirst = true
                 searchTxt = binding.etSearch.text.toString()
                 if (requireActivity().checkInternet()) {
+                    isOpenedFirst=false
                     handleUpcomingMeetingsList(7, 1, 9)
                 } else {
                     requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
@@ -154,6 +155,7 @@ class UpcomingListFragment : Fragment() {
 
 
         binding.btnLeftPrevious.setOnClickListener {
+            isOpenedFirst=false
             clearList()
             pageno = 1
 
@@ -175,7 +177,7 @@ class UpcomingListFragment : Fragment() {
         }
 
         binding.btnRightNext.setOnClickListener {
-
+            isOpenedFirst=false
             clearList()
             pageno = 1
 
@@ -199,6 +201,7 @@ class UpcomingListFragment : Fragment() {
         }
 
         binding.btnCross.setOnClickListener {
+            isOpenedFirst=false
             pageno = 1
             clearList()
             searchTxt = ""
@@ -687,22 +690,26 @@ class UpcomingListFragment : Fragment() {
     }
 
     fun getDataWithOtp(ob: BodyScheduledMeetingBean) {
+        if (!isOpenedFirst)
+        visibleProgressBar()
         viewModel.getScheduledMeetingListwithOtp(
             actionProgress = {
                 if (it == 1) {
                     binding.swipetorefresh.isRefreshing = false
                     if (isOpenedFirst) {
+                        visibleProgressBar()
                         Handler(Looper.getMainLooper()).post(Runnable {
                             //may 3 2023   binding.progressBar.isVisible = true
                         })
                     } else {
-                        requireActivity().showProgressDialog()
+                        //requireActivity().showProgressDialog()
+                        visibleRecyclerView()
                         isOpenedFirst = true
                     }
                 } else {
                     binding.swipetorefresh.isRefreshing = false
-                    requireActivity().dismissProgressDialog()
-
+                    //requireActivity().dismissProgressDialog()
+                    visibleRecyclerView()
                     Handler(Looper.getMainLooper()).post(Runnable {
                         //may 3 2023  binding.progressBar.isVisible = false
 
@@ -726,22 +733,26 @@ class UpcomingListFragment : Fragment() {
     }
 
     fun getDataWithoutOtp(ob: BodyScheduledMeetingBean) {
+       if (!isOpenedFirst)
+        visibleProgressBar()
         viewModel.getScheduledMeetingList(
             actionProgress = {
                 if (it == 1) {
                     binding.swipetorefresh.isRefreshing = false
                     if (isOpenedFirst) {
+
                         Handler(Looper.getMainLooper()).post(Runnable {
                             //may 3 2023   binding.progressBar.isVisible = true
                         })
                     } else {
-                        requireActivity().showProgressDialog()
+                       //25may requireActivity().showProgressDialog()
+                        visibleProgressBar()
                         isOpenedFirst = true
                     }
                 } else {
                     binding.swipetorefresh.isRefreshing = false
-                    requireActivity().dismissProgressDialog()
-
+                   // requireActivity().dismissProgressDialog()
+                    visibleRecyclerView()
                     Handler(Looper.getMainLooper()).post(Runnable {
                       //may 3 2023  binding.progressBar.isVisible = false
 
@@ -772,7 +783,7 @@ class UpcomingListFragment : Fragment() {
                 }
 
 
-                requireActivity().dismissProgressDialog()
+               //25may2023 requireActivity().dismissProgressDialog()
                 binding.swipetorefresh.isRefreshing = false
             },
             bodyScheduledMeetingBean = ob!!
@@ -791,8 +802,8 @@ class UpcomingListFragment : Fragment() {
 
 
         Log.d(TAG, "handleObserver: out observer method ")
-        binding.tvNoData.visibility = View.VISIBLE
-
+        //25may2023binding.tvNoData.visibility = View.VISIBLE
+        //visibleProgressBar()
         viewModel.scheduledMeetingLiveData.observe(requireActivity(), Observer {
             if (it.firstOrNull()==meetingsList.firstOrNull())
             {
@@ -1004,9 +1015,34 @@ class UpcomingListFragment : Fragment() {
         })
     }
 
+    private fun visibleNotdataText()
+    {
+        requireActivity().runOnUiThread {
+            binding.tvNoData.isVisible=true
+            binding.rvUpcomingMeeting.isVisible=false
+            binding.progressbarUpcomingList.isVisible=false
+        }
+    }
+    private fun visibleProgressBar()
+    {
+        requireActivity().runOnUiThread {
+            binding.tvNoData.isVisible=false
+            binding.rvUpcomingMeeting.isVisible=false
+            binding.progressbarUpcomingList.isVisible=true
+        }
+    }
+    private fun visibleRecyclerView()
+    {
+        requireActivity().runOnUiThread {
+            binding.tvNoData.isVisible=false
+            binding.rvUpcomingMeeting.isVisible=true
+            binding.progressbarUpcomingList.isVisible=false
+        }
+    }
 
     fun getInterviewDetails(accessCode: String, isMsTeams: Boolean) {
-        requireActivity().showProgressDialog()
+        //requireActivity().showProgressDialog()
+       // visibleProgressBar()
         viewModel.getVideoSessionDetails(accessCode, onDataResponse = { data, event ->
 
             when (event) {
@@ -1015,7 +1051,7 @@ class UpcomingListFragment : Fragment() {
                     Log.d(TAG, "meeting data in 200 ${data}")
                     data?.videoAccessCode = accessCode
                     CurrentMeetingDataSaver.setData(data!!)
-
+                    visibleRecyclerView()
                     if (isMsTeams) {
                         //jumpToTeams()
                         // data

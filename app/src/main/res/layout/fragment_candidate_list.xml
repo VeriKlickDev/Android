@@ -139,11 +139,29 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_title_my_music"
             app:layout_constraintVertical_bias="0.254">
 
-      <androidx.recyclerview.widget.RecyclerView
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-            android:id="@+id/rv_candidateList"
-          />
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                >
+                <ProgressBar
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:id="@+id/progressBar"
+                    android:visibility="gone"
+                    android:indeterminateTint="@color/skyblue_light1"
+                    />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/rv_candidateList"
+                    android:visibility="visible"
+                    />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
 

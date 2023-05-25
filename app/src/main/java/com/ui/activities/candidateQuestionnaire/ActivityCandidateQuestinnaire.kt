@@ -122,7 +122,7 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
                     }
                 }
             })
-            alertDialog.setTitle(getString(R.string.txt_do_you_want_to_send_sms))
+            alertDialog.setTitle(getString(R.string.txt_provide_your_availability_for_meeting))
             alertDialog.create()
             alertDialog.show()
         }
@@ -197,6 +197,8 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
         //timePicker.window?.setBackgroundDrawable(ColorDrawable(Color.BLACK))
         timePicker.create()
         timePicker.show()
+        timePicker.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(getColor(R.color.skyblue_light1))
+        timePicker.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(getColor(R.color.skyblue_light1))
     }
 
 
