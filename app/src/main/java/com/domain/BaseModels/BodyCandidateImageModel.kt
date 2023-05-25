@@ -11,7 +11,7 @@ data class BodyCandidateImageModel (
 
 data class CandidateDeepLinkDataModel (
      var token_Id: String?= null,
-     var recruiterId: String?=null,
+     var subscriberId: String?=null,
 )
 
 

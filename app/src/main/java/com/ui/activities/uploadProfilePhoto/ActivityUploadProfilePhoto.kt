@@ -107,8 +107,8 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                 runOnUiThread { dismissProgressDialog() }
                 if (errorCode==200)
                 {
-                    CandidateImageAndAudioHolder.setDeepLinkData(CandidateDeepLinkDataModel(token,data?.RecruiterId))
-                    recruiterId=data?.RecruiterId
+                    CandidateImageAndAudioHolder.setDeepLinkData(CandidateDeepLinkDataModel(token,data?.Subscriberid))
+                    recruiterId=data?.Subscriberid
                     Log.d(TAG, "loadRecruiterData: success data $data")
                 }else
                 {
