@@ -102,7 +102,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
        // if (fragManager?.fragments?.size==0)
        // setInstance()
 
-        dismissProgressDialog()
+       // dismissProgressDialog()
         super.onResume()
     }
 

@@ -41,10 +41,25 @@
             android:layout_marginTop="@dimen/_16sdp"
             >
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/textview.Style.WhiteRounded_18_withoutPaddingMargin"
+                android:text="@string/txt_no_template"
+                android:layout_marginTop="@dimen/_20sp"
+                android:layout_gravity="center_horizontal"
+                android:textSize="@dimen/_20sp"
+                android:gravity="center"
+                android:id="@+id/tv_no_template"
+                android:visibility="gone"
+                android:textColor="@color/grey"
+                />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/rv_templates"
+                android:visibility="visible"
                 />
 
 

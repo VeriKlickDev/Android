@@ -222,6 +222,7 @@
     <string name="txt_english">English</string>
     <string name="txt_spanish">Spanish</string>
     <string name="txt_french">French</string>
+    <string name="txt_no_template">No templates</string>
 
 
 </resources>

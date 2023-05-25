@@ -19,6 +19,7 @@ import android.widget.AbsListView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.data.*
@@ -84,9 +85,11 @@ class CandidateListFragment() : Fragment() {
         binding.tvHeader.setOnClickListener {
            // startActivity(Intent(requireActivity(),ActivityCandidateQuestinnaire::class.java))
         }
+
         setupRecyclerPagination()
         handleObserver()
         getCandidateList()
+
         CoroutineScope(Dispatchers.IO+ exceptionHandler).launch {
             getTemplateList(DataStoreHelper.getMeetingRecruiterid())
         }
@@ -253,7 +256,8 @@ class CandidateListFragment() : Fragment() {
 
         dialog.create()
         dialog.show()
-
+        dialogbinding.tvNoTemplate.isVisible=templateList.size==0
+        dialogbinding.rvTemplates.isVisible=templateList.size!=0
     }
 
     private fun getTemplateList(recruiterId:String)
@@ -268,7 +272,7 @@ class CandidateListFragment() : Fragment() {
                     adapterTemplate?.notifyDataSetChanged()
                 }
             }else{
-                requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+               // requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
             }
             }
 
@@ -440,7 +444,7 @@ class CandidateListFragment() : Fragment() {
 
 
     private fun getCandidateList() {
-
+       // requireActivity().runOnUiThread { requireActivity().showProgressDialog() }
         Log.d(TAG, "getCandidateList: ")
         CoroutineScope(Dispatchers.IO).launch {
             var reicd = DataStoreHelper.getMeetingRecruiterid()
@@ -451,7 +455,6 @@ class CandidateListFragment() : Fragment() {
             val ob = BodyCandidateList()
 
             Log.d(TAG, "getCandidateList: enreic ${reicd.toString()} ensubs ${subsId.toString()}")
-
 
             var top = ""
             var searchexp = ""
@@ -465,6 +468,7 @@ class CandidateListFragment() : Fragment() {
                 searchExpression = searchexp,
                 category = category
             ) { response, errorCode, msg ->
+               // requireActivity().runOnUiThread { requireActivity().dismissProgressDialog() }
                 if (response) {
                     binding.swipetorefresh.isRefreshing = false
                     Log.d(TAG, "getCandidateList: response sucess")
