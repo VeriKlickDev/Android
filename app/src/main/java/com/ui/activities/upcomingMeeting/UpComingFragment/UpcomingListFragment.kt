@@ -680,7 +680,7 @@ class UpcomingListFragment : Fragment() {
 
             //to here
         }catch (e:Exception){
-            requireActivity().showCustomSnackbarOnTop("Something went wrong")
+            requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
             Log.d(TAG, "handleUpcomingMeetingsList: exception 433 ${e.message}")
         }
 
