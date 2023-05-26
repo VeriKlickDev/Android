@@ -165,7 +165,7 @@
                         android:layout_height="@dimen/_55sdp"
                         android:layout_weight="1"
                         android:text="@string/txt_login_with_otp"
-                        android:textSize="@dimen/_18sdp"
+                        android:textSize="@dimen/_17sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -178,8 +178,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_55sdp"
                     android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="@dimen/_5sp"
                     android:text="@string/txt_Continue_as_a_Guest"
-                    android:textSize="@dimen/_18sdp" />
+                    android:textSize="@dimen/_17sdp" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 

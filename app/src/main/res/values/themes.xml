@@ -174,8 +174,6 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-
-
     <style name="button.Style.Blue.Rounded.elevation" parent="button.Style.Blue.Rounded">
         <item name="android:elevation">@dimen/_10sp</item>
         <item name="android:fontFamily">@font/sarabun_regular</item>
@@ -191,7 +189,6 @@
         <item name="android:fontFamily">@font/sarabun_regular</item>
         <item name="android:elevation">@dimen/_10sp</item>
     </style>
-
 
     <style name="button.Style.White.Rounded.elevation" parent="Widget.AppCompat.Button">
         <item name="android:background">@drawable/shape_rectangle_rounded_stroke_blue</item>
