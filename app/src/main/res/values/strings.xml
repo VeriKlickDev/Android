@@ -134,4 +134,6 @@
     <string name="txt_join_anyway">Join anyway?</string>
     <string name="txt_close_the_meeting">Close the meeting</string>
     <string name="txt_teams_meeting">Teams Meeting</string>
+    <string name="txt_candidate_Not_Joined_Yet">Candidate not joined yet</string>
+    <string name="txt_txt_no_participant_connected">No participant connected</string>
 </resources>
