@@ -26,6 +26,10 @@
         android:theme="@style/Theme.VeriklickBase"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity android:name="com.ui.activities.createCandidate.ActivityCreateCandidate"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            />
         <activity
             android:name="com.ui.activities.login.loginwithotp.ActivitiyLoginWithOtp"
             android:exported="false"

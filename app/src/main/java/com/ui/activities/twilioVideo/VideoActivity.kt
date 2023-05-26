@@ -3912,9 +3912,11 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         Log.d(TAG, "startScreenCapture: start capturing method ")
         // setAllSinkRemove()
         // setBlankBackground(false)
+        runOnUiThread {
+            binding.tvScreenshareText.setText(getString(R.string.txt_stop_screensharing))
+            showToast(this, getString(R.string.txt_screen_sharing_started))
+        }
 
-       binding.tvScreenshareText.setText(getString(R.string.txt_stop_screensharing))
-        showToast(this, getString(R.string.txt_screen_sharing_started))
         Log.d(TAG, "shareScreen: start screensharing")
         screenShareCapturerManager.startForeground()
         binding.tvScreenShareStatus.isVisible = true
