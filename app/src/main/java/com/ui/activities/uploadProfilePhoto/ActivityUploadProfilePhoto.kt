@@ -265,37 +265,42 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                     var imageName=subsId+"/IMG_${System.currentTimeMillis()}.png"
                     Log.d(TAG, "uploadProfilePhoto: image name $imageName")
                     CandidateImageAndAudioHolder.setImage(BodyCandidateImageModel(image,subsId+"/IMG_${System.currentTimeMillis()}.png","upload"))
+                    runOnUiThread { showProgressDialog() }
                     viewModel?.updateUserImageWithoutAuth(BodyCandidateImageModel(image,subsId+"/IMG_${System.currentTimeMillis()}.png","upload")){isSuccess, code, msg ->
                         when(code)
                         {
                             200->{
+                                runOnUiThread { dismissProgressDialog() }
                                 Log.d(TAG, "uploadProfilePhoto: $msg")
                                 showCustomSnackbarOnTop(msg)
                             }
                             400->{
+                                runOnUiThread { dismissProgressDialog() }
                                 showCustomSnackbarOnTop(msg)
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
                             401->{
+                                runOnUiThread { dismissProgressDialog() }
                                 showCustomSnackbarOnTop(msg)
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
                             500->{
+                                runOnUiThread { dismissProgressDialog() }
                                 showCustomSnackbarOnTop(msg)
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
-                            501->{
+                            501->{runOnUiThread { dismissProgressDialog() }
                                 showCustomSnackbarOnTop(msg)
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
-                            404->{
+                            404->{runOnUiThread { dismissProgressDialog() }
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
-                            503->{
+                            503->{runOnUiThread { dismissProgressDialog() }
                                 showCustomSnackbarOnTop(msg)
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
-                            502->{
+                            502->{runOnUiThread { dismissProgressDialog() }
                                 showCustomSnackbarOnTop(msg)
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
@@ -305,11 +310,13 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
 
                 }else
                 {
+                    runOnUiThread { dismissProgressDialog() }
                     showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
                 }
 
             }catch (e:Exception)
             {
+                runOnUiThread { dismissProgressDialog() }
                 Log.d(TAG, "uploadProfilePhoto: ")
             }
         }
