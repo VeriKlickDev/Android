@@ -112,7 +112,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:text="No Participants Connected"
+            android:text="@string/txt_txt_no_participant_connected"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/grey"
@@ -186,7 +186,6 @@
             android:id="@+id/layoutBottomButtuns"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
             android:elevation="@dimen/_5sp"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
@@ -199,10 +198,12 @@
             app:layout_constraintVertical_bias="1.0">
 
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:minHeight="@dimen/_300sdp"
+                >
 
                 <LinearLayout
                     android:id="@+id/ll_extraButtons"
@@ -213,211 +214,191 @@
                     android:background="@drawable/shape_rectangle_rounded_dark_transparent_grey_mini_50"
                     android:elevation="@dimen/_10sp"
                     android:gravity="left"
-                    android:paddingVertical="@dimen/_5sp"
                     android:orientation="vertical"
                     android:paddingHorizontal="@dimen/_10sp"
-                    android:visibility="gone">
+                    android:paddingVertical="@dimen/_5sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@+id/linearLayoutCompat4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0">
 
                     <LinearLayout
+                        android:id="@+id/btn_feedback"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:id="@+id/btn_feedback"
-                        android:visibility="visible"
                         android:elevation="@dimen/_12sp"
+                        android:gravity="center_vertical"
                         android:onClick="@{onClick::onViewClicked}"
-                        >
+                        android:orientation="horizontal"
+                        android:visibility="visible">
 
                         <ImageView
                             android:layout_width="@dimen/_40sdp"
                             android:layout_height="@dimen/_40sdp"
-                            android:src="@drawable/ic_feedback"
                             android:padding="@dimen/_10sp"
-                            />
+                            android:src="@drawable/ic_feedback" />
 
                         <TextView
+                            style="@style/textStyle.White12"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_feedback"
-                            style="@style/textStyle.White12"
-                            />
+                            android:text="@string/txt_feedback" />
 
 
                     </LinearLayout>
 
 
-
                     <LinearLayout
+                        android:id="@+id/btn_add_user_videoActivity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:gravity="center_vertical"
-                        android:visibility="visible"
-                        android:id="@+id/btn_add_user_videoActivity"
                         android:onClick="@{onClick::onViewClicked}"
-                        >
+                        android:orientation="horizontal"
+                        android:visibility="visible">
 
                         <ImageView
                             android:layout_width="@dimen/_40sdp"
                             android:layout_height="@dimen/_40sdp"
-                            android:src="@drawable/ic_img_add_user_white"
                             android:padding="@dimen/_10sp"
+                            android:src="@drawable/ic_img_add_user_white"
 
 
                             />
 
                         <TextView
+                            style="@style/textStyle.White12"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_addparticipant"
-                            style="@style/textStyle.White12"
-                            />
+                            android:text="@string/txt_addparticipant" />
 
 
                     </LinearLayout>
 
 
-
-
-
-
-
-
                     <LinearLayout
+                        android:id="@+id/btn_show_documents"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:gravity="center_vertical"
-                        android:id="@+id/btn_show_documents"
                         android:onClick="@{onClick::onViewClicked}"
-                        >
+                        android:orientation="horizontal">
 
                         <ImageView
                             android:layout_width="@dimen/_40sdp"
                             android:layout_height="@dimen/_40sdp"
                             android:layout_marginVertical="@dimen/_5sp"
-                            android:src="@drawable/ic_img_document_white"
                             android:padding="@dimen/_10sp"
-                            />
+                            android:src="@drawable/ic_img_document_white" />
 
                         <TextView
+                            style="@style/textStyle.White12"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_resume"
-                            style="@style/textStyle.White12"
-                            />
+                            android:text="@string/txt_resume" />
 
 
                     </LinearLayout>
 
 
-
-
-
-
-
                     <LinearLayout
+                        android:id="@+id/btn_share_screen"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:gravity="center_vertical"
-                        android:id="@+id/btn_share_screen"
                         android:onClick="@{onClick::onViewClicked}"
-                        >
+                        android:orientation="horizontal">
 
                         <ImageView
                             android:layout_width="@dimen/_40sdp"
                             android:layout_height="@dimen/_40sdp"
-                            android:src="@drawable/ic_share_screen_white"
                             android:padding="@dimen/_10sp"
-                            />
+                            android:src="@drawable/ic_share_screen_white" />
 
                         <TextView
                             android:id="@+id/tv_screenshare_text"
+                            style="@style/textStyle.White12"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_screensharing"
-                            style="@style/textStyle.White12"
-                            />
+                            android:text="@string/txt_screensharing" />
 
 
                     </LinearLayout>
 
 
-
-
-
                     <LinearLayout
+                        android:id="@+id/btn_record_video"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:gravity="center_vertical"
-                        android:id="@+id/btn_record_video"
                         android:onClick="@{onClick::onViewClicked}"
-                        >
+                        android:orientation="horizontal">
 
 
                         <ImageView
+                            android:id="@+id/btnRecording"
                             android:layout_width="@dimen/_40sdp"
                             android:layout_height="@dimen/_40sdp"
-                            android:id="@+id/btnRecording"
-                            android:src="@drawable/ic_img_sc_recording_white"
                             android:padding="@dimen/_10sp"
+                            android:src="@drawable/ic_img_sc_recording_white"
 
                             />
 
                         <TextView
+                            style="@style/textStyle.White12"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_recording"
-                            style="@style/textStyle.White12"
-                            />
+                            android:text="@string/txt_recording" />
 
 
                     </LinearLayout>
 
 
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:orientation="horizontal"-->
-<!--                        android:gravity="center_vertical"-->
-<!--                        android:id="@+id/"-->
-<!--                        >-->
+                    <!--                    <LinearLayout-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:orientation="horizontal"-->
+                    <!--                        android:gravity="center_vertical"-->
+                    <!--                        android:id="@+id/"-->
+                    <!--                        >-->
 
 
-<!--                        <ImageView-->
-<!--                            android:layout_width="@dimen/_40sdp"-->
-<!--                            android:layout_height="@dimen/_40sdp"-->
-<!--                            android:layout_marginTop="@dimen/_5sp"-->
-<!--                            android:src="@drawable/ic_mic_unmute_white"-->
-<!--                            android:visibility="visible"-->
-<!--                            android:padding="@dimen/_10sp"-->
-<!--                            android:id="@+id/btn_allow_to_mute"-->
-<!--                            android:onClick="@{onClick::onViewClicked}"-->
-<!--                            />-->
-<!--                        -->
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="@string/txt_screensharing"-->
-<!--                            style="@style/textStyle.White12"-->
-<!--                            />-->
+                    <!--                        <ImageView-->
+                    <!--                            android:layout_width="@dimen/_40sdp"-->
+                    <!--                            android:layout_height="@dimen/_40sdp"-->
+                    <!--                            android:layout_marginTop="@dimen/_5sp"-->
+                    <!--                            android:src="@drawable/ic_mic_unmute_white"-->
+                    <!--                            android:visibility="visible"-->
+                    <!--                            android:padding="@dimen/_10sp"-->
+                    <!--                            android:id="@+id/btn_allow_to_mute"-->
+                    <!--                            android:onClick="@{onClick::onViewClicked}"-->
+                    <!--                            />-->
+                    <!--                        -->
+                    <!--                        <TextView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:text="@string/txt_screensharing"-->
+                    <!--                            style="@style/textStyle.White12"-->
+                    <!--                            />-->
 
 
-<!--                    </LinearLayout>-->
-
-
-
+                    <!--                    </LinearLayout>-->
 
 
                 </LinearLayout>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/linearLayoutCompat4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+
+                    app:layout_constraintStart_toStartOf="parent">
 
 
                     <ImageView
@@ -426,8 +407,8 @@
                         android:layout_height="@dimen/_45sdp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="@dimen/_10sp"
-                        android:foreground="?selectableItemBackground"
-                        android:background="@drawable/ic_img_end_call_red" />
+                        android:background="@drawable/ic_img_end_call_red"
+                        android:foreground="?selectableItemBackground" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/mute_action_fab"
@@ -442,14 +423,13 @@
                         app:shapeAppearanceOverlay="@style/roundedCorner50" />
 
 
-
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/local_video_action_fab"
                         android:layout_width="@dimen/_50sdp"
                         android:layout_height="@dimen/_50sdp"
                         android:layout_gravity="center"
-                        android:scaleType="centerInside"
                         android:background="@color/black_50"
+                        android:scaleType="centerInside"
                         android:src="@drawable/ic_img_btn_video"
                         app:shapeAppearanceOverlay="@style/roundedCorner50" />
 
@@ -459,11 +439,10 @@
                         android:layout_height="@dimen/_50sdp"
                         android:layout_marginHorizontal="@dimen/_5sp"
                         android:layout_marginRight="@dimen/_10sp"
+                        android:background="@color/black_50"
                         android:src="@drawable/ic_img_btn_message"
                         app:fabSize="mini"
-                        android:background="@color/black_50"
                         app:shapeAppearanceOverlay="@style/roundedCorner50" />
-
 
 
                     <!--            <com.google.android.material.imageview.ShapeableImageView-->
@@ -482,16 +461,16 @@
                         android:id="@+id/btn_ellipsize"
                         android:layout_width="@dimen/_50sdp"
                         android:layout_height="@dimen/_50sdp"
+                        android:background="@color/black_50"
                         android:src="@drawable/ic_img_btn_ellepsize"
                         app:fabSize="mini"
-                        android:background="@color/black_50"
                         app:shapeAppearanceOverlay="@style/roundedCorner50" />
 
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </LinearLayout>

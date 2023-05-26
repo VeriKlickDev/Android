@@ -3826,7 +3826,10 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             )
 
             if (CurrentMeetingDataSaver.getScreenSharingStatus()) {
-                binding.tvScreenShareStatus.isVisible = false
+                runOnUiThread{
+                    binding.tvScreenShareStatus.isVisible = false
+                    binding.tvScreenshareText.setText(getString(R.string.txt_screensharing))
+                }
                 // showToast(this, getString(R.string.txt_screen_sharing_stopped))
                 if (checkInternet()) {
                     viewModel.setScreenSharingStatus(true, onResult = { action, data -> })
@@ -3844,7 +3847,8 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 localParticipant?.unpublishTrack(currentLocalVideoTrack!!)
                 localParticipant?.publishTrack(getLocalVideoTrack()!!)
                 viewModel.setLocalVideoTrack(getLocalVideoTrack()!!, false)
-                binding.tvScreenshareText.setText(getString(R.string.txt_screensharing))
+                runOnUiThread { binding.tvScreenshareText.setText(getString(R.string.txt_screensharing)) }
+
                 // setCameraToLocalVideoTrack()
             }
             else {
@@ -3909,7 +3913,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         // setAllSinkRemove()
         // setBlankBackground(false)
 
-        binding.tvScreenshareText.setText(getString(R.string.txt_stop_screensharing))
+       binding.tvScreenshareText.setText(getString(R.string.txt_stop_screensharing))
         showToast(this, getString(R.string.txt_screen_sharing_started))
         Log.d(TAG, "shareScreen: start screensharing")
         screenShareCapturerManager.startForeground()
