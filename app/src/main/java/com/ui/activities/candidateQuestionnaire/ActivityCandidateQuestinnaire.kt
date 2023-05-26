@@ -53,7 +53,7 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
         try {
             val deepLinkingIntent = intent
             val pathstr=deepLinkingIntent.data!!.path
-
+            Log.d(TAG, "getQuestionnaireList: path full $pathstr")
             val pathlist=pathstr?.split("/")
             val accessToken=pathlist?.get(pathlist!!.size-1)
             val candidateId=pathlist?.get(3)
