@@ -43,10 +43,10 @@ import kotlinx.coroutines.launch
 import kotlin.concurrent.thread
 
 
-class UpcomingListFragment : Fragment() {
+class UpcomingListFragment(val from: String) : Fragment() {
 
-     lateinit var binding: FragmentUpcomingListBinding
-     lateinit var viewModel: UpComingMeetingViewModel
+    lateinit var binding: FragmentUpcomingListBinding
+    lateinit var viewModel: UpComingMeetingViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,12 +88,12 @@ class UpcomingListFragment : Fragment() {
                 binding.btnSearchShow.isVisible = true
             }
         }
-/*
-        binding.btnSearch.setOnClickListener {
-            meetingsList.clear()
-            handleUpcomingMeetingsList(0, binding.etSearch.text.toString(),1,9)
-        }
-*/
+        /*
+                binding.btnSearch.setOnClickListener {
+                    meetingsList.clear()
+                    handleUpcomingMeetingsList(0, binding.etSearch.text.toString(),1,9)
+                }
+        */
 
         binding.swipetorefresh.setOnRefreshListener {
             if (requireActivity().checkInternet()) {
@@ -102,27 +102,27 @@ class UpcomingListFragment : Fragment() {
                 pageno = 1
                 handleUpcomingMeetingsList(7, 1, 9)
             } else {
-                binding.swipetorefresh.isRefreshing=false
+                binding.swipetorefresh.isRefreshing = false
                 requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
             }
         }
 
         binding.btnLogout.setOnClickListener {
             (requireActivity() as UpcomingMeetingActivity).openDrawer()
-          /*  val dialog = AlertDialog.Builder(requireActivity())
-            dialog.setMessage(getString(R.string.txt_do_you_want_to_logout))
-            dialog.setPositiveButton("ok", DialogInterface.OnClickListener { dialogInterface, i ->
-                DataStoreHelper.clearData()
-                startActivity(Intent(requireActivity(), LoginActivity::class.java))
-                requireActivity().finish()
-            })
-            dialog.setNegativeButton(
-                "cancel",
-                DialogInterface.OnClickListener { dialogInterface, i ->
+            /*  val dialog = AlertDialog.Builder(requireActivity())
+              dialog.setMessage(getString(R.string.txt_do_you_want_to_logout))
+              dialog.setPositiveButton("ok", DialogInterface.OnClickListener { dialogInterface, i ->
+                  DataStoreHelper.clearData()
+                  startActivity(Intent(requireActivity(), LoginActivity::class.java))
+                  requireActivity().finish()
+              })
+              dialog.setNegativeButton(
+                  "cancel",
+                  DialogInterface.OnClickListener { dialogInterface, i ->
 
-                })
-            dialog.show()
-            dialog.create()*/
+                  })
+              dialog.show()
+              dialog.create()*/
         }
 
 
@@ -133,7 +133,7 @@ class UpcomingListFragment : Fragment() {
                 isOpenedFirst = true
                 searchTxt = binding.etSearch.text.toString()
                 if (requireActivity().checkInternet()) {
-                    isOpenedFirst=false
+                    isOpenedFirst = false
                     handleUpcomingMeetingsList(7, 1, 9)
                 } else {
                     requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
@@ -145,8 +145,7 @@ class UpcomingListFragment : Fragment() {
         })
 
 
-
-       // handleObserver()
+        // handleObserver()
 
         binding.btnEllipsize.setOnClickListener {
             registerForContextMenu(it)
@@ -155,7 +154,7 @@ class UpcomingListFragment : Fragment() {
 
 
         binding.btnLeftPrevious.setOnClickListener {
-            isOpenedFirst=false
+            isOpenedFirst = false
             clearList()
             pageno = 1
 
@@ -169,15 +168,13 @@ class UpcomingListFragment : Fragment() {
             }
             if (requireActivity().checkInternet()) {
                 handleUpcomingMeetingsList(1, 1, 9)
-            }
-            else
-            {
+            } else {
                 requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
             }
         }
 
         binding.btnRightNext.setOnClickListener {
-            isOpenedFirst=false
+            isOpenedFirst = false
             clearList()
             pageno = 1
 
@@ -192,24 +189,20 @@ class UpcomingListFragment : Fragment() {
             }
             if (requireActivity().checkInternet()) {
                 handleUpcomingMeetingsList(2, 1, 9)
-            }
-            else
-            {
+            } else {
                 requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
             }
 
         }
 
         binding.btnCross.setOnClickListener {
-            isOpenedFirst=false
+            isOpenedFirst = false
             pageno = 1
             clearList()
             searchTxt = ""
             if (requireActivity().checkInternet()) {
                 handleUpcomingMeetingsList(7, 1, 9)
-            }
-            else
-            {
+            } else {
                 requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
             }
 
@@ -236,8 +229,7 @@ class UpcomingListFragment : Fragment() {
                     if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL)
                         iscrolled = true
 
-                }catch (e:Exception)
-                {
+                } catch (e: Exception) {
                     Log.d(TAG, "onScrollStateChanged: exception 221 ${e.message}")
                 }
             }
@@ -258,9 +250,7 @@ class UpcomingListFragment : Fragment() {
                             Log.d(TAG, "onScrolled: " + pageno.toString())
                             if (requireActivity().checkInternet()) {
                                 handleUpcomingMeetingsList(7, pageno, 9)
-                            }
-                            else
-                            {
+                            } else {
                                 requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
                             }
 
@@ -270,8 +260,7 @@ class UpcomingListFragment : Fragment() {
                         iscrolled = false
                     }
 
-                }catch (e:Exception)
-                {
+                } catch (e: Exception) {
                     Log.d(TAG, "onScrolled: exception 228 ${e.message}")
                 }
 
@@ -279,18 +268,17 @@ class UpcomingListFragment : Fragment() {
         })
         setupAdapter()
         handleObserver()
-        requireActivity().requestNearByPermissions(){
+        requireActivity().requestNearByPermissions() {
             Log.d(TAG, "onCreate: onNearbyPermission $it")
             thread {
                 Thread.sleep(1000)
-               try {
-                   requireActivity().requestNotficationPermission {
+                try {
+                    requireActivity().requestNotficationPermission {
 
-                   }
-               }catch (e:Exception)
-               {
-                   Log.d(TAG, "onCreateView: exception 285 ${e.message}")
-               }
+                    }
+                } catch (e: Exception) {
+                    Log.d(TAG, "onCreateView: exception 285 ${e.message}")
+                }
 
             }
 
@@ -298,16 +286,18 @@ class UpcomingListFragment : Fragment() {
 
         setupDrawer()
 
-
-
-
-
-
         return binding.root
     }
 
-    private fun clearList()
-    {
+    private fun handleMeetingFilter() {
+        when (from) {
+
+        }
+
+
+    }
+
+    private fun clearList() {
         meetingsList.clear()
         adapter.swapList(meetingsList)
     }
@@ -317,8 +307,7 @@ class UpcomingListFragment : Fragment() {
         Log.d(TAG, "onDestroyView: upcoming list fragment")
     }
 
-    private fun logout()
-    {
+    private fun logout() {
         val dialog = AlertDialog.Builder(requireActivity())
         dialog.setMessage(getString(R.string.txt_do_you_want_to_logout))
         dialog.setPositiveButton("ok", DialogInterface.OnClickListener { dialogInterface, i ->
@@ -336,92 +325,86 @@ class UpcomingListFragment : Fragment() {
     }
 
 
-    fun getMeetingList(action:Int)
-    {
+    fun getMeetingList(action: Int) {
         //binding=FragmentUpcomingListBinding.inflate(layoutInflater)
-         when (action) {
-             0 -> {
-                 status = ""
+        when (action) {
+            0 -> {
+                status = ""
 
-                 clearList()
-                 pageno = 1
+                clearList()
+                pageno = 1
 
-                 binding.tvHeader.setText(getString(R.string.txt_all_meetings))
+                binding.tvHeader.setText(getString(R.string.txt_all_meetings))
 
-                 if (requireActivity().checkInternet()) {
-                     handleUpcomingMeetingsList(7, 1, 9)
-                 }
-                 else
-                 {
-                     requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
-                 }
-             }
-             1 -> {
-                 status = "Attended"
-                 clearList()
-                 pageno = 1
-                 binding.tvHeader.setText(getString(R.string.txt_attended))
-                 if (requireActivity().checkInternet()) {
-                     handleUpcomingMeetingsList(7, 1, 9)
-                 }
-                 else
-                 {
-                     requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
-                 }
+                if (requireActivity().checkInternet()) {
+                    handleUpcomingMeetingsList(7, 1, 9)
+                } else {
+                    requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                }
+            }
 
-             }
-             2 -> {
-                 status = "schedule"
-                 clearList()
-                 pageno = 1
-                 binding.tvHeader.setText(getString(R.string.txt_scheduled))
-                 if (requireActivity().checkInternet()) {
-                     handleUpcomingMeetingsList(7, 1, 9)
-                 }
-                 else
-                 {
-                     requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
-                 }
-             }
-             3 -> {
-                 status = "nonSchedule"
-                 clearList()
-                 pageno = 1
-                 binding.tvHeader.setText(getString(R.string.txt_missed))
-                 if (requireActivity().checkInternet()) {
-                     handleUpcomingMeetingsList(7, 1, 9)
-                 }
-                 else
-                 {
-                     requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
-                 }
-             }
-             4 -> {
-                 status = "cancel"
-                 clearList()
-                 pageno = 1
-                 binding.tvHeader.setText(getString(R.string.txt_cancelled))
-                 if (requireActivity().checkInternet()) {
-                     handleUpcomingMeetingsList(7, 1, 9)
-                 }
-                 else
-                 {
-                     requireActivity(). showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
-                 }
-             }
-             /*R.id.navdrawerCandidateId->{
-                 Log.d(TAG, "onContextItemSelected: candidate list clicked")
-             }*/
-         }
+            1 -> {
+                status = "Attended"
+                clearList()
+                pageno = 1
+                binding.tvHeader.setText(getString(R.string.txt_attended))
+                if (requireActivity().checkInternet()) {
+                    handleUpcomingMeetingsList(7, 1, 9)
+                } else {
+                    requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                }
+
+            }
+
+            2 -> {
+                status = "schedule"
+                clearList()
+                pageno = 1
+                binding.tvHeader.setText(getString(R.string.txt_scheduled))
+                if (requireActivity().checkInternet()) {
+                    handleUpcomingMeetingsList(7, 1, 9)
+                } else {
+                    requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                }
+            }
+
+            3 -> {
+                status = "nonSchedule"
+                clearList()
+                pageno = 1
+                binding.tvHeader.setText(getString(R.string.txt_missed))
+                if (requireActivity().checkInternet()) {
+                    handleUpcomingMeetingsList(7, 1, 9)
+                } else {
+                    requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                }
+            }
+
+            4 -> {
+                status = "cancel"
+                clearList()
+                pageno = 1
+                binding.tvHeader.setText(getString(R.string.txt_cancelled))
+                if (requireActivity().checkInternet()) {
+                    handleUpcomingMeetingsList(7, 1, 9)
+                } else {
+                    requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                }
+            }
+            /*R.id.navdrawerCandidateId->{
+                Log.d(TAG, "onContextItemSelected: candidate list clicked")
+            }*/
+        }
     }
 
 
-
-
     companion object {
-      fun getInstance():Fragment
-        {
-          return UpcomingListFragment()
+        var instance: UpcomingListFragment? = null
+        fun getInstance(from: String): Fragment {
+            if (instance == null)
+                instance = UpcomingListFragment(from)
+
+            return instance as UpcomingListFragment
         }
     }
 
@@ -445,8 +428,7 @@ class UpcomingListFragment : Fragment() {
     private var isCallInProgress = false
 
 
-    private fun setupDrawer()
-    {
+    private fun setupDrawer() {
         //binding.drawerLayout
     }
 
@@ -469,8 +451,7 @@ class UpcomingListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         UpcomingMeetingStatusHolder.getRefereshStatus()?.let {
-            if (UpcomingMeetingStatusHolder.getRefereshStatus()!!)
-            {
+            if (UpcomingMeetingStatusHolder.getRefereshStatus()!!) {
                 refereshPage()
                 UpcomingMeetingStatusHolder.setIsRefresh(false)
             }
@@ -490,7 +471,7 @@ class UpcomingListFragment : Fragment() {
             var userId = ""
             var recruiterEmail = ""
 
-            CoroutineScope(Dispatchers.IO+ exceptionHandler).launch {
+            CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
                 recruiterId = DataStoreHelper.getMeetingRecruiterid()
                 userId = DataStoreHelper.getMeetingUserId()
                 recruiterEmail = DataStoreHelper.getUserEmail()
@@ -501,10 +482,7 @@ class UpcomingListFragment : Fragment() {
             )
 
 
-
-
-
-        }catch (e:Exception){
+        } catch (e: Exception) {
             requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
         }
 
@@ -527,6 +505,7 @@ class UpcomingListFragment : Fragment() {
                     }
                     isNextClicked = true
                 }
+
                 7 -> {
 
                     try {
@@ -547,8 +526,7 @@ class UpcomingListFragment : Fragment() {
                 }
                 //for past / previous
                 1 -> {
-                    if(isPreClicked==true)
-                    {
+                    if (isPreClicked == true) {
                         WeeksDataHolder.getDecreasedDate(currentDateIST!!) { ist, utc ->
                             currentDateIST = ist
                             currentDateUTC = utc
@@ -574,7 +552,7 @@ class UpcomingListFragment : Fragment() {
                 }
                 //for next week date
                 2 -> {
-                    if (isNextClicked==true){
+                    if (isNextClicked == true) {
                         WeeksDataHolder.getIncreasedDate(currentDateIST!!) { ist, utc ->
                             currentDateIST = ist
                             currentDateUTC = utc
@@ -604,15 +582,14 @@ class UpcomingListFragment : Fragment() {
             }
 
 
-
-        }catch (e:Exception){
+        } catch (e: Exception) {
             requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
         }
 
 
 
 
-        try{
+        try {
             WeeksDataHolder.setCurrentTime(
                 WeeksDataHolder.CurrentDatesHolderModel(
                     ob?.fromdate!!,
@@ -659,9 +636,7 @@ class UpcomingListFragment : Fragment() {
                 if (requireActivity().intent.getBooleanExtra(AppConstants.LOGIN_WITH_OTP, false)) {
                     if (requireActivity().checkInternet()) {
                         getDataWithOtp(ob!!)
-                    }
-                    else
-                    {
+                    } else {
                         requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
                     }
 
@@ -670,9 +645,7 @@ class UpcomingListFragment : Fragment() {
                     Log.d(TAG, "handleUpcomingMeetingsList: logged with email")
                     if (requireActivity().checkInternet()) {
                         getDataWithoutOtp(ob!!)
-                    }
-                    else
-                    {
+                    } else {
                         requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
                     }
 
@@ -682,7 +655,7 @@ class UpcomingListFragment : Fragment() {
             }
 
             //to here
-        }catch (e:Exception){
+        } catch (e: Exception) {
             requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
             Log.d(TAG, "handleUpcomingMeetingsList: exception 433 ${e.message}")
         }
@@ -691,7 +664,7 @@ class UpcomingListFragment : Fragment() {
 
     fun getDataWithOtp(ob: BodyScheduledMeetingBean) {
         if (!isOpenedFirst)
-        visibleProgressBar()
+            visibleProgressBar()
         viewModel.getScheduledMeetingListwithOtp(
             actionProgress = {
                 if (it == 1) {
@@ -733,8 +706,8 @@ class UpcomingListFragment : Fragment() {
     }
 
     fun getDataWithoutOtp(ob: BodyScheduledMeetingBean) {
-       if (!isOpenedFirst)
-        visibleProgressBar()
+        if (!isOpenedFirst)
+            visibleProgressBar()
         viewModel.getScheduledMeetingList(
             actionProgress = {
                 if (it == 1) {
@@ -745,45 +718,49 @@ class UpcomingListFragment : Fragment() {
                             //may 3 2023   binding.progressBar.isVisible = true
                         })
                     } else {
-                       //25may requireActivity().showProgressDialog()
+                        //25may requireActivity().showProgressDialog()
                         visibleProgressBar()
                         isOpenedFirst = true
                     }
                 } else {
                     binding.swipetorefresh.isRefreshing = false
-                   // requireActivity().dismissProgressDialog()
+                    // requireActivity().dismissProgressDialog()
                     visibleRecyclerView()
                     Handler(Looper.getMainLooper()).post(Runnable {
-                      //may 3 2023  binding.progressBar.isVisible = false
+                        //may 3 2023  binding.progressBar.isVisible = false
 
                     })
 
                 }
             },
-            response = { result, exception, data,totalSize ->
+            response = { result, exception, data, totalSize ->
 
                 when (result) {
                     200 -> {
                         try {
                             pageno++
                             contentLimit = data?.totalCount!!
-                            adapter.totalSize=totalSize
+                            adapter.totalSize = totalSize
                         } catch (e: Exception) {
 
                         }
                     }
+
                     401 -> {
                         DataStoreHelper.clearData()
                         val intent = Intent(requireActivity(), LoginActivity::class.java)
                         startActivity(intent)
-                        requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                        requireActivity().overridePendingTransition(
+                            R.anim.slide_in_right,
+                            R.anim.slide_out_left
+                        )
                         requireActivity().finish()
 
                     }
                 }
 
 
-               //25may2023 requireActivity().dismissProgressDialog()
+                //25may2023 requireActivity().dismissProgressDialog()
                 binding.swipetorefresh.isRefreshing = false
             },
             bodyScheduledMeetingBean = ob!!
@@ -805,8 +782,7 @@ class UpcomingListFragment : Fragment() {
         //25may2023binding.tvNoData.visibility = View.VISIBLE
         //visibleProgressBar()
         viewModel.scheduledMeetingLiveData.observe(requireActivity(), Observer {
-            if (it.firstOrNull()==meetingsList.firstOrNull())
-            {
+            if (it.firstOrNull() == meetingsList.firstOrNull()) {
                 meetingsList.clear()
                 adapter.notifyDataSetChanged()
             }
@@ -817,7 +793,7 @@ class UpcomingListFragment : Fragment() {
                 adapter.swapList(meetingsList)
                 Handler(Looper.getMainLooper()).postDelayed({
                     //adapter.notifyDataSetChanged()
-                },500)
+                }, 500)
             }
             if (meetingsList.size == 0) {
                 Log.d(TAG, "handleObserver: ifpart meeting size 0")
@@ -842,15 +818,20 @@ class UpcomingListFragment : Fragment() {
 
 
     private fun setupAdapter() {
-        adapter = UpcomingMeetingAdapter(requireActivity(), meetingsList) { data, videoAccessCode, action ->
+        adapter = UpcomingMeetingAdapter(
+            requireActivity(),
+            meetingsList
+        ) { data, videoAccessCode, action ->
             when (action) {
                 1 -> {
                     CurrentUpcomingMeetingData.setData(data)
                     handleJoin(data, videoAccessCode)
                 }
+
                 2 -> {
                     showDescDialog(data)
                 }
+
                 3 -> {
                     CurrentUpcomingMeetingData.setData(data)
                     Log.d(TAG, "setupAdapter : zone ${data.interviewTimezone}")
@@ -870,20 +851,26 @@ class UpcomingListFragment : Fragment() {
                     val intent = Intent(requireActivity(), ActivityFeedBackForm::class.java)
                     intent.putExtra(AppConstants.CANDIDATE_ID, data.candidateId)
                     startActivity(intent)
-                    requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                    requireActivity().overridePendingTransition(
+                        R.anim.slide_in_right,
+                        R.anim.slide_out_left
+                    )
                 }
+
                 4 -> {
                     //showCustomSnackbarOnTop("Joining Meeting On MS Teams")
                     requireActivity().setHandler().postDelayed({
                         jumpToTeams(data.msMeetingUrl)
-                    },2000)
+                    }, 2000)
 
                     // handleJoin(data, videoAccessCode)
                 }
+
                 5 -> {
                     CurrentUpcomingMeetingData.setData(data)
                     handleJoin(data, videoAccessCode)
                 }
+
                 6 -> {
 
                     requireActivity().setHandler().post(kotlinx.coroutines.Runnable {
@@ -894,9 +881,7 @@ class UpcomingListFragment : Fragment() {
                                 override fun onClick(p0: DialogInterface?, p1: Int) {
                                     if (requireActivity().checkInternet()) {
                                         cancelMeeting(data)
-                                    }
-                                    else
-                                    {
+                                    } else {
                                         requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
                                     }
 
@@ -917,7 +902,7 @@ class UpcomingListFragment : Fragment() {
         }
         requireActivity().runOnUiThread {
             binding.rvUpcomingMeeting.adapter = adapter
-            binding.rvUpcomingMeeting.itemAnimator=null
+            binding.rvUpcomingMeeting.itemAnimator = null
         }
         //adapter.notifyDataSetChanged()
     }
@@ -930,13 +915,10 @@ class UpcomingListFragment : Fragment() {
 
         if (sendIntent.resolveActivity(requireActivity().packageManager) != null) {
             startActivity(sendIntent)
-        }else
-        {
+        } else {
             startActivity(sendIntent)
         }
     }
-
-
 
 
     fun showDescDialog(data: NewInterviewDetails) {
@@ -999,14 +981,17 @@ class UpcomingListFragment : Fragment() {
                     requireActivity().dismissProgressDialog()
                     Log.d(TAG, "getAccessCodeById: data gotted ${data?.InterviewerVideoAccesscode}")
                 }
+
                 400 -> {
                     requireActivity().dismissProgressDialog()
                     requireActivity().showToast(requireActivity(), "null values")
                 }
+
                 404 -> {
                     requireActivity().dismissProgressDialog()
                     requireActivity().showToast(requireActivity(), "response not success")
                 }
+
                 500 -> {
                     requireActivity().dismissProgressDialog()
                     requireActivity().showToast(requireActivity(), "Interval Server Error!")
@@ -1015,34 +1000,33 @@ class UpcomingListFragment : Fragment() {
         })
     }
 
-    private fun visibleNotdataText()
-    {
+    private fun visibleNotdataText() {
         requireActivity().runOnUiThread {
-            binding.tvNoData.isVisible=true
-            binding.rvUpcomingMeeting.isVisible=false
-            binding.progressbarUpcomingList.isVisible=false
+            binding.tvNoData.isVisible = true
+            binding.rvUpcomingMeeting.isVisible = false
+            binding.progressbarUpcomingList.isVisible = false
         }
     }
-    private fun visibleProgressBar()
-    {
+
+    private fun visibleProgressBar() {
         requireActivity().runOnUiThread {
-            binding.tvNoData.isVisible=false
-            binding.rvUpcomingMeeting.isVisible=false
-            binding.progressbarUpcomingList.isVisible=true
+            binding.tvNoData.isVisible = false
+            binding.rvUpcomingMeeting.isVisible = false
+            binding.progressbarUpcomingList.isVisible = true
         }
     }
-    private fun visibleRecyclerView()
-    {
+
+    private fun visibleRecyclerView() {
         requireActivity().runOnUiThread {
-            binding.tvNoData.isVisible=false
-            binding.rvUpcomingMeeting.isVisible=true
-            binding.progressbarUpcomingList.isVisible=false
+            binding.tvNoData.isVisible = false
+            binding.rvUpcomingMeeting.isVisible = true
+            binding.progressbarUpcomingList.isVisible = false
         }
     }
 
     fun getInterviewDetails(accessCode: String, isMsTeams: Boolean) {
         //requireActivity().showProgressDialog()
-       // visibleProgressBar()
+        // visibleProgressBar()
         viewModel.getVideoSessionDetails(accessCode, onDataResponse = { data, event ->
 
             when (event) {
@@ -1066,8 +1050,9 @@ class UpcomingListFragment : Fragment() {
                     // TwilioHelper.setTwilioCredentials(data.token.toString(), data.roomName.toString())
                     // startActivity(Intent(this@JoinMeetingActivity, VideoActivity::class.java))
                 }
+
                 400 -> {
-                    requireActivity(). dismissProgressDialog()
+                    requireActivity().dismissProgressDialog()
                     //showToast(this, "null values")
                     requireActivity().showCustomSnackbarOnTop(data?.aPIResponse?.message.toString())
                     //showToast(this, data?.aPIResponse?.message.toString())
@@ -1075,11 +1060,13 @@ class UpcomingListFragment : Fragment() {
                     data?.let { CurrentMeetingDataSaver.setData(it) }
                     joinMeeting(accessCode)*/
                 }
+
                 404 -> {
                     requireActivity().dismissProgressDialog()
                     requireActivity().showCustomSnackbarOnTop(data?.aPIResponse?.message.toString())
                     //showToast(this, data?.aPIResponse?.message.toString())
                 }
+
                 401 -> {
                     requireActivity().dismissProgressDialog()
                     requireActivity().showCustomSnackbarOnTop(data?.aPIResponse?.message.toString())
@@ -1105,15 +1092,14 @@ class UpcomingListFragment : Fragment() {
                     pageno = 1
                     if (requireActivity().checkInternet()) {
                         handleUpcomingMeetingsList(7, 1, 9)
-                    }
-                    else
-                    {
+                    } else {
                         requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
                     }
                     // Log.d(TAG, "host : ${data.token}  ${data.roomName}")
                     // TwilioHelper.setTwilioCredentials(data.token.toString(), data.roomName.toString())
                     // startActivity(Intent(this@JoinMeetingActivity, VideoActivity::class.java))
                 }
+
                 400 -> {
                     requireActivity().dismissProgressDialog()
                     //showToast(this, "null values")
@@ -1123,14 +1109,16 @@ class UpcomingListFragment : Fragment() {
                     data?.let { CurrentMeetingDataSaver.setData(it) }
                     joinMeeting(accessCode)*/
                 }
+
                 404 -> {
                     requireActivity().dismissProgressDialog()
-                    requireActivity(). showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+                    requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
                     //showToast(this, data?.aPIResponse?.message.toString())
                 }
+
                 401 -> {
-                    requireActivity(). dismissProgressDialog()
-                    requireActivity(). showCustomSnackbarOnTop(data?.aPIResponse?.Message.toString())
+                    requireActivity().dismissProgressDialog()
+                    requireActivity().showCustomSnackbarOnTop(data?.aPIResponse?.Message.toString())
                     /*  data?.videoAccessCode = accessCode //remove all code
                       CurrentMeetingDataSaver.setData(data!!)
                       joinMeeting(accessCode)
@@ -1148,7 +1136,7 @@ class UpcomingListFragment : Fragment() {
 
             when (event) {
                 200 -> {
-                    requireActivity(). dismissProgressDialog()
+                    requireActivity().dismissProgressDialog()
                     if (data.identity!!.contains("C") && data.roomName?.trim()?.lowercase()
                             .equals("nothost")
                     ) {
@@ -1160,21 +1148,28 @@ class UpcomingListFragment : Fragment() {
                             data.token.toString(),
                             data.roomName.toString()
                         )
-                        requireActivity(). requestCameraAndMicPermissions {
+                        requireActivity().requestCameraAndMicPermissions {
                             if (it) {
-                                requireActivity().   showPrivacyPolicy(binding.root as ViewGroup,
+                                requireActivity().showPrivacyPolicy(binding.root as ViewGroup,
                                     onClicked = { it, dialog ->
                                         if (it) {
                                             if (isCallInProgress) {
                                                 dialog.dismiss()
-                                                requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_call_in_progress))
+                                                requireActivity().showCustomSnackbarOnTop(
+                                                    getString(
+                                                        R.string.txt_call_in_progress
+                                                    )
+                                                )
                                             } else {
-                                                val intent = Intent(requireActivity(), VideoActivity::class.java)
+                                                val intent = Intent(
+                                                    requireActivity(),
+                                                    VideoActivity::class.java
+                                                )
                                                 startActivity(intent)
-                                               /* overridePendingTransition(
-                                                    R.anim.slide_in_right,
-                                                    R.anim.slide_out_left
-                                                )*/
+                                                /* overridePendingTransition(
+                                                     R.anim.slide_in_right,
+                                                     R.anim.slide_out_left
+                                                 )*/
                                                 dialog.dismiss()
                                             }
 
@@ -1199,10 +1194,12 @@ class UpcomingListFragment : Fragment() {
                         // overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     }
                 }
+
                 400 -> {
                     requireActivity().dismissProgressDialog()
                     requireActivity().showToast(requireActivity(), "null values")
                 }
+
                 404 -> {
                     requireActivity().dismissProgressDialog()
                     requireActivity().showToast(requireActivity(), "response not success")
@@ -1221,7 +1218,7 @@ class UpcomingListFragment : Fragment() {
 
 
     fun showAlertWhenNotHost() {
-        requireActivity(). setHandler().post(kotlinx.coroutines.Runnable {
+        requireActivity().setHandler().post(kotlinx.coroutines.Runnable {
             val dialog = AlertDialog.Builder(requireActivity())
             dialog.setMessage(getString(R.string.txt_not_host_alert))
             dialog.setPositiveButton(getString(R.string.txt_join_again),
@@ -1261,12 +1258,11 @@ class UpcomingListFragment : Fragment() {
                 binding.tvHeader.setText(getString(R.string.txt_all_meetings))
                 if (requireActivity().checkInternet()) {
                     handleUpcomingMeetingsList(7, 1, 9)
-                }
-                else
-                {
+                } else {
                     requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
                 }
             }
+
             R.id.attended_meetings -> {
                 status = "Attended"
                 clearList()
@@ -1274,13 +1270,12 @@ class UpcomingListFragment : Fragment() {
                 binding.tvHeader.setText(getString(R.string.txt_attended))
                 if (requireActivity().checkInternet()) {
                     handleUpcomingMeetingsList(7, 1, 9)
-                }
-                else
-                {
+                } else {
                     requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
                 }
 
             }
+
             R.id.scheduled_meetings -> {
                 status = "schedule"
                 clearList()
@@ -1288,12 +1283,11 @@ class UpcomingListFragment : Fragment() {
                 binding.tvHeader.setText(getString(R.string.txt_scheduled_meetings))
                 if (requireActivity().checkInternet()) {
                     handleUpcomingMeetingsList(7, 1, 9)
-                }
-                else
-                {
+                } else {
                     requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
                 }
             }
+
             R.id.nonscheduled_meetings -> {
                 status = "nonSchedule"
 
@@ -1302,12 +1296,11 @@ class UpcomingListFragment : Fragment() {
                 binding.tvHeader.setText(getString(R.string.txt_missed))
                 if (requireActivity().checkInternet()) {
                     handleUpcomingMeetingsList(7, 1, 9)
-                }
-                else
-                {
+                } else {
                     requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
                 }
             }
+
             R.id.cancel_meetings -> {
                 status = "cancel"
                 clearList()
@@ -1315,10 +1308,8 @@ class UpcomingListFragment : Fragment() {
                 binding.tvHeader.setText(getString(R.string.txt_cancelled))
                 if (requireActivity().checkInternet()) {
                     handleUpcomingMeetingsList(7, 1, 9)
-                }
-                else
-                {
-                    requireActivity(). showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                } else {
+                    requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
                 }
             }
             /*R.id.navdrawerCandidateId->{
@@ -1328,7 +1319,6 @@ class UpcomingListFragment : Fragment() {
 
         return super.onContextItemSelected(item)
     }
-
 
 
 }

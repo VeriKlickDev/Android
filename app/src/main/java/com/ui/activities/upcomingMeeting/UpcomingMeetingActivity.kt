@@ -52,7 +52,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             }
         }
 
-        fragManager?.beginTransaction()?.replace(R.id.fragment_container,UpcomingListFragment.getInstance())?.commit()
+        fragManager?.beginTransaction()?.replace(R.id.fragment_container,UpcomingListFragment.getInstance(getString(R.string.txt_all_meetings)))?.commit()
 
        /* if (viewModel.getFragManager()!=null)
         {
@@ -142,13 +142,14 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                    // attatchFragment(0)
                    // upcomingFragment?.getMeetingList(0)
 
-                    supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,UpcomingListFragment.getInstance())?.commit()
+                    supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,UpcomingListFragment.getInstance(getString(R.string.txt_all_meetings)))?.commit()
                     closeDrawer()
                 }
                 R.id.navdrawerscheduled_meetings -> {
                     //  replaceFragment(viewModel.getFragmentsList().get(0))
                     hideAllFragment()
                     attatchFragment(0)
+                    supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,UpcomingListFragment.getInstance(getString(R.string.txt_scheduled)))?.commit()
                     upcomingFragment?.getMeetingList(2)
                     closeDrawer()
                 }
@@ -156,6 +157,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     // replaceFragment(viewModel.getFragmentsList().get(0))
                     hideAllFragment()
                     attatchFragment(0)
+                    supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,UpcomingListFragment.getInstance(getString(R.string.txt_attended)))?.commit()
                     upcomingFragment?.getMeetingList(1)
                     closeDrawer()
                 }
@@ -163,6 +165,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     // replaceFragment(viewModel.getFragmentsList().get(0))
                     hideAllFragment()
                     attatchFragment(0)
+                    supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,UpcomingListFragment.getInstance(getString(R.string.txt_missed)))?.commit()
                     upcomingFragment?.getMeetingList(3)
                     closeDrawer()
                 }
@@ -170,6 +173,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                     //  replaceFragment(viewModel.getFragmentsList().get(0))
                     hideAllFragment()
                     attatchFragment(0)
+                    supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,UpcomingListFragment.getInstance(getString(R.string.txt_canceled_meetings)))?.commit()
                     upcomingFragment?.getMeetingList(4)
                     closeDrawer()
                 }
