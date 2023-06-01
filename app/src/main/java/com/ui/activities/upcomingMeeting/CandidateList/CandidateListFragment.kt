@@ -91,7 +91,7 @@ class CandidateListFragment() : Fragment() {
         getCandidateList()
 
         CoroutineScope(Dispatchers.IO+ exceptionHandler).launch {
-            getTemplateList(DataStoreHelper.getMeetingRecruiterid())
+            getTemplateList(DataStoreHelper.getMeetingUserId())
         }
 
         return binding.root

@@ -139,6 +139,8 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
 
+        val date=Date(Calendar.getInstance().timeInMillis)
+
         val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
 
             // Display Selected date in textbox
@@ -152,7 +154,7 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
                 timeSelected(scheduleFullDate)
             }
         }, year, month, day)
-
+        dpd.datePicker.minDate=date.time
         dpd.show()
 
        /* */
@@ -193,7 +195,6 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
             60,
             false
         )
-        timePicker
         //timePicker.window?.setBackgroundDrawable(ColorDrawable(Color.BLACK))
         timePicker.create()
         timePicker.show()
@@ -274,7 +275,7 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
                        if (isSuccess){
                            setHandler().postDelayed(Runnable {
                                finish()
-                           },2000)
+                           },2000)33333333
                        }
                    }
                }
