@@ -36,17 +36,18 @@ import com.ui.listadapters.UpcomingMeetingAdapter
 import com.veriKlick.R
 import com.veriKlick.databinding.FragmentUpcomingListBinding
 import com.veriKlick.databinding.LayoutDescriptionDialogBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 import kotlin.concurrent.thread
 
-
+@AndroidEntryPoint
 class UpcomingListFragment(val from: String) : Fragment() {
 
     lateinit var binding: FragmentUpcomingListBinding
-    lateinit var viewModel: UpComingMeetingViewModel
+    lateinit var viewModel: VMUpcomingFragment
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,8 +56,11 @@ class UpcomingListFragment(val from: String) : Fragment() {
         // Inflate the layout for this fragment
 
         binding = FragmentUpcomingListBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(requireActivity()).get(UpComingMeetingViewModel::class.java)
+
+        viewModel = ViewModelProvider(this).get(VMUpcomingFragment::class.java)
+
         requireActivity().dismissProgressDialog()
+        setupAdapter()
         meetingsList.clear()
 
 
@@ -67,13 +71,18 @@ class UpcomingListFragment(val from: String) : Fragment() {
 
         currentDateIST = requireActivity().getCurrentDate()!!
 
-        if (requireActivity().checkInternet()) {
+
+        handleMeetingFilter()
+
+
+       /* if (requireActivity().checkInternet()) {
             status = "schedule"
             binding.tvHeader.setText(getString(R.string.txt_scheduled_meetings))
             handleUpcomingMeetingsList(0, 1, 9)
+            //2jun2023 handleUpcomingMeetingsList(0, 1, 9)
         } else {
             requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
-        }
+        }*/
 
         binding.btnSearchShow.setOnClickListener {
             if (binding.tvHeader.isVisible) {
@@ -95,12 +104,15 @@ class UpcomingListFragment(val from: String) : Fragment() {
                 }
         */
 
+
         binding.swipetorefresh.setOnRefreshListener {
             if (requireActivity().checkInternet()) {
 
                 clearList()
                 pageno = 1
+                //handleMeetingFilter()
                 handleUpcomingMeetingsList(7, 1, 9)
+                //2jun2023 handleUpcomingMeetingsList(7, 1, 9)
             } else {
                 binding.swipetorefresh.isRefreshing = false
                 requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
@@ -266,7 +278,7 @@ class UpcomingListFragment(val from: String) : Fragment() {
 
             }
         })
-        setupAdapter()
+       //2jun2023 setupAdapter()
         handleObserver()
         requireActivity().requestNearByPermissions() {
             Log.d(TAG, "onCreate: onNearbyPermission $it")
@@ -290,16 +302,43 @@ class UpcomingListFragment(val from: String) : Fragment() {
     }
 
     private fun handleMeetingFilter() {
+        Log.d(TAG, "handleMeetingFilter: come from $from")
+
+       // viewModel.clearObserverList()
+
         when (from) {
-
+            getString(R.string.txt_scheduled_meetings) -> {
+                clearList()
+                status = "schedule"
+                binding.tvHeader.setText(getString(R.string.txt_scheduled_meetings))
+                handleUpcomingMeetingsList(0, 1, 9)
+            }
+            getString(R.string.txt_all_meetings) -> {
+                getMeetingList(0)
+            }
+            getString(R.string.txt_scheduled) -> {
+                getMeetingList(2)
+            }
+            getString(R.string.txt_attended) -> {
+                getMeetingList(1)
+            }
+            getString(R.string.txt_missed) -> {
+                getMeetingList(3)
+            }
+            getString(R.string.txt_cancelled) -> {
+                getMeetingList(4)
+            }
         }
-
 
     }
 
     private fun clearList() {
-        meetingsList.clear()
-        adapter.swapList(meetingsList)
+        meetingsList
+        requireActivity().runOnUiThread {
+            meetingsList.clear()
+            adapter.swapList(meetingsList)
+        }
+
     }
 
     override fun onDestroyView() {
@@ -327,20 +366,29 @@ class UpcomingListFragment(val from: String) : Fragment() {
 
     fun getMeetingList(action: Int) {
         //binding=FragmentUpcomingListBinding.inflate(layoutInflater)
+
         when (action) {
             0 -> {
-                status = ""
+                try {
+                    status = ""
 
-                clearList()
-                pageno = 1
+                    clearList()
+                    pageno = 1
+                    requireActivity().runOnUiThread {
+                        binding.tvHeader.setText(getString(R.string.txt_all_meetings))
+                    }
 
-                binding.tvHeader.setText(getString(R.string.txt_all_meetings))
 
-                if (requireActivity().checkInternet()) {
-                    handleUpcomingMeetingsList(7, 1, 9)
-                } else {
-                    requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                    if (requireActivity().checkInternet()) {
+                        handleUpcomingMeetingsList(7, 1, 9)
+                    } else {
+                        requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                    }
+                }catch (e:Exception)
+                {
+                    Log.d(TAG, "getMeetingList: exception ${e.message}")
                 }
+
             }
 
             1 -> {
@@ -399,12 +447,11 @@ class UpcomingListFragment(val from: String) : Fragment() {
 
 
     companion object {
+
         var instance: UpcomingListFragment? = null
         fun getInstance(from: String): Fragment {
-            if (instance == null)
-                instance = UpcomingListFragment(from)
-
-            return instance as UpcomingListFragment
+            Log.d("TAG", "getInstance: from meeting $from")
+            return UpcomingListFragment(from)
         }
     }
 
@@ -585,9 +632,6 @@ class UpcomingListFragment(val from: String) : Fragment() {
         } catch (e: Exception) {
             requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
         }
-
-
-
 
         try {
             WeeksDataHolder.setCurrentTime(
@@ -782,12 +826,52 @@ class UpcomingListFragment(val from: String) : Fragment() {
         //25may2023binding.tvNoData.visibility = View.VISIBLE
         //visibleProgressBar()
         viewModel.scheduledMeetingLiveData.observe(requireActivity(), Observer {
-            if (it.firstOrNull() == meetingsList.firstOrNull()) {
-                meetingsList.clear()
-                adapter.notifyDataSetChanged()
+            if (it.size>0)
+            {
+                meetingsList.addAll(it)
+                adapter.swapList(meetingsList)
+            }
+            try {
+                if (it.size==0 && it.get(0).totalCount==0)
+                {
+                    meetingsList.clear()
+                    adapter.notifyDataSetChanged()
+                }   else
+                {
+
+                }
+            }catch (e:Exception)
+            {
+                Log.d(TAG, "handleObserver: excl ${e.message}")
+            }
+            try {
+             /*   contentLimit
+                if (contentLimit==0)
+                {
+                    clearList()
+                    binding.tvNoData.visibility = View.VISIBLE
+                }else
+                {
+                    binding.tvNoData.visibility = View.INVISIBLE
+                }*/
+            }catch (e:Exception)
+            {
+                Log.d(TAG, "handleObserver: exxcep ${e.message}")
+            }
+
+
+           /* if (it.firstOrNull() == meetingsList.firstOrNull()) {
+
+                try {
+                    meetingsList.clear()
+                    adapter.swapList(meetingsList)
+                }catch (e:Exception)
+                {
+                    Log.d(TAG, "handleObserver: excp ${e.message}")
+                }
             }
             if (!it.isNullOrEmpty()) {
-                Log.d(TAG, "handleObserver: ifpart not null empty $it ")
+                Log.d(TAG, "handleObserver: ifpart not null empty ${it.size} ")
                 //3 may 2023
                 meetingsList.addAll(it)
                 adapter.swapList(meetingsList)
@@ -797,17 +881,19 @@ class UpcomingListFragment(val from: String) : Fragment() {
             }
             if (meetingsList.size == 0) {
                 Log.d(TAG, "handleObserver: ifpart meeting size 0")
+                try {
+                    meetingsList.clear()
+                    adapter.swapList(meetingsList)
+                }catch (e:Exception)
+                {
+                    Log.d(TAG, "handleObserver: excp 851${e.message}")
+                }
                 binding.tvNoData.visibility = View.VISIBLE
             } else {
                 Log.d(TAG, "handleObserver: elsepart meeting size not size")
                 binding.tvNoData.visibility = View.GONE
             }
-            Log.d(TAG, "handleObserver: out observer ${it.size}")
-
-            Log.d(TAG, "handleObserver: size ${it.size}")
-            //Log.d(TAG, "handleObserver: size ${it}")
-
-            //     binding.tvNoData.visibility=View.VISIBLE
+           */
         })
     }
 

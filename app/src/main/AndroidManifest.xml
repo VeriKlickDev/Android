@@ -85,15 +85,17 @@
             </intent-filter>
 
         </activity>
-        <activity
-            android:name="com.ui.activities.createCandidate.ActivityCreateCandidate"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.VeriklickBase">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+<!--        -->
+<!--        <activity-->
+<!--            android:name="com.ui.activities.createCandidate.FragmentCreateCandidate"-->
+<!--            android:exported="false"-->
+<!--            android:screenOrientation="portrait"-->
+<!--            android:theme="@style/Theme.VeriklickBase">-->
+<!--            <meta-data-->
+<!--                android:name="android.app.lib_name"-->
+<!--                android:value="" />-->
+<!--        </activity>-->
+<!--        -->
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"

@@ -12,8 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.data.*
 import com.data.dataHolders.DataStoreHelper
 import com.data.dataHolders.UpcomingMeetingStatusHolder
-import com.domain.constant.AppConstants
-import com.ui.activities.createCandidate.ActivityCreateCandidate
+import com.ui.activities.createCandidate.FragmentCreateCandidate
 import com.ui.activities.login.LoginActivity
 import com.ui.activities.upcomingMeeting.CandidateList.CandidateListFragment
 import com.ui.activities.upcomingMeeting.UpComingFragment.UpcomingListFragment
@@ -51,8 +50,20 @@ class UpcomingMeetingActivity : AppCompatActivity() {
                 }
             }
         }
+        try {
 
-        fragManager?.beginTransaction()?.replace(R.id.fragment_container,UpcomingListFragment.getInstance(getString(R.string.txt_all_meetings)))?.commit()
+            /*if (UpcomingMeetingStatusHolder.getFragment()!=null){
+                upcomingFragment=UpcomingMeetingStatusHolder.getFragment() as UpcomingListFragment
+            }else
+            {
+                UpcomingMeetingStatusHolder.setFragement(UpcomingListFragment(getString(R.string.txt_scheduled)))
+                upcomingFragment=UpcomingListFragment(getString(R.string.txt_scheduled))
+            }*/
+            supportFragmentManager.beginTransaction()?.add(R.id.fragment_container,UpcomingListFragment(getString(R.string.txt_scheduled_meetings)))?.commit()
+        }catch (e:Exception)
+        {
+            Log.d(TAG, "onCreate: exception in 67 ${e.message}")
+        }
 
        /* if (viewModel.getFragManager()!=null)
         {
@@ -108,13 +119,13 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
     fun setDrawabletoMenuItem(){
         binding.tvAppVersion.setText(getString(R.string.txt_app_version)+ " 1.1")
-        binding.navView.menu.getItem(0)?.setActionView(R.layout.drawer_user_icon_layout)
+      /*  binding.navView.menu.getItem(0)?.setActionView(R.layout.drawer_user_icon_layout)
         binding.navView.menu.getItem(1)?.setActionView(R.layout.drawer_user_icon_layout)
         binding.navView.menu.getItem(2)?.setActionView(R.layout.drawer_user_icon_layout)
         binding.navView.menu.getItem(3)?.setActionView(R.layout.drawer_user_icon_layout)
         binding.navView.menu.getItem(4)?.setActionView(R.layout.drawer_user_icon_layout)
         binding.navView.menu.getItem(5)?.setActionView(R.layout.drawer_user_icon_layout)
-        binding.navView.menu.getItem(6)?.setActionView(R.layout.drawer_user_icon_layout)
+        binding.navView.menu.getItem(6)?.setActionView(R.layout.drawer_user_icon_layout)*/
     }
 
 
@@ -140,47 +151,57 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
                    // hideAllFragment()
                    // attatchFragment(0)
-                   // upcomingFragment?.getMeetingList(0)
+                    //(UpcomingMeetingStatusHolder.getFragment() as UpcomingListFragment)?.getMeetingList(0)
+                    Log.d(
+                        TAG,
+                        "setDrawerListener: fralistt ${supportFragmentManager.fragments.size}")
+                    supportFragmentManager.fragments.forEach {
+                        Log.d(
+                            TAG,
+                            "setDrawerListener: fralistt ${it.id}")
 
-                    supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,UpcomingListFragment.getInstance(getString(R.string.txt_all_meetings)))?.commit()
+                    }
+
+                    supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,UpcomingListFragment(getString(R.string.txt_all_meetings)))?.commit()
                     closeDrawer()
                 }
                 R.id.navdrawerscheduled_meetings -> {
                     //  replaceFragment(viewModel.getFragmentsList().get(0))
-                    hideAllFragment()
-                    attatchFragment(0)
-                    supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,UpcomingListFragment.getInstance(getString(R.string.txt_scheduled)))?.commit()
-                    upcomingFragment?.getMeetingList(2)
+                   // hideAllFragment()
+                   // attatchFragment(0)
+                    supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,UpcomingListFragment(getString(R.string.txt_scheduled)))?.commit()
+                   // (UpcomingMeetingStatusHolder.getFragment() as UpcomingListFragment)?.getMeetingList(2)
                     closeDrawer()
                 }
                 R.id.navdrawerattended_meetings -> {
                     // replaceFragment(viewModel.getFragmentsList().get(0))
-                    hideAllFragment()
-                    attatchFragment(0)
-                    supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,UpcomingListFragment.getInstance(getString(R.string.txt_attended)))?.commit()
-                    upcomingFragment?.getMeetingList(1)
+                    //hideAllFragment()
+                    //attatchFragment(0)
+                    supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,UpcomingListFragment(getString(R.string.txt_attended)))?.commit()
+                    //upcomingFragment?.getMeetingList(1)
                     closeDrawer()
                 }
                 R.id.navdrawermissed -> {
                     // replaceFragment(viewModel.getFragmentsList().get(0))
-                    hideAllFragment()
-                    attatchFragment(0)
-                    supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,UpcomingListFragment.getInstance(getString(R.string.txt_missed)))?.commit()
-                    upcomingFragment?.getMeetingList(3)
+                   // hideAllFragment()
+                   // attatchFragment(0)
+                    supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,UpcomingListFragment(getString(R.string.txt_missed)))?.commit()
+                   // (UpcomingMeetingStatusHolder.getFragment() as UpcomingListFragment)?.getMeetingList(3)
                     closeDrawer()
                 }
                 R.id.navdrawercancel_meetings -> {
                     //  replaceFragment(viewModel.getFragmentsList().get(0))
-                    hideAllFragment()
-                    attatchFragment(0)
-                    supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,UpcomingListFragment.getInstance(getString(R.string.txt_canceled_meetings)))?.commit()
-                    upcomingFragment?.getMeetingList(4)
+                   // hideAllFragment()
+                   // attatchFragment(0)
+                    supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,UpcomingListFragment(getString(R.string.txt_cancelled)))?.commit()
+                   // (UpcomingMeetingStatusHolder.getFragment() as UpcomingListFragment)?.getMeetingList(4)
                     closeDrawer()
                 }
                  R.id.navdrawercreateCandidate -> {
                      closeDrawer()
+                     supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,FragmentCreateCandidate())?.commit()
                      setHandler().postDelayed({
-                         startActivity(Intent(this,ActivityCreateCandidate::class.java))
+                        // startActivity(Intent(this,FragementCreateCandidate::class.java))
                      },200)
                  }
                 /*R.id.navdrawerQuestonnaireScreen -> {

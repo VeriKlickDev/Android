@@ -1,4 +1,4 @@
-package com.ui.activities.upcomingMeeting
+package com.ui.activities.upcomingMeeting.UpComingFragment
 
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,7 +8,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.data.dataHolders.DataStoreHelper
 import com.data.exceptionHandler
-import com.domain.BaseModels.*
+import com.domain.BaseModels.BodyCancelMeeting
+import com.domain.BaseModels.BodyCandidateList
+import com.domain.BaseModels.BodyMuteUmnuteBean
+import com.domain.BaseModels.BodySMSCandidate
+import com.domain.BaseModels.BodyScheduledMeetingBean
+import com.domain.BaseModels.NewInterviewDetails
+import com.domain.BaseModels.ResponseCandidateList
+import com.domain.BaseModels.ResponseInterViewDetailsBean
+import com.domain.BaseModels.ResponseInterviewerAccessCodeByID
+import com.domain.BaseModels.ResponseMuteUmnute
+import com.domain.BaseModels.ResponseQuestionnaireTemplate
+import com.domain.BaseModels.ResponseSMSCadidate
+import com.domain.BaseModels.ResponseScheduledMeetingBean
+import com.domain.BaseModels.TokenResponseBean
 import com.domain.RestApi.BaseRestApi
 import com.domain.RestApi.LoginRestApi
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,11 +33,12 @@ import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
-class UpComingMeetingViewModel @Inject constructor(
+class VMUpcomingFragment  @Inject constructor(
     val loginRestApi: LoginRestApi,
     val baseRepoApi: BaseRestApi
 ) : ViewModel() {
-    private val TAG = "upcomingViewModel"
+val TAG="vmupcomoingfrag"
+
 
     init {
         Log.d(TAG, "init viemwodel upcoming meeting: ")
@@ -90,7 +104,7 @@ class UpComingMeetingViewModel @Inject constructor(
             response(500, e.printStackTrace().toString(),null,null)
         }
         catch (e: HttpException) {
-         //   onDataResponse(null, 404)
+            //   onDataResponse(null, 404)
             Log.d(TAG, "getVideoSession: not exception https exception ${e.message} 82")
         }
         catch (e:IOException)
@@ -119,7 +133,7 @@ class UpComingMeetingViewModel @Inject constructor(
                 bodyScheduledMeetingBean.Subscriber = DataStoreHelper.getMeetingUserId()
 
                 val result = baseRepoApi?.getScheduledMeetingsListwithOtp(
-                   // DataStoreHelper.getLoginBearerToken(),
+                    // DataStoreHelper.getLoginBearerToken(),
                     bodyScheduledMeetingBean
                 )
 
@@ -153,7 +167,7 @@ class UpComingMeetingViewModel @Inject constructor(
             response(500, e.printStackTrace().toString(),null)
         }
         catch (e: HttpException) {
-         //   onDataResponse(null, 404)
+            //   onDataResponse(null, 404)
             Log.d(TAG, "getVideoSession: not exception https exception 137 ${e.message}")
         }
         catch (e:IOException)
@@ -165,50 +179,50 @@ class UpComingMeetingViewModel @Inject constructor(
 
 
 
-/*
-    fun getVideoSessionDetails(videoAccessCode:String,onDataResponse:(data: ResponseInterViewDetailsBean?, response:Int)->Unit)
-    {
-        try {
-            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
-                val result=baseRepoApi.requestVideoSession(videoAccessCode)
-                if (result.isSuccessful)
-                {
-                    if (result.body()!=null)
-                    {
-                        when(result.body()?.aPIResponse?.statusCode){
-                            404->{
-                                onDataResponse(null,404)
-                            }
-                            200->{
-                                onDataResponse(result.body(),200)
-                            }
-                            400->{
-                                onDataResponse(result.body(),400)
-                            }
-                        }
-
-                        //onDataResponse(result.body()!!,200)
-                        Log.d(TAG, "getVideoSession:  success ${result.body()}")
-
-                        Log.d("videocon", "getVideoSession:  success ${result.body()?.aPIResponse?.statusCode}")
-                    }
-                    else{
-                        onDataResponse(result.body()!!,400)
-                        Log.d(TAG, "getVideoSession: null result")
-                    }
-                }else
-                {
-                    onDataResponse(result.body()!!,404)
-                    Log.d(TAG, "getVideoSession: not success")
-                }
-            }
-        }catch (e:Exception)
+    /*
+        fun getVideoSessionDetails(videoAccessCode:String,onDataResponse:(data: ResponseInterViewDetailsBean?, response:Int)->Unit)
         {
-            onDataResponse(null,404)
-            Log.d(TAG, "getVideoSession: not exception")
+            try {
+                CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
+                    val result=baseRepoApi.requestVideoSession(videoAccessCode)
+                    if (result.isSuccessful)
+                    {
+                        if (result.body()!=null)
+                        {
+                            when(result.body()?.aPIResponse?.statusCode){
+                                404->{
+                                    onDataResponse(null,404)
+                                }
+                                200->{
+                                    onDataResponse(result.body(),200)
+                                }
+                                400->{
+                                    onDataResponse(result.body(),400)
+                                }
+                            }
+
+                            //onDataResponse(result.body()!!,200)
+                            Log.d(TAG, "getVideoSession:  success ${result.body()}")
+
+                            Log.d("videocon", "getVideoSession:  success ${result.body()?.aPIResponse?.statusCode}")
+                        }
+                        else{
+                            onDataResponse(result.body()!!,400)
+                            Log.d(TAG, "getVideoSession: null result")
+                        }
+                    }else
+                    {
+                        onDataResponse(result.body()!!,404)
+                        Log.d(TAG, "getVideoSession: not success")
+                    }
+                }
+            }catch (e:Exception)
+            {
+                onDataResponse(null,404)
+                Log.d(TAG, "getVideoSession: not exception")
+            }
         }
-    }
-*/
+    */
 
 
     fun getVideoSessionHost(
@@ -235,7 +249,7 @@ class UpComingMeetingViewModel @Inject constructor(
             Log.d(TAG, "getVideoSession: 207 not exception")
         }
         catch (e: HttpException) {
-         //   onDataResponse(null, 404)
+            //   onDataResponse(null, 404)
             Log.d(TAG, "getVideoSession: 211 not exception https exception ${e.message}")
         }
         catch (e:IOException)
@@ -279,7 +293,7 @@ class UpComingMeetingViewModel @Inject constructor(
         } catch (e: Exception) {
             Log.d(TAG, "getVideoSession: not exception")
         } catch (e: HttpException) {
-         //   onDataResponse(null, 404)
+            //   onDataResponse(null, 404)
             Log.d(TAG, "getVideoSession: 247 not exception https exception ${e.message}")
         }
         catch (e:IOException)
@@ -318,7 +332,7 @@ class UpComingMeetingViewModel @Inject constructor(
             onResult(500, null)
         }
         catch (e: HttpException) {
-         //   onDataResponse(null, 404)
+            //   onDataResponse(null, 404)
             Log.d(TAG, "getVideoSession: 294not exception https exception ${e.message}")
         }
         catch (e:IOException)
@@ -368,7 +382,7 @@ class UpComingMeetingViewModel @Inject constructor(
                 Log.d(TAG, "getVideoSession: exception ${e.message}")
             }
             catch (e: HttpException) {
-               // onDataResponse(null, 404)
+                // onDataResponse(null, 404)
                 Log.d(TAG, "getVideoSession: not exception https exception 321 ${e.message}")
             }
             catch (e:IOException)
@@ -434,10 +448,10 @@ class UpComingMeetingViewModel @Inject constructor(
     }
 
 
-/**cancel meeting*/
+    /**cancel meeting*/
 
     fun cancelMeeting(data: NewInterviewDetails,
-                onDataResponse: (data: BodyCancelMeeting?, response: Int) -> Unit
+                      onDataResponse: (data: BodyCancelMeeting?, response: Int) -> Unit
     ) {
         try {
 
@@ -448,7 +462,9 @@ class UpComingMeetingViewModel @Inject constructor(
                 val email=DataStoreHelper.getUserEmail()
                 email
 
-                val result = baseRepoApi.cancelMeeting(DataStoreHelper.getLoginBearerToken(),BodyCancelMeeting(InterviewSeqId=data.interviewId, SubscriberId = data.subscriberid.toString(), logedInUser = DataStoreHelper.getUserEmail()))
+                val result = baseRepoApi.cancelMeeting(DataStoreHelper.getLoginBearerToken(),
+                    BodyCancelMeeting(InterviewSeqId=data.interviewId, SubscriberId = data.subscriberid.toString(), logedInUser = DataStoreHelper.getUserEmail())
+                )
                 if (result.isSuccessful) {
                     if (result.body() != null) {
                         when (result.code()) {
@@ -498,11 +514,11 @@ class UpComingMeetingViewModel @Inject constructor(
 
 
     val fragList= mutableListOf<Fragment>()
-    private var fragmentManagerr:FragmentManager?=null
+    private var fragmentManagerr: FragmentManager?=null
     fun getFragManager() = fragmentManagerr
     fun createInstanceOfFragments(fragmentManager: FragmentManager){
         fragmentManagerr=fragmentManager
-            fragList.addAll(fragmentManager.fragments)
+        fragList.addAll(fragmentManager.fragments)
         Log.d(TAG, "createInstanceOfFragments: viewmodel fragment size ${fragList.size} ${fragmentManager.fragments.size} ")
     }
 
@@ -513,7 +529,7 @@ class UpComingMeetingViewModel @Inject constructor(
     private var candidateListMutable = MutableLiveData<ResponseCandidateList>()
     var candidateListLive: LiveData<ResponseCandidateList>? = candidateListMutable
 
-    fun getCandidateList(ob: BodyCandidateList, recid: String, subsId: String,top:String,skip:String,searchExpression:String,category:String, respnse:(isSuccess:Boolean, errorCode:Int, msg:String)->Unit) {
+    fun getCandidateList(ob: BodyCandidateList, recid: String, subsId: String, top:String, skip:String, searchExpression:String, category:String, respnse:(isSuccess:Boolean, errorCode:Int, msg:String)->Unit) {
         CoroutineScope(Dispatchers.IO + exceptionHandler)
             .launch {
                 try {
@@ -547,7 +563,7 @@ class UpComingMeetingViewModel @Inject constructor(
             }
     }
 
-    fun sendProfileLink(bodySMSCandidate: BodySMSCandidate,respnse:(data:ResponseSMSCadidate?,isSuccess:Boolean, errorCode:Int, msg:String)->Unit) {
+    fun sendProfileLink(bodySMSCandidate: BodySMSCandidate, respnse:(data: ResponseSMSCadidate?, isSuccess:Boolean, errorCode:Int, msg:String)->Unit) {
         CoroutineScope(Dispatchers.IO + exceptionHandler)
             .launch {
                 try {
@@ -619,5 +635,6 @@ class UpComingMeetingViewModel @Inject constructor(
                 }
             }
     }
+
 
 }

@@ -20,10 +20,10 @@
             >
 
             <ImageView
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:background="@drawable/ic_arrow_back_24"
-                android:id="@+id/btn_jump_back"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:background="@drawable/img_bugericon"
+                android:id="@+id/btn_bugerIcon"
                 android:layout_margin="@dimen/_16sdp"
                 />
 
@@ -50,7 +50,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_30sdp"
                             android:layout_marginHorizontal="@dimen/_16sdp"
-                            android:text="@string/txt_createProfile" />
+                            android:text="@string/txt_create_candidate" />
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="match_parent"
@@ -60,50 +60,50 @@
                             >
 
 
-                            <EditText
-                                android:id="@+id/et_firstname"
-                                android:maxLines="1"
-                                android:singleLine="true"
-                                android:hint="@string/txt_firstName"
-                                android:imeOptions="actionNext"
-                                android:textSize="@dimen/_18sdp"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginHorizontal="@dimen/_10sp"
-                                style="@style/editext.style.base"
-                                />
-
-
-
-                            <!--                            <com.google.android.material.textfield.TextInputLayout-->
+<!--                            <EditText-->
+<!--                                android:id="@+id/et_firstname"-->
+<!--                                android:maxLines="1"-->
+<!--                                android:singleLine="true"-->
+<!--                                android:hint="@string/txt_firstName"-->
+<!--                                android:imeOptions="actionNext"-->
+<!--                                android:textSize="@dimen/_18sdp"-->
 <!--                                android:layout_width="match_parent"-->
 <!--                                android:layout_height="wrap_content"-->
-<!--                                android:hint="Middle Name"-->
-<!--                                android:minWidth="32dp"-->
-<!--                                android:minHeight="48dp"-->
-<!--                                >-->
-<!--                                <com.google.android.material.textfield.TextInputEditText-->
-<!--                                    android:layout_width="match_parent"-->
-<!--                                    android:layout_height="@dimen/_45sdp"-->
-<!--                                    android:id="@+id/et_middlename"-->
-<!--                                    android:singleLine="true"-->
-<!--                                    android:maxLength="30"-->
-<!--                                    />-->
-<!--                            </com.google.android.material.textfield.TextInputLayout>-->
+<!--                                android:layout_marginHorizontal="@dimen/_10sp"-->
+<!--                                style="@style/editext.style.base"-->
+<!--                                />-->
 
-                            <EditText
-                                android:id="@+id/et_Lastname"
-                                android:maxLines="1"
-                                android:singleLine="true"
-                                android:hint="@string/txt_lastName"
-                                android:imeOptions="actionNext"
-                                android:layout_marginVertical="@dimen/_10sp"
-                                android:textSize="@dimen/_18sdp"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginHorizontal="@dimen/_10sp"
-                                style="@style/editext.style.base"
-                                />
+
+
+<!--                            &lt;!&ndash;                            <com.google.android.material.textfield.TextInputLayout&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:hint="Middle Name"&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:minWidth="32dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:minHeight="48dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                >&ndash;&gt;-->
+<!--&lt;!&ndash;                                <com.google.android.material.textfield.TextInputEditText&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_height="@dimen/_45sdp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:id="@+id/et_middlename"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:singleLine="true"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:maxLength="30"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    />&ndash;&gt;-->
+<!--&lt;!&ndash;                            </com.google.android.material.textfield.TextInputLayout>&ndash;&gt;-->
+
+<!--                            <EditText-->
+<!--                                android:id="@+id/et_Lastname"-->
+<!--                                android:maxLines="1"-->
+<!--                                android:singleLine="true"-->
+<!--                                android:hint="@string/txt_lastName"-->
+<!--                                android:imeOptions="actionNext"-->
+<!--                                android:layout_marginVertical="@dimen/_10sp"-->
+<!--                                android:textSize="@dimen/_18sdp"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginHorizontal="@dimen/_10sp"-->
+<!--                                style="@style/editext.style.base"-->
+<!--                                />-->
                             <EditText
                                 android:id="@+id/et_email"
                                 android:maxLines="1"

@@ -278,6 +278,40 @@ class VMCreateCandidate @Inject constructor(val baseRestApi: BaseRestApi) : View
     }
 
 
+    fun getIsPhoneExists(
+        interviewId: Int,
+        email: String,
+        Phone: String,
+        response: (isExists: Boolean) -> Unit
+    ) {
+        try {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
+                val result = baseRestApi.getPhoneExistsDetails(
+                    IsEmailPhoneExistsModel(
+                        interviewId,
+                        email,
+                        Phone
+                    )
+                )
+
+                if (result.isSuccessful) {
+                    if (result.body() != null) {
+                        response(result.body()!!)
+                    }
+                    else {
+                        Log.d(TAG, "getIsEmailAndPhoneExists: null response ")
+                    }
+                }
+                else {
+                    Log.d(TAG, "getIsEmailAndPhoneExists:  response not success")
+                }
+            }
+        } catch (e: Exception) {
+            Log.d("adduserexception", "getIsEmailAndPasswordExists: exception  ")
+        }
+    }
+
+
 
 
 }

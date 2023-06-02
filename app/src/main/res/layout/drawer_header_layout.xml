@@ -6,15 +6,15 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/_200sdp"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:orientation="vertical"
         tools:ignore="MissingConstraints"
         android:layout_margin="@dimen/_20sp">
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_45sdp"
             android:layout_margin="@dimen/_16sdp"
             android:background="@drawable/ic_logo_verclick"
             />

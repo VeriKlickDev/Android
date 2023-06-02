@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
+import com.ui.activities.upcomingMeeting.UpComingFragment.UpcomingListFragment
 
 private val doRefresh= mutableListOf<Boolean>()
 private var doRefreshLive=MutableLiveData<Boolean>()
@@ -38,8 +39,12 @@ object UpcomingMeetingStatusHolder {
         fragList.addAll(fragmentManager.fragments)
         Log.d("TAG", "createInstanceOfFragments: viewmodel fragment size ${fragList.size} ${fragmentManager.fragments.size} ")
     }
+    fun setFragement(frag:UpcomingListFragment)
+    {
+        fragList.add(frag)
+    }
 
-    fun getFragmentsList()=fragList
+    fun getFragment()=fragList.firstOrNull()
 
 
 

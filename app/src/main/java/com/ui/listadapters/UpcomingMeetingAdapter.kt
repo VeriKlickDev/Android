@@ -1,5 +1,6 @@
 package com.ui.listadapters
 
+import android.app.Activity
 import android.content.Context
 import android.os.Looper
 import android.util.Log
@@ -25,7 +26,7 @@ import java.util.logging.Handler
 
 class UpcomingMeetingAdapter(
     val context: Context,
-    val list: List<NewInterviewDetails>,
+    val list: MutableList<NewInterviewDetails>,
     val onClick: (data: NewInterviewDetails, videoAccessCode: String, action: Int) -> Unit
 ) :
     RecyclerView.Adapter<UpcomingMeetingAdapter.ViewHolderClass>() {
@@ -38,9 +39,12 @@ class UpcomingMeetingAdapter(
 
     fun swapList(newlist:List<NewInterviewDetails>)
     {
-        var diffList=DiffUtil.calculateDiff(DiffUtilHelperUpcomingMeeting(list,list))
+        var diffList=DiffUtil.calculateDiff(DiffUtilHelperUpcomingMeeting(newlist,list))
         diffList.dispatchUpdatesTo(this)
-        notifyDataSetChanged()
+
+       // list.addAll(newlist)
+        (context as Activity).runOnUiThread { notifyDataSetChanged() }
+
     }
 
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {

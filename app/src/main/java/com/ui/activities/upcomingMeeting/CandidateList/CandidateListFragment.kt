@@ -15,7 +15,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.AbsListView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -47,7 +50,8 @@ class CandidateListFragment() : Fragment() {
     private var skipPage = 1
     private var contentLimit = 0
     private val candidateList = mutableListOf<SavedProfileDetail>()
-
+    private var searchTxt :String?=null
+    private var progressType=1
 
     private val jsEncryptor = CryptoJsHelper()
     override fun onCreateView(
@@ -88,10 +92,67 @@ class CandidateListFragment() : Fragment() {
 
         setupRecyclerPagination()
         handleObserver()
-        getCandidateList()
+        getCandidateList(1)
 
         CoroutineScope(Dispatchers.IO+ exceptionHandler).launch {
             getTemplateList(DataStoreHelper.getMeetingUserId())
+        }
+
+
+        binding.etSearch.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                searchTxt = binding.etSearch.text.toString()
+                if (requireActivity().checkInternet()) {
+                    requireActivity().runOnUiThread {
+                        candidateList.clear()
+                        recyclerAdapter?.addList(candidateList)
+                    }
+                    progressType=0
+                    getCandidateList(0)
+                } else {
+                    requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                }
+                hideKeyboard(requireActivity())
+                return@OnEditorActionListener true
+            }
+            false
+        })
+
+        binding.btnSearch.setOnClickListener {
+            searchTxt = binding.etSearch.text.toString()
+            if (requireActivity().checkInternet()) {
+                requireActivity().runOnUiThread {
+                    candidateList.clear()
+                    recyclerAdapter?.addList(candidateList)
+                }
+                progressType=0
+                getCandidateList(0)
+            } else {
+                requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+            }
+        }
+
+
+        binding.btnSearchShow.setOnClickListener {
+                if (binding.llSearchLayout.isVisible) {
+                    binding.btnSearchShow.setImageResource(R.drawable.ic_search_black)
+                    binding.llSearchLayout.isVisible=false
+                    searchTxt=""
+                    binding.etSearch.setText("")
+                    if (requireActivity().checkInternet()) {
+                        requireActivity().runOnUiThread {
+                            candidateList.clear()
+                            recyclerAdapter?.addList(candidateList)
+                        }
+                        progressType=0
+                        getCandidateList(0)
+                    } else {
+                        requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                    }
+                } else {
+                    binding.llSearchLayout.isVisible=true
+                    binding.btnSearchShow.setImageResource(R.drawable.ic_arrow_up_24)
+                }
         }
 
         return binding.root
@@ -200,7 +261,8 @@ class CandidateListFragment() : Fragment() {
                 }
             }
             dialogBinding.btnSend.setOnClickListener {
-                if (!dialogBinding.etsms.text.toString().equals("")) {
+                if (!dialogBinding.etsms.text.toString().equals("") && dialogBinding.etsms.text.toString().trim().length>0) {
+                    dialogBinding.tvErrorBlank.visibility=View.INVISIBLE
                     obj.MessageText = dialogBinding.etsms.text.toString()
                     requireActivity().runOnUiThread {
                         requireActivity().showProgressDialog()
@@ -222,6 +284,8 @@ class CandidateListFragment() : Fragment() {
                     Log.d("TAG", "postData: sending sms is ${Gson().toJson(obj)}")
                 } else {
                     requireActivity().runOnUiThread {
+                        Log.d(TAG, "showSendSmsCandidate: message blank")
+                        dialogBinding.tvErrorBlank.visibility=View.VISIBLE
                         requireActivity().dismissProgressDialog()
                     }
                     Log.d(TAG, "handleSMS: blank")
@@ -339,7 +403,7 @@ class CandidateListFragment() : Fragment() {
         binding.swipetorefresh.setOnRefreshListener {
             candidateList.clear()
             recyclerAdapter?.notifyDataSetChanged()
-            getCandidateList()
+            getCandidateList(1)
         }
 
         binding.rvCandidateList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -371,7 +435,7 @@ class CandidateListFragment() : Fragment() {
                             } else {
                                 Log.d(TAG, "onScrolled: " + skipPage.toString())
                                 if (requireActivity().checkInternet()) {
-                                    getCandidateList()
+                                    getCandidateList(1)
                                 } else {
                                     requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
                                 }
@@ -451,7 +515,7 @@ class CandidateListFragment() : Fragment() {
 
 
     private var isLoadFirst=false
-    private fun getCandidateList() {
+    private fun getCandidateList(progressType:Int) {
         requireActivity().runOnUiThread {
             if (!isLoadFirst){
                 binding.progressBar.isVisible=true
@@ -471,18 +535,29 @@ class CandidateListFragment() : Fragment() {
             Log.d(TAG, "getCandidateList: enreic ${reicd.toString()} ensubs ${subsId.toString()}")
 
             var top = ""
-            var searchexp = ""
+
             var category = ""
+            if (progressType==0)
+            {
+                requireActivity().runOnUiThread {
+                    requireActivity().showProgressDialog()
+                }
+            }
             viewModel.getCandidateList(
                 ob,
                 recid = reicd,
                 subsId,
                 top,
                 skipPage.toString(),
-                searchExpression = searchexp,
+                searchExpression = searchTxt.toString(),
                 category = category
             ) { response, errorCode, msg ->
-
+                if (progressType==0)
+                {
+                    requireActivity().runOnUiThread {
+                        requireActivity().dismissProgressDialog()
+                    }
+                }
                isLoadFirst=true
                 if (response) {
                     requireActivity().runOnUiThread {

@@ -3,28 +3,29 @@ package com.ui.activities.createCandidate
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
-import androidx.core.view.isVisible
 
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
+import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.*
 import com.google.gson.Gson
+import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
 import com.veriKlick.R
-import com.veriKlick.databinding.ActivityCreateCandidateBinding
+import com.veriKlick.databinding.FragmentCreateCandidateBinding
 import com.veriKlick.databinding.LayoutChooseLanguageDialogBinding
-import com.veriKlick.databinding.LayoutSendSmsDialogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,9 +33,9 @@ import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 
 @AndroidEntryPoint
-class ActivityCreateCandidate : AppCompatActivity() {
+class FragmentCreateCandidate : Fragment() {
 
-    private lateinit var binding: ActivityCreateCandidateBinding
+    private lateinit var binding: FragmentCreateCandidateBinding
     private var viewModel: VMCreateCandidate? = null
 
     private var isEmailok=false
@@ -47,16 +48,22 @@ class ActivityCreateCandidate : AppCompatActivity() {
     private var countryCodeList= mutableListOf<String>()
     private var countryCodeListMain= mutableListOf<ResponseCountryCode>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityCreateCandidateBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentCreateCandidateBinding.inflate(layoutInflater)
+
+
+
         viewModel = ViewModelProvider(this)[VMCreateCandidate::class.java]
 
         handleTextWatcher()
 
-        binding.btnJumpBack.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
+        binding.btnBugerIcon.setOnClickListener {
+            (requireActivity() as UpcomingMeetingActivity).openDrawer()
         }
 
         binding.btnSubmit.setOnClickListener {
@@ -64,11 +71,17 @@ class ActivityCreateCandidate : AppCompatActivity() {
         }
         setupCountryCodeAdapter()
         getCountryCodeList()
+
+
+
+
+        return binding.root
     }
+
 
     private  fun setupCountryCodeAdapter()
     {
-    spinnerCountryCodeAdapter=getArrayAdapterOneItemSelected(countryCodeList)
+    spinnerCountryCodeAdapter=requireActivity().getArrayAdapterOneItemSelected(countryCodeList)
     binding.spinnerCountryCode.adapter=  spinnerCountryCodeAdapter
         binding.spinnerCountryCode.onItemSelectedListener=onItemSelectListner
     }
@@ -81,7 +94,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                 countryCodeList.forEachIndexed { index, s ->
                     if (s == "+1 United States")
                     {
-                        runOnUiThread {
+                        requireActivity().runOnUiThread {
                             binding.spinnerCountryCode.setSelection(index)
                             spinnerCountryCodeAdapter.notifyDataSetChanged()
                         }
@@ -111,7 +124,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                 countryCodeList.add("Country Code")
                 countryCodeListMain.addAll(data!!)
                 countryCodeListMain.forEach { countryCodeList.add(it.codedisplay.toString()+" ${it.Name.toString()}") }
-                runOnUiThread { spinnerCountryCodeAdapter.notifyDataSetChanged() }
+                requireActivity().runOnUiThread { spinnerCountryCodeAdapter.notifyDataSetChanged() }
             }
         }
     }
@@ -119,11 +132,11 @@ class ActivityCreateCandidate : AppCompatActivity() {
 
     private fun chooseLanguage(obj:BodySMSCandidate)
     {
-        this.runOnUiThread {
-            val dialog = Dialog(this)
+        requireActivity().runOnUiThread {
+            val dialog = Dialog(requireActivity())
 
             val dialogBinding =
-                LayoutChooseLanguageDialogBinding.inflate(LayoutInflater.from(this))
+                LayoutChooseLanguageDialogBinding.inflate(LayoutInflater.from(requireActivity()))
             dialog.setContentView(dialogBinding.root)
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialogBinding.btnCross.setOnClickListener {
@@ -143,11 +156,11 @@ class ActivityCreateCandidate : AppCompatActivity() {
             language.add(getString(R.string.txt_french))
             var selectedLanguage:String?=null
             CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-                runOnUiThread {
+                requireActivity().runOnUiThread {
 
                     // dialogBinding.tvUsername.setText(data.Name)
 
-                    val langAdapter = getArrayAdapterOneItemSelected(language)
+                    val langAdapter = requireActivity().getArrayAdapterOneItemSelected(language)
                     dialogBinding.spinnerLanguage.onItemSelectedListener =
                         object : OnItemSelectedListener {
                             override fun onItemSelected(
@@ -183,13 +196,13 @@ class ActivityCreateCandidate : AppCompatActivity() {
                             viewModel?.sendProfileLink(obj){data, isSuccess, errorCode, msg ->
                             if (isSuccess)
                             {
-                                showCustomSnackbarOnTop(data?.ResponseMessage.toString())
+                                requireActivity().showCustomSnackbarOnTop(data?.ResponseMessage.toString())
                             }
                         }
                         }else
                         {
                             dialogBinding.tvError.visibility=View.VISIBLE
-                            setHandler().postDelayed({
+                            requireActivity().setHandler().postDelayed({
                                 dialogBinding.tvError.visibility=View.INVISIBLE
                             },3000)
                             //showCustomSnackbarOnTop(getString(R.string.txt_please_select_language))
@@ -209,7 +222,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
     private fun handleTextWatcher()
     {
         binding.etEmail.doOnTextChanged { text, _, _, _ ->
-            emailValidator(this, text.toString()) { isEmailOk, _, _ ->
+            emailValidator(requireActivity(), text.toString()) { isEmailOk, _, _ ->
                 isEmailok=isEmailOk
                 if (!isEmailOk)
                     binding.etEmail.error = "Invalid"
@@ -217,12 +230,17 @@ class ActivityCreateCandidate : AppCompatActivity() {
         }
 
         binding.etPhoneno.doOnTextChanged { text, _, _, _ ->
-            isPhoneok=phoneValidator(text.toString())
-            if (!phoneValidator(text.toString()))
+            isPhoneok=requireActivity().phoneValidator(text.toString())
+            if (isPhoneok)
+            {
+              //  checkPhoneExists(text.toString())
+            }
+
+            if (!requireActivity().phoneValidator(text.toString()))
                 binding.etPhoneno.error = "Invalid"
         }
 
-        binding.etFirstname.doOnTextChanged { text, _, _, _ ->
+      /***2jun2023  binding.etFirstname.doOnTextChanged { text, _, _, _ ->
             val pattern="[a-zA-Z0-9]+[a-zA-Z0-9\\s]*"
             val ptrn=Pattern.compile(pattern)
             isFirstName=ptrn.matcher(text.toString()).matches()
@@ -232,8 +250,23 @@ class ActivityCreateCandidate : AppCompatActivity() {
             val pattern="[a-zA-Z0-9]+[a-zA-Z0-9\\s]*"
             val ptrn=Pattern.compile(pattern)
             isLastName=ptrn.matcher(text.toString()).matches()
-        }
+        }*/
 
+    }
+
+
+    private fun checkPhoneExists(txt: String) {
+        viewModel?.getIsPhoneExists(
+            CurrentMeetingDataSaver.getData()?.interviewModel?.interviewId!!,
+            "",
+            txt,
+            response = { isExists ->
+                if (!isExists) {
+                    binding.etPhoneno.setError("phoneNo exists")
+                } else {
+                    binding.etPhoneno.setError("phoneNo not exists")
+                }
+            })
     }
 
     private fun validateAllFields()
@@ -244,7 +277,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
         }
         else
         {
-            showCustomSnackbarOnTop(getString(R.string.txt_invalid_or_blank_data))
+            requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_invalid_or_blank_data))
         }
     }
 
@@ -268,7 +301,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
 
         }catch (e:Exception)
         {
-        showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+            requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
         }
 
     }
