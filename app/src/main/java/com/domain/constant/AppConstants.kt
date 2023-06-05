@@ -13,7 +13,7 @@ object AppConstants {
     const val LOGGED_USER_ACCESSCODE = "user_access_code"
     const val LOGGED_IN_FROM = "logged_in_from"
     const val LOGGED_IN_WITH_OTP = "logged_in_from_otp"
-    const val LOGGED_IN_WITH_CREDENTIALS = "logged_in_from_otp"
+    const val LOGGED_IN_WITH_CREDENTIALS = "logged_in_from_credentials"
 
     //twilio Video room
     const val CONNECT_PARTICIPANT = "connect_participant"

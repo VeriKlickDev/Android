@@ -88,22 +88,6 @@ object DataStoreHelper {
         return "Bearer "+ dataStore.data.first()[preferencesKey<String>(AppConstants.USER_LOGIN_TOKEN)].toString()
     }
 
-    suspend fun getLoggedInFromStatus():String
-    {
-        return dataStore.data.first()[preferencesKey<String>(AppConstants.LOGGED_IN_FROM)].toString()
-    }
-    suspend fun setLoggedInFromStatus(str:String)
-    {
-        CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
-            val accessCode= preferencesKey<String>(AppConstants.LOGGED_IN_FROM)
-            dataStore.edit {
-                it[accessCode]=str
-            }
-        }
-    }
-
-
-
     suspend fun getLoginAuthToken():String{
         return dataStore.data.first()[preferencesKey<String>(AppConstants.USER_LOGIN_TOKEN)].toString()
     }

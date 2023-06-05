@@ -291,7 +291,6 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
             DataStoreHelper.setMeetingRecruiterAndUserIds(data.recruiterid!!,data.subscriberId!!)
             DataStoreHelper.setLoggedInWithOtp(true)
-            DataStoreHelper.setLoggedInFromStatus(AppConstants.LOGGED_IN_WITH_OTP)
         }
 
         val intent=Intent(this, UpcomingMeetingActivity::class.java)

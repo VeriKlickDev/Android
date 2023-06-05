@@ -223,7 +223,6 @@ class LoginActivity : AppCompatActivity() {
                                         response.UserId.toString(),
                                         response.CreatedBy.toString()
                                     )
-                                    DataStoreHelper.setLoggedInFromStatus(AppConstants.LOGGED_IN_WITH_CREDENTIALS)
 
                                     val intent = Intent(
                                         this@LoginActivity,

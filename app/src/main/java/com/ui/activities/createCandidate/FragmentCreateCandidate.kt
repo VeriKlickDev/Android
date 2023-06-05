@@ -17,18 +17,22 @@ import android.widget.ArrayAdapter
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.data.*
 import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.*
 import com.google.gson.Gson
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
 import com.veriKlick.R
+import com.veriKlick.databinding.DialogCountryCodeBinding
 import com.veriKlick.databinding.FragmentCreateCandidateBinding
 import com.veriKlick.databinding.LayoutChooseLanguageDialogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import layout.CountryCodeListAdapter
 
 @AndroidEntryPoint
 class FragmentCreateCandidate : Fragment() {
@@ -41,11 +45,11 @@ class FragmentCreateCandidate : Fragment() {
     private var isFirstName=false
     private var isLastName=false
 
-    private lateinit var spinnerCountryCodeAdapter:ArrayAdapter<String>
+    private lateinit var countryCodeRecyerlerAdapter:CountryCodeListAdapter
     private var iscountryCode:String?=null
     private var countryCodeList= mutableListOf<String>()
     private var countryCodeListMain= mutableListOf<ResponseCountryCode>()
-
+    private var viewGroup:ViewGroup?=null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,12 +57,14 @@ class FragmentCreateCandidate : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentCreateCandidateBinding.inflate(layoutInflater)
-
-
-
         viewModel = ViewModelProvider(this)[VMCreateCandidate::class.java]
 
+        this.viewGroup=container
         handleTextWatcher()
+
+        countryCodeRecyerlerAdapter=CountryCodeListAdapter(requireContext(),countryCodeListMain){pos, data, action ->
+            Log.d("TAG", "setupCountryCodeRecyclerAdapter: clicked on $data")
+        }
 
         binding.btnBugerIcon.setOnClickListener {
             (requireActivity() as UpcomingMeetingActivity).openDrawer()
@@ -67,20 +73,22 @@ class FragmentCreateCandidate : Fragment() {
         binding.btnSubmit.setOnClickListener {
             validateAllFields()
         }
-        setupCountryCodeAdapter()
+
         getCountryCodeList()
 
-
-
+        binding.layoutSelectCode.setOnClickListener {
+            setupCountryCodeRecyclerAdapter()
+        }
+        //setupCountryCodeAdapter()
 
         return binding.root
     }
 
 
-    private  fun setupCountryCodeAdapter()
+  /*  private  fun setupCountryCodeAdapter()
     {
-    spinnerCountryCodeAdapter=requireActivity().getArrayAdapterOneItemSelected(countryCodeList)
-    binding.spinnerCountryCode.adapter=  spinnerCountryCodeAdapter
+    countryCodeRecyerlerAdapter=requireActivity().getArrayAdapterOneItemSelected(countryCodeList)
+    binding.spinnerCountryCode.adapter=  countryCodeRecyerlerAdapter
         binding.spinnerCountryCode.onItemSelectedListener=onItemSelectListner
     }
     private val onItemSelectListner= object :OnItemSelectedListener{
@@ -110,19 +118,60 @@ class FragmentCreateCandidate : Fragment() {
         override fun onNothingSelected(parent: AdapterView<*>?) {
             
         }
+    }*/
+
+
+    private fun setupCountryCodeRecyclerAdapter()
+    {
+        Log.d("TAG", "setupCountryCodeRecyclerAdapter: setup adapter")
+        val dialog=Dialog(requireContext())
+        val dialogBinding=DialogCountryCodeBinding.inflate(layoutInflater,viewGroup,false)
+        dialog.setContentView(dialogBinding.root)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialogBinding.rvCountry.layoutManager=LinearLayoutManager(requireContext())
+        val searchedList= mutableListOf<ResponseCountryCode>()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            dialogBinding.etSearch.getEditTextWithFlow().collectLatest {etxt->
+                requireActivity().runOnUiThread {
+                    countryCodeRecyerlerAdapter.filter.filter(etxt)
+                }
+            }
+        }
+
+        dialogBinding.rvCountry.adapter=countryCodeRecyerlerAdapter
+        dialog.create()
+        dialog.show()
     }
+  /*
+    requireActivity().run {runOnUiThread {countryCodeRecyerlerAdapter.notifyDataSetChanged()}
+    }*/
+
 
     private fun getCountryCodeList()
     {
+        requireActivity().run {
+            runOnUiThread { showProgressDialog() }
+        }
         viewModel?.getCountyCodeList{ data, isSuccess, _, _ ->
             if (isSuccess)
             {
+                requireActivity().run {
+                    runOnUiThread { dismissProgressDialog() }
+                }
                 countryCodeListMain.clear()
                 countryCodeList.clear()
                 countryCodeList.add(getString(R.string.txt_select_code))
                 countryCodeListMain.addAll(data!!)
                 countryCodeListMain.forEach { countryCodeList.add(it.codedisplay.toString()+" ${it.Name.toString()}") }
-                requireActivity().runOnUiThread { spinnerCountryCodeAdapter.notifyDataSetChanged() }
+
+                requireActivity().runOnUiThread { countryCodeRecyerlerAdapter.notifyDataSetChanged() }
+            }
+            else
+            {
+                requireActivity().run {
+                    runOnUiThread { dismissProgressDialog() }
+                }
             }
         }
     }

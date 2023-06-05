@@ -29,6 +29,7 @@ import com.data.*
 import com.data.cryptoJs.CryptoJsHelper
 import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.*
+import com.domain.constant.AppConstants
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.ui.activities.upcomingMeeting.UpComingMeetingViewModel
@@ -62,6 +63,14 @@ class CandidateListFragment() : Fragment() {
         Log.d(TAG, "onCreateView: onCreateView")
         binding = FragmentCandidateListBinding.inflate(layoutInflater)
         layoutManager = LinearLayoutManager(requireActivity())
+
+      /*  CoroutineScope(Dispatchers.Main).launch {
+            if (DataStoreHelper.getLoggedInFromStatus().equals(AppConstants.LOGGED_IN_WITH_OTP)
+            ) {
+                binding.btnHamburger.visibility=View.INVISIBLE
+            }
+        }*/
+
         binding.rvCandidateList.layoutManager = layoutManager
         recyclerAdapter =
             CandidateListAdapter(requireActivity(), arrayListOf(), onClick = { data, action ->

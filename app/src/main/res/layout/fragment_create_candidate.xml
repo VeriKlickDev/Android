@@ -22,8 +22,9 @@
             <ImageView
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
-                android:background="@drawable/img_bugericon"
+                android:src="@drawable/ic_hamburger_menu"
                 android:id="@+id/btn_bugerIcon"
+                android:padding="@dimen/_2sp"
                 android:layout_margin="@dimen/_16sdp"
                 />
 
@@ -124,14 +125,30 @@
                                 android:layout_marginVertical="@dimen/_10sp"
                                 >
 
-                                <Spinner
-                                    android:background="@drawable/shape_rectangle_rounded_stroke_grey"
+
+                                <androidx.appcompat.widget.LinearLayoutCompat
                                     android:layout_width="@dimen/_105sdp"
                                     android:layout_height="@dimen/_45sdp"
-                                    android:layout_gravity="center_vertical"
+                                    android:background="@drawable/shape_rectangle_rounded_stroke_grey"
+                                    android:gravity="center"
                                     android:layout_marginLeft="@dimen/_10sp"
-                                    android:id="@+id/spinnerCountryCode"
-                                    />
+                                    android:id="@+id/layoutSelectCode"
+                                    >
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:gravity="center"
+                                        android:layout_marginTop="@dimen/_5sp"
+                                        style="@style/heading.TextView.Grey_16"
+                                        android:text="@string/txt_select_code"
+                                        />
+
+
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
 
                                 <EditText
                                     android:id="@+id/et_phoneno"

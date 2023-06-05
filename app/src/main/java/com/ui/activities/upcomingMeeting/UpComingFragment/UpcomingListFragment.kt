@@ -17,6 +17,7 @@ import android.widget.AbsListView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -119,22 +120,45 @@ class UpcomingListFragment(val from: String) : Fragment() {
             }
         }
 
-        binding.btnLogout.setOnClickListener {
-            (requireActivity() as UpcomingMeetingActivity).openDrawer()
-            /*  val dialog = AlertDialog.Builder(requireActivity())
-              dialog.setMessage(getString(R.string.txt_do_you_want_to_logout))
-              dialog.setPositiveButton("ok", DialogInterface.OnClickListener { dialogInterface, i ->
-                  DataStoreHelper.clearData()
-                  startActivity(Intent(requireActivity(), LoginActivity::class.java))
-                  requireActivity().finish()
-              })
-              dialog.setNegativeButton(
-                  "cancel",
-                  DialogInterface.OnClickListener { dialogInterface, i ->
+        CoroutineScope(Dispatchers.Main).launch {
+            Log.d(TAG, "onCreateView: upcoming data logged ${DataStoreHelper.getLoggedInStatus()}")
+        }
 
-                  })
-              dialog.show()
-              dialog.create()*/
+
+
+        CoroutineScope(Dispatchers.Main).launch {
+       if (DataStoreHelper.getLoggedInStatus()) {
+                binding.btnBugerIcon.setImageDrawable(requireActivity().getDrawable(R.drawable.img_logout))
+            }else
+       {
+           binding.btnBugerIcon.setImageDrawable(requireActivity().getDrawable(R.drawable.ic_hamburger_menu))
+       }
+        }
+
+        binding.btnBugerIcon.setOnClickListener {
+            CoroutineScope(Dispatchers.Main).launch {
+                if (DataStoreHelper.getLoggedInStatus())
+                {
+                    val dialog = AlertDialog.Builder(requireActivity())
+                    dialog.setMessage(getString(R.string.txt_do_you_want_to_logout))
+                    dialog.setPositiveButton(getString(R.string.txt_yes), DialogInterface.OnClickListener { dialogInterface, i ->
+                        DataStoreHelper.clearData()
+                        startActivity(Intent(requireActivity(), LoginActivity::class.java))
+                        requireActivity().finish()
+                    })
+                    dialog.setNegativeButton(
+                        getString(R.string.txt_cancel),
+                        DialogInterface.OnClickListener { dialogInterface, i ->
+
+                        })
+                    dialog.show()
+                    dialog.create()
+                }else
+                {
+                    (requireActivity() as UpcomingMeetingActivity).openDrawer()
+                }
+            }
+
         }
 
 
@@ -338,7 +362,6 @@ class UpcomingListFragment(val from: String) : Fragment() {
             meetingsList.clear()
             adapter.swapList(meetingsList)
         }
-
     }
 
     override fun onDestroyView() {
@@ -676,29 +699,34 @@ class UpcomingListFragment(val from: String) : Fragment() {
 
             Log.d("datecheck", "\n ${ob?.fromdate}  ${ob?.todate}  \n ${ob!!.from}  ${ob!!.to} ")
 
-            if (ob != null) {
-                if (requireActivity().intent.getBooleanExtra(AppConstants.LOGIN_WITH_OTP, false)) {
-                    if (requireActivity().checkInternet()) {
-                        getDataWithOtp(ob!!)
-                    } else {
-                        requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
-                    }
+            CoroutineScope(Dispatchers.IO).launch {
+                if (ob != null) {
+                    Log.d(TAG, "handleUpcomingMeetingsList: logged in from ${DataStoreHelper.getLoggedInStatus()}")
 
-                    Log.d(TAG, "handleUpcomingMeetingsList: logged with otp")
+                    if (DataStoreHelper.getLoggedInStatus()) {
+                        if (requireActivity().checkInternet()) {
+                            getDataWithOtp(ob!!)
+                        } else {
+                            requireActivity().runOnUiThread {
+                                requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                            }
+                        }
+
+                        Log.d(TAG, "handleUpcomingMeetingsList: logged with otp")
+                    } else {
+                        Log.d(TAG, "handleUpcomingMeetingsList: logged with email")
+                        if (requireActivity().checkInternet()) {
+                            getDataWithoutOtp(ob!!)
+                        } else {
+                            requireActivity().run {
+                            runOnUiThread { showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection)) }}
+                        }
+                    }
                 } else {
-                    Log.d(TAG, "handleUpcomingMeetingsList: logged with email")
-                    if (requireActivity().checkInternet()) {
-                        getDataWithoutOtp(ob!!)
-                    } else {
-                        requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
-                    }
-
+                    requireActivity().dismissProgressDialog()
                 }
-            } else {
-                requireActivity().dismissProgressDialog()
-            }
 
-            //to here
+            }   //to here
         } catch (e: Exception) {
             requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
             Log.d(TAG, "handleUpcomingMeetingsList: exception 433 ${e.message}")
