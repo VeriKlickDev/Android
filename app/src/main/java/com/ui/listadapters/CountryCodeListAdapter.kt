@@ -20,7 +20,7 @@ import com.veriKlick.databinding.LayoutItemCountryCodeBinding
 //, val onClick:(data: NewInterviewDetails, videoAccessCode:String, action:Int)->Unit
 class CountryCodeListAdapter(
     val context: Context,
-    val list: MutableList<ResponseCountryCode>,
+    var list: MutableList<ResponseCountryCode>,
     val onClicked: (pos: Int, data: ResponseCountryCode?, action: Int) -> Unit
 ) :
     RecyclerView.Adapter<CountryCodeListAdapter.ViewHolderClass>(), Filterable {
@@ -84,7 +84,7 @@ class CountryCodeListAdapter(
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
 
-                filterListfinal = if (results?.values == null)
+                list = if (results?.values == null)
                     ArrayList()
                 else
                     results.values as ArrayList<ResponseCountryCode>
