@@ -1,11 +1,13 @@
 package com.ui.activities.splashScreen
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.View
 import com.data.dataHolders.DataStoreHelper
 import com.data.dismissProgressDialog
 import com.data.exceptionHandler
@@ -28,6 +30,11 @@ class SplashScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val content = findViewById<View>(android.R.id.content)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            content.viewTreeObserver.addOnDrawListener { false }
+        }
 
           CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
               email= DataStoreHelper.getUserEmail()

@@ -1,5 +1,6 @@
 package com.ui.activities.createCandidate
 
+import android.provider.ContactsContract.Data
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -279,21 +280,19 @@ class VMCreateCandidate @Inject constructor(val baseRestApi: BaseRestApi) : View
 
 
     fun getIsPhoneExists(
-        interviewId: Int,
-        email: String,
-        Phone: String,
-        response: (isExists: Boolean) -> Unit
+        phoneNo: String,
+        response: (res:BodyExistingCandidate) -> Unit
     ) {
         try {
             CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
-                val result = baseRestApi.getPhoneExistsDetails(
-                    IsEmailPhoneExistsModel(
-                        interviewId,
-                        email,
-                        Phone
-                    )
-                )
-
+                val obj=BodyExistingCandidate()
+                obj.CandidateId="0"
+                obj.CurrentUserId=DataStoreHelper.getMeetingRecruiterid()
+                obj.SubscriberId=DataStoreHelper.getMeetingUserId()
+                obj.SearchString=phoneNo
+                Log.d(TAG, "getIsPhoneExists: data is $obj")
+                val result = baseRestApi.getExitingCandidateContact(obj)
+                Log.d(TAG, "getIsPhoneExists: ")
                 if (result.isSuccessful) {
                     if (result.body() != null) {
                         response(result.body()!!)

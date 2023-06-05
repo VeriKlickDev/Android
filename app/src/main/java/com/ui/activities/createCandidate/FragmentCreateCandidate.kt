@@ -18,7 +18,6 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
-import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.*
 import com.google.gson.Gson
@@ -30,7 +29,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.regex.Pattern
 
 @AndroidEntryPoint
 class FragmentCreateCandidate : Fragment() {
@@ -89,7 +87,7 @@ class FragmentCreateCandidate : Fragment() {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             if (position==0)
             {
-                val ob=countryCodeListMain.find { "${it.codedisplay} ${it.Name}".contains("United States") }
+              /***5jun  val ob=countryCodeListMain.find { "${it.codedisplay} ${it.Name}".contains("United States") }
                 iscountryCode=ob?.codedisplay
                 countryCodeList.forEachIndexed { index, s ->
                     if (s == "+1 United States")
@@ -101,7 +99,7 @@ class FragmentCreateCandidate : Fragment() {
 
                     }
                 }
-
+            */
             }else
             {
                 val ob=countryCodeListMain.find { "${it.codedisplay} ${it.Name}" == countryCodeList[position] }
@@ -121,7 +119,7 @@ class FragmentCreateCandidate : Fragment() {
             {
                 countryCodeListMain.clear()
                 countryCodeList.clear()
-                countryCodeList.add("Country Code")
+                countryCodeList.add(getString(R.string.txt_select_code))
                 countryCodeListMain.addAll(data!!)
                 countryCodeListMain.forEach { countryCodeList.add(it.codedisplay.toString()+" ${it.Name.toString()}") }
                 requireActivity().runOnUiThread { spinnerCountryCodeAdapter.notifyDataSetChanged() }
@@ -145,8 +143,7 @@ class FragmentCreateCandidate : Fragment() {
             val language= mutableListOf<String>()
             val languageStringList= mutableListOf<ModelLanguageSelect>()
 
-
-            languageStringList.add(ModelLanguageSelect(getString(R.string.txt_english),"en"))
+            languageStringList.add(ModelLanguageSelect(getString(R.string.txt_english),"en-US"))
             languageStringList.add(ModelLanguageSelect(getString(R.string.txt_spanish),"es"))
             languageStringList.add(ModelLanguageSelect(getString(R.string.txt_french),"fr"))
 
@@ -233,7 +230,7 @@ class FragmentCreateCandidate : Fragment() {
             isPhoneok=requireActivity().phoneValidator(text.toString())
             if (isPhoneok)
             {
-              //  checkPhoneExists(text.toString())
+                checkPhoneExists(text.toString())
             }
 
             if (!requireActivity().phoneValidator(text.toString()))
@@ -256,22 +253,23 @@ class FragmentCreateCandidate : Fragment() {
 
 
     private fun checkPhoneExists(txt: String) {
-        viewModel?.getIsPhoneExists(
-            CurrentMeetingDataSaver.getData()?.interviewModel?.interviewId!!,
-            "",
-            txt,
-            response = { isExists ->
-                if (!isExists) {
-                    binding.etPhoneno.setError("phoneNo exists")
-                } else {
-                    binding.etPhoneno.setError("phoneNo not exists")
+        viewModel?.getIsPhoneExists(txt,
+            response = { data ->
+                requireActivity().runOnUiThread {
+                    if (data.aPIResponse?.Success!!) {
+                        binding.etPhoneno.setError(data.aPIResponse?.Message.toString())
+                        isPhoneok=false
+                    } else {
+                        binding.etPhoneno.setError(data.aPIResponse?.Message.toString())
+                        isPhoneok=true
+                    }
                 }
             })
     }
 
     private fun validateAllFields()
     {
-        if (isFirstName && isLastName && isEmailok && isPhoneok && iscountryCode!=null)
+        if (isEmailok && isPhoneok && iscountryCode!=null)
         {
             postData()
         }

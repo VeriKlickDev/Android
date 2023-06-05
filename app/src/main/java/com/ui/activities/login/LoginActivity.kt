@@ -209,7 +209,6 @@ class LoginActivity : AppCompatActivity() {
                         Log.d(TAG, "onCreate: success ${data.data?.accessToken}")
                         DataStoreHelper.setToken(data.data?.accessToken!!)
                         // DataStoreHelper.insertValue(email,psswd)
-
                         DataStoreHelper.insertValue(email, psswd)
                         DataStoreHelper.setLoggedInWithOtp(false)
                         decodeLoginToken(data.data?.accessToken!!, response = { response ->
@@ -224,6 +223,7 @@ class LoginActivity : AppCompatActivity() {
                                         response.UserId.toString(),
                                         response.CreatedBy.toString()
                                     )
+                                    DataStoreHelper.setLoggedInFromStatus(AppConstants.LOGGED_IN_WITH_CREDENTIALS)
 
                                     val intent = Intent(
                                         this@LoginActivity,

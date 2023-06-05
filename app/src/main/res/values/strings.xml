@@ -226,6 +226,7 @@
     <string name="txt_no_template">No templates</string>
     <string name="txt_provide_your_availability_for_meeting">Provide your availability for meeting</string>
     <string name="txt_txt_no_participant_connected">No participant connected</string>
+    <string name="txt_select_code">Select Code\n</string>
 
 
 </resources>

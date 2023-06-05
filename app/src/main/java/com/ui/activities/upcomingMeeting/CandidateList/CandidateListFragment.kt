@@ -138,17 +138,20 @@ class CandidateListFragment() : Fragment() {
                     binding.btnSearchShow.setImageResource(R.drawable.ic_search_black)
                     binding.llSearchLayout.isVisible=false
                     searchTxt=""
-                    binding.etSearch.setText("")
+
+                    if (!binding.etSearch.text.toString().equals("")){
+                        binding.etSearch.setText("")
                     if (requireActivity().checkInternet()) {
                         requireActivity().runOnUiThread {
                             candidateList.clear()
                             recyclerAdapter?.addList(candidateList)
                         }
+
                         progressType=0
                         getCandidateList(0)
                     } else {
                         requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
-                    }
+                    }}
                 } else {
                     binding.llSearchLayout.isVisible=true
                     binding.btnSearchShow.setImageResource(R.drawable.ic_arrow_up_24)

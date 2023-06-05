@@ -253,7 +253,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
 
-        Log.d(TAG, "onBackPressed: ${viewModel.getFragmentsList().get(0).tag} ${binding.fragmentContainer.tag} ")
+       // Log.d(TAG, "onBackPressed: ${viewModel.getFragmentsList().get(0).tag} ${binding.fragmentContainer.tag} ")
        // Log.d(TAG, "onBackPressed: navid ${binding.navViewDrawer.findFragment<CandidateListFragment>().id}  viewmodelId ${viewModel.getFragmentsList().get(0).id}")
             Log.d(TAG, "onBackPressed: if part")
             showCustomSnackbarOnTop(getString(R.string.txt_press_back_again_to_exit))

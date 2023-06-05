@@ -55,6 +55,7 @@ class CandidateListAdapter(val context: Context,
     inner class ViewHolderClass(val binding: LayoutItemCandidateListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun dataBind(data: SavedProfileDetail) {
+            binding.ratingbarWireframing.isEnabled=false
             binding.tvUsername.setText(data.Name)
             binding.tvUserEmail.setText(data.Email)
             binding.tvExperience.setText(data.Experience+" ${context.getString(R.string.txt_years)}")

@@ -167,6 +167,7 @@
                                 android:id="@+id/ratingbar_wireframing"
                                 app:reviewScoreMax="5"
                                 android:max="5"
+                                android:stepSize="1"
                                 android:theme="@style/RatingBar"
                                 android:layout_gravity="start"
                                 style="@style/Widget.AppCompat.RatingBar.Small"

@@ -1,6 +1,8 @@
 package com.ui.activities.uploadProfilePhoto
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -16,7 +18,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.data.*
 import com.data.dataHolders.CandidateImageAndAudioHolder
 import com.data.dataHolders.CreateProfileDeepLinkHolder
-import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.BodyCandidateImageModel
 import com.domain.BaseModels.CandidateDeepLinkDataModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -29,7 +30,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
 import java.io.File
+
 
 @AndroidEntryPoint
 class ActivityUploadProfilePhoto : AppCompatActivity() {
@@ -258,6 +261,18 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                 var imageBitmap= uriToBitmap(finalUserImageUri!!)
                 if (imageBitmap!=null)
                 {
+                    try {
+                        val outputStream= ByteArrayOutputStream()
+                        imageBitmap.compress(Bitmap.CompressFormat.PNG,20,outputStream)
+                        val bitmapdata: ByteArray = outputStream.toByteArray()
+                        imageBitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.size)
+
+                    }catch (e:Exception)
+                    {
+                        Log.d(TAG, "uploadProfilePhoto: exception 272 ${e.message}")
+                    }
+
+
                     val image= convertBitmapToBase64(imageBitmap)
                     //val subsId=DataStoreHelper.getMeetingUserId()
                     var subsId=recruiterId

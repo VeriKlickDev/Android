@@ -488,12 +488,19 @@ fun convertBitmapToBytes(bmp: Bitmap) : ByteArray
     return byteArray
 }
 
-fun convertBitmapToBase64(btmp:Bitmap) : String
+fun convertBitmapToBase64(btmp:Bitmap) : String?
 {
-    val byteArrayOutputStream = ByteArrayOutputStream()
-    btmp.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
-    val byteArray = byteArrayOutputStream.toByteArray()
-    var encodedd=android.util.Base64.encodeToString(byteArray,android.util.Base64.DEFAULT)
+    var encodedd:String?=null
+    try {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        btmp.compress(Bitmap.CompressFormat.PNG, 60, byteArrayOutputStream)
+        val byteArray = byteArrayOutputStream.toByteArray()
+        var encodedd=android.util.Base64.encodeToString(byteArray,android.util.Base64.DEFAULT)
+
+    }catch (e:Exception)
+    {
+        Log.d("TAG", "convertBitmapToBase64: exception converting bitmap ${e.message}")
+    }
     return encodedd
 }
 

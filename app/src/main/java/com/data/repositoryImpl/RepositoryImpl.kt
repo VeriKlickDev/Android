@@ -210,6 +210,10 @@ class RepositoryImpl @Inject constructor(
         return baseRestApi.updateUserAudio(file,AudioFileName,RecruiterId,Profile_Url,Token_Id)
     }
 
+    override suspend fun getExitingCandidateContact(obj: BodyExistingCandidate): Response<BodyExistingCandidate> {
+        return baseRestApi.getExitingCandidateContact(obj)
+    }
+
     override suspend fun updateUserResume(token: String,ob: BodyCandidateResume,filePart:MultipartBody.Part): Response<ResponseCandidateResume> {
         return loginRestApi.updateUserResume(token,ob,filePart)
     }

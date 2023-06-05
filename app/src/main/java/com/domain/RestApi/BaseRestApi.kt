@@ -138,6 +138,8 @@ interface BaseRestApi {
         @Part Token_Id: MultipartBody.Part,
     ):Response<ResponseAudioRecord>
 
+    @POST("/api/JobSeeker/GetSearchCandidatePhone")
+    suspend fun getExitingCandidateContact(@Body  obj:BodyExistingCandidate):Response<BodyExistingCandidate>
 
 }
 
