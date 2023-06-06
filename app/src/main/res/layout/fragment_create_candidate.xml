@@ -128,20 +128,23 @@
 
                                 <androidx.appcompat.widget.LinearLayoutCompat
                                     android:layout_width="@dimen/_105sdp"
-                                    android:layout_height="@dimen/_45sdp"
-                                    android:background="@drawable/shape_rectangle_rounded_stroke_grey"
+                                    android:layout_height="match_parent"
                                     android:gravity="center"
+                                    android:layout_marginVertical="@dimen/_8sdp"
                                     android:layout_marginLeft="@dimen/_10sp"
                                     android:id="@+id/layoutSelectCode"
                                     >
 
                                     <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:gravity="center"
-                                        android:layout_marginTop="@dimen/_5sp"
+                                        android:layout_width="@dimen/_100sdp"
+                                        android:layout_height="match_parent"
                                         style="@style/heading.TextView.Grey_16"
+                                        android:gravity="center"
+                                        android:singleLine="true"
+                                        android:layout_marginHorizontal="@dimen/_10sp"
+                                        android:background="@drawable/shape_rectangle_rounded_stroke_grey"
+                                        android:padding="@dimen/_5sp"
+                                        android:id="@+id/tv_countryCode"
                                         android:text="@string/txt_select_code"
                                         />
 

@@ -30,6 +30,7 @@ import com.veriKlick.databinding.LayoutChooseLanguageDialogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import layout.CountryCodeListAdapter
@@ -48,7 +49,7 @@ class FragmentCreateCandidate : Fragment() {
     private lateinit var countryCodeRecyerlerAdapter:CountryCodeListAdapter
     private var iscountryCode:String?=null
     private var countryCodeList= mutableListOf<String>()
-    private var countryCodeListMain= mutableListOf<ResponseCountryCode>()
+    private var countryCodeListMain= arrayListOf<ResponseCountryCode>()
     private var viewGroup:ViewGroup?=null
 
     override fun onCreateView(
@@ -63,7 +64,10 @@ class FragmentCreateCandidate : Fragment() {
         handleTextWatcher()
 
         countryCodeRecyerlerAdapter=CountryCodeListAdapter(requireContext(),countryCodeListMain){pos, data, action ->
-            Log.d("TAG", "setupCountryCodeRecyclerAdapter: clicked on $data")
+            iscountryCode=data?.PhoneCode.toString()
+            binding.tvCountryCode.setText(data?.codedisplay.toString())
+            binding.tvCountryCode.setTextColor(Color.BLACK)
+            countryCodeDialog.dismiss()
         }
 
         binding.btnBugerIcon.setOnClickListener {
@@ -120,28 +124,38 @@ class FragmentCreateCandidate : Fragment() {
         }
     }*/
 
+    private lateinit var countryCodeDialog:Dialog
 
     private fun setupCountryCodeRecyclerAdapter()
     {
         Log.d("TAG", "setupCountryCodeRecyclerAdapter: setup adapter")
-        val dialog=Dialog(requireContext())
+        countryCodeDialog=Dialog(requireContext())
         val dialogBinding=DialogCountryCodeBinding.inflate(layoutInflater,viewGroup,false)
-        dialog.setContentView(dialogBinding.root)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        countryCodeDialog.setContentView(dialogBinding.root)
+        countryCodeDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialogBinding.rvCountry.layoutManager=LinearLayoutManager(requireContext())
-        val searchedList= mutableListOf<ResponseCountryCode>()
+
+        val templist= arrayListOf<ResponseCountryCode>()
+        templist.addAll(countryCodeListMain)
+
+        dialogBinding.btnCross.setOnClickListener { countryCodeDialog.dismiss() }
 
         CoroutineScope(Dispatchers.IO).launch {
-            dialogBinding.etSearch.getEditTextWithFlow().collectLatest {etxt->
-                requireActivity().runOnUiThread {
-                    countryCodeRecyerlerAdapter.filter.filter(etxt)
-                }
+            dialogBinding.etSearch.getEditTextWithFlow().collectLatest {text->
+                Log.d("TAG", "setupCountryCodeRecyclerAdapter: for each contains $text")
+                    val searchedlist=templist.filter { it.Name.toString().lowercase().trim().contains(text.toString().lowercase().trim()) }.toMutableList()
+
+                Log.d("TAG", "setupCountryCodeRecyclerAdapter: for each contains $text list size ${searchedlist.size}")
+                      requireActivity().runOnUiThread {
+                          countryCodeRecyerlerAdapter.search(searchedlist.distinct())
+                      }
+
             }
         }
 
         dialogBinding.rvCountry.adapter=countryCodeRecyerlerAdapter
-        dialog.create()
-        dialog.show()
+        countryCodeDialog.create()
+        countryCodeDialog.show()
     }
   /*
     requireActivity().run {runOnUiThread {countryCodeRecyerlerAdapter.notifyDataSetChanged()}
@@ -165,7 +179,9 @@ class FragmentCreateCandidate : Fragment() {
                 countryCodeListMain.addAll(data!!)
                 countryCodeListMain.forEach { countryCodeList.add(it.codedisplay.toString()+" ${it.Name.toString()}") }
 
-                requireActivity().runOnUiThread { countryCodeRecyerlerAdapter.notifyDataSetChanged() }
+                requireActivity().runOnUiThread {
+                    countryCodeRecyerlerAdapter.swapList(countryCodeListMain)
+                }
             }
             else
             {
@@ -239,10 +255,24 @@ class FragmentCreateCandidate : Fragment() {
                         {
                             dialog.dismiss()
                             obj.language=selectedLanguage
+                            requireActivity().runOnUiThread {
+                                requireActivity().showProgressDialog()
+                            }
+
                             viewModel?.sendProfileLink(obj){data, isSuccess, errorCode, msg ->
                             if (isSuccess)
                             {
-                                requireActivity().showCustomSnackbarOnTop(data?.ResponseMessage.toString())
+                                requireActivity().runOnUiThread {
+                                    requireActivity().dismissProgressDialog()
+                                    requireActivity().showCustomSnackbarOnTop(data?.ResponseMessage.toString())
+                                }
+                            }
+                                else
+                            {
+                                requireActivity().runOnUiThread {
+                                    requireActivity().dismissProgressDialog()
+                                    requireActivity().showCustomSnackbarOnTop(data?.ResponseMessage.toString())
+                                }
                             }
                         }
                         }else
@@ -267,13 +297,22 @@ class FragmentCreateCandidate : Fragment() {
 
     private fun handleTextWatcher()
     {
-        binding.etEmail.doOnTextChanged { text, _, _, _ ->
-            emailValidator(requireActivity(), text.toString()) { isEmailOk, _, _ ->
-                isEmailok=isEmailOk
-                if (!isEmailOk)
-                    binding.etEmail.error = "Invalid"
+        CoroutineScope(Dispatchers.IO).launch {
+            binding.etEmail.getEditTextWithFlow().collectLatest{text->
+                delay(1000)
+                emailValidator(requireActivity(), text.toString()) { isEmailOk, _, _ ->
+                    isEmailok=isEmailOk
+                    if (!isEmailOk) {
+                        requireActivity().runOnUiThread {
+                            binding.etEmail.error = "Invalid"
+                        }
+                    }
+                    else
+                        checkEmailExists(text.toString())
+                }
             }
         }
+
 
         binding.etPhoneno.doOnTextChanged { text, _, _, _ ->
             isPhoneok=requireActivity().phoneValidator(text.toString())
@@ -300,6 +339,20 @@ class FragmentCreateCandidate : Fragment() {
 
     }
 
+    private fun checkEmailExists(txt: String) {
+        viewModel?.getIsPhoneExists(txt,
+            response = { data ->
+                requireActivity().runOnUiThread {
+                    if (data.aPIResponse?.Success!!) {
+                        binding.etEmail.setError(data.aPIResponse?.Message.toString())
+                        isEmailok=false
+                    } else {
+                        binding.etEmail.setError(data.aPIResponse?.Message.toString())
+                        isEmailok=true
+                    }
+                }
+            })
+    }
 
     private fun checkPhoneExists(txt: String) {
         viewModel?.getIsPhoneExists(txt,

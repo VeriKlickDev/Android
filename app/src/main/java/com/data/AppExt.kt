@@ -495,7 +495,7 @@ fun convertBitmapToBase64(btmp:Bitmap) : String?
         val byteArrayOutputStream = ByteArrayOutputStream()
         btmp.compress(Bitmap.CompressFormat.PNG, 60, byteArrayOutputStream)
         val byteArray = byteArrayOutputStream.toByteArray()
-        var encodedd=android.util.Base64.encodeToString(byteArray,android.util.Base64.DEFAULT)
+        encodedd=android.util.Base64.encodeToString(byteArray,android.util.Base64.DEFAULT)
 
     }catch (e:Exception)
     {

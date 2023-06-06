@@ -1,5 +1,6 @@
 package layout
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.view.DragEvent
@@ -23,13 +24,21 @@ class CountryCodeListAdapter(
     var list: MutableList<ResponseCountryCode>,
     val onClicked: (pos: Int, data: ResponseCountryCode?, action: Int) -> Unit
 ) :
-    RecyclerView.Adapter<CountryCodeListAdapter.ViewHolderClass>(), Filterable {
+    RecyclerView.Adapter<CountryCodeListAdapter.ViewHolderClass>() {
     private val TAG = "skillsAdapterCheck"
+    var filterListfinal = mutableListOf<ResponseCountryCode>()
+    var listCopy = mutableListOf<ResponseCountryCode>()
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun swapList(newlist: ArrayList<ResponseCountryCode>) {
+        filterListfinal.addAll(newlist)
+        list=filterListfinal.distinct().toMutableList()
+        notifyDataSetChanged()
+    }
 
-
-    fun swapList(newlist: List<ResponseCountryCode>) {
-        list.addAll(newlist)
+    fun search(newlist: List<ResponseCountryCode>)
+    {
+        list=newlist.distinct().toMutableList()
         notifyDataSetChanged()
     }
 
@@ -57,26 +66,35 @@ class CountryCodeListAdapter(
         }
     }
 
-    override fun getFilter(): Filter {
-        var filterListfinal= mutableListOf<ResponseCountryCode>()
+    fun clearFilteredList() {
+        filterListfinal.clear()
+    }
+
+    /*  override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val charString = constraint?.toString() ?: ""
-                Log.d(TAG, "performFiltering: charseq $charString")
-                if (charString.isEmpty())
-                    filterListfinal = list
+                Log.d(TAG, "performFiltering: charseq $charString list ${list.size} filterlist ${filterListfinal.size}")
+                if (charString.isEmpty()){
+                    list=filterListfinal
+                }
                 else {
                     var filteredList = ArrayList<ResponseCountryCode>()
-                    list.filter {item->
-                        (item.Name?.toString()?.lowercase()?.trim()?.contains(constraint!!.toString().lowercase().trim()))?.or((item.PhoneCode.toString().lowercase().trim().contains(constraint!!.toString().lowercase().trim())))!!
+
+
+                    filterListfinal.filter {item->(item.Name?.lowercase()?.trim()?.contains(constraint!!.toString().lowercase().trim())!!)
+                                // ((item.PhoneCode.toString().lowercase().trim().contains(constraint!!.toString().lowercase().trim())))!!
                     }
                         .forEach {
                             filteredList.add(it)
                             Log.d(TAG, "performFiltering: filteredList for loop $it")
                         }
-                    filterListfinal = filteredList
-                    Log.d(TAG, "performFiltering: filteredList items $filterListfinal ")
-                    Log.d(TAG, "performFiltering: filteredList items 2 $filteredList ")
+
+                    filterListfinal=filteredList
+                    Log.d(TAG, "performFiltering: filteredList items copy ${listCopy.size} ")
+                    Log.d(TAG, "performFiltering: filteredList items list ${list.size} ")
+                    Log.d(TAG, "performFiltering: filteredList filterdfinl${filterListfinal.size} ")
+                    Log.d(TAG, "performFiltering: filteredList filteredlist ${filteredList.size} ")
                 }
 
                 return FilterResults().apply { values = filterListfinal }
@@ -84,14 +102,24 @@ class CountryCodeListAdapter(
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
 
-                list = if (results?.values == null)
-                    ArrayList()
-                else
-                    results.values as ArrayList<ResponseCountryCode>
-                notifyDataSetChanged()
+                try {
+                    list=if (results?.values == null)
+                    {
+                        arrayListOf()
+                    }
+                    else {
+                        results?.values as ArrayList<ResponseCountryCode>
+                    }
+                    Log.d(TAG, "publishResults: published result size ${list.size}")
+                    notifyDataSetChanged()
+                }catch (e:Exception)
+                {
+                    Log.d(TAG, "publishResults: exception ${e.message}")
+                }
+
             }
         }
-    }
+    }*/
 
 }
 

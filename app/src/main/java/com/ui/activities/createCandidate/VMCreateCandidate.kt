@@ -287,8 +287,8 @@ class VMCreateCandidate @Inject constructor(val baseRestApi: BaseRestApi) : View
             CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 val obj=BodyExistingCandidate()
                 obj.CandidateId="0"
-                obj.CurrentUserId=DataStoreHelper.getMeetingRecruiterid()
-                obj.SubscriberId=DataStoreHelper.getMeetingUserId()
+               // obj.CurrentUserId=DataStoreHelper.getMeetingRecruiterid()
+               // obj.SubscriberId=DataStoreHelper.getMeetingUserId()
                 obj.SearchString=phoneNo
                 Log.d(TAG, "getIsPhoneExists: data is $obj")
                 val result = baseRestApi.getExitingCandidateContact(obj)
@@ -309,6 +309,7 @@ class VMCreateCandidate @Inject constructor(val baseRestApi: BaseRestApi) : View
             Log.d("adduserexception", "getIsEmailAndPasswordExists: exception  ")
         }
     }
+
 
 
 

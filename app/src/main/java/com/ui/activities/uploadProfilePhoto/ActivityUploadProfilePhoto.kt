@@ -10,10 +10,10 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
+import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
 import com.data.dataHolders.CandidateImageAndAudioHolder
@@ -32,6 +32,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileOutputStream
 
 
 @AndroidEntryPoint
@@ -103,7 +104,6 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
             var token = splitList?.get(splitList.size - 1)
 
 
-
             Log.d(TAG, "loadRecruiterData: url id $id  token $token")
             runOnUiThread { showProgressDialog() }
             viewModel?.getRecruiterDetails(id.toString(),token.toString()){data,isSuccess, errorCode, msg ->
@@ -135,17 +135,21 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
     {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
-        imageFile = getEmptyFile("Caputured"+System.currentTimeMillis()+".png","captureImage")
-        imageUri = FileProvider.getUriForFile(this,"com.veriKlick.provider",imageFile!!)
+       // imageFile = getEmptyFile("Caputured"+System.currentTimeMillis()+".png","captureImage")
+       // imageUri = FileProvider.getUriForFile(this,"com.veriKlick.provider",imageFile!!)
 
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+       // intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
         contractorCamera.launch(intent)
     }
 
     val contractorCamera=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
        try {
+           //data.getExtras().get("data");
+           val img=it.data?.extras?.get("data") as Bitmap
 
-           Log.d(TAG, "imageUri: uri $imageUri")
+          //binding.ivUploadImage.setImageBitmap(img)
+//            binding.ivUploadImage.scaleType=ImageView.ScaleType.CENTER_CROP
+           imageUri=getImageUri(img)
            getImageFromCamera(imageUri!!)
 
        }catch (e:Exception)
@@ -155,13 +159,25 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
 
     }
 
+    private fun getImageUri(inImage: Bitmap): Uri {
+
+        val tempFile = File.createTempFile("temprentpk", ".png")
+        val bytes = ByteArrayOutputStream()
+        inImage.compress(Bitmap.CompressFormat.PNG, 100, bytes)
+        val bitmapData = bytes.toByteArray()
+        val fileOutPut = FileOutputStream(tempFile)
+        fileOutPut.write(bitmapData)
+        fileOutPut.flush()
+        fileOutPut.close()
+        return Uri.fromFile(tempFile)
+    }
+
     val contractorGallery=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
         try {
 
             Log.d(TAG, "imageUri: uri $imageUri")
             imageUri = it?.data?.data
-           // binding.ivUploadImage.setImageURI(imageUri)
-
+            binding.ivUploadImage.setImageURI(it?.data?.data)
             getImageFromCamera(imageUri!!)
 
         }catch (e:Exception)
@@ -198,15 +214,20 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
 
     }
 
-
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
-            val resultUri = UCrop.getOutput(data!!)
-            binding.ivUploadImage.setImageURI(resultUri)
-            finalUserImageUri=resultUri
-            Log.d(TAG, "onActivityResult: destUri $desUri")
+            try {
+                val resultUri = UCrop.getOutput(data!!)
+                binding.ivUploadImage.setImageURI(resultUri)
+                binding.ivUploadImage.scaleType=ImageView.ScaleType.CENTER_CROP
+                finalUserImageUri=resultUri
+                Log.d(TAG, "onActivityResult: destUri $desUri")
+            }catch (e:Exception)
+            {
+                Log.d(TAG, "onActivityResult: onactivity result camera ${e.message}")
+            }
+
 
         } else if (resultCode == UCrop.RESULT_ERROR) {
             val cropError = UCrop.getError(data!!)
@@ -258,7 +279,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
     {
         CoroutineScope(Dispatchers.IO+ exceptionHandler).launch {
             try {
-                var imageBitmap= uriToBitmap(finalUserImageUri!!)
+                var imageBitmap = uriToBitmap(finalUserImageUri!!)
                 if (imageBitmap!=null)
                 {
                     try {
@@ -277,6 +298,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                     //val subsId=DataStoreHelper.getMeetingUserId()
                     var subsId=recruiterId
                    // binding.ivUploadImage.setImageBitmap(imageBitmap)
+                    Log.d(TAG, "uploadProfilePhoto: image base64 $image")
                     var imageName=subsId+"/IMG_${System.currentTimeMillis()}.png"
                     Log.d(TAG, "uploadProfilePhoto: image name $imageName")
                     CandidateImageAndAudioHolder.setImage(BodyCandidateImageModel(image,subsId+"/IMG_${System.currentTimeMillis()}.png","upload"))
@@ -287,36 +309,37 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                             200->{
                                 runOnUiThread { dismissProgressDialog() }
                                 Log.d(TAG, "uploadProfilePhoto: $msg")
-                                showCustomSnackbarOnTop(msg)
+                                runOnUiThread { showCustomSnackbarOnTop(msg) }
+
                             }
                             400->{
                                 runOnUiThread { dismissProgressDialog() }
-                                showCustomSnackbarOnTop(msg)
+                                runOnUiThread { showCustomSnackbarOnTop(msg) }
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
                             401->{
                                 runOnUiThread { dismissProgressDialog() }
-                                showCustomSnackbarOnTop(msg)
+                                runOnUiThread { showCustomSnackbarOnTop(msg) }
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
                             500->{
                                 runOnUiThread { dismissProgressDialog() }
-                                showCustomSnackbarOnTop(msg)
+                                runOnUiThread { showCustomSnackbarOnTop(msg) }
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
                             501->{runOnUiThread { dismissProgressDialog() }
-                                showCustomSnackbarOnTop(msg)
+                                runOnUiThread { showCustomSnackbarOnTop(msg) }
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
                             404->{runOnUiThread { dismissProgressDialog() }
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
                             503->{runOnUiThread { dismissProgressDialog() }
-                                showCustomSnackbarOnTop(msg)
+                                runOnUiThread { showCustomSnackbarOnTop(msg) }
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
                             502->{runOnUiThread { dismissProgressDialog() }
-                                showCustomSnackbarOnTop(msg)
+                                runOnUiThread { showCustomSnackbarOnTop(msg) }
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
 
