@@ -858,21 +858,37 @@ class UpcomingListFragment(val from: String) : Fragment() {
             {
                 meetingsList.addAll(it)
                 adapter.swapList(meetingsList)
+                requireActivity().runOnUiThread {
+                    binding.rvUpcomingMeeting.isVisible=true
+                binding.tvNoData.isVisible=false
+                }
             }
             try {
                 if (it.size==0 && it.get(0).totalCount==0)
                 {
                     meetingsList.clear()
                     adapter.notifyDataSetChanged()
+                    requireActivity().runOnUiThread {
+                        binding.rvUpcomingMeeting.isVisible=false
+                        binding.tvNoData.isVisible=true
+                    }
+
                 }   else
                 {
-
+                    Log.d(TAG, "handleObserver: ")
                 }
             }catch (e:Exception)
             {
                 Log.d(TAG, "handleObserver: excl ${e.message}")
             }
             try {
+                if (meetingsList.size==0)
+                {
+                    requireActivity().runOnUiThread {
+                        binding.rvUpcomingMeeting.isVisible=false
+                        binding.tvNoData.isVisible=true
+                    }
+                }
              /*   contentLimit
                 if (contentLimit==0)
                 {
