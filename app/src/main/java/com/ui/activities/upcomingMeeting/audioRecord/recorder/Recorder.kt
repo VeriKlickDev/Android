@@ -32,6 +32,13 @@ class Recorder private constructor(context: Context) {
         return this
     }
 
+    fun stopRecording()
+    {
+        recorder.stopRecording()
+        onStop?.invoke()
+        isRecording=false
+    }
+
     fun toggleRecording() {
         isRecording = if (!isRecording) {
             startTime = System.currentTimeMillis()

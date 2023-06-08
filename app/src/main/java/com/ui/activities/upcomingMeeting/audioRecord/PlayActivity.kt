@@ -34,6 +34,7 @@ class PlayActivity : AppCompatActivity() {
         viewModel=ViewModelProvider(this).get(VMPlayAudio::class.java)
         setContentView(binding.root)
 
+        binding.playButton.setImageDrawable( getDrawableCompat(R.drawable.ic_play_arrow_24))
         binding.btnJumpBack.setOnClickListener {onBackPressedDispatcher.onBackPressed()}
         binding.btnUploadData.setOnClickListener {
         uploadData()
@@ -101,7 +102,7 @@ class PlayActivity : AppCompatActivity() {
         super.onStart()
         listenOnPlayerStates()
         initUI()
-        player.togglePlay()
+       // player.togglePlay()
     }
 
     override fun onStop() {
@@ -129,7 +130,9 @@ class PlayActivity : AppCompatActivity() {
                 player.seekTo(time)
             }
         }
-        playButton.setOnClickListener { player.togglePlay() }
+        playButton.setOnClickListener {
+            player.togglePlay()
+        }
         /*seekForwardButton.setOnClickListener {
             //visualizer.seekOver(SEEK_OVER_AMOUNT)
             Toast.makeText(this@PlayActivity,"Saved",Toast.LENGTH_SHORT).show()
@@ -138,6 +141,9 @@ class PlayActivity : AppCompatActivity() {
             //visualizer.seekOver(-SEEK_OVER_AMOUNT)
             onBackPressed()
         }
+
+
+
 
         lifecycleScope.launchWhenCreated {
             val amps = player.loadAmps()

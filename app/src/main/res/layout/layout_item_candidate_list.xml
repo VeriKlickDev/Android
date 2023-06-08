@@ -211,9 +211,10 @@
                         />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/tv_primarySkill"
+                        android:layout_weight="1"
                         android:fontFamily="@font/sarabun_regular"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_14sp"
@@ -223,25 +224,28 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.appcompat.widget.AppCompatButton
+                <ImageView
                     android:id="@+id/btn_call"
-                    android:layout_weight="2.5"
-                    android:layout_width="match_parent"
+                    android:layout_weight="0"
+                    android:layout_width="@dimen/_35sdp"
                     android:layout_height="@dimen/_35sdp"
-                    android:text="@string/txt_call"
+                    android:src="@drawable/ic_img_call_white"
+                    android:padding="@dimen/_7sp"
                     android:visibility="visible"
                     android:outlineProvider="none"
                     android:foreground="?selectableItemBackground"
                     style="@style/button.Style.Blue.Rounded.WithouPadding"
-                    android:fontFamily="@font/sarabun_bold" />
+                    />
 
-                <androidx.appcompat.widget.AppCompatButton
+                <ImageView
                     android:id="@+id/btn_sms"
-                    android:layout_weight="2.5"
-                    android:layout_width="match_parent"
+                    android:layout_weight="0"
+                    android:layout_width="@dimen/_35sdp"
                     android:layout_height="@dimen/_35sdp"
                     android:text="@string/txt_sms"
+                    android:src="@drawable/ic_img_message_white"
                     android:layout_marginLeft="@dimen/_5sp"
+                    android:padding="@dimen/_7sp"
                     android:visibility="visible"
                     android:outlineProvider="none"
                     android:foreground="?selectableItemBackground"

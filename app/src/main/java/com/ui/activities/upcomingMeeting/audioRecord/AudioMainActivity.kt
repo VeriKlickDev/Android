@@ -2,10 +2,12 @@ package com.ui.activities.upcomingMeeting.audioRecord
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.lifecycle.MutableLiveData
 import com.data.dataHolders.CreateProfileDeepLinkHolder
-import com.ui.activities.createCandiateForm.ActivityCreateCandidateForm
 import com.ui.activities.upcomingMeeting.audioRecord.recorder.Recorder
 import com.ui.activities.upcomingMeeting.audioRecord.utils.checkAudioPermission
 import com.ui.activities.upcomingMeeting.audioRecord.utils.formatAsTime
@@ -13,8 +15,8 @@ import com.ui.activities.upcomingMeeting.audioRecord.utils.getDrawableCompat
 import com.veriKlick.R
 import com.veriKlick.databinding.ActivityAudiomainBinding
 import dagger.hilt.android.AndroidEntryPoint
-
 import kotlin.math.sqrt
+
 
 @AndroidEntryPoint
 class AudioMainActivity : AppCompatActivity() {
@@ -28,7 +30,7 @@ class AudioMainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         Log.d("TAG", "onCreate: in audio activity link ${CreateProfileDeepLinkHolder.get()}")
-
+        binding.audioProgressBar.max=60000
        // AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
        /**18may binding.btnSkip.setOnClickListener {
             val intent=Intent(this,ActivityCreateCandidateForm::class.java)
@@ -38,6 +40,9 @@ class AudioMainActivity : AppCompatActivity() {
         checkAudioPermission(AUDIO_PERMISSION_REQUEST_CODE)
 
         initUI()
+        // watchObserver()
+        //  binding.btnPlay.setOnClickListener { jumpToPlayActivity() }
+
     }
 
     override fun onStart() {
@@ -51,13 +56,91 @@ class AudioMainActivity : AppCompatActivity() {
     }
 
     private fun initUI() = with(binding) {
-        recordButton.setOnClickListener { recorder.toggleRecording() }
+        recordButton.setOnClickListener {
+            recorder.toggleRecording()
+            setupTimerForAudio()
+           // millisTimer.start()
+           // secondsTimer.start()
+        }
         visualizer.ampNormalizer = { sqrt(it.toFloat()).toInt() }
     }
+
+    private fun setupTimerForAudio()
+    {
+        getSecondsAndMillis{seconds, mmillis, isDone ->
+            Log.d("TAG", "setupTimerForAudio: seconds is $seconds")
+            runOnUiThread {
+                binding.audioProgressBar.setProgress(mmillis)
+                if (isDone)
+                recorder.stopRecording()
+            }
+        }
+    }
+
+    private var millis=0
+    private var seconds=0
+
+    private fun getSecondsAndMillis(onTick:(seconds:Int,millis:Int,isDone:Boolean)->Unit)
+    {
+         object : CountDownTimer(60000, 1) {
+            override fun onTick(millisUntilFinished: Long) {
+                Log.d("TAG", "onTick: seconds ${millis}")
+                onTick(seconds,millis,false)
+                millis++
+            }
+
+            override fun onFinish() {
+
+            }
+        }.start()
+        object : CountDownTimer(60000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                Log.d("TAG", "onTick: seconds ${millis}")
+                // logic to set the EditText could go here
+                onTick(seconds,millis,false)
+                seconds--
+            }
+
+            override fun onFinish() {
+                onTick(seconds,millis,true)
+            }
+        }.start()
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        millis=0
+        seconds=0
+        binding.audioProgressBar.setProgress(0)
+    }
+
+    override fun onPause() {
+        super.onPause()
+         /*   millis=0
+            seconds=15
+            millisTimer.cancel()
+            secondsTimer.cancel()*/
+    }
+
+
+
 
     override fun finish() {
         super.finish()
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+    }
+
+    private fun jumpToPlayActivity()
+    {
+
+        val intent=Intent(this@AudioMainActivity, PlayActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(
+            R.anim.slide_in_right,
+            R.anim.slide_out_left
+        )
     }
 
     private fun listenOnRecorderStates() = with(binding) {
@@ -67,18 +150,15 @@ class AudioMainActivity : AppCompatActivity() {
                 visualizer.clear()
                 timelineTextView.text = 0L.formatAsTime()
                 recordButton.setImageDrawable(getDrawableCompat(R.drawable.ic_record_24))
-                val intent=Intent(this@AudioMainActivity, PlayActivity::class.java)
-                startActivity(intent)
-                overridePendingTransition(
-                    R.anim.slide_in_right,
-                    R.anim.slide_out_left
-                )
-               // finish()
+               // millisLiveData.postValue("")
+               // secondsLiveData.postValue("")
+                jumpToPlayActivity()
+               // binding.btnPlay.isVisible=true
             }
             onAmpListener = {
                 runOnUiThread {
                     if (recorder.isRecording) {
-                        timelineTextView.text = recorder.getCurrentTime().formatAsTime()
+                      timelineTextView.text = recorder.getCurrentTime().formatAsTime()
                         visualizer.addAmp(it, tickDuration)
                     }
                 }

@@ -75,17 +75,60 @@
             android:textSize="24sp"
             android:layout_gravity="center_horizontal" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="64sp"
+            android:layout_height="64sp"
+           android:layout_gravity="center_horizontal"
+            >
+
+            <ProgressBar
+                android:id="@+id/audioProgressBar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="@dimen/_10sp"
+                android:progressTint="@color/white"
+                android:indeterminateTint="@color/white"
+                android:padding="@dimen/_2sp"
+                android:indeterminate="false"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:progressDrawable="@drawable/circular_progress_bar"
+                android:max="20"
+                android:progress="5"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/record_button"
+                android:layout_width="60sp"
+                android:layout_height="60sp"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/skyblue_light1"
+                android:gravity="center"
+                android:src="@drawable/ic_baseline_mic_24_blue"
+                app:contentPadding="17sp"
+                app:layout_constraintBottom_toBottomOf="@+id/audioProgressBar"
+                app:layout_constraintEnd_toEndOf="@+id/audioProgressBar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/roundedCorner50" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/record_button"
+            android:id="@+id/btn_play"
             android:layout_width="60sp"
             android:layout_height="60sp"
-            android:layout_marginBottom="@dimen/_100sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:visibility="gone"
             android:background="@color/skyblue_light1"
             android:gravity="center"
-            android:src="@drawable/ic_baseline_mic_24_blue"
-            app:contentPadding="17sp"
+            android:src="@drawable/ic_play_arrow_24"
+            app:contentPadding="@dimen/_12sp"
             android:layout_gravity="center_horizontal"
             app:shapeAppearanceOverlay="@style/roundedCorner50" />
+
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
