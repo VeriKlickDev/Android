@@ -413,6 +413,7 @@ class CandidateListFragment() : Fragment() {
 
     private fun setupRecyclerPagination() {
         binding.swipetorefresh.setOnRefreshListener {
+            skipPage=1
             candidateList.clear()
             recyclerAdapter?.notifyDataSetChanged()
             getCandidateList(1)
@@ -554,6 +555,10 @@ class CandidateListFragment() : Fragment() {
                 requireActivity().runOnUiThread {
                     requireActivity().showProgressDialog()
                 }
+            }
+            if (searchTxt==null)
+            {
+                searchTxt=""
             }
             viewModel.getCandidateList(
                 ob,
