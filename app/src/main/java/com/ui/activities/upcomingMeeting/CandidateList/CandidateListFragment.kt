@@ -23,6 +23,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.data.*
@@ -167,6 +168,7 @@ class CandidateListFragment() : Fragment() {
                 }
         }
 
+
         return binding.root
     }
 
@@ -227,7 +229,7 @@ class CandidateListFragment() : Fragment() {
                    sendMessage(obj)
                }
            })
-           alertDialog.setTitle(getString(R.string.txt_do_you_want_to_send_sms))
+           alertDialog.setTitle(getString(R.string.txt_do_you_want_to_send_template))
            alertDialog.create()
            alertDialog.show()
        }
@@ -301,6 +303,16 @@ class CandidateListFragment() : Fragment() {
                         requireActivity().dismissProgressDialog()
                     }
                     Log.d(TAG, "handleSMS: blank")
+                }
+            }
+
+            dialogBinding.etsms.doOnTextChanged { text, start, before, count ->
+                if (text.toString().equals("") && text.toString().trim().length==0)
+                {
+                    dialogBinding.tvErrorBlank.visibility=View.VISIBLE
+                }else
+                {
+                    dialogBinding.tvErrorBlank.visibility=View.INVISIBLE
                 }
             }
             dialog.create()
@@ -385,6 +397,18 @@ class CandidateListFragment() : Fragment() {
 
 
     private fun handleObserver() {
+
+        binding.etSearch.doOnTextChanged { text, start, before, count ->
+            if (text.toString().equals("") && text.toString().trim().length==0)
+            {
+                Log.d(TAG, "handleObserver: search blank")
+                skipPage=1
+                candidateList.clear()
+                recyclerAdapter?.notifyDataSetChanged()
+                getCandidateList(1)
+            }
+        }
+
         Log.d(TAG, "handleObserver: ")
         viewModel.candidateListLive?.observe(requireActivity()) {
             Log.d(TAG, "handleObserver: in candidate list fragement")
@@ -519,7 +543,7 @@ class CandidateListFragment() : Fragment() {
                    startActivity(intent)
                }
            })
-           alertDialog.setTitle(getString(R.string.txt_are_you_sure))
+           alertDialog.setTitle(getString(R.string.txt_do_you_want_to_call_the_person))
            alertDialog.create()
            alertDialog.show()
        }

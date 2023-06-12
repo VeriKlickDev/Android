@@ -234,11 +234,12 @@ class LoginActivity : AppCompatActivity() {
 
                                     Handler(Looper.getMainLooper()).postDelayed({
                                         startActivity(intent)
+                                        finish()
                                         overridePendingTransition(
                                             R.anim.slide_in_right,
                                             R.anim.slide_out_left
                                         )
-                                        finish()
+
                                     }, 500)
 
                                 } else {
@@ -298,7 +299,7 @@ class LoginActivity : AppCompatActivity() {
                             /*   Snackbar.make(binding.root,getString(R.string.txt_no_internet_connection),
                                    Snackbar.LENGTH_SHORT).show()*/
                         }
-
+//8218090995
                         Log.d("textcheck", "click on success btn $email $psswd ")
                     } else {
 

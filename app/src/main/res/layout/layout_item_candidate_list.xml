@@ -168,6 +168,7 @@
                                 app:reviewScoreMax="5"
                                 android:max="5"
                                 android:stepSize="1"
+                                android:progressTint="@color/yellow"
                                 android:theme="@style/RatingBar"
                                 android:layout_gravity="start"
                                 style="@style/Widget.AppCompat.RatingBar.Small"

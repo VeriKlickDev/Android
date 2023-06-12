@@ -260,8 +260,8 @@ fun hideDrawerViews()
 
     fun openDrawer() {
         Log.d(TAG, "openDrawer: open")
+        hideKeyboard(this)
         binding.drawerLayout.openDrawer(Gravity.LEFT)
-
     }
 
     private fun logout() {
@@ -306,8 +306,11 @@ fun hideDrawerViews()
             isBackPressed = 0
         }, 2000)
 
-        if (isBackPressed == 2)
+        if (isBackPressed == 2){
+            finishAffinity()
             super.onBackPressed()
+
+        }
 
 
         // super.onBackPressed()

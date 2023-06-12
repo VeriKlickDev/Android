@@ -206,7 +206,12 @@
             android:name="com.ui.activities.upcomingMeeting.UpcomingMeetingActivity"
             android:configChanges="orientation"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"
+            />
+
+
+
         <activity
             android:name="com.harvee.yourhealthmate2.ui.privacypolicy.ActivityPrivacyPolicy"
             android:configChanges="orientation"
