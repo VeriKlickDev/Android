@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/red"
             android:textSize="@dimen/_12sp"
-            android:text="@string/txt_required"
+            android:text="@string/txt_sms_is_required"
             android:layout_marginHorizontal="@dimen/_10sp"
             style="@style/heading.TextView.Grey_16"
             android:visibility="invisible" />

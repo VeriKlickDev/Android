@@ -340,14 +340,14 @@ class FragmentCreateCandidate : Fragment() {
     }
 
     private fun checkEmailExists(txt: String) {
-        viewModel?.getIsPhoneExists(txt,
+        viewModel?.getIsPhoneExists(txt,false,
             response = { data ->
                 requireActivity().runOnUiThread {
-                    if (data.aPIResponse?.Success!!) {
+                    if (data.aPIResponse?.Message!=null) {
                         binding.etEmail.setError(data.aPIResponse?.Message.toString())
                         isEmailok=false
                     } else {
-                        binding.etEmail.setError(data.aPIResponse?.Message.toString())
+                       // binding.etEmail.setError(data.aPIResponse?.Message.toString())
                         isEmailok=true
                     }
                 }
@@ -355,14 +355,14 @@ class FragmentCreateCandidate : Fragment() {
     }
 
     private fun checkPhoneExists(txt: String) {
-        viewModel?.getIsPhoneExists(txt,
+        viewModel?.getIsPhoneExists(txt,true,
             response = { data ->
                 requireActivity().runOnUiThread {
-                    if (data.aPIResponse?.Success!!) {
+                    if (data.aPIResponse?.StatusCode!=null) {
                         binding.etPhoneno.setError(data.aPIResponse?.Message.toString())
                         isPhoneok=false
                     } else {
-                        binding.etPhoneno.setError(data.aPIResponse?.Message.toString())
+                      //  binding.etPhoneno.setError(data.aPIResponse?.Message.toString())
                         isPhoneok=true
                     }
                 }
@@ -394,7 +394,7 @@ class FragmentCreateCandidate : Fragment() {
                 obj.email=binding.etEmail.text.toString()
                 obj.language=getString(R.string.languageSelect)
                 obj.MessageText="SPL"
-                obj.ReceiverNumber=iscountryCode+binding.etPhoneno.text.toString()
+                obj.ReceiverNumber="+"+iscountryCode+binding.etPhoneno.text.toString()
                 Log.d("TAG", "postData: sending sms is ${Gson().toJson(obj)}")
                chooseLanguage(obj)
             }

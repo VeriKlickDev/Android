@@ -4,8 +4,8 @@ import com.google.gson.annotations.SerializedName
 
 data class BodyExistingCandidate (
 
-    @SerializedName("CandidateId"   ) var CandidateId   : String?         = null,
-    @SerializedName("CurrentUserId" ) var CurrentUserId : String?      = null,
+    @SerializedName("CandidateId"   ) var CandidateId   : Int?         = null,
+    @SerializedName("CurrentUserId" ) var CurrentUserId : String?      = "",
     @SerializedName("SubscriberId"  ) var SubscriberId  : String?      = null,
     @SerializedName("SearchString"  ) var SearchString  : String?      = null,
     @SerializedName("aPIResponse"   ) var aPIResponse   : APIResponse12? = APIResponse12()

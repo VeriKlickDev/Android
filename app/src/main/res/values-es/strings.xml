@@ -221,4 +221,11 @@
     <string name="txt_no_template">Sin plantillas</string>
     <string name="txt_provide_your_availability_for_meeting">Proporcionar su disponibilidad para la reunión</string>
 
+    <string name="txt_txt_no_participant_connected">Ningún participante conectado</string>
+    <string name="txt_select_code">Seleccionar código\n</string>
+    <string name="txt_meetings">Reuniones</string>
+    <string name="txt_do_you_want_to_call_the_person">¿Quieres llamar al persona?</string>
+    <string name="txt_do_you_want_to_send_template">¿Quieres enviar plantilla?</string>
+    <string name="txt_sms_is_required">Se requiere SMS</string>
+    <string name="txt_introduce_yourself">Presentarte</string>
 </resources>

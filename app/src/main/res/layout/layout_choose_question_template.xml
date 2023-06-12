@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/textview.Style.WhiteRounded_18_withoutPaddingMargin"
-            android:text="@string/txt_templates"
+            android:text="@string/txt_questionnaire"
             android:layout_gravity="center_horizontal"
             android:textSize="@dimen/_20sp"
             android:textColor="@color/black"

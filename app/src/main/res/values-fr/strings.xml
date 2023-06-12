@@ -220,4 +220,12 @@
     <string name="txt_no_template">Aucun modèle</string>
     <string name="txt_provide_your_availability_for_meeting">Indiquez votre disponibilité pour la réunion</string>
 
+
+    <string name="txt_txt_no_participant_connected">Aucun participant connecté</string>
+    <string name="txt_select_code">Sélectionnez Code\n</string>
+    <string name="txt_meetings">Réunions</string>
+    <string name="txt_do_you_want_to_call_the_person">Voulez-vous appeler la personne ?</string>
+    <string name="txt_do_you_want_to_send_template">Voulez-vous envoyer un modèle ?</string>
+    <string name="txt_sms_is_required">Le SMS est requis</string>
+    <string name="txt_introduce_yourself">Présentez-vous</string>
 </resources>

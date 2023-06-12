@@ -300,6 +300,7 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(intent)
+            finish()
             overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
         },500)
     }

@@ -225,9 +225,14 @@
 
     <string name="txt_no_template">No templates</string>
     <string name="txt_provide_your_availability_for_meeting">Provide your availability for meeting</string>
+
     <string name="txt_txt_no_participant_connected">No participant connected</string>
     <string name="txt_select_code">Select Code\n</string>
     <string name="txt_meetings">Meetings</string>
+    <string name="txt_do_you_want_to_call_the_person">Do you want to call the person?</string>
+    <string name="txt_do_you_want_to_send_template">DO you want to send template?</string>
+    <string name="txt_sms_is_required">SMS is required</string>
+    <string name="txt_introduce_yourself">Introduce yourself</string>
 
 
 </resources>
