@@ -5,36 +5,39 @@
 
         <item android:title="@string/txt_meetings">
             <menu>
-
                 <item
-                    android:icon="@drawable/shape_transparent_rectangle"
+                    android:icon="@drawable/ic_group_menu_icon"
                     android:id="@+id/navdrawerall_meetings"
                     android:title="@string/txt_all_meetings" />
 
                 <item
+                    android:icon="@drawable/ic_schedule_menu_icon"
                     android:id="@+id/navdrawerscheduled_meetings"
                     android:title="@string/txt_scheduled_meetings" />
 
                 <item
+                    android:icon="@drawable/ic_attended_menu_icon"
                     android:id="@+id/navdrawerattended_meetings"
                     android:title="@string/txt_attended_meetings" />
 
                 <item
+                    android:icon="@drawable/ic_cancelled_menu_icon"
                     android:id="@+id/navdrawercancel_meetings"
                     android:title="@string/txt_canceled_meetings" />
 
                 <item
+                    android:icon="@drawable/ic_missed_menu_icon"
                     android:id="@+id/navdrawermissed"
                     android:title="@string/txt_missed_meetings" />
             </menu>
         </item>
 
-
     <item
+        android:icon="@drawable/ic_list_candidate_menu_icon"
         android:id="@+id/navdrawerCandidateId"
         android:title="@string/txt_candidate" />
-
     <item
+        android:icon="@drawable/ic_create_candidate_menu_icon"
         android:id="@+id/navdrawercreateCandidate"
         android:title="@string/txt_create_candidate" />
 
