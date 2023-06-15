@@ -34,12 +34,12 @@
             android:layout_marginTop="@dimen/_50sdp"
             android:text="@string/txt_upload_profile_photo" />
 
-        <TextView
-            style="@style/textview.Style.WhiteRounded_18"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Lorem Ipsum is simply dummy." />
+<!--        <TextView-->
+<!--            style="@style/textview.Style.WhiteRounded_18"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center_horizontal"-->
+<!--            android:text="Lorem Ipsum is simply dummy." />-->
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -113,7 +113,7 @@
             >
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_upload_image"
-                style="@style/button.Style.Blue.Rounded"
+                style="@style/button.Style.Blue.Rounded.Enable.Disable"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_55sdp"
                 android:layout_marginTop="@dimen/_15sp"

@@ -466,7 +466,7 @@ fun Context.requestNearByPermissions(isGrant: (isGranted: Boolean) -> Unit) {
 }
 
 
-fun Context.requestNotficationPermission(isGrant: (isGranted: Boolean) -> Unit)
+fun Context.requestNotificationPermission(isGrant: (isGranted: Boolean) -> Unit)
 {
     ExcuseMe.couldYouGive(this).permissionFor(Manifest.permission.POST_NOTIFICATIONS){
         if (it.granted.contains(Manifest.permission.POST_NOTIFICATIONS)
@@ -540,7 +540,6 @@ fun Context.requestCameraAndMicPermissions(isGrant: (isGranted: Boolean) -> Unit
         Manifest.permission.CAMERA,
         Manifest.permission.RECORD_AUDIO,
         Manifest.permission.READ_PHONE_STATE,
-
     ) {
 
         Log.d("permissioncheck", "requestVideoPermissions: $it ")
@@ -553,6 +552,63 @@ fun Context.requestCameraAndMicPermissions(isGrant: (isGranted: Boolean) -> Unit
             isGrant(true)
         } else {
           //  requestNotficationPermission {  }
+            isGrant(false)
+        }
+
+    }
+}
+
+fun Context.requestAllPermissionForApp(isGrant: (isGranted: Boolean) -> Unit)
+{
+    ExcuseMe.couldYouGive(this).permissionFor(
+        Manifest.permission.CAMERA,
+        Manifest.permission.RECORD_AUDIO,
+        Manifest.permission.READ_PHONE_STATE,
+        Manifest.permission.POST_NOTIFICATIONS,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.BLUETOOTH_CONNECT,
+    ) {
+
+        Log.d("permissioncheck", "requestVideoPermissions: $it ")
+        if (it.granted.contains(Manifest.permission.CAMERA) &&
+            it.granted.contains(Manifest.permission.RECORD_AUDIO) &&
+            it.granted.contains(Manifest.permission.READ_PHONE_STATE) &&
+            it.granted.contains(Manifest.permission.POST_NOTIFICATIONS) &&
+            it.granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE)&&
+            it.granted.contains(Manifest.permission.BLUETOOTH_CONNECT)&&
+            it.granted.contains(Manifest.permission.ACCESS_FINE_LOCATION)
+        ) {
+            // requestNotficationPermission {  }
+            isGrant(true)
+        } else {
+            //  requestNotficationPermission {  }
+            isGrant(false)
+        }
+
+    }
+}
+
+
+fun Context.requestCameraAndMicPermissionsTiramishu(isGrant: (isGranted: Boolean) -> Unit) {
+    ExcuseMe.couldYouGive(this).permissionFor(
+        Manifest.permission.CAMERA,
+        Manifest.permission.RECORD_AUDIO,
+        Manifest.permission.READ_PHONE_STATE,
+        Manifest.permission.POST_NOTIFICATIONS,
+    ) {
+
+        Log.d("permissioncheck", "requestVideoPermissions: $it ")
+        if (it.granted.contains(Manifest.permission.CAMERA) &&
+            it.granted.contains(Manifest.permission.RECORD_AUDIO) &&
+            it.granted.contains(Manifest.permission.READ_PHONE_STATE) &&
+            it.granted.contains(Manifest.permission.POST_NOTIFICATIONS)
+        ) {
+            // requestNotficationPermission {  }
+            isGrant(true)
+        } else {
+            //  requestNotficationPermission {  }
             isGrant(false)
         }
 

@@ -108,7 +108,7 @@ class CandidateListFragment() : Fragment() {
             getTemplateList(DataStoreHelper.getMeetingUserId())
         }
 
-
+//8218090995
         binding.etSearch.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 searchTxt = binding.etSearch.text.toString()
@@ -117,6 +117,7 @@ class CandidateListFragment() : Fragment() {
                         candidateList.clear()
                         recyclerAdapter?.addList(candidateList)
                     }
+                    skipPage=1
                     progressType=0
                     getCandidateList(0)
                 } else {
@@ -135,6 +136,7 @@ class CandidateListFragment() : Fragment() {
                     candidateList.clear()
                     recyclerAdapter?.addList(candidateList)
                 }
+                skipPage=1
                 progressType=0
                 getCandidateList(0)
             } else {
@@ -402,6 +404,7 @@ class CandidateListFragment() : Fragment() {
             if (text.toString().equals("") && text.toString().trim().length==0)
             {
                 Log.d(TAG, "handleObserver: search blank")
+                searchTxt=text.toString()
                 skipPage=1
                 candidateList.clear()
                 recyclerAdapter?.notifyDataSetChanged()
@@ -584,6 +587,7 @@ class CandidateListFragment() : Fragment() {
             {
                 searchTxt=""
             }
+            ob.search=searchTxt.toString().trim()
             viewModel.getCandidateList(
                 ob,
                 recid = reicd,

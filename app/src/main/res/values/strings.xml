@@ -230,9 +230,10 @@
     <string name="txt_select_code">Select Code\n</string>
     <string name="txt_meetings">Meetings</string>
     <string name="txt_do_you_want_to_call_the_person">Do you want to call the person?</string>
-    <string name="txt_do_you_want_to_send_template">DO you want to send template?</string>
+    <string name="txt_do_you_want_to_send_template">Do you want to send template?</string>
     <string name="txt_sms_is_required">SMS is required</string>
     <string name="txt_introduce_yourself">Introduce yourself</string>
+    <string name="txt_please_enable_the_deeplink">Please enable the deeplink</string>
 
 
 </resources>

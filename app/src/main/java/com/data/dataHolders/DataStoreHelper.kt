@@ -23,6 +23,19 @@ object DataStoreHelper {
         dataStore =context.createDataStore(AppConstants.USER_DATA_STORE_KEY)
     }
 
+    fun setDeepLinkData(isOpened:Boolean)
+    {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
+                val tokenKey = preferencesKey<Boolean>(AppConstants.DEEPLINK_SETTING_OPEN)
+                dataStore.edit {
+                    it[tokenKey] = isOpened
+                }
+            }
+    }
+    suspend fun getDeeplinkIsOpenStatus():Boolean{
+        return dataStore.data.first()[preferencesKey<Boolean>(AppConstants.DEEPLINK_SETTING_OPEN)]!!
+    }
+
     fun insertValue(email:String,psswd:String)
     {
         CoroutineScope(Dispatchers.IO+exceptionHandler).launch {

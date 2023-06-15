@@ -2,19 +2,20 @@ package com.ui.activities.upcomingMeeting
 
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
 import com.data.dataHolders.DataStoreHelper
-import com.data.dataHolders.UpcomingMeetingStatusHolder
-import com.domain.constant.AppConstants
 import com.ui.activities.createCandidate.FragmentCreateCandidate
 import com.ui.activities.login.LoginActivity
 import com.ui.activities.upcomingMeeting.CandidateList.CandidateListFragment
@@ -25,8 +26,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.internal.lockAndWaitNanos
-import kotlin.concurrent.thread
 
 
 @AndroidEntryPoint
@@ -48,15 +47,6 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         //setInstance()
 
 
-        thread {
-            Thread.sleep(500)
-            requestNotficationPermission {
-                Log.d(TAG, "onCreate: request Notification permission $it")
-                requestNearByPermissions {
-
-                }
-            }
-        }
         try {
 
             /*if (UpcomingMeetingStatusHolder.getFragment()!=null){
@@ -113,10 +103,118 @@ class UpcomingMeetingActivity : AppCompatActivity() {
 
         hideDrawerViews()
         setDrawerListener()
+        //checkAllPermisions()
+       // checkPermissionNotificaton()
+    }
+
+    private fun checkDeepLinkIsOpenFirst(){
+        CoroutineScope(Dispatchers.IO).launch {
+
+            try {
+                if (DataStoreHelper.getDeeplinkIsOpenStatus() != null && !DataStoreHelper.getDeeplinkIsOpenStatus()) {
+                    runOnUiThread { getDeepLinkPermission {  } }
+
+                } else {
+                    runOnUiThread {  }
+
+                }
+            } catch (e: Exception) {
+                runOnUiThread { getDeepLinkPermission {  } }
+
+            }
+        }
+
+    }
+
+    private fun checkAllPermisions() {
+        if (Build.VERSION.SDK_INT== Build.VERSION_CODES.TIRAMISU){
+            Log.d(TAG, "checkAllPermisions: up q")
+            requestCameraAndMicPermissionsTiramishu{
+                requestWriteExternamlStoragePermissions {
+                    requestNearByPermissions {
+                        checkDeepLinkIsOpenFirst()
+                    }
+                }
+            }
+        }else
+        {
+            requestCameraAndMicPermissions{
+                requestWriteExternamlStoragePermissions {
+                    requestNearByPermissions {
+                        checkDeepLinkIsOpenFirst()
+                    }
+                }
+            }
+            Log.d(TAG, "checkAllPermisions: below tira")
+        }
 
     }
 
 
+    /*
+private fun checkPermissionNotificaton()
+{
+
+        if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)==PackageManager.PERMISSION_GRANTED)
+        {
+            Log.d(TAG, "onCreate: notifi granted")
+        }else
+        {
+            Log.d(TAG, "onCreate: notifi not granted")
+        }
+
+        requestNotificationPermission {
+            Log.d(TAG, "onCreate: request Notification permission $it")
+            //requestNearByPermissions {
+
+            // }
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    if (DataStoreHelper.getDeeplinkIsOpenStatus() != null) {
+                        if (!DataStoreHelper.getDeeplinkIsOpenStatus()) {
+                            runOnUiThread { getDeepLinkPermission {} }
+                        } else {
+
+                        }
+                    } else {
+                        runOnUiThread { getDeepLinkPermission {} }
+                    }
+                } catch (e: Exception) {
+                    runOnUiThread { getDeepLinkPermission {} }
+
+                }
+            }
+        }
+
+
+}
+     */
+
+    private fun getDeepLinkPermission(onFinish: () -> Unit) {
+        Log.d(TAG, "getDeepLinkPermission: on deeplink dialog")
+        val dialog = android.app.AlertDialog.Builder(this)
+        dialog.setTitle(getString(R.string.txt_please_enable_the_deeplink))
+        dialog.setPositiveButton(getString(R.string.txt_ok),
+            object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface?, which: Int) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        DataStoreHelper.setDeepLinkData(true)
+                    }
+                    val intent = Intent(
+                        Settings.ACTION_APP_OPEN_BY_DEFAULT_SETTINGS,
+                        Uri.parse("package:${packageName}")
+                    )
+                    startActivity(intent)
+                }
+            })
+        dialog.setOnDismissListener {
+            onFinish()
+        }
+        dialog.create()
+        dialog.show()
+
+
+    }
     override fun onResume() {
         // if (fragManager?.fragments?.size==0)
         // setInstance()

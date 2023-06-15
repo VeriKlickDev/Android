@@ -1,8 +1,6 @@
 package com.ui.activities.createCandiateForm
 
 import android.graphics.Bitmap
-import android.net.Uri
-import android.net.http.SslError
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -14,7 +12,7 @@ import com.data.showProgressDialog
 import com.google.gson.Gson
 import com.veriKlick.databinding.ActivityCreateCandidateFormBinding
 
-class ActivityCreateCandidateForm : AppCompatActivity() {
+class ActivityCreateCandidateWebForm : AppCompatActivity() {
     private lateinit var binding:ActivityCreateCandidateFormBinding
     val list= mutableListOf<String>()
     val requestListdata=MutableLiveData<String>()

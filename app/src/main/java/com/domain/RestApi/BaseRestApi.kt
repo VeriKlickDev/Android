@@ -46,6 +46,10 @@ interface BaseRestApi {
     @GET
     suspend fun getResumeFileName(@Header("Authorization") authToken: String,@Url url: String):Response<ResponseCandidateDataForIOS>
 
+    @GET
+    suspend fun getResumeFileNameWithoutAuth(@Url url: String):Response<ResponseCandidateDataForIOS>
+
+
     @POST("/api/ScheduleVideo/UpdateInterviewRecordingStatus")
     suspend fun getRecordingStatusUpdate( @Body obj: BodyUpdateRecordingStatus):Response<BodyUpdateRecordingStatus>
 
@@ -114,7 +118,7 @@ interface BaseRestApi {
     suspend fun sendSMSToCandidate(@Body ob:BodySMSCandidate,@Header("Authorization")token: String):Response<ResponseSMSCadidate>
 
     @POST("/api/JobSeeker")
-    suspend fun createCandidate(@Body ob:BodyCreateCandidate):Response<String>
+    suspend fun createCandidate(@Header("Authorization")authToken: String,@Body ob:BodyCreateCandidate):Response<String>
 
     @GET("/api/Questionier/GetRecruiterTemplate/{SubscriberId}")
     suspend fun getQuestionnaireTemplateList(@Query("SubscriberId") recruiterId:String):Response<ResponseQuestionnaireTemplate>

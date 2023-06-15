@@ -161,16 +161,15 @@
                                 android:layout_marginRight="@dimen/_10sp"
                                 android:textSize="@dimen/_14sp" />
 
-                            <androidx.appcompat.widget.AppCompatRatingBar
+                            <RatingBar
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/ratingbar_wireframing"
                                 app:reviewScoreMax="5"
                                 android:max="5"
                                 android:stepSize="1"
-                                android:progressTint="@color/yellow"
-                                android:theme="@style/RatingBar"
                                 android:layout_gravity="start"
+                                android:theme="@style/RatingBarTheme"
                                 style="@style/Widget.AppCompat.RatingBar.Small"
                                 android:isIndicator="false"
                                 />

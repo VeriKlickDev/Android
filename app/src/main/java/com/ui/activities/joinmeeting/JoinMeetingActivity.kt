@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.data.*
 import com.data.dataHolders.CallStatusHolder
 import com.data.dataHolders.CurrentConnectUserList
@@ -44,7 +43,7 @@ class JoinMeetingActivity :AppCompatActivity() {
         requestNearByPermissions(){
             thread{
                 Thread.sleep(500)
-                requestNotficationPermission {
+                requestNotificationPermission {
 
                 }
             }

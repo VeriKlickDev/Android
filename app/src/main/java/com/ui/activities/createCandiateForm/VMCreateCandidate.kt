@@ -1,6 +1,5 @@
 package com.ui.activities.createCandidate
 
-import android.provider.ContactsContract.Data
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -10,6 +9,7 @@ import com.data.exceptionHandler
 import com.domain.BaseModels.*
 import com.domain.RestApi.BaseRestApi
 import com.domain.RestApi.LoginRestApi
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class VMCreateCandidate @Inject constructor(val baseRestApi: BaseRestApi) : ViewModel() {
+class ViewModelCreateCandidate @Inject constructor(val baseRestApi: BaseRestApi) : ViewModel() {
 
     private val TAG="createcandidateVM"
 
@@ -58,7 +58,6 @@ class VMCreateCandidate @Inject constructor(val baseRestApi: BaseRestApi) : View
         CoroutineScope(Dispatchers.IO + exceptionHandler)
             .launch {
                 try {
-
                     val response=baseRestApi.getCountryCodeList()
                     //val authToken= DataStoreHelper.getLoginAuthToken()
                     //Log.d(TAG, "getCandidateList: token in upviewmodel $authToken")
@@ -168,9 +167,16 @@ class VMCreateCandidate @Inject constructor(val baseRestApi: BaseRestApi) : View
         CoroutineScope(Dispatchers.IO + exceptionHandler)
             .launch {
                 try {
+                    creatingObject.Subscriberid=getUserProfileData()?.Candidate?.SubscriberId
+                    creatingObject.Userid=getUserProfileData()?.Candidate?.CreatedBy
+                    creatingObject.CandidateId=getUserProfileData()?.Candidate?.Id
+                    creatingObject.Subscriberid
+                    creatingObject.Userid
+                    creatingObject.CandidateId
+                    Log.d(TAG, "createCandidate: gson data of create profile ${Gson().toJson(creatingObject)}")
                     val authToken= DataStoreHelper.getLoginAuthToken()
                     val response=baseRestApi.createCandidate(authToken,creatingObject)
-                    //val authToken= DataStoreHelper.getLoginAuthToken()
+
                     //Log.d(TAG, "getCandidateList: token in upviewmodel $authToken")
                     if (response.isSuccessful) {
                         when (response.code()) {
@@ -214,7 +220,7 @@ class VMCreateCandidate @Inject constructor(val baseRestApi: BaseRestApi) : View
             .launch {
                 try {
 
-                    val response=baseRestApi.getResumeFileName(DataStoreHelper.getLoginBearerToken(),"/api/CandidateDataForIOS/" + candidateId)
+                    val response=baseRestApi.getResumeFileNameWithoutAuth("/api/CandidateDataForIOS/" + candidateId)
                     if (response.isSuccessful) {
                         when (response.code()) {
                             200 -> {//response.body()!!
@@ -243,84 +249,6 @@ class VMCreateCandidate @Inject constructor(val baseRestApi: BaseRestApi) : View
                     respnse(null,false,503,e.message.toString())
                 }
             }
-    }
-
-
-    fun sendProfileLink(bodySMSCandidate: BodySMSCandidate,respnse:(data:ResponseSMSCadidate?,isSuccess:Boolean, errorCode:Int, msg:String)->Unit) {
-        CoroutineScope(Dispatchers.IO + exceptionHandler)
-            .launch {
-                try {
-                    val authToken= DataStoreHelper.getLoginBearerToken()
-                    val response=baseRestApi.sendSMSToCandidate(bodySMSCandidate,authToken)
-                    if (response.isSuccessful) {
-                        when (response.code()) {
-                            200 -> {//response.body()!!
-                                respnse(response.body()!!,true,200,response?.body()!!.ResponseMessage.toString())
-                            }
-                            401 -> {
-                                respnse(null,false,401,"")
-                            }
-                            400 -> {
-                                respnse(null,false,400,"")
-                            }
-                            500 -> {
-                                respnse(null,false,500,"")
-                            }
-                            501 -> {
-                                respnse(null,false,501,"")
-                            }
-                        }
-                    } else {
-                        respnse(null,false,502,"Response not success")
-                    }
-                } catch (e: Exception) {
-                    respnse(null,false,503,e.message.toString())
-                }
-            }
-    }
-
-
-    fun getIsPhoneExists(
-        phoneNo: String,isPhone:Boolean,
-        response: (res:BodyExistingCandidate) -> Unit
-    ) {
-        try {
-            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
-                val obj=BodyExistingCandidate()
-
-                if (isPhone==true)
-                {
-                    obj.CandidateId=0
-                    // obj.CurrentUserId=DataStoreHelper.getMeetingRecruiterid()
-                    // obj.SubscriberId=DataStoreHelper.getMeetingUserId()
-                    obj.SearchString=phoneNo
-                }else
-                {
-                    obj.CurrentUserId=""
-                    obj.SubscriberId=DataStoreHelper.getMeetingUserId()
-                    obj.SearchString=phoneNo
-                }
-
-
-
-                Log.d(TAG, "getIsPhoneExists: data is $obj")
-                val result = baseRestApi.getExitingCandidateContact(obj)
-                Log.d(TAG, "getIsPhoneExists: ")
-                if (result.isSuccessful) {
-                    if (result.body() != null) {
-                        response(result.body()!!)
-                    }
-                    else {
-                        Log.d(TAG, "getIsEmailAndPhoneExists: null response ")
-                    }
-                }
-                else {
-                    Log.d(TAG, "getIsEmailAndPhoneExists:  response not success")
-                }
-            }
-        } catch (e: Exception) {
-            Log.d("adduserexception", "getIsEmailAndPasswordExists: exception  ")
-        }
     }
 
 

@@ -68,6 +68,11 @@ class RepositoryImpl @Inject constructor(
         return baseRestApi.getResumeFileName(authToken =token ,url)
     }
 
+    override suspend fun getResumeFileNameWithoutAuth(url: String): Response<ResponseCandidateDataForIOS> {
+        return baseRestApi.getResumeFileNameWithoutAuth(url)
+    }
+
+
     override suspend fun getRecordingStatusUpdate(obj: BodyUpdateRecordingStatus): Response<BodyUpdateRecordingStatus> {
         return baseRestApi.getRecordingStatusUpdate(obj)
     }
@@ -144,8 +149,8 @@ class RepositoryImpl @Inject constructor(
         return baseRestApi.sendSMSToCandidate(ob,token)
     }
 
-    override suspend fun createCandidate(ob: BodyCreateCandidate): Response<String> {
-        return baseRestApi.createCandidate(ob)
+    override suspend fun createCandidate(token: String,ob: BodyCreateCandidate): Response<String> {
+        return baseRestApi.createCandidate(token,ob)
     }
 
     override suspend fun getQuestionnaireTemplateList(recruiterId: String): Response<ResponseQuestionnaireTemplate> {

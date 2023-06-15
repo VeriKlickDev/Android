@@ -1,11 +1,12 @@
 package com.ui.activities.login
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.Manifest
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -15,8 +16,6 @@ import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
@@ -24,19 +23,16 @@ import androidx.lifecycle.ViewModelProvider
 import com.data.dataHolders.DataStoreHelper
 import com.data.*
 import com.domain.constant.AppConstants
-import com.google.firebase.messaging.RemoteMessage
 import com.veriKlick.databinding.ActivityLoginBinding
 import com.ui.activities.forgotPassword.ForgotPasswordActivity
 import com.ui.activities.joinmeeting.JoinMeetingActivity
 import com.ui.activities.login.loginwithotp.ActivitiyLoginWithOtp
-import com.ui.activities.twilioVideo.VideoActivity
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
 import com.veriKlick.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.internal.notify
 import kotlin.concurrent.thread
 
 @AndroidEntryPoint
@@ -142,11 +138,60 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun checkPermissions() {
+
+        checkAllPermisions()
+        //getPermissionWithoutSetting()
+    }
+
+    private fun checkDeepLinkIsOpenFirst(){
+        CoroutineScope(Dispatchers.IO).launch {
+
+            try {
+                if (DataStoreHelper.getDeeplinkIsOpenStatus() != null && !DataStoreHelper.getDeeplinkIsOpenStatus()) {
+                    runOnUiThread { getDeepLinkPermission {  } }
+
+                } else {
+                    runOnUiThread {  }
+
+                }
+            } catch (e: Exception) {
+                runOnUiThread { getDeepLinkPermission {  } }
+
+            }
+        }
+
+        }
+
+    private fun checkAllPermisions() {
+        if (Build.VERSION.SDK_INT==Build.VERSION_CODES.TIRAMISU){
+            Log.d(TAG, "checkAllPermisions: up q")
+            requestCameraAndMicPermissionsTiramishu{
+                requestWriteExternamlStoragePermissions {
+                    requestNearByPermissions {
+                        checkDeepLinkIsOpenFirst()
+                }
+                }
+            }
+        }else
+        {
+            requestCameraAndMicPermissions{
+                requestWriteExternamlStoragePermissions {
+                    requestNearByPermissions {
+                        checkDeepLinkIsOpenFirst()
+                    }
+                }
+            }
+            Log.d(TAG, "checkAllPermisions: below tira")
+        }
+
+    }
+
+    private fun getPermissionWithoutSetting() {
         requestVideoPermissions {
             if (it) {
                 thread {
                     Thread.sleep(500)
-                    requestNotficationPermission {
+                    requestNotificationPermission {
                         Log.d(TAG, "onCreate: request Notification permission $it")
                     }
                 }
@@ -156,7 +201,7 @@ class LoginActivity : AppCompatActivity() {
                         requestNearByPermissions() {
                             thread {
                                 Thread.sleep(500)
-                                requestNotficationPermission {
+                                requestNotificationPermission {
                                     Log.d(TAG, "onCreate: request Notification permission $it")
                                 }
                             }
@@ -167,8 +212,39 @@ class LoginActivity : AppCompatActivity() {
                         requestVideoPermissions {
                             thread {
                                 Thread.sleep(500)
-                                requestNotficationPermission {
-                                    Log.d(TAG, "onCreate: request Notification permission $it")
+                                requestNotificationPermission {
+                                    Log.d(
+                                        TAG,
+                                        "onCreate: request Notification permission notification persimission $it"
+                                    )
+                                    CoroutineScope(Dispatchers.IO).launch {
+                                        try {
+                                            try {
+                                                if (DataStoreHelper.getDeeplinkIsOpenStatus() != null) {
+                                                    if (!DataStoreHelper.getDeeplinkIsOpenStatus()) {
+                                                        runOnUiThread { getDeepLinkPermission {} }
+                                                    } else {
+
+                                                    }
+                                                } else {
+                                                    runOnUiThread { getDeepLinkPermission {} }
+                                                }
+                                            } catch (e: Exception) {
+                                                runOnUiThread { getDeepLinkPermission {} }
+
+                                            }
+                                        } catch (e: Exception) {
+                                            runOnUiThread {
+                                                getDeepLinkPermission {
+                                                    DataStoreHelper.setDeepLinkData(
+                                                        false
+                                                    )
+                                                }
+                                            }
+
+                                        }
+                                    }
+
                                 }
                             }
                         }
@@ -176,9 +252,39 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
-
     }
 
+
+    private fun getDeepLinkPermission(onFinish: () -> Unit) {
+            Log.d(TAG, "getDeepLinkPermission: on deeplink dialog")
+            val dialog = androidx.appcompat.app.AlertDialog.Builder(this)
+            dialog.setTitle(getString(R.string.txt_please_enable_the_deeplink))
+            dialog.setPositiveButton(getString(R.string.txt_ok),object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface?, which: Int) {
+                    Log.d(TAG, "onClick: ${Build.BRAND.toString()}")
+                    CoroutineScope(Dispatchers.IO).launch {
+                        DataStoreHelper.setDeepLinkData(true)
+                    }
+                    if (Build.BRAND.toString().trim().lowercase().contains("SAMSUNG".trim().lowercase()))
+                    {
+                        showCustomSnackbarOnTop("you have to add deeplink manually")
+                    }else
+                    {
+                        val intent = Intent(
+                            Settings.ACTION_APP_OPEN_BY_DEFAULT_SETTINGS,
+                            Uri.parse("package:${packageName}")
+                        )
+                        startActivity(intent)
+                    }
+                }
+            })
+            dialog.setOnDismissListener {
+                onFinish()
+            }
+            dialog.create()
+            dialog.show()
+
+    }
 
     fun handleBlankfields() {
         if (binding.etEmail.text.toString().equals("")) {
@@ -252,12 +358,15 @@ class LoginActivity : AppCompatActivity() {
                         })
 
                     }
+
                     400 -> {
                         Log.d(TAG, "onCreate: null data")
                     }
+
                     404 -> {
                         Log.d(TAG, "onCreate: not found ")
                     }
+
                     401 -> {
                         Log.d(TAG, "onCreate: wrong credentials")
                         Log.d(TAG, "onCreate: wrong credentials")
@@ -265,6 +374,7 @@ class LoginActivity : AppCompatActivity() {
                         showCustomSnackbarOnTop(data.message.toString())
                         //showToast(this,data.message.toString())//getString(R.string.txt_wrong_credentials)
                     }
+
                     500 -> {
                         Log.d(TAG, "onCreate: exception $exception")
                         showCustomSnackbarOnTop("Please try again")

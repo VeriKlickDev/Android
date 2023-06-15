@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-
         <item android:title="@string/txt_meetings">
             <menu>
                 <item
@@ -36,6 +34,7 @@
         android:icon="@drawable/ic_list_candidate_menu_icon"
         android:id="@+id/navdrawerCandidateId"
         android:title="@string/txt_candidate" />
+
     <item
         android:icon="@drawable/ic_create_candidate_menu_icon"
         android:id="@+id/navdrawercreateCandidate"

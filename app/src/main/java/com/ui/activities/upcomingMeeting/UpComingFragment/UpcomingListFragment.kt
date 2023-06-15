@@ -1,15 +1,18 @@
 package com.ui.activities.upcomingMeeting.UpComingFragment
 
+import android.Manifest
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
-import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.Settings
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -17,7 +20,6 @@ import android.widget.AbsListView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -31,7 +33,6 @@ import com.harvee.yourhealthmate2.ui.privacypolicy.ActivityPrivacyPolicy
 import com.ui.activities.feedBack.ActivityFeedBackForm
 import com.ui.activities.login.LoginActivity
 import com.ui.activities.twilioVideo.VideoActivity
-import com.ui.activities.upcomingMeeting.UpComingMeetingViewModel
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
 import com.ui.listadapters.UpcomingMeetingAdapter
 import com.veriKlick.R
@@ -304,12 +305,12 @@ class UpcomingListFragment(val from: String) : Fragment() {
         })
        //2jun2023 setupAdapter()
         handleObserver()
-        requireActivity().requestNearByPermissions() {
+       /* requireActivity().requestNearByPermissions() {
             Log.d(TAG, "onCreate: onNearbyPermission $it")
             thread {
                 Thread.sleep(1000)
                 try {
-                    requireActivity().requestNotficationPermission {
+                    requireActivity().requestNotificationPermission {
 
                     }
                 } catch (e: Exception) {
@@ -318,12 +319,91 @@ class UpcomingListFragment(val from: String) : Fragment() {
 
             }
 
-        }
+        }*/
 
         setupDrawer()
 
         return binding.root
     }
+
+
+    private fun checkDeepLinkIsOpenFirst(){
+        CoroutineScope(Dispatchers.IO).launch {
+            Log.d(TAG, "checkDeepLinkIsOpenFirst: check in coroutine")
+            try {
+                if (DataStoreHelper.getDeeplinkIsOpenStatus() != null && !DataStoreHelper.getDeeplinkIsOpenStatus()) {
+                    requireActivity().runOnUiThread { getDeepLinkPermission {  } }
+
+                } else {
+                    requireActivity().runOnUiThread {  }
+
+                }
+            } catch (e: Exception) {
+                requireActivity().runOnUiThread { getDeepLinkPermission {  } }
+
+            }
+        }
+
+    }
+
+
+    private fun getDeepLinkPermission(onFinish: () -> Unit) {
+        Log.d(TAG, "getDeepLinkPermission: on deeplink dialog")
+        val dialog = AlertDialog.Builder(requireActivity())
+        dialog.setTitle(getString(R.string.txt_please_enable_the_deeplink))
+        dialog.setPositiveButton(getString(R.string.txt_ok),object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface?, which: Int) {
+                Log.d(TAG, "onClick: ${Build.BRAND.toString()}")
+                 CoroutineScope(Dispatchers.IO).launch {
+                     DataStoreHelper.setDeepLinkData(true)
+                 }
+                 if (Build.BRAND.toString().trim().lowercase().contains("SAMSUNG".trim().lowercase()))
+                 {
+                     requireActivity().showCustomSnackbarOnTop("you have to add deeplink manually")
+                 }else
+                 {
+                     val intent = Intent(
+                         Settings.ACTION_APP_OPEN_BY_DEFAULT_SETTINGS,
+                         Uri.parse("package:${requireActivity().packageName}")
+                     )
+                     startActivity(intent)
+
+                 }
+            }
+        })
+        dialog.setOnDismissListener {
+            onFinish()
+        }
+        dialog.create()
+        dialog.show()
+
+    }
+
+    private fun checkAllPermisions() {
+        if (Build.VERSION.SDK_INT== Build.VERSION_CODES.TIRAMISU){
+            Log.d(TAG, "checkAllPermisions: up tiramishu")
+
+            requireActivity().requestAllPermissionForApp {
+                requireActivity().runOnUiThread {
+                    checkDeepLinkIsOpenFirst()
+                }
+                Log.d(TAG, "checkAllPermisions: all permission for app  tiramishu $it")
+            }
+        }else
+        {
+            requireActivity().requestAllPermissionForApp {
+                requireActivity().runOnUiThread {
+                    checkDeepLinkIsOpenFirst()
+                }
+
+                Log.d(TAG, "checkAllPermisions: all permission for app below12 $it")
+            }
+            Log.d(TAG, "checkAllPermisions: below below12")
+        }
+
+    }
+
+
 
     private fun handleMeetingFilter() {
         Log.d(TAG, "handleMeetingFilter: come from $from")
@@ -898,6 +978,10 @@ class UpcomingListFragment(val from: String) : Fragment() {
                 {
                     binding.tvNoData.visibility = View.INVISIBLE
                 }*/
+                Handler(Looper.getMainLooper()).postDelayed({
+                    checkAllPermisions()
+                },500)
+
             }catch (e:Exception)
             {
                 Log.d(TAG, "handleObserver: exxcep ${e.message}")

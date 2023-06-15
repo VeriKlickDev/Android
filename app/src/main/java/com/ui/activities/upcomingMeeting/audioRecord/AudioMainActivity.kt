@@ -15,6 +15,7 @@ import com.ui.activities.upcomingMeeting.audioRecord.utils.getDrawableCompat
 import com.veriKlick.R
 import com.veriKlick.databinding.ActivityAudiomainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.concurrent.timer
 import kotlin.math.sqrt
 
 
@@ -30,7 +31,7 @@ class AudioMainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         Log.d("TAG", "onCreate: in audio activity link ${CreateProfileDeepLinkHolder.get()}")
-        binding.audioProgressBar.max=60000
+        binding.audioProgressBar.max=3400
        // AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
        /**18may binding.btnSkip.setOnClickListener {
             val intent=Intent(this,ActivityCreateCandidateForm::class.java)
@@ -68,7 +69,7 @@ class AudioMainActivity : AppCompatActivity() {
     private fun setupTimerForAudio()
     {
         getSecondsAndMillis{seconds, mmillis, isDone ->
-            Log.d("TAG", "setupTimerForAudio: seconds is $seconds")
+            Log.d("TAG", "setupTimerForAudio: seconds is $millis")
             runOnUiThread {
                 binding.audioProgressBar.setProgress(mmillis)
                 if (isDone)
@@ -80,11 +81,16 @@ class AudioMainActivity : AppCompatActivity() {
     private var millis=0
     private var seconds=0
 
+    var timer1:CountDownTimer?=null
+    var timer2:CountDownTimer?=null
     private fun getSecondsAndMillis(onTick:(seconds:Int,millis:Int,isDone:Boolean)->Unit)
     {
-         object : CountDownTimer(60000, 1) {
+        timer1?.let {
+            it.cancel()
+        }
+        timer2?.let { it.cancel() }
+        timer1= object : CountDownTimer(60000, 1) {
             override fun onTick(millisUntilFinished: Long) {
-                Log.d("TAG", "onTick: seconds ${millis}")
                 onTick(seconds,millis,false)
                 millis++
             }
@@ -92,8 +98,9 @@ class AudioMainActivity : AppCompatActivity() {
             override fun onFinish() {
 
             }
-        }.start()
-        object : CountDownTimer(60000, 1000) {
+        }
+        timer1?.start()
+        timer2=object : CountDownTimer(60000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 Log.d("TAG", "onTick: seconds ${millis}")
                 // logic to set the EditText could go here
@@ -104,7 +111,8 @@ class AudioMainActivity : AppCompatActivity() {
             override fun onFinish() {
                 onTick(seconds,millis,true)
             }
-        }.start()
+        }
+        timer2?.start()
 
 
     }
@@ -114,6 +122,8 @@ class AudioMainActivity : AppCompatActivity() {
         millis=0
         seconds=0
         binding.audioProgressBar.setProgress(0)
+        timer2?.cancel()
+        timer1?.cancel()
     }
 
     override fun onPause() {

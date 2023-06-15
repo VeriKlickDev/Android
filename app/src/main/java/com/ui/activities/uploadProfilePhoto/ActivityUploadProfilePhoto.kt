@@ -21,6 +21,7 @@ import com.data.dataHolders.CreateProfileDeepLinkHolder
 import com.domain.BaseModels.BodyCandidateImageModel
 import com.domain.BaseModels.CandidateDeepLinkDataModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.ui.activities.createCandidate.ActivityCreateCandidate
 import com.ui.activities.upcomingMeeting.audioRecord.AudioMainActivity
 import com.veriKlick.R
 import com.veriKlick.databinding.ActivityUploadProfilePhotoBinding
@@ -80,6 +81,8 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
         }
         binding.btnSkip.setOnClickListener {
             val intent=Intent(this,AudioMainActivity::class.java)
+            //val intent=Intent(this, ActivityCreateCandidate::class.java)
+
             startActivity(intent)
             overridePendingTransition(
                 R.anim.slide_in_right,
@@ -220,6 +223,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
             try {
                 val resultUri = UCrop.getOutput(data!!)
                 binding.ivUploadImage.setImageURI(resultUri)
+                binding.btnUploadImage.isEnabled=true
                 binding.ivUploadImage.scaleType=ImageView.ScaleType.CENTER_CROP
                 finalUserImageUri=resultUri
                 Log.d(TAG, "onActivityResult: destUri $desUri")
@@ -310,6 +314,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                                 runOnUiThread { dismissProgressDialog() }
                                 Log.d(TAG, "uploadProfilePhoto: $msg")
                                 runOnUiThread { showCustomSnackbarOnTop(msg) }
+                                binding.btnUploadImage.isEnabled=false
 
                             }
                             400->{
@@ -339,7 +344,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
                             502->{runOnUiThread { dismissProgressDialog() }
-                                runOnUiThread { showCustomSnackbarOnTop(msg) }
+                               // runOnUiThread { showCustomSnackbarOnTop(msg) }
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
 
@@ -348,8 +353,10 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
 
                 }else
                 {
-                    runOnUiThread { dismissProgressDialog() }
-                    showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+                    runOnUiThread { dismissProgressDialog()
+                        showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+                    }
+
                 }
 
             }catch (e:Exception)
