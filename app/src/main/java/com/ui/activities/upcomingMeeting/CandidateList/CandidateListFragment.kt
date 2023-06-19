@@ -426,7 +426,15 @@ class CandidateListFragment() : Fragment() {
                 Log.d(TAG, "handleObserver: candidate data $it")
                 candidateList.addAll(it.savedProfileDetail)
                 recyclerAdapter?.addList(candidateList)
-
+                if (candidateList.size==0)
+                {
+                    binding.rvCandidateList.isVisible=false
+                binding.tvNoData.isVisible=true
+                }else
+                {
+                    binding.tvNoData.isVisible=false
+                    binding.rvCandidateList.isVisible=true
+                }
             }
                 try {
                     recyclerAdapter?.notifyDataSetChanged()
@@ -434,7 +442,6 @@ class CandidateListFragment() : Fragment() {
                 {
                     Log.d(TAG, "handleObserver: exception 332 ${e.message}")
                 }
-
         }
     }
 

@@ -118,7 +118,12 @@ interface BaseRestApi {
     suspend fun sendSMSToCandidate(@Body ob:BodySMSCandidate,@Header("Authorization")token: String):Response<ResponseSMSCadidate>
 
     @POST("/api/JobSeeker")
-    suspend fun createCandidate(@Header("Authorization")authToken: String,@Body ob:BodyCreateCandidate):Response<String>
+    suspend fun createCandidate(@Header("Authorization")authToken: String,@Body ob:BodyCreateCandidate):Response<BodyCreateCandidate>
+
+    @POST
+    suspend fun createCandidateWithoutAuth(@Body ob:BodyCreateCandidate,@Url url:String):Response<BodyCreateCandidate>
+
+
 
     @GET("/api/Questionier/GetRecruiterTemplate/{SubscriberId}")
     suspend fun getQuestionnaireTemplateList(@Query("SubscriberId") recruiterId:String):Response<ResponseQuestionnaireTemplate>

@@ -6,6 +6,8 @@ object AppConstants {
     const val USER_EMAIL_ID = "user_email_id"
     const val USER_PASSWORD = "user_password"
 
+    const val TOKEN_ID = "token_id"
+
     const val USER_LOGIN_TOKEN = "user_login_token"
     const val PRIVACY_LINK = "privacy_link"
     const val SCREEN_SHARE_NAME = "screen"

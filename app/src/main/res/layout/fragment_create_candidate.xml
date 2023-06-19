@@ -118,11 +118,27 @@
                                 style="@style/editext.style.base"
                                 />
 
+                            <TextView
+                                android:layout_marginTop="-10sp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                style="@style/heading.TextView.Grey_16"
+                                android:textSize="@dimen/_10sp"
+                                android:gravity="right"
+                                android:visibility="visible"
+                                android:singleLine="true"
+                                android:textColor="@color/red"
+                                android:layout_marginHorizontal="@dimen/_10sp"
+                                android:padding="@dimen/_5sp"
+                                android:id="@+id/tv_email_error"
+                                />
+
                             <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
-                                android:layout_marginVertical="@dimen/_10sp"
+                                android:layout_marginTop="-10sp"
+                                android:layout_marginBottom="@dimen/_10sp"
                                 >
 
 
@@ -149,6 +165,7 @@
                                         />
 
 
+
                                 </androidx.appcompat.widget.LinearLayoutCompat>
 
 
@@ -173,6 +190,21 @@
 
                             </androidx.appcompat.widget.LinearLayoutCompat>
 
+                            <TextView
+                                android:layout_marginTop="-10sp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                style="@style/heading.TextView.Grey_16"
+                                android:textSize="@dimen/_10sp"
+                                android:gravity="right"
+                                android:visibility="invisible"
+                                android:singleLine="true"
+                                android:textColor="@color/red"
+                                android:layout_marginHorizontal="@dimen/_10sp"
+                                android:padding="@dimen/_5sp"
+                                android:id="@+id/tv_phone_error"
+                                android:text="@string/txt_select_code"
+                                />
 <!--                            <com.google.android.material.textfield.TextInputLayout-->
 <!--                                android:layout_width="match_parent"-->
 <!--                                android:layout_height="wrap_content"-->
@@ -198,7 +230,6 @@
                                 style="@style/button.Style.Blue.Rounded"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/_55sdp"
-                                android:layout_marginTop="@dimen/_15sp"
                                 android:text="@string/txt_sendLink"
                                 android:foreground="?selectableItemBackground"
                                 android:textSize="@dimen/_18sdp" />

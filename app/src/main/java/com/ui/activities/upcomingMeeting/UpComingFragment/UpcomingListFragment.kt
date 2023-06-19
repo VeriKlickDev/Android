@@ -391,13 +391,12 @@ class UpcomingListFragment(val from: String) : Fragment() {
             }
         }else
         {
-            requireActivity().requestAllPermissionForApp {
-                requireActivity().runOnUiThread {
-                    checkDeepLinkIsOpenFirst()
-                }
-
-                Log.d(TAG, "checkAllPermisions: all permission for app below12 $it")
-            }
+           try {
+               requireActivity().requestAllPermissionForApp {
+                   requireActivity().runOnUiThread {
+                       checkDeepLinkIsOpenFirst()
+                   }}
+           }catch (e:Exception){}
             Log.d(TAG, "checkAllPermisions: below below12")
         }
 

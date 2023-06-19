@@ -149,8 +149,15 @@ class RepositoryImpl @Inject constructor(
         return baseRestApi.sendSMSToCandidate(ob,token)
     }
 
-    override suspend fun createCandidate(token: String,ob: BodyCreateCandidate): Response<String> {
+    override suspend fun createCandidate(token: String,ob: BodyCreateCandidate): Response<BodyCreateCandidate> {
         return baseRestApi.createCandidate(token,ob)
+    }
+
+    override suspend fun createCandidateWithoutAuth(
+        ob: BodyCreateCandidate,
+        url: String
+    ): Response<BodyCreateCandidate> {
+        return baseRestApi.createCandidateWithoutAuth(ob,url)
     }
 
     override suspend fun getQuestionnaireTemplateList(recruiterId: String): Response<ResponseQuestionnaireTemplate> {

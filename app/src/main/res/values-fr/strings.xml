@@ -94,7 +94,7 @@
     <string name="txt_verify_otp">Vérifier OTP</string>
     <string name="txt_otp_descrition">OTP (mot de passe à usage unique) sera envoyé à votre adresse e-mail enregistrée.</string>
     <string name="txt_cant_add_more_participant">Impossible d\'ajouter plus de participants</string>
-    <string name="txt_do_you_want_to_logout">Voulez-vous vous déconnecter</string>
+    <string name="txt_do_you_want_to_logout">Voulez-vous vous déconnecter?</string>
     <string name="txt_only_one_person_can_share_screen">une seule personne peut partager l\'écran à la fois</string>
     <string name="txt_do_you_want_to_exit_the_meeting">Êtes-vous sûr de quitter la réunion ?</string>
     <string name="txt_id">IDENTIFIANT</string>

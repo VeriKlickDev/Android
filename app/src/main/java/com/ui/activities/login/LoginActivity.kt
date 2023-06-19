@@ -262,20 +262,26 @@ class LoginActivity : AppCompatActivity() {
             dialog.setPositiveButton(getString(R.string.txt_ok),object : DialogInterface.OnClickListener {
                 override fun onClick(dialog: DialogInterface?, which: Int) {
                     Log.d(TAG, "onClick: ${Build.BRAND.toString()}")
-                    CoroutineScope(Dispatchers.IO).launch {
-                        DataStoreHelper.setDeepLinkData(true)
-                    }
-                    if (Build.BRAND.toString().trim().lowercase().contains("SAMSUNG".trim().lowercase()))
+                    try{
+                        CoroutineScope(Dispatchers.IO).launch {
+                            DataStoreHelper.setDeepLinkData(true)
+                        }
+                        if (Build.BRAND.toString().trim().lowercase().contains("SAMSUNG".trim().lowercase()))
+                        {
+                            showCustomSnackbarOnTop("you have to add deeplink manually")
+                        }else
+                        {
+                            val intent = Intent(
+                                Settings.ACTION_APP_OPEN_BY_DEFAULT_SETTINGS,
+                                Uri.parse("package:${packageName}")
+                            )
+                            startActivity(intent)
+                        }
+                    }catch (e:Exception)
                     {
                         showCustomSnackbarOnTop("you have to add deeplink manually")
-                    }else
-                    {
-                        val intent = Intent(
-                            Settings.ACTION_APP_OPEN_BY_DEFAULT_SETTINGS,
-                            Uri.parse("package:${packageName}")
-                        )
-                        startActivity(intent)
                     }
+
                 }
             })
             dialog.setOnDismissListener {

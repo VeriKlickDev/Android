@@ -43,14 +43,25 @@ class FragmentCreateCandidate : Fragment() {
 
     private var isEmailok=false
     private var isPhoneok=false
-    private var isFirstName=false
-    private var isLastName=false
 
     private lateinit var countryCodeRecyerlerAdapter:CountryCodeListAdapter
     private var iscountryCode:String?=null
     private var countryCodeList= mutableListOf<String>()
     private var countryCodeListMain= arrayListOf<ResponseCountryCode>()
     private var viewGroup:ViewGroup?=null
+
+    private fun clearAllValues()
+    {
+        isEmailok=false
+        isPhoneok=false
+        iscountryCode=null
+        binding.tvCountryCode.setText(getString(R.string.txt_select_code))
+        binding.etEmail.setText("")
+        binding.etPhoneno.setText("")
+        binding.tvEmailError.visibility=View.INVISIBLE
+        binding.tvPhoneError.visibility=View.INVISIBLE
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -165,14 +176,14 @@ class FragmentCreateCandidate : Fragment() {
     private fun getCountryCodeList()
     {
         requireActivity().run {
-            runOnUiThread { showProgressDialog() }
+            //runOnUiThread { showProgressDialog() }
         }
         viewModel?.getCountyCodeList{ data, isSuccess, _, _ ->
             if (isSuccess)
             {
-                requireActivity().run {
+               /* requireActivity().run {
                     runOnUiThread { dismissProgressDialog() }
-                }
+                }*/
                 countryCodeListMain.clear()
                 countryCodeList.clear()
                 countryCodeList.add(getString(R.string.txt_select_code))
@@ -185,9 +196,9 @@ class FragmentCreateCandidate : Fragment() {
             }
             else
             {
-                requireActivity().run {
+              /*  requireActivity().run {
                     runOnUiThread { dismissProgressDialog() }
-                }
+                }*/
             }
         }
     }
@@ -264,7 +275,9 @@ class FragmentCreateCandidate : Fragment() {
                             {
                                 requireActivity().runOnUiThread {
                                     requireActivity().dismissProgressDialog()
-                                    requireActivity().showCustomSnackbarOnTop(data?.ResponseMessage.toString())
+                                    requireActivity().showCustomToast(data?.ResponseMessage.toString())
+                                    //requireActivity().showCustomSnackbarOnTop(data?.ResponseMessage.toString())
+                                    clearAllValues()
                                 }
                             }
                                 else
@@ -304,7 +317,7 @@ class FragmentCreateCandidate : Fragment() {
                     isEmailok=isEmailOk
                     if (!isEmailOk) {
                         requireActivity().runOnUiThread {
-                            binding.etEmail.error = "Invalid"
+                            binding.tvEmailError.setText(getString(R.string.txt_invalid))
                         }
                     }
                     else
@@ -318,11 +331,14 @@ class FragmentCreateCandidate : Fragment() {
             isPhoneok=requireActivity().phoneValidator(text.toString())
             if (isPhoneok)
             {
+                binding.tvPhoneError.visibility=View.INVISIBLE
                 checkPhoneExists(text.toString())
             }
+            if (!requireActivity().phoneValidator(text.toString())){
+                binding.tvPhoneError.setText(getString(R.string.txt_invalid))
+                binding.tvPhoneError.visibility=View.VISIBLE
+            }
 
-            if (!requireActivity().phoneValidator(text.toString()))
-                binding.etPhoneno.error = "Invalid"
         }
 
       /***2jun2023  binding.etFirstname.doOnTextChanged { text, _, _, _ ->
@@ -344,9 +360,11 @@ class FragmentCreateCandidate : Fragment() {
             response = { data ->
                 requireActivity().runOnUiThread {
                     if (data.aPIResponse?.Message!=null) {
-                        binding.etEmail.setError(data.aPIResponse?.Message.toString())
+                        binding.tvEmailError.visibility=View.VISIBLE
+                        binding.tvEmailError.setText(data.aPIResponse?.Message.toString())
                         isEmailok=false
                     } else {
+                        binding.tvEmailError.visibility=View.INVISIBLE
                        // binding.etEmail.setError(data.aPIResponse?.Message.toString())
                         isEmailok=true
                     }
@@ -359,9 +377,11 @@ class FragmentCreateCandidate : Fragment() {
             response = { data ->
                 requireActivity().runOnUiThread {
                     if (data.aPIResponse?.StatusCode!=null) {
-                        binding.etPhoneno.setError(data.aPIResponse?.Message.toString())
+                        binding.tvPhoneError.visibility=View.VISIBLE
+                        binding.tvPhoneError.setText(data.aPIResponse?.Message.toString())
                         isPhoneok=false
                     } else {
+                        binding.tvEmailError.visibility=View.INVISIBLE
                       //  binding.etPhoneno.setError(data.aPIResponse?.Message.toString())
                         isPhoneok=true
                     }

@@ -122,14 +122,12 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_skip"
-                style="@style/button.Style.lightBlue.Rounded.elevation.stroke"
                 android:layout_width="match_parent"
+                style="@style/button.Style.Blue.Rounded.Enable.Disable.Stroke"
                 android:layout_height="@dimen/_55sdp"
                 android:layout_marginTop="@dimen/_15sp"
                 android:text="@string/txt_next"
                 android:textSize="@dimen/_18sdp" />
-
-
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -163,7 +163,7 @@ class ViewModelCreateCandidate @Inject constructor(val baseRestApi: BaseRestApi)
 
 
 
-    fun createCandidate(creatingObject:BodyCreateCandidate, respnse:(data:String?,isSuccess:Boolean, errorCode:Int, msg:String)->Unit) {
+    fun createCandidate(creatingObject:BodyCreateCandidate, respnse:(data:BodyCreateCandidate?,isSuccess:Boolean, errorCode:Int, msg:String)->Unit) {
         CoroutineScope(Dispatchers.IO + exceptionHandler)
             .launch {
                 try {
@@ -181,7 +181,7 @@ class ViewModelCreateCandidate @Inject constructor(val baseRestApi: BaseRestApi)
                     if (response.isSuccessful) {
                         when (response.code()) {
                             200 -> {
-                                respnse(response.body()!!,true,200,"")
+                                respnse(response.body()!!,true,200,response.body()?.aPIResponse?.message!!)
                             }
                             401 -> {
                                 respnse(null,false,401,"")
@@ -204,6 +204,48 @@ class ViewModelCreateCandidate @Inject constructor(val baseRestApi: BaseRestApi)
                 }
             }
     }
+
+    fun createCandidateWithoutAuth(creatingObject:BodyCreateCandidate,tokenId:String, respnse:(data:BodyCreateCandidate?,isSuccess:Boolean, errorCode:Int, msg:String)->Unit) {
+        CoroutineScope(Dispatchers.IO + exceptionHandler)
+            .launch {
+                try {
+                    creatingObject.Subscriberid=getUserProfileData()?.Candidate?.SubscriberId
+                    creatingObject.Userid=getUserProfileData()?.Candidate?.CreatedBy
+                    creatingObject.CandidateId=getUserProfileData()?.Candidate?.Id
+                    creatingObject.Subscriberid
+                    creatingObject.Userid
+                    creatingObject.CandidateId
+                    Log.d(TAG, "createCandidate: gson data of create profile ${Gson().toJson(creatingObject)}")
+                    val response=baseRestApi.createCandidateWithoutAuth(creatingObject,"/api/JobSeekerProfile/$tokenId")
+
+                    //Log.d(TAG, "getCandidateList: token in upviewmodel $authToken")
+                    if (response.isSuccessful) {
+                        when (response.code()) {
+                            200 -> {
+                                respnse(response.body()!!,true,200,response.body()?.aPIResponse?.message!!)
+                            }
+                            401 -> {
+                                respnse(null,false,401,"")
+                            }
+                            400 -> {
+                                respnse(null,false,400,"")
+                            }
+                            500 -> {
+                                respnse(null,false,500,"")
+                            }
+                            501 -> {
+                                respnse(null,false,501,"")
+                            }
+                        }
+                    } else {
+                        respnse(null,false,502,"Response not success")
+                    }
+                } catch (e: Exception) {
+                    respnse(null,false,503,e.message.toString())
+                }
+            }
+    }
+
 
     private val userProfileDataList= mutableListOf<ResponseCandidateDataForIOS?>()
     fun getUserProfileData()=

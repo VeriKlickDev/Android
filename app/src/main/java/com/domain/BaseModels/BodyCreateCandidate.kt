@@ -21,7 +21,8 @@ data class BodyCreateCandidate (
     @SerializedName("professional"      ) var professional      : Professional?            = Professional(),
     @SerializedName("other"             ) var other             : Other?                   = Other(),
     @SerializedName("skills"            ) var skills            : Skills?                  = Skills(),
-    @SerializedName("diversity"         ) var diversity         : Diversity?               = Diversity()
+    @SerializedName("diversity"         ) var diversity         : Diversity?               = Diversity(),
+    @SerializedName("aPIResponse"   ) var aPIResponse   : APIResponse?      = APIResponse(),
 
 )
 data class Certification (

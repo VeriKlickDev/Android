@@ -20,6 +20,7 @@ import com.data.dataHolders.CandidateImageAndAudioHolder
 import com.data.dataHolders.CreateProfileDeepLinkHolder
 import com.domain.BaseModels.BodyCandidateImageModel
 import com.domain.BaseModels.CandidateDeepLinkDataModel
+import com.domain.constant.AppConstants
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.ui.activities.createCandidate.ActivityCreateCandidate
 import com.ui.activities.upcomingMeeting.audioRecord.AudioMainActivity
@@ -46,6 +47,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
     private var imageFile:File?=null
     private var pathstr:String?=null
     private var recruiterId:String?=null
+    private var tokenId=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityUploadProfilePhotoBinding.inflate(layoutInflater)
@@ -80,9 +82,10 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
             uploadImage()
         }
         binding.btnSkip.setOnClickListener {
-            val intent=Intent(this,AudioMainActivity::class.java)
-            //val intent=Intent(this, ActivityCreateCandidate::class.java)
-
+            //val intent=Intent(this,AudioMainActivity::class.java)
+            val intent=Intent(this, ActivityCreateCandidate::class.java)
+            intent.putExtra(AppConstants.CANDIDATE_ID,candidateId)
+            intent.putExtra(AppConstants.TOKEN_ID,tokenId)
             startActivity(intent)
             overridePendingTransition(
                 R.anim.slide_in_right,
@@ -99,13 +102,16 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
+    private var candidateId=""
+
     val TAG="checkLoadRecruiterData"
     private fun loadRecruiterData() {
         try {
             var splitList = pathstr?.split("/")
-            var id = splitList?.get(splitList.size - 2)
+            var id = splitList?.get(splitList.size - 3)
             var token = splitList?.get(splitList.size - 1)
-
+            candidateId=id.toString()
+            tokenId=token.toString()
 
             Log.d(TAG, "loadRecruiterData: url id $id  token $token")
             runOnUiThread { showProgressDialog() }
@@ -113,11 +119,13 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                 runOnUiThread { dismissProgressDialog() }
                 if (errorCode==200)
                 {
+                    binding.btnSkip.isEnabled=true
                     CandidateImageAndAudioHolder.setDeepLinkData(CandidateDeepLinkDataModel(token,data?.Subscriberid))
                     recruiterId=data?.Subscriberid
                     Log.d(TAG, "loadRecruiterData: success data $data")
                 }else
                 {
+                    binding.btnSkip.isEnabled=false
                     runOnUiThread { showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong)) }
                 }
             }

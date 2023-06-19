@@ -12,8 +12,10 @@ import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
+import com.data.dataHolders.CreateProfileDeepLinkHolder
 import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.*
+import com.domain.constant.AppConstants
 import com.google.gson.Gson
 import com.veriKlick.R
 import com.veriKlick.databinding.ActivityCreateCandidateBinding
@@ -65,7 +67,6 @@ class ActivityCreateCandidate : AppCompatActivity() {
         setContentView(binding.root)
         viewModel = ViewModelProvider(this).get(ViewModelCreateCandidate::class.java)
 
-
         jobTypeStringList.addAll(getJobTypeList())
 
 
@@ -109,7 +110,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
         binding.btnSubmit.setOnClickListener {
             validateAllFields()
         }
-        getCandidateDetails("47422")
+        getCandidateDetails(intent.getStringExtra(AppConstants.CANDIDATE_ID).toString())
     }
 
     private fun validateAllFields()
@@ -216,9 +217,17 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     ob.skills?.skill=binding.etSecondarySkills.text.toString()
                     ob.profile?.streetName=binding.etStreet.text.toString()
                     Log.d(TAG, "postData: posting data object ${Gson().toJson(ob)}")
-
-                    viewModel?.createCandidate(ob){data, isSuccess, errorCode, msg ->
-
+                    runOnUiThread { showProgressDialog() }
+                    viewModel?.createCandidateWithoutAuth(ob,intent.getStringExtra(AppConstants.TOKEN_ID).toString()){ data, isSuccess, errorCode, msg ->
+                    if (isSuccess)
+                    {
+                        runOnUiThread { dismissProgressDialog() }
+                      showCustomSnackbarOnTop(msg)
+                    }else
+                    {
+                        runOnUiThread { dismissProgressDialog() }
+                    showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+                    }
 
                     }
                 }
@@ -505,8 +514,21 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     runOnUiThread {
                         countryCodeSpinnerAdapter?.notifyDataSetChanged()
                         var countryCode=viewModel?.getUserProfileData()?.Candidate?.Countrycode
-                        Log.d(TAG, "getCountryCodeListFromApi: countrycodeis ver ${countryCode}")
+                        Log.d(TAG, "getCountryCodeListFromApi: countrycodeis ver first ${countryCode} country ${viewModel?.getUserProfileData()?.CandidateLocation?.Country.toString()}")
                         val appendedCode=countryCodeSpinnerAdapter?.getPosition("+"+countryCode+" "+viewModel?.getUserProfileData()?.CandidateLocation?.Country.toString())
+
+                        try {
+
+                            countryCodeList.forEachIndexed { index, responseCountryName ->
+                                if (responseCountryName.codedisplay.toString().equals("+1"+countryCode))
+                                {
+                                    Log.d(TAG, "getCountryCodeListFromApi: selected country is ${responseCountryName.Name}")
+                                }
+                            }
+                        }catch (e:Exception)
+                        {
+
+                        }
 
                         Log.d(TAG, "getCountryCodeListFromApi: countrycodeis ver $appendedCode  ${Gson().toJson(viewModel?.getUserProfileData())}")
                         //val pos=countryCodeSpinnerAdapter?.getPosition(appendedCode)

@@ -164,7 +164,7 @@ class VMCreateCandidate @Inject constructor(val baseRestApi: BaseRestApi) : View
 
 
 
-    fun createCandidate(creatingObject:BodyCreateCandidate, respnse:(data:String?,isSuccess:Boolean, errorCode:Int, msg:String)->Unit) {
+    fun createCandidate(creatingObject:BodyCreateCandidate, respnse:(data:BodyCreateCandidate?,isSuccess:Boolean, errorCode:Int, msg:String)->Unit) {
         CoroutineScope(Dispatchers.IO + exceptionHandler)
             .launch {
                 try {

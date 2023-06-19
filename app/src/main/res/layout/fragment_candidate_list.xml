@@ -154,8 +154,8 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/btn_search"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_width="@dimen/_27sdp"
+                android:layout_height="@dimen/_27sdp"
                 android:layout_gravity="center"
                 android:padding="@dimen/_5sp"
                 android:scaleType="fitCenter"
@@ -198,8 +198,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/rv_candidateList"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="@dimen/_25sdp"
+                    android:text="@string/txt_no_data_available"
+                    android:fontFamily="@font/sarabun_regular"
+                    android:gravity="center"
+                    android:id="@+id/tv_no_data"
+                    android:visibility="gone" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
