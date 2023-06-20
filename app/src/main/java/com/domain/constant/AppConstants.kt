@@ -14,6 +14,8 @@ object AppConstants {
 
     const val DEEPLINK_SETTING_OPEN = "deeplink_open_setting"
 
+    const val APPLICATION_LANGUAGE = "application_language"
+
     const val LOGGED_USER_ACCESSCODE = "user_access_code"
     const val LOGGED_IN_FROM = "logged_in_from"
     const val LOGGED_IN_WITH_OTP = "logged_in_from_otp"

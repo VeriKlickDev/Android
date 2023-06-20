@@ -18,7 +18,12 @@ import com.data.dataHolders.WeeksDataHolder
 import com.data.helpers.TwilioHelper
 import com.domain.constant.AppConstants
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.veriKlick.R
 import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import okhttp3.internal.lockAndWaitNanos
 
 
 @HiltAndroidApp
@@ -44,6 +49,7 @@ class MyApplication :Application() {
         )
 
     }
+
 
     fun setAnalytics()
     {

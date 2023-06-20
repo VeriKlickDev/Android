@@ -90,6 +90,20 @@ object DataStoreHelper {
         }
     }
 
+    fun setAppLanguage(code:String)
+    {
+        CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
+            val accessCode= preferencesKey<String>(AppConstants.APPLICATION_LANGUAGE)
+            dataStore.edit {
+                it[accessCode]=code
+            }
+        }
+    }
+
+    suspend fun getAppLanguage():String{
+        return dataStore.data.first()[preferencesKey<String>(AppConstants.APPLICATION_LANGUAGE)].toString()
+    }
+
     fun getAccessCode(code:(String)->Unit)
     {
         CoroutineScope(Dispatchers.IO+exceptionHandler).launch {

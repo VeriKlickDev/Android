@@ -82,7 +82,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
             uploadImage()
         }
         binding.btnSkip.setOnClickListener {
-            //val intent=Intent(this,AudioMainActivity::class.java)
+           // val intent=Intent(this,AudioMainActivity::class.java)
             val intent=Intent(this, ActivityCreateCandidate::class.java)
             intent.putExtra(AppConstants.CANDIDATE_ID,candidateId)
             intent.putExtra(AppConstants.TOKEN_ID,tokenId)
@@ -92,8 +92,6 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                 R.anim.slide_out_left
             )
         }
-
-
         loadRecruiterData()
     }
 
@@ -120,11 +118,13 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                 if (errorCode==200)
                 {
                     binding.btnSkip.isEnabled=true
+                    binding.btnSkip.setTextColor(getColor(R.color.skyblue_light1))
                     CandidateImageAndAudioHolder.setDeepLinkData(CandidateDeepLinkDataModel(token,data?.Subscriberid))
                     recruiterId=data?.Subscriberid
                     Log.d(TAG, "loadRecruiterData: success data $data")
                 }else
                 {
+                    binding.btnSkip.setTextColor(getColor(R.color.white))
                     binding.btnSkip.isEnabled=false
                     runOnUiThread { showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong)) }
                 }
@@ -141,6 +141,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
             finish()
         }
     }
+
 
     private fun getImageFromCamera()
     {

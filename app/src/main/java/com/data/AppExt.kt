@@ -28,6 +28,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
 import com.araujo.jordan.excuseme.ExcuseMe
+import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.ResponseChatFromToken
 import com.domain.BaseModels.ResponseJWTTokenLogin
 import com.domain.IncomingCallCallback
@@ -40,10 +41,13 @@ import com.veriKlick.databinding.LayoutPrivacyPolicyBinding
 import com.veriKlick.databinding.LayoutProgressBinding
 import com.veriKlick.databinding.LayoutSuccessMsgSnackbarPlayerBinding
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.launch
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -557,7 +561,19 @@ fun Context.requestCameraAndMicPermissions(isGrant: (isGranted: Boolean) -> Unit
 
     }
 }
-
+fun Context.setLanguagetoApp(intent: Intent,langCode:String,isStore:Boolean)
+{
+    val local= Locale(langCode)
+    Locale.setDefault(local)
+    val config=resources.configuration
+    config.setLocale(local)
+    resources.updateConfiguration(config,resources.displayMetrics)
+    startActivity(intent)
+    if (isStore)
+    CoroutineScope(Dispatchers.IO).launch {
+        DataStoreHelper.setAppLanguage(langCode)
+    }
+}
 fun Context.requestAllPermissionForApp(isGrant: (isGranted: Boolean) -> Unit)
 {
     ExcuseMe.couldYouGive(this).permissionFor(

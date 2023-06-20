@@ -216,6 +216,7 @@ class FragmentCreateCandidate : Fragment() {
             dialogBinding.btnCross.setOnClickListener {
                 dialog.dismiss()
             }
+            dialogBinding.btnSubmitButton.setText(getString(R.string.txt_send))
             val language= mutableListOf<String>()
             val languageStringList= mutableListOf<ModelLanguageSelect>()
 

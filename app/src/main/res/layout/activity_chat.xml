@@ -132,7 +132,8 @@
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/btn_send"
                 android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_height="match_parent"
+
                 app:shapeAppearanceOverlay="@style/roundedCorner20"
                 android:src="@drawable/ic_img_btn_play_send_white"
                 android:background="@color/skyblue_light1"

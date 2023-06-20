@@ -1,14 +1,17 @@
 package com.ui.activities.upcomingMeeting
 
+import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.*
+import android.widget.AdapterView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
@@ -16,16 +19,19 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
 import com.data.dataHolders.DataStoreHelper
+import com.domain.BaseModels.ModelLanguageSelect
 import com.ui.activities.createCandidate.FragmentCreateCandidate
 import com.ui.activities.login.LoginActivity
 import com.ui.activities.upcomingMeeting.CandidateList.CandidateListFragment
 import com.ui.activities.upcomingMeeting.UpComingFragment.UpcomingListFragment
 import com.veriKlick.*
 import com.veriKlick.databinding.ActivityUpcomingMeetingBinding
+import com.veriKlick.databinding.LayoutChooseLanguageDialogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 
 @AndroidEntryPoint
@@ -104,22 +110,22 @@ class UpcomingMeetingActivity : AppCompatActivity() {
         hideDrawerViews()
         setDrawerListener()
         //checkAllPermisions()
-       // checkPermissionNotificaton()
+        // checkPermissionNotificaton()
     }
 
-    private fun checkDeepLinkIsOpenFirst(){
+    private fun checkDeepLinkIsOpenFirst() {
         CoroutineScope(Dispatchers.IO).launch {
 
             try {
                 if (DataStoreHelper.getDeeplinkIsOpenStatus() != null && !DataStoreHelper.getDeeplinkIsOpenStatus()) {
-                    runOnUiThread { getDeepLinkPermission {  } }
+                    runOnUiThread { getDeepLinkPermission { } }
 
                 } else {
-                    runOnUiThread {  }
+                    runOnUiThread { }
 
                 }
             } catch (e: Exception) {
-                runOnUiThread { getDeepLinkPermission {  } }
+                runOnUiThread { getDeepLinkPermission { } }
 
             }
         }
@@ -127,18 +133,17 @@ class UpcomingMeetingActivity : AppCompatActivity() {
     }
 
     private fun checkAllPermisions() {
-        if (Build.VERSION.SDK_INT== Build.VERSION_CODES.TIRAMISU){
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.TIRAMISU) {
             Log.d(TAG, "checkAllPermisions: up q")
-            requestCameraAndMicPermissionsTiramishu{
+            requestCameraAndMicPermissionsTiramishu {
                 requestWriteExternamlStoragePermissions {
                     requestNearByPermissions {
                         checkDeepLinkIsOpenFirst()
                     }
                 }
             }
-        }else
-        {
-            requestCameraAndMicPermissions{
+        } else {
+            requestCameraAndMicPermissions {
                 requestWriteExternamlStoragePermissions {
                     requestNearByPermissions {
                         checkDeepLinkIsOpenFirst()
@@ -215,6 +220,7 @@ private fun checkPermissionNotificaton()
 
 
     }
+
     override fun onResume() {
         // if (fragManager?.fragments?.size==0)
         // setInstance()
@@ -234,16 +240,14 @@ private fun checkPermissionNotificaton()
           binding.navView.menu.getItem(6)?.setActionView(R.layout.drawer_user_icon_layout)*/
     }
 
-fun hideDrawerViews()
-{
-    CoroutineScope(Dispatchers.Main).launch {
-       if (DataStoreHelper.getLoggedInStatus()) {
-            binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    fun hideDrawerViews() {
+        CoroutineScope(Dispatchers.Main).launch {
+            if (DataStoreHelper.getLoggedInStatus()) {
+                binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            }
         }
+
     }
-
-}
-
 
 
     fun closeDrawer() {
@@ -345,11 +349,16 @@ fun hideDrawerViews()
                         // startActivity(Intent(this,FragementCreateCandidate::class.java))
                     }, 200)
                 }
+                R.id.navdrawerselectLanguage->{
+                selectLangaugeDialog()
+                }
                 /*R.id.navdrawerQuestonnaireScreen -> {
                     closeDrawer()
                     startActivity(Intent(this,ActivityCandidateQuestinnaire::class.java))
                 }*/
             }
+
+
             true
         }
 
@@ -368,8 +377,8 @@ fun hideDrawerViews()
         dialog.setPositiveButton(
             getString(R.string.txt_ok),
             DialogInterface.OnClickListener { dialogInterface, i ->
-                DataStoreHelper.clearData()
-                DataStoreHelper.clearData()
+                //  DataStoreHelper.clearData()
+                checkDeepLinkExists()
                 startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             })
@@ -380,6 +389,117 @@ fun hideDrawerViews()
             })
         dialog.show()
         dialog.create()
+    }
+
+    private fun selectLangaugeDialog() {
+        runOnUiThread {
+            val dialog = Dialog(this)
+
+            val dialogBinding =
+                LayoutChooseLanguageDialogBinding.inflate(LayoutInflater.from(this))
+            dialog.setContentView(dialogBinding.root)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialogBinding.btnCross.setOnClickListener {
+                dialog.dismiss()
+            }
+            dialogBinding.btnSubmitButton.setText(getString(R.string.txt_submit))
+            val language = mutableListOf<String>()
+            val languageStringList = mutableListOf<ModelLanguageSelect>()
+
+            languageStringList.add(ModelLanguageSelect(getString(R.string.txt_english), "en-US"))
+            languageStringList.add(ModelLanguageSelect(getString(R.string.txt_spanish), "es"))
+            languageStringList.add(ModelLanguageSelect(getString(R.string.txt_french), "fr"))
+
+            language.add(getString(R.string.txt_select_language))
+            language.add(getString(R.string.txt_english))
+            language.add(getString(R.string.txt_spanish))
+            language.add(getString(R.string.txt_french))
+            var selectedLanguage: String? = null
+            CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+                runOnUiThread {
+
+                    // dialogBinding.tvUsername.setText(data.Name)
+
+                    val langAdapter = getArrayAdapterOneItemSelected(language)
+                    dialogBinding.spinnerLanguage.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: View?,
+                                position: Int,
+                                id: Long
+                            ) {
+                                if (position != 0) {
+                                    languageStringList.forEach {
+                                        if (it.language.equals(language[position])) {
+                                            selectedLanguage = it.langCode
+                                        }
+                                    }
+
+                                }
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                            }
+
+                        }
+
+                    dialogBinding.spinnerLanguage.adapter = langAdapter
+
+                    dialogBinding.btnSubmitButton.setOnClickListener {
+                        if (selectedLanguage != null) {
+                            dialog.dismiss()
+                            setLanguagetoApp(selectedLanguage.toString())
+                        } else {
+                            dialogBinding.tvError.visibility = View.VISIBLE
+                            setHandler().postDelayed({
+                                dialogBinding.tvError.visibility = View.INVISIBLE
+                            }, 3000)
+                            //showCustomSnackbarOnTop(getString(R.string.txt_please_select_language))
+                        }
+                    }
+                }
+
+            }
+
+            dialog.create()
+            dialog.show()
+
+        }
+    }
+
+    private fun setLanguagetoApp(langCode:String)
+    {
+        val local= Locale(langCode)
+        Locale.setDefault(local)
+        val config=resources.configuration
+        config.setLocale(local)
+        resources.updateConfiguration(config,resources.displayMetrics)
+        startActivity(intent)
+        CoroutineScope(Dispatchers.IO).launch {
+            DataStoreHelper.setAppLanguage(langCode)
+        }
+    }
+
+    private fun checkDeepLinkExists()
+    {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+            if (DataStoreHelper.getDeeplinkIsOpenStatus()){
+                DataStoreHelper.clearData()
+                DataStoreHelper.setDeepLinkData(true)
+            }else
+            {
+                DataStoreHelper.clearData()
+            }
+            }catch (e:Exception)
+            {
+                DataStoreHelper.clearData()
+                Log.d(TAG, "checkDeepLinkExists: exception in checking deeplink")
+            }
+        }
+
     }
 
     private fun setupDrawer() {

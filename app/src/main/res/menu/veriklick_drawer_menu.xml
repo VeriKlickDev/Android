@@ -40,4 +40,9 @@
         android:id="@+id/navdrawercreateCandidate"
         android:title="@string/txt_create_candidate" />
 
+    <item
+        android:icon="@drawable/ic_create_candidate_menu_icon"
+        android:id="@+id/navdrawerselectLanguage"
+        android:title="@string/txt_select_language" />
+
 </menu>

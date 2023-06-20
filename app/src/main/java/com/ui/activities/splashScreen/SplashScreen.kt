@@ -12,6 +12,7 @@ import com.data.dataHolders.DataStoreHelper
 import com.data.dismissProgressDialog
 import com.data.exceptionHandler
 import com.data.setHandler
+import com.data.setLanguagetoApp
 import com.domain.constant.AppConstants
 import com.veriKlick.*
 import com.ui.activities.login.LoginActivity
@@ -30,7 +31,7 @@ class SplashScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        getAppLanguage()
         val content = findViewById<View>(android.R.id.content)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             content.viewTreeObserver.addOnDrawListener { false }
@@ -71,6 +72,23 @@ class SplashScreen : AppCompatActivity() {
             startActivity(Intent(this, LoginActivity::class.java))
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             finish()
+        }
+    }
+
+    private fun getAppLanguage()
+    {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                if (DataStoreHelper.getAppLanguage()!=null){
+                    setLanguagetoApp(intent,DataStoreHelper.getAppLanguage(),false)
+                }
+                else{
+
+                }
+            }catch (e:Exception)
+            {
+
+            }
         }
     }
 

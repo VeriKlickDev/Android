@@ -514,15 +514,15 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     runOnUiThread {
                         countryCodeSpinnerAdapter?.notifyDataSetChanged()
                         var countryCode=viewModel?.getUserProfileData()?.Candidate?.Countrycode
-                        Log.d(TAG, "getCountryCodeListFromApi: countrycodeis ver first ${countryCode} country ${viewModel?.getUserProfileData()?.CandidateLocation?.Country.toString()}")
+                        Log.d(TAG, "getCountryCodeListFromApi: countrycodeis ver first ${countryCode} ${viewModel?.getUserProfileData()} country ${viewModel?.getUserProfileData()?.CandidateLocation?.Country.toString()}")
                         val appendedCode=countryCodeSpinnerAdapter?.getPosition("+"+countryCode+" "+viewModel?.getUserProfileData()?.CandidateLocation?.Country.toString())
-
+                        countryCodeList
                         try {
 
                             countryCodeList.forEachIndexed { index, responseCountryName ->
-                                if (responseCountryName.codedisplay.toString().equals("+1"+countryCode))
+                                if (responseCountryName.codedisplay.toString().equals("+$countryCode"))
                                 {
-                                    Log.d(TAG, "getCountryCodeListFromApi: selected country is ${responseCountryName.Name}")
+                                    Log.d(TAG, "getCountryCodeListFromApi: selected country is ${responseCountryName.Name} countryCode +$countryCode")
                                 }
                             }
                         }catch (e:Exception)
