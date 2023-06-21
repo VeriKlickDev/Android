@@ -569,10 +569,10 @@ fun Context.setLanguagetoApp(intent: Intent,langCode:String,isStore:Boolean)
     config.setLocale(local)
     resources.updateConfiguration(config,resources.displayMetrics)
     startActivity(intent)
-    if (isStore)
+    if (isStore){
     CoroutineScope(Dispatchers.IO).launch {
         DataStoreHelper.setAppLanguage(langCode)
-    }
+    }}
 }
 fun Context.requestAllPermissionForApp(isGrant: (isGranted: Boolean) -> Unit)
 {

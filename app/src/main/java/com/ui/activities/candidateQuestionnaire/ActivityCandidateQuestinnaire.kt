@@ -93,7 +93,7 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
             buildQuestionnaireData()
         }else
         {
-            showCustomSnackbarOnTop(getString(R.string.txt_all_quesiton_required))
+            showCustomSnackbarOnTop(getString(R.string.txt_all_answers_required))
         }
 
     }

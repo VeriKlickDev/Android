@@ -23,7 +23,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.BLUETOOTH_SCAN"
-        android:usesPermissionFlags="neverForLocation" />
+        android:usesPermissionFlags="neverForLocation"
+        tools:ignore="UnusedAttribute" />
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
@@ -55,6 +56,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.VeriklickBase"
         android:usesCleartextTraffic="true"
+        android:allowClearUserData="true"
         tools:targetApi="31">
 
         <activity android:name="com.ui.activities.createCandidate.ActivityCreateCandidate"
@@ -64,7 +66,7 @@
             android:name="com.ui.activities.candidateQuestionnaire.ActivityCandidateQuestinnaire"
             android:exported="true"
             android:screenOrientation="portrait"
-            >
+            tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -110,21 +112,24 @@
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name="com.ui.activities.upcomingMeeting.audioRecord.AudioMainActivity"
             android:exported="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name="com.ui.activities.upcomingMeeting.audioRecord.PlayActivity"
             android:exported="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name="com.ui.activities.uploadProfilePhoto.ActivityUploadProfilePhoto"
             android:exported="true"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            tools:ignore="AppLinkUrlError">
+            tools:ignore="AppLinkUrlError,LockedOrientationActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -192,32 +197,38 @@
         <activity android:name="com.ui.activities.createCandiateForm.ActivityCreateCandidateWebForm"
             android:exported="false"
             android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             />
         <activity
             android:name="com.ui.activities.login.loginwithotp.ActivitiyLoginWithOtp"
             android:exported="false"
             android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             />
         <activity
             android:name="com.ui.activities.adduserlist.ActivityAddParticipant"
             android:configChanges="orientation"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name="com.ui.activities.forgotPassword.ForgotPasswordActivity"
             android:configChanges="orientation"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name="com.ui.activities.chat.ChatActivity"
             android:configChanges="orientation"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name="com.ui.activities.upcomingMeeting.UpcomingMeetingActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:windowSoftInputMode="adjustNothing"
             />
 
@@ -227,22 +238,26 @@
             android:name="com.harvee.yourhealthmate2.ui.privacypolicy.ActivityPrivacyPolicy"
             android:configChanges="orientation"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name="com.ui.activities.feedBack.ActivityFeedBackForm"
             android:configChanges="orientation"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name="com.ui.activities.meetingmemberslist.MemberListActivity"
             android:configChanges="orientation"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
-            android:name="com.ui.activities.splashScreen.SplashScreen"
+            android:name="com.ui.activities.splashScreen.VeriklickSpashScreen"
             android:configChanges="orientation"
             android:exported="true"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -257,12 +272,14 @@
             android:name="com.ui.activities.joinmeeting.JoinMeetingActivity"
             android:configChanges="orientation"
             android:exported="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name="com.ui.activities.login.LoginActivity"
             android:configChanges="orientation"
             android:exported="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name="com.ui.activities.twilioVideo.VideoActivity"
             android:exported="true"
@@ -271,13 +288,14 @@
             android:name="com.ui.activities.documentviewer.DocumentViewerActivity"
             android:configChanges="orientation"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name="com.ui.activities.deepLinkMeetingJoiner.VideoMeetingByLinkActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait"
-            tools:ignore="AppLinkUrlError">
+            tools:ignore="AppLinkUrlError,LockedOrientationActivity">
             <intent-filter
                 android:autoVerify="true"
                 android:label="@string/app_name">
@@ -356,7 +374,8 @@
         <receiver
             android:name="com.data.ScreenLockEventDetector"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            tools:ignore="ExportedReceiver" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -374,7 +393,6 @@
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-            />
         </service>
     </application>
 

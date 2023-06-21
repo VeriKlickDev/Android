@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="app_name">VeriKlick</string>
     <string name="hint_email">Correo electrónico</string>
@@ -17,7 +17,7 @@
     <string name="chat_token_url">https://SU_DOMINIO_AQUÍ.twil.io/chat-token</string>
     <string name="error_retrieving_access_token">Error al recuperar el token de acceso del servidor.</string>
     <string name="txt_chat">charlar</string>
-    <string name="txt_type_here">Escriba aquí...</string>
+    <string name="txt_type_here">Escriba aquí…</string>
     <string name="txt_view_document">Ver documento</string>
     <string name="txt_login">Acceso</string>
     <string name="txt_start_join_video_meeting_on_the_go">Inicie o únase a una reunión de video sobre la marcha</string>
@@ -82,7 +82,7 @@
     <string name="txt_role">Role</string>
     <string name="txt_submit">Entregar</string>
     <string name="txt_jobId">Identificación del trabajo :</string>
-    <string name="txt_search">Buscar...</string>
+    <string name="txt_search">Buscar…</string>
     <string name="txt_title">Título</string>
     <string name="txt_screen_sharing_started">Pantalla compartida iniciada</string>
     <string name="txt_screen_sharing_stopped">Uso compartido de pantalla detenido</string>
@@ -127,7 +127,7 @@
     <string name="txt_add_member">Añadir miembros</string>
     <string name="txt_you_are_not_authorized_to_record_video">no tienes autorización para grabar video</string>
     <string name="txt_stop_screensharing">Detener pantalla compartida</string>
-    <string name="txt_privacy_policy_underline"><u>Política de Privacidad</u></string>
+    <string name="txt_privacy_policy_underline" tools:ignore="ExtraTranslation"><u>Política de Privacidad</u></string>
     <string name="txt_privacy_policy">Política de Privacidad</string>
 
 
@@ -204,7 +204,7 @@
 
     <string name="txt_other">Otro</string>
     <string name="txt_no">No</string>
-    <string name="txt_your_msg_here">Su mensaje aquí...</string>
+    <string name="txt_your_msg_here">Su mensaje aquí…</string>
     <string name="languageSelect">sp</string>
 
     <string name="txt_say_Introduction">decir introducción</string>
@@ -228,4 +228,24 @@
     <string name="txt_do_you_want_to_send_template">¿Quieres enviar plantilla?</string>
     <string name="txt_sms_is_required">Se requiere SMS</string>
     <string name="txt_introduce_yourself">Presentarte</string>
+
+    <string name="txt_please_enable_the_deeplink" tools:ignore="MissingTranslation">Habilite el enlace profundo</string>
+    <string name="txt_no_data_available" tools:ignore="MissingTranslation">Datos no disponibles</string>
+    <string name="txt_invalid" tools:ignore="MissingTranslation">Inválido</string>
+    <string name="txt_zip" tools:ignore="MissingTranslation">Cremallera</string>
+    <string name="txt_street" tools:ignore="MissingTranslation">Calle</string>
+    <string name="txt_middleName" tools:ignore="MissingTranslation">Segundo nombre</string>
+    <string name="txt_secondary_skills" tools:ignore="MissingTranslation">habilidades secundarias</string>
+    <string name="txt_primary_skills" tools:ignore="MissingTranslation">habilidades primarias</string>
+    <string name="txt_experience" tools:ignore="MissingTranslation">Experiencia</string>
+
+
+    <string name="txt_all_answers_required" tools:ignore="MissingTranslation">Todas las respuestas requeridas</string>
+    <string name="txt_country_code">Country Code</string>
+    <string name="txt_is">is</string>
+    <string name="txt_are">are</string>
+    <string name="txt_city">City</string>
+    <string name="txt_country">Country</string>
+    <string name="txt_state">State</string>
+    <string name="txt_jobType">Job type</string>
 </resources>

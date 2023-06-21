@@ -77,11 +77,12 @@ class ChatActivity : AppCompatActivity(){
                 AppConstants.CONNECT_PARTICIPANT
             ).toString().equals("null")
         ) {
-            binding.tvConnectedMembersCount.text = "1" + " Member"
+
+            binding.tvConnectedMembersCount.text = "1" + " ${getString(R.string.txt_member)}"
         } else {
             CurrentConnectUserList.getListForAddParticipantActivity().observe(this, Observer {
                 if (it != null) {
-                    binding.tvConnectedMembersCount.text = it.size.toString() + " Member"
+                    binding.tvConnectedMembersCount.text = it.size.toString() + " ${getString(R.string.txt_member)}"
                 }
             })
         }

@@ -1,6 +1,6 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">VeriKlick</string>
-    <string name="firebaseNotificationTopic">globalNotification</string>
+    <string name="firebaseNotificationTopic" tools:ignore="MissingTranslation">globalNotification</string>
     <string name="hint_email">Email</string>
     <string name="hint_submit">Submit</string>
     <string name="hint_password">Password</string>
@@ -17,7 +17,7 @@
     <string name="chat_token_url">https://YOUR_DOMAIN_HERE.twil.io/chat-token</string>
     <string name="error_retrieving_access_token">Error retrieving access token from the server.</string>
     <string name="txt_chat">chat</string>
-    <string name="txt_type_here">Type here...</string>
+    <string name="txt_type_here">Type here…</string>
     <string name="txt_view_document">View Document</string>
     <string name="txt_login">Login</string>
     <string name="txt_start_join_video_meeting_on_the_go">Start or join a video meeting on the go</string>
@@ -82,7 +82,7 @@
     <string name="txt_role">Role</string>
     <string name="txt_submit">Submit</string>
     <string name="txt_jobId">Job ID : &#160;</string>
-    <string name="txt_search">Search...</string>
+    <string name="txt_search">Search…</string>
     <string name="txt_title">Title</string>
     <string name="txt_screen_sharing_started">Screen Sharing Started</string>
     <string name="txt_screen_sharing_stopped">Screen Sharing Stopped</string>
@@ -180,7 +180,7 @@
     <string name="txt_invalid_or_blank_data">Invalid or blank data</string>
     <string name="txt_sendLink">Send Link</string>
     <string name="txt_list_candidate">List Candidate</string>
-    <string name="txt_ok">Ok</string>
+    <string name="txt_ok">OK</string>
     <string name="txt_teams_meeting">Teams Meeting</string>
 
 
@@ -192,19 +192,19 @@
     <string name="txt_unknownUser">Unknown User</string>
     <string name="txt_veriklick_meeting_is_running">Veriklick Meeting is Running</string>
     <string name="txt_privacy_policy_full_text">I have read and agree to the Terms and Conditions  and Privacy Policy. This meeting may be recorded. By joining the meeting you are also giving your consent to record this meeting otherwise click cancel to leave the meeting.</string>
-    <string name="txt_privacy_policy_url">https://veriklick.com/terms-of-use/</string>
-    <string name="txt_term_of_use_url">https://veriklick.com/privacy-policy/</string>
+    <string name="txt_privacy_policy_url" tools:ignore="MissingTranslation">https://veriklick.com/terms-of-use/</string>
+    <string name="txt_term_of_use_url" tools:ignore="MissingTranslation">https://veriklick.com/privacy-policy/</string>
     <string name="txt_waiting_to_join">Waiting to join</string>
     <string name="txt_secondary">Secondary : </string>
     <string name="txt_primary">Primary : </string>
     <string name="txt_years">Years</string>
     <string name="txt_skip">Skip</string>
-    <string name="url_createCandidatebase">https://ui2.veriklick.in</string>
+    <string name="url_createCandidatebase" tools:ignore="MissingTranslation">https://ui2.veriklick.in</string>
     <string name="txt_questionnaire">Questionnaire</string>
     <string name="txt_other">Other</string>
     <string name="txt_no">No</string>
-    <string name="txt_your_msg_here">Your message here...</string>
-    <string name="txt_question">Question</string>
+    <string name="txt_your_msg_here">Your message here…</string>
+    <string name="txt_question" tools:ignore="MissingTranslation">Question</string>
     <string name="languageSelect">en</string>
 
     <string name="txt_say_Introduction">Say Introduction</string>
@@ -216,9 +216,9 @@
     <string name="txt_are_you_sure">Are you sure?</string>
 
 
-    <string name="txt_choose_language">Choose language</string>
-    <string name="txt_please_select_language">please Select language first</string>
-    <string name="txt_select_language">Select language</string>
+    <string name="txt_choose_language" tools:ignore="MissingTranslation">Choose language</string>
+    <string name="txt_please_select_language" tools:ignore="MissingTranslation">please Select language first</string>
+    <string name="txt_select_language" tools:ignore="MissingTranslation">Select language</string>
     <string name="txt_english">English</string>
     <string name="txt_spanish">Spanish</string>
     <string name="txt_french">French</string>
@@ -233,15 +233,26 @@
     <string name="txt_do_you_want_to_send_template">Do you want to send template?</string>
     <string name="txt_sms_is_required">SMS is required</string>
     <string name="txt_introduce_yourself">Introduce yourself</string>
-    <string name="txt_please_enable_the_deeplink">Please enable the deeplink</string>
-    <string name="txt_no_data_available">No data available</string>
-    <string name="txt_invalid">Invalid</string>
-    <string name="txt_zip">Zip</string>
-    <string name="txt_street">Street</string>
-    <string name="txt_middelName">Middel name</string>
-    <string name="txt_secondary_skills">Secondary skills</string>
-    <string name="txt_primary_skills">Primary skills</string>
-    <string name="txt_experience">Experience</string>
+
+
+    <string name="txt_please_enable_the_deeplink" tools:ignore="MissingTranslation">Please enable the deeplink</string>
+    <string name="txt_no_data_available" tools:ignore="MissingTranslation">No data available</string>
+    <string name="txt_invalid" tools:ignore="MissingTranslation">Invalid</string>
+    <string name="txt_zip" tools:ignore="MissingTranslation">Zip</string>
+    <string name="txt_street" tools:ignore="MissingTranslation">Street</string>
+    <string name="txt_middleName" tools:ignore="MissingTranslation">Middle name</string>
+    <string name="txt_secondary_skills" tools:ignore="MissingTranslation">Secondary skills</string>
+    <string name="txt_primary_skills" tools:ignore="MissingTranslation">Primary skills</string>
+    <string name="txt_experience" tools:ignore="MissingTranslation">Experience</string>
+
+    <string name="txt_all_answers_required" tools:ignore="MissingTranslation">All answers required</string>
+    <string name="txt_country_code">Country Code</string>
+    <string name="txt_is">is</string>
+    <string name="txt_are">are</string>
+    <string name="txt_city">City</string>
+    <string name="txt_country">Country</string>
+    <string name="txt_state">State</string>
+    <string name="txt_jobType">Job type</string>
 
 
 </resources>

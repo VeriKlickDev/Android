@@ -4,15 +4,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
-import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
-import com.data.dataHolders.CreateProfileDeepLinkHolder
 import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.*
 import com.domain.constant.AppConstants
@@ -82,11 +79,9 @@ class ActivityCreateCandidate : AppCompatActivity() {
         binding.etEmail.doOnTextChanged { text, start, before, count ->
             emailValidator(this, text.toString()) { isEmailOk, mEmail, error ->
                 isEmailok=isEmailOk
-                if (isEmailOk)
-                    Log.d(TAG, "onCreate: email valid $mEmail")
-                else
+                if (!isEmailOk)
                     binding.etEmail.setError("Invalid")
-                    Log.d(TAG, "onCreate: email not valid $mEmail")
+
             }
         }
 
@@ -115,75 +110,159 @@ class ActivityCreateCandidate : AppCompatActivity() {
 
     private fun validateAllFields()
     {
-        if (binding.etEmail.text.toString().equals(""))
-        {
-            Log.d(TAG, "validateAllFields: email blank")
-        }
-        else if(binding.etFirstname.text.toString().equals(""))
-        {
-            Log.d(TAG, "validateAllFields: firstname blank")
-        }
-        else if(binding.etMiddlename.text.toString().equals(""))
-        {
-            Log.d(TAG, "validateAllFields: middel name blank")
-        }
-        else if(binding.etLastname.text.toString().equals(""))
-        {
-            Log.d(TAG, "validateAllFields: last name blank")
-        }
-        else if(binding.etEmail.text.toString().equals("") || !isEmailok)
-        {
-            Log.d(TAG, "validateAllFields: email blank")
-        }
-        else if(binding.etPhoneno.text.toString().equals("") || !isPhoneok)
-        {
-            Log.d(TAG, "validateAllFields: phone blank")
-        }
-       /* else if(binding.etPhoneCode.text.toString().equals(""))
+        runOnUiThread {
+            if (binding.etEmail.text.toString().equals("")) {
+                showCustomToast(
+                    getString(R.string.txt_email) + " ${getString(R.string.txt_is)} ${
+                        getString(
+                            R.string.txt_invalid_or_blank_data
+                        )
+                    }"
+                )
+            } else if (binding.etFirstname.text.toString().equals("")) {
+                showCustomToast(
+                    getString(R.string.txt_firstName) + " ${getString(R.string.txt_is)} ${
+                        getString(
+                            R.string.txt_invalid_or_blank_data
+                        )
+                    }"
+                )
+                Log.d(TAG, "validateAllFields: firstname blank")
+            } else if (binding.etMiddlename.text.toString().equals("")) {
+                showCustomToast(
+                    getString(R.string.txt_middleName) + " ${getString(R.string.txt_is)} ${
+                        getString(
+                            R.string.txt_invalid_or_blank_data
+                        )
+                    }"
+                )
+                Log.d(TAG, "validateAllFields: middel name blank")
+            } else if (binding.etLastname.text.toString().equals("")) {
+                showCustomToast(
+                    getString(R.string.txt_lastName) + " ${getString(R.string.txt_is)} ${
+                        getString(
+                            R.string.txt_invalid_or_blank_data
+                        )
+                    }"
+                )
+                Log.d(TAG, "validateAllFields: last name blank")
+            } else if (binding.etEmail.text.toString().equals("") || !isEmailok) {
+                showCustomToast(
+                    getString(R.string.txt_email) + " ${getString(R.string.txt_is)} ${
+                        getString(
+                            R.string.txt_invalid_or_blank_data
+                        )
+                    }"
+                )
+                Log.d(TAG, "validateAllFields: email blank")
+            } else if (binding.etPhoneno.text.toString().equals("") || !isPhoneok) {
+                showCustomToast(
+                    getString(R.string.hint_password) + " ${getString(R.string.txt_is)} ${
+                        getString(
+                            R.string.txt_invalid_or_blank_data
+                        )
+                    }"
+                )
+                Log.d(TAG, "validateAllFields: phone blank")
+            }
+            /* else if(binding.etPhoneCode.text.toString().equals(""))
         {
             Log.d(TAG, "validateAllFields: phone blank")
         }*/
-        else if(countryCodeStr==null)
-        {
-            Log.d(TAG, "validateAllFields: country code str")
-        }
-        else if(binding.etZipCode.text.toString().equals(""))
-        {
-            Log.d(TAG, "validateAllFields: zip blank")
-        }
-        else if(binding.etStreet.text.toString().equals(""))
-        {
-            Log.d(TAG, "validateAllFields: street blank")
-        }
-        else if(binding.etPrimarySkills.text.toString().equals(""))
-        {
-            Log.d(TAG, "validateAllFields: primary skills blank")
-        }
-        else if(binding.etSecondarySkills.text.toString().equals(""))
-        {
-            Log.d(TAG, "validateAllFields: secondary blank")
-        }
-        else if(binding.etExperience.text.toString().equals(""))
-        {
-            Log.d(TAG, "validateAllFields: secondary blank")
-        }
-        else if (cityStr.equals("") || cityStr==null)
-        {
-            Log.d(TAG, "validateAllFields: city blank")
-        }
-        else if (stateStr.equals("") || stateStr==null)
-        {
-            Log.d(TAG, "validateAllFields: state blank")
-        }
-        else if (countryStr.equals("") || countryStr==null){
-            Log.d(TAG, "validateAllFields: country blank")
-        }
-        else if (jobTypeStr.equals("") || jobTypeStr==null){
-            Log.d(TAG, "validateAllFields: jobtype blank")
-        }else
-        {
-            Log.d(TAG, "validateAllFields: success")
-            postData()
+            else if (countryCodeStr == null) {
+                showCustomToast(
+                    getString(R.string.txt_country_code) + " ${getString(R.string.txt_is)} ${
+                        getString(
+                            R.string.txt_invalid_or_blank_data
+                        )
+                    }"
+                )
+                Log.d(TAG, "validateAllFields: country code str")
+            } else if (binding.etZipCode.text.toString().equals("")) {
+                showCustomToast(
+                    getString(R.string.txt_zip) + " ${getString(R.string.txt_is)} ${
+                        getString(
+                            R.string.txt_invalid_or_blank_data
+                        )
+                    }"
+                )
+                Log.d(TAG, "validateAllFields: zip blank")
+            } else if (binding.etStreet.text.toString().equals("")) {
+                showCustomToast(
+                    getString(R.string.txt_street) + " ${getString(R.string.txt_is)} ${
+                        getString(
+                            R.string.txt_invalid_or_blank_data
+                        )
+                    }"
+                )
+                Log.d(TAG, "validateAllFields: street blank")
+            } else if (binding.etPrimarySkills.text.toString().equals("")) {
+                showCustomToast(
+                    getString(R.string.txt_primary_skills) + " ${getString(R.string.txt_are)} ${
+                        getString(
+                            R.string.txt_invalid_or_blank_data
+                        )
+                    }"
+                )
+                Log.d(TAG, "validateAllFields: primary skills blank")
+            } else if (binding.etSecondarySkills.text.toString().equals("")) {
+                showCustomToast(
+                    getString(R.string.txt_secondary_skills) + " ${getString(R.string.txt_are)} ${
+                        getString(
+                            R.string.txt_invalid_or_blank_data
+                        )
+                    }"
+                )
+                Log.d(TAG, "validateAllFields: secondary blank")
+            } else if (binding.etExperience.text.toString().equals("")) {
+                showCustomToast(
+                    getString(R.string.txt_experience) + " ${getString(R.string.txt_is)} ${
+                        getString(
+                            R.string.txt_invalid_or_blank_data
+                        )
+                    }"
+                )
+                Log.d(TAG, "validateAllFields: secondary blank")
+            } else if (cityStr.equals("") || cityStr == null) {
+                showCustomToast(
+                    getString(R.string.txt_city) + " ${getString(R.string.txt_is)} ${
+                        getString(
+                            R.string.txt_invalid_or_blank_data
+                        )
+                    }"
+                )
+                Log.d(TAG, "validateAllFields: city blank")
+            } else if (stateStr.equals("") || stateStr == null) {
+                showCustomToast(
+                    getString(R.string.txt_state) + " ${getString(R.string.txt_is)} ${
+                        getString(
+                            R.string.txt_invalid_or_blank_data
+                        )
+                    }"
+                )
+                Log.d(TAG, "validateAllFields: state blank")
+            } else if (countryStr.equals("") || countryStr == null) {
+                showCustomToast(
+                    getString(R.string.txt_country) + " ${getString(R.string.txt_are)} ${
+                        getString(
+                            R.string.txt_invalid_or_blank_data
+                        )
+                    }"
+                )
+                Log.d(TAG, "validateAllFields: country blank")
+            } else if (jobTypeStr.equals("") || jobTypeStr == null) {
+                showCustomToast(
+                    getString(R.string.txt_jobType) + " ${getString(R.string.txt_are)} ${
+                        getString(
+                            R.string.txt_invalid_or_blank_data
+                        )
+                    }"
+                )
+                Log.d(TAG, "validateAllFields: jobtype blank")
+            } else {
+                Log.d(TAG, "validateAllFields: success")
+                postData()
+            }
         }
     }
 
@@ -226,12 +305,12 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     }else
                     {
                         runOnUiThread { dismissProgressDialog() }
-                    showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+                        showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
                     }
 
                     }
                 }
-        }catch (e:Exception)
+        }catch (_:Exception)
         {
 
         }
@@ -382,7 +461,6 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     if (it.name.equals(jobTypeStringList[position]))
                     {
                     jobTypeStr=it.id
-                        Log.d(TAG, "onItemSelected: selected ${it}")
                     }
                 }
             }
@@ -508,6 +586,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     countryCodeStringList.add("Code")
                     countryCodeList.addAll(data!!)
                     countryCodeList.forEach {
+                        //21jun2023 countryCodeStringList.add(it.codedisplay.toString()+" "+it.Name)
                         countryCodeStringList.add(it.codedisplay.toString()+" "+it.Name)
                     }
                     Log.d(TAG, "getCountryCodeListFromApi: countryCode $countryStringList ${countryCodeStringList}")
@@ -516,24 +595,37 @@ class ActivityCreateCandidate : AppCompatActivity() {
                         var countryCode=viewModel?.getUserProfileData()?.Candidate?.Countrycode
                         Log.d(TAG, "getCountryCodeListFromApi: countrycodeis ver first ${countryCode} ${viewModel?.getUserProfileData()} country ${viewModel?.getUserProfileData()?.CandidateLocation?.Country.toString()}")
                         val appendedCode=countryCodeSpinnerAdapter?.getPosition("+"+countryCode+" "+viewModel?.getUserProfileData()?.CandidateLocation?.Country.toString())
-                        countryCodeList
+
+                        var selectedCountry:String?=null
                         try {
 
                             countryCodeList.forEachIndexed { index, responseCountryName ->
                                 if (responseCountryName.codedisplay.toString().equals("+$countryCode"))
                                 {
                                     Log.d(TAG, "getCountryCodeListFromApi: selected country is ${responseCountryName.Name} countryCode +$countryCode")
+                                    selectedCountry=    "+$countryCode ${responseCountryName.Name}"
                                 }
                             }
+
+                            countryCodeStringList.forEach {
+                                if (selectedCountry!!.lowercase().trim().equals(it.trim().lowercase()))
+                                {
+                                    val appendedCode=countryCodeSpinnerAdapter?.getPosition(selectedCountry)
+                                    binding.spinnerCountryCode.setSelection(appendedCode!!)
+                                    countryCodeSpinnerAdapter?.notifyDataSetChanged()
+                                }
+                            }
+
                         }catch (e:Exception)
                         {
 
                         }
 
-                        Log.d(TAG, "getCountryCodeListFromApi: countrycodeis ver $appendedCode  ${Gson().toJson(viewModel?.getUserProfileData())}")
+
+                        Log.d(TAG, "getCountryCodeListFromApi: countrycodeis ver $appendedCode $selectedCountry")
                         //val pos=countryCodeSpinnerAdapter?.getPosition(appendedCode)
-                        binding.spinnerCountryCode.setSelection(appendedCode!!)
-                        countryCodeSpinnerAdapter?.notifyDataSetChanged()
+                       // binding.spinnerCountryCode.setSelection(appendedCode!!)
+                       // countryCodeSpinnerAdapter?.notifyDataSetChanged()
                     }
 
                 }catch (e:Exception)
@@ -620,11 +712,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
             if (isSuccess)
             {
                setCandidateDetailsInView(data!!)
-            }else
-            {
-
             }
-
         }
     }
 
@@ -650,7 +738,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
             }
         }catch (e:Exception)
         {
-        showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+            showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
         }
     }
 }

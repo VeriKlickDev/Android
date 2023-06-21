@@ -1,5 +1,6 @@
 package com.data.dataHolders
 
+import android.annotation.SuppressLint
 import android.util.Log
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -61,7 +62,7 @@ object WeeksDataHolder {
         }
 
         //Log.d("TAG", "getCalculatedDateofWeek: day $day")
-
+        @SuppressLint("SimpleDateFormat")
         val s = SimpleDateFormat(dateFormat)
         cal.add(Calendar.DAY_OF_YEAR, days)
 
@@ -72,7 +73,7 @@ object WeeksDataHolder {
 
     private var istDate:String?=null
     private var utcDate:String?=null
-
+    @SuppressLint("SimpleDateFormat")
     fun getISTandUTCDate(date:String,action:Int,result: (ist: String, utc: String,istx: String, utcx: String) -> Unit) {
         val cal = Calendar.getInstance()
         val calx = Calendar.getInstance()
@@ -83,13 +84,13 @@ object WeeksDataHolder {
         var utcx=""
 
         val sdf=SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        val date=sdf.parse(date)
+        val date1=sdf.parse(date)
 
         val sdfIST = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val sdfUTC = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 
-        cal.time=date
-        calx.time=date
+        cal.time=date1!!
+        calx.time= date1!!
         when(action)
         {
             //current week without inc decr
@@ -165,7 +166,7 @@ data class CurrentDatesHolderModel(val ist:String, val utc:String, val istx:Stri
 
     fun getCurrentDates()= currentDateslist.firstOrNull()
 
-
+    @SuppressLint("SimpleDateFormat")
     fun getPrevious1DateTimed18_30(date:String, result: (ist: String, utc: String) -> Unit) {
         val cal = Calendar.getInstance()
         val sdf=SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -189,7 +190,7 @@ data class CurrentDatesHolderModel(val ist:String, val utc:String, val istx:Stri
             utcDate!!
         )
     }
-
+    @SuppressLint("SimpleDateFormat")
     fun getDateTimed18_29(date:String,result: (ist: String, utc: String) -> Unit) {
         val cal = Calendar.getInstance()
         val sdf=SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -216,7 +217,7 @@ data class CurrentDatesHolderModel(val ist:String, val utc:String, val istx:Stri
 
 
 
-
+    @SuppressLint("SimpleDateFormat")
     fun getNextISTandUTCDate(date:String,result: (ist: String, utc: String) -> Unit) {
         val cal = Calendar.getInstance()
         val sdf=SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -241,7 +242,7 @@ data class CurrentDatesHolderModel(val ist:String, val utc:String, val istx:Stri
         )
     }
 
-
+    @SuppressLint("SimpleDateFormat")
     fun getIncreasedDate(date:String, result: (ist: String, utc: String) -> Unit) {
 
         val cal = Calendar.getInstance()
@@ -266,7 +267,7 @@ data class CurrentDatesHolderModel(val ist:String, val utc:String, val istx:Stri
             utcDate!!
         )
     }
-
+    @SuppressLint("SimpleDateFormat")
     fun getDecreasedDate(date:String, result: (ist: String, utc: String) -> Unit) {
 
         val cal = Calendar.getInstance()
@@ -292,7 +293,7 @@ data class CurrentDatesHolderModel(val ist:String, val utc:String, val istx:Stri
         )
     }
 
-
+    @SuppressLint("SimpleDateFormat")
     fun getPastISTandUTCDate(date:String, result: (ist: String, utc: String) -> Unit) {
 
         val cal = Calendar.getInstance()
@@ -318,7 +319,7 @@ data class CurrentDatesHolderModel(val ist:String, val utc:String, val istx:Stri
         )
     }
 
-
+    @SuppressLint("SimpleDateFormat")
     fun getCurrentNextDayISTandUTCDate(date:String,result: (ist: String, utc: String) -> Unit) {
         val cal = Calendar.getInstance()
         val sdf=SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -344,7 +345,7 @@ data class CurrentDatesHolderModel(val ist:String, val utc:String, val istx:Stri
     }
 
 
-
+    @SuppressLint("SimpleDateFormat")
     fun getCurrentPreviousDayISTandUTCDate(date:String,result: (ist: String, utc: String) -> Unit) {
         val cal = Calendar.getInstance()
         val sdf=SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -370,7 +371,7 @@ data class CurrentDatesHolderModel(val ist:String, val utc:String, val istx:Stri
     }
 
 
-
+    @SuppressLint("SimpleDateFormat")
     fun convertTo1159(date:String,result: (ist: String, utc: String) -> Unit)
     {
         val cal = Calendar.getInstance()
@@ -396,7 +397,7 @@ data class CurrentDatesHolderModel(val ist:String, val utc:String, val istx:Stri
         )
 
     }
-
+    @SuppressLint("SimpleDateFormat")
     fun convertTo1200(date:String,result: (ist: String, utc: String) -> Unit)
     {
         val cal = Calendar.getInstance()
@@ -460,7 +461,9 @@ data class CurrentDatesHolderModel(val ist:String, val utc:String, val istx:Stri
     }*/
 
 
+    @SuppressLint("SimpleDateFormat")
     private val sdfIST = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    @SuppressLint("SimpleDateFormat")
     private val sdfUTC = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 
 
@@ -472,8 +475,8 @@ data class CurrentDatesHolderModel(val ist:String, val utc:String, val istx:Stri
         calendar.firstDayOfWeek = Calendar.DAY_OF_MONTH
         calendar.add(Calendar.DATE, getCurrentDaysCount())
 
-        var datetimeItc: String = sdfIST.format(calendar.time)
-        var datetimeUtc: String = sdfUTC.format(calendar.time)
+        val datetimeItc: String = sdfIST.format(calendar.time)
+        val datetimeUtc: String = sdfUTC.format(calendar.time)
 
         dateResponse(datetimeUtc, datetimeItc)
 
@@ -482,6 +485,7 @@ data class CurrentDatesHolderModel(val ist:String, val utc:String, val istx:Stri
     }
 
 
+    @SuppressLint("SimpleDateFormat")
     fun getItcUtcNextDate(dateResponse: (utcDate: String, istDate: String) -> Unit) {
 
         val sdfIST = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -500,7 +504,7 @@ data class CurrentDatesHolderModel(val ist:String, val utc:String, val istx:Stri
         dateTxtUtc = datetimeUtc
     }
 
-
+    @SuppressLint("SimpleDateFormat")
     fun getCalculatedDate(days: Int): String? {
 
         val sdfIST = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -513,14 +517,14 @@ data class CurrentDatesHolderModel(val ist:String, val utc:String, val istx:Stri
         return sdfIST.format(Date(cal.timeInMillis))
     }
 
-
+    @SuppressLint("SimpleDateFormat")
     fun getCalculatedDate(date: String?, days: Int): String? {
         val cal = Calendar.getInstance()
         val sdfIST = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 
         cal.add(Calendar.DAY_OF_YEAR, days)
         try {
-            return sdfIST.format(Date(sdfIST.parse(date).time))
+            return sdfIST.format(sdfIST.parse(date)?.let { Date(it.time) })
         } catch (e: ParseException) {
             // TODO Auto-generated catch block
             Log.e("TAG", "Error in Parsing Date : " + e.message)
@@ -528,7 +532,7 @@ data class CurrentDatesHolderModel(val ist:String, val utc:String, val istx:Stri
         return null
     }
 
-
+    @SuppressLint("SimpleDateFormat")
     fun getItcUtcNextDate(
         datestr: String,
         dateResponse: (utcDate: String, istDate: String) -> Unit
@@ -564,7 +568,7 @@ data class CurrentDatesHolderModel(val ist:String, val utc:String, val istx:Stri
          dateTxtUtc= datetimeUtc*/
     }
 
-
+    @SuppressLint("SimpleDateFormat", "ConstantLocale")
     private val formatter = SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault())
 
     fun toCalendar(date: Date): Calendar {

@@ -24,7 +24,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SplashScreen : AppCompatActivity() {
+class VeriklickSpashScreen : AppCompatActivity() {
     lateinit var binding: ActivitySplashScreenBinding
     var email: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
