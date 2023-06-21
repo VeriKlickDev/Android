@@ -81,10 +81,21 @@ class CandidateListFragment() : Fragment() {
                         //handleContextMenuforItem(data)
                     }
                     2 -> {
-                        handleCall(data)
+                        if (requireActivity().checkInternet()) {
+                            handleCall(data)
+                        } else {
+                            requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                        }
+
                     }
                     3 -> {
-                        handleSMS(1,data,null)
+
+                        if (requireActivity().checkInternet()) {
+                            handleSMS(1,data,null)
+                        } else {
+                            requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                        }
+
                         //showtemplateBottomsheet(data)
 
                     }
@@ -102,11 +113,22 @@ class CandidateListFragment() : Fragment() {
 
         setupRecyclerPagination()
         handleObserver()
-        getCandidateList(1)
 
-        CoroutineScope(Dispatchers.IO+ exceptionHandler).launch {
-            getTemplateList(DataStoreHelper.getMeetingUserId())
+        if (requireActivity().checkInternet()) {
+            getCandidateList(1)
+        } else {
+            requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
         }
+
+
+        if (requireActivity().checkInternet()) {
+            CoroutineScope(Dispatchers.IO+ exceptionHandler).launch {
+                getTemplateList(DataStoreHelper.getMeetingUserId())
+            }
+        } else {
+            requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+        }
+
 
 //8218090995
         binding.etSearch.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
@@ -119,7 +141,12 @@ class CandidateListFragment() : Fragment() {
                     }
                     skipPage=1
                     progressType=0
-                    getCandidateList(0)
+                    if (requireActivity().checkInternet()) {
+                        getCandidateList(0)
+                    } else {
+                        requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                    }
+
                 } else {
                     requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
                 }
@@ -138,7 +165,12 @@ class CandidateListFragment() : Fragment() {
                 }
                 skipPage=1
                 progressType=0
-                getCandidateList(0)
+                if (requireActivity().checkInternet()) {
+                    getCandidateList(0)
+                } else {
+                    requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                }
+
             } else {
                 requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
             }
@@ -160,7 +192,12 @@ class CandidateListFragment() : Fragment() {
                         }
 
                         progressType=0
-                        getCandidateList(0)
+                        if (requireActivity().checkInternet()) {
+                            getCandidateList(0)
+                        } else {
+                            requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                        }
+
                     } else {
                         requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
                     }}
@@ -337,7 +374,12 @@ class CandidateListFragment() : Fragment() {
         when(action)
         {
             1->{
-                handleSMS(2,savedProfile,data.TemplateId)
+                if (requireActivity().checkInternet()) {
+                    handleSMS(2,savedProfile,data.TemplateId)
+                } else {
+                    requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                }
+
                 dialog.dismiss()
             }
         }

@@ -214,9 +214,9 @@
     <string name="txt_templates">plantillas</string>
 
     <string name="txt_are_you_sure">Estas seguro</string>
-    <string name="txt_english">inglés</string>
+<!--    <string name="txt_english">inglés</string>-->
     <string name="txt_spanish">Español</string>
-    <string name="txt_french">francés</string>
+<!--    <string name="txt_french">francés</string>-->
 
     <string name="txt_no_template">Sin plantillas</string>
     <string name="txt_provide_your_availability_for_meeting">Proporcionar su disponibilidad para la reunión</string>
@@ -241,11 +241,12 @@
 
 
     <string name="txt_all_answers_required" tools:ignore="MissingTranslation">Todas las respuestas requeridas</string>
-    <string name="txt_country_code">Country Code</string>
-    <string name="txt_is">is</string>
-    <string name="txt_are">are</string>
-    <string name="txt_city">City</string>
-    <string name="txt_country">Country</string>
-    <string name="txt_state">State</string>
-    <string name="txt_jobType">Job type</string>
+    <string name="txt_country_code">Código de país</string>
+    <string name="txt_is">es</string>
+    <string name="txt_are">son</string>
+    <string name="txt_city">Ciudad</string>
+    <string name="txt_country">País</string>
+    <string name="txt_state">Estado</string>
+    <string name="txt_jobType">El tipo de trabajo</string>
+    <string name="txt_set_preferences">Establecer preferencias</string>
 </resources>

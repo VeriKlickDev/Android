@@ -43,6 +43,6 @@
     <item
         android:icon="@drawable/ic_create_candidate_menu_icon"
         android:id="@+id/navdrawerselectLanguage"
-        android:title="@string/txt_select_language" />
+        android:title="@string/txt_set_preferences" />
 
 </menu>

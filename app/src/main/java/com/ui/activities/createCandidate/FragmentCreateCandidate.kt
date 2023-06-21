@@ -86,10 +86,21 @@ class FragmentCreateCandidate : Fragment() {
         }
 
         binding.btnSubmit.setOnClickListener {
-            validateAllFields()
+            if (requireActivity().checkInternet()) {
+                validateAllFields()
+            } else {
+                requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+            }
+
         }
 
-        getCountryCodeList()
+        if (requireActivity().checkInternet()) {
+            getCountryCodeList()
+        } else {
+            requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+        }
+
+
 
         binding.layoutSelectCode.setOnClickListener {
             setupCountryCodeRecyclerAdapter()
@@ -321,8 +332,14 @@ class FragmentCreateCandidate : Fragment() {
                             binding.tvEmailError.setText(getString(R.string.txt_invalid))
                         }
                     }
-                    else
-                        checkEmailExists(text.toString())
+                    else{
+                        if (requireActivity().checkInternet()) {
+                            checkEmailExists(text.toString())
+                        } else {
+                            requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                        }
+
+                    }
                 }
             }
         }
@@ -333,7 +350,12 @@ class FragmentCreateCandidate : Fragment() {
             if (isPhoneok)
             {
                 binding.tvPhoneError.visibility=View.INVISIBLE
-                checkPhoneExists(text.toString())
+                if (requireActivity().checkInternet()) {
+                    checkPhoneExists(text.toString())
+                } else {
+                    requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                }
+
             }
             if (!requireActivity().phoneValidator(text.toString())){
                 binding.tvPhoneError.setText(getString(R.string.txt_invalid))
@@ -417,7 +439,13 @@ class FragmentCreateCandidate : Fragment() {
                 obj.MessageText="SPL"
                 obj.ReceiverNumber="+"+iscountryCode+binding.etPhoneno.text.toString()
                 Log.d("TAG", "postData: sending sms is ${Gson().toJson(obj)}")
-               chooseLanguage(obj)
+                if (requireActivity().checkInternet()) {
+                    chooseLanguage(obj)
+                } else {
+                    requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                }
+
+
             }
 
         }catch (e:Exception)

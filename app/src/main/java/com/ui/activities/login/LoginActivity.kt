@@ -2,9 +2,12 @@ package com.ui.activities.login
 
 import android.Manifest
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -14,7 +17,9 @@ import android.provider.Settings
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
@@ -22,6 +27,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.data.dataHolders.DataStoreHelper
 import com.data.*
+import com.domain.BaseModels.ModelLanguageSelect
 import com.domain.constant.AppConstants
 import com.veriKlick.databinding.ActivityLoginBinding
 import com.ui.activities.forgotPassword.ForgotPasswordActivity
@@ -29,6 +35,7 @@ import com.ui.activities.joinmeeting.JoinMeetingActivity
 import com.ui.activities.login.loginwithotp.ActivitiyLoginWithOtp
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
 import com.veriKlick.R
+import com.veriKlick.databinding.LayoutChooseLanguageDialogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -130,6 +137,11 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
+
+        binding.tvSetPreference.setOnClickListener {
+            selectLangaugeDialog()
+        }
+
     }
 
     override fun onDestroy() {
@@ -427,6 +439,86 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
+
+    private fun selectLangaugeDialog() {
+        runOnUiThread {
+            val dialog = Dialog(this)
+
+            val dialogBinding =
+                LayoutChooseLanguageDialogBinding.inflate(LayoutInflater.from(this))
+            dialog.setContentView(dialogBinding.root)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialogBinding.btnCross.setOnClickListener {
+                dialog.dismiss()
+            }
+            dialogBinding.btnSubmitButton.setText(getString(R.string.txt_submit))
+            val language = mutableListOf<String>()
+            val languageStringList = mutableListOf<ModelLanguageSelect>()
+
+            languageStringList.add(ModelLanguageSelect(getString(R.string.txt_english), "en-US"))
+            languageStringList.add(ModelLanguageSelect(getString(R.string.txt_spanish), "es"))
+            languageStringList.add(ModelLanguageSelect(getString(R.string.txt_french), "fr"))
+
+            language.add(getString(R.string.txt_select_language))
+            language.add(getString(R.string.txt_english))
+            language.add(getString(R.string.txt_spanish))
+            language.add(getString(R.string.txt_french))
+            var selectedLanguage: String? = null
+            CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+                runOnUiThread {
+
+                    // dialogBinding.tvUsername.setText(data.Name)
+
+                    val langAdapter = getArrayAdapterOneItemSelected(language)
+                    dialogBinding.spinnerLanguage.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: View?,
+                                position: Int,
+                                id: Long
+                            ) {
+                                if (position != 0) {
+                                    languageStringList.forEach {
+                                        if (it.language.equals(language[position])) {
+                                            selectedLanguage = it.langCode
+                                        }
+                                    }
+
+                                }
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                            }
+
+                        }
+
+                    dialogBinding.spinnerLanguage.adapter = langAdapter
+
+                    dialogBinding.btnSubmitButton.setOnClickListener {
+                        if (selectedLanguage != null) {
+                            dialog.dismiss()
+                            setLanguagetoApp(intent,selectedLanguage.toString(),true)
+                            finish()
+                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                        } else {
+                            dialogBinding.tvError.visibility = View.VISIBLE
+                            setHandler().postDelayed({
+                                dialogBinding.tvError.visibility = View.INVISIBLE
+                            }, 3000)
+                            //showCustomSnackbarOnTop(getString(R.string.txt_please_select_language))
+                        }
+                    }
+                }
+
+            }
+
+            dialog.create()
+            dialog.show()
+
+        }
+    }
 
     //expiration=0, email=null, userId=0, role=null), errorMessage=null
 

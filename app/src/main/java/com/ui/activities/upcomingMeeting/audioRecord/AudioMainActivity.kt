@@ -8,6 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
 import com.data.dataHolders.CreateProfileDeepLinkHolder
+import com.data.dataHolders.DataStoreHelper
+import com.data.setLanguagetoApp
+import com.ui.activities.createCandidate.ActivityCreateCandidate
 import com.ui.activities.upcomingMeeting.audioRecord.recorder.Recorder
 import com.ui.activities.upcomingMeeting.audioRecord.utils.checkAudioPermission
 import com.ui.activities.upcomingMeeting.audioRecord.utils.formatAsTime
@@ -15,6 +18,9 @@ import com.ui.activities.upcomingMeeting.audioRecord.utils.getDrawableCompat
 import com.veriKlick.R
 import com.veriKlick.databinding.ActivityAudiomainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlin.concurrent.timer
 import kotlin.math.sqrt
 
@@ -29,7 +35,7 @@ class AudioMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAudiomainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        //getAppLanguage()
         Log.d("TAG", "onCreate: in audio activity link ${CreateProfileDeepLinkHolder.get()}")
         binding.audioProgressBar.max=3400
        // AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -43,7 +49,32 @@ class AudioMainActivity : AppCompatActivity() {
         initUI()
         // watchObserver()
         //  binding.btnPlay.setOnClickListener { jumpToPlayActivity() }
+        binding.btnSkip.setOnClickListener {
+            val intent= Intent(this, ActivityCreateCandidate::class.java)
+            startActivity(intent)
+            overridePendingTransition(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left
+            )
+        }
+    }
 
+    private fun getAppLanguage()
+    {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                if (DataStoreHelper.getAppLanguage()!=null &&  !DataStoreHelper.getAppLanguage().equals("null")){
+                    var language= DataStoreHelper.getAppLanguage()
+                    runOnUiThread { setLanguagetoApp(intent,language,false) }
+                }
+                else{
+
+                }
+            }catch (e:Exception)
+            {
+
+            }
+        }
     }
 
     override fun onStart() {

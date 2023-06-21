@@ -82,9 +82,9 @@
             app:layout_constraintVertical_bias="0.07999998">
 
             <ImageView
-                android:layout_height="35sp"
-                android:layout_width="35sp"
                 android:id="@+id/seek_backward_button"
+                android:layout_width="35sp"
+                android:layout_height="35sp"
                 android:layout_margin="@dimen/_32sdp"
                 android:background="@drawable/ic_baseline_delete_24"
                 app:shapeAppearanceOverlay="@style/roundedCorner50" />
@@ -102,10 +102,10 @@
                     android:id="@+id/timeline_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_5sp"
                     android:text="@string/zero_time"
                     android:textColor="@color/skyblue_light1"
                     android:textSize="15sp"
-                    android:layout_marginBottom="@dimen/_5sp"
                     app:layout_constraintBottom_toTopOf="@+id/play_button"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -115,9 +115,9 @@
                     android:id="@+id/play_button"
                     style="@style/Veriklick.IconButtonBlue"
                     android:layout_margin="@dimen/_32sdp"
-                    app:contentPadding="@dimen/_10sp"
-
                     android:background="@color/skyblue_light1"
+
+                    app:contentPadding="@dimen/_10sp"
                     app:icon="@drawable/ic_play_arrow_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -128,37 +128,54 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--            <com.google.android.material.imageview.ShapeableImageView-->
-<!--                android:layout_height="35sp"-->
-<!--                android:layout_width="35sp"-->
-<!--                android:id="@+id/seek_forward_button"-->
-<!--                style="@style/Veriklick.IconButtonGrey"-->
-<!--                android:layout_margin="@dimen/_32sdp"-->
-<!--                android:background="@color/lightGreen"-->
-<!--                android:src="@drawable/ic_baseline_check_24"-->
-<!--                app:contentPadding="@dimen/_4sdp"-->
-<!--                app:shapeAppearanceOverlay="@style/roundedCorner50" />-->
+            <!--            <com.google.android.material.imageview.ShapeableImageView-->
+            <!--                android:layout_height="35sp"-->
+            <!--                android:layout_width="35sp"-->
+            <!--                android:id="@+id/seek_forward_button"-->
+            <!--                style="@style/Veriklick.IconButtonGrey"-->
+            <!--                android:layout_margin="@dimen/_32sdp"-->
+            <!--                android:background="@color/lightGreen"-->
+            <!--                android:src="@drawable/ic_baseline_check_24"-->
+            <!--                app:contentPadding="@dimen/_4sdp"-->
+            <!--                app:shapeAppearanceOverlay="@style/roundedCorner50" />-->
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="150sp"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/txt_upload"
-            android:textColor="@color/white"
-            android:textAllCaps="false"
-            android:id="@+id/btn_uploadData"
-            android:background="@drawable/shape_roundedcorner_blue_10"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat"
-            app:layout_constraintVertical_bias="0.29" />
+            app:layout_constraintVertical_bias="0.831">
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_uploadData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sp"
+                android:layout_marginTop="92dp"
+                android:background="@drawable/shape_roundedcorner_blue_10"
+                android:text="@string/txt_upload"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                />
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_skip"
+                style="@style/button.Style.Blue.Rounded.Enable.Disable.Stroke"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_55sdp"
+                android:layout_marginBottom="24dp"
+                android:text="@string/txt_next"
+                android:textSize="@dimen/_18sdp"
+                />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

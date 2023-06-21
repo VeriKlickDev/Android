@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
+import com.data.dataHolders.CreateProfileDeepLinkHolder
 import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.*
 import com.domain.constant.AppConstants
@@ -105,9 +106,18 @@ class ActivityCreateCandidate : AppCompatActivity() {
         binding.btnSubmit.setOnClickListener {
             validateAllFields()
         }
-        getCandidateDetails(intent.getStringExtra(AppConstants.CANDIDATE_ID).toString())
-    }
+        if (checkInternet()) {
+            getCandidateDetails(CreateProfileDeepLinkHolder.getCandidateId().toString())
+        } else {
+            showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+        }
 
+
+    }
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+    }
     private fun validateAllFields()
     {
         runOnUiThread {

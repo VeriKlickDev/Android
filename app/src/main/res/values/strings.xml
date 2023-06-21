@@ -220,8 +220,8 @@
     <string name="txt_please_select_language" tools:ignore="MissingTranslation">please Select language first</string>
     <string name="txt_select_language" tools:ignore="MissingTranslation">Select language</string>
     <string name="txt_english">English</string>
-    <string name="txt_spanish">Spanish</string>
-    <string name="txt_french">French</string>
+    <string name="txt_spanish">Español</string>
+    <string name="txt_french">français</string>
 
     <string name="txt_no_template">No templates</string>
     <string name="txt_provide_your_availability_for_meeting">Provide your availability for meeting</string>
@@ -253,6 +253,7 @@
     <string name="txt_country">Country</string>
     <string name="txt_state">State</string>
     <string name="txt_jobType">Job type</string>
+    <string name="txt_set_preferences">Set Preferences</string>
 
 
 </resources>

@@ -213,8 +213,8 @@
 
     <string name="txt_are_you_sure">Es-tu sûr?</string>
 
-    <string name="txt_english">Anglais</string>
-    <string name="txt_spanish">espagnol</string>
+<!--    <string name="txt_english">Anglais</string>-->
+<!--    <string name="txt_spanish">espagnol</string>-->
     <string name="txt_french">français</string>
 
     <string name="txt_no_template">Aucun modèle</string>
@@ -238,13 +238,14 @@
     <string name="txt_secondary_skills" tools:ignore="MissingTranslation">Compétences secondaires</string>
     <string name="txt_primary_skills" tools:ignore="MissingTranslation">Compétences primaires</string>
     <string name="txt_experience" tools:ignore="MissingTranslation">Expérience</string>
-
     <string name="txt_all_answers_required" tools:ignore="MissingTranslation">Toutes les réponses requises</string>
-    <string name="txt_country_code">Country Code</string>
-    <string name="txt_is">is</string>
-    <string name="txt_are">are</string>
-    <string name="txt_city">City</string>
-    <string name="txt_country">Country</string>
-    <string name="txt_state">State</string>
-    <string name="txt_jobType">Job type</string>
+
+    <string name="txt_country_code">Code postal</string>
+    <string name="txt_is">est</string>
+    <string name="txt_are">sont</string>
+    <string name="txt_city">Ville</string>
+    <string name="txt_country">Pays</string>
+    <string name="txt_state">État</string>
+    <string name="txt_jobType">Type d\'emploi</string>
+    <string name="txt_set_preferences">Définir les préférences</string>
 </resources>

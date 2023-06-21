@@ -1,5 +1,6 @@
 package com.ui.activities.uploadProfilePhoto
 
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -10,6 +11,8 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,6 +23,7 @@ import com.data.dataHolders.CandidateImageAndAudioHolder
 import com.data.dataHolders.CreateProfileDeepLinkHolder
 import com.domain.BaseModels.BodyCandidateImageModel
 import com.domain.BaseModels.CandidateDeepLinkDataModel
+import com.domain.BaseModels.ModelLanguageSelect
 import com.domain.constant.AppConstants
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.ui.activities.createCandidate.ActivityCreateCandidate
@@ -27,6 +31,7 @@ import com.ui.activities.upcomingMeeting.audioRecord.AudioMainActivity
 import com.veriKlick.R
 import com.veriKlick.databinding.ActivityUploadProfilePhotoBinding
 import com.veriKlick.databinding.LayoutChooseImageFromSourceBinding
+import com.veriKlick.databinding.LayoutChooseLanguageDialogBinding
 import com.yalantis.ucrop.UCrop
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -35,6 +40,7 @@ import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.util.Locale
 
 
 @AndroidEntryPoint
@@ -45,21 +51,14 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
     private var viewModel:VMUploadProfilePhoto?=null
     private var imageName:String?=null
     private var imageFile:File?=null
-    private var pathstr:String?=null
     private var recruiterId:String?=null
     private var tokenId=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityUploadProfilePhotoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        //getAppLanguage()
 
-        val deepLinkingIntent = intent
-        val schemestr=deepLinkingIntent.scheme
-        pathstr=deepLinkingIntent.data!!.path
-
-        Log.d(TAG, "onCreate: intent data from deeplink   ${getString(R.string.url_createCandidatebase)+pathstr.toString()}")
-        if (!pathstr.equals("") || !pathstr.equals("null") || pathstr!=null)
-        CreateProfileDeepLinkHolder.setLink(getString(R.string.url_createCandidatebase)+pathstr.toString())
 
         Log.d(TAG, "onCreate: intent data from deeplink from holder ${CreateProfileDeepLinkHolder.get()}")
 
@@ -82,8 +81,9 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
             uploadImage()
         }
         binding.btnSkip.setOnClickListener {
-           // val intent=Intent(this,AudioMainActivity::class.java)
-            val intent=Intent(this, ActivityCreateCandidate::class.java)
+            val intent=Intent(this, AudioMainActivity::class.java)
+            //val intent=Intent(this, ActivityCreateCandidate::class.java)
+            CreateProfileDeepLinkHolder.setCandidateId(candidateId)
             intent.putExtra(AppConstants.CANDIDATE_ID,candidateId)
             intent.putExtra(AppConstants.TOKEN_ID,tokenId)
             startActivity(intent)
@@ -92,12 +92,22 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                 R.anim.slide_out_left
             )
         }
-        loadRecruiterData()
+
+        binding.tvSetPreference.setOnClickListener {
+            selectLangaugeDialog()
+        }
+
+        if (checkInternet()) {
+            loadRecruiterData()
+        } else {
+            showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+        }
+
     }
 
     override fun finish() {
         super.finish()
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+       // overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
     private var candidateId=""
@@ -105,7 +115,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
     val TAG="checkLoadRecruiterData"
     private fun loadRecruiterData() {
         try {
-            var splitList = pathstr?.split("/")
+            var splitList =    CreateProfileDeepLinkHolder.getPathCreateCandidateString()?.split("/")
             var id = splitList?.get(splitList.size - 3)
             var token = splitList?.get(splitList.size - 1)
             candidateId=id.toString()
@@ -117,16 +127,27 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                 runOnUiThread { dismissProgressDialog() }
                 if (errorCode==200)
                 {
-                    binding.btnSkip.isEnabled=true
-                    binding.btnSkip.setTextColor(getColor(R.color.skyblue_light1))
-                    CandidateImageAndAudioHolder.setDeepLinkData(CandidateDeepLinkDataModel(token,data?.Subscriberid))
-                    recruiterId=data?.Subscriberid
+                    runOnUiThread {
+
+
+                        binding.btnSkip.isEnabled = true
+                        binding.btnSkip.setTextColor(getColor(R.color.skyblue_light1))
+                        CandidateImageAndAudioHolder.setDeepLinkData(
+                            CandidateDeepLinkDataModel(
+                                token,
+                                data?.Subscriberid
+                            )
+                        )
+                        recruiterId = data?.Subscriberid
+                    }
                     Log.d(TAG, "loadRecruiterData: success data $data")
                 }else
                 {
-                    binding.btnSkip.setTextColor(getColor(R.color.white))
-                    binding.btnSkip.isEnabled=false
-                    runOnUiThread { showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong)) }
+                    runOnUiThread { showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+                        binding.btnSkip.setTextColor(getColor(R.color.white))
+                        binding.btnSkip.isEnabled=false
+
+                    }
                 }
             }
         }catch (e:Exception)
@@ -142,7 +163,123 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
         }
     }
 
+    private fun selectLangaugeDialog() {
+        runOnUiThread {
+            val dialog = Dialog(this)
 
+            val dialogBinding =
+                LayoutChooseLanguageDialogBinding.inflate(LayoutInflater.from(this))
+            dialog.setContentView(dialogBinding.root)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialogBinding.btnCross.setOnClickListener {
+                dialog.dismiss()
+            }
+            dialogBinding.btnSubmitButton.setText(getString(R.string.txt_submit))
+            val language = mutableListOf<String>()
+            val languageStringList = mutableListOf<ModelLanguageSelect>()
+
+            languageStringList.add(ModelLanguageSelect(getString(R.string.txt_english), "en-US"))
+            languageStringList.add(ModelLanguageSelect(getString(R.string.txt_spanish), "es"))
+            languageStringList.add(ModelLanguageSelect(getString(R.string.txt_french), "fr"))
+
+            language.add(getString(R.string.txt_select_language))
+            language.add(getString(R.string.txt_english))
+            language.add(getString(R.string.txt_spanish))
+            language.add(getString(R.string.txt_french))
+            var selectedLanguage: String? = null
+            CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+                runOnUiThread {
+
+                    // dialogBinding.tvUsername.setText(data.Name)
+
+                    val langAdapter = getArrayAdapterOneItemSelected(language)
+                    dialogBinding.spinnerLanguage.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: View?,
+                                position: Int,
+                                id: Long
+                            ) {
+                                if (position != 0) {
+                                    languageStringList.forEach {
+                                        if (it.language.equals(language[position])) {
+                                            selectedLanguage = it.langCode
+                                        }
+                                    }
+
+                                }
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                            }
+
+                        }
+
+                    dialogBinding.spinnerLanguage.adapter = langAdapter
+
+                    dialogBinding.btnSubmitButton.setOnClickListener {
+                        if (selectedLanguage != null) {
+                            Log.d(TAG, "selectLangaugeDialog: selected language $selectedLanguage")
+                            setLanguagetoApp1(selectedLanguage.toString())
+                        } else {
+                            Log.d(TAG, "selectLangaugeDialog: selected language else part")
+                            dialogBinding.tvError.visibility = View.VISIBLE
+                            setHandler().postDelayed({
+                                dialogBinding.tvError.visibility = View.INVISIBLE
+                            }, 3000)
+                            //showCustomSnackbarOnTop(getString(R.string.txt_please_select_language))
+                        }
+                    }
+                }
+
+            }
+
+            dialog.create()
+            dialog.show()
+
+        }
+    }
+
+
+    private fun setLanguagetoApp1(langCode:String)
+    {
+        runOnUiThread {
+            val local= Locale(langCode)
+            Locale.setDefault(local)
+            val config=resources.configuration
+            config.setLocale(local)
+            resources.updateConfiguration(config,resources.displayMetrics)
+            startActivity(intent)
+            overridePendingTransition(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left
+            )
+            finish()
+        }
+    }
+
+
+
+  /*  private fun getAppLanguage()
+    {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                if (DataStoreHelper.getAppLanguage()!=null &&  !DataStoreHelper.getAppLanguage().equals("null")){
+                    Log.d(TAG, "getAppLanguage: getapplange not null ${DataStoreHelper.getAppLanguage()}")
+                    var language= DataStoreHelper.getAppLanguage()
+                    runOnUiThread { setLanguagetoApp(intent,language,false) }
+                }
+                else{
+                    Log.d(TAG, "getAppLanguage: getapplange  null")
+                }
+            }catch (e:Exception)
+            {
+                Log.d(TAG, "getAppLanguage: getapplange exception ${e.message}")
+            }
+        }
+    }*/
     private fun getImageFromCamera()
     {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -252,7 +389,11 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
     {
         if (finalUserImageUri!=null)
         {
-            uploadProfilePhoto()
+            if (checkInternet()) {
+                uploadProfilePhoto()
+            } else {
+                showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+            }
         }else
         {
             showCustomSnackbarOnTop(getString(R.string.txt_please_select_photo_first))

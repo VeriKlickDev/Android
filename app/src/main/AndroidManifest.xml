@@ -67,35 +67,6 @@
             android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-
-            <intent-filter
-                android:autoVerify="true"
-                android:label="@string/app_name">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
-                <data
-                    android:host="ui2.veriklick.in"
-                    android:pathPrefix="/CandidateQuestionierAnswer/QuestionsForm"
-                    android:scheme="https" />
-            </intent-filter>
-
-            <intent-filter
-                android:autoVerify="true"
-                android:label="@string/app_name">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
-                <data
-                    android:host="ui2.veriklick.in"
-                    android:pathPrefix="/CandidateQuestionierAnswer/QuestionsForm"
-                    android:scheme="http" />
-            </intent-filter>
 
         </activity>
 <!--        -->
@@ -130,66 +101,6 @@
             android:launchMode="standard"
             android:screenOrientation="portrait"
             tools:ignore="AppLinkUrlError,LockedOrientationActivity">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-
-            <intent-filter
-                android:autoVerify="true"
-                android:label="@string/app_name">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
-                <data
-                    android:host="ui2.veriklick.in"
-                    android:pathPrefix="/CreateCandidateProfile/ProfileForm"
-                    android:scheme="https" />
-            </intent-filter>
-
-            <intent-filter
-                android:autoVerify="true"
-                android:label="@string/app_name">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
-                <data
-                    android:host="ui2.veriklick.in"
-                    android:pathPrefix="/CreateCandidateProfile/ProfileForm"
-                    android:scheme="http" />
-            </intent-filter>
-
-            <intent-filter
-                android:autoVerify="true"
-                android:label="@string/app_name">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
-                <data
-                    android:host="ui2.veriklick.com"
-                    android:pathPrefix="/CreateCandidateProfile/ProfileForm"
-                    android:scheme="https" />
-            </intent-filter>
-
-            <intent-filter
-                android:autoVerify="true"
-                android:label="@string/app_name">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
-                <data
-                    android:host="ui2.veriklick.com"
-                    android:pathPrefix="/CreateCandidateProfile/ProfileForm"
-                    android:scheme="http" />
-            </intent-filter>
-
 
 
         </activity>
@@ -252,6 +163,141 @@
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"/>
+
+        <activity
+            android:name="com.ui.activities.splashScreen.VeriklickDeepLinkSpashScreen"
+            android:configChanges="orientation"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+
+            <intent-filter
+                android:autoVerify="true"
+                android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data
+                    android:host="ui2.veriklick.in"
+                    android:pathPrefix="/CandidateQuestionierAnswer/QuestionsForm"
+                    android:scheme="https" />
+            </intent-filter>
+
+            <intent-filter
+                android:autoVerify="true"
+                android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data
+                    android:host="ui2.veriklick.in"
+                    android:pathPrefix="/CandidateQuestionierAnswer/QuestionsForm"
+                    android:scheme="http" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+
+            <intent-filter
+                android:autoVerify="true"
+                android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data
+                    android:host="ui2.veriklick.com"
+                    android:pathPrefix="/CandidateQuestionierAnswer/QuestionsForm"
+                    android:scheme="https" />
+            </intent-filter>
+
+            <intent-filter
+                android:autoVerify="true"
+                android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data
+                    android:host="ui2.veriklick.com"
+                    android:pathPrefix="/CandidateQuestionierAnswer/QuestionsForm"
+                    android:scheme="http" />
+            </intent-filter>
+
+
+
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+
+            <intent-filter
+                android:autoVerify="true"
+                android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data
+                    android:host="ui2.veriklick.in"
+                    android:pathPrefix="/CreateCandidateProfile/ProfileForm"
+                    android:scheme="https" />
+            </intent-filter>
+
+            <intent-filter
+                android:autoVerify="true"
+                android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data
+                    android:host="ui2.veriklick.in"
+                    android:pathPrefix="/CreateCandidateProfile/ProfileForm"
+                    android:scheme="http" />
+            </intent-filter>
+
+            <intent-filter
+                android:autoVerify="true"
+                android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data
+                    android:host="ui2.veriklick.com"
+                    android:pathPrefix="/CreateCandidateProfile/ProfileForm"
+                    android:scheme="https" />
+            </intent-filter>
+
+            <intent-filter
+                android:autoVerify="true"
+                android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data
+                    android:host="ui2.veriklick.com"
+                    android:pathPrefix="/CreateCandidateProfile/ProfileForm"
+                    android:scheme="http" />
+            </intent-filter>
+
+
+
+        </activity>
+
         <activity
             android:name="com.ui.activities.splashScreen.VeriklickSpashScreen"
             android:configChanges="orientation"
