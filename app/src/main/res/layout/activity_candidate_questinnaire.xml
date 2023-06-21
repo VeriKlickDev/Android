@@ -15,9 +15,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_52sdp"
-            android:gravity="center_vertical"
-            android:layout_gravity="center_vertical">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical">
 
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -57,19 +57,18 @@
                 android:id="@+id/tv_set_preference"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sp"
                 android:layout_weight="1"
                 android:elevation="@dimen/_10sp"
+                android:drawableRight="@drawable/arrow_down_24_black"
                 android:fontFamily="@font/sarabun_semibold"
                 android:gravity="center"
                 android:text="@string/txt_set_preferences"
                 android:textColor="@color/skyblue_light1"
                 android:textSize="@dimen/_15sp"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_header"
-                app:layout_constraintEnd_toEndOf="@+id/tv_header"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tv_header" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_header" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
