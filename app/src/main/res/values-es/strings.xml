@@ -249,4 +249,9 @@
     <string name="txt_state">Estado</string>
     <string name="txt_jobType">El tipo de trabajo</string>
     <string name="txt_set_preferences">Establecer preferencias</string>
+    <string name="txt_comment_is_required">Se requiere comentario</string>
+    <string name="txt_atleast_one_skill_comment_required">Se requiere al menos 1 Habilidades y comentarios</string>
+    <string name="txt_grant_the_permission_to_download_resume">Otorga el permiso para descargar Currículum</string>
+    <string name="txt_giveacess">Dar acceso</string>
+    <string name="txt_select_language" tools:ignore="MissingTranslation">Seleccione el idioma</string>
 </resources>

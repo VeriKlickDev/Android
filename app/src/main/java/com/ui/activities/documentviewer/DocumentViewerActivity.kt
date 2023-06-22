@@ -133,13 +133,14 @@ class DocumentViewerActivity : AppCompatActivity() {
             else{
                 Log.d(TAG, "giveStoragePermissionAndDownloadResume: file notwritten")
                 val dialog=AlertDialog.Builder(this)
-                dialog.setMessage("Grant the permission to download Resume")
-                dialog.setPositiveButton("GiveAccess",object : DialogInterface.OnClickListener {
+
+                dialog.setMessage(getString(R.string.txt_grant_the_permission_to_download_resume))
+                dialog.setPositiveButton(getString(R.string.txt_giveacess),object : DialogInterface.OnClickListener {
                     override fun onClick(dialog: DialogInterface?, which: Int) {
                         giveStoragePermissionAndDownloadResume(link,fileName)
                     }
                 })
-                dialog.setNegativeButton("cancel",object : DialogInterface.OnClickListener {
+                dialog.setNegativeButton(getString(R.string.txt_cancel),object : DialogInterface.OnClickListener {
                     override fun onClick(dialog: DialogInterface?, which: Int) {
 
                     }

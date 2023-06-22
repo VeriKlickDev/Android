@@ -161,6 +161,12 @@
                                 android:layout_marginRight="@dimen/_10sp"
                                 android:textSize="@dimen/_14sp" />
 
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+
                             <RatingBar
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -173,6 +179,25 @@
                                 style="@style/Widget.AppCompat.RatingBar.Small"
                                 android:isIndicator="false"
                                 />
+                            <Space
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                />
+                            <TextView
+                                android:id="@+id/btn_questionnaire"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:singleLine="true"
+                                android:paddingVertical="@dimen/_3sdp"
+                                android:text="@string/txt_questionnaire"
+                                android:background="@drawable/shape_rectangle_rounded_10_skyblue_light"
+                                android:paddingHorizontal="@dimen/_10sp"
+                                android:layout_marginRight="@dimen/_10sp"
+                                android:gravity="right"
+
+                                />
+                            </androidx.appcompat.widget.LinearLayoutCompat>
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 

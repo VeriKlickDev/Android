@@ -146,7 +146,6 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                     runOnUiThread { showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
                         binding.btnSkip.setTextColor(getColor(R.color.white))
                         binding.btnSkip.isEnabled=false
-
                     }
                 }
             }

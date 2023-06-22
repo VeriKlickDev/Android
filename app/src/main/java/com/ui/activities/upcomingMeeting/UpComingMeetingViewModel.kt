@@ -620,4 +620,47 @@ class UpComingMeetingViewModel @Inject constructor(
             }
     }
 
+
+    fun getQuestionnaireforCandidate(
+        candidateId: String,
+        respnse: (data: ResponseShowQuestionnaire?, isSuccess: Boolean, errorCode: Int, msg: String) -> Unit
+    ) {
+        CoroutineScope(Dispatchers.IO + exceptionHandler)
+            .launch {
+                try {
+                    //val authToken= DataStoreHelper.getLoginBearerToken()
+                    // Log.d("TAG", "getQuestionnaireList: token is this $authToken")
+
+                    val response = baseRepoApi.getQuestionnaireForCandidate("/api/Questionier/GetCandidateQuestionierAnswerSheet/"+candidateId)
+
+                    //Log.d(TAG, "getCandidateList: token in upviewmodel $authToken")
+                    if (response.isSuccessful) {
+                        when (response.code()) {
+                            200 -> {
+                                respnse(response.body()!!, true, 200,response.body()!!.Message.toString())
+                            }
+                            401 -> {
+                                respnse(null, false, 401,"")
+                            }
+                            400 -> {
+                                respnse(null, false, 400,"")
+                            }
+                            500 -> {
+                                respnse(null, false, 500, "")
+                            }
+                            501 -> {
+                                respnse(null, false, 501, "")
+                            }
+                        }
+                    } else {
+                        respnse(null, false, 502, "Response not success")
+                    }
+                } catch (e: Exception) {
+                    respnse(null, false, 503, e.message.toString())
+                }
+            }
+    }
+
+
+
 }

@@ -44,7 +44,7 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
         setContentView(binding?.root)
 
         viewModel=ViewModelProvider(this).get(VMCandidateQuestionnaire::class.java)
-        questionAdapter = CandidateQuestionnaireListAdapter(this,questionList!!){data: CandidateQuestionnaireModel, action: Int ->
+        questionAdapter = CandidateQuestionnaireListAdapter(this,questionList!!,true){data: CandidateQuestionnaireModel, action: Int ->
 
         }
       //  getAppLanguage()
@@ -262,6 +262,7 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
         val date=Date(Calendar.getInstance().timeInMillis)
 
         val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+
 
             // Display Selected date in textbox
             val scheduleDate="$year-$monthOfYear-${dayOfMonth}"

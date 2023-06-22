@@ -30,6 +30,7 @@ import java.lang.reflect.Executable
 class CandidateQuestionnaireListAdapter(
     val context: Context,
     val list: MutableList<Question>,
+    val isEditingEnable:Boolean,
     val onClick: (data: CandidateQuestionnaireModel, action: Int) -> Unit
 ) : RecyclerView.Adapter<CandidateQuestionnaireListAdapter.ViewHolderClass>() {
 
@@ -73,12 +74,21 @@ class CandidateQuestionnaireListAdapter(
 
             binding.etOther.setText(data.Answer?.OptionDesc)
 
+            binding.etOther.isEnabled=isEditingEnable
+            if (isEditingEnable)
+            {
+
+            }else
+            {
+
+            }
+
             if (data.QuestionType.equals("M"))
             {
                 binding.rvAnswers.isVisible=true
                 binding.etOther.isVisible=false
                 binding.rvAnswers.layoutManager = LinearLayoutManager(context)
-                sublistAdapter = AnswerSubSelectionAdapter(context,1, data.Options) { subdata, action, pos ->
+                sublistAdapter = AnswerSubSelectionAdapter(context,1, data.Options,isEditingEnable) { subdata, action, pos ->
                     when (action)
                     {
                         1->{
@@ -88,7 +98,6 @@ class CandidateQuestionnaireListAdapter(
                             list.set(adapterPosition,data)
                         }
                     }
-
                 }
                 binding.rvAnswers.adapter = sublistAdapter
             }
@@ -113,7 +122,7 @@ class CandidateQuestionnaireListAdapter(
 class AnswerSubSelectionAdapter(
     val context: Context,
     val answerType: Int,
-    val list: MutableList<Options>,
+    val list: MutableList<Options>,val isEditingEnable: Boolean,
     val onClick: (data: Options, action: Int, position: Int) -> Unit
 ) : RecyclerView.Adapter<AnswerSubSelectionAdapter.AnswerSubSelectionViewHolder>() {
 
@@ -123,24 +132,28 @@ class AnswerSubSelectionAdapter(
         fun setViews(data: Options) {
             binding.tvAnswer.setText(data.OptionDesc)
 
-            binding.llParent.setOnClickListener {
-               try {
-                   list?.let {
-                       it.forEach {
-                           //it.selectedItem=-1
-                           //list.set(adapterPosition,it)
-                           it.selectedItem=-1
-                           list.set(adapterPosition,it)
-                       }
-                   }
-                   onClick(list[adapterPosition],1,adapterPosition)
-                   data.selectedItem=adapterPosition
-                   list.set(adapterPosition,data)
-               }catch (e:Exception)
-               {
-                   Log.d(TAG, "setViews: exception ${e.message}")
-               }
-                notifyDataSetChanged()
+            if (isEditingEnable)
+            {
+                binding.llParent.setOnClickListener {
+                    try {
+                        list?.let {
+                            it.forEach {
+                                //it.selectedItem=-1
+                                //list.set(adapterPosition,it)
+                                it.selectedItem = -1
+                                list.set(adapterPosition, it)
+                            }
+                        }
+                        onClick(list[adapterPosition], 1, adapterPosition)
+                        data.selectedItem = adapterPosition
+                        list.set(adapterPosition, data)
+                    } catch (e: Exception) {
+                        Log.d(TAG, "setViews: exception ${e.message}")
+                    }
+                    notifyDataSetChanged()
+                }
+                }else
+            {
 
             }
         }
@@ -187,6 +200,7 @@ class AnswerSubSelectionAdapter(
         {
             Log.d(TAG, "onBindViewHolder: exception ${e.message}")
         }
+
     }
 
     override fun getItemCount(): Int {

@@ -248,4 +248,10 @@
     <string name="txt_state">État</string>
     <string name="txt_jobType">Type d\'emploi</string>
     <string name="txt_set_preferences">Définir les préférences</string>
+    <string name="txt_comment_is_required">Un commentaire est requis</string>
+    <string name="txt_atleast_one_skill_comment_required">Au moins 1 compétences et commentaires sont requis</string>
+    <string name="txt_grant_the_permission_to_download_resume">Accorder l\'autorisation de télécharger CV</string>
+    <string name="txt_giveacess">Donner accès</string>
+    <string name="txt_select_language" tools:ignore="MissingTranslation">Choisir la langue</string>
+
 </resources>

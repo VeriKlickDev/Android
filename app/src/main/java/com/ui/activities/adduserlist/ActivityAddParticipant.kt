@@ -194,12 +194,8 @@ class ActivityAddParticipant : AppCompatActivity() {
                 }
             }
 
-            val isFiledEmpty = isEmptylist.any { it == true }
-            if (isFiledEmpty) {
-                isEmpty = true
-            } else {
-                isEmpty = false
-            }
+            val isFiledEmpty = isEmptylist.any { it }
+            isEmpty = isFiledEmpty
 
             postInvitation()
 
@@ -247,12 +243,12 @@ class ActivityAddParticipant : AppCompatActivity() {
     val invitationList = mutableListOf<InvitationDataModel>()
     val distinctinvitationList = mutableListOf<InvitationDataModel>()
 
-    fun addFilledDataList(obj: InvitationDataModel) {
+    private fun addFilledDataList(obj: InvitationDataModel) {
         //Log.d(TAG, "addFilledDataList:  timezone is ${obj.InterviewerTimezone}")
         invitationList.add(obj)
     }
 
-    fun postInvitation() {
+    private fun postInvitation() {
         if (!invitationList.isNullOrEmpty()) {
 
             Log.d(TAG, "postInvitation:  tim zone $invitationList")
@@ -310,7 +306,7 @@ class ActivityAddParticipant : AppCompatActivity() {
             var isSuccess=false
             when (action) {
                 200 -> {
-                    Handler(Looper.getMainLooper()).post({
+                    Handler(Looper.getMainLooper()).post{
 
                         binding.btnPostdata.text = getString(R.string.txt_invite)
                         binding.invitationProgress.visibility = View.INVISIBLE
@@ -324,11 +320,11 @@ class ActivityAddParticipant : AppCompatActivity() {
                         adapter.notifyDataSetChanged()
                         Log.d(TAG, "sendInvitation: result $data")
                         binding.btnPostdata.isEnabled = true
-                    })
+                    }
                     Handler(Looper.getMainLooper()).postDelayed({ finish() }, 1000)
                 }
                 400 -> {
-                    Handler(Looper.getMainLooper()).post({
+                    Handler(Looper.getMainLooper()).post{
 
                         binding.btnPostdata.text = getString(R.string.txt_invite)
                         binding.invitationProgress.visibility = INVISIBLE
@@ -337,44 +333,24 @@ class ActivityAddParticipant : AppCompatActivity() {
                         //showToast(this,data?.APIResponse?.Message!!)
                         binding.btnPostdata.isEnabled = true
 
-                    })
+                    }
 
                 }
                 404 -> {
-                    Handler(Looper.getMainLooper()).post({
+                    Handler(Looper.getMainLooper()).post{
 
                         binding.btnPostdata.text = getString(R.string.txt_invite)
                         binding.invitationProgress.visibility = INVISIBLE
                         binding.btnPostdata.isEnabled = true
 
-                    })
+                    }
 
                     //  showToast(this,getString(R.string.txt_failed_to_Invitation))
-                }
-                404 -> {
-                    Handler(Looper.getMainLooper()).post({
-
-                        binding.btnPostdata.text = getString(R.string.txt_invite)
-                        binding.invitationProgress.visibility = INVISIBLE
-                        binding.btnPostdata.isEnabled = true
-
-                    })
-
-                    //  showToast(this,getString(R.string.txt_failed_to_Invitation))
-                }
-                404 -> {
-                    Handler(Looper.getMainLooper()).post({
-
-                        binding.btnPostdata.text = getString(R.string.txt_invite)
-                        binding.invitationProgress.visibility = INVISIBLE
-                        binding.btnPostdata.isEnabled = true
-
-                    })
                 }
                 500 -> {
                   //  Log.d(TAG, "sendInvitation: ${data!!.APIResponse?.Message}")
                     // showToast(this,getString(R.string.txt_something_went_wrong))
-                    Handler(Looper.getMainLooper()).post({
+                    Handler(Looper.getMainLooper()).post{
                         binding.btnPostdata.text = getString(R.string.txt_invite)
                         binding.invitationProgress.visibility = INVISIBLE
                         binding.btnPostdata.isEnabled = true
@@ -386,7 +362,7 @@ class ActivityAddParticipant : AppCompatActivity() {
                         {
 
                         }
-                    })
+                    }
                    // Handler(Looper.getMainLooper()).postDelayed({finish()},1000)
 
                 }
@@ -500,7 +476,7 @@ class ActivityAddParticipant : AppCompatActivity() {
 
             }
             else{
-                showCustomSnackbarOnTop("Something went wrong")
+                showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
             }
         } catch (e: Exception) {
             Log.d(TAG, "removeItem:exception ${e.printStackTrace()} ")

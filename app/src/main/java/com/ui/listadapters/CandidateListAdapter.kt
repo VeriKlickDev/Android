@@ -71,7 +71,9 @@ class CandidateListAdapter(val context: Context,
             binding.btnSms.setOnClickListener {
                 onClick(data,3)
             }
-
+            binding.btnQuestionnaire.setOnClickListener {
+                onClick(data,4)
+            }
 
             if (!data.FullProfileUrl.equals("")){
                 Log.d(TAG, "dataBind: not null img ${data.FullProfileUrl}")

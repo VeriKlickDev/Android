@@ -66,9 +66,14 @@
             android:name="com.ui.activities.candidateQuestionnaire.ActivityCandidateQuestinnaire"
             android:exported="true"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity">
+            tools:ignore="LockedOrientationActivity"/>
 
-        </activity>
+        <activity
+            android:name="com.ui.activities.candidateQuestionnaire.ActivityShowCandidateQuestinnaire"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
+
 <!--        -->
 <!--        <activity-->
 <!--            android:name="com.ui.activities.createCandidate.FragmentCreateCandidate"-->

@@ -148,7 +148,11 @@ interface BaseRestApi {
     ):Response<ResponseAudioRecord>
 
     @POST("/api/JobSeeker/GetSearchCandidatePhone")
-    suspend fun getExitingCandidateContact(@Body  obj:BodyExistingCandidate):Response<BodyExistingCandidate>
+    suspend fun getExitingCandidateContact(@Body obj:BodyExistingCandidate):Response<BodyExistingCandidate>
+
+    @GET
+    suspend fun getQuestionnaireForCandidate(@Url url:String):Response<ResponseShowQuestionnaire>
+
 
 }
 

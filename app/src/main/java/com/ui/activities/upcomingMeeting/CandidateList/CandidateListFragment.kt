@@ -33,6 +33,7 @@ import com.domain.BaseModels.*
 import com.domain.constant.AppConstants
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
+import com.ui.activities.candidateQuestionnaire.ActivityShowCandidateQuestinnaire
 import com.ui.activities.upcomingMeeting.UpComingMeetingViewModel
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
 import com.ui.listadapters.CandidateListAdapter
@@ -98,6 +99,9 @@ class CandidateListFragment() : Fragment() {
 
                         //showtemplateBottomsheet(data)
 
+                    }
+                    4->{
+                        openQuestionnaire(data)
                     }
                 }
             })
@@ -190,7 +194,6 @@ class CandidateListFragment() : Fragment() {
                             candidateList.clear()
                             recyclerAdapter?.addList(candidateList)
                         }
-
                         progressType=0
                         if (requireActivity().checkInternet()) {
                             getCandidateList(0)
@@ -209,6 +212,25 @@ class CandidateListFragment() : Fragment() {
 
 
         return binding.root
+    }
+
+    private fun openQuestionnaire(data: SavedProfileDetail)
+    {
+    viewModel.getQuestionnaireforCandidate(data.id.toString()){data, isSuccess, errorCode, msg ->
+        if (data?.Answer?.size!!>0)
+        {requireActivity().runOnUiThread {
+            val i=Intent(requireContext(),ActivityShowCandidateQuestinnaire::class.java)
+            requireActivity().startActivity(i)
+            requireActivity().overridePendingTransition(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left
+            )
+        }
+        }else
+        {
+            requireActivity().showCustomSnackbarOnTop(msg)
+        }
+    }
     }
 
     private var phoneno=""

@@ -84,3 +84,26 @@ data class QuestionierTemplates (
     @SerializedName("TemplateId"   ) var TemplateId   : Int?    = null
 
 )
+
+data class ResponseShowQuestionnaire (
+
+    @SerializedName("TemplateName" ) var TemplateName : String?           = null,
+    @SerializedName("TemplateId"   ) var TemplateId   : Int?              = null,
+    @SerializedName("RecruiterId"  ) var RecruiterId  : String?           = null,
+    @SerializedName("Answer"       ) var Answer       : ArrayList<Answer> = arrayListOf(),
+    @SerializedName("Message"      ) var Message      : String?           = null,
+    @SerializedName("StatusCode"   ) var StatusCode   : String?           = null,
+    @SerializedName("Success"      ) var Success      : Boolean?          = null,
+    @SerializedName("TimeTaken"    ) var TimeTaken    : String?           = null
+
+)
+
+
+data class Answer (
+
+    @SerializedName("TemplateId"   ) var TemplateId   : Int?    = null,
+    @SerializedName("TemplateName" ) var TemplateName : String? = null,
+    @SerializedName("QuestionDesc" ) var QuestionDesc : String? = null,
+    @SerializedName("AnswerDesc"   ) var AnswerDesc   : String? = null
+
+)

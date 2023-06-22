@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/_10sp"
+            android:layout_marginTop="@dimen/_5sp"
+            android:layout_marginHorizontal="@dimen/_10sp"
+            android:background="@drawable/shape_rectangle_rounded_10_white"
+            android:elevation="@dimen/_3sdp"
+            android:layout_marginBottom="@dimen/_5sp"
+            >
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_question"
+            android:fontFamily="@font/sarabun_medium"
+            android:textSize="@dimen/_17sdp"
+            android:layout_marginHorizontal="@dimen/_10sp"
+            android:textColor="@color/black"
+            />
+
+
+
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/tv_answer"-->
+<!--            android:fontFamily="@font/sarabun_medium"-->
+<!--            android:textSize="@dimen/_17sdp"-->
+<!--            android:textColor="@color/black"-->
+<!--            />-->
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="@dimen/_10sp"
+                android:id="@+id/et_answer"
+                android:maxHeight="@dimen/_100sdp"
+                android:paddingHorizontal="@dimen/_10sp"
+                style="@style/editext.style.base.greyStroke"
+                android:background="@drawable/shape_rectangle_rounded_stroke_grey"
+                android:layout_marginVertical="@dimen/_10sp"
+                />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

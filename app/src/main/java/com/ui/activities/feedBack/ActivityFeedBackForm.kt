@@ -250,7 +250,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 if (isRatingFilled)
                     if (!isCommentFilled) {
                         binding.btnSubmitButton.isEnabled=true
-                            showCustomSnackbarOnTop("Comment is required")
+                            showCustomSnackbarOnTop(getString(R.string.txt_comment_is_required))
                         isAllFieldMessageShow=true
                     }else
                     {
@@ -263,7 +263,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
             if (!isAllFieldMessageShow)
             {       Handler(Looper.getMainLooper()).postDelayed({
                 binding.btnSubmitButton.isEnabled=true
-                    showCustomSnackbarOnTop("At least 1 Skills and comments is required")
+                    showCustomSnackbarOnTop(getString(R.string.txt_atleast_one_skill_comment_required))
                 }, 100)
         }
         }
@@ -626,9 +626,8 @@ class ActivityFeedBackForm : AppCompatActivity() {
                     )
                 }
 
-
-                recommendationIddList.add(0, InterviewerRemark(Idd = null, "Select Recommendation"))
-                recommendationList.add(0,"Select Recommendation")
+                recommendationIddList.add(0, InterviewerRemark(Idd = null, getString(R.string.txt_select_recommendation)))
+                recommendationList.add(0,getString(R.string.txt_select_recommendation))
 
                 Log.d(TAG, "setDataToViews: ${data.candidateAssessmentSkillsMobile.size}")
 

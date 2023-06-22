@@ -77,11 +77,42 @@ class VeriklickDeepLinkSpashScreen : AppCompatActivity() {
                 }
                 else{
                     Log.d(TAG, "getAppLanguage: getapplange  null")
+                    startActivityWhenNullLanguage()
                 }
             }catch (e:Exception)
             {
+                startActivityWhenNullLanguage()
                 Log.d(TAG, "getAppLanguage: getapplange exception ${e.message}")
             }
+        }
+    }
+
+
+    private fun startActivityWhenNullLanguage()
+    {
+        runOnUiThread {
+            Handler(Looper.getMainLooper()).postDelayed({
+                var intent:Intent?=null
+                if (!pathstr.equals("") || !pathstr.equals("null") || pathstr!=null) {
+                    if (pathstr!!.contains("CreateCandidateProfile")){
+                        intent=Intent(this,ActivityUploadProfilePhoto::class.java)
+                    }
+                    if(pathstr!!.contains("CandidateQuestionierAnswer"))
+                    {
+                        intent=Intent(this,ActivityCandidateQuestinnaire::class.java)
+                    }
+                }
+
+
+
+                startActivity(intent)
+                overridePendingTransition(
+                    R.anim.slide_in_right,
+                    R.anim.slide_out_left
+                )
+                finish()
+            },1000)
+
         }
     }
 

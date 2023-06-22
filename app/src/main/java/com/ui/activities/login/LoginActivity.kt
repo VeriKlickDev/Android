@@ -147,6 +147,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onDestroy() {
         dismissProgressDialog()
         super.onDestroy()
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
     }
 
     fun checkPermissions() {
@@ -266,6 +267,10 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
+    }
 
     private fun getDeepLinkPermission(onFinish: () -> Unit) {
             Log.d(TAG, "getDeepLinkPermission: on deeplink dialog")

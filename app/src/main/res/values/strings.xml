@@ -254,6 +254,10 @@
     <string name="txt_state">State</string>
     <string name="txt_jobType">Job type</string>
     <string name="txt_set_preferences">Set Preferences</string>
+    <string name="txt_comment_is_required">Comment is required</string>
+    <string name="txt_atleast_one_skill_comment_required">At least 1 Skills and comments is required</string>
+    <string name="txt_grant_the_permission_to_download_resume">Grant the permission to download Resume</string>
+    <string name="txt_giveacess">Give access</string>
 
 
 </resources>
