@@ -242,6 +242,14 @@ class RepositoryImpl @Inject constructor(
         return loginRestApi.updateCandidateImage(auth,ob,imgPart)
     }
 
+    override suspend fun updateResumeWithoutAuth(
+        filePath: MultipartBody.Part,
+        NewFileName: MultipartBody.Part,
+        subscriberid: MultipartBody.Part
+    ): Response<ResponseUpdateResumeWithoutAuth> {
+        return loginRestApi.updateResumeWithoutAuth(filePath, NewFileName, subscriberid)
+    }
+
     override suspend fun login(ob: BodyLoginBean): Response<LoginResponseBean> {
         return loginRestApi.login(ob)
     }

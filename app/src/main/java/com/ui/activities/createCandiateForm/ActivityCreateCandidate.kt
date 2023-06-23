@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
+import com.data.dataHolders.CandidateImageAndAudioHolder
 import com.data.dataHolders.CreateProfileDeepLinkHolder
 import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.*
@@ -307,7 +308,9 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     ob.profile?.streetName=binding.etStreet.text.toString()
                     Log.d(TAG, "postData: posting data object ${Gson().toJson(ob)}")
                     runOnUiThread { showProgressDialog() }
-                    viewModel?.createCandidateWithoutAuth(ob,intent.getStringExtra(AppConstants.TOKEN_ID).toString()){ data, isSuccess, errorCode, msg ->
+                    viewModel?.createCandidateWithoutAuth(ob,
+                        CandidateImageAndAudioHolder.getDeepLinkData()?.token_Id!!.toString()
+                    ){ data, isSuccess, errorCode, msg ->
                     if (isSuccess)
                     {
                         runOnUiThread { dismissProgressDialog() }

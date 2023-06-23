@@ -254,4 +254,9 @@
     <string name="txt_grant_the_permission_to_download_resume">Otorga el permiso para descargar Currículum</string>
     <string name="txt_giveacess">Dar acceso</string>
     <string name="txt_select_language" tools:ignore="MissingTranslation">Seleccione el idioma</string>
+    <string name="txt_upload_resume">Upload a resume</string>
+    <string name="txt_select_file">Select File</string>
+    <string name="txt_documentD">Document</string>
+    <string name="txt_document">Document</string>
+    <string name="txt_please_select_resume_file_first">Please select resume file first</string>
 </resources>

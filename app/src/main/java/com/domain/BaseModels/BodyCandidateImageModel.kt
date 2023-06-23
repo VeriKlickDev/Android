@@ -1,6 +1,7 @@
 package com.domain.BaseModels
 
 import com.google.gson.annotations.SerializedName
+import okhttp3.MultipartBody
 import java.io.File
 
 data class BodyCandidateImageModel (
@@ -81,3 +82,23 @@ data class BodyCandidateImageUpdate (
     @SerializedName("TimeTaken"   ) var TimeTaken   : String?  = null
 
 )
+
+
+data class BodyUpdateResumeWithoutAuth (
+    @SerializedName("FilePath"      ) var filePath      : MultipartBody.Part? = null,
+    @SerializedName("NewFileName"   ) var newFileName   : String? = null,
+    @SerializedName("subscriberId" ) var subscriberId : Int?    = null
+
+)
+
+
+data class ResponseUpdateResumeWithoutAuth (
+
+    @SerializedName("success"      ) var success      : Boolean? = null,
+    @SerializedName("message"      ) var message      : String?  = null,
+    @SerializedName("data"         ) var data         : String?  = null,
+    @SerializedName("errorMessage" ) var errorMessage : String?  = null
+
+)
+
+

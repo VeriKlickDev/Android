@@ -215,7 +215,7 @@ class CandidateListFragment() : Fragment() {
     }
 
     private fun openQuestionnaire(data: SavedProfileDetail)
-    {
+    {//"48673"
     viewModel.getQuestionnaireforCandidate(data.id.toString()){data, isSuccess, errorCode, msg ->
         if (data?.Answer?.size!!>0)
         {requireActivity().runOnUiThread {

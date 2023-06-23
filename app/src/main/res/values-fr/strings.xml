@@ -253,5 +253,10 @@
     <string name="txt_grant_the_permission_to_download_resume">Accorder l\'autorisation de télécharger CV</string>
     <string name="txt_giveacess">Donner accès</string>
     <string name="txt_select_language" tools:ignore="MissingTranslation">Choisir la langue</string>
+    <string name="txt_upload_resume">Upload a resume</string>
+    <string name="txt_select_file">Select File</string>
+    <string name="txt_documentD">Document</string>
+    <string name="txt_document">Document</string>
+    <string name="txt_please_select_resume_file_first">Please select resume file first</string>
 
 </resources>

@@ -26,8 +26,10 @@ import com.domain.BaseModels.CandidateDeepLinkDataModel
 import com.domain.BaseModels.ModelLanguageSelect
 import com.domain.constant.AppConstants
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.ui.activities.candidateQuestionnaire.ActivityShowCandidateQuestinnaire
 import com.ui.activities.createCandidate.ActivityCreateCandidate
 import com.ui.activities.upcomingMeeting.audioRecord.AudioMainActivity
+import com.ui.activities.uploadResumeDocument.ActivityResumeDocument
 import com.veriKlick.R
 import com.veriKlick.databinding.ActivityUploadProfilePhotoBinding
 import com.veriKlick.databinding.LayoutChooseImageFromSourceBinding
@@ -83,6 +85,8 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
         binding.btnSkip.setOnClickListener {
             val intent=Intent(this, AudioMainActivity::class.java)
             //val intent=Intent(this, ActivityCreateCandidate::class.java)
+            //val intent=Intent(this, ActivityResumeDocument::class.java)
+
             CreateProfileDeepLinkHolder.setCandidateId(candidateId)
             intent.putExtra(AppConstants.CANDIDATE_ID,candidateId)
             intent.putExtra(AppConstants.TOKEN_ID,tokenId)
@@ -290,7 +294,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
         contractorCamera.launch(intent)
     }
 
-    val contractorCamera=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+    private val contractorCamera=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
        try {
            //data.getExtras().get("data");
            val img=it.data?.extras?.get("data") as Bitmap

@@ -71,8 +71,8 @@ class ShowCandidateQuestionnaireListAdapter(
     inner class ViewHolderClass(val binding: LayoutItemShowCandidateQuestionsListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun dataBind(data: Answer) {
-
-            binding.tvQuestion.setText("Q$adapterPosition- "+data.QuestionDesc.toString())
+            binding.etAnswer.isEnabled=false
+            binding.tvQuestion.setText("Q${adapterPosition+1}- "+data.QuestionDesc.toString())
             binding.etAnswer.setText(data.AnswerDesc.toString())
 
         }

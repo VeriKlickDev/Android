@@ -15,6 +15,7 @@ import com.ui.activities.upcomingMeeting.audioRecord.recorder.Recorder
 import com.ui.activities.upcomingMeeting.audioRecord.utils.checkAudioPermission
 import com.ui.activities.upcomingMeeting.audioRecord.utils.formatAsTime
 import com.ui.activities.upcomingMeeting.audioRecord.utils.getDrawableCompat
+import com.ui.activities.uploadResumeDocument.ActivityResumeDocument
 import com.veriKlick.R
 import com.veriKlick.databinding.ActivityAudiomainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,7 +51,8 @@ class AudioMainActivity : AppCompatActivity() {
         // watchObserver()
         //  binding.btnPlay.setOnClickListener { jumpToPlayActivity() }
         binding.btnSkip.setOnClickListener {
-            val intent= Intent(this, ActivityCreateCandidate::class.java)
+            val intent=Intent(this, ActivityResumeDocument::class.java)
+            //val intent= Intent(this, ActivityCreateCandidate::class.java)
             startActivity(intent)
             overridePendingTransition(
                 R.anim.slide_in_right,

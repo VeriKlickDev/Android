@@ -67,7 +67,6 @@
                                 android:layout_marginVertical="@dimen/_10sp"
                                 android:minHeight="48dp"
                                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-
                                 >
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:layout_width="match_parent"

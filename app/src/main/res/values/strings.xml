@@ -258,6 +258,11 @@
     <string name="txt_atleast_one_skill_comment_required">At least 1 Skills and comments is required</string>
     <string name="txt_grant_the_permission_to_download_resume">Grant the permission to download Resume</string>
     <string name="txt_giveacess">Give access</string>
+    <string name="txt_upload_resume">Upload a resume</string>
+    <string name="txt_select_file">Select File</string>
+    <string name="txt_documentD">Document</string>
+    <string name="txt_document">Document</string>
+    <string name="txt_please_select_resume_file_first">Please select resume file first</string>
 
 
 </resources>

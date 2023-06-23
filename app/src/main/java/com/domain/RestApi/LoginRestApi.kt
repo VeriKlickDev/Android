@@ -47,5 +47,12 @@ interface LoginRestApi {
     @Multipart
     @POST("/api/Candidate/UpdateCandidateImage")
     suspend fun updateCandidateImage(@Header("Authorization")auth:String, @Body ob: BodyCandidateImageUpdate,@Part imgPart:MultipartBody.Part):Response<BodyCandidateImageUpdate>
+    @Multipart
+    @POST("/api/v1/Account/UpdateResumeWithoutAuth")
+    suspend fun updateResumeWithoutAuth(
+        @Part filePath: MultipartBody.Part,
+        @Part NewFileName: MultipartBody.Part,
+        @Part subscriberid: MultipartBody.Part,
+        ):Response<ResponseUpdateResumeWithoutAuth>
 
 }
