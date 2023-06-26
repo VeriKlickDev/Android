@@ -84,6 +84,7 @@ class AudioMainActivity : AppCompatActivity() {
         listenOnRecorderStates()
     }
 
+
     override fun onStop() {
         recorder.release()
         super.onStop()
@@ -166,8 +167,6 @@ class AudioMainActivity : AppCompatActivity() {
             millisTimer.cancel()
             secondsTimer.cancel()*/
     }
-
-
 
 
     override fun finish() {

@@ -56,10 +56,8 @@
     <string name="txt_invite">Inviter</string>
     <string name="txt_Invitation_sent">Invitation envoyée!</string>
     <string name="txt_failed_to_Invitation">Échec de l\'envoi de l\'invitation</string>
-
     <string name="txt_email_already_exists">Le participant existe déjà avec cet e-mail.</string>
     <string name="txt_phone_already_exists">Le participant existe déjà avec ce numéro de contact.</string>
-
     <string name="txt_permissionScreenSharingGranted">Autorisation de partage d\'écran accordée</string>
     <string name="txt_permissionScreenSharingNotGranted">Autorisation de partage d\'écran non accordée</string>
     <string name="txt_screen_sharing_error">échec du partage d\'écran</string>
@@ -106,21 +104,16 @@
     <string name="txt_please_try_again">Veuillez réessayer</string>
     <string name="txt_select_recommendation">Sélectionnez la recommandation</string>
     <string name="txt_coding_test_remark">Codage Test Remarque</string>
-
-
     <string name="txt_Resume_not_available">CV non disponible</string>
     <string name="txt_all_meetings">Toutes les réunions</string>
     <string name="txt_scheduled">Programmé</string>
     <string name="txt_cancelled">Annulé</string>
     <string name="txt_missed">Manqué</string>
     <string name="txt_attended">A participé</string>
-
     <string name="txt_scheduled_meetings">Réunions planifiées</string>
     <string name="txt_canceled_meetings">Réunions annulées</string>
     <string name="txt_missed_meetings">Réunions manquées</string>
     <string name="txt_attended_meetings">Participation aux réunions</string>
-
-
     <string name="txt_sharingscreenstatus">Vous partagez votre écran avec tout le monde</string>
     <string name="txt_video_not_available">Vidéo non disponible</string>
     <string name="txt_add_member">Ajouter des membres</string>
@@ -128,10 +121,8 @@
     <string name="txt_stop_screensharing">Arrêter le partage d\'écran</string>
     <string name="txt_privacy_policy_underline" tools:ignore="ExtraTranslation"><u>politique de confidentialité</u>  </string>
     <string name="txt_privacy_policy">politique de confidentialité</string>
-
     <string name="txt_term_and_condition_underline"><u> Termes et conditions</u>  </string>
     <string name="txt_term_and_condition">Termes et conditions</string>
-
     <string name="txt_cancel">Annuler</string>
     <string name="txt_agree">Accepter</string>
     <string name="txt_call_in_progress">Appel en cours</string>
@@ -152,7 +143,6 @@
     <string name="txt_upload_profile_photo">Télécharger une photo de profil</string>
     <string name="txt_tap_to_upload_your_picture">Appuyez sur télécharger votre photo ici ou cliquez sur télécharger</string>
     <string name="txt_upload">Télécharger</string>
-
     <string name="record">Enregistrer</string>
     <string name="stop">Arrêt</string>
     <string name="play">Jouer</string>
@@ -198,29 +188,21 @@
     <string name="txt_years">années</string>
     <string name="txt_skip">sauter</string>
     <string name="txt_questionnaire">questionnaire</string>
-
     <string name="txt_other">Autre</string>
     <string name="txt_no">Non</string>
     <string name="txt_your_msg_here">Votre message ici…</string>
     <string name="languageSelect">fr</string>
     <string name="txt_say_Introduction">Dire l\'introduction</string>
-
     <string name="failed_to_send_message">Échec de l\'envoi du SMS</string>
     <string name="txt_do_you_want_to_send_sms">Voulez-vous envoyer des SMS ?</string>
     <string name="txt_custom_sms">SMS personnalisés</string>
     <string name="txt_templates">Modèles</string>
-
-
     <string name="txt_are_you_sure">Es-tu sûr?</string>
-
 <!--    <string name="txt_english">Anglais</string>-->
 <!--    <string name="txt_spanish">espagnol</string>-->
     <string name="txt_french">français</string>
-
     <string name="txt_no_template">Aucun modèle</string>
     <string name="txt_provide_your_availability_for_meeting">Indiquez votre disponibilité pour la réunion</string>
-
-
     <string name="txt_txt_no_participant_connected">Aucun participant connecté</string>
     <string name="txt_select_code">Sélectionnez Code\n</string>
     <string name="txt_meetings">Réunions</string>
@@ -228,7 +210,6 @@
     <string name="txt_do_you_want_to_send_template">Voulez-vous envoyer un modèle ?</string>
     <string name="txt_sms_is_required">Le SMS est requis</string>
     <string name="txt_introduce_yourself">Présentez-vous</string>
-
     <string name="txt_please_enable_the_deeplink" tools:ignore="MissingTranslation">Veuillez activer le lien profond</string>
     <string name="txt_no_data_available" tools:ignore="MissingTranslation">Pas de données disponibles</string>
     <string name="txt_invalid" tools:ignore="MissingTranslation">Invalide</string>
@@ -239,7 +220,6 @@
     <string name="txt_primary_skills" tools:ignore="MissingTranslation">Compétences primaires</string>
     <string name="txt_experience" tools:ignore="MissingTranslation">Expérience</string>
     <string name="txt_all_answers_required" tools:ignore="MissingTranslation">Toutes les réponses requises</string>
-
     <string name="txt_country_code">Code postal</string>
     <string name="txt_is">est</string>
     <string name="txt_are">sont</string>
@@ -253,10 +233,14 @@
     <string name="txt_grant_the_permission_to_download_resume">Accorder l\'autorisation de télécharger CV</string>
     <string name="txt_giveacess">Donner accès</string>
     <string name="txt_select_language" tools:ignore="MissingTranslation">Choisir la langue</string>
-    <string name="txt_upload_resume">Upload a resume</string>
-    <string name="txt_select_file">Select File</string>
-    <string name="txt_documentD">Document</string>
+    <string name="txt_upload_resume">Télécharger un CV</string>
+    <string name="txt_select_file">Choisir le dossier</string>
     <string name="txt_document">Document</string>
-    <string name="txt_please_select_resume_file_first">Please select resume file first</string>
+    <string name="txt_please_select_resume_file_first">Veuillez d\'abord sélectionner le fichier CV</string>
+    <string name="txt_select_countryCode" tools:ignore="MissingTranslation">Sélectionnez le code du pays</string>
+    <string name="txt_select_state" tools:ignore="MissingTranslation">Sélectionnez l\'état</string>
+    <string name="txt_select_job_type" tools:ignore="MissingTranslation">Sélectionnez le type de travail</string>
+    <string name="txt_select_country" tools:ignore="MissingTranslation">Choisissez le pays</string>
+    <string name="txt_select_city" tools:ignore="MissingTranslation">Sélectionnez une ville</string>
 
 </resources>

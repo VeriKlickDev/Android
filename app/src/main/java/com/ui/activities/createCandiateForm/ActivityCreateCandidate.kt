@@ -1,5 +1,6 @@
 package com.ui.activities.createCandidate
 
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
+import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
@@ -22,6 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.RequestBody.Companion.toRequestBody
 
 @AndroidEntryPoint
 class ActivityCreateCandidate : AppCompatActivity() {
@@ -74,6 +77,8 @@ class ActivityCreateCandidate : AppCompatActivity() {
         setupStateSpinner()
         setupCitySpinner()
         setupjobTypeSpinner()
+        binding.spinnerCity.isEnabled=false
+        binding.spinnerState.isEnabled=false
 
        // getCountryListFromApi(0)
 
@@ -82,8 +87,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
             emailValidator(this, text.toString()) { isEmailOk, mEmail, error ->
                 isEmailok=isEmailOk
                 if (!isEmailOk)
-                    binding.etEmail.setError("Invalid")
-
+                    binding.etEmail.setError(getString(R.string.txt_invalid))
             }
         }
 
@@ -95,7 +99,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
             }else
             {
                 Log.d(TAG, "onCreate: phone invalid")
-                binding.etPhoneno.setError("Invalid")
+                binding.etPhoneno.setError(getString(R.string.txt_invalid))
             }
 
         }
@@ -112,7 +116,6 @@ class ActivityCreateCandidate : AppCompatActivity() {
         } else {
             showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
         }
-
 
     }
     override fun finish() {
@@ -285,8 +288,8 @@ class ActivityCreateCandidate : AppCompatActivity() {
 
                     var ob=BodyCreateCandidate()
 
-                    ob.Subscriberid=DataStoreHelper.getMeetingUserId()
-                    ob.Userid=DataStoreHelper.getMeetingRecruiterid()
+                    ob.Subscriberid=subscriberId
+                    ob.Userid=recruiterId
                     ob.CreatedDate=getCurrentUtcFormatedDate()
                     ob.UpdatedDate=getCurrentUtcFormatedDate()
                     ob.profile?.firstName=binding.etFirstname.text.toString()
@@ -349,11 +352,12 @@ class ActivityCreateCandidate : AppCompatActivity() {
                             if (it.SortName.toString().equals(countryStringList[position])){
                                 //getCityListFromApi("All",it.Id.toString())
                                 cityStringList.clear()
-                                cityStringList.add("Select City")
+                                cityStringList.add(getString(R.string.txt_select_city))
                                 stateStringList.clear()
-                                stateStringList.add("Select State")
+                                stateStringList.add(getString(R.string.txt_select_state))
                                 runOnUiThread {
                                     stateSpinnerAdapter?.notifyDataSetChanged()
+                                    citySpinnerAdapter?.notifyDataSetChanged()
                                 }
 
                                 getStateListFromApi("All",it.Id.toString(),0)
@@ -380,6 +384,8 @@ class ActivityCreateCandidate : AppCompatActivity() {
         stateSpinnerAdapter = getArrayAdapterOneItemSelected(stateStringList)
         binding.spinnerState.adapter = stateSpinnerAdapter
         binding.spinnerState.onItemSelectedListener = stateSpinnerClickListner
+        stateStringList.add(getString(R.string.txt_select_state))
+        stateSpinnerAdapter?.notifyDataSetChanged()
     }
 
     val stateSpinnerClickListner = object : OnItemSelectedListener {
@@ -418,6 +424,8 @@ class ActivityCreateCandidate : AppCompatActivity() {
         citySpinnerAdapter = getArrayAdapterOneItemSelected(cityStringList)
         binding.spinnerCity.adapter = citySpinnerAdapter
         binding.spinnerCity.onItemSelectedListener = citySpinnerClickListner
+        cityStringList.add(getString(R.string.txt_select_city))
+        citySpinnerAdapter?.notifyDataSetChanged()
     }
 
     val citySpinnerClickListner = object : OnItemSelectedListener {
@@ -445,7 +453,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
     private fun getJobTypeList(): List<String> {
         val list = mutableListOf<String>()
 
-        list.add("Select JobType")
+        list.add(getString(R.string.txt_select_job_type))
         
         try {
             val listMain=Gson().fromJson<Array<ModelJobType>>("[{ \"id\": \"CORP-CORP\", name: \"CORP-CORP\", \"selected\": false },{ \"id\": \"W2 PERMANENT\", name: \"W2 PERMANENT\", \"selected\": false },{ \"id\": 'W2 CONTRACT', name: \"W2 CONTRACT\", \"selected\": false },{ \"id\": \"1099 CONTRACT\", name: \"1099 CONTRACT\", \"selected\": false },{ \"id\": \"H1B TRANSFER\", name: \"H1B TRANSFER\",\"selected\": false },{ \"id\": \"NEED H1B\", name: \"NEED H1B\", \"selected\": false},{ \"id\": \"PERMANENT\", name: \"PERMANENT\", \"selected\": false },{ \"id\": \"CONTRACT\", name: \"CONTRACT\", \"selected\": false }]",
@@ -541,9 +549,9 @@ class ActivityCreateCandidate : AppCompatActivity() {
 
                     cityStringList.clear()
 
-                    countryStringList.add("Select Country")
-                    cityStringList.add("Select City")
-                    stateStringList.add("Select State")
+                    countryStringList.add(getString(R.string.txt_select_country))
+                    cityStringList.add(getString(R.string.txt_select_city))
+                    stateStringList.add(getString(R.string.txt_select_state))
 
                     countryListMain.addAll(data!!)
                     countryListMain.forEach {
@@ -553,18 +561,20 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     if (actionCode==2)
                     {
                         runOnUiThread {
-                            val countryName=viewModel?.getUserProfileData()?.CandidateLocation?.Country
+                            val countryName=viewModel?.getUserProfileData()?.Country
                             countryName
                             countryListMain.forEach {
                                 if (it.Id.toString().trim().equals(countryName.toString().trim()))
                                 {
                                     val item=countrySpinnerAdapter?.getPosition(it.SortName.toString())!!
                                     binding.spinnerCountry.setSelection(item)
-                                    countrySpinnerAdapter?.notifyDataSetChanged()
+                                   // countrySpinnerAdapter?.notifyDataSetChanged()
                                     getStateListFromApi("All",it.Id.toString(),2)
                                 }
                             }
                         }
+                        runOnUiThread { countrySpinnerAdapter?.notifyDataSetChanged() }
+
                        /* val dataobj=countrySpinnerAdapter?.getItem(countrySpinnerAdapter?.getPosition(viewModel?.getUserProfileData()?.CandidateLocation?.Country)!!)
                         countryListMain.forEach {
                             if (dataobj.equals(it.SortName))
@@ -596,7 +606,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                 try {
                     countryCodeList.clear()
                     countryCodeStringList.clear()
-                    countryCodeStringList.add("Code")
+                    countryCodeStringList.add(getString(R.string.txt_code))
                     countryCodeList.addAll(data!!)
                     countryCodeList.forEach {
                         //21jun2023 countryCodeStringList.add(it.codedisplay.toString()+" "+it.Name)
@@ -605,9 +615,9 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     Log.d(TAG, "getCountryCodeListFromApi: countryCode $countryStringList ${countryCodeStringList}")
                     runOnUiThread {
                         countryCodeSpinnerAdapter?.notifyDataSetChanged()
-                        var countryCode=viewModel?.getUserProfileData()?.Candidate?.Countrycode
-                        Log.d(TAG, "getCountryCodeListFromApi: countrycodeis ver first ${countryCode} ${viewModel?.getUserProfileData()} country ${viewModel?.getUserProfileData()?.CandidateLocation?.Country.toString()}")
-                        val appendedCode=countryCodeSpinnerAdapter?.getPosition("+"+countryCode+" "+viewModel?.getUserProfileData()?.CandidateLocation?.Country.toString())
+                     /*   var countryCode=viewModel?.getUserProfileData()?.Countrycode
+                        Log.d(TAG, "getCountryCodeListFromApi: countrycodeis ver first ${countryCode} ${viewModel?.getUserProfileData()} country ${viewModel?.getUserProfileData()?.Country.toString()}")
+                        val appendedCode=countryCodeSpinnerAdapter?.getPosition("+"+countryCode+" "+viewModel?.getUserProfileData()?.Country.toString())
 
                         var selectedCountry:String?=null
                         try {
@@ -639,6 +649,9 @@ class ActivityCreateCandidate : AppCompatActivity() {
                         //val pos=countryCodeSpinnerAdapter?.getPosition(appendedCode)
                        // binding.spinnerCountryCode.setSelection(appendedCode!!)
                        // countryCodeSpinnerAdapter?.notifyDataSetChanged()
+
+
+                        */
                     }
 
                 }catch (e:Exception)
@@ -658,9 +671,10 @@ class ActivityCreateCandidate : AppCompatActivity() {
         viewModel?.getStateByidList(searchString,id) { data, isSuccess, errorCode, msg ->
             if (isSuccess)
             {
+                runOnUiThread { binding.spinnerState.isEnabled=true }
                 stateListmain.clear()
                 stateStringList.clear()
-                stateStringList.add("Select State")
+                stateStringList.add(getString(R.string.txt_select_state))
                 stateListmain.addAll(data!!)
                 stateListmain.forEach {
                     stateStringList.add(it.StateName.toString())
@@ -670,10 +684,10 @@ class ActivityCreateCandidate : AppCompatActivity() {
                 if (actionCode==2)
                 {
                     runOnUiThread {
-                        binding.spinnerState.setSelection(stateSpinnerAdapter!!.getPosition(viewModel?.getUserProfileData()?.CandidateLocation?.State.toString()))
+                        binding.spinnerState.setSelection(stateSpinnerAdapter!!.getPosition(viewModel?.getUserProfileData()?.StateCode.toString()))
                         stateSpinnerAdapter?.notifyDataSetChanged()
                     }
-                    val stateObj=stateListmain.find { it.StateName!!.equals(viewModel?.getUserProfileData()?.CandidateLocation?.State.toString()) }
+                    val stateObj=stateListmain.find { it.StateName!!.equals(viewModel?.getUserProfileData()?.StateCode.toString()) }
                     getCityListFromApi("All",stateObj?.Shortname.toString(),2)
                 }else{
                     runOnUiThread {
@@ -692,10 +706,12 @@ class ActivityCreateCandidate : AppCompatActivity() {
         viewModel?.getCityByidList(shortNameofState,searchString) { data, isSuccess, errorCode, msg ->
             if (isSuccess)
             {
+                runOnUiThread { binding.spinnerCity.isEnabled=true }
+                binding.spinnerCity.isEnabled=true
                 cityListmain.clear()
                 cityStringList.clear()
 
-                cityStringList.add("Select City")
+                cityStringList.add(getString(R.string.txt_select_city))
                 cityListmain.addAll(data!!)
                 cityListmain.forEach {
                     cityStringList.add(it.CityName.toString())
@@ -704,7 +720,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                 runOnUiThread{
                     citySpinnerAdapter?.notifyDataSetChanged()
                     if (actionCode==2)
-                    binding.spinnerCity.setSelection(citySpinnerAdapter!!.getPosition(viewModel?.getUserProfileData()?.CandidateLocation?.City.toString()))
+                    binding.spinnerCity.setSelection(citySpinnerAdapter!!.getPosition(viewModel?.getUserProfileData()?.City.toString()))
 
                 }
 
@@ -718,32 +734,79 @@ class ActivityCreateCandidate : AppCompatActivity() {
         }
     }
 
+    private var recruiterId:String?=null
+    private var subscriberId:String?=null
     private fun getCandidateDetails(id:String)
     {
-        viewModel?.getCandidateDetails(id)
+        viewModel?.getCandidateDetails(CreateProfileDeepLinkHolder.getCandidateId().toString(),CreateProfileDeepLinkHolder.getTokenId().toString())
         {data, isSuccess, errorCode, msg ->
             if (isSuccess)
             {
+                try {
+                    if ( data?.aPIResponse?.message!=null)
+                    {
+                        runOnUiThread { showAlerttoFinishActivity(data?.aPIResponse?.message!!) }
+                    }
+                }catch (e:Exception)
+                {
+                    Log.d(TAG, "getCandidateDetails: excpetion 738 ${e.message}")
+                }
+                recruiterId=data?.RecruiterId
+                subscriberId=data?.Subscriberid
                setCandidateDetailsInView(data!!)
+            }
+            else
+            {
+                runOnUiThread { showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong)) }
+
             }
         }
     }
 
-    private fun setCandidateDetailsInView(dataForIOS: ResponseCandidateDataForIOS)
+    private fun showAlerttoFinishActivity(msg:String)
+    {
+        var alertDialog=AlertDialog.Builder(this)
+        alertDialog.run {
+            setMessage(msg)
+            setPositiveButton(getString(R.string.txt_yes),object : DialogInterface.OnClickListener {
+                override fun onClick(p0: DialogInterface?, p1: Int) {
+                    finishAffinity()
+                }
+            })
+            setCancelable(false)
+            create()
+            show()
+        }
+    }
+
+    private fun setCandidateDetailsInView(dataForIOS: ResponseRecruiterDetails)
     {
         try {
             runOnUiThread {
-                binding.etFirstname.setText(dataForIOS.Candidate?.Firstname)
-                binding.etLastname.setText(dataForIOS.Candidate?.LastName)
-                binding.etMiddlename.setText(dataForIOS.Candidate?.MiddleName)
-                binding.etEmail.setText(dataForIOS?.Candidate?.PrimaryEmail.toString())
-                binding.etZipCode.setText(dataForIOS.CandidateLocation?.Zip)
-                binding.etStreet.setText(dataForIOS.CandidateLocation?.Street)
-                binding.etPhoneno.setText(dataForIOS.Candidate?.PrimaryContact)
-                binding.etExperience.setText(dataForIOS.Candidate?.Experience)
-                binding.etPrimarySkills.setText(dataForIOS.Candidate?.primarySkills)
-                binding.etSecondarySkills.setText(dataForIOS.Candidate?.Skills)
-                binding.spinnerJobtype.setSelection(jobTypeSpinnerAdapter!!.getPosition(viewModel?.getUserProfileData()?.Candidate?.DesiredJob.toString()))
+                binding.etFirstname.setText(dataForIOS.FirstName)
+                binding.etLastname.setText(dataForIOS.LastName)
+                binding.etMiddlename.setText(dataForIOS.MiddleName)
+                binding.etEmail.setText(dataForIOS?.PrimaryEmail.toString())
+                binding.etZipCode.setText(dataForIOS.ZipCode)
+                binding.etStreet.setText(dataForIOS.Street)
+                //binding.etPhoneno.setText(dataForIOS.PrimaryContact)
+                binding.etExperience.setText(dataForIOS.Experience)
+                binding.etPrimarySkills.setText(dataForIOS.primarySkills)
+                binding.etSecondarySkills.setText(dataForIOS.Skills)
+                binding.spinnerJobtype.setSelection(jobTypeSpinnerAdapter!!.getPosition(viewModel?.getUserProfileData()?.DesiredJob.toString()))
+
+                try {
+                    if ( dataForIOS?.aPIResponse?.message!=null)
+                    {
+                        runOnUiThread {
+                            binding.etPhoneno.setText(dataForIOS.PrimaryContact)
+
+                        }
+                    }
+                }catch (e:Exception)
+                {
+                    Log.d(TAG, "getCandidateDetails: excpetion 738 ${e.message}")
+                }
 
 
                 getCountryListFromApi(2)

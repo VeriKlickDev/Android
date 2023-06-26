@@ -79,7 +79,7 @@ class ActivityResumeDocument : AppCompatActivity() {
           binding.btnSkip.setOnClickListener {
               val intent=Intent(this, ActivityCreateCandidate::class.java)
               //val intent=Intent(this, ActivityCreateCandidate::class.java)
-              CreateProfileDeepLinkHolder.setCandidateId(candidateId)
+              //CreateProfileDeepLinkHolder.setCandidateId(candidateId)
               intent.putExtra(AppConstants.CANDIDATE_ID,candidateId)
               intent.putExtra(AppConstants.TOKEN_ID,tokenId)
               startActivity(intent)
@@ -99,7 +99,7 @@ class ActivityResumeDocument : AppCompatActivity() {
 
     override fun finish() {
         super.finish()
-        // overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
     }
 
     private var candidateId = ""

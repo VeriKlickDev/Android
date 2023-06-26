@@ -22,6 +22,13 @@ object CreateProfileDeepLinkHolder {
     }
     fun getQuestionString()= questionstr
 
+    private var tokenId:String?=null
+    fun setTokenId(tokn:String)
+    {
+        tokenId=tokn
+    }
+    fun getTokenId()= tokenId
+
 
     private var candidateId:String?=null
     fun setCandidateId(candidateIdd:String)

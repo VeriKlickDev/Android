@@ -1,4 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <string name="app_name">VeriKlick</string>
     <string name="firebaseNotificationTopic" tools:ignore="MissingTranslation">globalNotification</string>
     <string name="hint_email">Email</string>
@@ -57,10 +58,8 @@
     <string name="txt_invite">Invite</string>
     <string name="txt_Invitation_sent">Invitation Sent!</string>
     <string name="txt_failed_to_Invitation">Failed to send invitation</string>
-
     <string name="txt_email_already_exists">Participant already exists with this email.</string>
     <string name="txt_phone_already_exists">Participant already exists with this contact number.</string>
-
     <string name="txt_permissionScreenSharingGranted">Screen sharing permission Granted</string>
     <string name="txt_permissionScreenSharingNotGranted">Screen sharing permission not granted</string>
     <string name="txt_screen_sharing_error">failed to Share Screen</string>
@@ -107,21 +106,16 @@
     <string name="txt_please_try_again">Please try again</string>
     <string name="txt_select_recommendation">Select Recommendation</string>
     <string name="txt_coding_test_remark">Coding Test Remark</string>
-
-
     <string name="txt_Resume_not_available">Resume Not Available</string>
     <string name="txt_all_meetings">All Meetings</string>
     <string name="txt_scheduled">Scheduled</string>
     <string name="txt_cancelled">Cancelled</string>
     <string name="txt_missed">Missed</string>
     <string name="txt_attended">Attended</string>
-
     <string name="txt_scheduled_meetings">Scheduled Meetings</string>
     <string name="txt_canceled_meetings">Cancelled Meetings</string>
     <string name="txt_missed_meetings">Missed Meetings</string>
     <string name="txt_attended_meetings">Attended Meetings</string>
-
-
     <string name="txt_sharingscreenstatus">You\'re sharing your screen to everyone</string>
     <string name="txt_video_not_available">Video Not Available</string>
     <string name="txt_add_member">Add Members</string>
@@ -150,7 +144,6 @@
     <string name="txt_upload_profile_photo">Upload a profile photo</string>
     <string name="txt_tap_to_upload_your_picture">Tap upload your picture here or click on upload</string>
     <string name="txt_upload">Upload</string>
-
     <string name="record">Record</string>
     <string name="stop">Stop</string>
     <string name="play">Play</string>
@@ -182,8 +175,6 @@
     <string name="txt_list_candidate">List Candidate</string>
     <string name="txt_ok">OK</string>
     <string name="txt_teams_meeting">Teams Meeting</string>
-
-
     <string name="txt_candidate_Not_Joined_Yet">Candidate Not Joined Yet</string>
     <string name="txt_open_again">Open Again</string>
     <string name="txt_firstName">First Name</string>
@@ -206,26 +197,20 @@
     <string name="txt_your_msg_here">Your message here…</string>
     <string name="txt_question" tools:ignore="MissingTranslation">Question</string>
     <string name="languageSelect">en</string>
-
     <string name="txt_say_Introduction">Say Introduction</string>
     <string name="failed_to_send_message">Failed to send SMS</string>
     <string name="txt_do_you_want_to_send_sms">Do you want to send SMS?</string>
     <string name="txt_custom_sms">Custom SMS</string>
     <string name="txt_templates">Templates</string>
-
     <string name="txt_are_you_sure">Are you sure?</string>
-
-
     <string name="txt_choose_language" tools:ignore="MissingTranslation">Choose language</string>
     <string name="txt_please_select_language" tools:ignore="MissingTranslation">please Select language first</string>
     <string name="txt_select_language" tools:ignore="MissingTranslation">Select language</string>
     <string name="txt_english">English</string>
     <string name="txt_spanish">Español</string>
     <string name="txt_french">français</string>
-
     <string name="txt_no_template">No templates</string>
     <string name="txt_provide_your_availability_for_meeting">Provide your availability for meeting</string>
-
     <string name="txt_txt_no_participant_connected">No participant connected</string>
     <string name="txt_select_code">Select Code\n</string>
     <string name="txt_meetings">Meetings</string>
@@ -233,8 +218,6 @@
     <string name="txt_do_you_want_to_send_template">Do you want to send template?</string>
     <string name="txt_sms_is_required">SMS is required</string>
     <string name="txt_introduce_yourself">Introduce yourself</string>
-
-
     <string name="txt_please_enable_the_deeplink" tools:ignore="MissingTranslation">Please enable the deeplink</string>
     <string name="txt_no_data_available" tools:ignore="MissingTranslation">No data available</string>
     <string name="txt_invalid" tools:ignore="MissingTranslation">Invalid</string>
@@ -244,7 +227,6 @@
     <string name="txt_secondary_skills" tools:ignore="MissingTranslation">Secondary skills</string>
     <string name="txt_primary_skills" tools:ignore="MissingTranslation">Primary skills</string>
     <string name="txt_experience" tools:ignore="MissingTranslation">Experience</string>
-
     <string name="txt_all_answers_required" tools:ignore="MissingTranslation">All answers required</string>
     <string name="txt_country_code">Country Code</string>
     <string name="txt_is">is</string>
@@ -260,9 +242,12 @@
     <string name="txt_giveacess">Give access</string>
     <string name="txt_upload_resume">Upload a resume</string>
     <string name="txt_select_file">Select File</string>
-    <string name="txt_documentD">Document</string>
     <string name="txt_document">Document</string>
     <string name="txt_please_select_resume_file_first">Please select resume file first</string>
-
+    <string name="txt_select_countryCode" tools:ignore="MissingTranslation">Select country code</string>
+    <string name="txt_select_state" tools:ignore="MissingTranslation">Select state</string>
+    <string name="txt_select_job_type" tools:ignore="MissingTranslation">Select job type</string>
+    <string name="txt_select_country" tools:ignore="MissingTranslation">Select country</string>
+    <string name="txt_select_city" tools:ignore="MissingTranslation">Select city</string>
 
 </resources>

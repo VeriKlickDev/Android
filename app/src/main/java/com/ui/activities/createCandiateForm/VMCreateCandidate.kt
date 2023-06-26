@@ -167,9 +167,9 @@ class ViewModelCreateCandidate @Inject constructor(val baseRestApi: BaseRestApi)
         CoroutineScope(Dispatchers.IO + exceptionHandler)
             .launch {
                 try {
-                    creatingObject.Subscriberid=getUserProfileData()?.Candidate?.SubscriberId
-                    creatingObject.Userid=getUserProfileData()?.Candidate?.CreatedBy
-                    creatingObject.CandidateId=getUserProfileData()?.Candidate?.Id
+                    creatingObject.Subscriberid=getUserProfileData()?.Subscriberid
+                    creatingObject.Userid=getUserProfileData()?.RecruiterId
+                    creatingObject.CandidateId=getUserProfileData()?.Id
                     creatingObject.Subscriberid
                     creatingObject.Userid
                     creatingObject.CandidateId
@@ -209,12 +209,7 @@ class ViewModelCreateCandidate @Inject constructor(val baseRestApi: BaseRestApi)
         CoroutineScope(Dispatchers.IO + exceptionHandler)
             .launch {
                 try {
-                    creatingObject.Subscriberid=getUserProfileData()?.Candidate?.SubscriberId
-                    creatingObject.Userid=getUserProfileData()?.Candidate?.CreatedBy
-                    creatingObject.CandidateId=getUserProfileData()?.Candidate?.Id
-                    creatingObject.Subscriberid
-                    creatingObject.Userid
-                    creatingObject.CandidateId
+                    creatingObject.CandidateId=getUserProfileData()?.Id
                     Log.d(TAG, "createCandidate: gson data of create profile ${Gson().toJson(creatingObject)}")
                     val response=baseRestApi.createCandidateWithoutAuth(creatingObject,"/api/JobSeekerProfile/$tokenId")
 
@@ -247,7 +242,7 @@ class ViewModelCreateCandidate @Inject constructor(val baseRestApi: BaseRestApi)
     }
 
 
-    private val userProfileDataList= mutableListOf<ResponseCandidateDataForIOS?>()
+    private val userProfileDataList= mutableListOf<ResponseRecruiterDetails?>()
     fun getUserProfileData()=
      if (userProfileDataList.isNullOrEmpty())
      {
@@ -257,25 +252,31 @@ class ViewModelCreateCandidate @Inject constructor(val baseRestApi: BaseRestApi)
          userProfileDataList[0]
      }
 
-    fun getCandidateDetails( candidateId:String,respnse:(data:ResponseCandidateDataForIOS?,isSuccess:Boolean, errorCode:Int, msg:String)->Unit) {
+    fun getCandidateDetails( candidateId:String,tokenId: String,respnse:(data:ResponseRecruiterDetails?,isSuccess:Boolean, errorCode:Int, msg:String?)->Unit) {
         CoroutineScope(Dispatchers.IO + exceptionHandler)
             .launch {
                 try {
 
-                    val response=baseRestApi.getResumeFileNameWithoutAuth("/api/CandidateDataForIOS/" + candidateId)
+                    val url="/api/Candidate/$candidateId/$tokenId"
+                    val response = baseRestApi.getRecruiterDetailsWithID(url)
+                    //val response=baseRestApi.getResumeFileNameWithoutAuth("/api/CandidateDataForIOS/" + candidateId)
                     if (response.isSuccessful) {
                         when (response.code()) {
                             200 -> {//response.body()!!
-                                userProfileDataList.clear()
-                                userProfileDataList.add(response.body()!!)
-                                userProfileDataList
-                                respnse(response.body()!!,true,200,"")
+                                try {
+                                    userProfileDataList.clear()
+                                    userProfileDataList.add(0,response.body())
+                                }catch (e:Exception)
+                                {
+                                    Log.d(TAG, "getCandidateDetails: exception ${e.message}")
+                                }
+                                respnse(response.body()!!,true,200,null)
                             }
                             401 -> {
-                                respnse(null,false,401,"")
+                                respnse(null,false,401,response.body()?.aPIResponse?.message!!)
                             }
                             400 -> {
-                                respnse(null,false,400,"")
+                                respnse(null,false,400,response.body()?.aPIResponse?.message!!)
                             }
                             500 -> {
                                 respnse(null,false,500,"")
@@ -285,10 +286,15 @@ class ViewModelCreateCandidate @Inject constructor(val baseRestApi: BaseRestApi)
                             }
                         }
                     } else {
-                        respnse(null,false,502,"Response not success")
+                        respnse(null,false,502,null)
                     }
                 } catch (e: Exception) {
                     respnse(null,false,503,e.message.toString())
+                    if (e.message.equals("null"))
+                    {
+
+                    }
+                    Log.d(TAG, "getCandidateDetails: exception 298 p ${e.message}")
                 }
             }
     }

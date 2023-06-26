@@ -87,7 +87,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
             //val intent=Intent(this, ActivityCreateCandidate::class.java)
             //val intent=Intent(this, ActivityResumeDocument::class.java)
 
-            CreateProfileDeepLinkHolder.setCandidateId(candidateId)
+           // CreateProfileDeepLinkHolder.setCandidateId(candidateId)
             intent.putExtra(AppConstants.CANDIDATE_ID,candidateId)
             intent.putExtra(AppConstants.TOKEN_ID,tokenId)
             startActivity(intent)
@@ -111,7 +111,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
 
     override fun finish() {
         super.finish()
-       // overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
     }
 
     private var candidateId=""
@@ -124,7 +124,8 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
             var token = splitList?.get(splitList.size - 1)
             candidateId=id.toString()
             tokenId=token.toString()
-
+            CreateProfileDeepLinkHolder.setCandidateId(id.toString())
+            CreateProfileDeepLinkHolder.setTokenId(tokenId)
             Log.d(TAG, "loadRecruiterData: url id $id  token $token")
             runOnUiThread { showProgressDialog() }
             viewModel?.getRecruiterDetails(id.toString(),token.toString()){data,isSuccess, errorCode, msg ->
@@ -165,6 +166,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
             finish()
         }
     }
+
 
     private fun selectLangaugeDialog() {
         runOnUiThread {

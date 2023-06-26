@@ -57,10 +57,8 @@
     <string name="txt_invite">Invitar</string>
     <string name="txt_Invitation_sent">¡Invitación enviada!</string>
     <string name="txt_failed_to_Invitation">No se pudo enviar la invitación</string>
-
     <string name="txt_email_already_exists">El participante ya existe con este correo electrónico.</string>
     <string name="txt_phone_already_exists">El participante ya existe con este número de contacto.</string>
-
     <string name="txt_permissionScreenSharingGranted">Permiso para compartir pantalla Concedido</string>
     <string name="txt_permissionScreenSharingNotGranted">Permiso para compartir pantalla no concedido</string>
     <string name="txt_screen_sharing_error">no se pudo compartir la pantalla</string>
@@ -107,21 +105,16 @@
     <string name="txt_please_try_again">Inténtalo de nuevo</string>
     <string name="txt_select_recommendation">Seleccionar recomendación</string>
     <string name="txt_coding_test_remark">Codificación Prueba Observación</string>
-
-
     <string name="txt_Resume_not_available">Currículum no disponible</string>
     <string name="txt_all_meetings">Todas las reuniones</string>
     <string name="txt_scheduled">Programado</string>
     <string name="txt_cancelled">Cancelado</string>
     <string name="txt_missed">Omitido</string>
     <string name="txt_attended">asistió</string>
-
     <string name="txt_scheduled_meetings">Reuniones programadas</string>
     <string name="txt_canceled_meetings">Reuniones canceladas</string>
     <string name="txt_missed_meetings">Reuniones perdidas</string>
     <string name="txt_attended_meetings">Reuniones asistidas</string>
-
-
     <string name="txt_sharingscreenstatus">Estás compartiendo tu pantalla con todos</string>
     <string name="txt_video_not_available">Vídeo no disponible</string>
     <string name="txt_add_member">Añadir miembros</string>
@@ -129,11 +122,8 @@
     <string name="txt_stop_screensharing">Detener pantalla compartida</string>
     <string name="txt_privacy_policy_underline" tools:ignore="ExtraTranslation"><u>Política de Privacidad</u></string>
     <string name="txt_privacy_policy">Política de Privacidad</string>
-
-
     <string name="txt_term_and_condition_underline"><u> Términos y Condiciones</u>  </string>
     <string name="txt_term_and_condition">Términos y Condiciones</string>
-
     <string name="txt_cancel">Cancelar</string>
     <string name="txt_agree">Aceptar</string>
     <string name="txt_call_in_progress">Llamada en progreso</string>
@@ -154,7 +144,6 @@
     <string name="txt_upload_profile_photo">Sube una foto de perfil</string>
     <string name="txt_tap_to_upload_your_picture">Toque cargar su imagen aquí o haga clic en cargar</string>
     <string name="txt_upload">Subir</string>
-
     <string name="record">Registro</string>
     <string name="stop">Detener</string>
     <string name="play">Jugar</string>
@@ -193,7 +182,6 @@
     <string name="txt_GroupChat">Grupo de chat</string>
     <string name="txt_unknownUser">Usuario desconocido</string>
     <string name="txt_veriklick_meeting_is_running">La reunión de Veriklick se está ejecutando</string>
-
     <string name="txt_privacy_policy_full_text">He leído y acepto los Términos y Condiciones y la Política de Privacidad . Esta sesión podrá ser grabada. Al unirse a la reunión, también está dando su consentimiento para grabar esta reunión, de lo contrario, haga clic en cancelar para abandonar la reunión.</string>
     <string name="txt_waiting_to_join">esperando para unirme</string>
     <string name="txt_secondary">Secundaria : </string>
@@ -201,26 +189,21 @@
     <string name="txt_years">años</string>
     <string name="txt_skip">saltar</string>
     <string name="txt_questionnaire">cuestionario</string>
-
     <string name="txt_other">Otro</string>
     <string name="txt_no">No</string>
     <string name="txt_your_msg_here">Su mensaje aquí…</string>
     <string name="languageSelect">sp</string>
-
     <string name="txt_say_Introduction">decir introducción</string>
     <string name="failed_to_send_message">Error al enviar SMS</string>
     <string name="txt_do_you_want_to_send_sms">¿Quieres enviar SMS?</string>
     <string name="txt_custom_sms">SMS personalizados</string>
     <string name="txt_templates">plantillas</string>
-
     <string name="txt_are_you_sure">Estas seguro</string>
 <!--    <string name="txt_english">inglés</string>-->
     <string name="txt_spanish">Español</string>
 <!--    <string name="txt_french">francés</string>-->
-
     <string name="txt_no_template">Sin plantillas</string>
     <string name="txt_provide_your_availability_for_meeting">Proporcionar su disponibilidad para la reunión</string>
-
     <string name="txt_txt_no_participant_connected">Ningún participante conectado</string>
     <string name="txt_select_code">Seleccionar código\n</string>
     <string name="txt_meetings">Reuniones</string>
@@ -228,7 +211,6 @@
     <string name="txt_do_you_want_to_send_template">¿Quieres enviar plantilla?</string>
     <string name="txt_sms_is_required">Se requiere SMS</string>
     <string name="txt_introduce_yourself">Presentarte</string>
-
     <string name="txt_please_enable_the_deeplink" tools:ignore="MissingTranslation">Habilite el enlace profundo</string>
     <string name="txt_no_data_available" tools:ignore="MissingTranslation">Datos no disponibles</string>
     <string name="txt_invalid" tools:ignore="MissingTranslation">Inválido</string>
@@ -238,8 +220,6 @@
     <string name="txt_secondary_skills" tools:ignore="MissingTranslation">habilidades secundarias</string>
     <string name="txt_primary_skills" tools:ignore="MissingTranslation">habilidades primarias</string>
     <string name="txt_experience" tools:ignore="MissingTranslation">Experiencia</string>
-
-
     <string name="txt_all_answers_required" tools:ignore="MissingTranslation">Todas las respuestas requeridas</string>
     <string name="txt_country_code">Código de país</string>
     <string name="txt_is">es</string>
@@ -254,9 +234,14 @@
     <string name="txt_grant_the_permission_to_download_resume">Otorga el permiso para descargar Currículum</string>
     <string name="txt_giveacess">Dar acceso</string>
     <string name="txt_select_language" tools:ignore="MissingTranslation">Seleccione el idioma</string>
-    <string name="txt_upload_resume">Upload a resume</string>
-    <string name="txt_select_file">Select File</string>
-    <string name="txt_documentD">Document</string>
-    <string name="txt_document">Document</string>
-    <string name="txt_please_select_resume_file_first">Please select resume file first</string>
+    <string name="txt_upload_resume">Subir un currículum</string>
+    <string name="txt_select_file">Seleccione Archivo</string>
+    <string name="txt_document">Documento</string>
+    <string name="txt_please_select_resume_file_first">Seleccione el archivo de currículum primero</string>
+    <string name="txt_select_countryCode" tools:ignore="MissingTranslation">Seleccionar código de país</string>
+    <string name="txt_select_state" tools:ignore="MissingTranslation">Seleccione estado</string>
+    <string name="txt_select_job_type" tools:ignore="MissingTranslation">Seleccionar tipo de trabajo</string>
+    <string name="txt_select_country" tools:ignore="MissingTranslation">Seleccionar país</string>
+    <string name="txt_select_city" tools:ignore="MissingTranslation">Ciudad selecta</string>
+
 </resources>
