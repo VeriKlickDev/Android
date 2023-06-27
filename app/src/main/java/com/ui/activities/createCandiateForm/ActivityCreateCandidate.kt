@@ -54,15 +54,15 @@ class ActivityCreateCandidate : AppCompatActivity() {
     private var jobTypeStringList = mutableListOf<String>()
     private var jobTypeSpinnerAdapter: ArrayAdapter<String>? = null
 
-    private var isEmailok=false
-    private var isPhoneok=false
+    private var isEmailok = false
+    private var isPhoneok = false
 
-    private var cityStr:String?=null
-    private var countryStr:String?=null
-    private var countryCodeStr:String?=null
-    private var stateStr:String?=null
-    private var jobTypeStr:String?=null
-    private var phoneCodeStr:Int?=null
+    private var cityStr: String? = null
+    private var countryStr: String? = null
+    private var countryCodeStr: String? = null
+    private var stateStr: String? = null
+    private var jobTypeStr: String? = null
+    private var phoneCodeStr: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,15 +78,15 @@ class ActivityCreateCandidate : AppCompatActivity() {
         setupStateSpinner()
         setupCitySpinner()
         setupjobTypeSpinner()
-        binding.spinnerCity.isEnabled=false
-        binding.spinnerState.isEnabled=false
+        binding.spinnerCity.isEnabled = false
+        binding.spinnerState.isEnabled = false
 
-       // getCountryListFromApi(0)
+        // getCountryListFromApi(0)
 
 
         binding.etEmail.doOnTextChanged { text, start, before, count ->
             emailValidator(this, text.toString()) { isEmailOk, mEmail, error ->
-                isEmailok=isEmailOk
+                isEmailok = isEmailOk
                 if (!isEmailOk)
                     binding.etEmail.setError(getString(R.string.txt_invalid))
             }
@@ -94,12 +94,10 @@ class ActivityCreateCandidate : AppCompatActivity() {
 
         binding.etPhoneno.doOnTextChanged { text, start, before, count ->
             //isPhoneok=phoneValidator(text.toString())
-            if (phoneValidator(text.toString()))
-            {
+            if (phoneValidator(text.toString())) {
                 Log.d(TAG, "onCreate: phone valid")
                 checkPhoneExists(text.toString())
-            }else
-            {
+            } else {
                 Log.d(TAG, "onCreate: phone invalid")
                 binding.etPhoneno.setError(getString(R.string.txt_invalid))
             }
@@ -123,17 +121,17 @@ class ActivityCreateCandidate : AppCompatActivity() {
 
 
     private fun checkPhoneExists(txt: String) {
-        viewModel?.getIsPhoneExists(txt,true,
+        viewModel?.getIsPhoneExists(txt, true,
             response = { data ->
                 runOnUiThread {
-                    if (data.aPIResponse?.StatusCode!=null) {
+                    if (data.aPIResponse?.StatusCode != null) {
                         showCustomToast(getString(R.string.txt_phone_already_exists))
-                        isPhoneok=false
-                        Handler(mainLooper).postDelayed({binding.etPhoneno.setText("")},2000)
+                        isPhoneok = false
+                        Handler(mainLooper).postDelayed({ binding.etPhoneno.setText("") }, 2000)
 
                     } else {
                         //  binding.etPhoneno.setError(data.aPIResponse?.Message.toString())
-                        isPhoneok=true
+                        isPhoneok = true
                     }
                 }
             })
@@ -144,8 +142,8 @@ class ActivityCreateCandidate : AppCompatActivity() {
         super.finish()
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
-    private fun validateAllFields()
-    {
+
+    private fun validateAllFields() {
         runOnUiThread {
             if (binding.etEmail.text.toString().equals("")) {
                 showCustomToast(
@@ -298,60 +296,58 @@ class ActivityCreateCandidate : AppCompatActivity() {
             } else {
                 Log.d(TAG, "validateAllFields: success")
                 postData()
+
             }
         }
     }
 
-    private fun postData()
-    {
+    private fun postData() {
         try {
-            CoroutineScope(Dispatchers.IO+ exceptionHandler)
+            CoroutineScope(Dispatchers.IO + exceptionHandler)
                 .launch {
 
-                    var ob=BodyCreateCandidate()
+                    var ob = BodyCreateCandidate()
 
-                    ob.Subscriberid=subscriberId
-                    ob.Userid=recruiterId
-                    ob.CreatedDate=getCurrentUtcFormatedDate()
-                    ob.UpdatedDate=getCurrentUtcFormatedDate()
-                    ob.profile?.firstName=binding.etFirstname.text.toString()
-                    ob.profile?.lastName=binding.etLastname.text.toString()
-                    ob.profile?.middleName=binding.etMiddlename.text.toString()
-                    ob.profile?.emailId=binding.etEmail.text.toString()
-                    ob.profile?.phoneMobile=binding.etPhoneno.text.toString()
-                    ob.profile?.countrycode=phoneCodeStr
-                    ob.profile?.countrycodeview="+$phoneCodeStr"
-                    ob.profile?.country=countryCodeStr
-                    ob.profile?.countryName=countryStr
-                    ob.profile?.state=stateStr
-                    ob.profile?.zipCode=binding.etZipCode.text.toString()
-                    ob.profile?.city=cityStr
-                    ob.profile?.jobType=jobTypeStr
-                    ob.professional?.totalExperience=binding.etExperience.text.toString()
-                    ob.professional?.primarySkills=binding.etPrimarySkills.text.toString()
-                    ob.skills?.skill=binding.etSecondarySkills.text.toString()
-                    ob.profile?.streetName=binding.etStreet.text.toString()
+                    ob.Subscriberid = subscriberId
+                    ob.Userid = recruiterId
+                    ob.CreatedDate = getCurrentUtcFormatedDate()
+                    ob.UpdatedDate = getCurrentUtcFormatedDate()
+                    ob.profile?.firstName = binding.etFirstname.text.toString()
+                    ob.profile?.lastName = binding.etLastname.text.toString()
+                    ob.profile?.middleName = binding.etMiddlename.text.toString()
+                    ob.profile?.emailId = binding.etEmail.text.toString().trim()
+                    ob.profile?.phoneMobile = binding.etPhoneno.text.toString()
+                    ob.profile?.countrycode = phoneCodeStr
+                    ob.profile?.countrycodeview = "+$phoneCodeStr"
+                    ob.profile?.country = countryCodeStr
+                    ob.profile?.countryName = countryStr
+                    ob.profile?.state = stateStr
+                    ob.profile?.zipCode = binding.etZipCode.text.toString()
+                    ob.profile?.city = cityStr
+                    ob.profile?.jobType = jobTypeStr
+                    ob.professional?.totalExperience = binding.etExperience.text.toString()
+                    ob.professional?.primarySkills = binding.etPrimarySkills.text.toString()
+                    ob.skills?.skill = binding.etSecondarySkills.text.toString()
+                    ob.profile?.streetName = binding.etStreet.text.toString()
                     Log.d(TAG, "postData: posting data object ${Gson().toJson(ob)}")
 
                     runOnUiThread { showProgressDialog() }
 
-                    viewModel?.createCandidateWithoutAuth(ob,
+                    viewModel?.createCandidateWithoutAuth(
+                        ob,
                         CandidateImageAndAudioHolder.getDeepLinkData()?.token_Id!!.toString()
-                    ){ data, isSuccess, errorCode, msg ->
-                    if (isSuccess)
-                    {
-                        runOnUiThread { dismissProgressDialog() }
-                      showCustomSnackbarOnTop(msg)
-                    }else
-                    {
-                        runOnUiThread { dismissProgressDialog() }
-                        showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
-                    }
+                    ) { data, isSuccess, errorCode, msg ->
+                        if (isSuccess) {
+                            runOnUiThread { dismissProgressDialog() }
+                            showCustomSnackbarOnTop(msg)
+                        } else {
+                            runOnUiThread { dismissProgressDialog() }
+                            showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+                        }
 
                     }
                 }
-        }catch (_:Exception)
-        {
+        } catch (_: Exception) {
 
         }
 
@@ -368,12 +364,11 @@ class ActivityCreateCandidate : AppCompatActivity() {
             Log.d(TAG, "onItemSelected: selected ${countryStringList[position]}")
             if (position == 0) {
 
-            }else
-            {
+            } else {
                 try {
-                    if (!countryListMain.isNullOrEmpty()){
+                    if (!countryListMain.isNullOrEmpty()) {
                         countryListMain.forEach {
-                            if (it.SortName.toString().equals(countryStringList[position])){
+                            if (it.SortName.toString().equals(countryStringList[position])) {
                                 //getCityListFromApi("All",it.Id.toString())
                                 cityStringList.clear()
                                 cityStringList.add(getString(R.string.txt_select_city))
@@ -383,15 +378,14 @@ class ActivityCreateCandidate : AppCompatActivity() {
                                     stateSpinnerAdapter?.notifyDataSetChanged()
                                     citySpinnerAdapter?.notifyDataSetChanged()
                                 }
-                                countryCodeStr=it.Id.toString()
-                                getStateListFromApi("All",it.Id.toString(),0)
-                                countryStr=countryStringList[position]
+                                countryCodeStr = it.Id.toString()
+                                getStateListFromApi("All", it.Id.toString(), 0)
+                                countryStr = countryStringList[position]
                             }
                         }
                     }
 
-                }catch (e:Exception)
-                {
+                } catch (e: Exception) {
 
                 }
 
@@ -416,21 +410,19 @@ class ActivityCreateCandidate : AppCompatActivity() {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             if (position == 0) {
                 Log.d(TAG, "onItemSelected: selected ${stateStringList[position]}")
-            }else
-            {
+            } else {
                 try {
 
                     if (!stateListmain.isNullOrEmpty()) {
                         stateListmain.forEach {
                             if (stateStringList[position].toString().equals(it.StateName.toString())
                             ) {
-                                stateStr=it.Shortname
-                                getCityListFromApi("All",it.Shortname.toString(),0)
+                                stateStr = it.Shortname
+                                getCityListFromApi("All", it.Shortname.toString(), 0)
                             }
                         }
                     }
-                }catch (e:Exception)
-                {
+                } catch (e: Exception) {
 
                 }
 
@@ -456,9 +448,8 @@ class ActivityCreateCandidate : AppCompatActivity() {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             if (position == 0) {
                 Log.d(TAG, "onItemSelected: selected ${cityStringList[position]}")
-            }else
-            {
-                cityStr=cityStringList[position]
+            } else {
+                cityStr = cityStringList[position]
             }
         }
 
@@ -478,14 +469,15 @@ class ActivityCreateCandidate : AppCompatActivity() {
         val list = mutableListOf<String>()
 
         list.add(getString(R.string.txt_select_job_type))
-        
+
         try {
-            val listMain=Gson().fromJson<Array<ModelJobType>>("[{ \"id\": \"CORP-CORP\", name: \"CORP-CORP\", \"selected\": false },{ \"id\": \"W2 PERMANENT\", name: \"W2 PERMANENT\", \"selected\": false },{ \"id\": 'W2 CONTRACT', name: \"W2 CONTRACT\", \"selected\": false },{ \"id\": \"1099 CONTRACT\", name: \"1099 CONTRACT\", \"selected\": false },{ \"id\": \"H1B TRANSFER\", name: \"H1B TRANSFER\",\"selected\": false },{ \"id\": \"NEED H1B\", name: \"NEED H1B\", \"selected\": false},{ \"id\": \"PERMANENT\", name: \"PERMANENT\", \"selected\": false },{ \"id\": \"CONTRACT\", name: \"CONTRACT\", \"selected\": false }]",
-                Array<ModelJobType>::class.java)
+            val listMain = Gson().fromJson<Array<ModelJobType>>(
+                "[{ \"id\": \"CORP-CORP\", name: \"CORP-CORP\", \"selected\": false },{ \"id\": \"W2 PERMANENT\", name: \"W2 PERMANENT\", \"selected\": false },{ \"id\": 'W2 CONTRACT', name: \"W2 CONTRACT\", \"selected\": false },{ \"id\": \"1099 CONTRACT\", name: \"1099 CONTRACT\", \"selected\": false },{ \"id\": \"H1B TRANSFER\", name: \"H1B TRANSFER\",\"selected\": false },{ \"id\": \"NEED H1B\", name: \"NEED H1B\", \"selected\": false},{ \"id\": \"PERMANENT\", name: \"PERMANENT\", \"selected\": false },{ \"id\": \"CONTRACT\", name: \"CONTRACT\", \"selected\": false }]",
+                Array<ModelJobType>::class.java
+            )
             jobTypeListMain.addAll(listMain)
 
-        }catch (e:Exception)
-        {
+        } catch (e: Exception) {
             Log.d(TAG, "getJobTypeList: exception ${e.message}")
         }
 
@@ -500,12 +492,10 @@ class ActivityCreateCandidate : AppCompatActivity() {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             if (position == 0) {
                 Log.d(TAG, "onItemSelected: selected ${jobTypeStringList[position]}")
-            }else
-            {
+            } else {
                 jobTypeListMain.forEach {
-                    if (it.name.equals(jobTypeStringList[position]))
-                    {
-                    jobTypeStr=it.id
+                    if (it.name.equals(jobTypeStringList[position])) {
+                        jobTypeStr = it.id
                     }
                 }
             }
@@ -518,7 +508,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
 
 
     private fun setupCountryCodeSpinner() {
-        countryCodeSpinnerAdapter =getArrayAdapterOneItemSelected(countryCodeStringList)
+        countryCodeSpinnerAdapter = getArrayAdapterOneItemSelected(countryCodeStringList)
         binding.spinnerCountryCode.adapter = countryCodeSpinnerAdapter
         binding.spinnerCountryCode.onItemSelectedListener = countryCodeSpinnerClickListner
     }
@@ -527,27 +517,27 @@ class ActivityCreateCandidate : AppCompatActivity() {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             if (position == 0) {
                 Log.d(TAG, "onItemSelected: selected ${countryCodeStringList[position]}")
-            }else
-            {
-                try
-                {
-                    if (!countryCodeList.isNullOrEmpty()){
+            } else {
+                try {
+                    if (!countryCodeList.isNullOrEmpty()) {
                         countryCodeList.forEach {
-                            val countryn=it.codedisplay.toString()+" "+it.Name.toString()
-                            val selectedCountryCodeis=countryn.toString().lowercase().trim()
-                            val loopdata=countryCodeStringList[position].toString().lowercase().trim()
+                            val countryn = it.codedisplay.toString() + " " + it.Name.toString()
+                            val selectedCountryCodeis = countryn.toString().lowercase().trim()
+                            val loopdata =
+                                countryCodeStringList[position].toString().lowercase().trim()
                             selectedCountryCodeis
                             loopdata
-                            if (countryn.toString().trim().lowercase().equals(countryCodeStringList[position].toString().trim().lowercase()))
-                            {
+                            if (countryn.toString().trim().lowercase().equals(
+                                    countryCodeStringList[position].toString().trim().lowercase()
+                                )
+                            ) {
                                 //countryCodeStr=it.codedisplay
-                                phoneCodeStr=it.PhoneCode
+                                phoneCodeStr = it.PhoneCode
                                 Log.d(TAG, "onItemSelected: selected country phone code ${it}")
                             }
                         }
                     }
-                }catch (e:Exception)
-                {
+                } catch (e: Exception) {
                     Log.d(TAG, "onItemSelected: exception 373 ${e.message}")
                 }
 
@@ -560,12 +550,9 @@ class ActivityCreateCandidate : AppCompatActivity() {
     }
 
 
-
-
-    private fun getCountryListFromApi(actionCode:Int){
+    private fun getCountryListFromApi(actionCode: Int) {
         viewModel?.getCountyNameList { data, isSuccess, errorCode, msg ->
-            if (isSuccess)
-            {
+            if (isSuccess) {
                 try {
 
                     countryStringList.clear()
@@ -580,54 +567,50 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     countryListMain.addAll(data!!)
                     countryListMain.forEach {
                         if (it.IsActive!!)
-                        countryStringList.add(it.SortName.toString())
+                            countryStringList.add(it.SortName.toString())
                     }
 
-                    if (actionCode==2)
-                    {
+                    if (actionCode == 2) {
                         runOnUiThread {
-                            val countryName=viewModel?.getUserProfileData()?.Country
+                            val countryName = viewModel?.getUserProfileData()?.Country
                             countryName
                             countryListMain.forEach {
-                                if (it.Id.toString().trim().equals(countryName.toString().trim()))
-                                {
-                                    val item=countrySpinnerAdapter?.getPosition(it.SortName.toString())!!
+                                if (it.Id.toString().trim().equals(countryName.toString().trim())) {
+                                    val item =
+                                        countrySpinnerAdapter?.getPosition(it.SortName.toString())!!
                                     binding.spinnerCountry.setSelection(item)
-                                   // countrySpinnerAdapter?.notifyDataSetChanged()
-                                    getStateListFromApi("All",it.Id.toString(),2)
+                                    // countrySpinnerAdapter?.notifyDataSetChanged()
+                                    getStateListFromApi("All", it.Id.toString(), 2)
                                 }
                             }
                         }
                         runOnUiThread { countrySpinnerAdapter?.notifyDataSetChanged() }
 
-                       /* val dataobj=countrySpinnerAdapter?.getItem(countrySpinnerAdapter?.getPosition(viewModel?.getUserProfileData()?.CandidateLocation?.Country)!!)
-                        countryListMain.forEach {
-                            if (dataobj.equals(it.SortName))
-                            {
-                                getStateListFromApi("All",it.Id.toString(),2)
-                            }
-                        }*/
+                        /* val dataobj=countrySpinnerAdapter?.getItem(countrySpinnerAdapter?.getPosition(viewModel?.getUserProfileData()?.CandidateLocation?.Country)!!)
+                         countryListMain.forEach {
+                             if (dataobj.equals(it.SortName))
+                             {
+                                 getStateListFromApi("All",it.Id.toString(),2)
+                             }
+                         }*/
 
-                    }else
-                    {
+                    } else {
                         runOnUiThread {
                             countrySpinnerAdapter?.notifyDataSetChanged()
                             stateSpinnerAdapter?.notifyDataSetChanged()
                             citySpinnerAdapter?.notifyDataSetChanged()
                         }
                     }
-                }catch (e:Exception)
-                {
+                } catch (e: Exception) {
                     Log.d(TAG, "getCountryListFromApi: exception 472 ${e.message}")
                 }
             }
         }
     }
 
-    private fun getCountryCodeListFromApi(actionCode:Int){
+    private fun getCountryCodeListFromApi(actionCode: Int) {
         viewModel?.getCountyCodeList { data, isSuccess, errorCode, msg ->
-            if (isSuccess)
-            {
+            if (isSuccess) {
                 try {
                     countryCodeList.clear()
                     countryCodeStringList.clear()
@@ -635,68 +618,68 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     countryCodeList.addAll(data!!)
                     countryCodeList.forEach {
                         //21jun2023 countryCodeStringList.add(it.codedisplay.toString()+" "+it.Name)
-                        countryCodeStringList.add(it.codedisplay.toString()+" "+it.Name)
+                        countryCodeStringList.add(it.codedisplay.toString() + " " + it.Name)
                     }
-                    Log.d(TAG, "getCountryCodeListFromApi: countryCode $countryStringList ${countryCodeStringList}")
+                    Log.d(
+                        TAG,
+                        "getCountryCodeListFromApi: countryCode $countryStringList ${countryCodeStringList}"
+                    )
                     runOnUiThread {
                         countryCodeSpinnerAdapter?.notifyDataSetChanged()
-                     /*   var countryCode=viewModel?.getUserProfileData()?.Countrycode
-                        Log.d(TAG, "getCountryCodeListFromApi: countrycodeis ver first ${countryCode} ${viewModel?.getUserProfileData()} country ${viewModel?.getUserProfileData()?.Country.toString()}")
-                        val appendedCode=countryCodeSpinnerAdapter?.getPosition("+"+countryCode+" "+viewModel?.getUserProfileData()?.Country.toString())
+                        /*   var countryCode=viewModel?.getUserProfileData()?.Countrycode
+                           Log.d(TAG, "getCountryCodeListFromApi: countrycodeis ver first ${countryCode} ${viewModel?.getUserProfileData()} country ${viewModel?.getUserProfileData()?.Country.toString()}")
+                           val appendedCode=countryCodeSpinnerAdapter?.getPosition("+"+countryCode+" "+viewModel?.getUserProfileData()?.Country.toString())
 
-                        var selectedCountry:String?=null
-                        try {
+                           var selectedCountry:String?=null
+                           try {
 
-                            countryCodeList.forEachIndexed { index, responseCountryName ->
-                                if (responseCountryName.codedisplay.toString().equals("+$countryCode"))
-                                {
-                                    Log.d(TAG, "getCountryCodeListFromApi: selected country is ${responseCountryName.Name} countryCode +$countryCode")
-                                    selectedCountry=    "+$countryCode ${responseCountryName.Name}"
-                                }
-                            }
+                               countryCodeList.forEachIndexed { index, responseCountryName ->
+                                   if (responseCountryName.codedisplay.toString().equals("+$countryCode"))
+                                   {
+                                       Log.d(TAG, "getCountryCodeListFromApi: selected country is ${responseCountryName.Name} countryCode +$countryCode")
+                                       selectedCountry=    "+$countryCode ${responseCountryName.Name}"
+                                   }
+                               }
 
-                            countryCodeStringList.forEach {
-                                if (selectedCountry!!.lowercase().trim().equals(it.trim().lowercase()))
-                                {
-                                    val appendedCode=countryCodeSpinnerAdapter?.getPosition(selectedCountry)
-                                    binding.spinnerCountryCode.setSelection(appendedCode!!)
-                                    countryCodeSpinnerAdapter?.notifyDataSetChanged()
-                                }
-                            }
+                               countryCodeStringList.forEach {
+                                   if (selectedCountry!!.lowercase().trim().equals(it.trim().lowercase()))
+                                   {
+                                       val appendedCode=countryCodeSpinnerAdapter?.getPosition(selectedCountry)
+                                       binding.spinnerCountryCode.setSelection(appendedCode!!)
+                                       countryCodeSpinnerAdapter?.notifyDataSetChanged()
+                                   }
+                               }
 
-                        }catch (e:Exception)
-                        {
+                           }catch (e:Exception)
+                           {
 
-                        }
-
-
-                        Log.d(TAG, "getCountryCodeListFromApi: countrycodeis ver $appendedCode $selectedCountry")
-                        //val pos=countryCodeSpinnerAdapter?.getPosition(appendedCode)
-                       // binding.spinnerCountryCode.setSelection(appendedCode!!)
-                       // countryCodeSpinnerAdapter?.notifyDataSetChanged()
+                           }
 
 
-                        */
+                           Log.d(TAG, "getCountryCodeListFromApi: countrycodeis ver $appendedCode $selectedCountry")
+                           //val pos=countryCodeSpinnerAdapter?.getPosition(appendedCode)
+                          // binding.spinnerCountryCode.setSelection(appendedCode!!)
+                          // countryCodeSpinnerAdapter?.notifyDataSetChanged()
+
+
+                           */
                     }
 
-                }catch (e:Exception)
-                {
+                } catch (e: Exception) {
                     Log.d(TAG, "getCountryCodeListFromApi: exception 493 ${e.message}")
                 }
-              //getCandidateDetails("47422")
+                //getCandidateDetails("47422")
 
-            }else
-            {
+            } else {
                 Log.d(TAG, "getCountryCodeListFromApi: code $errorCode")
             }
         }
     }
 
-    private fun getStateListFromApi(searchString: String,id: String,actionCode: Int){
-        viewModel?.getStateByidList(searchString,id) { data, isSuccess, errorCode, msg ->
-            if (isSuccess)
-            {
-                runOnUiThread { binding.spinnerState.isEnabled=true }
+    private fun getStateListFromApi(searchString: String, id: String, actionCode: Int) {
+        viewModel?.getStateByidList(searchString, id) { data, isSuccess, errorCode, msg ->
+            if (isSuccess) {
+                runOnUiThread { binding.spinnerState.isEnabled = true }
                 stateListmain.clear()
                 stateStringList.clear()
                 stateStringList.add(getString(R.string.txt_select_state))
@@ -704,35 +687,47 @@ class ActivityCreateCandidate : AppCompatActivity() {
                 stateListmain.forEach {
                     stateStringList.add(it.StateName.toString())
                 }
-                Log.d(TAG, "getCountryCodeListFromApi: countryCode $countryStringList ${countryCodeStringList}")
+                Log.d(
+                    TAG,
+                    "getCountryCodeListFromApi: countryCode $countryStringList ${countryCodeStringList}"
+                )
 
-                if (actionCode==2)
-                {
+                if (actionCode == 2) {
                     runOnUiThread {
-                        binding.spinnerState.setSelection(stateSpinnerAdapter!!.getPosition(viewModel?.getUserProfileData()?.StateCode.toString()))
+                        binding.spinnerState.setSelection(
+                            stateSpinnerAdapter!!.getPosition(
+                                viewModel?.getUserProfileData()?.StateCode.toString()
+                            )
+                        )
                         stateSpinnerAdapter?.notifyDataSetChanged()
                     }
-                    val stateObj=stateListmain.find { it.StateName!!.equals(viewModel?.getUserProfileData()?.StateCode.toString()) }
-                    getCityListFromApi("All",stateObj?.Shortname.toString(),2)
-                }else{
+                    val stateObj =
+                        stateListmain.find { it.StateName!!.equals(viewModel?.getUserProfileData()?.StateCode.toString()) }
+                    getCityListFromApi("All", stateObj?.Shortname.toString(), 2)
+                } else {
                     runOnUiThread {
                         stateSpinnerAdapter?.notifyDataSetChanged()
                     }
                 }
 
-            }else
-            {
+            } else {
                 Log.d(TAG, "getCountryCodeListFromApi: code $errorCode")
             }
         }
     }
 
-    private fun getCityListFromApi(searchString:String,shortNameofState:String,actionCode:Int){
-        viewModel?.getCityByidList(shortNameofState,searchString) { data, isSuccess, errorCode, msg ->
-            if (isSuccess)
-            {
-                runOnUiThread { binding.spinnerCity.isEnabled=true }
-                binding.spinnerCity.isEnabled=true
+    private fun getCityListFromApi(
+        searchString: String,
+        shortNameofState: String,
+        actionCode: Int
+    ) {
+        viewModel?.getCityByidList(
+            shortNameofState,
+            searchString
+        ) { data, isSuccess, errorCode, msg ->
+            if (isSuccess) {
+                runOnUiThread { binding.spinnerCity.isEnabled = true }
+                binding.spinnerCity.isEnabled = true
                 cityListmain.clear()
                 cityStringList.clear()
 
@@ -742,77 +737,71 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     cityStringList.add(it.CityName.toString())
                 }
                 Log.d(TAG, "getCountryCodeListFromApi: countryCode $cityStringList")
-                runOnUiThread{
+                runOnUiThread {
                     citySpinnerAdapter?.notifyDataSetChanged()
-                    if (actionCode==2)
-                    binding.spinnerCity.setSelection(citySpinnerAdapter!!.getPosition(viewModel?.getUserProfileData()?.City.toString()))
+                    if (actionCode == 2)
+                        binding.spinnerCity.setSelection(citySpinnerAdapter!!.getPosition(viewModel?.getUserProfileData()?.City.toString()))
 
                 }
 
 
-
-            }else
-            {
+            } else {
 
                 Log.d(TAG, "getCountryCodeListFromApi: code $errorCode")
             }
         }
     }
 
-    private var recruiterId:String?=null
-    private var subscriberId:String?=null
-    private fun getCandidateDetails(id:String)
-    {
-        viewModel?.getCandidateDetails(CreateProfileDeepLinkHolder.getCandidateId().toString(),CreateProfileDeepLinkHolder.getTokenId().toString())
-        {data, isSuccess, errorCode, msg ->
-            if (isSuccess)
-            {
+    private var recruiterId: String? = null
+    private var subscriberId: String? = null
+    private fun getCandidateDetails(id: String) {
+        viewModel?.getCandidateDetails(
+            CreateProfileDeepLinkHolder.getCandidateId().toString(),
+            CreateProfileDeepLinkHolder.getTokenId().toString()
+        )
+        { data, isSuccess, errorCode, msg ->
+            if (isSuccess) {
                 try {
-                    if ( data?.aPIResponse?.message!=null)
-                    {
+                    if (data?.aPIResponse?.message != null) {
                         runOnUiThread { showAlerttoFinishActivity(data?.aPIResponse?.message!!) }
                     }
-                }catch (e:Exception)
-                {
+                } catch (e: Exception) {
                     Log.d(TAG, "getCandidateDetails: excpetion 738 ${e.message}")
                 }
-                recruiterId=data?.RecruiterId
-                subscriberId=data?.Subscriberid
-               setCandidateDetailsInView(data!!)
-            }
-            else
-            {
+                recruiterId = data?.RecruiterId
+                subscriberId = data?.Subscriberid
+                setCandidateDetailsInView(data!!)
+            } else {
                 runOnUiThread { showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong)) }
 
             }
         }
     }
 
-    private fun showAlerttoFinishActivity(msg:String)
-    {
-        var alertDialog=AlertDialog.Builder(this)
+    private fun showAlerttoFinishActivity(msg: String) {
+        var alertDialog = AlertDialog.Builder(this)
         alertDialog.run {
             setMessage(msg)
-            setPositiveButton(getString(R.string.txt_yes),object : DialogInterface.OnClickListener {
-                override fun onClick(p0: DialogInterface?, p1: Int) {
-                    finishAffinity()
-                }
-            })
+            setPositiveButton(getString(R.string.txt_yes),
+                object : DialogInterface.OnClickListener {
+                    override fun onClick(p0: DialogInterface?, p1: Int) {
+                        finishAffinity()
+                    }
+                })
             setCancelable(false)
             create()
             show()
         }
     }
 
-    private fun setCandidateDetailsInView(dataForIOS: ResponseRecruiterDetails)
-    {
+    private fun setCandidateDetailsInView(dataForIOS: ResponseRecruiterDetails) {
         try {
             runOnUiThread {
                 binding.etFirstname.setText(dataForIOS.FirstName)
                 binding.etLastname.setText(dataForIOS.LastName)
                 binding.etMiddlename.setText(dataForIOS.MiddleName)
                 binding.etEmail.setText(dataForIOS?.PrimaryEmail.toString())
-                binding.etEmail.isEnabled=false
+                binding.etEmail.isEnabled = false
                 binding.etZipCode.setText(dataForIOS.ZipCode)
                 binding.etStreet.setText(dataForIOS.Street)
                 //binding.etPhoneno.setText(dataForIOS.PrimaryContact)
@@ -822,15 +811,13 @@ class ActivityCreateCandidate : AppCompatActivity() {
                 binding.spinnerJobtype.setSelection(jobTypeSpinnerAdapter!!.getPosition(viewModel?.getUserProfileData()?.DesiredJob.toString()))
 
                 try {
-                    if ( dataForIOS?.aPIResponse?.message!=null)
-                    {
+                    if (dataForIOS?.aPIResponse?.message != null) {
                         runOnUiThread {
                             binding.etPhoneno.setText(dataForIOS.PrimaryContact)
 
                         }
                     }
-                }catch (e:Exception)
-                {
+                } catch (e: Exception) {
                     Log.d(TAG, "getCandidateDetails: excpetion 738 ${e.message}")
                 }
 
@@ -838,8 +825,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                 getCountryListFromApi(2)
                 getCountryCodeListFromApi(2)
             }
-        }catch (e:Exception)
-        {
+        } catch (e: Exception) {
             showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
         }
     }
