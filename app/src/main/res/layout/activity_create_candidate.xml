@@ -223,6 +223,8 @@
                                     android:layout_height="45sp"
                                     android:maxLength="10"
                                     android:hint="@string/txt_zip"
+                                    android:inputType="number"
+                                    android:digits="0123456789"
                                     android:singleLine="true"
                                     android:paddingHorizontal="@dimen/_10sp"
                                     android:background="@drawable/shape_rectangle_rounded_stroke_grey"
