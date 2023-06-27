@@ -22,6 +22,7 @@ import com.ui.activities.upcomingMeeting.audioRecord.player.AudioPlayer
 import com.ui.activities.upcomingMeeting.audioRecord.player.VMPlayAudio
 import com.ui.activities.upcomingMeeting.audioRecord.utils.formatAsTime
 import com.ui.activities.upcomingMeeting.audioRecord.utils.getDrawableCompat
+import com.ui.activities.uploadResumeDocument.ActivityResumeDocument
 import com.veriKlick.R
 import com.veriKlick.databinding.ActivityPlayBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,11 +51,9 @@ class PlayActivity : AppCompatActivity() {
             } else {
                 showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
             }
-
-
         }
         binding.btnSkip.setOnClickListener {
-                val intent= Intent(this, ActivityCreateCandidate::class.java)
+                val intent= Intent(this, ActivityResumeDocument::class.java)
                 startActivity(intent)
                 overridePendingTransition(
                     R.anim.slide_in_right,

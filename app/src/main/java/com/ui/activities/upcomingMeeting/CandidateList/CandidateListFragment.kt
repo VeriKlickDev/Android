@@ -214,12 +214,14 @@ class CandidateListFragment() : Fragment() {
         return binding.root
     }
 
-    private fun openQuestionnaire(data: SavedProfileDetail)
+    private fun openQuestionnaire(sdata: SavedProfileDetail)
     {//"48673"
-    viewModel.getQuestionnaireforCandidate(data.id.toString()){data, isSuccess, errorCode, msg ->
+        sdata
+    viewModel.getQuestionnaireforCandidate(sdata.id.toString()){data, isSuccess, errorCode, msg ->
         if (data?.Answer?.size!!>0)
         {requireActivity().runOnUiThread {
             val i=Intent(requireContext(),ActivityShowCandidateQuestinnaire::class.java)
+            i.putExtra(AppConstants.CANDIDATE_ID,sdata.id.toString())
             requireActivity().startActivity(i)
             requireActivity().overridePendingTransition(
                 R.anim.slide_in_right,
