@@ -12,8 +12,6 @@ import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.FileProvider
-import androidx.core.net.toFile
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
 import com.data.dataHolders.CandidateImageAndAudioHolder
@@ -21,7 +19,6 @@ import com.data.dataHolders.CreateProfileDeepLinkHolder
 import com.domain.BaseModels.CandidateDeepLinkDataModel
 import com.domain.constant.AppConstants
 import com.ui.activities.createCandidate.ActivityCreateCandidate
-import com.ui.activities.upcomingMeeting.audioRecord.AudioMainActivity
 import com.veriKlick.R
 import com.veriKlick.databinding.ActivityUploadResumeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -157,9 +154,20 @@ class ActivityResumeDocument : AppCompatActivity() {
 
 
     fun getResumeFile() {
+
         var chooseFile = Intent(Intent.ACTION_GET_CONTENT)
         chooseFile.addCategory(Intent.CATEGORY_OPENABLE)
+       // chooseFile.type = "*/*"
+
+        val mimeTypes = arrayOf(
+            "application/pdf",
+            "application/msword",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        )
         chooseFile.type = "*/*"
+        chooseFile.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+
+
 //        chooseFile = Intent.createChooser(chooseFile, "Choose a file")
         contractorResumeFile.launch(chooseFile)
 
