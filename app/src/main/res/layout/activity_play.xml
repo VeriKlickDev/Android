@@ -156,7 +156,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_uploadData"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="55sp"
                 android:layout_marginHorizontal="@dimen/_10sp"
                 android:layout_marginTop="92dp"
                 android:background="@drawable/shape_roundedcorner_blue_10"

@@ -106,7 +106,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
         } else {
             showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
         }
-
+        binding.btnUploadImage.isEnabled=false
     }
 
     override fun finish() {

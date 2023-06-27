@@ -3,6 +3,7 @@ package com.ui.activities.createCandidate
 import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -92,10 +93,11 @@ class ActivityCreateCandidate : AppCompatActivity() {
         }
 
         binding.etPhoneno.doOnTextChanged { text, start, before, count ->
-            isPhoneok=phoneValidator(text.toString())
+            //isPhoneok=phoneValidator(text.toString())
             if (phoneValidator(text.toString()))
             {
                 Log.d(TAG, "onCreate: phone valid")
+                checkPhoneExists(text.toString())
             }else
             {
                 Log.d(TAG, "onCreate: phone invalid")
@@ -118,6 +120,26 @@ class ActivityCreateCandidate : AppCompatActivity() {
         }
 
     }
+
+
+    private fun checkPhoneExists(txt: String) {
+        viewModel?.getIsPhoneExists(txt,true,
+            response = { data ->
+                runOnUiThread {
+                    if (data.aPIResponse?.StatusCode!=null) {
+                        showCustomToast(getString(R.string.txt_phone_already_exists))
+                        isPhoneok=false
+                        Handler(mainLooper).postDelayed({binding.etPhoneno.setText("")},2000)
+
+                    } else {
+                        //  binding.etPhoneno.setError(data.aPIResponse?.Message.toString())
+                        isPhoneok=true
+                    }
+                }
+            })
+    }
+
+
     override fun finish() {
         super.finish()
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
@@ -171,7 +193,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                 Log.d(TAG, "validateAllFields: email blank")
             } else if (binding.etPhoneno.text.toString().equals("") || !isPhoneok) {
                 showCustomToast(
-                    getString(R.string.hint_password) + " ${getString(R.string.txt_is)} ${
+                    getString(R.string.txt_phoneNo) + " ${getString(R.string.txt_is)} ${
                         getString(
                             R.string.txt_invalid_or_blank_data
                         )
@@ -310,7 +332,9 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     ob.skills?.skill=binding.etSecondarySkills.text.toString()
                     ob.profile?.streetName=binding.etStreet.text.toString()
                     Log.d(TAG, "postData: posting data object ${Gson().toJson(ob)}")
+
                     runOnUiThread { showProgressDialog() }
+
                     viewModel?.createCandidateWithoutAuth(ob,
                         CandidateImageAndAudioHolder.getDeepLinkData()?.token_Id!!.toString()
                     ){ data, isSuccess, errorCode, msg ->
@@ -359,7 +383,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                                     stateSpinnerAdapter?.notifyDataSetChanged()
                                     citySpinnerAdapter?.notifyDataSetChanged()
                                 }
-
+                                countryCodeStr=it.Id.toString()
                                 getStateListFromApi("All",it.Id.toString(),0)
                                 countryStr=countryStringList[position]
                             }
@@ -400,7 +424,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                         stateListmain.forEach {
                             if (stateStringList[position].toString().equals(it.StateName.toString())
                             ) {
-                                stateStr=stateStringList[position]
+                                stateStr=it.Shortname
                                 getCityListFromApi("All",it.Shortname.toString(),0)
                             }
                         }
@@ -516,7 +540,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                             loopdata
                             if (countryn.toString().trim().lowercase().equals(countryCodeStringList[position].toString().trim().lowercase()))
                             {
-                                countryCodeStr=it.Name
+                                //countryCodeStr=it.codedisplay
                                 phoneCodeStr=it.PhoneCode
                                 Log.d(TAG, "onItemSelected: selected country phone code ${it}")
                             }
@@ -555,6 +579,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
 
                     countryListMain.addAll(data!!)
                     countryListMain.forEach {
+                        if (it.IsActive!!)
                         countryStringList.add(it.SortName.toString())
                     }
 
@@ -787,6 +812,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                 binding.etLastname.setText(dataForIOS.LastName)
                 binding.etMiddlename.setText(dataForIOS.MiddleName)
                 binding.etEmail.setText(dataForIOS?.PrimaryEmail.toString())
+                binding.etEmail.isEnabled=false
                 binding.etZipCode.setText(dataForIOS.ZipCode)
                 binding.etStreet.setText(dataForIOS.Street)
                 //binding.etPhoneno.setText(dataForIOS.PrimaryContact)
