@@ -138,7 +138,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             requestCameraAndMicPermissionsTiramishu {
                 requestWriteExternamlStoragePermissions {
                     requestNearByPermissions {
-                        checkDeepLinkIsOpenFirst()
+                       // checkDeepLinkIsOpenFirst()
                     }
                 }
             }
@@ -146,7 +146,7 @@ class UpcomingMeetingActivity : AppCompatActivity() {
             requestCameraAndMicPermissions {
                 requestWriteExternamlStoragePermissions {
                     requestNearByPermissions {
-                        checkDeepLinkIsOpenFirst()
+                       // checkDeepLinkIsOpenFirst()
                     }
                 }
             }

@@ -228,7 +228,6 @@
                                     android:singleLine="true"
                                     android:paddingHorizontal="@dimen/_10sp"
                                     android:background="@drawable/shape_rectangle_rounded_stroke_grey"
-
                                     tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
 

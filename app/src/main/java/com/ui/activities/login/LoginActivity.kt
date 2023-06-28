@@ -181,7 +181,7 @@ class LoginActivity : AppCompatActivity() {
             requestCameraAndMicPermissionsTiramishu{
                 requestWriteExternamlStoragePermissions {
                     requestNearByPermissions {
-                        checkDeepLinkIsOpenFirst()
+                       // checkDeepLinkIsOpenFirst()
                 }
                 }
             }
@@ -190,7 +190,7 @@ class LoginActivity : AppCompatActivity() {
             requestCameraAndMicPermissions{
                 requestWriteExternamlStoragePermissions {
                     requestNearByPermissions {
-                        checkDeepLinkIsOpenFirst()
+                       // checkDeepLinkIsOpenFirst()
                     }
                 }
             }

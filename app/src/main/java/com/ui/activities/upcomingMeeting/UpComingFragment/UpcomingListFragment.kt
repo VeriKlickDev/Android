@@ -385,7 +385,7 @@ class UpcomingListFragment(val from: String) : Fragment() {
 
             requireActivity().requestAllPermissionForApp {
                 requireActivity().runOnUiThread {
-                    checkDeepLinkIsOpenFirst()
+                   // checkDeepLinkIsOpenFirst()
                 }
                 Log.d(TAG, "checkAllPermisions: all permission for app  tiramishu $it")
             }
@@ -394,7 +394,7 @@ class UpcomingListFragment(val from: String) : Fragment() {
            try {
                requireActivity().requestAllPermissionForApp {
                    requireActivity().runOnUiThread {
-                       checkDeepLinkIsOpenFirst()
+                     //  checkDeepLinkIsOpenFirst()
                    }}
            }catch (e:Exception){}
             Log.d(TAG, "checkAllPermisions: below below12")

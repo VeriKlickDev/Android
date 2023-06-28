@@ -19,6 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Locale
+import android.net.Uri
 
 @AndroidEntryPoint
 class VeriklickDeepLinkSpashScreen : AppCompatActivity() {
@@ -63,6 +64,10 @@ class VeriklickDeepLinkSpashScreen : AppCompatActivity() {
 
         getAppLanguage()
 
+        // ATTENTION: This was auto-generated to handle app links.
+        val appLinkIntent: Intent = intent
+        val appLinkAction: String? = appLinkIntent.action
+        val appLinkData: Uri? = appLinkIntent.data
     }
 
     private val TAG="langugaeWalaDeeplink"
