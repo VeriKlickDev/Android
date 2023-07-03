@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import com.domain.constant.AppConstants
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.ui.activities.login.loginwithotp.ActivitiyLoginWithOtp
 import com.ui.activities.twilioVideo.VideoActivity
 import com.veriKlick.R
 
@@ -26,6 +27,11 @@ class FirebaseMessangingServiceHelper : FirebaseMessagingService() {
             "onMessageReceived: on message recieved ${message.data} ${message.rawData} ${message.notification.toString()}  ${message}"
         )
         showNotificaiton(message)
+
+        val intent=Intent(this,ActivitiyLoginWithOtp::class.java)
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+
         super.onMessageReceived(message)
     }
 
@@ -94,7 +100,6 @@ class FirebaseMessangingServiceHelper : FirebaseMessagingService() {
             // .setCustomBigContentView(notificationLayoutExpanded)
             .build()
         manager.notify(AppConstants.FIREBASE_CHANNEL_NAME, 10002, notification)
-
 
     }
 
