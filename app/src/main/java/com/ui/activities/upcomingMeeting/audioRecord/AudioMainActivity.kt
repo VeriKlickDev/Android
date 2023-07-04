@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
 import com.data.dataHolders.CreateProfileDeepLinkHolder
 import com.data.dataHolders.DataStoreHelper
+import com.data.selectLangaugeDialogGlobal
 import com.data.setLanguagetoApp
 import com.ui.activities.createCandidate.ActivityCreateCandidate
 import com.ui.activities.upcomingMeeting.audioRecord.recorder.Recorder
@@ -59,6 +60,10 @@ class AudioMainActivity : AppCompatActivity() {
                 R.anim.slide_out_left
             )
         }
+        binding.tvSetPreference.setOnClickListener {
+            selectLangaugeDialogGlobal()
+        }
+
     }
 
     private fun getAppLanguage()

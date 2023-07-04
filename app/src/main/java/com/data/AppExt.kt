@@ -29,6 +29,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
 import com.araujo.jordan.excuseme.ExcuseMe
 import com.data.dataHolders.DataStoreHelper
+import com.domain.BaseModels.ModelLanguageSelect
 import com.domain.BaseModels.ResponseChatFromToken
 import com.domain.BaseModels.ResponseJWTTokenLogin
 import com.domain.IncomingCallCallback
@@ -37,6 +38,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.veriKlick.R
 import com.veriKlick.databinding.CustomSnackbarGlobalBinding
+import com.veriKlick.databinding.LayoutChooseLanguageDialogBinding
 import com.veriKlick.databinding.LayoutPrivacyPolicyBinding
 import com.veriKlick.databinding.LayoutProgressBinding
 import com.veriKlick.databinding.LayoutSuccessMsgSnackbarPlayerBinding
@@ -1108,6 +1110,106 @@ fun EditText.getEditTextWithFlow(): Flow<String> {
         awaitClose { cancel() }
     }
 }
+
+
+fun Activity.selectLangaugeDialogGlobal() {
+    runOnUiThread {
+        val dialog = Dialog(this)
+
+        val dialogBinding =
+            LayoutChooseLanguageDialogBinding.inflate(LayoutInflater.from(this))
+        dialog.setContentView(dialogBinding.root)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogBinding.btnCross.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialogBinding.btnSubmitButton.setText(getString(R.string.txt_submit))
+        val language = mutableListOf<String>()
+        val languageStringList = mutableListOf<ModelLanguageSelect>()
+
+        languageStringList.add(ModelLanguageSelect(getString(R.string.txt_english), "en-US"))
+        languageStringList.add(ModelLanguageSelect(getString(R.string.txt_spanish), "es"))
+        languageStringList.add(ModelLanguageSelect(getString(R.string.txt_french), "fr"))
+
+        language.add(getString(R.string.txt_select_language))
+        language.add(getString(R.string.txt_english))
+        language.add(getString(R.string.txt_spanish))
+        language.add(getString(R.string.txt_french))
+        var selectedLanguage: String? = null
+        CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            runOnUiThread {
+
+                // dialogBinding.tvUsername.setText(data.Name)
+
+                val langAdapter = getArrayAdapterOneItemSelected(language)
+                dialogBinding.spinnerLanguage.onItemSelectedListener =
+                    object : AdapterView.OnItemSelectedListener {
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                            if (position != 0) {
+                                languageStringList.forEach {
+                                    if (it.language.equals(language[position])) {
+                                        selectedLanguage = it.langCode
+                                    }
+                                }
+
+                            }
+                        }
+
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                        }
+
+                    }
+
+                dialogBinding.spinnerLanguage.adapter = langAdapter
+
+                dialogBinding.btnSubmitButton.setOnClickListener {
+                    if (selectedLanguage != null) {
+                      //  Log.d(TAG, "selectLangaugeDialog: selected language $selectedLanguage")
+                        setLanguagetoApp1(selectedLanguage.toString())
+                    } else {
+                       // Log.d(TAG, "selectLangaugeDialog: selected language else part")
+                        dialogBinding.tvError.visibility = View.VISIBLE
+                        setHandler().postDelayed({
+                            dialogBinding.tvError.visibility = View.INVISIBLE
+                        }, 3000)
+                        //showCustomSnackbarOnTop(getString(R.string.txt_please_select_language))
+                    }
+                }
+            }
+
+        }
+
+        dialog.create()
+        dialog.show()
+
+    }
+}
+
+
+private fun Activity.setLanguagetoApp1(langCode:String)
+{
+    runOnUiThread {
+        val local= Locale(langCode)
+        Locale.setDefault(local)
+        val config=resources.configuration
+        config.setLocale(local)
+        resources.updateConfiguration(config,resources.displayMetrics)
+        startActivity(intent)
+        overridePendingTransition(
+            R.anim.slide_in_right,
+            R.anim.slide_out_left
+        )
+        finish()
+    }
+}
+
+
 
 fun Context.getIntervalMonthDate(): String? {
     val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")

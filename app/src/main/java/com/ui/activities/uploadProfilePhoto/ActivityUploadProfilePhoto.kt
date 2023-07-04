@@ -17,6 +17,7 @@ import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
 import com.data.dataHolders.CandidateImageAndAudioHolder
@@ -78,6 +79,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
         binding.ivUploadImage.setOnClickListener {
             getImageBottomSheet()
         }
+        binding.btnRetake.setOnClickListener { getImageBottomSheet() }
 
         binding.btnUploadImage.setOnClickListener {
             uploadImage()
@@ -375,6 +377,8 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                 val resultUri = UCrop.getOutput(data!!)
                 binding.ivUploadImage.setImageURI(resultUri)
                 binding.btnUploadImage.isEnabled=true
+                binding.btnRetake.isVisible=true
+                binding.ivEditPencil.isVisible=false
                 binding.ivUploadImage.scaleType=ImageView.ScaleType.CENTER_CROP
                 finalUserImageUri=resultUri
                 Log.d(TAG, "onActivityResult: destUri $desUri")
@@ -389,6 +393,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
             Log.d(TAG, "onActivityResult: error ")
         }
     }
+
 
     private fun uploadImage()
     {

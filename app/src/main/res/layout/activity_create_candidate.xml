@@ -19,6 +19,10 @@
             android:layout_marginBottom="@dimen/_10sp"
             >
 
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
             <ImageView
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
@@ -26,6 +30,27 @@
                 android:id="@+id/btn_jump_back"
                 android:layout_margin="@dimen/_16sdp"
                 />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                />
+
+            <ImageView
+                android:id="@+id/tv_set_preference"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_margin="@dimen/_10sp"
+                android:src="@drawable/ic_change_langauge"
+                android:fontFamily="@font/sarabun_semibold"
+                android:gravity="right"
+                android:textColor="@color/skyblue_light1"
+                android:textSize="@dimen/_15sp"
+                />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
 
             <ScrollView
                 android:layout_width="match_parent"

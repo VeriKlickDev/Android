@@ -92,6 +92,11 @@ class ActivityResumeDocument : AppCompatActivity() {
   */
 
         binding.btnUploadResume.isEnabled = false
+
+        binding.tvSetPreference.setOnClickListener {
+            selectLangaugeDialogGlobal()
+        }
+
     }
 
     override fun finish() {

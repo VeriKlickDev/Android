@@ -242,5 +242,7 @@
     <string name="txt_select_job_type" tools:ignore="MissingTranslation">Sélectionnez le type de travail</string>
     <string name="txt_select_country" tools:ignore="MissingTranslation">Choisissez le pays</string>
     <string name="txt_select_city" tools:ignore="MissingTranslation">Sélectionnez une ville</string>
+    <string name="txt_retake">reprendre</string>
+    <string name="txt_tap_on_above_icon_to_select_an_image">Appuyez sur l\'icône ci-dessus pour sélectionner une image.</string>
 
 </resources>

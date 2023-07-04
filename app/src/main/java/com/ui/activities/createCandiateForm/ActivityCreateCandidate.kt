@@ -117,6 +117,9 @@ class ActivityCreateCandidate : AppCompatActivity() {
             showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
         }
 
+        binding.tvSetPreference.setOnClickListener {
+            selectLangaugeDialogGlobal()
+        }
     }
 
 

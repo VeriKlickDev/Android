@@ -3,6 +3,7 @@ package com.ui.activities.upcomingMeeting.CandidateList
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.domain.BaseModels.QuestionierTemplates
 import com.veriKlick.databinding.LayoutTemplateItemBinding
@@ -20,6 +21,12 @@ class TemplatesListAdapter(
                 onclick(data, 1, adapterPosition)
             }
             binding.tvTemplateName.setText(data.TemplateName)
+
+                if (list.size==adapterPosition+1)
+                {
+                    binding.ivBottomLine.isVisible=false
+                   // notifyItemChanged(adapterPosition)
+                }
         }
     }
 
