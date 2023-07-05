@@ -617,10 +617,10 @@ class ActivityCreateCandidate : AppCompatActivity() {
                 try {
                     countryCodeList.clear()
                     countryCodeStringList.clear()
-                    countryCodeStringList.add(getString(R.string.txt_code))
+                    countryCodeStringList.add(getString(R.string.txt_country_code))
                     countryCodeList.addAll(data!!)
                     countryCodeList.forEach {
-                        //21jun2023 countryCodeStringList.add(it.codedisplay.toString()+" "+it.Name)
+                        countryCodeStringList.add(it.codedisplay.toString()+" "+it.Name)
                         countryCodeStringList.add(it.codedisplay.toString() + " " + it.Name)
                     }
                     Log.d(
@@ -766,7 +766,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
             if (isSuccess) {
                 try {
                     if (data?.aPIResponse?.message != null) {
-                        runOnUiThread { showAlerttoFinishActivity(data?.aPIResponse?.message!!) }
+                       //uncomment runOnUiThread { showAlerttoFinishActivity(data?.aPIResponse?.message!!) }
                     }
                 } catch (e: Exception) {
                     Log.d(TAG, "getCandidateDetails: excpetion 738 ${e.message}")
@@ -776,7 +776,6 @@ class ActivityCreateCandidate : AppCompatActivity() {
                 setCandidateDetailsInView(data!!)
             } else {
                 runOnUiThread { showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong)) }
-
             }
         }
     }
