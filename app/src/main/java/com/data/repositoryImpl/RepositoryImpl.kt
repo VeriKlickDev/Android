@@ -230,6 +230,10 @@ class RepositoryImpl @Inject constructor(
         return baseRestApi.getQuestionnaireForCandidate(url)
     }
 
+    override suspend fun getTimeZone(timeZoneBody: BodyTimeZone): Response<String> {
+        return baseRestApi.getTimeZone(timeZoneBody)
+    }
+
     override suspend fun updateUserResume(token: String,ob: BodyCandidateResume,filePart:MultipartBody.Part): Response<ResponseCandidateResume> {
         return loginRestApi.updateUserResume(token,ob,filePart)
     }

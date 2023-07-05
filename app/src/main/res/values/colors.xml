@@ -26,6 +26,8 @@
     <color name="canceled_text_color">#A82131</color>
     <color name="lightGreen">#D2F7D3</color>
     <color name="darkGreen">#1D9122</color>
+    <color name="yellowDark">#F19800</color>
     <color name="yellow">#F19800</color>
+    <color name="yellowLight">#FFC107</color>
 
 </resources>

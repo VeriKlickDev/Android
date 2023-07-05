@@ -53,7 +53,7 @@ class VeriklickDeepLinkSpashScreen : AppCompatActivity() {
             {
                 CreateProfileDeepLinkHolder.setLink(getString(R.string.url_createCandidatebase) + pathstr.toString())
                 CreateProfileDeepLinkHolder.setQuestionnaireLink(pathstr.toString())
-                Log.d(TAG, "onCreate: candidate Question")
+                Log.d(TAG, "onCreate: candidate Question ")
             }
         }
 

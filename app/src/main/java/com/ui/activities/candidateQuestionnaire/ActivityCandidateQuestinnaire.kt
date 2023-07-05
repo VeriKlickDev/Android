@@ -47,6 +47,8 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
         questionAdapter = CandidateQuestionnaireListAdapter(this,questionList!!,true){data: CandidateQuestionnaireModel, action: Int ->
 
         }
+        handleObserver()
+        getTimeZoneFromApi()
       //  getAppLanguage()
         binding?.rvQuestions?.layoutManager=LinearLayoutManager(this)
         binding?.rvQuestions?.adapter=questionAdapter
@@ -132,6 +134,116 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
                             finish()
                             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                         } else {
+                            dialogBinding.tvError.visibility = View.VISIBLE
+                            setHandler().postDelayed({
+                                dialogBinding.tvError.visibility = View.INVISIBLE
+                            }, 3000)
+                            //showCustomSnackbarOnTop(getString(R.string.txt_please_select_language))
+                        }
+                    }
+                }
+
+            }
+
+            dialog.create()
+            dialog.show()
+
+        }
+    }
+
+    private fun getTimeZoneFromApi()
+    {
+        val pathstr=CreateProfileDeepLinkHolder.getQuestionString()
+        val pathlist=pathstr?.split("/")
+        val candidateId=pathlist?.get(3)
+
+
+        Log.d(TAG, "getTimeZoneFromApi: ${candidateId}")
+        viewModel?.getTimeZone(candidateId = candidateId!!){data, isSuccess, errorCode, msg ->
+            Log.d(TAG, "getTimeZoneFromApi: api resonse $isSuccess $errorCode excp ${msg}")
+        }
+        Log.d(TAG, "getTimeZoneFromApi: api resonse after")
+    }
+
+    private fun handleObserver()
+    {
+        viewModel?.timeZoneLiveData?.observe(this){
+            if (!it.isNullOrEmpty()){
+                timeZoneList.clear()
+                timeZoneList.addAll(it)
+            }
+        }
+    }
+
+
+    private var selectedTimeZone: String? = null
+    private var timeZoneList= mutableListOf<TimeZone21>()
+    private fun selectTimeZoneDialog(obj:BodyQuestionnaire) {
+        runOnUiThread {
+            val dialog = Dialog(this)
+
+            val dialogBinding =
+                LayoutChooseLanguageDialogBinding.inflate(LayoutInflater.from(this))
+            dialog.setContentView(dialogBinding.root)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialogBinding.btnCross.setOnClickListener {
+                dialog.dismiss()
+            }
+            dialogBinding.btnSubmitButton.setText(getString(R.string.txt_submit))
+
+            val timeZoneListString = mutableListOf<String>()
+            timeZoneListString.add(getString(R.string.txt_select_timezone).toString())
+
+            try {
+                timeZoneList.forEach{
+                    timeZoneListString.add(it.TimeZoneDescription.toString())
+                }
+            }catch (e:Exception)
+            {
+
+            }
+
+
+            CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+                runOnUiThread {
+
+                    // dialogBinding.tvUsername.setText(data.Name)
+
+                    val timeZoneAdapter = getArrayAdapterOneItemSelected(timeZoneListString)
+
+                    dialogBinding.spinnerLanguage.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: View?,
+                                position: Int,
+                                id: Long
+                            ) {
+                                if (position != 0) {
+                                    timeZoneList.forEach {
+                                        if (it.TimeZoneDescription.equals(timeZoneListString[position])) {
+                                            selectedTimeZone = it.TimeZone
+                                        }
+                                    }
+
+                                }
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                            }
+
+                        }
+
+                    dialogBinding.spinnerLanguage.adapter = timeZoneAdapter
+                    dialogBinding.btnSubmitButton.setText(getString(R.string.txt_submit))
+                    dialogBinding.btnSubmitButton.setOnClickListener {
+                        if (selectedTimeZone != null) {
+                            dialog.dismiss()
+                            scheduleMeetingDate(obj)
+                           // setLanguagetoApp(selectedLanguage.toString())
+                        } else {
+                            dialogBinding.tvError.setText(getString(R.string.txt_timezone_not_selected))
                             dialogBinding.tvError.visibility = View.VISIBLE
                             setHandler().postDelayed({
                                 dialogBinding.tvError.visibility = View.INVISIBLE
@@ -384,7 +496,8 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
 
             bodyQuestionnaire.answerMasterModels.addAll(answerList)
            // runOnUiThread { showProgressDialog() }
-            scheduleMeetingDate(bodyQuestionnaire)
+            selectTimeZoneDialog(bodyQuestionnaire)
+            //05july2023 scheduleMeetingDate(bodyQuestionnaire)
             /**may23_2023*/
             /*viewModel?.postQuestionnaires(bodyQuestionnaire){data, isSuccess, errorCode, msg ->
                runOnUiThread {

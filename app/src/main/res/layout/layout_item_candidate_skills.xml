@@ -55,7 +55,7 @@
             android:id="@+id/ratingbar_wireframing"
             app:reviewScoreMax="5"
             android:max="5"
-            android:theme="@style/RatingBar"
+            android:theme="@style/RatingBarLightYellow"
             style="@style/Widget.AppCompat.RatingBar.Indicator"
             android:isIndicator="false"
             />

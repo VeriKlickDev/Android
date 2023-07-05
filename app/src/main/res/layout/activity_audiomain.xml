@@ -68,7 +68,7 @@
                 android:text="@string/txt_introduce_yourself"
                 android:textColor="@color/black"
                 android:layout_margin="0dp"
-                style="@style/textview.Style.TvStyleWhiteRounded_30.withoutMargin"
+                style="@style/textview.Style.TvStyleWhiteRounded_30"
                 />
 
             <TextView

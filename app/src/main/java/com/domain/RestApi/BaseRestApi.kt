@@ -153,6 +153,9 @@ interface BaseRestApi {
     @GET
     suspend fun getQuestionnaireForCandidate(@Url url:String):Response<ResponseShowQuestionnaire>
 
+    @POST("/api/ScheduleVideo/GetInterviewScheduleInfo")
+    suspend fun getTimeZone(@Body timeZoneBody:BodyTimeZone):Response<String>
+
 
 }
 

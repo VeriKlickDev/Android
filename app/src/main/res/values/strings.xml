@@ -121,6 +121,7 @@
     <string name="txt_add_member">Add Members</string>
     <string name="txt_you_are_not_authorized_to_record_video">you are not authorized to record video</string>
     <string name="txt_stop_screensharing">Stop Screen Share</string>
+    <string name="txt_privacy_policy_underline" tools:ignore="ExtraTranslation"><u>politique de confidentialité</u>  </string>
     <string name="txt_privacy_policy"><u>Privacy Policy</u></string>
     <string name="txt_term_and_condition_underline"><u>Terms and Conditions</u></string>
     <string name="txt_term_and_condition">Terms and Conditions</string>
@@ -251,5 +252,7 @@
     <string name="txt_select_city" tools:ignore="MissingTranslation">Select city</string>
     <string name="txt_retake">Retake</string>
     <string name="txt_tap_on_above_icon_to_select_an_image">Tap on above icon to select an image.</string>
+    <string name="txt_select_timezone">Select time zone</string>
+    <string name="txt_timezone_not_selected">Timezone not selected</string>
 
 </resources>

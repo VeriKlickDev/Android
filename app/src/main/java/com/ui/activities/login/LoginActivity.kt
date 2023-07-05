@@ -40,6 +40,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.ZoneId
+import java.util.Calendar
+import java.util.TimeZone
 import kotlin.concurrent.thread
 
 @AndroidEntryPoint
@@ -61,6 +64,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+
 
 
         checkPermissions()
