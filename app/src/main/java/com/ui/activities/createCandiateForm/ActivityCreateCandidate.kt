@@ -620,7 +620,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     countryCodeStringList.add(getString(R.string.txt_country_code))
                     countryCodeList.addAll(data!!)
                     countryCodeList.forEach {
-                        countryCodeStringList.add(it.codedisplay.toString()+" "+it.Name)
+                        //21jun2023 countryCodeStringList.add(it.codedisplay.toString()+" "+it.Name)
                         countryCodeStringList.add(it.codedisplay.toString() + " " + it.Name)
                     }
                     Log.d(
@@ -766,7 +766,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
             if (isSuccess) {
                 try {
                     if (data?.aPIResponse?.message != null) {
-                       //uncomment runOnUiThread { showAlerttoFinishActivity(data?.aPIResponse?.message!!) }
+                        runOnUiThread { showAlerttoFinishActivity(data?.aPIResponse?.message!!) }
                     }
                 } catch (e: Exception) {
                     Log.d(TAG, "getCandidateDetails: excpetion 738 ${e.message}")
