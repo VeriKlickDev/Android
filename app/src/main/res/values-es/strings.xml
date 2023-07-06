@@ -245,7 +245,8 @@
     <string name="txt_select_city" tools:ignore="MissingTranslation">Ciudad selecta</string>
     <string name="txt_retake">volver a tomar</string>
     <string name="txt_tap_on_above_icon_to_select_an_image">Toque el icono de arriba para seleccionar una imagen.</string>
-    <string name="txt_select_timezone">Select time zone</string>
-    <string name="txt_timezone_not_selected">Timezone not selected</string>
+
+    <string name="txt_select_timezone">Selecciona la zona horaria</string>
+    <string name="txt_timezone_not_selected">Zona horaria no seleccionada</string>
 
 </resources>
