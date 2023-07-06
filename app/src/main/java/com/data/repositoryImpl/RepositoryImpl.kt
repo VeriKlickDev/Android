@@ -234,6 +234,10 @@ class RepositoryImpl @Inject constructor(
         return baseRestApi.getTimeZone(timeZoneBody)
     }
 
+    override suspend fun getSMSchatHistory(authToken: String,obj: BodySMSchatHistory): Response<List<ResponseSMSchatHistory>> {
+        return baseRestApi.getSMSchatHistory(authToken,obj)
+    }
+
     override suspend fun updateUserResume(token: String,ob: BodyCandidateResume,filePart:MultipartBody.Part): Response<ResponseCandidateResume> {
         return loginRestApi.updateUserResume(token,ob,filePart)
     }

@@ -248,5 +248,6 @@
 
     <string name="txt_select_timezone">Selecciona la zona horaria</string>
     <string name="txt_timezone_not_selected">Zona horaria no seleccionada</string>
+    <string name="txt_SMS_history">SMS history</string>
 
 </resources>

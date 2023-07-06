@@ -18,14 +18,15 @@
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.BLUETOOTH_SCAN"
         android:usesPermissionFlags="neverForLocation"
         tools:ignore="UnusedAttribute" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <queries>
@@ -45,6 +46,7 @@
     <application
         android:name="com.data.application.MyApplication"
         android:allowBackup="true"
+        android:allowClearUserData="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher_verklick"
@@ -56,197 +58,120 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.VeriklickBase"
         android:usesCleartextTraffic="true"
-        android:allowClearUserData="true"
         tools:targetApi="31">
-
-        <activity android:name="com.ui.activities.createCandidate.ActivityCreateCandidate"
+        <activity
+            android:name="com.ui.activities.smsChatHistory.ActivitySmsHistory"
+            android:exported="false" />
+        <activity
+            android:name="com.ui.activities.createCandidate.ActivityCreateCandidate"
             android:exported="true"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            />
-
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.ui.activities.candidateQuestionnaire.ActivityCandidateQuestinnaire"
             android:exported="true"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
-
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.ui.activities.candidateQuestionnaire.ActivityShowCandidateQuestinnaire"
             android:exported="true"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.ui.activities.uploadResumeDocument.ActivityResumeDocument"
             android:exported="true"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
-
-<!--        -->
-<!--        <activity-->
-<!--            android:name="com.ui.activities.createCandidate.FragmentCreateCandidate"-->
-<!--            android:exported="false"-->
-<!--            android:screenOrientation="portrait"-->
-<!--            android:theme="@style/Theme.VeriklickBase">-->
-<!--            <meta-data-->
-<!--                android:name="android.app.lib_name"-->
-<!--                android:value="" />-->
-<!--        </activity>-->
-<!--        -->
+            tools:ignore="LockedOrientationActivity" /> <!--  -->
+        <!-- <activity -->
+        <!-- android:name="com.ui.activities.createCandidate.FragmentCreateCandidate" -->
+        <!-- android:exported="false" -->
+        <!-- android:screenOrientation="portrait" -->
+        <!-- android:theme="@style/Theme.VeriklickBase"> -->
+        <!-- <meta-data -->
+        <!-- android:name="android.app.lib_name" -->
+        <!-- android:value="" /> -->
+        <!-- </activity> -->
+        <!--  -->
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.ui.activities.upcomingMeeting.audioRecord.AudioMainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.ui.activities.upcomingMeeting.audioRecord.PlayActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.ui.activities.uploadProfilePhoto.ActivityUploadProfilePhoto"
             android:exported="true"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            tools:ignore="AppLinkUrlError,LockedOrientationActivity">
-
-
-        </activity>
-
-        <activity android:name="com.ui.activities.createCandiateForm.ActivityCreateCandidateWebForm"
+            tools:ignore="AppLinkUrlError,LockedOrientationActivity"></activity>
+        <activity
+            android:name="com.ui.activities.createCandiateForm.ActivityCreateCandidateWebForm"
             android:exported="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            />
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.ui.activities.login.loginwithotp.ActivitiyLoginWithOtp"
             android:exported="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            />
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.ui.activities.adduserlist.ActivityAddParticipant"
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.ui.activities.forgotPassword.ForgotPasswordActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.ui.activities.chat.ChatActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.ui.activities.upcomingMeeting.UpcomingMeetingActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
             android:windowSoftInputMode="adjustNothing"
-            />
-
-
-
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.harvee.yourhealthmate2.ui.privacypolicy.ActivityPrivacyPolicy"
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.ui.activities.feedBack.ActivityFeedBackForm"
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.ui.activities.meetingmemberslist.MemberListActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
-
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.ui.activities.splashScreen.VeriklickDeepLinkSpashScreen"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
-
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-
-            <intent-filter
-                android:autoVerify="true"
-                android:label="@string/app_name">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
-                <data
-                    android:host="ui2.veriklick.in"
-                    android:pathPrefix="/CandidateQuestionierAnswer/QuestionsForm"
-                    android:scheme="https" />
-            </intent-filter>
-
-            <intent-filter
-                android:autoVerify="true"
-                android:label="@string/app_name">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
-                <data
-                    android:host="ui2.veriklick.in"
-                    android:pathPrefix="/CandidateQuestionierAnswer/QuestionsForm"
-                    android:scheme="http" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-
-            <intent-filter
-                android:autoVerify="true"
-                android:label="@string/app_name">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
-                <data
-                    android:host="ui2.veriklick.com"
-                    android:pathPrefix="/CandidateQuestionierAnswer/QuestionsForm"
-                    android:scheme="https" />
-            </intent-filter>
-
-            <intent-filter
-                android:autoVerify="true"
-                android:label="@string/app_name">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
-                <data
-                    android:host="ui2.veriklick.com"
-                    android:pathPrefix="/CandidateQuestionierAnswer/QuestionsForm"
-                    android:scheme="http" />
-            </intent-filter>
-
-
-
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -261,10 +186,71 @@
                 <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
                 <data
                     android:host="ui2.veriklick.in"
+                    android:pathPrefix="/CandidateQuestionierAnswer/QuestionsForm"
+                    android:scheme="https" />
+            </intent-filter>
+            <intent-filter
+                android:autoVerify="true"
+                android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data
+                    android:host="ui2.veriklick.in"
+                    android:pathPrefix="/CandidateQuestionierAnswer/QuestionsForm"
+                    android:scheme="http" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+
+            <intent-filter
+                android:autoVerify="true"
+                android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data
+                    android:host="ui2.veriklick.com"
+                    android:pathPrefix="/CandidateQuestionierAnswer/QuestionsForm"
+                    android:scheme="https" />
+            </intent-filter>
+            <intent-filter
+                android:autoVerify="true"
+                android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data
+                    android:host="ui2.veriklick.com"
+                    android:pathPrefix="/CandidateQuestionierAnswer/QuestionsForm"
+                    android:scheme="http" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+
+            <intent-filter
+                android:autoVerify="true"
+                android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data
+                    android:host="ui2.veriklick.in"
                     android:pathPrefix="/CreateCandidateProfile/ProfileForm"
                     android:scheme="https" />
             </intent-filter>
-
             <intent-filter
                 android:autoVerify="true"
                 android:label="@string/app_name">
@@ -278,7 +264,6 @@
                     android:pathPrefix="/CreateCandidateProfile/ProfileForm"
                     android:scheme="http" />
             </intent-filter>
-
             <intent-filter
                 android:autoVerify="true"
                 android:label="@string/app_name">
@@ -292,7 +277,6 @@
                     android:pathPrefix="/CreateCandidateProfile/ProfileForm"
                     android:scheme="https" />
             </intent-filter>
-
             <intent-filter
                 android:autoVerify="true"
                 android:label="@string/app_name">
@@ -306,11 +290,7 @@
                     android:pathPrefix="/CreateCandidateProfile/ProfileForm"
                     android:scheme="http" />
             </intent-filter>
-
-
-
         </activity>
-
         <activity
             android:name="com.ui.activities.splashScreen.VeriklickSpashScreen"
             android:configChanges="orientation"
@@ -332,13 +312,13 @@
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.ui.activities.login.LoginActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.ui.activities.twilioVideo.VideoActivity"
             android:exported="true"
@@ -348,7 +328,7 @@
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.ui.activities.deepLinkMeetingJoiner.VideoMeetingByLinkActivity"
             android:configChanges="orientation"

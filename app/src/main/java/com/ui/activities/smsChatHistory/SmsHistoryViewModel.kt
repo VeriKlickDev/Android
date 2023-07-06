@@ -1,4 +1,4 @@
-package com.ui.activities.upcomingMeeting
+package com.ui.activities.smsChatHistory
 
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -20,7 +20,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
-class UpComingMeetingViewModel @Inject constructor(
+class SmsHistoryViewModel @Inject constructor(
     val loginRestApi: LoginRestApi,
     val baseRepoApi: BaseRestApi
 ) : ViewModel() {
@@ -622,7 +622,7 @@ class UpComingMeetingViewModel @Inject constructor(
 
     fun getSmsHistoryList(
         candidateId: String,
-        respnse: (data: List<ResponseSMSchatHistory?>?, isSuccess: Boolean, errorCode: Int, msg: String) -> Unit
+        respnse: (data: List<ResponseSMSchatHistory>?, isSuccess: Boolean, errorCode: Int, msg: String) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO + exceptionHandler)
             .launch {

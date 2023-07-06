@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/_10sp"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_20sp"
+            android:text="@string/txt_created_on"
+            android:fontFamily="@font/sarabun_regular"
+            android:gravity="center"
+            android:id="@+id/tv_createdOn"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_20sp"
+            android:text="message"
+            android:fontFamily="@font/sarabun_regular"
+            android:gravity="center"
+            android:id="@+id/tv_message"
+            />
+
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="@dimen/_20sp"-->
+<!--            android:text="hello"-->
+<!--            android:fontFamily="@font/sarabun_regular"-->
+<!--            android:gravity="center"-->
+<!--            android:id="@+id/tv_no_data"-->
+<!--            />-->
+
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

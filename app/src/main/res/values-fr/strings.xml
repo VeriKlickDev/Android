@@ -248,5 +248,6 @@
 
     <string name="txt_select_timezone">Sélectionnez le fuseau horaire</string>
     <string name="txt_timezone_not_selected">Fuseau horaire non sélectionné</string>
+    <string name="txt_SMS_history">SMS history</string>
 
 </resources>

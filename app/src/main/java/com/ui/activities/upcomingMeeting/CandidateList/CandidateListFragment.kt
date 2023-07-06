@@ -34,6 +34,7 @@ import com.domain.constant.AppConstants
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.ui.activities.candidateQuestionnaire.ActivityShowCandidateQuestinnaire
+import com.ui.activities.smsChatHistory.ActivitySmsHistory
 import com.ui.activities.upcomingMeeting.UpComingMeetingViewModel
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
 import com.ui.listadapters.CandidateListAdapter
@@ -102,6 +103,9 @@ class CandidateListFragment() : Fragment() {
                     }
                     4->{
                         openQuestionnaire(data)
+                    }
+                    5->{
+                        getChatList(data.id.toString())
                     }
                 }
             })
@@ -437,6 +441,23 @@ class CandidateListFragment() : Fragment() {
             Log.e(TAG, "getTemplateList: exception 210 ${e.message}", )
         }
     }
+
+
+
+    private fun getChatList(id:String)
+    {
+        /*viewModel?.getSmsHistoryList(id){data, isSuccess, errorCode, msg ->
+            Log.d(TAG, "getChatList: sms array $data")
+        }*/
+        val intent=Intent(requireActivity(),ActivitySmsHistory::class.java)
+        intent.putExtra(AppConstants.CANDIDATE_ID,id.toString())
+        startActivity(intent)
+        requireActivity().overridePendingTransition(
+            R.anim.slide_in_right,
+            R.anim.slide_out_left
+        )
+    }
+
 
 
     private fun handleContextMenuforItem(data: SavedProfileDetail) {

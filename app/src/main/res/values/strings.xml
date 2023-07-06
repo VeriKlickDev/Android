@@ -255,5 +255,6 @@
 
     <string name="txt_select_timezone">Select time zone</string>
     <string name="txt_timezone_not_selected">Timezone not selected</string>
+    <string name="txt_SMS_history">SMS history</string>
 
 </resources>
