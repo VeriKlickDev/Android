@@ -161,6 +161,8 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
         Log.d(TAG, "getTimeZoneFromApi: ${candidateId}")
         viewModel?.getTimeZone(candidateId = candidateId!!){data, isSuccess, errorCode, msg ->
             Log.d(TAG, "getTimeZoneFromApi: api resonse $isSuccess $errorCode excp ${msg}")
+            //Log.d(TAG, "getTimeZoneFromApi: data from api ")
+
         }
         Log.d(TAG, "getTimeZoneFromApi: api resonse after")
     }
@@ -168,6 +170,7 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
     private fun handleObserver()
     {
         viewModel?.timeZoneLiveData?.observe(this){
+            Log.d(TAG, "getTimeZoneFromApi: data from api $it")
             if (!it.isNullOrEmpty()){
                 timeZoneList.clear()
                 timeZoneList.addAll(it)
@@ -240,6 +243,7 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
                     dialogBinding.btnSubmitButton.setOnClickListener {
                         if (selectedTimeZone != null) {
                             dialog.dismiss()
+                            obj.candidateTimeZone=selectedTimeZone
                             scheduleMeetingDate(obj)
                            // setLanguagetoApp(selectedLanguage.toString())
                         } else {

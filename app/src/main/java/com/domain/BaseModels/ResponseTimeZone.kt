@@ -127,6 +127,6 @@ data class InterviewDetails21 (
     @SerializedName("TimeZone"                   ) var TimeZone                   : ArrayList<TimeZone21>          = arrayListOf(),
     @SerializedName("InterviewerList"            ) var InterviewerList            : String?                      = null,
     @SerializedName("JobFields"                  ) var JobFields                  : ArrayList<JobFields>         = arrayListOf(),
-    @SerializedName("JobDetails"                 ) var JobDetails                 : String?                      = null
+    //@SerializedName("JobDetails"                 ) var JobDetails                 : String?                      = null
 
 )

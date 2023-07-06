@@ -8,6 +8,7 @@ import com.data.dataHolders.DataStoreHelper
 import com.data.exceptionHandler
 import com.domain.BaseModels.BodyQuestionnaire
 import com.domain.BaseModels.BodyTimeZone
+import com.domain.BaseModels.InterviewDetails21
 import com.domain.BaseModels.ResponseCountryCode
 import com.domain.BaseModels.ResponseQuestionnaire
 import com.domain.BaseModels.ResponseQuestionnaireTemplate
@@ -162,14 +163,15 @@ class VMCandidateQuestionnaire @Inject constructor(val baseRestApi: BaseRestApi)
                     // Log.d("TAG", "getQuestionnaireList: token is this $authToken")
 
                     val response = baseRestApi.getTimeZone(BodyTimeZone( CandidateId =candidateId))
-                    Log.d("TAG", "getTimeZone:apihit ${response.body()} ${response.errorBody()}")
+                    Log.d("TAG", "getTimeZone:apihit response ${response.body()}")
                     //Log.d(TAG, "getCandidateList: token in upviewmodel $authToken")
                     if (response.isSuccessful) {
                         when (response.code()) {
                             200 -> {
                                 respnse(null, true, 200,"")
-                                val timeZoneOb=Gson().fromJson<ResponseTimeZone>(response.body(),ResponseTimeZone::class.java)
-                               timeZoneList.postValue(timeZoneOb.InterviewDetails.get(0).TimeZone)
+                                val timeZoneOb=Gson().fromJson<ResponseTimeZone>(response.body().toString(),ResponseTimeZone::class.java)
+                                Log.d("TAG", "getTimeZone: datafrom api 200 $timeZoneOb")
+                                 timeZoneList.postValue(timeZoneOb.InterviewDetails.get(0).TimeZone)
                             }
                             401 -> {
                                 respnse(null, false, 401,"")
