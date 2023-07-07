@@ -49,35 +49,66 @@
                     >
 
 
-                    <!--            job id-->
+
+
+                    <!--            timedate row-->
                     <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/linearLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:layout_weight="1.5"
-                        >
+                        android:gravity="center"
+                        android:layout_weight="0.3"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
+                            android:id="@+id/tv_meeting_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Job ID : "
-                            android:textSize="@dimen/_14sp"
-                            />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/tv_jobId"
+                            android:drawableLeft="@drawable/ic_img_calendar_black"
+                            android:drawablePadding="@dimen/_5sp"
+                            android:paddingRight="@dimen/_10sp"
+                            android:paddingVertical="@dimen/_5sp"
+                            android:textColor="@color/grey"
+                            android:maxLines="1"
+                            android:ellipsize="end"
                             android:fontFamily="@font/sarabun_regular"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_14sp"
-                            android:text="54521"
+                            android:textSize="@dimen/_14sp" />
 
-                            />
+                        <View
+                            android:layout_width="1sp"
+                            android:layout_height="15sp"
+                            android:background="@color/light_grey" />
+
+
+                        <TextView
+                            android:id="@+id/tv_meeting_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_img_watch_black"
+                            android:drawablePadding="@dimen/_5sp"
+                            android:fontFamily="@font/sarabun_regular"
+                            android:layout_weight="0.5"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+
+                            android:textColor="@color/grey"
+                            android:paddingHorizontal="@dimen/_10sp"
+                            android:paddingVertical="@dimen/_5sp"
+
+                            android:textSize="@dimen/_14sp" />
+
+
+
 
 
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
+                    <!--            timedate row-->
+
 
 
 
@@ -105,7 +136,7 @@
                         style="@style/button.Style.Blue.Rounded.WithouPadding"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_35sdp"
-                        android:layout_weight="7"
+                        android:layout_weight="2"
                         android:fontFamily="@font/sarabun_bold"
                         android:foreground="?selectableItemBackground"
                         android:outlineProvider="none"
@@ -117,7 +148,7 @@
 
                     <ImageView
                         android:id="@+id/btn_rejoin"
-                        android:layout_weight="3.5"
+                        android:layout_weight="0.6"
                         android:layout_marginHorizontal="@dimen/_5sp"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_35sdp"
@@ -135,7 +166,7 @@
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_feedback"
-                        android:layout_weight="3"
+                        android:layout_weight="0.5"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_35sdp"
                         android:visibility="gone"
@@ -149,61 +180,41 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-
-
-
-
-
-
+                <!--                    job id row-->
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/linearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginTop="-10sp"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:gravity="center_vertical"
+                    android:layout_weight="1.5"
+                    android:layout_marginTop="-7sp"
+                    >
 
                     <TextView
-                        android:id="@+id/tv_meeting_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/ic_img_calendar_black"
-                        android:drawablePadding="@dimen/_5sp"
-                        android:paddingHorizontal="@dimen/_10sp"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="@dimen/_10sp"
                         android:paddingVertical="@dimen/_5sp"
-                        android:textColor="@color/grey"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/sarabun_regular"
-                        android:textSize="@dimen/_14sp" />
-
-                    <View
-                        android:layout_width="1sp"
-                        android:layout_height="15sp"
-                        android:background="@color/light_grey" />
-
+                        android:fontFamily="@font/sarabun_medium"
+                        android:textSize="@dimen/_14sp"
+                        android:text="@string/txt_client" />
 
                     <TextView
-                        android:id="@+id/tv_meeting_time"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/ic_img_watch_black"
-                        android:drawablePadding="@dimen/_5sp"
+                        android:id="@+id/tv_client"
                         android:fontFamily="@font/sarabun_regular"
+                        android:textSize="@dimen/_14sp"
                         android:layout_weight="1"
-                        android:maxLines="1"
-                        android:ellipsize="end"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/black"/>
 
-                        android:textColor="@color/grey"
-                        android:paddingHorizontal="@dimen/_10sp"
-                        android:paddingVertical="@dimen/_5sp"
 
-                        android:textSize="@dimen/_14sp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
+                <!--                    job id row-->
+
+
+
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -224,25 +235,38 @@
             android:layout_weight="1"
             android:layout_marginTop="-10sp"
             >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginLeft="@dimen/_10sp"
-                android:paddingVertical="@dimen/_5sp"
-                android:fontFamily="@font/sarabun_medium"
-                android:textSize="@dimen/_14sp"
-                android:text="@string/txt_client" />
 
-            <TextView
+            <!--                    job id row-->
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_client"
-                android:fontFamily="@font/sarabun_regular"
-                android:textSize="@dimen/_14sp"
-                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:layout_weight="1.5"
                 android:layout_gravity="center_vertical"
-                android:textColor="@color/black"/>
+                android:layout_marginHorizontal="@dimen/_10sp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txt_jobId"
+                    android:textSize="@dimen/_14sp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_jobId"
+                    android:fontFamily="@font/sarabun_regular"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sp"
+                    />
+
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <!--                    job id row-->
+
 
             <ImageView
                 android:layout_width="wrap_content"
