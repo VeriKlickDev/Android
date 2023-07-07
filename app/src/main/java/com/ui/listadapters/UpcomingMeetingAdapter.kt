@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.data.DiffUtilHelperUpcomingMeeting
 import com.data.change24to12hoursFormat
+import com.data.changeDatefrom_yyyymmdd_to_mm_space_dd
 import com.data.changeDatefrom_yyyymmdd_to_mmddyyyy
 import com.data.showCustomSnackbarOnTop
 import com.domain.BaseModels.InterViewersListModel
@@ -134,9 +135,7 @@ class UpcomingMeetingAdapter(
 
             Log.d(TAG, "onBindViewHolder: status check ${data.status}")
             binding.tvJobId.text = data.jobid
-            binding.tvMeetingDate.text = changeDatefrom_yyyymmdd_to_mmddyyyy(
-                data.interviewDateTime.subSequence(0, 10).toString()
-            )
+            binding.tvMeetingDate.text = changeDatefrom_yyyymmdd_to_mm_space_dd(data.interviewDateTime.subSequence(0, 10).toString())
             binding.tvCandidate.text = data.candidateFirstName + " " + data.candidateLastName
             binding.tvClient.text = data.clientName
 
@@ -159,13 +158,8 @@ class UpcomingMeetingAdapter(
             binding.tvUserEmail.text = data.emailID
             val timeHour = data.interviewDateTime.subSequence(11, 13).toString().toInt()
 
-            binding.tvMeetingTime.text =
-                "(" + data.interviewTimezone + ") " + change24to12hoursFormat(
-                    data.interviewDateTime.subSequence(
-                        11,
-                        16
-                    ).toString()
-                ).uppercase()// + " PM"
+            //binding.tvMeetingTime.text ="(" + data.interviewTimezone + ") " + change24to12hoursFormat(data.interviewDateTime.subSequence(11,16).toString()).uppercase()// + " PM"
+            binding.tvMeetingTime.text =change24to12hoursFormat(data.interviewDateTime.subSequence(11,16).toString()).uppercase() +" ${data.interviewTimezone}"
 
             /*if (timeHour >= 12)
                 binding.tvMeetingTime.text =

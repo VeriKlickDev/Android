@@ -740,6 +740,15 @@ fun changeDatefrom_yyyymmdd_to_mmddyyyy(date: String): String {
     return dateFinal.toString()
 }
 
+
+fun changeDatefrom_yyyymmdd_to_mm_space_dd(date: String): String {
+    val sdf = SimpleDateFormat("yyyy-MM-dd")
+    val datef = sdf.parse(date)
+    val sdf2 = SimpleDateFormat("MMM dd")
+    val dateFinal = sdf2.format(datef)
+    return dateFinal.toString()
+}
+
 fun Context.requestScreenCapturePermission(
     context: Context,
     onResult: (intent: Intent, reqCode: Int) -> Unit
