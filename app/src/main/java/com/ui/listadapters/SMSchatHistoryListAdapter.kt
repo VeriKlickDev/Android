@@ -39,7 +39,7 @@ class SMSchatHistoryListAdapter(val context: Context,
     inner class ViewHolderClass(val binding: LayoutItemSmsHistoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun dataBind(data: ResponseSMSchatHistory) {
-        binding.tvCreatedOn.setText(data.CreatedOn.toString())
+        binding.tvCreatedOn.setText(" :      "+data.CreatedOn.toString())
         binding.tvMessage.setText(data.MessageText.toString())
         }
     }

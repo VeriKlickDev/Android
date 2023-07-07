@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.ui.activities.uploadProfilePhoto.UploadProfilePhoto">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            >
+            <ImageView
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@drawable/ic_arrow_back_24"
+                android:id="@+id/btn_jump_back"
+                android:layout_margin="@dimen/_16sdp"
+                />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                />
+
+            <ImageView
+                android:id="@+id/tv_set_preference"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_margin="@dimen/_10sp"
+                android:src="@drawable/ic_change_langauge"
+                android:fontFamily="@font/sarabun_semibold"
+                android:gravity="right"
+                android:textColor="@color/skyblue_light1"
+                android:textSize="@dimen/_15sp"
+                />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <TextView
+            android:id="@+id/tv_join_meeting"
+            style="@style/textview.Style.TvStyleWhiteRounded_30"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:text="@string/txt_upload_your_govt_id" />
+
+<!--        <TextView-->
+<!--            style="@style/textview.Style.WhiteRounded_18"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center_horizontal"-->
+<!--            android:text="Lorem Ipsum is simply dummy." />-->
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_50sdp"
+            >
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/shapeableImageView"
+                android:layout_width="155sp"
+                android:layout_height="155sp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/_10sp"
+                android:background="@drawable/shape_dotted_round_square"
+                android:cropToPadding="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:id="@+id/iv_editPencil"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_edit_pencil"
+                android:tint="@color/grey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.92"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/roundedCorner50" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_uploadImage"
+                android:layout_width="@dimen/_150sdp"
+                android:layout_height="@dimen/_150sdp"
+                android:layout_gravity="center"
+                android:scaleType="fitCenter"
+                app:contentPadding="@dimen/_20sp"
+                android:tint="@color/dark_grey2"
+                android:src="@drawable/ic_img_document_white"
+                app:shapeAppearanceOverlay="@style/roundedCorner50"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                 />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_50sdp"
+            >
+            <TextView
+                android:id="@+id/tv_txt_start_meeting"
+                style="@style/textview.Style.WhiteRounded_18_noMargin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/txt_tap_on_above_icon_to_select_an_Govtid_image" />
+            <TextView
+
+                style="@style/textview.Style.WhiteRounded_18_noMargin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red"
+                android:layout_gravity="center_horizontal"
+                android:text="*" />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="bottom"
+            >
+
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/_10sp"
+    >
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_retake"
+                style="@style/button.Style.Blue.Rounded.Enable.Disable.withoutMargin"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_55sdp"
+                android:visibility="gone"
+                android:layout_weight="1"
+                android:layout_marginRight="@dimen/_10sp"
+                android:layout_marginBottom="@dimen/_7sp"
+                android:text="@string/txt_retake"
+                android:textSize="@dimen/_18sdp" />
+
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_upload_image"
+                style="@style/button.Style.Blue.Rounded.Enable.Disable.withoutMargin"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_55sdp"
+                android:layout_weight="1"
+                android:layout_marginBottom="@dimen/_7sp"
+                android:text="@string/txt_upload"
+                android:textSize="@dimen/_18sdp" />
+</androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_skip"
+                android:layout_width="match_parent"
+                style="@style/button.Style.Blue.Rounded.Enable.Disable.Stroke"
+                android:layout_height="@dimen/_55sdp"
+                android:text="@string/txt_next"
+                android:textSize="@dimen/_18sdp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>

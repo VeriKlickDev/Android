@@ -1,4 +1,4 @@
-package com.ui.activities.uploadProfilePhoto
+package com.ui.activities.govtidupload
 
 import android.app.Dialog
 import android.content.Intent
@@ -29,10 +29,10 @@ import com.domain.constant.AppConstants
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.ui.activities.candidateQuestionnaire.ActivityShowCandidateQuestinnaire
 import com.ui.activities.createCandidate.ActivityCreateCandidate
-import com.ui.activities.govtidupload.ActivityUploadGovtId
 import com.ui.activities.upcomingMeeting.audioRecord.AudioMainActivity
 import com.ui.activities.uploadResumeDocument.ActivityResumeDocument
 import com.veriKlick.R
+import com.veriKlick.databinding.ActivityUploadGovtidPhotoBinding
 import com.veriKlick.databinding.ActivityUploadProfilePhotoBinding
 import com.veriKlick.databinding.LayoutChooseImageFromSourceBinding
 import com.veriKlick.databinding.LayoutChooseLanguageDialogBinding
@@ -48,18 +48,18 @@ import java.util.Locale
 
 
 @AndroidEntryPoint
-class ActivityUploadProfilePhoto : AppCompatActivity() {
-    private lateinit var binding: ActivityUploadProfilePhotoBinding
+class ActivityUploadGovtId : AppCompatActivity() {
+    private lateinit var binding: ActivityUploadGovtidPhotoBinding
     private var imageUri:Uri?=null
     private var finalUserImageUri:Uri?=null
-    private var viewModel:VMUploadProfilePhoto?=null
+    private var viewModel:VMUploadGovtId?=null
     private var imageName:String?=null
     private var imageFile:File?=null
     private var recruiterId:String?=null
     private var tokenId=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding=ActivityUploadProfilePhotoBinding.inflate(layoutInflater)
+        binding=ActivityUploadGovtidPhotoBinding.inflate(layoutInflater)
         setContentView(binding.root)
         //getAppLanguage()
 
@@ -75,7 +75,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
 
         }
 
-        viewModel=ViewModelProvider(this).get(VMUploadProfilePhoto::class.java)
+        viewModel=ViewModelProvider(this).get(VMUploadGovtId::class.java)
 
         binding.ivUploadImage.setOnClickListener {
             getImageBottomSheet()
@@ -86,10 +86,10 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
             uploadImage()
         }
         binding.btnSkip.setOnClickListener {
-           // val intent=Intent(this, AudioMainActivity::class.java)
+            val intent=Intent(this, AudioMainActivity::class.java)
             //val intent=Intent(this, ActivityCreateCandidate::class.java)
             //val intent=Intent(this, ActivityResumeDocument::class.java)
-            val intent=Intent(this, ActivityUploadGovtId::class.java)
+
            // CreateProfileDeepLinkHolder.setCandidateId(candidateId)
             intent.putExtra(AppConstants.CANDIDATE_ID,candidateId)
             intent.putExtra(AppConstants.TOKEN_ID,tokenId)
