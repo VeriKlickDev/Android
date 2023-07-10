@@ -343,7 +343,7 @@ class ActivityResumeDocument : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 runOnUiThread { dismissProgressDialog() }
-                Log.d(TAG, "uploadProfilePhoto: ")
+                Log.d(TAG, "uploadProfilePhoto: exception ${e.message}")
             }
         }
 

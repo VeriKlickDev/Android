@@ -334,7 +334,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
 
             Log.d(TAG, "imageUri: uri $imageUri")
             imageUri = it?.data?.data
-            binding.ivUploadImage.setImageURI(it?.data?.data)
+           // binding.ivUploadImage.setImageURI(it?.data?.data)
             getImageFromCamera(imageUri!!)
 
         }catch (e:Exception)
@@ -382,6 +382,8 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                 binding.ivEditPencil.isVisible=false
                 binding.ivUploadImage.scaleType=ImageView.ScaleType.CENTER_CROP
                 finalUserImageUri=resultUri
+
+
                 Log.d(TAG, "onActivityResult: destUri $desUri")
             }catch (e:Exception)
             {
