@@ -137,7 +137,6 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                 {
                     runOnUiThread {
 
-
                         binding.btnSkip.isEnabled = true
                         binding.btnSkip.setTextColor(getColor(R.color.skyblue_light1))
                         CandidateImageAndAudioHolder.setDeepLinkData(
@@ -467,10 +466,10 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                    // binding.ivUploadImage.setImageBitmap(imageBitmap)
                     Log.d(TAG, "uploadProfilePhoto: image base64 $image")
                     var imageName=subsId+"/IMG_${System.currentTimeMillis()}.png"
-                    Log.d(TAG, "uploadProfilePhoto: image name $imageName")
+                    Log.d(TAG, "uploadProfilePhoto: image name $imageName subscriber $subsId")
                     CandidateImageAndAudioHolder.setImage(BodyCandidateImageModel(image,subsId+"/IMG_${System.currentTimeMillis()}.png","upload"))
                     runOnUiThread { showProgressDialog() }
-                    viewModel?.updateUserImageWithoutAuth(BodyCandidateImageModel(image,subsId+"/IMG_${System.currentTimeMillis()}.png","upload")){isSuccess, code, msg ->
+                    viewModel?.updateUserImageWithoutAuth(CandidateImageAndAudioHolder.getImageObject()!!){isSuccess, code, msg ->
                         when(code)
                         {
                             200->{

@@ -95,10 +95,8 @@
             android:textSize="@dimen/_15sp"
             android:fontFamily="@font/sarabun_regular"
             android:textColor="@color/black"
-            android:text="ajsdkfjklajdklfjklajsdklfjksdjkfasdfasdfasdfasdfasdfasdfaasdfasdf"
             android:layout_marginLeft="@dimen/_10sp"
             android:textAlignment="textStart"
-            android:background="@drawable/shape_rectangle_rounded_stroke_grey"
             android:paddingHorizontal="@dimen/_5sp"
             android:id="@+id/tv_message"
             />

@@ -59,7 +59,7 @@ class VMUploadResume @Inject constructor(val loginRestApi: LoginRestApi, val bas
             }
     }
 
-
+/*
     fun updateUserImageWithoutAuth(ob:BodyCandidateImageModel, respnse:(isSuccess:Boolean, code:Int, msg:String)->Unit)
     {
         CoroutineScope(Dispatchers.IO + exceptionHandler)
@@ -95,7 +95,7 @@ class VMUploadResume @Inject constructor(val loginRestApi: LoginRestApi, val bas
                 }
             }
     }
-
+*/
     /*                    var filee= File(finalUserImage?.path)
          var imgPart=MultipartBody.Part.createFormData(
              DataStoreHelper.getMeetingUserId()+"/"+filee.name,

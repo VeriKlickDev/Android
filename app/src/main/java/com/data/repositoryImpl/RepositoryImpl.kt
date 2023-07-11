@@ -8,6 +8,7 @@ import com.google.gson.Gson
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
+import retrofit2.http.Part
 import java.io.File
 import javax.inject.Inject
 
@@ -208,9 +209,11 @@ class RepositoryImpl @Inject constructor(
         return loginRestApi.updateFreshUserImage(token,ob)
     }
 
+
     override suspend fun updateFreshUserImageWithoutAuth(ob: BodyCandidateImageModel): Response<ResponseCandidateImageModel> {
         return loginRestApi.updateFreshUserImageWithoutAuth(ob)
     }
+
 
     override suspend fun updateUserAudio(
         file: MultipartBody.Part,

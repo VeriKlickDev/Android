@@ -468,7 +468,7 @@ class ActivityUploadGovtId : AppCompatActivity() {
                     Log.d(TAG, "uploadProfilePhoto: image name $imageName")
                     CandidateImageAndAudioHolder.setImage(BodyCandidateImageModel(image,subsId+"/IMG_${System.currentTimeMillis()}.png","upload"))
                     runOnUiThread { showProgressDialog() }
-                    viewModel?.updateUserImageWithoutAuth(BodyCandidateImageModel(image,subsId+"/IMG_${System.currentTimeMillis()}.png","upload")){isSuccess, code, msg ->
+                  /* viewModel?.updateUserImageWithoutAuth(BodyCandidateImageModel(image,subsId+"/IMG_${System.currentTimeMillis()}.png","upload")){isSuccess, code, msg ->
                         when(code)
                         {
                             200->{
@@ -510,7 +510,7 @@ class ActivityUploadGovtId : AppCompatActivity() {
                             }
 
                         }
-                    }
+                    }*/
 
                 }else
                 {

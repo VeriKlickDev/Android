@@ -1,6 +1,7 @@
 package com.ui.activities.uploadProfilePhoto
 
 import androidx.lifecycle.ViewModel
+import com.data.dataHolders.CandidateImageAndAudioHolder
 import com.data.dataHolders.DataStoreHelper
 import com.data.exceptionHandler
 import com.domain.BaseModels.BodyCandidateImageModel
@@ -8,11 +9,13 @@ import com.domain.BaseModels.BodyCandidateResume
 import com.domain.BaseModels.ResponseRecruiterDetails
 import com.domain.RestApi.BaseRestApi
 import com.domain.RestApi.LoginRestApi
+import com.google.gson.annotations.SerializedName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import javax.inject.Inject
 
 @HiltViewModel
@@ -63,6 +66,8 @@ class VMUploadProfilePhoto @Inject constructor(val loginRestApi: LoginRestApi,va
                 try {
 
                     val authToken=DataStoreHelper.getLoginBearerToken()
+
+
                     val response = loginRestApi.updateFreshUserImageWithoutAuth(ob)
                     if (response.isSuccessful)
                     {

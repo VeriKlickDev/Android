@@ -1,6 +1,7 @@
 package com.domain.RestApi
 
 import com.domain.BaseModels.*
+import com.google.gson.annotations.SerializedName
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
@@ -37,8 +38,18 @@ interface LoginRestApi {
 
     //@Multipart
     @POST("/api/v1/Account/UpdateImageWithoutAuth")
-    suspend fun updateFreshUserImageWithoutAuth( @Body ob: BodyCandidateImageModel):Response<ResponseCandidateImageModel>
+    suspend fun updateFreshUserImageWithoutAuth( @Body ob : BodyCandidateImageModel):Response<ResponseCandidateImageModel>
 //@Header ("Authorization")auth:String,
+
+  /*  @Multipart
+    @POST("/api/v1/Account/UpdateImageWithoutAuth")
+    suspend fun updateFreshUserImageWithoutAuth(
+        @Part imageName: MultipartBody.Part,
+        @Part imagebyte: MultipartBody.Part,
+        @Part folderName: MultipartBody.Part,
+    ):Response<ResponseCandidateImageModel>
+*/
+
 
     @Multipart
     @POST("v1/Account/GetVKUserProfileImage")

@@ -159,6 +159,15 @@ interface BaseRestApi {
     @POST("/api/Messaging/GetMessageListByCandidateId")
     suspend fun getSMSchatHistory(@Header("Authorization")authToken: String,@Body obj:BodySMSchatHistory):Response<List<ResponseSMSchatHistory>>
 
+ /*   @Multipart
+    @POST("/api/v1/Account/UpdateImageWithoutAuth")
+    suspend fun updateFreshUserImageWithoutAuth(
+        @Part imageName: MultipartBody.Part,
+        @Part imagebyte: MultipartBody.Part,
+        @Part folderName: MultipartBody.Part,
+    ):Response<ResponseCandidateImageModel>
+*/
+
 }
 
 //@GET("/api/ScheduleVideo/GetInterviewUserDetails/{VideoAccessCode}")

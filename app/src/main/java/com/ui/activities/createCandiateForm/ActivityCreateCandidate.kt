@@ -332,6 +332,9 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     ob.professional?.primarySkills = binding.etPrimarySkills.text.toString()
                     ob.skills?.skill = binding.etSecondarySkills.text.toString()
                     ob.profile?.streetName = binding.etStreet.text.toString()
+                    ob.profile?.profileImage=CandidateImageAndAudioHolder.getImageObject()?.imageName
+
+
                     Log.d(TAG, "postData: posting data object ${Gson().toJson(ob)}")
 
                     runOnUiThread { showProgressDialog() }

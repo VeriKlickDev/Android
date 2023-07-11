@@ -261,6 +261,13 @@ return phone.length == 10
 }
 
 
+fun Context.phoneValidatorfor9and10Digits(phone:String):Boolean
+{
+    return phone.length == 10 || phone.length == 9
+}
+
+
+
 var progressbar: Dialog? = null
 fun Context.showProgressDialog() {
     progressbar?.let {

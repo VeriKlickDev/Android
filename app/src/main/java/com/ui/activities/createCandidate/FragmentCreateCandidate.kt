@@ -346,7 +346,7 @@ class FragmentCreateCandidate : Fragment() {
 
 
         binding.etPhoneno.doOnTextChanged { text, _, _, _ ->
-            isPhoneok=requireActivity().phoneValidator(text.toString())
+            isPhoneok=requireActivity().phoneValidatorfor9and10Digits(text.toString())
             if (isPhoneok)
             {
                 binding.tvPhoneError.visibility=View.INVISIBLE
@@ -357,7 +357,7 @@ class FragmentCreateCandidate : Fragment() {
                 }
 
             }
-            if (!requireActivity().phoneValidator(text.toString())){
+            if (!requireActivity().phoneValidatorfor9and10Digits(text.toString())){
                 binding.tvPhoneError.setText(getString(R.string.txt_invalid))
                 binding.tvPhoneError.visibility=View.VISIBLE
             }
