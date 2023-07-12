@@ -31,4 +31,15 @@ object CandidateImageAndAudioHolder {
         list.add(0, obj)
     }
     fun getImageObject()=list.firstOrNull()
+
+    private var resumeFile= mutableListOf<String>()
+
+    fun setResumeName(obj:String)
+    {
+        resumeFile.add(0, obj)
+    }
+    fun getResumeFileName()= resumeFile.firstOrNull()
+
+
+
 }

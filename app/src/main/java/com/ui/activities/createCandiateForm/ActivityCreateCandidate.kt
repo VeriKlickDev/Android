@@ -333,6 +333,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     ob.skills?.skill = binding.etSecondarySkills.text.toString()
                     ob.profile?.streetName = binding.etStreet.text.toString()
                     ob.profile?.profileImage=CandidateImageAndAudioHolder.getImageObject()?.imageName
+                    ob.profile?.parseResume=CandidateImageAndAudioHolder.getResumeFileName()
 
 
                     Log.d(TAG, "postData: posting data object ${Gson().toJson(ob)}")

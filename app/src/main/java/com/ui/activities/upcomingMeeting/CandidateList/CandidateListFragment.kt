@@ -10,6 +10,9 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.provider.ContactsContract.RawContacts.Data
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -105,7 +108,8 @@ class CandidateListFragment() : Fragment() {
                         openQuestionnaire(data)
                     }
                     5->{
-                        getChatList(data.id.toString())
+                        verifyOtpForGovtidView()
+                        //getChatList(data.id.toString())
                     }
                 }
             })
@@ -540,6 +544,7 @@ class CandidateListFragment() : Fragment() {
             getCandidateList(1)
         }
 
+
         binding.rvCandidateList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 try {
@@ -624,9 +629,205 @@ class CandidateListFragment() : Fragment() {
         }
     }
 
+    private fun verifyOtpForGovtidView()
+    {
+       var dialog=Dialog(requireActivity())
+        val bindingDialog=ActivityVerifyOtpForDocumentBinding.inflate(layoutInflater)
+        dialog.setContentView(bindingDialog.root)
+        CoroutineScope(Dispatchers.IO).launch {
+            val emailstr=DataStoreHelper.getUserEmail()
+            requireActivity().runOnUiThread {
+                bindingDialog.etEmail.setText(emailstr)
+                bindingDialog.etEmail.isEnabled=false
+            }
+        }
+
+        bindingDialog.btnSendOtp.setOnClickListener {
+            hideKeyboard(requireActivity())
+            if (requireActivity().checkInternet()) {
+                /**woking*/ sendOtpToEmail(bindingDialog.etEmail.text.toString(),bindingDialog)
+            }
+            else
+            {
+                requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+            }
+        }
+        dialog.window?.setBackgroundDrawable(requireActivity().getDrawable(android.R.color.transparent))
+        bindingDialog.btnCross.setOnClickListener { dialog.dismiss() }
+        bindingDialog.btnResendOtp.setOnClickListener {
+            hideKeyboard(requireActivity())
+            if (requireActivity().checkInternet()) {
+                /**woking*/ sendOtpToEmail(bindingDialog.etEmail.text.toString(),bindingDialog)
+            }
+            else
+            {
+                requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+            }
+        }
+        bindingDialog.btnVerifyOtp.setOnClickListener {
+            if (requireActivity().checkInternet()) {
+                verifyOtp(bindingDialog.etEmail.text.toString(),bindingDialog.etOtp.text.toString(),bindingDialog,dialog)
+            }
+            else
+            {
+                requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+            }
+        }
+
+        dialog.setCancelable(false)
+        dialog.create()
+        dialog.show()
+    }
+
+    private fun verifyOtp(email:String,otp:String,bindingdailog: ActivityVerifyOtpForDocumentBinding,dialog:Dialog) {
+        viewModel.verifyOtp(email, otp, response = { result, data, exception ->
+            when (result) {
+                200 -> {
+                    Log.d(TAG, "handleEmailVerification: 200 data $data")
+                    if (data.Status!!.contains("VALID"))
+                    {
+                        //DataStoreHelper.setToken()
+                        bindingdailog.tvOtpError.text=""
+                        dialog.dismiss()
+                    }else {
+                        bindingdailog.tvOtpError.text= data.Status.toString()
+                    }
+
+                }
+                400 -> {
+                    requireActivity().showCustomSnackbarOnTop(data.Status.toString())
+                    //showToast(this, data.Status.toString())
+                }
+                401 -> {
+                    Log.d(TAG, "handleEmailVerification: 401")
+                }
+                404 -> {
+                    Log.d(TAG, "handleEmailVerification: 404")
+                }
+                500 -> {
+                    Log.d(TAG, "handleEmailVerification: 500 exception ${exception.toString()}")
+                }
+            }
+
+        }, actionProgress = { action ->
+            when (action) {
+                1 -> {
+                    requireActivity().showProgressDialog()
+                }
+                0 -> {
+                    requireActivity().dismissProgressDialog()
+                }
+            }
+        })
+    }
+    fun handleUI(onResponse:Int,dialogBinding:ActivityVerifyOtpForDocumentBinding)
+    {
+        Handler(Looper.getMainLooper()).post(Runnable {
+            when(onResponse)
+            {
+                200->{
+                    dialogBinding.btnResendOtp.isVisible=true
+                    dialogBinding.btnSendOtp.isVisible=false
+                    dialogBinding.parentLayoutVerifyotp.isVisible=true
+                    dialogBinding.btnVerifyOtp.isVisible=true
+                    dialogBinding.etEmail.isEnabled=false
+                }
+                400->{
+                    dialogBinding.btnResendOtp.isVisible=false
+                    dialogBinding.btnSendOtp.isVisible=true
+                    dialogBinding.parentLayoutVerifyotp.isVisible=false
+                    dialogBinding.btnVerifyOtp.isVisible=false
+                    dialogBinding.etEmail.isEnabled=true
+                }
+                401->{
+                    dialogBinding.btnResendOtp.isVisible=false
+                    dialogBinding.btnSendOtp.isVisible=true
+                    dialogBinding.parentLayoutVerifyotp.isVisible=false
+                    dialogBinding.btnVerifyOtp.isVisible=false
+                    dialogBinding.etEmail.isEnabled=true
+                }
+            }
+        })
+    }
+
+    fun sendOtpToEmail(email:String,dialogBinding: ActivityVerifyOtpForDocumentBinding)
+    {
+        viewModel.sendOtp(email, response = { result, data, exception ->
+            when (result) {
+                200 -> {
+                    Log.d(TAG, "handleEmailVerification: 200 data $data")
+                    handleUI(200, dialogBinding = dialogBinding)
+                    //binding.parentLayout.showSnackBar(data.Message.toString())
+                    requireActivity().run {
+                        runOnUiThread {
+                          dialogBinding.llMessage.isVisible=true
+                          dialogBinding.tvMessageError.setText(data.Message.toString())
+                          Handler(Looper.getMainLooper()).postDelayed({
+                              dialogBinding.llMessage.isVisible=false
+                          },3000)
+                        //showCustomSnackbarOnTop(data.Message.toString())
+                    }
+                    }
+
+                }
+                400 -> {
+                    requireActivity().run {
+                        runOnUiThread {
+                            dialogBinding.llMessage.isVisible=true
+                            dialogBinding.tvMessageError.setText(data.Message.toString())
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                dialogBinding.llMessage.isVisible=false
+                            },3000)
+                            //showCustomSnackbarOnTop(data.Message.toString())
+                        }
+                    }
+                    //requireActivity(). showCustomSnackbarOnTop(data.Message.toString())
+
+                        //binding.parentLayout.showSnackBar(data.Message.toString())
+                    handleUI(400,dialogBinding)
+
+                }
+                401 -> {
+                    Log.d(TAG, "handleEmailVerification: 401")
+                    requireActivity().run {
+                        runOnUiThread {
+                            dialogBinding.llMessage.isVisible=true
+                            dialogBinding.tvMessageError.setText(data.Message.toString())
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                dialogBinding.llMessage.isVisible=false
+                            },3000)
+                            //showCustomSnackbarOnTop(data.Message.toString())
+                        }
+                    }
+                    //requireActivity().showCustomSnackbarOnTop(data.Message.toString())
+                    //binding.parentLayout.showSnackBar(data.Message.toString())
+                    handleUI(401,dialogBinding)
+                }
+                404 -> {
+                    Log.d(TAG, "handleEmailVerification: 404")
+                }
+                500 -> {
+                    Log.d(
+                        TAG,
+                        "handleEmailVerification: 500 exception ${exception.toString()}"
+                    )
+                }
+            }
+
+        }, actionProgress = { action ->
+            when (action) {
+                1 -> {
+                    requireActivity().showProgressDialog()
+                }
+                0 -> {
+                    requireActivity().dismissProgressDialog()
+                }
+            }
+        })
+    }
 
 
-   private fun callPhone(){
+    private fun callPhone(){
        requireActivity().runOnUiThread {
            val alertDialog=AlertDialog.Builder(requireContext())
            alertDialog.setNegativeButton(getString(R.string.txt_no),object : DialogInterface.OnClickListener {

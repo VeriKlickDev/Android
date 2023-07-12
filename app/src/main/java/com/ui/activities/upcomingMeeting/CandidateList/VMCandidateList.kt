@@ -1,5 +1,6 @@
 package com.ui.activities.upcomingMeeting.CandidateList
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -50,6 +51,10 @@ class VMCandidateList @Inject constructor(val baseRestApi: BaseRestApi) : ViewMo
                 }
             }
     }
+
+
+
+
     fun getQuestionnaireTemplate(
         recruiterId: String,
         respnse: (data: ResponseQuestionnaireTemplate?, isSuccess: Boolean, errorCode: Int, msg: String) -> Unit

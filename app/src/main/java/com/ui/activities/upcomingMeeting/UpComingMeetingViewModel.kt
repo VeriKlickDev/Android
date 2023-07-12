@@ -702,4 +702,97 @@ class UpComingMeetingViewModel @Inject constructor(
 
 
 
+    fun verifyOtp(email:String, otp:String, response:(result:Int, data: ResponseOtpVerificationStatus, exception:String?)->Unit, actionProgress:(action:Int)->Unit) {
+        try {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
+                actionProgress(1)
+
+
+                val result = baseRepoApi?.getOtpVerificationStatus(BodyOtpVerificationStatus(InterViewerEmail = email, OTP = otp))
+                if (result?.isSuccessful!!) {
+                    Log.d(TAG, "getVideoSession:  successfull result ${result.body()}")
+                    if (result?.body() != null) {
+                        Log.d(TAG, "getVideoSession:  not null ${result.body()}")
+                        actionProgress(0)
+
+                        actionProgress(0)
+                        response(200, result.body()!!,null)
+                        Log.d(TAG, "getVideoSession:  success ${result.body()}")
+                    }
+                    else {
+                        actionProgress(0)
+                        response(400, result.body()!!,null)
+                        Log.d(TAG, "getVideoSession: null result ${result.body()}")
+                    }
+                }
+                else {
+                    actionProgress(0)
+                    response(404, ResponseOtpVerificationStatus(),null)
+                    Log.d(TAG, "getVideoSession: not success")
+                }
+            }
+        }catch (e:Exception)
+        {
+            Log.d(TAG, "getVideoSession: exception ${e.printStackTrace()}")
+            actionProgress(0)
+            response(500,  ResponseOtpVerificationStatus(),e.printStackTrace().toString())
+        }
+    }
+
+
+    fun sendOtp(email:String, response:(result:Int, data: ResponseOtpVerification, exception:String?)->Unit, actionProgress:(action:Int)->Unit) {
+        try {
+            CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
+                actionProgress(1)
+
+                val result = baseRepoApi?.sendOtpToEmailVerificationWithType(email,"Gov Id")
+
+                if (result?.isSuccessful!!) {
+                    actionProgress(0)
+                    Log.d(TAG, "getVideoSession:  successfull result ${result.body()}")
+                    Log.d(TAG, "getVideoSession:  successfull result ${result.body()?.Message}")
+                    if (result?.body() != null) {
+                        Log.d(TAG, "getVideoSession:  not null ${result.body()}")
+
+                        if (result.body()?.Success == true)
+                        {
+                            when(result.body()?.StatusCode!!.toInt())
+                            {
+                                200->{
+                                    response(200, result.body()!!,null)
+                                }
+                                400->{
+                                    response(400, result.body()!!,null)
+                                }
+                            }
+                            actionProgress(0)
+
+                            Log.d(TAG, "getVideoSession:  success ${result.body()}")
+                        }else
+                        {
+                            actionProgress(0)
+                            response(401, result.body()!!,null)
+                        }
+                    }
+                    else {actionProgress(0)
+                        response(401, result.body()!!,null)
+                        Log.d(TAG, "getVideoSession: null result ${result.body()}")
+                    }
+                }
+                else {
+                    actionProgress(0)
+                    response(404, ResponseOtpVerification(),null)
+                    Log.d(TAG, "getVideoSession: not success ${result.body()?.Message}")
+                }
+            }
+        }catch (e:Exception)
+        {
+            Log.d(TAG, "getVideoSession: exception ${e.printStackTrace()}")
+            actionProgress(0)
+            response(500,  ResponseOtpVerification(),e.printStackTrace().toString())
+        }
+    }
+
+
+
 }

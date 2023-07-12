@@ -72,6 +72,10 @@ interface BaseRestApi {
     @POST("/api/InterviewerLoginWithOtp")
     suspend fun sendOtpToEmailVerification(@Query("InterviewerEmail", encoded = false) email: String):Response<ResponseOtpVerification>
 
+    @POST("/api/InterviewerLoginWithOtp/{Type}")
+    suspend fun sendOtpToEmailVerificationWithType(@Query("InterviewerEmail", encoded = false) email: String,@Query("Type", encoded = false) type: String):Response<ResponseOtpVerification>
+
+
     @POST("/api/InterviewerLoginOtpStatus")
     suspend fun getOtpVerificationStatus( @Body obj: BodyOtpVerificationStatus):Response<ResponseOtpVerificationStatus>
 

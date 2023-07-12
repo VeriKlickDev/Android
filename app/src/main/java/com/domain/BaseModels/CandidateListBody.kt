@@ -121,7 +121,8 @@ data class SavedProfileDetail (
     @SerializedName("UpdatedBy"                          ) var UpdatedBy                          : String? = null,
     @SerializedName("SourceDetails"                      ) var SourceDetails                      : String? = null,
     @SerializedName("TPSID"                              ) var TPSID                              : Int?    = null,
-    @SerializedName("NameInitials"                       ) var NameInitials                       : String? = null
+    @SerializedName("NameInitials"                       ) var NameInitials                       : String? = null,
+    @SerializedName("QuestionnairStatus"                       ) var questionnairStatus                       : Int? = null
 
 )
 

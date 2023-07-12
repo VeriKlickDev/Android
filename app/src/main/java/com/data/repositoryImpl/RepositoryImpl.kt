@@ -102,6 +102,13 @@ class RepositoryImpl @Inject constructor(
         return baseRestApi.sendOtpToEmailVerification(email)
     }
 
+    override suspend fun sendOtpToEmailVerificationWithType(
+        email: String,
+        type: String
+    ): Response<ResponseOtpVerification> {
+        return baseRestApi.sendOtpToEmailVerificationWithType(email,type)
+    }
+
     override suspend fun getOtpVerificationStatus(obj: BodyOtpVerificationStatus): Response<ResponseOtpVerificationStatus> {
         return baseRestApi.getOtpVerificationStatus(obj)
     }

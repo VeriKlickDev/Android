@@ -3,23 +3,13 @@ package com.ui.listadapters
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.data.change24to12hoursFormat
-import com.data.changeDatefrom_yyyymmdd_to_mmddyyyy
-import com.data.showCustomSnackbarOnTop
-import com.domain.BaseModels.InterViewersListModel
-import com.domain.BaseModels.NewInterviewDetails
-import com.domain.BaseModels.ResponseCandidateList
 import com.domain.BaseModels.SavedProfileDetail
-import com.google.gson.Gson
 import com.veriKlick.R
 import com.veriKlick.databinding.LayoutItemCandidateListBinding
-import com.veriKlick.databinding.LayoutItemUpcomingMeetingBinding
 
 class CandidateListAdapter(val context: Context,
                            val list: MutableList<SavedProfileDetail>,
@@ -62,6 +52,24 @@ class CandidateListAdapter(val context: Context,
             binding.ratingbarWireframing.progress=data.Average!!.toInt()
             binding.tvPrimarySkill.setText(data.primarySkills)
             binding.tvSecondarySkill.setText(data.Skills)
+
+            when(data.questionnairStatus)
+            {
+                0->{
+                    binding.btnQuestionnaire.background.setTint(context.getColor(R.color.light_red))
+                    binding.btnQuestionnaire.setTextColor(context.getColor(R.color.white))
+                }
+                1->{
+                    binding.btnQuestionnaire.background.setTint(context.getColor(R.color.grey))
+                    binding.btnQuestionnaire.setTextColor(context.getColor(R.color.white))
+                }
+                2->{
+                    binding.btnQuestionnaire.background.setTint(context.getColor(R.color.attended_green_text_color))
+                    binding.btnQuestionnaire.setTextColor(context.getColor(R.color.white))
+                }
+            }
+
+
             binding.btnEllipsize.setOnClickListener {
                 onClick(data,1)
             }
@@ -75,9 +83,9 @@ class CandidateListAdapter(val context: Context,
                 onClick(data,4)
             }
 
-            binding.linearLayout.setOnClickListener {
+            /*binding.linearLayout.setOnClickListener {
                 onClick(data,5)
-            }
+            }*/
 
             if (!data.FullProfileUrl.equals("")){
                 Log.d(TAG, "dataBind: not null img ${data.FullProfileUrl}")

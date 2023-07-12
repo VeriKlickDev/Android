@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.data.DiffUtilHelperUpcomingMeeting
 import com.data.change24to12hoursFormat
 import com.data.changeDatefrom_yyyymmdd_to_mm_space_dd
-import com.data.changeDatefrom_yyyymmdd_to_mmddyyyy
 import com.data.showCustomSnackbarOnTop
 import com.domain.BaseModels.InterViewersListModel
 import com.domain.BaseModels.NewInterviewDetails
@@ -23,7 +22,6 @@ import com.domain.BaseModels.NewInterviewDetails
 import com.google.gson.Gson
 import com.veriKlick.R
 import com.veriKlick.databinding.LayoutItemUpcomingMeetingBinding
-import java.util.logging.Handler
 
 class UpcomingMeetingAdapter(
     val context: Context,
@@ -190,7 +188,7 @@ class UpcomingMeetingAdapter(
                         binding.btnJoin.visibility = View.GONE
                         binding.btnFeedback.isVisible = true
                         binding.btnFeedback.isEnabled = true
-                        binding.btnFeedback.setTextColor(context.getColor(R.color.attended_text_color))
+                        binding.btnFeedback.setTextColor(context.getColor(R.color.attended_green_text_color))
                         binding.btnFeedback.background = ContextCompat.getDrawable(
                             binding.btnFeedback.context,
                             R.drawable.shape_rectangle_rounded_light_green

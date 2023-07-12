@@ -24,7 +24,7 @@ private val TAG="otpviewModelCheck"
             CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
                 actionProgress(1)
 
-                val result = repo?.sendOtpToEmailVerification(email)
+                val result = repo?.sendOtpToEmailVerificationWithType(email,"Login")
 
                 if (result?.isSuccessful!!) {
                     actionProgress(0)

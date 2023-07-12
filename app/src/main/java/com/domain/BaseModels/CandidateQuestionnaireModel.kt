@@ -56,7 +56,7 @@ data class BodyQuestionnaire (
     @SerializedName("Success"            ) var Success            : Boolean?                      = null,
     @SerializedName("TimeTaken"          ) var TimeTaken          : String?                       = null,
     @SerializedName("Availability_For_Interview"          ) var Availability_For_Interview          : String                       = "",
-    @SerializedName("CANDIDATE_TIMEZONE"          ) var candidateTimeZone          : String?                       = null,
+    @SerializedName("CAN_TIMEZONE"          ) var candidateTimeZone          : String?                       = null,
 
 )
 

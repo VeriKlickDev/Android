@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        >
+
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_rectangle_rounded_10_grey"
+                    android:elevation="@dimen/_15sp"
+                    android:padding="@dimen/_10sp"
+                    android:visibility="gone"
+                    android:id="@+id/llMessage"
+                    android:backgroundTint="@color/light_grey"
+                    android:layout_margin="@dimen/_10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" >
+
+                    <TextView
+                        android:id="@+id/tv_message_error"
+                        style="@style/textview.Style.WhiteRounded_18"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <ImageView
+                    android:id="@+id/btn_cross"
+                    android:layout_width="@dimen/_17sdp"
+                    android:layout_height="@dimen/_17sdp"
+                    android:layout_gravity="right"
+                    android:background="@drawable/ic_cross"
+                    android:backgroundTint="@color/grey"
+                    android:elevation="@dimen/_10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.95"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.060000002" />
+
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/parentLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape_rectangle_rounded_10_white"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:context="com.ui.activities.login.loginwithotp.ActivitiyLoginWithOtp">
+
+                    <TextView
+                        android:id="@+id/tv_join_meeting"
+                        style="@style/textview.Style.TvStyleWhiteRounded_30"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_15sp"
+                        android:text="@string/txt_verify_otp" />
+
+                    <TextView
+                        android:id="@+id/tv_txt_start_meeting"
+                        style="@style/textview.Style.WhiteRounded_18"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_otp_descrition" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/parentLayout_emailVerify"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_20sp"
+                        android:orientation="vertical">
+
+                        <!--        <com.google.android.material.textfield.TextInputLayout-->
+                        <!--            android:layout_width="match_parent"-->
+                        <!--            android:layout_height="wrap_content"-->
+                        <!--            android:layout_marginTop="@dimen/_10sp"-->
+                        <!--            android:hint="@string/hint_email"-->
+                        <!--            android:id="@+id/email_inputlayout"-->
+                        <!--            android:layout_marginHorizontal="@dimen/_10sp"-->
+                        <!--            app:boxBackgroundColor="@color/white"-->
+                        <!--            >-->
+
+                        <EditText
+                            android:id="@+id/et_email"
+                            style="@style/editext.style.base"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/_10sp"
+                            android:drawableLeft="@drawable/ic_img_message_black"
+                            android:drawablePadding="@dimen/_5sp"
+                            android:hint="@string/hint_email"
+                            android:imeOptions="actionDone"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:textSize="@dimen/_18sdp" />
+
+                        <TextView
+                            android:id="@+id/tv_error"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/_12sp"
+                            android:fontFamily="@font/sarabun_medium"
+                            android:gravity="left"
+                            android:textColor="@color/red"
+                            android:textSize="@dimen/_10sp"
+                            android:visibility="visible" />
+
+
+                        <!--            in dev-->
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/parent_layout_verifyotp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <EditText
+                                android:id="@+id/et_otp"
+                                style="@style/editext.style.base"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/_10sp"
+                                android:layout_marginTop="@dimen/_15sp"
+                                android:digits="0123456789qwertzuiopasdfghjklyxcvbnm_-QWERTYUIOPASDFGHJKLZXCVBNM"
+                                android:hint="@string/txt_six_digit_otp"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:textSize="@dimen/_16sdp" />
+
+                            <TextView
+                                android:id="@+id/tv_otp_error"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/_12sp"
+                                android:layout_marginTop="-5sp"
+                                android:fontFamily="@font/sarabun_medium"
+                                android:gravity="left"
+                                android:textColor="@color/red"
+                                android:textSize="@dimen/_10sp"
+                                android:visibility="visible" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_sendOtp"
+                            style="@style/button.Style.Blue.Rounded"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_55sdp"
+                            android:layout_marginTop="@dimen/_20sp"
+                            android:text="@string/txt_send_otp"
+                            android:textSize="@dimen/_18sdp"
+                            android:layout_marginBottom="@dimen/_10sp"
+                            />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_resendOtp"
+                            style="@style/button.Style.lightBlue.Rounded.elevation.stroke"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_55sdp"
+                            android:layout_marginTop="@dimen/_10sp"
+                            android:text="@string/txt_resend_otp"
+                            android:textSize="@dimen/_18sdp"
+                            android:visibility="gone" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_verifyOtp"
+                            style="@style/button.Style.Blue.Rounded"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_55sdp"
+                            android:layout_marginTop="@dimen/_10sp"
+                            android:text="@string/txt_verify_otp"
+                            android:textSize="@dimen/_18sdp"
+                            android:visibility="gone"
+                            android:layout_marginBottom="@dimen/_10sp"
+                            />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>

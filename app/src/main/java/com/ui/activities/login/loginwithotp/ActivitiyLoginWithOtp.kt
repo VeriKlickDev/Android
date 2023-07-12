@@ -59,7 +59,6 @@ class ActivitiyLoginWithOtp : AppCompatActivity() {
 
             if (checkInternet()) {
                 /**woking*/ sendOtpToEmail()
-
             }
             else
             {
