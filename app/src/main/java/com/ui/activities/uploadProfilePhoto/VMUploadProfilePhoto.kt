@@ -174,6 +174,51 @@ class VMUploadProfilePhoto @Inject constructor(val loginRestApi: LoginRestApi,va
             }
     }
 
+    fun getCandidateDetails( candidateId:String,tokenId: String,respnse:(data:ResponseRecruiterDetails?,isSuccess:Boolean, errorCode:Int, msg:String?)->Unit) {
+        CoroutineScope(Dispatchers.IO + exceptionHandler)
+            .launch {
+                try {
+
+                    val url="/api/Candidate/$candidateId/$tokenId"
+                    val response = baseRestApi.getRecruiterDetailsWithID(url)
+                    //val response=baseRestApi.getResumeFileNameWithoutAuth("/api/CandidateDataForIOS/" + candidateId)
+                    if (response.isSuccessful) {
+                        when (response.code()) {
+                            200 -> {//response.body()!!
+                                try {
+
+                                }catch (e:Exception)
+                                {
+
+                                }
+                                respnse(response.body()!!,true,200,null)
+                            }
+                            401 -> {
+                                respnse(null,false,401,response.body()?.aPIResponse?.message!!)
+                            }
+                            400 -> {
+                                respnse(null,false,400,response.body()?.aPIResponse?.message!!)
+                            }
+                            500 -> {
+                                respnse(null,false,500,"")
+                            }
+                            501 -> {
+                                respnse(null,false,501,"")
+                            }
+                        }
+                    } else {
+                        respnse(null,false,502,null)
+                    }
+                } catch (e: Exception) {
+                    respnse(null,false,503,e.message.toString())
+                    if (e.message.equals("null"))
+                    {
+
+                    }
+                }
+            }
+    }
+
 
 
 }

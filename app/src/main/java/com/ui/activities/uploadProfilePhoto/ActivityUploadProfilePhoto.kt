@@ -1,6 +1,7 @@
 package com.ui.activities.uploadProfilePhoto
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -16,6 +17,7 @@ import android.widget.AdapterView
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -110,7 +112,50 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
             showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
         }
         binding.btnUploadImage.isEnabled=false
+
+        if (checkInternet()) {
+            getCandidateDetails(CreateProfileDeepLinkHolder.getCandidateId().toString())
+        } else {
+            showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+        }
     }
+
+    private fun getCandidateDetails(id: String) {
+        viewModel?.getCandidateDetails(
+            CreateProfileDeepLinkHolder.getCandidateId().toString(),
+            CreateProfileDeepLinkHolder.getTokenId().toString()
+        )
+        { data, isSuccess, errorCode, msg ->
+            if (isSuccess) {
+                try {
+                    if (data?.aPIResponse?.message != null) {
+                        runOnUiThread { showAlerttoFinishActivity(data?.aPIResponse?.message!!) }
+                    }
+                } catch (e: Exception) {
+                    Log.d(TAG, "getCandidateDetails: excpetion 738 ${e.message}")
+                }
+            } else {
+                runOnUiThread { showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong)) }
+            }
+        }
+    }
+
+    private fun showAlerttoFinishActivity(msg: String) {
+        var alertDialog = AlertDialog.Builder(this)
+        alertDialog.run {
+            setMessage(msg)
+            setPositiveButton(getString(R.string.txt_yes),
+                object : DialogInterface.OnClickListener {
+                    override fun onClick(p0: DialogInterface?, p1: Int) {
+                        finishAffinity()
+                    }
+                })
+            setCancelable(false)
+            create()
+            show()
+        }
+    }
+
 
     override fun finish() {
         super.finish()
@@ -381,8 +426,6 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                 binding.ivEditPencil.isVisible=false
                 binding.ivUploadImage.scaleType=ImageView.ScaleType.CENTER_CROP
                 finalUserImageUri=resultUri
-
-
                 Log.d(TAG, "onActivityResult: destUri $desUri")
             }catch (e:Exception)
             {
