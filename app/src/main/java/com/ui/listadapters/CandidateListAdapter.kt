@@ -96,7 +96,6 @@ class CandidateListAdapter(val context: Context,
                 Log.d(TAG, "dataBind: null ${data.FullProfileUrl}")
                 binding.ivUserImage.setContentPadding(10,10,10,10)
                 binding.ivUserImage.setImageResource(R.drawable.ic_user_white)
-
             }
             try {
                 binding.progressBar.isVisible=list.size-1==adapterPosition

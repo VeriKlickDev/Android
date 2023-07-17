@@ -248,11 +248,13 @@
 
     <string name="txt_select_timezone">Selecciona la zona horaria</string>
     <string name="txt_timezone_not_selected">Zona horaria no seleccionada</string>
-    <string name="txt_SMS_history">SMS history</string>
-    <string name="txt_sent">Sent</string>
-    <string name="txt_message">Message</string>
-    <string name="txt_upload_your_govt_id">Upload your Govt. ID</string>
-    <string name="txt_tap_on_above_icon_to_select_an_Govtid_image">Tap on above icon to select govt. id image</string>
-    <string name="txt_SMS_history_not_available">SMS history not available</string>
+
+    <string name="txt_SMS_history">Historial de SMS</string>
+    <string name="txt_sent">Enviado</string>
+    <string name="txt_message">Mensaje</string>
+    <string name="txt_upload_your_govt_id">Cargue su identificación gubernamental</string>
+    <string name="txt_tap_on_above_icon_to_select_an_Govtid_image">Toque el ícono de arriba para seleccionar la imagen de identificación del gobierno</string>
+    <string name="txt_SMS_history_not_available">Historial de SMS no disponible</string>
+
 
 </resources>
