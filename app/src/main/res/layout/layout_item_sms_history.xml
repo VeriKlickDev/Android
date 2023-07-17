@@ -61,16 +61,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:paddingVertical="@dimen/_3sdp"
-            android:text="@string/txt_questionnaire"
+            android:paddingVertical="@dimen/_2sp"
             android:textSize="@dimen/_12sp"
-            android:paddingHorizontal="@dimen/_5sp"
+            android:paddingHorizontal="@dimen/_10sp"
             android:fontFamily="@font/sarabun_bold"
-            android:visibility="gone"
-            android:background="@drawable/shape_rectangle_rounded_10_skyblue_light"
+            android:visibility="visible"
+            android:background="@drawable/shape_rectangle_rounded_10_white"
+            android:backgroundTint="@color/light_grey"
             android:gravity="right"
-
             />
+
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat

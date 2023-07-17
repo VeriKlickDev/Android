@@ -108,8 +108,8 @@ class CandidateListFragment() : Fragment() {
                         openQuestionnaire(data)
                     }
                     5->{
-                        verifyOtpForGovtidView()
-                        //getChatList(data.id.toString())
+                       // verifyOtpForGovtidView()
+                        getChatList(data.id.toString())
                     }
                 }
             })
@@ -450,16 +450,28 @@ class CandidateListFragment() : Fragment() {
 
     private fun getChatList(id:String)
     {
-        /*viewModel?.getSmsHistoryList(id){data, isSuccess, errorCode, msg ->
+        viewModel?.getSmsHistoryList(id) { data, isSuccess, errorCode, msg ->
             Log.d(TAG, "getChatList: sms array $data")
-        }*/
-        val intent=Intent(requireActivity(),ActivitySmsHistory::class.java)
-        intent.putExtra(AppConstants.CANDIDATE_ID,id.toString())
-        startActivity(intent)
-        requireActivity().overridePendingTransition(
-            R.anim.slide_in_right,
-            R.anim.slide_out_left
-        )
+            if (data?.size!! > 0)
+            {
+                val intent=Intent(requireActivity(),ActivitySmsHistory::class.java)
+                intent.putExtra(AppConstants.CANDIDATE_ID,id.toString())
+                startActivity(intent)
+                requireActivity().overridePendingTransition(
+                    R.anim.slide_in_right,
+                    R.anim.slide_out_left
+                )
+            }
+            else
+            {
+                requireActivity().run {
+                    runOnUiThread {
+                    showCustomSnackbarOnTop(getString(R.string.txt_SMS_history_not_available))
+                    }
+                }
+            }
+        }
+
     }
 
 

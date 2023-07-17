@@ -260,5 +260,6 @@
     <string name="txt_message">Message</string>
     <string name="txt_upload_your_govt_id">Upload your Govt. ID</string>
     <string name="txt_tap_on_above_icon_to_select_an_Govtid_image">Tap on above icon to select govt. id image</string>
+    <string name="txt_SMS_history_not_available">SMS history not available</string>
 
 </resources>

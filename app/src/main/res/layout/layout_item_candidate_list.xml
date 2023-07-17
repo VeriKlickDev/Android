@@ -278,6 +278,24 @@
                     android:fontFamily="@font/sarabun_bold" />
 
                 <ImageView
+                    android:id="@+id/btn_smsHistory"
+                    android:layout_weight="0"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:text="@string/txt_sms"
+                    android:src="@drawable/ic_send_messages"
+                    android:layout_marginLeft="@dimen/_5sp"
+                    app:tint="@color/white"
+                    android:padding="@dimen/_7sp"
+                    android:visibility="visible"
+                    android:outlineProvider="none"
+                    android:foreground="?selectableItemBackground"
+                    style="@style/button.Style.Blue.Rounded.WithouPadding"
+                    android:fontFamily="@font/sarabun_bold" />
+
+
+
+                <ImageView
                     android:id="@+id/btn_rejoin"
                     android:layout_weight="3.5"
                     android:layout_marginHorizontal="@dimen/_5sp"

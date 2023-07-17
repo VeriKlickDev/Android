@@ -44,8 +44,8 @@ class ActivitySmsHistory : AppCompatActivity() {
     private fun getSMSList()
     {
         runOnUiThread { showProgressDialog() }
-       // viewModel?.getSmsHistoryList(intent.getStringExtra(AppConstants.CANDIDATE_ID).toString()){data, isSuccess, errorCode, msg ->
-        viewModel?.getSmsHistoryList("9993".toString()){data, isSuccess, errorCode, msg ->
+        viewModel?.getSmsHistoryList(intent.getStringExtra(AppConstants.CANDIDATE_ID).toString()){data, isSuccess, errorCode, msg ->
+       // viewModel?.getSmsHistoryList("9993".toString()){data, isSuccess, errorCode, msg ->
 
             Log.d("TAG", "getChatList: sms array $data")
             runOnUiThread { dismissProgressDialog() }

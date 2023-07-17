@@ -7,10 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.domain.BaseModels.ResponseSMSchatHistory
 import com.veriKlick.databinding.LayoutItemSmsHistoryBinding
 
-class SMSchatHistoryListAdapter(val context: Context,
-                                val list: MutableList<ResponseSMSchatHistory>,
-                                val onClick: (data: ResponseSMSchatHistory, action: Int) -> Unit) : RecyclerView.Adapter<SMSchatHistoryListAdapter.ViewHolderClass>()
-{
+class SMSchatHistoryListAdapter(
+    val context: Context,
+    val list: MutableList<ResponseSMSchatHistory>,
+    val onClick: (data: ResponseSMSchatHistory, action: Int) -> Unit
+) : RecyclerView.Adapter<SMSchatHistoryListAdapter.ViewHolderClass>() {
 
     private val TAG = "upcomingAdapterListCheck"
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass {
@@ -24,8 +25,8 @@ class SMSchatHistoryListAdapter(val context: Context,
         holder.dataBind(data)
 
     }
-    fun addList(tlist:List<ResponseSMSchatHistory>)
-    {
+
+    fun addList(tlist: List<ResponseSMSchatHistory>) {
         list.clear()
         list.addAll(tlist)
         notifyDataSetChanged()
@@ -35,12 +36,14 @@ class SMSchatHistoryListAdapter(val context: Context,
         return list.size
     }
 
-    var totalCount:Int?=null
+    var totalCount: Int? = null
+
     inner class ViewHolderClass(val binding: LayoutItemSmsHistoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun dataBind(data: ResponseSMSchatHistory) {
-        binding.tvCreatedOn.setText(" :      "+data.CreatedOn.toString())
-        binding.tvMessage.setText(data.MessageText.toString())
+            binding.tvCreatedOn.setText(" :      " + data.CreatedOn.toString())
+            binding.tvMessage.setText(data.MessageText.toString())
+            binding.btnQuestionnaire.setText(data.messageType.toString())
         }
     }
 }

@@ -64,8 +64,8 @@ class CandidateListAdapter(val context: Context,
                     binding.btnQuestionnaire.setTextColor(context.getColor(R.color.white))
                 }
                 2->{
-                    binding.btnQuestionnaire.background.setTint(context.getColor(R.color.attended_green_text_color))
-                    binding.btnQuestionnaire.setTextColor(context.getColor(R.color.white))
+                    binding.btnQuestionnaire.background.setTint(context.getColor(R.color.feedback_green))
+                    binding.btnQuestionnaire.setTextColor(context.getColor(R.color.attended_green_text_color))
                 }
             }
 
@@ -83,9 +83,9 @@ class CandidateListAdapter(val context: Context,
                 onClick(data,4)
             }
 
-            /*binding.linearLayout.setOnClickListener {
+            binding.btnSmsHistory.setOnClickListener {
                 onClick(data,5)
-            }*/
+            }
 
             if (!data.FullProfileUrl.equals("")){
                 Log.d(TAG, "dataBind: not null img ${data.FullProfileUrl}")

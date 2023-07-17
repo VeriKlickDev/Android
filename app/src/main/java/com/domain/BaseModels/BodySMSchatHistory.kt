@@ -13,5 +13,7 @@ data class ResponseSMSchatHistory(
     @SerializedName("SenderName"   ) var SenderName   : String? = null,
     @SerializedName("ReceiverID"   ) var ReceiverID   : Int?    = null,
     @SerializedName("ReceiverName" ) var ReceiverName : String? = null,
-    @SerializedName("MessageText"  ) var MessageText  : String? = null
+    @SerializedName("MessageText"  ) var MessageText  : String? = null,
+    @SerializedName("MessageType"  ) var messageType  : String? = null,
+
 )
