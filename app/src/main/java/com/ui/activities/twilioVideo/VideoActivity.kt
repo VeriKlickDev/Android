@@ -3082,12 +3082,13 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         //  currentRemoteVideoTrack?.removeSink(binding.primaryVideoView)
         //  localVideoTrack?.addSink(binding.primaryVideoView)
     }
-
+    private var recordingStatus:Boolean=false
     override fun onRecordingStarted(room: Room) {
         /*
              * Indicates when media shared to a Room is being recorded. Note that
              * recording is only available in our Group Rooms developer preview.
              */
+        recordingStatus=true
         binding.btnRecording.setImageResource(R.drawable.ic_img_sc_recording_red)
         Log.d(TAG, "onRecordingStarted")
     }
@@ -3097,6 +3098,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
            * Indicates when media shared to a Room is no longer being recorded. Note that
            * recording is only available in our Group Rooms developer preview.
            */
+        recordingStatus=false
         binding.btnRecording.setImageResource(R.drawable.ic_img_sc_recording_white)
         Log.d(TAG, "onRecordingStopped")
     }
@@ -3781,7 +3783,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 }
 
 
-                //Log.d("checkvideostatus", "onViewClicked: status ${VideoRecordingStatusHolder.setStatus()}")
+              //  Log.d("checkvideostatus", "onViewClicked: status ${VideoRecordingStatusHolder.setStatus()}")
             }
         }
     }
