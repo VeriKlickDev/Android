@@ -255,6 +255,7 @@
     <string name="txt_upload_your_govt_id">Cargue su identificación gubernamental</string>
     <string name="txt_tap_on_above_icon_to_select_an_Govtid_image">Toque el ícono de arriba para seleccionar la imagen de identificación del gobierno</string>
     <string name="txt_SMS_history_not_available">Historial de SMS no disponible</string>
+    <string name="txt_Start_recording_after_the_candidate_joins">Start recording after the candidate joins</string>
 
 
 </resources>

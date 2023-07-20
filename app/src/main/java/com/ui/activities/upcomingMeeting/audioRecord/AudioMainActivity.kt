@@ -90,6 +90,7 @@ class AudioMainActivity : AppCompatActivity() {
     }
 
 
+
     override fun onStop() {
         recorder.release()
         super.onStop()
@@ -167,6 +168,19 @@ class AudioMainActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
+
+        try {
+            Log.d("TAG", "onPause: ")
+            millis=0
+            seconds=0
+            binding.audioProgressBar.setProgress(0)
+            timer2?.cancel()
+            timer1?.cancel()
+        }catch (e:Exception)
+        {
+            Log.d("TAG", "onPause: exception 180 ")
+        }
+
          /*   millis=0
             seconds=15
             millisTimer.cancel()

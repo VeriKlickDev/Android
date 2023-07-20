@@ -114,7 +114,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
         binding.btnUploadImage.isEnabled=false
 
         if (checkInternet()) {
-            getCandidateDetails(CreateProfileDeepLinkHolder.getCandidateId().toString())
+           getCandidateDetails(CreateProfileDeepLinkHolder.getCandidateId().toString())
         } else {
             showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
         }

@@ -198,7 +198,7 @@ class ActivityResumeDocument : AppCompatActivity() {
                 binding.etDocument.setText(uri?.let { it1 -> getFileNameFromUri(it1) })
                 Log.d(TAG, "file uri: $src uri $uri file cte  ")
                 resumeFile= uri?.let { it1 -> getFile(this@ActivityResumeDocument, it1) }
-
+                Log.d(TAG, "file name with extension ${resumeFile?.name}: ")
                 Log.d(TAG, "file uri: $src uri $uri file cte  ")
 
             } catch (e: Exception) {

@@ -41,5 +41,18 @@ object CandidateImageAndAudioHolder {
     fun getResumeFileName()= resumeFile.firstOrNull()
 
 
+    //audio file
+
+
+    private var audioFileName= mutableListOf<String>()
+    fun getAudioFileName()=audioFileName.firstOrNull()
+    fun setAudioName(obj:String)
+    {
+        audioFileName.add(0, obj)
+    }
+
+
+
+
 
 }

@@ -55,7 +55,7 @@ class FragmentCreateCandidate : Fragment() {
         isEmailok=false
         isPhoneok=false
         iscountryCode=null
-        binding.tvCountryCode.setText(getString(R.string.txt_select_code))
+        binding.tvCountryCode.setText(getString(R.string.txt_country_code))
         binding.etEmail.setText("")
         binding.etPhoneno.setText("")
         binding.tvEmailError.visibility=View.INVISIBLE

@@ -144,12 +144,14 @@ class VMUploadResume @Inject constructor(val loginRestApi: LoginRestApi, val bas
                 try {
                     //val authToken= DataStoreHelper.getLoginBearerToken()
 
-                    var resumeName="${CandidateImageAndAudioHolder.getDeepLinkData()?.subscriberId}/" + "Resume_" + "${System.currentTimeMillis()}"
+                    var resumeName="${CandidateImageAndAudioHolder.getDeepLinkData()?.subscriberId}/" + "Resume_" + "${System.currentTimeMillis()}${resume.name}"
 
                     val newFileName = MultipartBody.Part.createFormData("NewFileName","${resumeName}")
                     val subscriberId=MultipartBody.Part.createFormData("subscriberId",subscriberIdstr)
                     val resumeFile= MultipartBody.Part.createFormData("FilePath",resumeName + resume?.name,resume!!.asRequestBody())
+
                     CandidateImageAndAudioHolder.setResumeName(resumeName)
+
                     val response = loginRestApi.updateResumeWithoutAuth(
                         resumeFile,newFileName,subscriberId
                     )

@@ -94,7 +94,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
 
         binding.etPhoneno.doOnTextChanged { text, start, before, count ->
             //isPhoneok=phoneValidator(text.toString())
-            if (phoneValidator(text.toString())) {
+            if (phoneValidatorfor9and10Digits(text.toString())) {
                 Log.d(TAG, "onCreate: phone valid")
                 checkPhoneExists(text.toString())
             } else {
@@ -165,7 +165,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     }"
                 )
                 Log.d(TAG, "validateAllFields: firstname blank")
-            } else if (binding.etMiddlename.text.toString().equals("")) {
+            }/* else if (binding.etMiddlename.text.toString().equals("")) {
                 showCustomToast(
                     getString(R.string.txt_middleName) + " ${getString(R.string.txt_is)} ${
                         getString(
@@ -174,7 +174,9 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     }"
                 )
                 Log.d(TAG, "validateAllFields: middel name blank")
-            } else if (binding.etLastname.text.toString().equals("")) {
+            }*/
+
+            else if (binding.etLastname.text.toString().equals("")) {
                 showCustomToast(
                     getString(R.string.txt_lastName) + " ${getString(R.string.txt_is)} ${
                         getString(
@@ -224,7 +226,9 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     }"
                 )
                 Log.d(TAG, "validateAllFields: zip blank")
-            } else if (binding.etStreet.text.toString().equals("")) {
+            }
+
+            /*else if (binding.etStreet.text.toString().equals("")) {
                 showCustomToast(
                     getString(R.string.txt_street) + " ${getString(R.string.txt_is)} ${
                         getString(
@@ -233,7 +237,9 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     }"
                 )
                 Log.d(TAG, "validateAllFields: street blank")
-            } else if (binding.etPrimarySkills.text.toString().equals("")) {
+            } */
+
+            else if (binding.etPrimarySkills.text.toString().equals("")) {
                 showCustomToast(
                     getString(R.string.txt_primary_skills) + " ${getString(R.string.txt_are)} ${
                         getString(
@@ -260,7 +266,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     }"
                 )
                 Log.d(TAG, "validateAllFields: secondary blank")
-            } else if (cityStr.equals("") || cityStr == null) {
+            }/* else if (cityStr.equals("") || cityStr == null) {
                 showCustomToast(
                     getString(R.string.txt_city) + " ${getString(R.string.txt_is)} ${
                         getString(
@@ -269,7 +275,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     }"
                 )
                 Log.d(TAG, "validateAllFields: city blank")
-            } else if (stateStr.equals("") || stateStr == null) {
+            }*/ else if (stateStr.equals("") || stateStr == null) {
                 showCustomToast(
                     getString(R.string.txt_state) + " ${getString(R.string.txt_is)} ${
                         getString(
@@ -333,26 +339,32 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     ob.skills?.skill = binding.etSecondarySkills.text.toString()
                     ob.profile?.streetName = binding.etStreet.text.toString()
                     ob.profile?.profileImage=CandidateImageAndAudioHolder.getImageObject()?.imageName
-                    ob.profile?.parseResume=CandidateImageAndAudioHolder.getResumeFileName()
+                    ob.professional?.resume=CandidateImageAndAudioHolder.getResumeFileName()
+                    //ob.profile?.GovId_Url=CandidateImageAndAudioHolde
+                    ob.profile?.AudioFileName=CandidateImageAndAudioHolder.getAudioFileName()
+                    val audioFileName=CandidateImageAndAudioHolder.getAudioFileName()
+                    audioFileName
 
-
-                    Log.d(TAG, "postData: posting data object ${Gson().toJson(ob)}")
+                    Log.d(TAG, "postData: posting data object $audioFileName fullJson ${Gson().toJson(ob)}")
 
                     runOnUiThread { showProgressDialog() }
 
-                    viewModel?.createCandidateWithoutAuth(
-                        ob,
-                        CandidateImageAndAudioHolder.getDeepLinkData()?.token_Id!!.toString()
+                    viewModel?.createCandidateWithoutAuth(ob,CandidateImageAndAudioHolder.getDeepLinkData()?.token_Id!!.toString()
                     ) { data, isSuccess, errorCode, msg ->
                         if (isSuccess) {
                             runOnUiThread { dismissProgressDialog() }
                             showCustomSnackbarOnTop(msg)
+                            Handler(mainLooper).postDelayed({
+                                finishAffinity()
+                            },3000)
                         } else {
                             runOnUiThread { dismissProgressDialog() }
                             showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
                         }
-
                     }
+
+
+
                 }
         } catch (_: Exception) {
 

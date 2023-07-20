@@ -1,10 +1,10 @@
 package com.ui.activities.upcomingMeeting.audioRecord.player
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.data.dataHolders.CandidateImageAndAudioHolder
 import com.data.dataHolders.DataStoreHelper
 import com.data.exceptionHandler
-import com.domain.BaseModels.BodyCandidateImageAudioModel
 import com.domain.BaseModels.BodyCandidateImageModel
 import com.domain.BaseModels.BodyCandidateResume
 import com.domain.RestApi.BaseRestApi
@@ -13,12 +13,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.MediaType
 import okhttp3.MultipartBody
-import okhttp3.Request
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
-import retrofit2.http.Multipart
 import javax.inject.Inject
 
 
@@ -63,22 +59,22 @@ class VMPlayAudio @Inject constructor(val loginRestApi: LoginRestApi, val baseRe
     }
 
 
-    fun updateUserImageWithoutAuth(respnse:(isSuccess:Boolean, code:Int, msg:String)->Unit)
+    fun updateUserAudioWithoutAuth(respnse:(isSuccess:Boolean, code:Int, msg:String)->Unit)
     {
         CoroutineScope(Dispatchers.IO + exceptionHandler)
             .launch {
                 try {
-                    val recruiterDetails=CandidateImageAndAudioHolder.getAudioObject()?.name.toString()
-                    val ohhk=CandidateImageAndAudioHolder.getAudioObject()?.getName()
-                    ohhk
-                    recruiterDetails
+
+                    val audioFileNameStr="rec${System.currentTimeMillis()}"+CandidateImageAndAudioHolder.getAudioObject()?.name.toString()
+
                     val audioFile = MultipartBody.Part.createFormData("File", "${CandidateImageAndAudioHolder.getAudioObject()?.getName()}", CandidateImageAndAudioHolder.getAudioObject()!!.asRequestBody())
-                    val audioFileName=MultipartBody.Part.createFormData("AudioFileName",CandidateImageAndAudioHolder.getAudioObject()?.name.toString())
+                    val audioFileName=MultipartBody.Part.createFormData("AudioFileName",audioFileNameStr)
                     val recruiterId=MultipartBody.Part.createFormData("RecruiterId",CandidateImageAndAudioHolder.getDeepLinkData()?.subscriberId.toString())
                     val profileUrl=MultipartBody.Part.createFormData("Profile_Url",CandidateImageAndAudioHolder.getImageObject()?.imageName.toString())
                     val tokenId=MultipartBody.Part.createFormData("Token_Id", CandidateImageAndAudioHolder.getDeepLinkData()?.token_Id.toString())
-                    CandidateImageAndAudioHolder.getImageObject()
 
+                    CandidateImageAndAudioHolder.setAudioName(audioFileNameStr)
+                    Log.d("TAG", "updateUserAudioWithoutAuth: audiofilename ${audioFileNameStr}")
                    // val authToken=DataStoreHelper.getLoginBearerToken()
                     val response = baseRestApi.updateUserAudio(audioFile,audioFileName,recruiterId,profileUrl,tokenId)
                     if (response.isSuccessful)

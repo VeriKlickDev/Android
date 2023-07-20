@@ -3,21 +3,13 @@ package com.ui.activities.upcomingMeeting.audioRecord
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.data.checkInternet
-import com.data.dataHolders.CandidateImageAndAudioHolder
-import com.data.dataHolders.DataStoreHelper
 import com.data.dismissProgressDialog
-import com.data.exceptionHandler
-import com.data.setHandler
 import com.data.showCustomSnackbarOnTop
 import com.data.showProgressDialog
-import com.domain.BaseModels.BodyCandidateImageAudioModel
-import com.domain.BaseModels.CandidateDeepLinkDataModel
-import com.ui.activities.createCandidate.ActivityCreateCandidate
 import com.ui.activities.upcomingMeeting.audioRecord.player.AudioPlayer
 import com.ui.activities.upcomingMeeting.audioRecord.player.VMPlayAudio
 import com.ui.activities.upcomingMeeting.audioRecord.utils.formatAsTime
@@ -26,9 +18,6 @@ import com.ui.activities.uploadResumeDocument.ActivityResumeDocument
 import com.veriKlick.R
 import com.veriKlick.databinding.ActivityPlayBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlin.math.sqrt
 
 @AndroidEntryPoint
@@ -73,7 +62,7 @@ class PlayActivity : AppCompatActivity() {
     {
         try {
             runOnUiThread { showProgressDialog() }
-            viewModel?.updateUserImageWithoutAuth{isSuccess, code, msg ->
+            viewModel?.updateUserAudioWithoutAuth{ isSuccess, code, msg ->
                 runOnUiThread {dismissProgressDialog() }
                 when(code)
                 {
@@ -109,7 +98,6 @@ class PlayActivity : AppCompatActivity() {
                         showCustomSnackbarOnTop(msg)
                         Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                     }
-
                 }
             }
         }catch (e:Exception)

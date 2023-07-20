@@ -261,5 +261,6 @@
     <string name="txt_upload_your_govt_id">Upload your government ID</string>
     <string name="txt_tap_on_above_icon_to_select_an_Govtid_image">Tap on above icon to select government id image</string>
     <string name="txt_SMS_history_not_available">SMS history not available</string>
+    <string name="txt_Start_recording_after_the_candidate_joins">Start recording after the candidate joins</string>
 
 </resources>

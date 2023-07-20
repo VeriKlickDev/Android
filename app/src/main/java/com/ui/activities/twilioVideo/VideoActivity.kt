@@ -3756,7 +3756,19 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                 else {
                     if (isRoomConnected != false) {
                         if (checkInternet()) {
-                            handleVideoRecording()
+                            try {
+                                var isCandidateAvailable=globalParticipantList.any { it.identity!!.contains("C") }
+                                if (isCandidateAvailable)
+                                {
+                                    handleVideoRecording()
+                                }else
+                                {
+                                    runOnUiThread { showCustomSnackbarOnTop(getString(R.string.txt_Start_recording_after_the_candidate_joins)) }
+                                }
+                            }catch (e:Exception)
+                            {
+
+                            }
                         }
                         else
                         {
