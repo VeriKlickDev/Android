@@ -32,5 +32,7 @@
     <color name="yellowDark">#F19800</color>
     <color name="yellow">#F19800</color>
     <color name="yellowLight">#FFC107</color>
+    <color name="orange">#D15129</color>
+    <color name="orangelight">#FFEDE7</color>
 
 </resources>

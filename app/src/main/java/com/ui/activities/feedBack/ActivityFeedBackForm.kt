@@ -30,6 +30,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import layout.SkillsListAdapter
+import layout.SoftSkillsListAdapter
 
 
 @AndroidEntryPoint
@@ -40,7 +41,9 @@ class ActivityFeedBackForm : AppCompatActivity() {
     private lateinit var viewModel: FeedBackViewModel
     private lateinit var spinnerAdapter: ArrayAdapter<String>
     private lateinit var skillsAdapter: SkillsListAdapter
+    private lateinit var softskillsAdapter: SoftSkillsListAdapter
     private val skillsList = mutableListOf<AssessSkills>()
+    private val softskillsList = mutableListOf<CandidateTemplateSkills>()
     private var appliedPosition: String = ""
     private val recommendationIddList = mutableListOf<InterviewerRemark>()
 
@@ -58,8 +61,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
             )
         }
 
-        skillsAdapter =
-            SkillsListAdapter(this, skillsList) { pos, data, action ->
+        skillsAdapter = SkillsListAdapter(this, skillsList) { pos, data, action ->
                 when (action) {
                     1 -> {
                         // addNewItem()
@@ -71,19 +73,30 @@ class ActivityFeedBackForm : AppCompatActivity() {
             }
         binding.rvCandidateSkills.adapter = skillsAdapter
 
+        softskillsAdapter = SoftSkillsListAdapter(this, softskillsList) { pos, data, action ->
+                when (action) {
+                    1 -> {
+                        // addNewItem()
+                    }
+                    2 -> {
+                        removeItem(pos)
+                    }
+                }
+            }
+        binding.rvCandidatesoftSkills.adapter = softskillsAdapter
+
+
+
+
+
         //        binding.spinnerInterviewRemark.onItemSelectedListener =
         //            spinnerItemListener
 
 
         binding.btnSubmitButton.setOnClickListener {
             if (checkInternet()) {
-                binding.btnSubmitButton.isEnabled=false
-                if (recommendationSelected != null) {
-                    binding.recommendationError.isVisible = false
-                }
-                else {
-                    binding.recommendationError.isVisible = true
-                }
+               // binding.btnSubmitButton.isEnabled=false
+                binding.recommendationError.isVisible = recommendationSelected == null
 
                 setVisible()
 
@@ -189,6 +202,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
         Log.d(TAG, "addNewItem: AFTER ${skillsList.size}")
     }
 
+
     fun removeItem(pos: Int) {
         Log.d(TAG, "remove item:before ${skillsList.size} pos $pos")
         try {
@@ -284,14 +298,19 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 }
             }
 
-            if (!isBlank) {
+            var issoftSkillFilled=softskillsAdapter.getFeedBackSoftSkillList().any { it.Ratings>0 && it.Comments==null }
+            issoftSkillFilled
+
+            Log.d(TAG, "sendFeedBack: is softskill filled $issoftSkillFilled")
+
+            if (!isBlank && !issoftSkillFilled) {
                 if (checkInternet())
                 {
+                    binding.btnSubmitButton.isEnabled=false
                     postFeedback()
-
                 }else
                 {
-                    showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                    runOnUiThread { showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection)) }
                 }
             }
             else {
@@ -393,10 +412,14 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 ),
                 skillsListres,
                 remarkList,
+                softskillsList,
                 onDataResponse = { data, status ->
                     when (status) {
                         404 -> {
-                            binding.btnSubmitButton.isEnabled = true
+                            runOnUiThread {
+
+                                binding.btnSubmitButton.isEnabled = true
+                            }
                             /*showCustomToast(data?.aPIResponse?.message!!.toString())
                             //showCustomSnackbarOnTop(data?.aPIResponse?.message!!)
                             //showToast(this, data?.aPIResponse?.message!!)
@@ -405,7 +428,9 @@ class ActivityFeedBackForm : AppCompatActivity() {
                             }, 1000)*/
                         }
                         200 -> {
-                            showCustomToast(data?.aPIResponse?.message!!.toString())
+                            runOnUiThread {
+                                showCustomToast(data?.aPIResponse?.message!!.toString())
+                            }
                             //showCustomSnackbarOnTop(data?.aPIResponse?.message!!)
                             //showToast(this, data?.aPIResponse?.message!!)
                             Handler(Looper.getMainLooper()).postDelayed({
@@ -413,14 +438,22 @@ class ActivityFeedBackForm : AppCompatActivity() {
                             }, 1000)
                         }
                         400 -> {
-                            binding.btnSubmitButton.isEnabled = true
+                            runOnUiThread {
+
+                                binding.btnSubmitButton.isEnabled = true
+                            }
                         }
                         401 -> {
+                            runOnUiThread {
                             binding.btnSubmitButton.isEnabled = true
+
+                            }
                         }
                         500 -> {
-                            binding.btnSubmitButton.isEnabled = true
-                            showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+                            runOnUiThread {
+                                binding.btnSubmitButton.isEnabled = true
+                                showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+                            }
                             //showToast(this, getString(R.string.txt_something_went_wrong))
                         }
                     }
@@ -434,9 +467,11 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
         }
         else {
-            binding.recommendationError.isVisible = true
-            binding.btnSubmitButton.isEnabled = true
-            showCustomSnackbarOnTop(getString(R.string.txt_recommendation_required))
+            runOnUiThread {
+                binding.recommendationError.isVisible = true
+                binding.btnSubmitButton.isEnabled = true
+                showCustomSnackbarOnTop(getString(R.string.txt_recommendation_required))
+            }
             //showToast(this, getString(R.string.txt_all_fields_required))
         }
 
@@ -736,15 +771,23 @@ class ActivityFeedBackForm : AppCompatActivity() {
                     skillsList.addAll(data.candidateAssessmentSkillsMobile)
                 }
 
+                if (!data.candidateTemplateSkills.isNullOrEmpty())
+                {
+                    softskillsList.addAll(data.candidateTemplateSkills)
+                }
+
                 Log.d(TAG, "setDataToViews: listdata $skillsList")
-                skillsAdapter.notifyDataSetChanged()
+                runOnUiThread {
+                    skillsAdapter.notifyDataSetChanged()
+                    softskillsAdapter.notifyDataSetChanged()
+                }
 
 
                 if (data.Recommendation == null || data.Recommendation == "null") {
-                    binding.btnSubmitButton.setText("Submit")
+                    binding.btnSubmitButton.setText(getString(R.string.txt_submit))
                 }
                 else {
-                    binding.btnSubmitButton.setText("Update")
+                    binding.btnSubmitButton.setText(getString(R.string.txt_update))
                 }
             } catch (e: Exception) {
                 Log.d(TAG, "setDataToViews: on data res exception ${e.message}")

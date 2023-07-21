@@ -61,7 +61,7 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
 
     }
 
-    fun sendFeedback(context: Context,recommendationId: Int,assementId:Int,role:String,appliedPosition:String,recommendation:String,designation:String,interviewName:String,candidateId:Int,remarktxt:String,codingRemarktxt:String, obj:BodyFeedBack,skillsListRes:ArrayList<AssessSkills>,remarkList:ArrayList<InterviewerRemark>, onDataResponse:(data: ResponseBodyFeedBack?, status:Int)->Unit) {
+    fun sendFeedback(context: Context,recommendationId: Int,assementId:Int,role:String,appliedPosition:String,recommendation:String,designation:String,interviewName:String,candidateId:Int,remarktxt:String,codingRemarktxt:String, obj:BodyFeedBack,skillsListRes:ArrayList<AssessSkills>,remarkList:ArrayList<InterviewerRemark>,softSkillList:List<CandidateTemplateSkills>, onDataResponse:(data: ResponseBodyFeedBack?, status:Int)->Unit) {
         CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
             try {
                 CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
@@ -141,7 +141,7 @@ class FeedBackViewModel @Inject constructor(val repo: RepositoryImpl) :ViewModel
                     Log.d(TAG, "sendFeedback: after candidate id  ${candidateId}")
 
                     Log.d(TAG, "sendFeedback: ${Gson().toJson(obj)}")
-
+                    obj.candidateTemplateSkills.addAll(softSkillList)
                     val result = repo.sendFeedBack(obj)
                    Log.d(TAG, "sendFeedback: code ${result.code()}")
                     if (result.isSuccessful) {

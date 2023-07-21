@@ -9,6 +9,7 @@ data class BodyFeedBack(
     @SerializedName("candidateAssessmentRecommendations" ) var candidateAssessmentRecommendations : String?                                    = null,
     @SerializedName("CandidateAssessmentSkills"          ) var CandidateAssessmentSkills          : ArrayList<CandidateAssessmentSkills>       = arrayListOf(),
     @SerializedName("CandidateAssessmentSkillsMobile") var candidateAssessmentSkillsMobile: ArrayList<AssessSkills> = arrayListOf(),
+    @SerializedName("CandidateTemplateSkills") var candidateTemplateSkills: ArrayList<CandidateTemplateSkills> = arrayListOf(),
 )
 
 
@@ -26,7 +27,7 @@ data class CandidateAssessment (
     @SerializedName("Skills"                    ) var Skills                    : ArrayList<AssessSkills> = arrayListOf(),
     @SerializedName("Remark"                    ) var Remark                    : ArrayList<InterviewerRemark> = arrayListOf(),
     @SerializedName("Recommendation"            ) var Recommendation            : String?           = null,
-    @SerializedName("CodingTestRemarksForVideo" ) var CodingTestRemarksForVideo : String?           = null
+    @SerializedName("CodingTestRemarksForVideo" ) var CodingTestRemarksForVideo : String?           = null,
 
 )
 

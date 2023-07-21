@@ -329,7 +329,7 @@ class FragmentCreateCandidate : Fragment() {
                     isEmailok=isEmailOk
                     if (!isEmailOk) {
                         requireActivity().runOnUiThread {
-                            binding.tvEmailError.setText(getString(R.string.txt_invalid))
+                            binding.tvEmailError.setText(getString(R.string.txt_invalid)+" ${getString(R.string.txt_email)}")
                         }
                     }
                     else{
@@ -358,7 +358,7 @@ class FragmentCreateCandidate : Fragment() {
 
             }
             if (!requireActivity().phoneValidatorfor9and10Digits(text.toString())){
-                binding.tvPhoneError.setText(getString(R.string.txt_invalid))
+                binding.tvPhoneError.setText(getString(R.string.txt_invalid)+" ${getString(R.string.txt_phoneNo)}")
                 binding.tvPhoneError.visibility=View.VISIBLE
             }
 

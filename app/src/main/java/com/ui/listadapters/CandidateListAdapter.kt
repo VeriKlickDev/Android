@@ -24,9 +24,9 @@ class CandidateListAdapter(val context: Context,
     }
 
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
+        holder.setIsRecyclable(false)
         val data = list[position]
         holder.dataBind(data)
-
     }
     fun addList(tlist:List<SavedProfileDetail>)
     {
@@ -56,14 +56,17 @@ class CandidateListAdapter(val context: Context,
             when(data.questionnairStatus)
             {
                 0->{
-                    binding.btnQuestionnaire.background.setTint(context.getColor(R.color.light_red))
-                    binding.btnQuestionnaire.setTextColor(context.getColor(R.color.white))
+                    //not recieved template
+                    binding.btnQuestionnaire.setBackgroundResource(R.drawable.shape_rectangle_rounded_stroke_grey)
+                    binding.btnQuestionnaire.setTextColor(context.getColor(R.color.grey))
                 }
                 1->{
-                    binding.btnQuestionnaire.background.setTint(context.getColor(R.color.grey))
-                    binding.btnQuestionnaire.setTextColor(context.getColor(R.color.white))
+                    //not filled
+                    binding.btnQuestionnaire.background.setTint(context.getColor(R.color.orangelight))
+                    binding.btnQuestionnaire.setTextColor(context.getColor(R.color.orange))
                 }
                 2->{
+                    //filled/submitted
                     binding.btnQuestionnaire.background.setTint(context.getColor(R.color.feedback_green))
                     binding.btnQuestionnaire.setTextColor(context.getColor(R.color.attended_green_text_color))
                 }

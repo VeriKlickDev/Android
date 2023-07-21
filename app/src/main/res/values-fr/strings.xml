@@ -257,5 +257,6 @@
     <string name="txt_tap_on_above_icon_to_select_an_Govtid_image">Appuyez sur l\'icône ci-dessus pour sélectionner l\'image d\'identification du gouvernement</string>
     <string name="txt_SMS_history_not_available">Historique des SMS non disponible</string>
     <string name="txt_Start_recording_after_the_candidate_joins">Start recording after the candidate joins</string>
+    <string name="txt_softSkill">SoftSkills</string>
 
 </resources>
