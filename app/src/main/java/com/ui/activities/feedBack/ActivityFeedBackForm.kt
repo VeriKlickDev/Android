@@ -23,6 +23,7 @@ import com.domain.BaseModels.*
 import com.domain.constant.AppConstants
 import com.veriKlick.*
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import com.veriKlick.databinding.ActivityFeedBackFormBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -775,6 +776,22 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 {
                     softskillsList.addAll(data.candidateTemplateSkills)
                 }
+
+                if (data.SoftSkillsResponse!=null)
+                {
+                    try {
+                        val decodedData= Gson().fromJson<Array<SoftSkillResonseData>>(data.SoftSkillsResponse.toString(),Array<SoftSkillResonseData>::class.java)
+                        Log.d(TAG, "setDataToViews: decoding data of filled ${decodedData.get(0).skills.size}")
+                        if (!decodedData[0].skills.isNullOrEmpty())
+                        {
+                            softskillsAdapter.setListFilledData(decodedData[0].skills)
+                        }
+                    }catch (e:Exception)
+                    {
+                        Log.d(TAG, "setDataToViews: exception decoding ${e.message} datais ${data.SoftSkillsResponse.toString()}")
+                    }
+                }
+
 
                 Log.d(TAG, "setDataToViews: listdata $skillsList")
                 runOnUiThread {

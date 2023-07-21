@@ -26,7 +26,7 @@ data class ResponseFeedBack(
     @SerializedName("CandidateAssessment") var CandidateAssessment: String? = null,
     @SerializedName("CandidateAssessmentSkillsMobile") var candidateAssessmentSkillsMobile: ArrayList<AssessSkills> = arrayListOf(),
     @SerializedName("CandidateTemplateSkills") var candidateTemplateSkills: ArrayList<CandidateTemplateSkills> = arrayListOf(),
-
+    @SerializedName("TemplateFeedbackValue") var SoftSkillsResponse: String? = null
 )
 
 
@@ -53,6 +53,23 @@ data class CandidateTemplateSkills (
     @SerializedName("Ratings"      ) var Ratings      : Int    = 0
 
 )
+
+data class SoftSkillResonseData (
+
+    @SerializedName("category" ) var category : String?           = null,
+    @SerializedName("skills"   ) var skills   : ArrayList<SoftSkills> = arrayListOf()
+
+)
+
+data class SoftSkills (
+
+    @SerializedName("ID"   ) var ID   : Int?    = null,
+    @SerializedName("item" ) var item : String? = null,
+    @SerializedName("Rt"   ) var Rt   : Int?    = null,
+    @SerializedName("cmnt" ) var cmnt : String? = null
+
+)
+
 data class AssessSkills (
 
     @SerializedName("Id"    ) var Id    : Int?    = null,

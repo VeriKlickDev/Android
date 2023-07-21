@@ -11,6 +11,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.domain.BaseModels.AssessSkills
 import com.domain.BaseModels.CandidateTemplateSkills
+import com.domain.BaseModels.SoftSkills
 import com.veriKlick.databinding.LayoutItemCandidateSkillsBinding
 
 
@@ -21,6 +22,13 @@ class SoftSkillsListAdapter (val context: Context, val list: MutableList<Candida
     fun getFeedBackSoftSkillList():List<CandidateTemplateSkills>
     {
         return list
+    }
+    val filledList= mutableListOf<SoftSkills>()
+    fun setListFilledData(lst:List<SoftSkills>)
+    {
+        filledList.clear()
+        filledList.addAll(lst)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass {
@@ -52,12 +60,25 @@ class SoftSkillsListAdapter (val context: Context, val list: MutableList<Candida
         RecyclerView.ViewHolder(binding.root) {
         fun dataBind(data: CandidateTemplateSkills) {
             //binding.ratingbarWireframing.get(adapterPosition)
-            binding.ratingbarWireframing.max=5
+            binding.ratingbarWireframing.max = 5
             binding.tvSkills.text = data.itemname?.uppercase()
-            if (data.Comments==null)
-            binding.etComment.setText("")
-            else
-            binding.etComment.setText(data.Comments.toString())
+
+            if (data.Comments == null)
+                binding.etComment.setText("")
+
+            filledList.forEach {
+                if (it.item.equals(data.itemname)) {
+                    if (it.cmnt==null)
+                    {
+                        binding.etComment.setText("")
+                    }else
+                    {
+                        binding.etComment.setText(it.cmnt.toString())
+                    }
+
+                }
+            }
+
             //binding.etTitle.setText(data.ManualCatagory)
             //
 
