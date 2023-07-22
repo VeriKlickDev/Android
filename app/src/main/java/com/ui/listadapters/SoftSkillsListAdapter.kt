@@ -73,9 +73,21 @@ class SoftSkillsListAdapter (val context: Context, val list: MutableList<Candida
                         binding.etComment.setText("")
                     }else
                     {
+                        list.get(adapterPosition).Comments=it.cmnt.toString()
                         binding.etComment.setText(it.cmnt.toString())
                     }
+                }
+            }
 
+            filledList.forEach {
+                if (it.item.equals(data.itemname)) {
+                    if (it.Rt==null)
+                    {
+                        binding.ratingbarWireframing.progress=0
+                    }else
+                    {
+                        binding.ratingbarWireframing.progress=it.Rt!!.toInt()
+                    }
                 }
             }
 
@@ -90,7 +102,7 @@ class SoftSkillsListAdapter (val context: Context, val list: MutableList<Candida
 
 
             try {
-                binding.ratingbarWireframing.progress=data.Ratings!!.toString()[0].toString().toInt()
+               // binding.ratingbarWireframing.progress=data.Ratings!!.toString()[0].toString().toInt()
                 Log.d(TAG, "dataBind: rating ${data.Ratings!!.toString()[0].toString().toInt()}")
             }catch (e:Exception)
             {
@@ -103,12 +115,7 @@ class SoftSkillsListAdapter (val context: Context, val list: MutableList<Candida
              }
              */
 
-            binding.ratingbarWireframing.setOnDragListener(object : View.OnDragListener {
-                override fun onDrag(v: View?, event: DragEvent?): Boolean {
-                    Log.d("TAGrating", "onDrag: ${event?.x}   ${event?.clipData}   ${event?.result}  ${event?.localState}")
-                    return true
-                }
-            })
+
 
 
                 Log.d("datachecking", "dataBind: data is in else ")
@@ -127,9 +134,11 @@ class SoftSkillsListAdapter (val context: Context, val list: MutableList<Candida
             Log.d("checkingrating", "dataBind: ${binding.ratingbarWireframing.rating.toString()[0].toString()}")
             binding.ratingbarWireframing.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
 
-                if (fromUser)
+                if (fromUser){
                 data.Ratings=rating.toInt()
+                }
                 list[adapterPosition].Ratings=rating.toInt()
+
                 if (data.Ratings!!.toInt()>0)
                 {
                     binding.commentError.isVisible=true
