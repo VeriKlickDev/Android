@@ -255,9 +255,9 @@
     <string name="txt_upload_your_govt_id">Cargue su identificación gubernamental</string>
     <string name="txt_tap_on_above_icon_to_select_an_Govtid_image">Toque el ícono de arriba para seleccionar la imagen de identificación del gobierno</string>
     <string name="txt_SMS_history_not_available">Historial de SMS no disponible</string>
-    <string name="txt_Start_recording_after_the_candidate_joins">Start recording after the candidate joins</string>
-    <string name="txt_softSkill">SoftSkills</string>
-    <string name="txt_sent_by">Sent By</string>
+    <string name="txt_Start_recording_after_the_candidate_joins">Iniciar la grabación después de que el candidato se une</string>
+    <string name="txt_softSkill">Habilidades blandas</string>
+    <string name="txt_sent_by">Enviado por</string>
 
 
 </resources>
