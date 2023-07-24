@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.data.*
 import com.data.cryptoJs.CryptoJsHelper
+import com.data.dataHolders.CurrentMeetingDataSaver
 import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.*
 import com.domain.constant.AppConstants
@@ -310,7 +311,6 @@ class CandidateListFragment() : Fragment() {
     private fun sendMessage(obj: BodySMSCandidate)
     {
         Log.d(TAG, "sendMessage: send object $obj jsonobject ${Gson().toJson(obj)}")
-
         viewModel?.sendProfileLink(obj) { data, isSuccess, errorCode, msg ->
             if (isSuccess) {
                 requireActivity().showCustomSnackbarOnTop(data?.ResponseMessage.toString())
@@ -353,6 +353,7 @@ class CandidateListFragment() : Fragment() {
                         requireActivity().showProgressDialog()
                     }
                     dialog.dismiss()
+
                     viewModel?.sendProfileLink(obj) { data, isSuccess, errorCode, msg ->
                         if (isSuccess) {
                             requireActivity().runOnUiThread {

@@ -41,9 +41,10 @@ class SMSchatHistoryListAdapter(
     inner class ViewHolderClass(val binding: LayoutItemSmsHistoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun dataBind(data: ResponseSMSchatHistory) {
-            binding.tvCreatedOn.setText(" :      " + data.CreatedOn.toString())
-            binding.tvMessage.setText(data.MessageText.toString())
-            binding.btnQuestionnaire.setText(data.messageType.toString())
+            binding.tvCreatedOn.setText(" " + data.CreatedOn.toString())
+            binding.tvMessage.setText(" "+data.MessageText.toString())
+            binding.btnQuestionnaire.setText(" "+data.messageType.toString())
+            binding.tvSentby.setText(" "+data.SenderName.toString())
         }
     }
 }

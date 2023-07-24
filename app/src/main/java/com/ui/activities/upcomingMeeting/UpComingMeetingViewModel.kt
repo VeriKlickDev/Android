@@ -551,6 +551,9 @@ class UpComingMeetingViewModel @Inject constructor(
         CoroutineScope(Dispatchers.IO + exceptionHandler)
             .launch {
                 try {
+                    val senderName=DataStoreHelper.getUserName()
+                    bodySMSCandidate.SenderName=senderName
+                    Log.d(TAG, "sendProfileLink: username is $senderName")
                     val authToken= DataStoreHelper.getLoginAuthToken()
                     val response=baseRepoApi.sendSMSToCandidate(bodySMSCandidate,authToken)
                     if (response.isSuccessful) {

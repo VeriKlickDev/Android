@@ -347,11 +347,13 @@ class LoginActivity : AppCompatActivity() {
                         decodeLoginToken(data.data?.accessToken!!, response = { response ->
 
                             CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+
                                 if (response != null) {
                                     Log.d(
                                         TAG,
-                                        "handleLoginApi: userids ${response.UserId.toString()}   ${response.CreatedBy.toString()} "
+                                        "handleLoginApi: userids response.Name ${response.Name} ${response.UserId.toString()}   ${response.CreatedBy.toString()} "
                                     )
+                                    DataStoreHelper.setUserName(response.Name)
                                     DataStoreHelper.setMeetingRecruiterAndUserIds(
                                         response.UserId.toString(),
                                         response.CreatedBy.toString()

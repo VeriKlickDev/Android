@@ -792,7 +792,6 @@ class ActivityFeedBackForm : AppCompatActivity() {
                     }
                 }
 
-
                 Log.d(TAG, "setDataToViews: listdata $skillsList")
                 runOnUiThread {
                     skillsAdapter.notifyDataSetChanged()

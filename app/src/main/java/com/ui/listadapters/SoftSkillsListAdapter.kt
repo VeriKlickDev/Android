@@ -86,6 +86,7 @@ class SoftSkillsListAdapter (val context: Context, val list: MutableList<Candida
                         binding.ratingbarWireframing.progress=0
                     }else
                     {
+                        list.get(adapterPosition).Ratings=it.Rt!!.toInt()
                         binding.ratingbarWireframing.progress=it.Rt!!.toInt()
                     }
                 }

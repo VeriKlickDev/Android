@@ -100,6 +100,21 @@ object DataStoreHelper {
         }
     }
 
+    fun setUserName(userName:String)
+    {
+        CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
+            val accessCode= preferencesKey<String>(AppConstants.USER_NAME)
+            dataStore.edit {
+                it[accessCode]=userName
+            }
+        }
+    }
+
+    suspend fun getUserName():String{
+        return dataStore.data.first()[preferencesKey<String>(AppConstants.USER_NAME)].toString()
+    }
+
+
     suspend fun getAppLanguage():String{
         return dataStore.data.first()[preferencesKey<String>(AppConstants.APPLICATION_LANGUAGE)].toString()
     }

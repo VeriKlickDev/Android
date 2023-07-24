@@ -5,6 +5,7 @@ object AppConstants {
     const val USER_DATA_STORE_KEY = "user_data_store_key"
     const val USER_EMAIL_ID = "user_email_id"
     const val USER_PASSWORD = "user_password"
+    const val USER_NAME = "user_name_sender"
 
     const val TOKEN_ID = "token_id"
 

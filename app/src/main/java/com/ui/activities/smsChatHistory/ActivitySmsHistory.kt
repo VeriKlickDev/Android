@@ -27,7 +27,7 @@ class ActivitySmsHistory : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding= ActivitySmsHistoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel=ViewModelProvider(this).get(SmsHistoryViewModel::class.java)
+        viewModel= ViewModelProvider(this)[SmsHistoryViewModel::class.java]
         setupListAdapter()
         getSMSList()
         binding.btnJumpBack.setOnClickListener {

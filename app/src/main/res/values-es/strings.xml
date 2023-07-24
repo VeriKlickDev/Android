@@ -257,6 +257,7 @@
     <string name="txt_SMS_history_not_available">Historial de SMS no disponible</string>
     <string name="txt_Start_recording_after_the_candidate_joins">Start recording after the candidate joins</string>
     <string name="txt_softSkill">SoftSkills</string>
+    <string name="txt_sent_by">Sent By</string>
 
 
 </resources>

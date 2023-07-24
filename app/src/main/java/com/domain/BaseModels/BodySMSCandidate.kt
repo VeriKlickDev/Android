@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class BodySMSCandidate (
 
+    @SerializedName("SenderName"   ) var SenderName   : String? = null,
     @SerializedName("userid"         ) var userid         : Int?    = null,
     @SerializedName("ReceiverNumber" ) var ReceiverNumber : String? = null,
     @SerializedName("Subscriberid"   ) var Subscriberid   : String? = null,
