@@ -128,7 +128,14 @@ class SoftSkillsListAdapter (val context: Context, val list: MutableList<Candida
             binding.etComment.addTextChangedListener {
 
                // list[adapterPosition].Catagory=binding.tvSkills.text.toString().uppercase()
-                list[adapterPosition].Comments=it.toString()
+                if (it.toString().trim().equals(""))
+                {
+                    list[adapterPosition].Comments=null
+                }else
+                {
+                    list[adapterPosition].Comments=it.toString().trim()
+                }
+
                 Log.d("datachecking", "dataBind: comment ${data.Comments}  ")
             }
 

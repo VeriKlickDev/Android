@@ -178,8 +178,8 @@
     <string name="txt_teams_meeting">Teams Meeting</string>
     <string name="txt_candidate_Not_Joined_Yet">Candidate Not Joined Yet</string>
     <string name="txt_open_again">Open Again</string>
-    <string name="txt_firstName">First Name</string>
-    <string name="txt_lastName">Last Name</string>
+    <string name="txt_firstName">First name</string>
+    <string name="txt_lastName">Last name</string>
     <string name="txt_GroupChat">Group Chat</string>
     <string name="txt_unknownUser">Unknown User</string>
     <string name="txt_veriklick_meeting_is_running">Veriklick Meeting is Running</string>

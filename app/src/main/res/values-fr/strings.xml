@@ -245,10 +245,8 @@
     <string name="txt_retake">reprendre</string>
     <string name="txt_tap_on_above_icon_to_select_an_image">Appuyez sur l\'icône ci-dessus pour sélectionner une image.</string>
 
-
     <string name="txt_select_timezone">Sélectionnez le fuseau horaire</string>
     <string name="txt_timezone_not_selected">Fuseau horaire non sélectionné</string>
-
 
     <string name="txt_SMS_history">Historique des SMS</string>
     <string name="txt_sent">Envoyé</string>
