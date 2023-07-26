@@ -498,6 +498,15 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         CurrentConnectUserList.clearList()
         // UpcomingMeetingStatusHolder.isMeetingFinished(true)
         Log.d(TAG, "endCall: service status ${meetingManager.getServiceState()}")
+        try {
+            if (globalParticipantList.size>1)
+            {
+                viewModel.endVideoCall()
+            }
+        }catch (e:Exception)
+        {
+            Log.d(TAG, "endCall: ended by host exception ${e.message}")
+        }
 
     }
 
