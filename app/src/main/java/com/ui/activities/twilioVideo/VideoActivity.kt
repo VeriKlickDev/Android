@@ -499,7 +499,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
         // UpcomingMeetingStatusHolder.isMeetingFinished(true)
         Log.d(TAG, "endCall: service status ${meetingManager.getServiceState()}")
         try {
-            if (globalParticipantList.size>1)
+            if (globalParticipantList.size==1)
             {
                 viewModel.endVideoCall()
             }

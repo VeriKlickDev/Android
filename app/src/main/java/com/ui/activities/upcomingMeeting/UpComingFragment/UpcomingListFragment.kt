@@ -29,6 +29,7 @@ import com.data.dataHolders.*
 import com.data.helpers.TwilioHelper
 import com.domain.BaseModels.*
 import com.domain.constant.AppConstants
+import com.google.gson.Gson
 import com.harvee.yourhealthmate2.ui.privacypolicy.ActivityPrivacyPolicy
 import com.ui.activities.feedBack.ActivityFeedBackForm
 import com.ui.activities.login.LoginActivity
@@ -384,9 +385,9 @@ class UpcomingListFragment(val from: String) : Fragment() {
             Log.d(TAG, "checkAllPermisions: up tiramishu")
 
             requireActivity().requestAllPermissionForApp {
-                requireActivity().runOnUiThread {
+              /*  requireActivity().runOnUiThread {
                    // checkDeepLinkIsOpenFirst()
-                }
+                }*/
                 Log.d(TAG, "checkAllPermisions: all permission for app  tiramishu $it")
             }
         }else
@@ -1163,8 +1164,8 @@ class UpcomingListFragment(val from: String) : Fragment() {
     }
 
     fun handleJoin(data: NewInterviewDetails, videoAccessCode: String) {
-
-        Log.d(TAG, "handleJoin: on clicked ${data.VideoCallAccessCode} videocode $videoAccessCode")
+        data.isVideoRecordEnabled=false
+        Log.d(TAG, "handleJoin: on clicked data is ${Gson().toJson(data)}  ${data.VideoCallAccessCode} videocode $videoAccessCode")
         //getInterviewDetails()
         if (requireActivity().checkInternet()) {
             accessCode = videoAccessCode

@@ -13,7 +13,7 @@ data class NewInterviewDetails (
     @SerializedName("SaveProfileId") val saveProfileId : Int,
     @SerializedName("IsInterviewCancelled") val isInterviewCancelled : String,
     @SerializedName("CancelltionDescription") val cancelltionDescription : String,
-    @SerializedName("IsVideoRecordEnabled") val isVideoRecordEnabled : Boolean,
+    @SerializedName("IsVideoRecordEnabled") var isVideoRecordEnabled : Boolean,
     @SerializedName("GoogleCalendarSyncEnabled") val googleCalendarSyncEnabled : Boolean,
     @SerializedName("OutlookCalendarSyncEnabled") val outlookCalendarSyncEnabled : Boolean,
     @SerializedName("AllowToMute") val allowToMute : Boolean,
