@@ -83,7 +83,7 @@ class BaseModule {
             // val httpClient=OkHttpClient.Builder().build() api.veriklick.com
             //api.veriklick.in
             // api.veriklick.com
-              retrofit = Retrofit.Builder().baseUrl("https://api.veriklick.com")
+              retrofit = Retrofit.Builder().baseUrl("https://api.veriklick.in")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient)
                 .build()
