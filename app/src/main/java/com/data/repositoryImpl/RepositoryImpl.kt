@@ -30,6 +30,10 @@ class RepositoryImpl @Inject constructor(
         return baseRestApi.getTwilioVideoTokenCandidate(videoAccessCode)
     }
 
+    override suspend fun getQuestionnaireListNew(url: String) {
+        return baseRestApi.getQuestionnaireListNew(url)
+    }
+
     override suspend fun getScheduledMeetingsList(
         token: String,
         ob: BodyScheduledMeetingBean

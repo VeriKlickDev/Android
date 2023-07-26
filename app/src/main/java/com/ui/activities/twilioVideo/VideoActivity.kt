@@ -424,8 +424,9 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             }
             else { //working
                 binding.btnAddUserVideoActivity.isVisible = CurrentMeetingDataSaver.getData()?.isPresenter == true
+                binding.btnRecordVideo.isVisible = CurrentMeetingDataSaver.getData()?.isPresenter != false
                 binding.btnFeedback.isVisible = true
-                binding.btnRecordVideo.isVisible = true
+
 
                 currentLoggedUser?.users?.forEach {
                     if (it.userType.trim().lowercase().equals("C".trim().lowercase())) {
@@ -3097,6 +3098,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
              * Indicates when media shared to a Room is being recorded. Note that
              * recording is only available in our Group Rooms developer preview.
              */
+
         recordingStatus=true
         binding.btnRecording.setImageResource(R.drawable.ic_img_sc_recording_red)
         Log.d(TAG, "onRecordingStarted")
@@ -3758,9 +3760,8 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             }
             R.id.btn_record_video           -> {
                 binding.llExtraButtons.isVisible = false
-                if (CurrentMeetingDataSaver.getData()?.identity?.trim()?.lowercase()!!
-                        .contains("C".trim().lowercase())
-                ) {
+                if (CurrentMeetingDataSaver.getData()?.identity?.trim()?.lowercase()!!.contains("C".trim().lowercase()) || CurrentMeetingDataSaver.getData()?.isPresenter==false )
+                {
                     Log.d(TAG, "onViewClicked: candidate clicked recording btn")
                     showToast(this, getString(R.string.txt_you_are_not_authorized_to_record_video))
                 }
@@ -4009,6 +4010,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
     fun handleVideoRecording() {
         showProgressDialog()
+        Log.d(TAG, "handleVideoRecording: recording started")
         viewModel.getRecordingStatusUpdate(
             onResult = { action: Int, data: BodyUpdateRecordingStatus? ->
                 when (action) {

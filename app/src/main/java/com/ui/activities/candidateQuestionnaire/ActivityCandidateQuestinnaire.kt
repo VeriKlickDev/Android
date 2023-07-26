@@ -295,7 +295,7 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
             val candidateId=pathlist?.get(3)
             val templateId=pathlist?.get(4)
             runOnUiThread { showProgressDialog() }
-            viewModel?.getQuestionnaireList(templateId.toString(),accessToken.toString()){data, isSuccess, errorCode, msg ->
+            viewModel?.getQuestionnaireListNew(candidateId.toString(),templateId.toString(),accessToken.toString()){data, isSuccess, errorCode, msg ->
                 if (isSuccess)
                 {
                     //val list=data?.QuestionList

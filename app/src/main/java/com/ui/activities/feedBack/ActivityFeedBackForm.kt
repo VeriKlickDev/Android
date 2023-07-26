@@ -299,7 +299,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 }
             }
 
-            var issoftSkillFilled=softskillsAdapter.getFeedBackSoftSkillList().any { it.Ratings>0 && it.Comments==null }
+            var issoftSkillFilled=softskillsAdapter.getFeedBackSoftSkillList().any {  it.Comments==null }
             issoftSkillFilled
 
             Log.d(TAG, "sendFeedBack: is softskill filled $issoftSkillFilled")

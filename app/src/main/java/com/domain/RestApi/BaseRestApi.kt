@@ -19,6 +19,9 @@ interface BaseRestApi {
     @GET("/api/ScheduleVideo/GetVideoTokenDetails/{VideoAccessCode}")
     suspend fun getTwilioVideoTokenCandidate(@Query("VideoAccessCode")videoAccessCode:String) : Response<TokenResponseBean>
 
+    @GET
+    suspend fun getQuestionnaireListNew(@Url url :String )
+
     @POST("/api/ScheduleVideo/GetInterviewByRecruiter")
     suspend fun getScheduledMeetingsList(@Header("Authorization")token:String, @Body ob: BodyScheduledMeetingBean):Response<ResponseScheduledMeetingBean>
 
