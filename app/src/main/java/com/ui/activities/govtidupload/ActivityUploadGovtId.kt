@@ -83,7 +83,8 @@ class ActivityUploadGovtId : AppCompatActivity() {
         binding.btnRetake.setOnClickListener { getImageBottomSheet() }
 
         binding.btnUploadImage.setOnClickListener {
-            uploadImage()
+            //uploadImage()
+            showCustomSnackbarOnTop("in progress")
         }
         binding.btnSkip.setOnClickListener {
             val intent=Intent(this, AudioMainActivity::class.java)

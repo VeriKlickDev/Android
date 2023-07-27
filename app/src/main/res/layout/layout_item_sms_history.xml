@@ -63,19 +63,40 @@
                 android:layout_weight="0.3"
                 android:orientation="vertical">
 
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/_2sp">
+
+
                 <TextView
                     android:id="@+id/tv_sentby"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/sarabun_regular"
-                    android:gravity="center"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textAlignment="textStart"
+                    android:layout_weight="1"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_15sp" />
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
 
+                <TextView
+                    android:id="@+id/btn_questionnaire"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_rectangle_rounded_10_white"
+                    android:backgroundTint="@color/light_grey"
+                    android:fontFamily="@font/sarabun_bold"
+                    android:gravity="right"
+                    android:paddingHorizontal="@dimen/_10sp"
+                    android:paddingVertical="@dimen/_2sp"
+                    android:singleLine="true"
+                    android:textSize="@dimen/_12sp"
+                    android:visibility="visible" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <TextView
                         android:id="@+id/tv_createdOn"
@@ -88,28 +109,9 @@
 
 
 
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
 
 
-                    <TextView
-                        android:id="@+id/btn_questionnaire"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/shape_rectangle_rounded_10_white"
-                        android:backgroundTint="@color/light_grey"
-                        android:fontFamily="@font/sarabun_bold"
-                        android:gravity="right"
-                        android:paddingHorizontal="@dimen/_10sp"
-                        android:paddingVertical="@dimen/_2sp"
-                        android:singleLine="true"
-                        android:textSize="@dimen/_12sp"
-                        android:visibility="visible" />
 
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
 
 
                 <TextView

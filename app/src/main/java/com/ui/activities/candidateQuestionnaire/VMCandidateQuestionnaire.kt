@@ -77,8 +77,9 @@ class VMCandidateQuestionnaire @Inject constructor(val baseRestApi: BaseRestApi)
                 try {
                     //val authToken= DataStoreHelper.getLoginBearerToken()
                     // Log.d("TAG", "getQuestionnaireList: token is this $authToken")
+                    "api/Questionier/GetQuestionier/{TemplateId}/{CandidateId}/{token_id}"
                     val url="api/Questionier/GetQuestionier/$templateID/$candidateId/$accessToken"
-                    val response = baseRestApi.getQuestionnaireList(url)
+                    val response = baseRestApi.getQuestionnaireListNew(url)
 
                     //Log.d(TAG, "getCandidateList: token in upviewmodel $authToken")
                     if (response.isSuccessful) {

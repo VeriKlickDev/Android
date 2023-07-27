@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.data.dismissProgressDialog
 import com.data.showProgressDialog
+import com.domain.BaseModels.BodySMSchatHistory
 import com.domain.BaseModels.ResponseSMSchatHistory
 import com.domain.constant.AppConstants
 import com.ui.listadapters.SMSchatHistoryListAdapter
@@ -44,7 +45,9 @@ class ActivitySmsHistory : AppCompatActivity() {
     private fun getSMSList()
     {
         runOnUiThread { showProgressDialog() }
-        viewModel?.getSmsHistoryList(intent.getStringExtra(AppConstants.CANDIDATE_ID).toString()){data, isSuccess, errorCode, msg ->
+        viewModel?.getSmsHistoryList(
+            intent.getStringExtra(AppConstants.CANDIDATE_ID).toString()
+        ){data, isSuccess, errorCode, msg ->
        // viewModel?.getSmsHistoryList("9993".toString()){data, isSuccess, errorCode, msg ->
 
             Log.d("TAG", "getChatList: sms array $data")

@@ -629,7 +629,7 @@ class SmsHistoryViewModel @Inject constructor(
                 try {
                     //val authToken= DataStoreHelper.getLoginBearerToken()
                     // Log.d("TAG", "getQuestionnaireList: token is this $authToken")
-                    val response = baseRepoApi.getSMSchatHistory(DataStoreHelper.getLoginBearerToken(),BodySMSchatHistory(candidateId))
+                    val response = baseRepoApi.getSMSchatHistory(DataStoreHelper.getLoginBearerToken(),BodySMSchatHistory(candidateId = candidateId.toInt()))
 
                     //Log.d(TAG, "getCandidateList: token in upviewmodel $authToken")
                     if (response.isSuccessful) {

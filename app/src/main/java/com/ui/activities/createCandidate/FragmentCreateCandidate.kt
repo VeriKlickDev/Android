@@ -91,7 +91,6 @@ class FragmentCreateCandidate : Fragment() {
             } else {
                 requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
             }
-
         }
 
         if (requireActivity().checkInternet()) {
@@ -329,7 +328,9 @@ class FragmentCreateCandidate : Fragment() {
                     isEmailok=isEmailOk
                     if (!isEmailOk) {
                         requireActivity().runOnUiThread {
+                            binding.tvEmailError.visibility=View.VISIBLE
                             binding.tvEmailError.setText(getString(R.string.txt_invalid)+" ${getString(R.string.txt_email)}")
+                            emailErrorstr=getString(R.string.txt_invalid)+" ${getString(R.string.txt_email)}"
                         }
                     }
                     else{
@@ -359,6 +360,7 @@ class FragmentCreateCandidate : Fragment() {
             }
             if (!requireActivity().phoneValidatorfor9and10Digits(text.toString())){
                 binding.tvPhoneError.setText(getString(R.string.txt_invalid)+" ${getString(R.string.txt_phoneNo)}")
+                phoneErrorstr=getString(R.string.txt_invalid)+" ${getString(R.string.txt_phoneNo)}"
                 binding.tvPhoneError.visibility=View.VISIBLE
             }
 
@@ -385,6 +387,7 @@ class FragmentCreateCandidate : Fragment() {
                     if (data.aPIResponse?.Message!=null) {
                         binding.tvEmailError.visibility=View.VISIBLE
                         binding.tvEmailError.setText(data.aPIResponse?.Message.toString())
+                        emailErrorstr=data.aPIResponse?.Message.toString()
                         isEmailok=false
                     } else {
                         binding.tvEmailError.visibility=View.INVISIBLE
@@ -402,16 +405,18 @@ class FragmentCreateCandidate : Fragment() {
                     if (data.aPIResponse?.StatusCode!=null) {
                         binding.tvPhoneError.visibility=View.VISIBLE
                         binding.tvPhoneError.setText(data.aPIResponse?.Message.toString())
+                        phoneErrorstr=data.aPIResponse?.Message.toString()
                         isPhoneok=false
                     } else {
-                        binding.tvEmailError.visibility=View.INVISIBLE
+                       // binding.tvEmailError.visibility=View.INVISIBLE
                       //  binding.etPhoneno.setError(data.aPIResponse?.Message.toString())
                         isPhoneok=true
                     }
                 }
             })
     }
-
+    private var emailErrorstr:String?=null
+    private var phoneErrorstr:String?=null
     private fun validateAllFields()
     {
         if (isEmailok && isPhoneok && iscountryCode!=null)
@@ -420,7 +425,20 @@ class FragmentCreateCandidate : Fragment() {
         }
         else
         {
-            requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_invalid_or_blank_data))
+            if (iscountryCode==null)
+                requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_country_code)+" ${getString(R.string.txt_isNotSelected)}")
+            if (!isPhoneok)
+            {
+                phoneErrorstr.let {
+                    requireActivity().showCustomSnackbarOnTop(it.toString())
+                }
+            }
+            if (!isEmailok)
+            {
+                emailErrorstr.let {
+                    requireActivity().showCustomSnackbarOnTop(it.toString())
+                }
+            }
         }
     }
 

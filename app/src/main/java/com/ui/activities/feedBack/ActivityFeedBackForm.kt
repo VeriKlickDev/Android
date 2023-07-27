@@ -55,7 +55,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this).get(FeedBackViewModel::class.java)
 
-        CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
+        CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             Log.d(
                 TAG,
                 "onCreate: recruiterId= ${CurrentMeetingDataSaver.getData()?.interviewModel?.recruiterId.toString()} "
@@ -63,31 +63,30 @@ class ActivityFeedBackForm : AppCompatActivity() {
         }
 
         skillsAdapter = SkillsListAdapter(this, skillsList) { pos, data, action ->
-                when (action) {
-                    1 -> {
-                        // addNewItem()
-                    }
-                    2 -> {
-                        removeItem(pos)
-                    }
+            when (action) {
+                1 -> {
+                    // addNewItem()
+                }
+
+                2 -> {
+                    removeItem(pos)
                 }
             }
+        }
         binding.rvCandidateSkills.adapter = skillsAdapter
 
         softskillsAdapter = SoftSkillsListAdapter(this, softskillsList) { pos, data, action ->
-                when (action) {
-                    1 -> {
-                        // addNewItem()
-                    }
-                    2 -> {
-                        removeItem(pos)
-                    }
+            when (action) {
+                1 -> {
+                    // addNewItem()
+                }
+
+                2 -> {
+                    removeItem(pos)
                 }
             }
+        }
         binding.rvCandidatesoftSkills.adapter = softskillsAdapter
-
-
-
 
 
         //        binding.spinnerInterviewRemark.onItemSelectedListener =
@@ -96,15 +95,14 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
         binding.btnSubmitButton.setOnClickListener {
             if (checkInternet()) {
-               // binding.btnSubmitButton.isEnabled=false
+                // binding.btnSubmitButton.isEnabled=false
                 binding.recommendationError.isVisible = recommendationSelected == null
 
                 setVisible()
 
                 sendFeedBack()
 
-            }
-            else {
+            } else {
                 showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
                 /* Snackbar.make(
                      it,
@@ -123,8 +121,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
         if (checkInternet()) {
             getFeedBack()
-        }
-        else {
+        } else {
             showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
             /* Snackbar.make(
                  binding.root,
@@ -172,8 +169,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 .equals("")
         ) {
             // binding.remarkError.isVisible = true
-        }
-        else {
+        } else {
             // binding.remarkError.isVisible = false
         }
         /*  if (binding.etOverallRemark.text.toString()
@@ -242,47 +238,45 @@ class ActivityFeedBackForm : AppCompatActivity() {
         var isfilledOne = false
         var isRatingFilled = false
         var isCommentFilled = false
-        var isAllFieldMessageShow=false
+        var isAllFieldMessageShow = false
         skillsAdapter.getFeedBackList().forEach {
 
             if (it.Ratings!!.toInt() > 0) { //it.Catagory.equals("") ||
                 Log.d(TAG, "sendFeedBack:  blank data")
                 isRatingFilled = true
                 // showToast(this, getString(R.string.txt_all_fields_required))
-            }else{
+            } else {
                 //isRatingFilled = false
             }
 
 
             if (!it.Comments.equals(""))
-            isCommentFilled = true
+                isCommentFilled = true
 
-            if ( isRatingFilled && isCommentFilled)
-            isfilledOne =true
+            if (isRatingFilled && isCommentFilled)
+                isfilledOne = true
 
 
             if (!isfilledOne) {
                 if (isRatingFilled)
                     if (!isCommentFilled) {
-                        binding.btnSubmitButton.isEnabled=true
-                            showCustomSnackbarOnTop(getString(R.string.txt_comment_is_required))
-                        isAllFieldMessageShow=true
-                    }else
-                    {
-                        isAllFieldMessageShow=false
+                        binding.btnSubmitButton.isEnabled = true
+                        showCustomSnackbarOnTop(getString(R.string.txt_comment_is_required))
+                        isAllFieldMessageShow = true
+                    } else {
+                        isAllFieldMessageShow = false
                     }
             }
         }
 
         if (!isCommentFilled) {
-            if (!isAllFieldMessageShow)
-            {       Handler(Looper.getMainLooper()).postDelayed({
-                binding.btnSubmitButton.isEnabled=true
+            if (!isAllFieldMessageShow) {
+                Handler(Looper.getMainLooper()).postDelayed({
+                    binding.btnSubmitButton.isEnabled = true
                     showCustomSnackbarOnTop(getString(R.string.txt_atleast_one_skill_comment_required))
                 }, 100)
-        }
-        }
-        else {
+            }
+        } else {
             isBlank = false
             skillsAdapter.getFeedBackList().forEach {
                 Log.d(
@@ -299,22 +293,25 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 }
             }
 
-            var issoftSkillFilled=softskillsAdapter.getFeedBackSoftSkillList().any {  it.Comments==null }
+            var issoftSkillFilled =
+                softskillsAdapter.getFeedBackSoftSkillList().any { it.Comments == null }
             issoftSkillFilled
-
-            Log.d(TAG, "sendFeedBack: is softskill filled $issoftSkillFilled")
-
-            if (!isBlank && !issoftSkillFilled) {
-                if (checkInternet())
-                {
-                    binding.btnSubmitButton.isEnabled=false
-                    postFeedback()
-                }else
-                {
-                    runOnUiThread { showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection)) }
+            runOnUiThread {
+                if (issoftSkillFilled) {
+                    showCustomSnackbarOnTop(getString(R.string.txt_all_soft_skill_is_required))
                 }
             }
-            else {
+            Log.d(TAG, "sendFeedBack: is softskill filled $issoftSkillFilled")
+
+
+            if (!isBlank && !issoftSkillFilled) {
+                if (checkInternet()) {
+                    binding.btnSubmitButton.isEnabled = false
+                    postFeedback()
+                } else {
+                    runOnUiThread { showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection)) }
+                }
+            } else {
                 //showCustomSnackbarOnTop("true")
                 // postFeedback()
             }
@@ -372,8 +369,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
             var codingRemark = ""
             if (binding.etOverallRemark.text.toString().equals("")) {
 
-            }
-            else {
+            } else {
                 codingRemark = binding.etOverallRemark.text.toString()
             }
             /**23march*/
@@ -390,8 +386,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
             var remark = ""
             if (binding.etRemart.text.toString().equals("")) {
 
-            }
-            else {
+            } else {
                 remark = binding.etRemart.text.toString()
             }
 
@@ -428,6 +423,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
                                 finish()
                             }, 1000)*/
                         }
+
                         200 -> {
                             runOnUiThread {
                                 showCustomToast(data?.aPIResponse?.message!!.toString())
@@ -438,18 +434,21 @@ class ActivityFeedBackForm : AppCompatActivity() {
                                 finish()
                             }, 1000)
                         }
+
                         400 -> {
                             runOnUiThread {
 
                                 binding.btnSubmitButton.isEnabled = true
                             }
                         }
+
                         401 -> {
                             runOnUiThread {
-                            binding.btnSubmitButton.isEnabled = true
+                                binding.btnSubmitButton.isEnabled = true
 
                             }
                         }
+
                         500 -> {
                             runOnUiThread {
                                 binding.btnSubmitButton.isEnabled = true
@@ -466,8 +465,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
                     // finish()
                 })
 
-        }
-        else {
+        } else {
             runOnUiThread {
                 binding.recommendationError.isVisible = true
                 binding.btnSubmitButton.isEnabled = true
@@ -480,23 +478,22 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
     private var recommendationSelected: String? = null
     private var isOpenedFirst = false
-    private var recommendationId=-1
+    private var recommendationId = -1
     private val spinnerItemListener = object : AdapterView.OnItemSelectedListener {
 
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             Log.d(TAG, "onItemSelected: selected ${recommendationList.get(position)}")
             if (position == 0) {
                 //  ( view as TextView).setTextColor(ContextCompat.getColor(this@ActivityFeedBackForm,R.color.grey))
-            }
-            else {
+            } else {
                 //  ( view as TextView).setTextColor(ContextCompat.getColor(this@ActivityFeedBackForm,R.color.black))
                 recommendationSelected = recommendationList[position].toString()
-                if (!recommendationList.isNullOrEmpty())
-                {
+                if (!recommendationList.isNullOrEmpty()) {
                     recommendationIddList.forEach {
-                        if (it.Remark.toString().lowercase().trim().equals(recommendationList[position].lowercase().trim()))
-                        {
-                            recommendationId=it.Idd!!
+                        if (it.Remark.toString().lowercase().trim()
+                                .equals(recommendationList[position].lowercase().trim())
+                        ) {
+                            recommendationId = it.Idd!!
                         }
                     }
                 }
@@ -524,6 +521,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
                     // TwilioHelper.setTwilioCredentials(data.token.toString(), data.roomName.toString())
                     // startActivity(Intent(this@JoinMeetingActivity, VideoActivity::class.java))
                 }
+
                 400 -> {
                     Log.d(TAG, "getInterviewDetails: 400")
                     showCustomSnackbarOnTop(data?.aPIResponse?.message!!)
@@ -532,12 +530,14 @@ class ActivityFeedBackForm : AppCompatActivity() {
                     data?.let { CurrentMeetingDataSaver.setData(it) }
                     getFeedBack()
                 }
+
                 404 -> {
                     Log.d(TAG, "getInterviewDetails: 404")
                     showCustomSnackbarOnTop(data?.aPIResponse?.message!!)
                     //showToast(this, data?.aPIResponse?.message!!)
                     //showToast(this, data?.aPIResponse?.message.toString())
                 }
+
                 401 -> {
                     Log.d(TAG, "getInterviewDetails: 401")
                     showCustomSnackbarOnTop(data?.aPIResponse?.message!!)
@@ -565,6 +565,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
                     assesmentid = data.AssessmentId!!
                     //   binding.swipetorefresh.isRefreshing = false
                 }
+
                 400 -> {
                     dismissProgressDialog()
                     Log.d(TAG, "getResume: not success ondata 400")
@@ -575,10 +576,12 @@ class ActivityFeedBackForm : AppCompatActivity() {
                      )*/
                     // binding.swipetorefresh.isRefreshing = false
                 }
+
                 401 -> {
                     dismissProgressDialog()
                     Log.d(TAG, "getResume: 401")
                 }
+
                 404 -> {
                     dismissProgressDialog()
                     Log.d(TAG, "getResume: not success ondata 404")
@@ -589,6 +592,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
                     )*/
                     // binding.swipetorefresh.isRefreshing = false
                 }
+
                 500 -> {
                     dismissProgressDialog()
                     Log.d(TAG, "getResume: not success ondata 404")
@@ -636,8 +640,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 if (!data.Recommendation.toString().equals("") || data.Recommendation != null) {
                     binding.etRemart.setText(data.Comments)
                     //  binding.remarkError.isVisible=false
-                }
-                else {
+                } else {
                     binding.etRemart.setText("")
                     // binding.remarkError.isVisible=true
                 }
@@ -647,11 +650,10 @@ class ActivityFeedBackForm : AppCompatActivity() {
                     if (!data.CandidateAssessmentPanelMembers[0].Designation.toString()
                             .equals("null") || data.CandidateAssessmentPanelMembers[0].Designation != null
                     ) {
-                       /**23march*/// binding.etRole.setText(data.CandidateAssessmentPanelMembers[0].Designation!!.toString())
+                        /**23march*/// binding.etRole.setText(data.CandidateAssessmentPanelMembers[0].Designation!!.toString())
 
                         // binding.roleError.isVisible=false
-                    }
-                    else {
+                    } else {
                         // binding.roleError.isVisible=true
                     }
 
@@ -662,13 +664,21 @@ class ActivityFeedBackForm : AppCompatActivity() {
                     )
                 }
 
-                recommendationIddList.add(0, InterviewerRemark(Idd = null, getString(R.string.txt_select_recommendation)))
-                recommendationList.add(0,getString(R.string.txt_select_recommendation))
+                recommendationIddList.add(
+                    0,
+                    InterviewerRemark(Idd = null, getString(R.string.txt_select_recommendation))
+                )
+                recommendationList.add(0, getString(R.string.txt_select_recommendation))
 
                 Log.d(TAG, "setDataToViews: ${data.candidateAssessmentSkillsMobile.size}")
 
                 data.InterviewerRemark.forEach {
-                    recommendationIddList.add(InterviewerRemark(Idd = it.Idd, Remark = it.Remark.toString()))
+                    recommendationIddList.add(
+                        InterviewerRemark(
+                            Idd = it.Idd,
+                            Remark = it.Remark.toString()
+                        )
+                    )
                     recommendationList.add(it.Remark.toString())
                 }
                 Log.e(TAG, "setDataToViews: " + (recommendationList.size ?: 0).toString())
@@ -694,8 +704,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
                                 tv.height = 0
                                 //  tv.visibility = View.GONE
                                 v = tv
-                            }
-                            else {
+                            } else {
                                 // Pass convertView as null to prevent reuse of special case views
                                 v = super.getDropDownView(
                                     position,
@@ -721,8 +730,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
                 if (data.CodingTestRemarksForVideo.toString().equals("null")) {
                     binding.etOverallRemark.setText("")
-                }
-                else {
+                } else {
                     binding.etOverallRemark.setText(data.CodingTestRemarksForVideo.toString())
                 }
 
@@ -731,20 +739,19 @@ class ActivityFeedBackForm : AppCompatActivity() {
                     val spinnerPos = spinnerAdapter.getPosition(data.Recommendation)
                     binding.spinnerInterviewRemark.setSelection(spinnerPos)
                     binding.recommendationError.isVisible = false
-                }
-                else {
+                } else {
                     binding.recommendationError.isVisible = true
                 }
 
 
-              /*apr10  if (!data.Comments.equals("null") || data.Comments != null) {
-                    val spinnerPos = spinnerAdapter.getPosition(data.Comments.toString())
-                    binding.spinnerInterviewRemark.setSelection(spinnerPos)
-                    binding.recommendationError.isVisible = false
-                }
-                else {
-                    binding.recommendationError.isVisible = true
-                }*/
+                /*apr10  if (!data.Comments.equals("null") || data.Comments != null) {
+                      val spinnerPos = spinnerAdapter.getPosition(data.Comments.toString())
+                      binding.spinnerInterviewRemark.setSelection(spinnerPos)
+                      binding.recommendationError.isVisible = false
+                  }
+                  else {
+                      binding.recommendationError.isVisible = true
+                  }*/
 
 
                 /*
@@ -772,23 +779,28 @@ class ActivityFeedBackForm : AppCompatActivity() {
                     skillsList.addAll(data.candidateAssessmentSkillsMobile)
                 }
 
-                if (!data.candidateTemplateSkills.isNullOrEmpty())
-                {
+                if (!data.candidateTemplateSkills.isNullOrEmpty()) {
                     softskillsList.addAll(data.candidateTemplateSkills)
                 }
 
-                if (data.SoftSkillsResponse!=null)
-                {
+                if (data.SoftSkillsResponse != null) {
                     try {
-                        val decodedData= Gson().fromJson<Array<SoftSkillResonseData>>(data.SoftSkillsResponse.toString(),Array<SoftSkillResonseData>::class.java)
-                        Log.d(TAG, "setDataToViews: decoding data of filled ${decodedData.get(0).skills.size}")
-                        if (!decodedData[0].skills.isNullOrEmpty())
-                        {
+                        val decodedData = Gson().fromJson<Array<SoftSkillResonseData>>(
+                            data.SoftSkillsResponse.toString(),
+                            Array<SoftSkillResonseData>::class.java
+                        )
+                        Log.d(
+                            TAG,
+                            "setDataToViews: decoding data of filled ${decodedData.get(0).skills.size}"
+                        )
+                        if (!decodedData[0].skills.isNullOrEmpty()) {
                             softskillsAdapter.setListFilledData(decodedData[0].skills)
                         }
-                    }catch (e:Exception)
-                    {
-                        Log.d(TAG, "setDataToViews: exception decoding ${e.message} datais ${data.SoftSkillsResponse.toString()}")
+                    } catch (e: Exception) {
+                        Log.d(
+                            TAG,
+                            "setDataToViews: exception decoding ${e.message} datais ${data.SoftSkillsResponse.toString()}"
+                        )
                     }
                 }
 
@@ -801,8 +813,7 @@ class ActivityFeedBackForm : AppCompatActivity() {
 
                 if (data.Recommendation == null || data.Recommendation == "null") {
                     binding.btnSubmitButton.setText(getString(R.string.txt_submit))
-                }
-                else {
+                } else {
                     binding.btnSubmitButton.setText(getString(R.string.txt_update))
                 }
             } catch (e: Exception) {

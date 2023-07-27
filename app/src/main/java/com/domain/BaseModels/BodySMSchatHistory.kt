@@ -2,7 +2,15 @@ package com.domain.BaseModels
 
 import com.google.gson.annotations.SerializedName
 
-data class BodySMSchatHistory(val candidateId:String?=null)
+data class BodySMSchatHistory (
+
+    @SerializedName("candidateId" ) var candidateId : Int?    = null,
+    @SerializedName("MessageType" ) var MessageType : String? = "",
+    @SerializedName("SenderID"    ) var SenderID    : Int?    = 0,
+    @SerializedName("MessageText" ) var MessageText : String? = ""
+
+)
+
 
 data class ResponseSMSchatHistory(
     @SerializedName("CreatedBy"    ) var CreatedBy    : String? = null,

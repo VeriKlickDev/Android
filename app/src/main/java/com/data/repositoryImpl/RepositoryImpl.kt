@@ -30,7 +30,7 @@ class RepositoryImpl @Inject constructor(
         return baseRestApi.getTwilioVideoTokenCandidate(videoAccessCode)
     }
 
-    override suspend fun getQuestionnaireListNew(url: String) {
+    override suspend fun getQuestionnaireListNew(url: String) : Response<ResponseQuestionnaire> {
         return baseRestApi.getQuestionnaireListNew(url)
     }
 

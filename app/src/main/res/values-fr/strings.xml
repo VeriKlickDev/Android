@@ -257,5 +257,7 @@
     <string name="txt_Start_recording_after_the_candidate_joins">Commencer l\'enregistrement après l\'arrivée du candidat</string>
     <string name="txt_softSkill">SoftSkills</string>
     <string name="txt_sent_by">Envoyée par</string>
+    <string name="txt_all_soft_skill_is_required">All soft skill is required</string>
+    <string name="txt_isNotSelected">is not selected</string>
 
 </resources>
