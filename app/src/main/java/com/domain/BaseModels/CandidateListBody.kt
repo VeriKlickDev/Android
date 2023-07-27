@@ -27,7 +27,11 @@ data class BodyCandidateList(
     @SerializedName("search") var search: String? = "",
     @SerializedName("recruitervalue") var recruitervalue: String? = "",
     @SerializedName("RecruiterSearch") var RecruiterSearch: String? = "",
-    @SerializedName("IsMobile") var IsMobile: Boolean? = true
+    @SerializedName("IsMobile") var IsMobile: Boolean? = true,
+    @SerializedName("QuestionnairStatus") var QuestionnairStatus: Int? = 3,
+    @SerializedName("Interviewavailability") var Interviewavailability: Int? = 0,
+
+
 )
 
 data class ResponseCandidateList(
