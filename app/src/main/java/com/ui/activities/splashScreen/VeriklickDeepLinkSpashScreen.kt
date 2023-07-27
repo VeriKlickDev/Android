@@ -49,7 +49,7 @@ class VeriklickDeepLinkSpashScreen : AppCompatActivity() {
                 CreateProfileDeepLinkHolder.setPathCreateCandidateString(pathstr.toString())
                 Log.d(TAG, "onCreate: createCandiate")
             }
-            if(pathstr!!.contains("CandidateQuestionierAnswer"))
+            if(pathstr!!.contains("CandidateQuestionnaireAnswer"))
             {
                 CreateProfileDeepLinkHolder.setLink(getString(R.string.url_createCandidatebase) + pathstr.toString())
                 CreateProfileDeepLinkHolder.setQuestionnaireLink(pathstr.toString())
@@ -102,7 +102,7 @@ class VeriklickDeepLinkSpashScreen : AppCompatActivity() {
                     if (pathstr!!.contains("CreateCandidateProfile")){
                         intent=Intent(this,ActivityUploadProfilePhoto::class.java)
                     }
-                    if(pathstr!!.contains("CandidateQuestionierAnswer"))
+                    if(pathstr!!.contains("CandidateQuestionnaireAnswer"))
                     {
                         intent=Intent(this,ActivityCandidateQuestinnaire::class.java)
                     }
@@ -136,7 +136,7 @@ class VeriklickDeepLinkSpashScreen : AppCompatActivity() {
                     if (pathstr!!.contains("CreateCandidateProfile")){
                         intent=Intent(this,ActivityUploadProfilePhoto::class.java)
                     }
-                    if(pathstr!!.contains("CandidateQuestionierAnswer"))
+                    if(pathstr!!.contains("CandidateQuestionnaireAnswer"))
                     {
                         intent=Intent(this,ActivityCandidateQuestinnaire::class.java)
                     }

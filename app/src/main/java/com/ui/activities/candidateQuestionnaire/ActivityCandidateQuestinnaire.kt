@@ -158,12 +158,15 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
         val candidateId=pathlist?.get(3)
 
 
-        Log.d(TAG, "getTimeZoneFromApi: ${candidateId}")
-        viewModel?.getTimeZone(candidateId = candidateId!!){data, isSuccess, errorCode, msg ->
-            Log.d(TAG, "getTimeZoneFromApi: api resonse $isSuccess $errorCode excp ${msg}")
-            //Log.d(TAG, "getTimeZoneFromApi: data from api ")
+        Log.d(TAG, "getTimeZoneFromApi: ${candidateId} full path is $pathstr")
+        candidateId.let {
+            viewModel?.getTimeZone(candidateId = candidateId!!){data, isSuccess, errorCode, msg ->
+                Log.d(TAG, "getTimeZoneFromApi: api resonse $isSuccess $errorCode excp ${msg}")
+                //Log.d(TAG, "getTimeZoneFromApi: data from api ")
 
+            }
         }
+
         Log.d(TAG, "getTimeZoneFromApi: api resonse after")
     }
 

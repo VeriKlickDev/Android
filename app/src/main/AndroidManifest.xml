@@ -191,7 +191,7 @@
                 <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
                 <data
                     android:host="ui2.veriklick.in"
-                    android:pathPrefix="/CandidateQuestionierAnswer/QuestionsForm"
+                    android:pathPrefix="/CandidateQuestionnaireAnswer/QuestionsForm"
                     android:scheme="https" />
             </intent-filter>
             <intent-filter
@@ -204,7 +204,7 @@
                 <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
                 <data
                     android:host="ui2.veriklick.in"
-                    android:pathPrefix="/CandidateQuestionierAnswer/QuestionsForm"
+                    android:pathPrefix="/CandidateQuestionnaireAnswer/QuestionsForm"
                     android:scheme="http" />
             </intent-filter>
 

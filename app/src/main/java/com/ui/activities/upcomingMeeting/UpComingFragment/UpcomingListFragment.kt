@@ -1457,7 +1457,7 @@ class UpcomingListFragment(val from: String) : Fragment() {
     ) {
         val inflater = requireActivity().menuInflater
         inflater.inflate(R.menu.menu_filter_upcominglist, menu)
-        menu?.setHeaderTitle("Meetings")
+        menu?.setHeaderTitle(getString(R.string.txt_meetings))
 
         super.onCreateContextMenu(menu, v, menuInfo)
     }
