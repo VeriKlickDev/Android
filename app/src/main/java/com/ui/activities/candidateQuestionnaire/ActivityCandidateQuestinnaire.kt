@@ -304,7 +304,13 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
                     //val list=data?.QuestionList
                     runOnUiThread { dismissProgressDialog() }
                     runOnUiThread {
-                        questionList.addAll(data?.QuestionList?.get(0)?.Question!!)
+                        try {
+                            questionList.addAll(data?.QuestionList?.get(0)?.Question!!)
+                        }catch (e:Exception)
+                        {
+                            e.message
+                        }
+
                         questionAdapter?.notifyDataSetChanged()
                     }
                 }else

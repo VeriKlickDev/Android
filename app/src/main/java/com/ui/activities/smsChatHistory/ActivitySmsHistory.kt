@@ -11,6 +11,7 @@ import com.data.dismissProgressDialog
 import com.data.showProgressDialog
 import com.domain.BaseModels.BodySMSchatHistory
 import com.domain.BaseModels.ResponseSMSchatHistory
+import com.domain.BaseModels.SMSchatHistoryModel
 import com.domain.constant.AppConstants
 import com.ui.listadapters.SMSchatHistoryListAdapter
 import com.veriKlick.R
@@ -23,7 +24,7 @@ class ActivitySmsHistory : AppCompatActivity() {
     private lateinit var viewModel:SmsHistoryViewModel
     private lateinit var binding:ActivitySmsHistoryBinding
     private var chatHistoryAdapter:SMSchatHistoryListAdapter?=null
-    private  var smsList= mutableListOf<ResponseSMSchatHistory>()
+    private  var smsList= mutableListOf<SMSchatHistoryModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivitySmsHistoryBinding.inflate(layoutInflater)

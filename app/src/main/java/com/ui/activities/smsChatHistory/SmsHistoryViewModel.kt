@@ -622,7 +622,7 @@ class SmsHistoryViewModel @Inject constructor(
 
     fun getSmsHistoryList(
         candidateId: String,
-        respnse: (data: List<ResponseSMSchatHistory>?, isSuccess: Boolean, errorCode: Int, msg: String) -> Unit
+        respnse: (data: List<SMSchatHistoryModel>?, isSuccess: Boolean, errorCode: Int, msg: String) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO + exceptionHandler)
             .launch {
@@ -635,7 +635,7 @@ class SmsHistoryViewModel @Inject constructor(
                     if (response.isSuccessful) {
                         when (response.code()) {
                             200 -> {
-                                respnse(response.body()!!, true, 200, "")
+                                respnse(response.body()!!.smsChatHistoryModel, true, 200, "")
                             }
                             401 -> {
                                 respnse(null, false, 401, "")

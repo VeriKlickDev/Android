@@ -12,7 +12,12 @@ data class BodySMSchatHistory (
 )
 
 
+
 data class ResponseSMSchatHistory(
+    @SerializedName("msgListByCandidateIdBOs") var smsChatHistoryModel    : ArrayList<SMSchatHistoryModel>,
+    )
+
+data class SMSchatHistoryModel(
     @SerializedName("CreatedBy"    ) var CreatedBy    : String? = null,
     @SerializedName("CreatedOn"    ) var CreatedOn    : String? = null,
     @SerializedName("CreatedDate"  ) var CreatedDate  : String? = null,

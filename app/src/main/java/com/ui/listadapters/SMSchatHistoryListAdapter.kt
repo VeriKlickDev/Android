@@ -5,12 +5,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.domain.BaseModels.ResponseSMSchatHistory
+import com.domain.BaseModels.SMSchatHistoryModel
 import com.veriKlick.databinding.LayoutItemSmsHistoryBinding
 
 class SMSchatHistoryListAdapter(
     val context: Context,
-    val list: MutableList<ResponseSMSchatHistory>,
-    val onClick: (data: ResponseSMSchatHistory, action: Int) -> Unit
+    val list: MutableList<SMSchatHistoryModel>,
+    val onClick: (data: SMSchatHistoryModel, action: Int) -> Unit
 ) : RecyclerView.Adapter<SMSchatHistoryListAdapter.ViewHolderClass>() {
 
     private val TAG = "upcomingAdapterListCheck"
@@ -26,7 +27,7 @@ class SMSchatHistoryListAdapter(
 
     }
 
-    fun addList(tlist: List<ResponseSMSchatHistory>) {
+    fun addList(tlist: List<SMSchatHistoryModel>) {
         list.clear()
         list.addAll(tlist)
         notifyDataSetChanged()
@@ -40,7 +41,7 @@ class SMSchatHistoryListAdapter(
 
     inner class ViewHolderClass(val binding: LayoutItemSmsHistoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun dataBind(data: ResponseSMSchatHistory) {
+        fun dataBind(data: SMSchatHistoryModel) {
             binding.tvCreatedOn.setText(" " + data.CreatedOn.toString())
             binding.tvMessage.setText(" "+data.MessageText.toString())
             binding.btnQuestionnaire.setText(" "+data.messageType.toString())

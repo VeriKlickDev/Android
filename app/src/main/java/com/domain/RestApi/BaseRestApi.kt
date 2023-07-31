@@ -130,8 +130,6 @@ interface BaseRestApi {
     @POST
     suspend fun createCandidateWithoutAuth(@Body ob:BodyCreateCandidate,@Url url:String):Response<BodyCreateCandidate>
 
-
-
     @GET("/api/Questionier/GetRecruiterTemplate/{SubscriberId}")
     suspend fun getQuestionnaireTemplateList(@Query("SubscriberId") recruiterId:String):Response<ResponseQuestionnaireTemplate>
 
@@ -164,7 +162,7 @@ interface BaseRestApi {
     suspend fun getTimeZone(@Body timeZoneBody:BodyTimeZone):Response<String>
 
     @POST("/api/Messaging/GetMessageListByCandidateId")
-    suspend fun getSMSchatHistory(@Header("Authorization")authToken: String,@Body obj:BodySMSchatHistory):Response<List<ResponseSMSchatHistory>>
+    suspend fun getSMSchatHistory(@Header("Authorization")authToken: String,@Body obj:BodySMSchatHistory):Response<ResponseSMSchatHistory>
 
  /*   @Multipart
     @POST("/api/v1/Account/UpdateImageWithoutAuth")

@@ -248,7 +248,7 @@ class RepositoryImpl @Inject constructor(
         return baseRestApi.getTimeZone(timeZoneBody)
     }
 
-    override suspend fun getSMSchatHistory(authToken: String,obj: BodySMSchatHistory): Response<List<ResponseSMSchatHistory>> {
+    override suspend fun getSMSchatHistory(authToken: String,obj: BodySMSchatHistory): Response<ResponseSMSchatHistory> {
         return baseRestApi.getSMSchatHistory(authToken,obj)
     }
 

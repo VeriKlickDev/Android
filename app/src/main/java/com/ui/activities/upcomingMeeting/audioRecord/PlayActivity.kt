@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.data.checkInternet
+import com.data.dataHolders.CandidateImageAndAudioHolder
 import com.data.dismissProgressDialog
 import com.data.showCustomSnackbarOnTop
 import com.data.showProgressDialog
@@ -62,13 +63,14 @@ class PlayActivity : AppCompatActivity() {
     {
         try {
             runOnUiThread { showProgressDialog() }
-            viewModel?.updateUserAudioWithoutAuth{ isSuccess, code, msg ->
+            viewModel?.updateUserAudioWithoutAuth{ data,isSuccess, code, msg ->
                 runOnUiThread {dismissProgressDialog() }
                 when(code)
                 {
                     200->{
-                        Log.d(TAG, "uploadProfilePhoto: $msg")
+                        Log.d(TAG, "uploadProfilePhoto: $msg ,")
                         showCustomSnackbarOnTop(msg)
+                       // binding.etLinkaudio.setText(data?.AudioFilePath.toString())
                        // setHandler().postDelayed({finish()},3000)
                     }
                     400->{

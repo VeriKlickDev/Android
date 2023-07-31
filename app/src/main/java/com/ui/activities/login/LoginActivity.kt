@@ -34,6 +34,7 @@ import com.ui.activities.forgotPassword.ForgotPasswordActivity
 import com.ui.activities.joinmeeting.JoinMeetingActivity
 import com.ui.activities.login.loginwithotp.ActivitiyLoginWithOtp
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
+import com.ui.activities.upcomingMeeting.audioRecord.AudioMainActivity
 import com.veriKlick.R
 import com.veriKlick.databinding.LayoutChooseLanguageDialogBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -109,6 +110,7 @@ class LoginActivity : AppCompatActivity() {
             // viewModel.getVideoSession("I2D8o1imAlVv3JVIxKdG")
 
             val intent = Intent(this@LoginActivity, JoinMeetingActivity::class.java)
+            //val intent = Intent(this@LoginActivity, AudioMainActivity::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
 
