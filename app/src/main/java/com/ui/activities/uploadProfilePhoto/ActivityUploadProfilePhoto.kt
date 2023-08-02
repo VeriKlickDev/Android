@@ -129,7 +129,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
             if (isSuccess) {
                 try {
                     if (data?.aPIResponse?.message != null) {
-                        runOnUiThread { showAlerttoFinishActivity(data?.aPIResponse?.message!!) }
+                       //uncomment 1aug runOnUiThread { showAlerttoFinishActivity(data?.aPIResponse?.message!!) }
                     }
                 } catch (e: Exception) {
                     Log.d(TAG, "getCandidateDetails: excpetion 738 ${e.message}")

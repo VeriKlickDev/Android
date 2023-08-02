@@ -68,15 +68,17 @@ class VMPlayAudio @Inject constructor(val loginRestApi: LoginRestApi, val baseRe
             .launch {
                 try {
                     Log.d("TAG", "updateUserAudioWithoutAuth: audiofilename ${CandidateImageAndAudioHolder.getAudioObject()} size of file ${CandidateImageAndAudioHolder.getAudioObject()?.length()}")
-                    val audioFileNameStr="rec${System.currentTimeMillis()}"+CandidateImageAndAudioHolder.getAudioObject()?.name.toString()+".wav"
+                    val audioFileNameStr="rec${System.currentTimeMillis()}"+CandidateImageAndAudioHolder.getAudioObject()?.name.toString()
                     //${CandidateImageAndAudioHolder.getAudioObject()?.getName()}
+
                     val audioFile = MultipartBody.Part.createFormData("File", audioFileNameStr, CandidateImageAndAudioHolder.getAudioObject()!!.asRequestBody("audio/*".toMediaTypeOrNull()))
                     val audioFileName=MultipartBody.Part.createFormData("AudioFileName",audioFileNameStr)
+
                     val recruiterId=MultipartBody.Part.createFormData("RecruiterId",CandidateImageAndAudioHolder.getDeepLinkData()?.subscriberId.toString())
                     val profileUrl=MultipartBody.Part.createFormData("Profile_Url",CandidateImageAndAudioHolder.getImageObject()?.imageName.toString())
                     val tokenId=MultipartBody.Part.createFormData("Token_Id", CandidateImageAndAudioHolder.getDeepLinkData()?.token_Id.toString())
 
-                    CandidateImageAndAudioHolder.setAudioName(audioFileNameStr)
+
 
                    // val authToken=DataStoreHelper.getLoginBearerToken()
 
@@ -86,6 +88,7 @@ class VMPlayAudio @Inject constructor(val loginRestApi: LoginRestApi, val baseRe
                         when (response.code()) {
                             200 -> {
                                 respnse(response.body(),true,200,response.body()!!.Message.toString())
+                                CandidateImageAndAudioHolder.setAudioName(response.body()?.AudioFileName.toString())
                             }
                             401 -> {
                                 respnse(null,false,401,response.body()!!.Message.toString())

@@ -341,7 +341,8 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     ob.profile?.profileImage=CandidateImageAndAudioHolder.getImageObject()?.imageName
                     ob.professional?.resume=CandidateImageAndAudioHolder.getResumeFileName()
                     //ob.profile?.GovId_Url=CandidateImageAndAudioHolde
-                    ob.profile?.AudioFileName=CandidateImageAndAudioHolder.getAudioFileName()
+
+                    ob.profile?.AudioFileName=CandidateImageAndAudioHolder.getAudioFileName()+".wav"
                     val audioFileName=CandidateImageAndAudioHolder.getAudioFileName()
                     audioFileName
 
