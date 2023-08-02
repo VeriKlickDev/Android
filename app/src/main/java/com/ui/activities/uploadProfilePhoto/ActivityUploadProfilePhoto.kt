@@ -129,7 +129,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
             if (isSuccess) {
                 try {
                     if (data?.aPIResponse?.message != null) {
-                       //uncomment 1aug runOnUiThread { showAlerttoFinishActivity(data?.aPIResponse?.message!!) }
+                        runOnUiThread { showAlerttoFinishActivity(data?.aPIResponse?.message!!) }
                     }
                 } catch (e: Exception) {
                     Log.d(TAG, "getCandidateDetails: excpetion 738 ${e.message}")
@@ -144,7 +144,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
         var alertDialog = AlertDialog.Builder(this)
         alertDialog.run {
             setMessage(msg)
-            setPositiveButton(getString(R.string.txt_yes),
+            setPositiveButton(getString(R.string.txt_ok),
                 object : DialogInterface.OnClickListener {
                     override fun onClick(p0: DialogInterface?, p1: Int) {
                         finishAffinity()

@@ -69,36 +69,40 @@ class PlayActivity : AppCompatActivity() {
                 {
                     200->{
                         Log.d(TAG, "uploadProfilePhoto: $msg ,")
-                        binding.btnUploadData.isEnabled=false
-                        showCustomSnackbarOnTop(msg)
+
+                        runOnUiThread {
+                            binding.btnUploadData.isEnabled=false
+                            showCustomSnackbarOnTop(msg)
+                        }
+
                        // binding.etLinkaudio.setText(data?.AudioFilePath.toString())
                        // setHandler().postDelayed({finish()},3000)
                     }
                     400->{
-                        showCustomSnackbarOnTop(msg)
+                        runOnUiThread { showCustomSnackbarOnTop(msg) }
                         Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                     }
                     401->{
-                        showCustomSnackbarOnTop(msg)
+                        runOnUiThread { showCustomSnackbarOnTop(msg) }
                         Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                     }
                     500->{
-                        showCustomSnackbarOnTop(msg)
+                        runOnUiThread { showCustomSnackbarOnTop(msg) }
                         Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                     }
                     501->{
-                        showCustomSnackbarOnTop(msg)
+                        runOnUiThread { showCustomSnackbarOnTop(msg) }
                         Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                     }
                     404->{
                         Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                     }
                     503->{
-                        showCustomSnackbarOnTop(msg)
+                        runOnUiThread { showCustomSnackbarOnTop(msg) }
                         Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                     }
                     502->{
-                        showCustomSnackbarOnTop(msg)
+                        runOnUiThread { showCustomSnackbarOnTop(msg) }
                         Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                     }
                 }

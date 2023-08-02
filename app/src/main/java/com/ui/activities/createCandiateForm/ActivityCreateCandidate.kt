@@ -72,6 +72,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
 
         jobTypeStringList.addAll(getJobTypeList())
 
+        Log.d(TAG,"onCreate: audio file name ${CandidateImageAndAudioHolder.getAudioFileName() + ".wav"}")
 
         setupCountryCodeSpinner()
         setupCountrySpinner()
@@ -305,9 +306,9 @@ class ActivityCreateCandidate : AppCompatActivity() {
             } else {
                 Log.d(TAG, "validateAllFields: success")
                 postData()
-
             }
         }
+       // postData()
     }
 
     private fun postData() {
@@ -783,7 +784,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
             if (isSuccess) {
                 try {
                     if (data?.aPIResponse?.message != null) {
-                        runOnUiThread { showAlerttoFinishActivity(data?.aPIResponse?.message!!) }
+                      runOnUiThread { showAlerttoFinishActivity(data?.aPIResponse?.message!!) }
                     }
                 } catch (e: Exception) {
                     Log.d(TAG, "getCandidateDetails: excpetion 738 ${e.message}")
@@ -801,7 +802,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
         var alertDialog = AlertDialog.Builder(this)
         alertDialog.run {
             setMessage(msg)
-            setPositiveButton(getString(R.string.txt_yes),
+            setPositiveButton(getString(R.string.txt_ok),
                 object : DialogInterface.OnClickListener {
                     override fun onClick(p0: DialogInterface?, p1: Int) {
                         finishAffinity()
