@@ -144,7 +144,8 @@ class ActivityUploadGovtId : AppCompatActivity() {
                         CandidateImageAndAudioHolder.setDeepLinkData(
                             CandidateDeepLinkDataModel(
                                 token,
-                                data?.Subscriberid
+                                data?.Subscriberid,
+                                data?.RecruiterId
                             )
                         )
                         recruiterId = data?.Subscriberid

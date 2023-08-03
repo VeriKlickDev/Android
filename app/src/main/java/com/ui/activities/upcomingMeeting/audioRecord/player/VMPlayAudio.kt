@@ -74,7 +74,7 @@ class VMPlayAudio @Inject constructor(val loginRestApi: LoginRestApi, val baseRe
                     val audioFile = MultipartBody.Part.createFormData("File", audioFileNameStr, CandidateImageAndAudioHolder.getAudioObject()!!.asRequestBody("audio/*".toMediaTypeOrNull()))
                     val audioFileName=MultipartBody.Part.createFormData("AudioFileName",audioFileNameStr)
 
-                    val recruiterId=MultipartBody.Part.createFormData("RecruiterId",CandidateImageAndAudioHolder.getDeepLinkData()?.subscriberId.toString())
+                    val recruiterId=MultipartBody.Part.createFormData("RecruiterId",CandidateImageAndAudioHolder.getDeepLinkData()?.recruiterId.toString())
                     val profileUrl=MultipartBody.Part.createFormData("Profile_Url",CandidateImageAndAudioHolder.getImageObject()?.imageName.toString())
                     val tokenId=MultipartBody.Part.createFormData("Token_Id", CandidateImageAndAudioHolder.getDeepLinkData()?.token_Id.toString())
 
