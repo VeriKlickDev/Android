@@ -211,7 +211,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
         }*/
             else if (countryCodeStr == null) {
                 showCustomToast(
-                    getString(R.string.txt_country_code) + " ${getString(R.string.txt_is)} ${
+                    getString(R.string.txt_country) + " ${getString(R.string.txt_is)} ${
                         getString(
                             R.string.txt_invalid_or_blank_data
                         )
