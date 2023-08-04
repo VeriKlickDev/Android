@@ -68,6 +68,7 @@ class VMCandidateQuestionnaire @Inject constructor(val baseRestApi: BaseRestApi)
 
     fun getQuestionnaireListNew(
         templateID: String,
+        queryString: String,
         respnse: (data: ResponseQuestionnaire?, isSuccess: Boolean, errorCode: Int, msg: String) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO + exceptionHandler)
@@ -76,7 +77,9 @@ class VMCandidateQuestionnaire @Inject constructor(val baseRestApi: BaseRestApi)
                     //val authToken= DataStoreHelper.getLoginBearerToken()
                     // Log.d("TAG", "getQuestionnaireList: token is this $authToken")
                     //val url="api/Questionier/GetQuestionier/$templateID/$candidateId/$accessToken"
-                    val url="api/Questionier/GetQuestionier/$templateID"
+                    val url="/api/Questionier/GetQuestionierWeb/$templateID/$queryString"
+
+                    //val url="api/Questionier/GetQuestionier/$templateID"
                     val response = baseRestApi.getQuestionnaireListNew(url)
 
                     //Log.d(TAG, "getCandidateList: token in upviewmodel $authToken")

@@ -297,22 +297,32 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
             val accessToken=pathlist?.get(pathlist!!.size-1)
             val candidateId=pathlist?.get(3)
             val templateId=pathlist?.get(4)
+
+            val queryString="$candidateId"+"|"+"$accessToken"
             runOnUiThread { showProgressDialog() }
             //viewModel?.getQuestionnaireListNew(candidateId.toString(),templateId.toString(),accessToken.toString()){data, isSuccess, errorCode, msg ->
-                viewModel?.getQuestionnaireListNew(templateId.toString()){data, isSuccess, errorCode, msg ->
+                viewModel?.getQuestionnaireListNew(
+                    templateId.toString(),
+                    queryString
+                ){ data, isSuccess, errorCode, msg ->
                 if (isSuccess)
                 {
                     //val list=data?.QuestionList
                     runOnUiThread { dismissProgressDialog() }
                     runOnUiThread {
                         try {
-                            questionList.addAll(data?.QuestionList?.get(0)?.Question!!)
+                            if (data?.Success==false)
+                            {
+                                runOnUiThread { showAlerttoFinishActivity(data?.Message.toString()) }
+                            }else
+                            {
+                                questionList.addAll(data?.QuestionList?.get(0)?.Question!!)
+                                runOnUiThread { questionAdapter?.notifyDataSetChanged() }
+                            }
                         }catch (e:Exception)
                         {
                             e.message
                         }
-
-                        questionAdapter?.notifyDataSetChanged()
                     }
                 }else
                 {
@@ -327,6 +337,23 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
             Log.d("TAG", "getQuestionnaireList: question exception ${e.message}")
         }
     }
+
+    private fun showAlerttoFinishActivity(msg: String) {
+        var alertDialog = androidx.appcompat.app.AlertDialog.Builder(this)
+        alertDialog.run {
+            setMessage(msg)
+            setPositiveButton(getString(R.string.txt_ok),
+                object : DialogInterface.OnClickListener {
+                    override fun onClick(p0: DialogInterface?, p1: Int) {
+                        finishAffinity()
+                    }
+                })
+            setCancelable(false)
+            create()
+            show()
+        }
+    }
+
 
 
     private var isAnswer=false
