@@ -258,8 +258,8 @@
     <string name="txt_Start_recording_after_the_candidate_joins">Iniciar la grabación después de que el candidato se une</string>
     <string name="txt_softSkill">Habilidades blandas</string>
     <string name="txt_sent_by">Enviado por</string>
-    <string name="txt_all_soft_skill_is_required">All soft skill is required</string>
-    <string name="txt_isNotSelected">is not selected</string>
+    <string name="txt_all_soft_skill_is_required">Se requiere toda la habilidad suave</string>
+    <string name="txt_isNotSelected">no está seleccionado</string>
 
 
 </resources>
