@@ -38,6 +38,7 @@ import com.domain.constant.AppConstants
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.ui.activities.candidateQuestionnaire.ActivityShowCandidateQuestinnaire
+import com.ui.activities.login.LoginActivity
 import com.ui.activities.smsChatHistory.ActivitySmsHistory
 import com.ui.activities.upcomingMeeting.UpComingMeetingViewModel
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
@@ -927,6 +928,17 @@ class CandidateListFragment() : Fragment() {
                         binding.swipetorefresh.isRefreshing = false
                     }
                     Log.d(TAG, "getCandidateList: response not found/success $errorCode $msg")
+                }
+                if (errorCode==401)
+                {
+                    DataStoreHelper.clearData()
+                    val intent = Intent(requireActivity(), LoginActivity::class.java)
+                    startActivity(intent)
+                    requireActivity().overridePendingTransition(
+                        R.anim.slide_in_right,
+                        R.anim.slide_out_left
+                    )
+                    requireActivity().finish()
                 }
             }
         }
