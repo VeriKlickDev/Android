@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:animateLayoutChanges="true"
         tools:context="com.ui.activities.upcomingMeeting.CandidateList.CandidateListFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -146,7 +147,9 @@
                 android:hint="@string/txt_search"
                 android:imeOptions="actionSearch"
                 android:singleLine="true"
-                android:padding="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_8sdp"
+                android:paddingRight="@dimen/_40sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
