@@ -351,7 +351,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
 
                     runOnUiThread { showProgressDialog() }
 
-                    viewModel?.createCandidateWithoutAuth(ob,CandidateImageAndAudioHolder.getDeepLinkData()?.token_Id!!.toString()
+                  /*  viewModel?.createCandidateWithoutAuth(ob,CandidateImageAndAudioHolder.getDeepLinkData()?.token_Id!!.toString()
                     ) { data, isSuccess, errorCode, msg ->
                         if (isSuccess) {
                             runOnUiThread { dismissProgressDialog() }
@@ -363,7 +363,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                             runOnUiThread { dismissProgressDialog() }
                             showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
                         }
-                    }
+                    }*/
 
 
 
@@ -784,7 +784,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
             if (isSuccess) {
                 try {
                     if (data?.aPIResponse?.message != null) {
-                      runOnUiThread { showAlerttoFinishActivity(data?.aPIResponse?.message!!) }
+                     //uncomment 7aug runOnUiThread { showAlerttoFinishActivity(data?.aPIResponse?.message!!) }
                     }
                 } catch (e: Exception) {
                     Log.d(TAG, "getCandidateDetails: excpetion 738 ${e.message}")

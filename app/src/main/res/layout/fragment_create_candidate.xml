@@ -217,7 +217,7 @@
                             </androidx.appcompat.widget.LinearLayoutCompat>
 
                             <TextView
-                                android:layout_marginTop="-10sp"
+                                android:layout_marginTop="-17sp"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 style="@style/heading.TextView.Grey_16"
@@ -229,7 +229,6 @@
                                 android:layout_marginHorizontal="@dimen/_10sp"
                                 android:padding="@dimen/_5sp"
                                 android:id="@+id/tv_phone_error"
-                                android:text="@string/txt_select_code"
                                 />
 <!--                            <com.google.android.material.textfield.TextInputLayout-->
 <!--                                android:layout_width="match_parent"-->
@@ -253,7 +252,7 @@
 
                             <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/btn_submit"
-                                style="@style/button.Style.Blue.Rounded"
+                                style="@style/button.Style.Blue.Rounded.Enable.Disable"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/_55sdp"
                                 android:text="@string/txt_sendLink"

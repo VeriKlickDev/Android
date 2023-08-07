@@ -71,6 +71,8 @@
                             android:layout_marginTop="@dimen/_30sdp"
                             android:text="@string/txt_profile_details" />
 
+
+
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -95,9 +97,9 @@
                                 android:background="@null"
                                 app:boxBackgroundColor="@color/white"
                                 app:boxBackgroundMode="filled"
-                                app:boxStrokeColor="@color/white"
                                 app:boxStrokeWidth="0dp"
-                                app:boxStrokeWidthFocused="0dp">
+                                app:boxStrokeWidthFocused="0dp"
+                                app:hintTextAppearance="@style/text_in_layout_hint_Style">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/et_firstname"
@@ -105,9 +107,14 @@
                                     android:layout_height="wrap_content"
                                     android:hint="@string/hint_firstname"
                                     android:maxLength="30"
-                                    android:textSize="@dimen/_17sdp"
-                                    android:singleLine="true" />
+                                    android:singleLine="true"
 
+                                    android:textSize="@dimen/_17sdp"
+                                    android:layout_marginBottom="-5sp"
+                                    android:layout_marginTop="5sp"
+                                    />
+
+                                
                                 <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="0.5dp"
@@ -121,12 +128,14 @@
                             <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_10sp"
                                 android:background="@null"
                                 app:boxBackgroundColor="@color/white"
                                 app:boxBackgroundMode="filled"
-                                app:boxStrokeColor="@color/white"
                                 app:boxStrokeWidth="0dp"
-                                app:boxStrokeWidthFocused="0dp">
+                                app:boxStrokeWidthFocused="0dp"
+                                app:hintTextAppearance="@style/text_in_layout_hint_Style"
+                                >
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/et_middlename"
@@ -136,6 +145,8 @@
                                     android:maxLength="30"
                                     android:textSize="@dimen/_17sdp"
                                     android:singleLine="true" />
+
+
 
                                 <ImageView
                                     android:layout_width="match_parent"
@@ -166,9 +177,10 @@
                                 android:background="@null"
                                 app:boxBackgroundColor="@color/white"
                                 app:boxBackgroundMode="filled"
-                                app:boxStrokeColor="@color/white"
                                 app:boxStrokeWidth="0dp"
-                                app:boxStrokeWidthFocused="0dp">
+                                app:boxStrokeWidthFocused="0dp"
+                                app:hintTextAppearance="@style/text_in_layout_hint_Style"
+                                >
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/et_Lastname"
@@ -179,6 +191,7 @@
                                     android:maxLength="30"
                                     android:singleLine="true" />
 
+                                
                                 <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="0.5dp"
@@ -232,33 +245,32 @@
 <!--                            </com.google.android.material.textfield.TextInputLayout>-->
 
 
-                                                        <androidx.appcompat.widget.AppCompatEditText
-                                                                android:id="@+id/et_email"
-                                                                android:hint="@string/hint_email"
-                                                                android:layout_marginVertical="@dimen/_10sp"
-                                                                android:paddingHorizontal="@dimen/_10sp"
-                                                                android:layout_marginHorizontal="@dimen/_7sp"
-                                                                android:layout_width="match_parent"
-                                                                android:layout_height="@dimen/_45sdp"
-                                                                android:maxLength="100"
-                                                                android:singleLine="true"
-                                                                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                            <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/et_email"
+                            android:hint="@string/hint_email"
+                            android:layout_marginTop="@dimen/_10sp"
+                            android:layout_width="match_parent"
+                                android:layout_marginHorizontal="@dimen/_10sp"
+                            android:layout_height="@dimen/_45sdp"
+                            android:maxLength="100"
+                            android:singleLine="true"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
 
-                            <TextView
-                                android:id="@+id/tv_txt_start_meeting"
-                                style="@style/textview.Style.WhiteRounded_18_withoutPaddingMargin"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginVertical="@dimen/_10sp"
-                                android:layout_marginHorizontal="@dimen/_7sp"
-                                android:text="@string/txt_primaryNumber" />
+<!--                            <TextView-->
+<!--                                android:id="@+id/tv_txt_start_meeting"-->
+<!--                                style="@style/textview.Style.WhiteRounded_18_withoutPaddingMargin"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginVertical="@dimen/_10sp"-->
+<!--                                android:layout_marginHorizontal="@dimen/_7sp"-->
+<!--                                android:text="@string/txt_primaryNumber" />-->
 
                             <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/_10sp"
                                 android:layout_marginBottom="@dimen/_10sp"
-                                android:layout_marginHorizontal="@dimen/_7sp"
                                 android:orientation="horizontal">
 
                                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -283,7 +295,7 @@
                                     android:layout_gravity="bottom"
                                     android:layout_marginLeft="@dimen/_7sp"
                                     android:layout_marginBottom="-7dp"
-                                    android:layout_weight="0.5"
+                                    android:layout_weight="0.4"
                                     android:hint="@string/txt_phoneNo"
                                     android:inputType="number"
                                     android:fontFamily="@font/sarabun_light"
@@ -311,41 +323,64 @@
                             <!--                                    />-->
                             <!--                            </com.google.android.material.textfield.TextInputLayout>-->
 
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/_10sp"
+                                android:background="@drawable/shape_rectangle_rounded_stroke_grey"
+                                android:orientation="horizontal">
+
                             <androidx.appcompat.widget.AppCompatSpinner
                                 android:id="@+id/spinnerCountry"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/_45sdp"
-                                android:layout_marginHorizontal="@dimen/_7sp"
-                                android:background="@drawable/shape_rectangle_rounded_stroke_grey"
                                 tools:ignore="TouchTargetSizeCheck" />
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="match_parent"
+                                android:layout_height="45sp"
+                                android:layout_marginHorizontal="@dimen/_10sp"
+                                android:layout_marginVertical="@dimen/_10sp"
+                                android:background="@drawable/shape_rectangle_rounded_stroke_grey"
+                                android:orientation="horizontal">
 
                             <androidx.appcompat.widget.AppCompatSpinner
                                 android:id="@+id/spinnerState"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/_45sdp"
-                                android:layout_marginHorizontal="@dimen/_7sp"
-                                android:background="@drawable/shape_rectangle_rounded_stroke_grey"
-                                android:layout_marginVertical="@dimen/_10sp"
                                 tools:ignore="TouchTargetSizeCheck" />
 
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="match_parent"
+                                android:layout_height="45sp"
+                                android:layout_marginHorizontal="@dimen/_10sp"
+                                android:background="@drawable/shape_rectangle_rounded_stroke_grey"
+                                android:orientation="horizontal">
                             <androidx.appcompat.widget.AppCompatSpinner
                                 android:id="@+id/spinnerCity"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/_45sdp"
-                                android:layout_marginHorizontal="@dimen/_7sp"
-                                android:background="@drawable/shape_rectangle_rounded_stroke_grey"
                                 tools:ignore="TouchTargetSizeCheck" />
-
+                            </androidx.appcompat.widget.LinearLayoutCompat>
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+
                                 android:background="@null"
                                 app:boxBackgroundColor="@color/white"
                                 app:boxBackgroundMode="filled"
-                                app:boxStrokeColor="@color/white"
                                 app:boxStrokeWidth="0dp"
-                                app:boxStrokeWidthFocused="0dp">
+                                app:boxStrokeWidthFocused="0dp"
+                                app:hintTextAppearance="@style/text_in_layout_hint_Style"
+
+                                >
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/et_street"
@@ -357,6 +392,7 @@
                                     android:singleLine="true" />
                                     />
 
+                                
                                 <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="0.5dp"
@@ -384,12 +420,14 @@
                             <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+
                                 android:background="@null"
                                 app:boxBackgroundColor="@color/white"
                                 app:boxBackgroundMode="filled"
-                                app:boxStrokeColor="@color/white"
                                 app:boxStrokeWidth="0dp"
-                                app:boxStrokeWidthFocused="0dp">
+                                app:boxStrokeWidthFocused="0dp"
+                                app:hintTextAppearance="@style/text_in_layout_hint_Style"
+                                >
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/et_zipCode"
@@ -427,29 +465,34 @@
 <!--                                android:singleLine="true"-->
 <!--                                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />-->
 
-
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="match_parent"
+                                android:layout_height="45sp"
+                                android:layout_marginHorizontal="@dimen/_10sp"
+                                android:layout_marginTop="@dimen/_7sp"
+                                android:background="@drawable/shape_rectangle_rounded_stroke_grey"
+                                android:orientation="horizontal">
                             <androidx.appcompat.widget.AppCompatSpinner
                                 android:id="@+id/spinnerJobtype"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/_45sdp"
-                                android:layout_marginVertical="@dimen/_10sp"
                                 android:digits="0123456789"
-                                android:background="@drawable/shape_rectangle_rounded_stroke_grey"
-                                android:layout_marginHorizontal="@dimen/_7sp"
                                 android:maxLength="10"
                                 tools:ignore="TouchTargetSizeCheck" />
-
+                            </androidx.appcompat.widget.LinearLayoutCompat>
 
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+
                                 android:background="@null"
                                 app:boxBackgroundColor="@color/white"
                                 app:boxBackgroundMode="filled"
-                                app:boxStrokeColor="@color/white"
                                 app:boxStrokeWidth="0dp"
-                                app:boxStrokeWidthFocused="0dp">
+                                app:boxStrokeWidthFocused="0dp"
+                                app:hintTextAppearance="@style/text_in_layout_hint_Style"
+                                >
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/et_experience"
@@ -489,12 +532,14 @@
                             <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+
                                 android:background="@null"
                                 app:boxBackgroundColor="@color/white"
                                 app:boxBackgroundMode="filled"
-                                app:boxStrokeColor="@color/white"
                                 app:boxStrokeWidth="0dp"
-                                app:boxStrokeWidthFocused="0dp">
+                                app:boxStrokeWidthFocused="0dp"
+                                app:hintTextAppearance="@style/text_in_layout_hint_Style"
+                                >
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/et_primarySkills"
@@ -505,6 +550,7 @@
                                     android:textSize="@dimen/_17sdp"
                                     android:singleLine="true"
                                     />
+
 
                                 <ImageView
                                     android:layout_width="match_parent"
@@ -533,12 +579,14 @@
                             <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+
                                 android:background="@null"
                                 app:boxBackgroundColor="@color/white"
                                 app:boxBackgroundMode="filled"
-                                app:boxStrokeColor="@color/white"
                                 app:boxStrokeWidth="0dp"
-                                app:boxStrokeWidthFocused="0dp">
+                                app:boxStrokeWidthFocused="0dp"
+                                app:hintTextAppearance="@style/text_in_layout_hint_Style"
+                                >
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/et_secondarySkills"
@@ -549,6 +597,7 @@
                                     android:textSize="@dimen/_17sdp"
                                     android:singleLine="true"
                                     />
+
 
 
                                 <ImageView
@@ -583,7 +632,7 @@
                                 android:layout_marginBottom="@dimen/_10sp"
                                 android:foreground="?selectableItemBackground"
                                 android:text="@string/txt_submit"
-                                android:textSize="@dimen/_18sdp" />
+                                android:textSize="@dimen/_17sdp" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -55,11 +55,13 @@ class FragmentCreateCandidate : Fragment() {
         isEmailok=false
         isPhoneok=false
         iscountryCode=null
-        binding.tvCountryCode.setText(getString(R.string.txt_country_code))
         binding.etEmail.setText("")
         binding.etPhoneno.setText("")
+        binding.tvCountryCode.setText(getString(R.string.txt_country_code))
         binding.tvEmailError.visibility=View.INVISIBLE
         binding.tvPhoneError.visibility=View.INVISIBLE
+        binding.etEmail.clearFocus()
+        binding.etPhoneno.clearFocus()
 
     }
 
@@ -73,7 +75,7 @@ class FragmentCreateCandidate : Fragment() {
 
         this.viewGroup=container
         handleTextWatcher()
-
+      //  requireActivity().runOnUiThread { binding.btnSubmit.isEnabled=false }
         countryCodeRecyerlerAdapter=CountryCodeListAdapter(requireContext(),countryCodeListMain){pos, data, action ->
             iscountryCode=data?.PhoneCode.toString()
             binding.tvCountryCode.setText(data?.codedisplay.toString())
@@ -321,17 +323,18 @@ class FragmentCreateCandidate : Fragment() {
 
     private fun handleTextWatcher()
     {
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO).launch    {
             binding.etEmail.getEditTextWithFlow().collectLatest{text->
                 delay(1000)
                 emailValidator(requireActivity(), text.toString()) { isEmailOk, _, _ ->
                     isEmailok=isEmailOk
                     if (!isEmailOk) {
+                        if (!binding.etEmail.text.toString().equals("")) {
                         requireActivity().runOnUiThread {
                             binding.tvEmailError.visibility=View.VISIBLE
                             binding.tvEmailError.setText(getString(R.string.txt_invalid)+" ${getString(R.string.txt_email)}")
                             emailErrorstr=getString(R.string.txt_invalid)+" ${getString(R.string.txt_email)}"
-                        }
+                        }}
                     }
                     else{
                         if (requireActivity().checkInternet()) {
@@ -356,12 +359,14 @@ class FragmentCreateCandidate : Fragment() {
                 } else {
                     requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
                 }
-
             }
             if (!requireActivity().phoneValidatorfor9and10Digits(text.toString())){
-                binding.tvPhoneError.setText(getString(R.string.txt_invalid)+" ${getString(R.string.txt_phoneNo)}")
-                phoneErrorstr=getString(R.string.txt_invalid)+" ${getString(R.string.txt_phoneNo)}"
-                binding.tvPhoneError.visibility=View.VISIBLE
+                if (!binding.etPhoneno.text.toString().equals("")) {
+                    binding.tvPhoneError.setText(getString(R.string.txt_invalid) + " ${getString(R.string.txt_phoneNo)}")
+                    phoneErrorstr =
+                        getString(R.string.txt_invalid) + " ${getString(R.string.txt_phoneNo)}"
+                    binding.tvPhoneError.visibility = View.VISIBLE
+                }
             }
 
         }
@@ -381,15 +386,18 @@ class FragmentCreateCandidate : Fragment() {
     }
 
     private fun checkEmailExists(txt: String) {
+        requireActivity().runOnUiThread { binding.btnSubmit.isEnabled=false }
         viewModel?.getIsPhoneExists(txt,false,
             response = { data ->
                 requireActivity().runOnUiThread {
                     if (data.aPIResponse?.Message!=null) {
+                        requireActivity().runOnUiThread { binding.btnSubmit.isEnabled=true }
                         binding.tvEmailError.visibility=View.VISIBLE
                         binding.tvEmailError.setText(data.aPIResponse?.Message.toString())
                         emailErrorstr=data.aPIResponse?.Message.toString()
                         isEmailok=false
                     } else {
+                        requireActivity().runOnUiThread { binding.btnSubmit.isEnabled=true }
                         binding.tvEmailError.visibility=View.INVISIBLE
                        // binding.etEmail.setError(data.aPIResponse?.Message.toString())
                         isEmailok=true
@@ -399,15 +407,18 @@ class FragmentCreateCandidate : Fragment() {
     }
 
     private fun checkPhoneExists(txt: String) {
+        requireActivity().runOnUiThread { binding .btnSubmit.isEnabled=false}
         viewModel?.getIsPhoneExists(txt,true,
             response = { data ->
                 requireActivity().runOnUiThread {
                     if (data.aPIResponse?.StatusCode!=null) {
+                        requireActivity().runOnUiThread { binding .btnSubmit.isEnabled=true}
                         binding.tvPhoneError.visibility=View.VISIBLE
                         binding.tvPhoneError.setText(data.aPIResponse?.Message.toString())
                         phoneErrorstr=data.aPIResponse?.Message.toString()
                         isPhoneok=false
                     } else {
+                        requireActivity().runOnUiThread { binding .btnSubmit.isEnabled=true}
                        // binding.tvEmailError.visibility=View.INVISIBLE
                       //  binding.etPhoneno.setError(data.aPIResponse?.Message.toString())
                         isPhoneok=true
@@ -425,20 +436,37 @@ class FragmentCreateCandidate : Fragment() {
         }
         else
         {
-            if (iscountryCode==null)
-                requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_country_code)+" ${getString(R.string.txt_isNotSelected)}")
-            if (!isPhoneok)
+            if (iscountryCode==null) {
+                requireActivity().showCustomSnackbarOnTop(
+                    getString(R.string.txt_country_code) + " ${
+                        getString(
+                            R.string.txt_isNotSelected
+                        )
+                    }"
+                )
+            }
+            if (binding.etEmail.text.toString().trim().equals("") && binding.etPhoneno.text.toString().trim().equals(""))
             {
-                phoneErrorstr.let {
-                    requireActivity().showCustomSnackbarOnTop(it.toString())
+                requireActivity().showCustomSnackbarOnTop("${getString(R.string.txt_email)} ${getString(R.string.txt_and)} ${getString(R.string.txt_phoneNo)} ${getString(R.string.txt_required)}")
+            }else
+            {
+
+                if (!isPhoneok)
+                {
+                    Log.d("TAG", "validateAllFields: phone error")
+                    phoneErrorstr.let {
+                        requireActivity().showCustomSnackbarOnTop(it.toString())
+                    }
+                }
+                if (!isEmailok)
+                {
+                    Log.d("TAG", "validateAllFields: email error")
+                    emailErrorstr.let {
+                        requireActivity().showCustomSnackbarOnTop(it.toString())
+                    }
                 }
             }
-            if (!isEmailok)
-            {
-                emailErrorstr.let {
-                    requireActivity().showCustomSnackbarOnTop(it.toString())
-                }
-            }
+
         }
     }
 

@@ -266,5 +266,6 @@
     <string name="txt_sent_by">Sent By:</string>
     <string name="txt_all_soft_skill_is_required">All soft skill is required</string>
     <string name="txt_isNotSelected">is not selected</string>
+    <string name="txt_and">and</string>
 
 </resources>

@@ -17,10 +17,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            >
-
-
+            android:layout_weight="1">
 
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -34,8 +31,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_70sdp"
-                    android:textSize="@dimen/_30sdp"
-                    android:text="@string/txt_login" />
+                    android:text="@string/txt_login"
+                    android:textSize="@dimen/_30sdp" />
 
                 <TextView
                     android:id="@+id/tv_txt_start_meeting"
@@ -46,19 +43,19 @@
                     android:text="@string/txt_start_join_video_meeting_on_the_go" />
 
 
-                    <EditText
-                        android:drawableLeft="@drawable/ic_img_message_black"
-                        android:drawablePadding="@dimen/_10sp"
-                        android:id="@+id/et_email"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:imeOptions="actionNext"
-                        android:textSize="@dimen/_18sdp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/_10sp"
-                        style="@style/editext.style.base"
-                        android:hint="@string/hint_email" />
+                <EditText
+                    android:id="@+id/et_email"
+                    style="@style/editext.style.base"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_10sp"
+                    android:drawableLeft="@drawable/ic_img_message_black"
+                    android:drawablePadding="@dimen/_10sp"
+                    android:hint="@string/hint_email"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textSize="@dimen/_18sdp" />
 
                 <TextView
                     android:id="@+id/tv_email_error"
@@ -72,39 +69,36 @@
                     android:visibility="visible" />
 
 
-                    <LinearLayout
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_10sp"
+                    android:layout_marginTop="@dimen/_15sp"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/et_password"
+                        style="@style/editext.style.base"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginHorizontal="@dimen/_10sp"
-                        android:layout_marginTop="@dimen/_15sp"
-                        >
+                        android:backgroundTint="@color/light_grey"
+                        android:drawableLeft="@drawable/ic_img_lock"
+                        android:gravity="top"
+                        android:hint="@string/hint_password"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:textSize="@dimen/_18sdp" />
 
-                        <EditText
-                            android:id="@+id/et_password"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            style="@style/editext.style.base"
-                            android:drawableLeft="@drawable/ic_img_lock"
-                            android:hint="@string/hint_password"
-                            android:maxLines="1"
-                            android:textSize="@dimen/_18sdp"
-                            android:gravity="top"
-                            android:imeOptions="actionDone"
-                            android:backgroundTint="@color/light_grey"
-                            android:inputType="textPassword"
-                            />
+                    <ImageView
+                        android:id="@+id/btn_toggle_eye"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="-35sp"
+                        android:background="@drawable/ic_img_toggle_eye_hide" />
 
-                        <ImageView
-                            android:layout_marginLeft="-35sp"
-                            android:layout_width="@dimen/_25sdp"
-                            android:layout_height="@dimen/_25sdp"
-                            android:layout_gravity="center"
-                            android:id="@+id/btn_toggle_eye"
-                            android:background="@drawable/ic_img_toggle_eye_hide"
-                            />
-
-                    </LinearLayout>
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/tv_psswd_error"
@@ -130,9 +124,9 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_submitButton"
+                    style="@style/button.Style.Blue.Rounded"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_55sdp"
-                    style="@style/button.Style.Blue.Rounded"
                     android:layout_marginTop="@dimen/_20sp"
                     android:text="@string/txt_login"
                     android:textSize="@dimen/_18sdp" />
@@ -140,53 +134,51 @@
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
                     android:layout_marginTop="@dimen/_20sp"
-                    >
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_weight="1"
-                    >
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-<!--                    <View-->
-<!--                        android:layout_width="@dimen/_25sdp"-->
-<!--                        android:layout_height="@dimen/_25sdp"-->
-<!--                        android:background="@drawable/ic_message_24_blue"-->
-<!--                        app:layout_constraintBottom_toBottomOf="@+id/btn_otp_login"-->
-<!--                        app:layout_constraintEnd_toEndOf="@+id/btn_otp_login"-->
-<!--                        app:layout_constraintHorizontal_bias="0.253"-->
-<!--                        app:layout_constraintStart_toStartOf="@+id/btn_otp_login"-->
-<!--                        app:layout_constraintTop_toTopOf="@+id/btn_otp_login" />-->
+                        <!--                    <View-->
+                        <!--                        android:layout_width="@dimen/_25sdp"-->
+                        <!--                        android:layout_height="@dimen/_25sdp"-->
+                        <!--                        android:background="@drawable/ic_message_24_blue"-->
+                        <!--                        app:layout_constraintBottom_toBottomOf="@+id/btn_otp_login"-->
+                        <!--                        app:layout_constraintEnd_toEndOf="@+id/btn_otp_login"-->
+                        <!--                        app:layout_constraintHorizontal_bias="0.253"-->
+                        <!--                        app:layout_constraintStart_toStartOf="@+id/btn_otp_login"-->
+                        <!--                        app:layout_constraintTop_toTopOf="@+id/btn_otp_login" />-->
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_otp_login"
+                            style="@style/button.Style.lightBlue.Rounded.elevation.stroke"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_55sdp"
+                            android:layout_weight="1"
+                            android:text="@string/txt_login_with_otp"
+                            android:textSize="@dimen/_17sdp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btn_otp_login"
+                        android:id="@+id/btn_continue_guest"
                         style="@style/button.Style.lightBlue.Rounded.elevation.stroke"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_55sdp"
                         android:layout_weight="1"
-                        android:text="@string/txt_login_with_otp"
-                        android:textSize="@dimen/_17sdp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_continue_guest"
-                    style="@style/button.Style.lightBlue.Rounded.elevation.stroke"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_55sdp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:padding="@dimen/_5sp"
-                    android:text="@string/txt_Continue_as_a_Guest"
-                    android:textSize="@dimen/_17sdp" />
+                        android:gravity="center"
+                        android:padding="@dimen/_5sp"
+                        android:text="@string/txt_Continue_as_a_Guest"
+                        android:textSize="@dimen/_17sdp" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -203,9 +195,7 @@
             android:gravity="center"
             android:text="@string/txt_set_preferences"
             android:textColor="@color/skyblue_light1"
-            android:textSize="@dimen/_15sp"
-            />
-
+            android:textSize="@dimen/_15sp" />
 
 
     </LinearLayout>

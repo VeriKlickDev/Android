@@ -261,6 +261,7 @@
     <string name="txt_sent_by">Enviado por</string>
     <string name="txt_all_soft_skill_is_required">Se requiere toda la habilidad suave</string>
     <string name="txt_isNotSelected">no está seleccionado</string>
+    <string name="txt_and">and</string>
 
 
 </resources>

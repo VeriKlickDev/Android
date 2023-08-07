@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:ns2="http://schemas.android.com/apk/res-auto">
     <!-- Base application theme. -->
     <style name="Theme.VeriklickBase" parent="Theme.AppCompat.Light.NoActionBar">
 
@@ -365,6 +365,31 @@
         <item name="android:numbersSelectorColor">@color/skyblue_light1</item>
         <item name="android:headerBackground">@color/skyblue_light1</item>
 
+    </style>
+
+
+    <style name="My.TextInputLayout.Theme" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="materialThemeOverlay">@style/MyThemePadding</item>
+    </style>
+
+    <style name="MyThemePadding">
+        <item name="editTextStyle">@style/MyTextInputEditText_padding</item>
+    </style>
+
+    <style name="MyTextInputEditText_padding" parent="@style/Widget.MaterialComponents.TextInputEditText.FilledBox">
+        <!-- Set left and right padding here -->
+        <item name="android:paddingStart" ns2:ignore="NewApi">2dp</item>
+        <item name="android:paddingEnd" ns2:ignore="NewApi">2dp</item>
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingRight">2dp</item>
+
+        <!-- Set top and bottom padding here -->
+        <item name="android:paddingTop">20dp</item>
+        <item name="android:paddingBottom">12dp</item>
+    </style>
+
+    <style name="text_in_layout_hint_Style">
+        <item name="android:textSize">@dimen/_14sp</item>
     </style>
 
 </resources>
