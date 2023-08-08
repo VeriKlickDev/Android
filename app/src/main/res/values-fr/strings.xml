@@ -261,5 +261,6 @@
     <string name="txt_isNotSelected">n\'est pas sélectionné</string>
     <string name="txt_please_select_language" tools:ignore="MissingTranslation">Veuillez d\'abord sélectionner la langue</string>
     <string name="txt_and">and</string>
+    <string name="txt_you_have_successfull_completed_form">You have successfully submitted the form . Click ok to close the process.</string>
 
 </resources>

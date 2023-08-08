@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Log
+import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -64,34 +65,37 @@ class ActivityResumeDocument : AppCompatActivity() {
             getResumeFile()
         }
 
-        binding.btnUploadResume.setOnClickListener {
+       /* binding.btnUploadResume.setOnClickListener {
             if (checkInternet()) {
                 uploadResumeFile()
             } else {
                 showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
             }
 
-        }
+        }*/
 
-          binding.btnSkip.setOnClickListener {
-              val intent=Intent(this, ActivityCreateCandidate::class.java)
-              //val intent=Intent(this, ActivityCreateCandidate::class.java)
-              //CreateProfileDeepLinkHolder.setCandidateId(candidateId)
-              intent.putExtra(AppConstants.CANDIDATE_ID,candidateId)
-              intent.putExtra(AppConstants.TOKEN_ID,tokenId)
-              startActivity(intent)
-              overridePendingTransition(
-                  R.anim.slide_in_right,
-                  R.anim.slide_out_left
-              )
-          }
+        binding.btnSkip.setOnClickListener {
+
+            if (checkInternet()) {
+                uploadResumeFile()
+            } else {
+                showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+            }
+
+
+        }
 
         /*  binding.tvSetPreference.setOnClickListener {
               selectLangaugeDialog()
           }
   */
 
-        binding.btnUploadResume.isEnabled = false
+        // binding.btnUploadResume.isEnabled = false
+        binding.ivClearData.setOnClickListener {
+            resumeFile=null
+            binding.etDocument.setText("")
+            binding.ivClearData.visibility= View.INVISIBLE
+        }
 
         binding.tvSetPreference.setOnClickListener {
             selectLangaugeDialogGlobal()
@@ -101,7 +105,7 @@ class ActivityResumeDocument : AppCompatActivity() {
 
     override fun finish() {
         super.finish()
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
     private var candidateId = ""
@@ -163,7 +167,7 @@ class ActivityResumeDocument : AppCompatActivity() {
 
         var chooseFile = Intent(Intent.ACTION_GET_CONTENT)
         chooseFile.addCategory(Intent.CATEGORY_OPENABLE)
-       // chooseFile.type = "*/*"
+        // chooseFile.type = "*/*"
 
         val mimeTypes = arrayOf(
             "application/pdf",
@@ -179,10 +183,10 @@ class ActivityResumeDocument : AppCompatActivity() {
 
     }
 
-    private var resumeFile:File?=null
+    private var resumeFile: File? = null
     private val contractorResumeFile =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            binding.btnUploadResume.isEnabled=true
+           // binding.btnUploadResume.isEnabled = true
             try {
 //                Log.d(TAG, "file uri: uri ${Gson().toJson(it.data)}")
                 val uri = it?.data?.data
@@ -196,9 +200,10 @@ class ActivityResumeDocument : AppCompatActivity() {
 //                       it1
 //                   )
 //               }
+                binding.ivClearData.visibility= View.VISIBLE
                 binding.etDocument.setText(uri?.let { it1 -> getFileNameFromUri(it1) })
                 Log.d(TAG, "file uri: $src uri $uri file cte  ")
-                resumeFile= uri?.let { it1 -> getFile(this@ActivityResumeDocument, it1) }
+                resumeFile = uri?.let { it1 -> getFile(this@ActivityResumeDocument, it1) }
                 Log.d(TAG, "file name with extension ${resumeFile?.name}: ")
                 Log.d(TAG, "file uri: $src uri $uri file cte  ")
 
@@ -214,7 +219,7 @@ class ActivityResumeDocument : AppCompatActivity() {
         val fileName: String?
         val cursor = contentResolver.query(uri, null, null, null, null)
         cursor?.moveToFirst()
-        fileName = cursor?.getColumnIndex(MediaStore.Files.FileColumns.MIME_TYPE+"=?")
+        fileName = cursor?.getColumnIndex(MediaStore.Files.FileColumns.MIME_TYPE + "=?")
             ?.let { cursor?.getString(it) }
         cursor?.close()
         return fileName
@@ -268,6 +273,7 @@ class ActivityResumeDocument : AppCompatActivity() {
         returnCursor.close()
         return name
     }
+
     @SuppressLint("Range")
     fun getFileNameFromUri(uri: Uri): String? {
         val fileName: String?
@@ -282,18 +288,40 @@ class ActivityResumeDocument : AppCompatActivity() {
     private fun uploadResumeFile() {
         CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             try {
-                if (resumeFile!=null) {
+                if (resumeFile != null) {
 
                     runOnUiThread { showProgressDialog() }
-                    viewModel?.updateUserResumeWithoutAuth(resumeFile!!,CandidateImageAndAudioHolder.getDeepLinkData()?.subscriberId?.toString()!!) { isSuccess, code, msg ->
+                    viewModel?.updateUserResumeWithoutAuth(
+                        resumeFile!!,
+                        CandidateImageAndAudioHolder.getDeepLinkData()?.subscriberId?.toString()!!
+                    ) { isSuccess, code, msg ->
                         when (code) {
                             200 -> {
-                                runOnUiThread { dismissProgressDialog() }
+                                runOnUiThread {
+                                    dismissProgressDialog()
+                                    showCustomSnackbarOnTop(msg)
+                                }
                                 Log.d(TAG, "uploadProfilePhoto: $msg")
-                                runOnUiThread { showCustomSnackbarOnTop(msg) }
-                                binding.btnUploadResume.isEnabled = false
 
+
+                                setHandler().postDelayed({
+                                    val intent =
+                                        Intent(
+                                            this@ActivityResumeDocument,
+                                            ActivityCreateCandidate::class.java
+                                        )
+                                    //val intent=Intent(this, ActivityCreateCandidate::class.java)
+                                    //CreateProfileDeepLinkHolder.setCandidateId(candidateId)
+                                    intent.putExtra(AppConstants.CANDIDATE_ID, candidateId)
+                                    intent.putExtra(AppConstants.TOKEN_ID, tokenId)
+                                    startActivity(intent)
+                                    overridePendingTransition(
+                                        R.anim.slide_in_right,
+                                        R.anim.slide_out_left
+                                    )
+                                }, 2000)
                             }
+                            // binding.btnUploadResume.isEnabled = false
 
                             400 -> {
                                 runOnUiThread { dismissProgressDialog() }
@@ -338,9 +366,21 @@ class ActivityResumeDocument : AppCompatActivity() {
 
                         }
                     }
-                }else
-                {
-                    runOnUiThread { showCustomSnackbarOnTop(getString(R.string.txt_please_select_resume_file_first)) }
+                } else {
+                    runOnUiThread {
+                        val intent =
+                            Intent(this@ActivityResumeDocument, ActivityCreateCandidate::class.java)
+                        //val intent=Intent(this, ActivityCreateCandidate::class.java)
+                        //CreateProfileDeepLinkHolder.setCandidateId(candidateId)
+                        intent.putExtra(AppConstants.CANDIDATE_ID, candidateId)
+                        intent.putExtra(AppConstants.TOKEN_ID, tokenId)
+                        startActivity(intent)
+                        overridePendingTransition(
+                            R.anim.slide_in_right,
+                            R.anim.slide_out_left
+                        )
+                    }
+                    //runOnUiThread { showCustomSnackbarOnTop(getString(R.string.txt_please_select_resume_file_first)) }
                 }
             } catch (e: Exception) {
                 runOnUiThread { dismissProgressDialog() }

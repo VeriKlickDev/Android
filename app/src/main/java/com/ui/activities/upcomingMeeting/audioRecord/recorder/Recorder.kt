@@ -34,6 +34,9 @@ class Recorder private constructor(context: Context) {
 
     fun stopRecording()
     {
+        onStart = null
+        onStop = null
+        recorder.onAmplitudeListener = null
         recorder.stopRecording()
         onStop?.invoke()
         isRecording=false

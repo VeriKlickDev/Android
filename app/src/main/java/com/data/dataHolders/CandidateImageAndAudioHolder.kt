@@ -52,6 +52,14 @@ object CandidateImageAndAudioHolder {
     }
 
 
+    fun clearAllData()
+    {
+        deepLinkDataList.clear()
+        audioFile.clear()
+        list.clear()
+        resumeFile.clear()
+        audioFileName.clear()
+    }
 
 
 

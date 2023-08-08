@@ -90,20 +90,26 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/roundedCorner50" />
 
+            
+
             <com.google.android.material.imageview.ShapeableImageView
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
                 android:id="@+id/iv_editPencil"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_gravity="center"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_edit_pencil"
-                android:tint="@color/grey"
+                android:background="@color/white"
+                android:src="@drawable/edit_pencil_blue"
+                app:shapeAppearanceOverlay="@style/roundedCorner50"
+
+                android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.92"
+                app:layout_constraintHorizontal_bias="0.86"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="@style/roundedCorner50" />
+
+
+                />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_uploadImage"
@@ -167,7 +173,7 @@
                 style="@style/button.Style.Blue.Rounded.Enable.Disable.withoutMargin"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_55sdp"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_weight="1"
                 android:layout_marginRight="@dimen/_10sp"
                 android:layout_marginBottom="@dimen/_7sp"
@@ -175,16 +181,15 @@
                 android:textSize="@dimen/_18sdp" />
 
 
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_upload_image"
-                style="@style/button.Style.Blue.Rounded.Enable.Disable.withoutMargin"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_55sdp"
-                android:layout_weight="1"
-                android:layout_marginBottom="@dimen/_7sp"
-                android:text="@string/txt_upload"
-                android:textSize="@dimen/_18sdp" />
+<!--            <androidx.appcompat.widget.AppCompatButton-->
+<!--                android:id="@+id/btn_upload_image"-->
+<!--                style="@style/button.Style.Blue.Rounded.Enable.Disable.withoutMargin"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="@dimen/_55sdp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:layout_marginBottom="@dimen/_7sp"-->
+<!--                android:text="@string/txt_upload"-->
+<!--                android:textSize="@dimen/_18sdp" />-->
 </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.AppCompatButton

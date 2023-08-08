@@ -267,5 +267,6 @@
     <string name="txt_all_soft_skill_is_required">All soft skill is required</string>
     <string name="txt_isNotSelected">is not selected</string>
     <string name="txt_and">and</string>
+    <string name="txt_you_have_successfull_completed_form">You have successfully submitted the form . Click ok to close the process.</string>
 
 </resources>

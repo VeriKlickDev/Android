@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.data.checkInternet
 import com.data.dataHolders.CandidateImageAndAudioHolder
 import com.data.dismissProgressDialog
+import com.data.setHandler
 import com.data.showCustomSnackbarOnTop
 import com.data.showProgressDialog
 import com.ui.activities.upcomingMeeting.audioRecord.player.AudioPlayer
@@ -33,23 +34,17 @@ class PlayActivity : AppCompatActivity() {
         viewModel=ViewModelProvider(this).get(VMPlayAudio::class.java)
         setContentView(binding.root)
 
-        binding.playButton.setImageDrawable( getDrawableCompat(R.drawable.ic_play_arrow_24))
+        binding.playButton.setImageDrawable(getDrawableCompat(R.drawable.ic_play_arrow_24))
         binding.btnJumpBack.setOnClickListener {onBackPressedDispatcher.onBackPressed()}
-        binding.btnUploadData.setOnClickListener {
+
+        binding.btnSkip.setOnClickListener {
             if (checkInternet()) {
                 uploadData()
             } else {
                 showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
             }
         }
-        binding.btnSkip.setOnClickListener {
-                val intent= Intent(this, ActivityResumeDocument::class.java)
-                startActivity(intent)
-                overridePendingTransition(
-                    R.anim.slide_in_right,
-                    R.anim.slide_out_left
-                )
-            }
+
     }
 
     private val TAG="playAudioActivity"
@@ -69,10 +64,18 @@ class PlayActivity : AppCompatActivity() {
                 {
                     200->{
                         Log.d(TAG, "uploadProfilePhoto: $msg ,")
-
                         runOnUiThread {
-                            binding.btnUploadData.isEnabled=false
                             showCustomSnackbarOnTop(msg)
+                           // binding.btnSkip.isEnabled=false
+                            setHandler().postDelayed({
+                                val intent= Intent(this, ActivityResumeDocument::class.java)
+                                startActivity(intent)
+                                overridePendingTransition(
+                                    R.anim.slide_in_right,
+                                    R.anim.slide_out_left
+                                )
+                            },2000)
+
                         }
 
                        // binding.etLinkaudio.setText(data?.AudioFilePath.toString())

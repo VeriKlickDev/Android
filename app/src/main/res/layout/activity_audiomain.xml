@@ -133,7 +133,7 @@
                 android:layout_gravity="center_horizontal"
                 android:background="@color/skyblue_light1"
                 android:gravity="center"
-                android:src="@drawable/ic_baseline_mic_24_blue"
+                android:src="@drawable/ic_record_24"
                 app:contentPadding="17sp"
                 app:layout_constraintBottom_toBottomOf="@+id/audioProgressBar"
                 app:layout_constraintEnd_toEndOf="@+id/audioProgressBar"

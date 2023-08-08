@@ -93,6 +93,8 @@ class ActivityCreateCandidate : AppCompatActivity() {
             }
         }
 
+
+
         binding.etPhoneno.doOnTextChanged { text, start, before, count ->
             //isPhoneok=phoneValidator(text.toString())
             if (phoneValidatorfor9and10Digits(text.toString())) {
@@ -351,19 +353,25 @@ class ActivityCreateCandidate : AppCompatActivity() {
 
                     runOnUiThread { showProgressDialog() }
 
-                  /*  viewModel?.createCandidateWithoutAuth(ob,CandidateImageAndAudioHolder.getDeepLinkData()?.token_Id!!.toString()
+                    viewModel?.createCandidateWithoutAuth(ob,CandidateImageAndAudioHolder.getDeepLinkData()?.token_Id!!.toString()
                     ) { data, isSuccess, errorCode, msg ->
                         if (isSuccess) {
-                            runOnUiThread { dismissProgressDialog() }
+                            CandidateImageAndAudioHolder.clearAllData()
+
+
+                            runOnUiThread {
+                                dismissProgressDialog()
+                                checkIsFormAlreadyFilled()
+                            }
                             showCustomSnackbarOnTop(msg)
-                            Handler(mainLooper).postDelayed({
-                                finishAffinity()
-                            },3000)
+                         /*   Handler(mainLooper).postDelayed({
+                               // finishAffinity()
+                            },3000)*/
                         } else {
                             runOnUiThread { dismissProgressDialog() }
                             showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
                         }
-                    }*/
+                    }
 
 
 
@@ -373,6 +381,24 @@ class ActivityCreateCandidate : AppCompatActivity() {
         }
 
     }
+
+    private fun checkIsFormAlreadyFilled()
+    {
+            var alertDialog = AlertDialog.Builder(this)
+            alertDialog.run {
+                setMessage(getString(R.string.txt_you_have_successfull_completed_form))
+                setPositiveButton(getString(R.string.txt_ok),
+                    object : DialogInterface.OnClickListener {
+                        override fun onClick(p0: DialogInterface?, p1: Int) {
+                            finishAffinity()
+                        }
+                    })
+                setCancelable(false)
+                create()
+                show()
+            }
+    }
+
 
     private fun setupCountrySpinner() {
         countrySpinnerAdapter = getArrayAdapterOneItemSelected(countryStringList)
@@ -784,7 +810,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
             if (isSuccess) {
                 try {
                     if (data?.aPIResponse?.message != null) {
-                     //uncomment 7aug runOnUiThread { showAlerttoFinishActivity(data?.aPIResponse?.message!!) }
+                      runOnUiThread { showAlerttoFinishActivity(data?.aPIResponse?.message!!) }
                     }
                 } catch (e: Exception) {
                     Log.d(TAG, "getCandidateDetails: excpetion 738 ${e.message}")

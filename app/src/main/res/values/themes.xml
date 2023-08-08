@@ -392,4 +392,10 @@
         <item name="android:textSize">@dimen/_14sp</item>
     </style>
 
+    <style name="myEditText" parent="@android:style/Widget.Holo.Light.EditText">
+        <item name="android:background">@android:drawable/editbox_background_normal</item>
+        <item name="android:textCursorDrawable">@drawable/edittext_cursor_blue</item>
+        <item name="android:height">@dimen/_5sp</item>
+    </style>
+
 </resources>

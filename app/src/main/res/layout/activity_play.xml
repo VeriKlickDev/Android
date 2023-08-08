@@ -145,7 +145,6 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -155,20 +154,20 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat"
-            app:layout_constraintVertical_bias="0.831">
+            app:layout_constraintVertical_bias="1.0">
 
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_uploadData"
-                android:layout_width="match_parent"
-                android:layout_height="55sp"
-                android:layout_marginHorizontal="@dimen/_10sp"
-                android:layout_marginTop="92dp"
-                android:text="@string/txt_upload"
-                style="@style/button.Style.Blue.Rounded.Enable.Disable"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                />
+            <!--            <androidx.appcompat.widget.AppCompatButton-->
+            <!--                android:id="@+id/btn_uploadData"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="55sp"-->
+            <!--                android:layout_marginHorizontal="@dimen/_10sp"-->
+            <!--                android:layout_marginTop="92dp"-->
+            <!--                android:text="@string/txt_upload"-->
+            <!--                style="@style/button.Style.Blue.Rounded.Enable.Disable"-->
+            <!--                android:textAllCaps="false"-->
+            <!--                android:textColor="@color/white"-->
+            <!--                />-->
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_skip"
@@ -177,8 +176,7 @@
                 android:layout_height="@dimen/_55sdp"
                 android:layout_marginBottom="24dp"
                 android:text="@string/txt_next"
-                android:textSize="@dimen/_18sdp"
-                />
+                android:textSize="@dimen/_18sdp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

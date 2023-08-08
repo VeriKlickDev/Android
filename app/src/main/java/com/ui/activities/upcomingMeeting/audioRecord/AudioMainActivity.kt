@@ -52,13 +52,7 @@ class AudioMainActivity : AppCompatActivity() {
         // watchObserver()
         //  binding.btnPlay.setOnClickListener { jumpToPlayActivity() }
         binding.btnSkip.setOnClickListener {
-            val intent=Intent(this, ActivityResumeDocument::class.java)
-            //val intent= Intent(this, ActivityCreateCandidate::class.java)
-            startActivity(intent)
-            overridePendingTransition(
-                R.anim.slide_in_right,
-                R.anim.slide_out_left
-            )
+            clearAllData()
         }
         binding.tvSetPreference.setOnClickListener {
             selectLangaugeDialogGlobal()
@@ -100,9 +94,11 @@ class AudioMainActivity : AppCompatActivity() {
         recordButton.setOnClickListener {
             recorder.toggleRecording()
             setupTimerForAudio()
+
            // millisTimer.start()
            // secondsTimer.start()
         }
+        btnSkip.isEnabled=false
         visualizer.ampNormalizer = { sqrt(it.toFloat()).toInt() }
     }
 
@@ -159,12 +155,44 @@ class AudioMainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        binding.btnSkip.isEnabled=true
         millis=0
         seconds=0
         binding.audioProgressBar.setProgress(0)
         timer2?.cancel()
         timer1?.cancel()
     }
+
+    private fun clearAllData()
+    {
+        try {
+            millis=0
+            seconds=0
+            binding.audioProgressBar.setProgress(0)
+            timer2?.cancel()
+            timer1?.cancel()
+            recorder.release()
+            recorder.stopRecording()
+            runOnUiThread {
+                binding.visualizer.clear()
+                binding.timelineTextView.text = 0L.formatAsTime()
+                binding.recordButton.setImageDrawable(getDrawableCompat(R.drawable.ic_record_24))
+                val intent=Intent(this, ActivityResumeDocument::class.java)
+                //val intent= Intent(this, ActivityCreateCandidate::class.java)
+                startActivity(intent)
+                overridePendingTransition(
+                    R.anim.slide_in_right,
+                    R.anim.slide_out_left
+                )
+            }
+
+        }catch (e:Exception)
+        {
+            Log.d("TAG", "clearAllData: exception clearalldata ${e.message}")
+        }
+
+    }
+
 
     override fun onPause() {
         super.onPause()
@@ -176,6 +204,7 @@ class AudioMainActivity : AppCompatActivity() {
             binding.audioProgressBar.setProgress(0)
             timer2?.cancel()
             timer1?.cancel()
+            recorder.release()
         }catch (e:Exception)
         {
             Log.d("TAG", "onPause: exception 180 ")
@@ -190,12 +219,12 @@ class AudioMainActivity : AppCompatActivity() {
 
     override fun finish() {
         super.finish()
+        recorder.release()
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
     private fun jumpToPlayActivity()
     {
-
         val intent=Intent(this@AudioMainActivity, PlayActivity::class.java)
         startActivity(intent)
         overridePendingTransition(
@@ -206,7 +235,9 @@ class AudioMainActivity : AppCompatActivity() {
 
     private fun listenOnRecorderStates() = with(binding) {
         recorder = Recorder.getInstance(applicationContext).init().apply {
-            onStart = { recordButton.setImageDrawable(getDrawableCompat(R.drawable.ic_stop_24)) }
+            onStart = {
+                recordButton.setImageDrawable(getDrawableCompat(R.drawable.ic_stop_24))
+            }
             onStop = {
                 visualizer.clear()
                 timelineTextView.text = 0L.formatAsTime()

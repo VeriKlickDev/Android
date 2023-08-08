@@ -13,6 +13,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewOutlineProvider
 import android.widget.AdapterView
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
@@ -52,21 +53,24 @@ import java.util.Locale
 @AndroidEntryPoint
 class ActivityUploadProfilePhoto : AppCompatActivity() {
     private lateinit var binding: ActivityUploadProfilePhotoBinding
-    private var imageUri:Uri?=null
-    private var finalUserImageUri:Uri?=null
-    private var viewModel:VMUploadProfilePhoto?=null
-    private var imageName:String?=null
-    private var imageFile:File?=null
-    private var recruiterId:String?=null
-    private var tokenId=""
+    private var imageUri: Uri? = null
+    private var finalUserImageUri: Uri? = null
+    private var viewModel: VMUploadProfilePhoto? = null
+    private var imageName: String? = null
+    private var imageFile: File? = null
+    private var recruiterId: String? = null
+    private var tokenId = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding=ActivityUploadProfilePhotoBinding.inflate(layoutInflater)
+        binding = ActivityUploadProfilePhotoBinding.inflate(layoutInflater)
         setContentView(binding.root)
         //getAppLanguage()
 
 
-        Log.d(TAG, "onCreate: intent data from deeplink from holder ${CreateProfileDeepLinkHolder.get()}")
+        Log.d(
+            TAG,
+            "onCreate: intent data from deeplink from holder ${CreateProfileDeepLinkHolder.get()}"
+        )
 
 
         binding.btnJumpBack.setOnClickListener {
@@ -77,29 +81,29 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
 
         }
 
-        viewModel=ViewModelProvider(this).get(VMUploadProfilePhoto::class.java)
+        viewModel = ViewModelProvider(this).get(VMUploadProfilePhoto::class.java)
 
         binding.ivUploadImage.setOnClickListener {
             getImageBottomSheet()
         }
+        binding.ivEditPencil.setOnClickListener {
+            finalUserImageUri = null
+            if (!isImageRemoved) {
+                removeImage(true)
+            }else{
+                getImageBottomSheet()
+            }
+        }
         binding.btnRetake.setOnClickListener { getImageBottomSheet() }
 
-        binding.btnUploadImage.setOnClickListener {
-            uploadImage()
-        }
+        /* binding.btnUploadImage.setOnClickListener {
+             //uploadImage()
+         }*/
         binding.btnSkip.setOnClickListener {
-           // val intent=Intent(this, AudioMainActivity::class.java)
+            // val intent=Intent(this, AudioMainActivity::class.java)
             //val intent=Intent(this, ActivityCreateCandidate::class.java)
             //val intent=Intent(this, ActivityResumeDocument::class.java)
-            val intent=Intent(this, ActivityUploadGovtId::class.java)
-           // CreateProfileDeepLinkHolder.setCandidateId(candidateId)
-            intent.putExtra(AppConstants.CANDIDATE_ID,candidateId)
-            intent.putExtra(AppConstants.TOKEN_ID,tokenId)
-            startActivity(intent)
-            overridePendingTransition(
-                R.anim.slide_in_right,
-                R.anim.slide_out_left
-            )
+            uploadImage()
         }
 
         binding.tvSetPreference.setOnClickListener {
@@ -111,10 +115,10 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
         } else {
             showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
         }
-        binding.btnUploadImage.isEnabled=false
+        // binding.btnUploadImage.isEnabled=false
 
         if (checkInternet()) {
-           getCandidateDetails(CreateProfileDeepLinkHolder.getCandidateId().toString())
+            getCandidateDetails(CreateProfileDeepLinkHolder.getCandidateId().toString())
         } else {
             showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
         }
@@ -129,7 +133,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
             if (isSuccess) {
                 try {
                     if (data?.aPIResponse?.message != null) {
-                       // runOnUiThread { showAlerttoFinishActivity(data?.aPIResponse?.message!!) }
+                        runOnUiThread { showAlerttoFinishActivity(data?.aPIResponse?.message!!) }
                     }
                 } catch (e: Exception) {
                     Log.d(TAG, "getCandidateDetails: excpetion 738 ${e.message}")
@@ -159,27 +163,29 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
 
     override fun finish() {
         super.finish()
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
-    private var candidateId=""
+    private var candidateId = ""
 
-    val TAG="checkLoadRecruiterData"
+    val TAG = "checkLoadRecruiterData"
     private fun loadRecruiterData() {
         try {
-            var splitList =    CreateProfileDeepLinkHolder.getPathCreateCandidateString()?.split("/")
+            var splitList = CreateProfileDeepLinkHolder.getPathCreateCandidateString()?.split("/")
             var id = splitList?.get(splitList.size - 3)
             var token = splitList?.get(splitList.size - 1)
-            candidateId=id.toString()
-            tokenId=token.toString()
+            candidateId = id.toString()
+            tokenId = token.toString()
             CreateProfileDeepLinkHolder.setCandidateId(id.toString())
             CreateProfileDeepLinkHolder.setTokenId(tokenId)
             Log.d(TAG, "loadRecruiterData: url id $id  token $token")
             runOnUiThread { showProgressDialog() }
-            viewModel?.getRecruiterDetails(id.toString(),token.toString()){data,isSuccess, errorCode, msg ->
+            viewModel?.getRecruiterDetails(
+                id.toString(),
+                token.toString()
+            ) { data, isSuccess, errorCode, msg ->
                 runOnUiThread { dismissProgressDialog() }
-                if (errorCode==200)
-                {
+                if (errorCode == 200) {
                     runOnUiThread {
 
                         binding.btnSkip.isEnabled = true
@@ -194,21 +200,20 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                         recruiterId = data?.Subscriberid
                     }
                     Log.d(TAG, "loadRecruiterData: success data $data")
-                }else
-                {
-                    runOnUiThread { showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+                } else {
+                    runOnUiThread {
+                        showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
                         binding.btnSkip.setTextColor(getColor(R.color.white))
-                        binding.btnSkip.isEnabled=false
+                        binding.btnSkip.isEnabled = false
                     }
                 }
             }
-        }catch (e:Exception)
-        {
+        } catch (e: Exception) {
             Log.d(TAG, "loadRecruiterData: exception 92 ${e.message}")
         }
     }
 
-    val onBackPressed=object:OnBackPressedCallback(true){
+    val onBackPressed = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             Log.d(TAG, "handleOnBackPressed: on back pressed")
             finish()
@@ -296,14 +301,13 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
     }
 
 
-    private fun setLanguagetoApp1(langCode:String)
-    {
+    private fun setLanguagetoApp1(langCode: String) {
         runOnUiThread {
-            val local= Locale(langCode)
+            val local = Locale(langCode)
             Locale.setDefault(local)
-            val config=resources.configuration
+            val config = resources.configuration
             config.setLocale(local)
-            resources.updateConfiguration(config,resources.displayMetrics)
+            resources.updateConfiguration(config, resources.displayMetrics)
             startActivity(intent)
             overridePendingTransition(
                 R.anim.slide_in_right,
@@ -314,52 +318,50 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
     }
 
 
-
-  /*  private fun getAppLanguage()
-    {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                if (DataStoreHelper.getAppLanguage()!=null &&  !DataStoreHelper.getAppLanguage().equals("null")){
-                    Log.d(TAG, "getAppLanguage: getapplange not null ${DataStoreHelper.getAppLanguage()}")
-                    var language= DataStoreHelper.getAppLanguage()
-                    runOnUiThread { setLanguagetoApp(intent,language,false) }
-                }
-                else{
-                    Log.d(TAG, "getAppLanguage: getapplange  null")
-                }
-            }catch (e:Exception)
-            {
-                Log.d(TAG, "getAppLanguage: getapplange exception ${e.message}")
-            }
-        }
-    }*/
-    private fun getImageFromCamera()
-    {
+    /*  private fun getAppLanguage()
+      {
+          CoroutineScope(Dispatchers.IO).launch {
+              try {
+                  if (DataStoreHelper.getAppLanguage()!=null &&  !DataStoreHelper.getAppLanguage().equals("null")){
+                      Log.d(TAG, "getAppLanguage: getapplange not null ${DataStoreHelper.getAppLanguage()}")
+                      var language= DataStoreHelper.getAppLanguage()
+                      runOnUiThread { setLanguagetoApp(intent,language,false) }
+                  }
+                  else{
+                      Log.d(TAG, "getAppLanguage: getapplange  null")
+                  }
+              }catch (e:Exception)
+              {
+                  Log.d(TAG, "getAppLanguage: getapplange exception ${e.message}")
+              }
+          }
+      }*/
+    private fun getImageFromCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
-       // imageFile = getEmptyFile("Caputured"+System.currentTimeMillis()+".png","captureImage")
-       // imageUri = FileProvider.getUriForFile(this,"com.veriKlick.provider",imageFile!!)
+        // imageFile = getEmptyFile("Caputured"+System.currentTimeMillis()+".png","captureImage")
+        // imageUri = FileProvider.getUriForFile(this,"com.veriKlick.provider",imageFile!!)
 
-       // intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+        // intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
         contractorCamera.launch(intent)
     }
 
-    private val contractorCamera=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-       try {
-           //data.getExtras().get("data");
-           val img=it.data?.extras?.get("data") as Bitmap
+    private val contractorCamera =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            try {
+                //data.getExtras().get("data");
+                val img = it.data?.extras?.get("data") as Bitmap
 
-          //binding.ivUploadImage.setImageBitmap(img)
+                //binding.ivUploadImage.setImageBitmap(img)
 //            binding.ivUploadImage.scaleType=ImageView.ScaleType.CENTER_CROP
-           imageUri=getImageUri(img)
-           getImageFromCamera(imageUri!!)
+                imageUri = getImageUri(img)
+                getImageFromCamera(imageUri!!)
 
-       }catch (e:Exception)
-       {
-           Log.d(TAG, "error: ${e.printStackTrace()}")
-       }
+            } catch (e: Exception) {
+                Log.d(TAG, "error: ${e.printStackTrace()}")
+            }
 
-    }
+        }
 
     private fun getImageUri(inImage: Bitmap): Uri {
 
@@ -374,43 +376,41 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
         return Uri.fromFile(tempFile)
     }
 
-    val contractorGallery=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-        try {
+    val contractorGallery =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            try {
 
-            Log.d(TAG, "imageUri: uri $imageUri")
-            imageUri = it?.data?.data
-           // binding.ivUploadImage.setImageURI(it?.data?.data)
-            getImageFromCamera(imageUri!!)
+                Log.d(TAG, "imageUri: uri $imageUri")
+                imageUri = it?.data?.data
+                // binding.ivUploadImage.setImageURI(it?.data?.data)
+                getImageFromCamera(imageUri!!)
 
-        }catch (e:Exception)
-        {
-            Log.d(TAG, "error: ${e.printStackTrace()}")
+            } catch (e: Exception) {
+                Log.d(TAG, "error: ${e.printStackTrace()}")
+            }
+
         }
 
-    }
+    var desUri = Uri.parse("")
 
-    var desUri=Uri.parse("")
-
-    fun getImageFromCamera(sourceUri: Uri)
-    {
+    fun getImageFromCamera(sourceUri: Uri) {
 
         try {
-            desUri =getTempFileNameInCache()
+            desUri = getTempFileNameInCache()
 
             Log.d(TAG, "getImageFromCamera: source uri $sourceUri desUri $desUri")
-           // binding.ivUploadImage.setImageURI(sourceUri)
-            var option=UCrop.Options()
+            // binding.ivUploadImage.setImageURI(sourceUri)
+            var option = UCrop.Options()
             option.setCircleDimmedLayer(true)
             option.setCropGridColumnCount(3)
             option.setCropGridRowCount(3)
-                option.withAspectRatio("100".toString().toFloat(),"100".toString().toFloat())
+            option.withAspectRatio("100".toString().toFloat(), "100".toString().toFloat())
 
-            UCrop.of(sourceUri,desUri!!)
+            UCrop.of(sourceUri, desUri!!)
                 .withOptions(option)
                 .start(this)
 
-        }catch (e:Exception)
-        {
+        } catch (e: Exception) {
             showCustomToast(getString(R.string.txt_something_went_wrong))
         }
 
@@ -422,14 +422,14 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
             try {
                 val resultUri = UCrop.getOutput(data!!)
                 binding.ivUploadImage.setImageURI(resultUri)
-                binding.btnUploadImage.isEnabled=true
-                binding.btnRetake.isVisible=true
-                binding.ivEditPencil.isVisible=false
-                binding.ivUploadImage.scaleType=ImageView.ScaleType.CENTER_CROP
-                finalUserImageUri=resultUri
+                removeImage(false)
+                // binding.btnUploadImage.isEnabled=true
+                binding.btnRetake.isVisible = true
+                // binding.ivEditPencil.isVisible=false
+                binding.ivUploadImage.scaleType = ImageView.ScaleType.CENTER_CROP
+                finalUserImageUri = resultUri
                 Log.d(TAG, "onActivityResult: destUri $desUri")
-            }catch (e:Exception)
-            {
+            } catch (e: Exception) {
                 Log.d(TAG, "onActivityResult: onactivity result camera ${e.message}")
             }
 
@@ -441,26 +441,54 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
     }
 
 
-    private fun uploadImage()
-    {
-        if (finalUserImageUri!=null)
-        {
+    private fun uploadImage() {
+        if (finalUserImageUri != null) {
             if (checkInternet()) {
                 uploadProfilePhoto()
             } else {
                 showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
             }
-        }else
-        {
-            showCustomSnackbarOnTop(getString(R.string.txt_please_select_photo_first))
+        } else {
+
+            val intent = Intent(this, ActivityUploadGovtId::class.java)
+            // CreateProfileDeepLinkHolder.setCandidateId(candidateId)
+            intent.putExtra(AppConstants.CANDIDATE_ID, candidateId)
+            intent.putExtra(AppConstants.TOKEN_ID, tokenId)
+            startActivity(intent)
+            overridePendingTransition(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left
+            )
+
+            //showCustomSnackbarOnTop(getString(R.string.txt_please_select_photo_first))
         }
 
     }
 
-    fun getImageBottomSheet()
-    {
-        val dialog= BottomSheetDialog(this,R.style.AppBottomSheetDialogTheme)
-        val dialogbinding= LayoutChooseImageFromSourceBinding.inflate(LayoutInflater.from(this))
+    private var isImageRemoved = false
+    private fun removeImage(isRemove: Boolean) {
+        isImageRemoved = isRemove
+        runOnUiThread {
+            if (isRemove) {
+                binding.ivEditPencil.setImageResource(R.drawable.edit_pencil_blue)
+                binding.ivUploadImage.setImageResource(R.drawable.img_add_user_photo)
+                binding.ivUploadImage.scaleType=ImageView.ScaleType.CENTER_INSIDE
+                binding.ivEditPencil.setOutlineProvider(null)
+
+            } else {
+                binding.ivEditPencil.setImageResource(R.drawable.cross_icon_red_circular)
+                binding.ivEditPencil.setElevation(10f)
+
+                binding.ivEditPencil.setContentPadding(5,5,5,5)
+                binding.ivEditPencil.setOutlineProvider(null)
+                //binding.ivUploadImage.setImageResource(R.drawable.img_add_user_photo)
+            }
+        }
+    }
+
+    fun getImageBottomSheet() {
+        val dialog = BottomSheetDialog(this, R.style.AppBottomSheetDialogTheme)
+        val dialogbinding = LayoutChooseImageFromSourceBinding.inflate(LayoutInflater.from(this))
         dialog.setContentView(dialogbinding.root)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
@@ -479,94 +507,119 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
     }
 
 
-    fun getImageFromGallery()
-    {
-        val intent=Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+    fun getImageFromGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
         contractorGallery.launch(intent)
     }
 
-    private fun uploadProfilePhoto()
-    {
-        CoroutineScope(Dispatchers.IO+ exceptionHandler).launch {
+    private fun uploadProfilePhoto() {
+        CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             try {
                 var imageBitmap = uriToBitmap(finalUserImageUri!!)
-                if (imageBitmap!=null)
-                {
+                if (imageBitmap != null) {
                     try {
-                        val outputStream= ByteArrayOutputStream()
-                        imageBitmap.compress(Bitmap.CompressFormat.PNG,20,outputStream)
+                        val outputStream = ByteArrayOutputStream()
+                        imageBitmap.compress(Bitmap.CompressFormat.PNG, 20, outputStream)
                         val bitmapdata: ByteArray = outputStream.toByteArray()
                         imageBitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.size)
 
-                    }catch (e:Exception)
-                    {
+                    } catch (e: Exception) {
                         Log.d(TAG, "uploadProfilePhoto: exception 272 ${e.message}")
                     }
 
 
-                    val image= convertBitmapToBase64(imageBitmap)
+                    val image = convertBitmapToBase64(imageBitmap)
                     //val subsId=DataStoreHelper.getMeetingUserId()
-                    var subsId=recruiterId
-                   // binding.ivUploadImage.setImageBitmap(imageBitmap)
+                    var subsId = recruiterId
+                    // binding.ivUploadImage.setImageBitmap(imageBitmap)
                     Log.d(TAG, "uploadProfilePhoto: image base64 $image")
-                    var imageName=subsId+"/IMG_${System.currentTimeMillis()}.png"
+                    var imageName = subsId + "/IMG_${System.currentTimeMillis()}.png"
                     Log.d(TAG, "uploadProfilePhoto: image name $imageName subscriber $subsId")
-                    CandidateImageAndAudioHolder.setImage(BodyCandidateImageModel(image,subsId+"/IMG_${System.currentTimeMillis()}.png","upload"))
+                    CandidateImageAndAudioHolder.setImage(
+                        BodyCandidateImageModel(
+                            image,
+                            subsId + "/IMG_${System.currentTimeMillis()}.png",
+                            "upload"
+                        )
+                    )
                     runOnUiThread { showProgressDialog() }
-                    viewModel?.updateUserImageWithoutAuth(CandidateImageAndAudioHolder.getImageObject()!!){isSuccess, code, msg ->
-                        when(code)
-                        {
-                            200->{
+                    viewModel?.updateUserImageWithoutAuth(CandidateImageAndAudioHolder.getImageObject()!!) { isSuccess, code, msg ->
+                        when (code) {
+                            200 -> {
                                 runOnUiThread { dismissProgressDialog() }
                                 Log.d(TAG, "uploadProfilePhoto: $msg")
                                 runOnUiThread { showCustomSnackbarOnTop(msg) }
-                                binding.btnUploadImage.isEnabled=false
+                                //  binding.btnUploadImage.isEnabled=false
+                               runOnUiThread {
 
+                                   setHandler().postDelayed({
+                                       val intent = Intent(this@ActivityUploadProfilePhoto, ActivityUploadGovtId::class.java)
+                                       // CreateProfileDeepLinkHolder.setCandidateId(candidateId)
+                                       intent.putExtra(AppConstants.CANDIDATE_ID, candidateId)
+                                       intent.putExtra(AppConstants.TOKEN_ID, tokenId)
+                                       startActivity(intent)
+                                       overridePendingTransition(
+                                           R.anim.slide_in_right,
+                                           R.anim.slide_out_left
+                                       )
+                                   },2000)
+
+                               }
                             }
-                            400->{
+
+                            400 -> {
                                 runOnUiThread { dismissProgressDialog() }
                                 runOnUiThread { showCustomSnackbarOnTop(msg) }
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
-                            401->{
+
+                            401 -> {
                                 runOnUiThread { dismissProgressDialog() }
                                 runOnUiThread { showCustomSnackbarOnTop(msg) }
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
-                            500->{
+
+                            500 -> {
                                 runOnUiThread { dismissProgressDialog() }
                                 runOnUiThread { showCustomSnackbarOnTop(msg) }
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
-                            501->{runOnUiThread { dismissProgressDialog() }
+
+                            501 -> {
+                                runOnUiThread { dismissProgressDialog() }
                                 runOnUiThread { showCustomSnackbarOnTop(msg) }
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
-                            404->{runOnUiThread { dismissProgressDialog() }
+
+                            404 -> {
+                                runOnUiThread { dismissProgressDialog() }
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
-                            503->{runOnUiThread { dismissProgressDialog() }
+
+                            503 -> {
+                                runOnUiThread { dismissProgressDialog() }
                                 runOnUiThread { showCustomSnackbarOnTop(msg) }
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
-                            502->{runOnUiThread { dismissProgressDialog() }
-                               // runOnUiThread { showCustomSnackbarOnTop(msg) }
+
+                            502 -> {
+                                runOnUiThread { dismissProgressDialog() }
+                                // runOnUiThread { showCustomSnackbarOnTop(msg) }
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
 
                         }
                     }
 
-                }else
-                {
-                    runOnUiThread { dismissProgressDialog()
+                } else {
+                    runOnUiThread {
+                        dismissProgressDialog()
                         showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
                     }
 
                 }
 
-            }catch (e:Exception)
-            {
+            } catch (e: Exception) {
                 runOnUiThread { dismissProgressDialog() }
                 Log.d(TAG, "uploadProfilePhoto: ")
             }
