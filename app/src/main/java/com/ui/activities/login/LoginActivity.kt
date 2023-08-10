@@ -55,7 +55,6 @@ class LoginActivity : AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
     private val TAG = "loginActivitytest"
     private var existingTime = ""
-
     //lateinit var navController: NavController
     private lateinit var viewModel: LoginViewModel
     override fun onCreate(savedInstanceState: Bundle?) {

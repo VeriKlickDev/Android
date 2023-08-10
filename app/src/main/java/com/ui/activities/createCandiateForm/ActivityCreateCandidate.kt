@@ -718,7 +718,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                 //getCandidateDetails("47422")
 
             } else {
-                Log.d(TAG, "getCountryCodeListFromApi: code $errorCode")
+                Log.d(TAG, "getCountryCodeListFromApi: code 721 $errorCode")
             }
         }
     }
@@ -758,7 +758,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                 }
 
             } else {
-                Log.d(TAG, "getCountryCodeListFromApi: code $errorCode")
+                Log.d(TAG, "getCountryCodeListFromApi: code 761 $errorCode")
             }
         }
     }
@@ -794,7 +794,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
 
             } else {
 
-                Log.d(TAG, "getCountryCodeListFromApi: code $errorCode")
+                Log.d(TAG, "getCountryCodeListFromApi: code 797 $errorCode")
             }
         }
     }

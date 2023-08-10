@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/_10sp"
+
             android:orientation="vertical">
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -50,7 +51,9 @@
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                >
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
@@ -72,7 +75,6 @@
                             android:text="@string/txt_profile_details" />
 
 
-
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -88,38 +90,29 @@
                             <!--                                    android:singleLine="true"-->
                             <!--                                    android:layout_marginVertical="@dimen/_10sp"-->
                             <!--                                    android:paddingHorizontal="@dimen/_10sp"-->
-                            <!--                                    android:background="@drawable/shape_rectangle_rounded_stroke_grey"-->
+                            <!--                                    android:background="@drawable/shape_rectangle_rounded_stroke_black"-->
                             <!--                                    />-->
                             <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_10sp"
-                                android:background="@null"
-                                app:boxBackgroundColor="@color/white"
-                                app:boxBackgroundMode="filled"
-                                app:boxStrokeWidth="0dp"
-                                app:boxStrokeWidthFocused="0dp"
-                                app:hintTextAppearance="@style/text_in_layout_hint_Style">
+                                android:theme="@style/TextInputLayoutCustomTheme"
+                                app:boxBackgroundColor="@color/skyblue_light1"
+                                app:boxStrokeColor="@color/black"
+                                app:boxStrokeWidthFocused="0.5dp">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/et_firstname"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="5sp"
+                                    android:layout_marginBottom="-5sp"
+                                    android:fontFamily="@font/sarabun_light"
                                     android:hint="@string/hint_firstname"
                                     android:maxLength="30"
                                     android:singleLine="true"
-                                    android:textSize="@dimen/_17sdp"
-                                    android:layout_marginBottom="-5sp"
-                                    android:layout_marginTop="5sp"
-                                    />
+                                    android:textSize="@dimen/_17sdp" />
 
-                                
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0.5dp"
-                                    android:layout_marginHorizontal="@dimen/_10sp"
-                                    android:layout_marginTop="-7sp"
-                                    android:background="@color/grey" />
 
                             </com.google.android.material.textfield.TextInputLayout>
 
@@ -128,13 +121,10 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_10sp"
-                                android:background="@null"
-                                app:boxBackgroundColor="@color/white"
-                                app:boxBackgroundMode="filled"
-                                app:boxStrokeWidth="0dp"
-                                app:boxStrokeWidthFocused="0dp"
-                                app:hintTextAppearance="@style/text_in_layout_hint_Style"
-                                >
+                                android:theme="@style/TextInputLayoutCustomTheme"
+                                app:boxBackgroundColor="@color/skyblue_light1"
+                                app:boxStrokeColor="@color/black"
+                                app:boxStrokeWidthFocused="0.5dp">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/et_middlename"
@@ -142,17 +132,10 @@
                                     android:layout_height="wrap_content"
                                     android:hint="@string/txt_middleName"
                                     android:maxLength="30"
-                                    android:textSize="@dimen/_17sdp"
-                                    android:singleLine="true" />
+                                    android:fontFamily="@font/sarabun_light"
+                                    android:singleLine="true"
+                                    android:textSize="@dimen/_17sdp" />
 
-
-
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0.5dp"
-                                    android:layout_marginHorizontal="@dimen/_10sp"
-                                    android:layout_marginTop="-7sp"
-                                    android:background="@color/grey" />
 
                             </com.google.android.material.textfield.TextInputLayout>
 
@@ -166,37 +149,28 @@
                             <!--                                    android:singleLine="true"-->
                             <!--                                    android:layout_marginVertical="@dimen/_10sp"-->
                             <!--                                    android:paddingHorizontal="@dimen/_10sp"-->
-                            <!--                                    android:background="@drawable/shape_rectangle_rounded_stroke_grey"-->
+                            <!--                                    android:background="@drawable/shape_rectangle_rounded_stroke_black"-->
                             <!--                                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />-->
 
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:background="@null"
-                                app:boxBackgroundColor="@color/white"
-                                app:boxBackgroundMode="filled"
-                                app:boxStrokeWidth="0dp"
-                                app:boxStrokeWidthFocused="0dp"
-                                app:hintTextAppearance="@style/text_in_layout_hint_Style"
-                                >
+                                android:layout_marginTop="@dimen/_10sp"
+                                android:theme="@style/TextInputLayoutCustomTheme"
+                                app:boxBackgroundColor="@color/skyblue_light1"
+                                app:boxStrokeColor="@color/black"
+                                app:boxStrokeWidthFocused="0.5dp">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/et_Lastname"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="@string/hint_lastname"
-                                    android:textSize="@dimen/_17sdp"
                                     android:maxLength="30"
-                                    android:singleLine="true" />
-
-                                
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0.5dp"
-                                    android:layout_marginHorizontal="@dimen/_10sp"
-                                    android:layout_marginTop="-7sp"
-                                    android:background="@color/grey" />
+                                    android:singleLine="true"
+                                    android:fontFamily="@font/sarabun_light"
+                                    android:textSize="@dimen/_17sdp" />
 
                             </com.google.android.material.textfield.TextInputLayout>
 
@@ -210,80 +184,110 @@
                             <!--                                    android:maxLength="30"-->
                             <!--                                    android:singleLine="true"-->
                             <!--                                    android:paddingHorizontal="@dimen/_10sp"-->
-                            <!--                                    android:background="@drawable/shape_rectangle_rounded_stroke_grey"-->
+                            <!--                                    android:background="@drawable/shape_rectangle_rounded_stroke_black"-->
                             <!--                                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />-->
 
 
-<!--                            <com.google.android.material.textfield.TextInputLayout-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:background="@null"-->
-<!--                                app:boxBackgroundColor="@color/white"-->
-<!--                                app:boxBackgroundMode="filled"-->
-<!--                                app:boxStrokeColor="@color/white"-->
-<!--                                app:boxStrokeWidth="0dp"-->
-<!--                                app:boxStrokeWidthFocused="0dp">-->
+                            <!--                            <com.google.android.material.textfield.TextInputLayout-->
+                            <!--                                android:layout_width="match_parent"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:background="@null"-->
+                            <!--                                app:boxBackgroundColor="@color/white"-->
+                            <!--                                app:boxBackgroundMode="filled"-->
+                            <!--                                app:boxStrokeColor="@color/white"-->
+                            <!--                                app:boxStrokeWidth="0dp"-->
+                            <!--                                app:boxStrokeWidthFocused="0dp">-->
 
-<!--                                <com.google.android.material.textfield.TextInputEditText-->
-<!--                                    android:id="@+id/et_email"-->
-<!--                                    android:layout_width="match_parent"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:hint="@string/hint_email"-->
-<!--                                    android:maxLength="100"-->
-<!--                                    android:textSize="@dimen/_17sdp"-->
-<!--                                    android:singleLine="true" />-->
+                            <!--                                <com.google.android.material.textfield.TextInputEditText-->
+                            <!--                                    android:id="@+id/et_email"-->
+                            <!--                                    android:layout_width="match_parent"-->
+                            <!--                                    android:layout_height="wrap_content"-->
+                            <!--                                    android:hint="@string/hint_email"-->
+                            <!--                                    android:maxLength="100"-->
+                            <!--                                    android:textSize="@dimen/_17sdp"-->
+                            <!--                                    android:singleLine="true" />-->
 
 
-<!--                                <ImageView-->
-<!--                                    android:layout_width="match_parent"-->
-<!--                                    android:layout_height="0.5dp"-->
-<!--                                    android:layout_marginHorizontal="@dimen/_10sp"-->
-<!--                                    android:layout_marginTop="-7sp"-->
-<!--                                    android:background="@color/grey" />-->
+                            <!--                                <ImageView-->
+                            <!--                                    android:layout_width="match_parent"-->
+                            <!--                                    android:layout_height="0.5dp"-->
+                            <!--                                    android:layout_marginHorizontal="@dimen/_10sp"-->
+                            <!--                                    android:layout_marginTop="-7sp"-->
+                            <!--                                    android:background="@color/black" />-->
 
-<!--                            </com.google.android.material.textfield.TextInputLayout>-->
+                            <!--                            </com.google.android.material.textfield.TextInputLayout>-->
 
 
                             <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/et_email"
-                            android:hint="@string/hint_email"
-                            android:layout_marginTop="@dimen/_10sp"
-                            android:layout_width="match_parent"
-                                android:layout_marginHorizontal="@dimen/_10sp"
-                            android:layout_height="@dimen/_45sdp"
-                            android:maxLength="100"
-                            android:singleLine="true"
-                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                                android:id="@+id/et_email"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_45sdp"
+                                android:layout_marginTop="@dimen/_10sp"
+                                android:fontFamily="@font/sarabun_light"
+                                android:background="@drawable/shape_rectangle_rounded_3_light_grey"
+                                android:hint="@string/hint_email"
+                                android:maxLength="100"
+                                android:paddingHorizontal="@dimen/_5sp"
+                                android:singleLine="true"
+                                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
 
-<!--                            <TextView-->
-<!--                                android:id="@+id/tv_txt_start_meeting"-->
-<!--                                style="@style/textview.Style.WhiteRounded_18_withoutPaddingMargin"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:layout_marginVertical="@dimen/_10sp"-->
-<!--                                android:layout_marginHorizontal="@dimen/_7sp"-->
-<!--                                android:text="@string/txt_primaryNumber" />-->
+                            <!--                            <TextView-->
+                            <!--                                android:id="@+id/tv_txt_start_meeting"-->
+                            <!--                                style="@style/textview.Style.WhiteRounded_18_withoutPaddingMargin"-->
+                            <!--                                android:layout_width="match_parent"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:layout_marginVertical="@dimen/_10sp"-->
+                            <!--                                android:layout_marginHorizontal="@dimen/_7sp"-->
+                            <!--                                android:text="@string/txt_primaryNumber" />-->
 
                             <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginHorizontal="@dimen/_10sp"
                                 android:layout_marginBottom="@dimen/_10sp"
+                                android:layout_marginTop="@dimen/_10sp"
                                 android:orientation="horizontal">
 
                                 <androidx.appcompat.widget.LinearLayoutCompat
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="0.5"
-                                    android:background="@drawable/shape_rectangle_rounded_stroke_grey"
-                                    android:orientation="horizontal">
+                                    android:orientation="vertical">
 
-                                    <Spinner
-                                        android:id="@+id/spinnerCountryCode"
+                                    <androidx.appcompat.widget.LinearLayoutCompat
                                         android:layout_width="match_parent"
-                                        android:layout_height="@dimen/_40sdp"
-                                        />
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        >
+
+                                        <Spinner
+                                            android:id="@+id/spinnerCountryCode"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="@dimen/_40sdp"
+                                            android:background="@null"
+                                            android:fontFamily="@font/sarabun_light"
+                                            tools:ignore="TouchTargetSizeCheck" />
+
+                                        <ImageView
+                                            android:layout_width="@dimen/_20sp"
+                                            android:layout_height="@dimen/_20sp"
+                                            android:layout_gravity="center_vertical"
+                                            android:layout_marginLeft="-30sp"
+                                            android:backgroundTint="@color/grey"
+                                            android:background="@drawable/arrow_down_24_black" />
+
+                                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+                                    <ImageView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="1dp"
+                                        android:layout_marginHorizontal="@dimen/_3sdp"
+                                        android:layout_marginTop="-3sp"
+                                        android:background="@color/grey" />
+
                                 </androidx.appcompat.widget.LinearLayoutCompat>
 
 
@@ -295,13 +299,14 @@
                                     android:layout_marginLeft="@dimen/_7sp"
                                     android:layout_marginBottom="-7dp"
                                     android:layout_weight="0.4"
+                                    android:fontFamily="@font/sarabun_light"
                                     android:hint="@string/txt_phoneNo"
                                     android:inputType="number"
-                                    android:fontFamily="@font/sarabun_light"
                                     android:maxLength="10"
                                     android:paddingHorizontal="@dimen/_6sp"
                                     android:singleLine="true"
-                                    />
+                                    android:theme="@style/simpleEditTextInputLayoutCustomTheme"
+                                    tools:ignore="TouchTargetSizeCheck" />
 
                             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -325,15 +330,37 @@
                             <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginHorizontal="@dimen/_10sp"
-                                android:background="@drawable/shape_rectangle_rounded_stroke_grey"
-                                android:orientation="horizontal">
+                                android:orientation="vertical">
 
-                            <androidx.appcompat.widget.AppCompatSpinner
-                                android:id="@+id/spinnerCountry"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_45sdp"
-                                tools:ignore="TouchTargetSizeCheck" />
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    >
+                                <androidx.appcompat.widget.AppCompatSpinner
+                                    android:id="@+id/spinnerCountry"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_45sdp"
+                                    android:background="@null"
+                                    android:fontFamily="@font/sarabun_light"
+                                    tools:ignore="TouchTargetSizeCheck" />
+
+                                    <ImageView
+                                        android:layout_width="@dimen/_20sp"
+                                        android:layout_height="@dimen/_20sp"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginLeft="-30sp"
+                                        android:backgroundTint="@color/grey"
+                                        android:background="@drawable/arrow_down_24_black" />
+
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_marginHorizontal="@dimen/_3sdp"
+                                    android:layout_marginTop="-5sp"
+                                    android:background="@color/grey" />
 
                             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -341,16 +368,42 @@
                             <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="match_parent"
                                 android:layout_height="45sp"
-                                android:layout_marginHorizontal="@dimen/_10sp"
                                 android:layout_marginVertical="@dimen/_10sp"
-                                android:background="@drawable/shape_rectangle_rounded_stroke_grey"
-                                android:orientation="horizontal">
+                                android:orientation="vertical">
 
-                            <androidx.appcompat.widget.AppCompatSpinner
-                                android:id="@+id/spinnerState"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_45sdp"
-                                tools:ignore="TouchTargetSizeCheck" />
+
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    >
+                                    <androidx.appcompat.widget.AppCompatSpinner
+                                        android:id="@+id/spinnerState"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/_45sdp"
+                                        style="@style/enableDisableBackgroudn3RadiousLightGrey"
+                                        android:fontFamily="@font/sarabun_light"
+                                        tools:ignore="TouchTargetSizeCheck" />
+
+                                    <ImageView
+                                        android:layout_width="@dimen/_20sp"
+                                        android:layout_height="@dimen/_20sp"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginLeft="-30sp"
+                                        android:backgroundTint="@color/grey"
+                                        android:background="@drawable/arrow_down_24_black" />
+
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_marginHorizontal="@dimen/_3sdp"
+                                    android:layout_marginTop="-5sp"
+                                    android:background="@color/grey" />
 
                             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -358,234 +411,244 @@
                             <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="match_parent"
                                 android:layout_height="45sp"
-                                android:layout_marginHorizontal="@dimen/_10sp"
-                                android:background="@drawable/shape_rectangle_rounded_stroke_grey"
-                                android:orientation="horizontal">
-                            <androidx.appcompat.widget.AppCompatSpinner
-                                android:id="@+id/spinnerCity"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_45sdp"
-                                tools:ignore="TouchTargetSizeCheck" />
+                                android:orientation="vertical">
+
+
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    >
+
+                                    <androidx.appcompat.widget.AppCompatSpinner
+                                        android:id="@+id/spinnerCity"
+                                        android:layout_width="match_parent"
+                                        android:elevation="@dimen/_5sp"
+                                        android:outlineProvider="none"
+                                        android:fontFamily="@font/sarabun_light"
+                                        style="@style/enableDisableBackgroudn3RadiousLightGrey"
+                                        android:layout_height="@dimen/_45sdp"
+                                        tools:ignore="TouchTargetSizeCheck" />
+
+                                    <ImageView
+                                        android:layout_width="@dimen/_20sp"
+                                        android:layout_height="@dimen/_20sp"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginLeft="-30sp"
+                                        android:backgroundTint="@color/grey"
+                                        android:background="@drawable/arrow_down_24_black" />
+
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_marginHorizontal="@dimen/_3sdp"
+                                    android:layout_marginTop="-5sp"
+                                    android:background="@color/grey" />
                             </androidx.appcompat.widget.LinearLayoutCompat>
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-
-                                android:background="@null"
-                                app:boxBackgroundColor="@color/white"
-                                app:boxBackgroundMode="filled"
-                                app:boxStrokeWidth="0dp"
-                                app:boxStrokeWidthFocused="0dp"
-                                app:hintTextAppearance="@style/text_in_layout_hint_Style"
-
-                                >
+                                android:layout_marginTop="@dimen/_10sp"
+                                android:theme="@style/TextInputLayoutCustomTheme"
+                                app:boxBackgroundColor="@color/skyblue_light1"
+                                app:boxStrokeColor="@color/black"
+                                app:boxStrokeWidthFocused="0.5dp"
+                                tools:ignore="ExtraText">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/et_street"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="@string/txt_street"
+                                    android:fontFamily="@font/sarabun_light"
                                     android:maxLength="100"
-                                    android:textSize="@dimen/_17sdp"
-                                    android:singleLine="true" />
-                                    />
+                                    android:singleLine="true"
+                                    android:textSize="@dimen/_17sdp" />
+                                />
 
-                                
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0.5dp"
-                                    android:layout_marginHorizontal="@dimen/_10sp"
-                                    android:layout_marginTop="-7sp"
-                                    android:background="@color/grey" />
 
                             </com.google.android.material.textfield.TextInputLayout>
 
 
-<!--                            <androidx.appcompat.widget.AppCompatEditText-->
-<!--                                android:id="@+id/et_street"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="45sp"-->
-<!--                                android:layout_marginVertical="@dimen/_10sp"-->
-<!--                                android:background="@drawable/shape_rectangle_rounded_stroke_grey"-->
-<!--                                android:hint="@string/txt_street"-->
-<!--                                android:maxLength="100"-->
-<!--                                android:paddingHorizontal="@dimen/_10sp"-->
-<!--                                android:singleLine="true"-->
+                            <!--                            <androidx.appcompat.widget.AppCompatEditText-->
+                            <!--                                android:id="@+id/et_street"-->
+                            <!--                                android:layout_width="match_parent"-->
+                            <!--                                android:layout_height="45sp"-->
+                            <!--                                android:layout_marginVertical="@dimen/_10sp"-->
+                            <!--                                android:background="@drawable/shape_rectangle_rounded_stroke_black"-->
+                            <!--                                android:hint="@string/txt_street"-->
+                            <!--                                android:maxLength="100"-->
+                            <!--                                android:paddingHorizontal="@dimen/_10sp"-->
+                            <!--                                android:singleLine="true"-->
 
-<!--                                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />-->
+                            <!--                                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />-->
 
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-
-                                android:background="@null"
-                                app:boxBackgroundColor="@color/white"
-                                app:boxBackgroundMode="filled"
-                                app:boxStrokeWidth="0dp"
-                                app:boxStrokeWidthFocused="0dp"
-                                app:hintTextAppearance="@style/text_in_layout_hint_Style"
-                                >
+                                android:layout_marginTop="@dimen/_10sp"
+                                android:theme="@style/TextInputLayoutCustomTheme"
+                                app:boxBackgroundColor="@color/skyblue_light1"
+                                app:boxStrokeColor="@color/black"
+                                app:boxStrokeWidthFocused="0.5dp">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/et_zipCode"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:digits="0123456789"
+                                    android:fontFamily="@font/sarabun_light"
                                     android:hint="@string/txt_zip"
                                     android:inputType="number"
-                                    android:textSize="@dimen/_17sdp"
                                     android:maxLength="10"
                                     android:singleLine="true"
-                                     />
-
-
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0.5dp"
-                                    android:layout_marginHorizontal="@dimen/_10sp"
-                                    android:layout_marginTop="-7sp"
-                                    android:background="@color/grey" />
+                                    android:textSize="@dimen/_17sdp" />
 
                             </com.google.android.material.textfield.TextInputLayout>
 
 
-<!--                            <androidx.appcompat.widget.AppCompatEditText-->
-<!--                                android:id="@+id/et_zipCode"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="45sp"-->
-<!--                                android:background="@drawable/shape_rectangle_rounded_stroke_grey"-->
-<!--                                android:digits="0123456789"-->
-<!--                                android:hint="@string/txt_zip"-->
-<!--                                android:inputType="number"-->
-<!--                                android:maxLength="10"-->
-<!--                                android:paddingHorizontal="@dimen/_10sp"-->
-<!--                                android:singleLine="true"-->
-<!--                                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />-->
+                            <!--                            <androidx.appcompat.widget.AppCompatEditText-->
+                            <!--                                android:id="@+id/et_zipCode"-->
+                            <!--                                android:layout_width="match_parent"-->
+                            <!--                                android:layout_height="45sp"-->
+                            <!--                                android:background="@drawable/shape_rectangle_rounded_stroke_black"-->
+                            <!--                                android:digits="0123456789"-->
+                            <!--                                android:hint="@string/txt_zip"-->
+                            <!--                                android:inputType="number"-->
+                            <!--                                android:maxLength="10"-->
+                            <!--                                android:paddingHorizontal="@dimen/_10sp"-->
+                            <!--                                android:singleLine="true"-->
+                            <!--                                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />-->
 
                             <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="match_parent"
                                 android:layout_height="45sp"
-                                android:layout_marginHorizontal="@dimen/_10sp"
                                 android:layout_marginTop="@dimen/_7sp"
-                                android:background="@drawable/shape_rectangle_rounded_stroke_grey"
-                                android:orientation="horizontal">
-                            <androidx.appcompat.widget.AppCompatSpinner
-                                android:id="@+id/spinnerJobtype"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_45sdp"
-                                android:digits="0123456789"
-                                android:maxLength="10"
-                                tools:ignore="TouchTargetSizeCheck" />
+                                android:orientation="vertical">
+
+
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    >
+
+
+                                    <androidx.appcompat.widget.AppCompatSpinner
+                                        android:id="@+id/spinnerJobtype"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/_45sdp"
+                                        android:digits="0123456789"
+                                        android:background="@null"
+                                        android:fontFamily="@font/sarabun_light"
+                                        tools:ignore="TouchTargetSizeCheck" />
+
+                                    <ImageView
+                                        android:layout_width="@dimen/_20sp"
+                                        android:layout_height="@dimen/_20sp"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginLeft="-30sp"
+                                        android:backgroundTint="@color/grey"
+                                        android:background="@drawable/arrow_down_24_black" />
+
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_marginHorizontal="@dimen/_3sdp"
+                                    android:layout_marginTop="-5sp"
+                                    android:background="@color/grey" />
+
                             </androidx.appcompat.widget.LinearLayoutCompat>
 
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-
-                                android:background="@null"
-                                app:boxBackgroundColor="@color/white"
-                                app:boxBackgroundMode="filled"
-                                app:boxStrokeWidth="0dp"
-                                app:boxStrokeWidthFocused="0dp"
-                                app:hintTextAppearance="@style/text_in_layout_hint_Style"
-                                >
+                                android:layout_marginTop="@dimen/_10sp"
+                                android:theme="@style/TextInputLayoutCustomTheme"
+                                app:boxBackgroundColor="@color/skyblue_light1"
+                                app:boxStrokeColor="@color/black"
+                                app:boxStrokeWidthFocused="0.5dp">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/et_experience"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="@string/txt_experience"
+                                    android:fontFamily="@font/sarabun_light"
                                     android:inputType="number"
-                                    android:textSize="@dimen/_17sdp"
                                     android:maxLength="2"
                                     android:singleLine="true"
-                                    />
-
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0.5dp"
-                                    android:layout_marginHorizontal="@dimen/_10sp"
-                                    android:layout_marginTop="-7sp"
-                                    android:background="@color/grey" />
+                                    android:textSize="@dimen/_17sdp" />
 
                             </com.google.android.material.textfield.TextInputLayout>
 
 
-<!--                            <androidx.appcompat.widget.AppCompatEditText-->
-<!--                                android:id="@+id/et_experience"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="45sp"-->
-<!--                                android:background="@drawable/shape_rectangle_rounded_stroke_grey"-->
-<!--                                android:hint="@string/txt_experience"-->
-<!--                                android:inputType="number"-->
-<!--                                android:maxLength="2"-->
-<!--                                android:paddingHorizontal="@dimen/_10sp"-->
-<!--                                android:singleLine="true"-->
+                            <!--                            <androidx.appcompat.widget.AppCompatEditText-->
+                            <!--                                android:id="@+id/et_experience"-->
+                            <!--                                android:layout_width="match_parent"-->
+                            <!--                                android:layout_height="45sp"-->
+                            <!--                                android:background="@drawable/shape_rectangle_rounded_stroke_black"-->
+                            <!--                                android:hint="@string/txt_experience"-->
+                            <!--                                android:inputType="number"-->
+                            <!--                                android:maxLength="2"-->
+                            <!--                                android:paddingHorizontal="@dimen/_10sp"-->
+                            <!--                                android:singleLine="true"-->
 
-<!--                                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />-->
+                            <!--                                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />-->
 
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-
-                                android:background="@null"
-                                app:boxBackgroundColor="@color/white"
-                                app:boxBackgroundMode="filled"
-                                app:boxStrokeWidth="0dp"
-                                app:boxStrokeWidthFocused="0dp"
-                                app:hintTextAppearance="@style/text_in_layout_hint_Style"
-                                >
+                                android:layout_marginTop="@dimen/_10sp"
+                                android:theme="@style/TextInputLayoutCustomTheme"
+                                app:boxBackgroundColor="@color/skyblue_light1"
+                                app:boxStrokeColor="@color/black"
+                                app:boxStrokeWidthFocused="0.5dp">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/et_primarySkills"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="@string/txt_primary_skills"
+                                    android:fontFamily="@font/sarabun_light"
                                     android:maxLength="100"
-                                    android:textSize="@dimen/_17sdp"
                                     android:singleLine="true"
-                                    />
+                                    android:textSize="@dimen/_17sdp" />
 
-
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0.5dp"
-                                    android:layout_marginHorizontal="@dimen/_10sp"
-                                    android:layout_marginTop="-7sp"
-                                    android:background="@color/grey" />
 
                             </com.google.android.material.textfield.TextInputLayout>
 
 
-<!--                            <androidx.appcompat.widget.AppCompatEditText-->
-<!--                                android:id="@+id/et_primarySkills"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="45sp"-->
-<!--                                android:layout_marginTop="@dimen/_10sp"-->
-<!--                                android:background="@drawable/shape_rectangle_rounded_stroke_grey"-->
-<!--                                android:hint="@string/txt_primary_skills"-->
-<!--                                android:maxLength="100"-->
-<!--                                android:paddingHorizontal="@dimen/_10sp"-->
-<!--                                android:singleLine="true"-->
+                            <!--                            <androidx.appcompat.widget.AppCompatEditText-->
+                            <!--                                android:id="@+id/et_primarySkills"-->
+                            <!--                                android:layout_width="match_parent"-->
+                            <!--                                android:layout_height="45sp"-->
+                            <!--                                android:layout_marginTop="@dimen/_10sp"-->
+                            <!--                                android:background="@drawable/shape_rectangle_rounded_stroke_black"-->
+                            <!--                                android:hint="@string/txt_primary_skills"-->
+                            <!--                                android:maxLength="100"-->
+                            <!--                                android:paddingHorizontal="@dimen/_10sp"-->
+                            <!--                                android:singleLine="true"-->
 
-<!--                                />-->
+                            <!--                                />-->
 
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-
-                                android:background="@null"
-                                app:boxBackgroundColor="@color/white"
-                                app:boxBackgroundMode="filled"
-                                app:boxStrokeWidth="0dp"
-                                app:boxStrokeWidthFocused="0dp"
-                                app:hintTextAppearance="@style/text_in_layout_hint_Style"
-                                >
+                                android:layout_marginTop="@dimen/_10sp"
+                                android:theme="@style/TextInputLayoutCustomTheme"
+                                app:boxBackgroundColor="@color/skyblue_light1"
+                                app:boxStrokeColor="@color/black"
+                                app:boxStrokeWidthFocused="0.5dp">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/et_secondarySkills"
@@ -593,18 +656,8 @@
                                     android:layout_height="wrap_content"
                                     android:hint="@string/txt_secondary_skills"
                                     android:maxLength="500"
-                                    android:textSize="@dimen/_17sdp"
                                     android:singleLine="true"
-                                    />
-
-
-
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0.5dp"
-                                    android:layout_marginHorizontal="@dimen/_10sp"
-                                    android:layout_marginTop="-7sp"
-                                    android:background="@color/grey" />
+                                    android:textSize="@dimen/_17sdp" />
 
                             </com.google.android.material.textfield.TextInputLayout>
 
@@ -618,20 +671,11 @@
                             <!--                                    android:singleLine="true"-->
                             <!--                                    android:maxLength="500"-->
                             <!--                                    android:paddingHorizontal="@dimen/_10sp"-->
-                            <!--                                    android:background="@drawable/shape_rectangle_rounded_stroke_grey"-->
+                            <!--                                    android:background="@drawable/shape_rectangle_rounded_stroke_black"-->
 
                             <!--                                    />-->
 
-                            <androidx.appcompat.widget.AppCompatButton
-                                android:id="@+id/btn_submit"
-                                style="@style/button.Style.Blue.Rounded.WithouPadding"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_55sdp"
-                                android:layout_marginTop="@dimen/_15sp"
-                                android:layout_marginBottom="@dimen/_10sp"
-                                android:foreground="?selectableItemBackground"
-                                android:text="@string/txt_submit"
-                                android:textSize="@dimen/_17sdp" />
+
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -639,6 +683,19 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </ScrollView>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_submit"
+                style="@style/button.Style.Blue.Rounded.WithouPadding"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_55sdp"
+                android:layout_marginTop="@dimen/_15sp"
+                android:layout_marginBottom="@dimen/_10sp"
+                android:foreground="?selectableItemBackground"
+                android:text="@string/txt_submit"
+                android:layout_marginHorizontal="@dimen/_20sp"
+                android:textSize="@dimen/_17sdp" />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
 

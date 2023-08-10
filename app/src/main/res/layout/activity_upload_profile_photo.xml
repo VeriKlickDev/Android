@@ -173,9 +173,9 @@
                 style="@style/button.Style.Blue.Rounded.Enable.Disable.withoutMargin"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_55sdp"
-                android:visibility="visible"
+                android:visibility="invisible"
                 android:layout_weight="1"
-                android:layout_marginRight="@dimen/_10sp"
+
                 android:layout_marginBottom="@dimen/_7sp"
                 android:text="@string/txt_retake"
                 android:textSize="@dimen/_18sdp" />

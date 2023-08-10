@@ -35,7 +35,6 @@ class VeriklickDeepLinkSpashScreen : AppCompatActivity() {
             val deepLinkingIntent = intent
             val schemestr=deepLinkingIntent.scheme
             pathstr=deepLinkingIntent.data!!.path
-
         }catch (e:Exception)
         {
             Log.d(TAG, "onCreate: 71 excpetion ${e.message}")

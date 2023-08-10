@@ -25,6 +25,8 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+
+
                 <TextView
                     android:id="@+id/tv_logintxt"
                     style="@style/textview.Style.TvStyleWhiteRounded_30"
@@ -181,39 +183,6 @@
                         android:textSize="@dimen/_17sdp" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-<!--                <com.google.android.material.textfield.TextInputLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="@dimen/_10sp"-->
-<!--                    app:boxBackgroundColor="@color/white"-->
-<!--                    app:boxStrokeWidth="0dp"-->
-<!--                    app:boxStrokeWidthFocused="0dp"-->
-<!--                    >-->
-
-<!--                    <com.google.android.material.textfield.TextInputEditText-->
-<!--                        android:id="@+id/et_firstname"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:hint="@string/hint_firstname"-->
-<!--                        android:maxLength="30"-->
-<!--                        android:singleLine="true"-->
-<!--                        android:textSize="@dimen/_16sdp"-->
-<!--                        android:background="@drawable/edit_stroke_rect_white_10"-->
-<!--                        android:layout_marginTop="@dimen/_10sp"-->
-<!--                        />-->
-
-<!--                    <ImageView-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="1dp"-->
-<!--                        android:background="@color/grey"-->
-<!--                        android:layout_marginTop="-7sp"-->
-<!--                        android:layout_marginHorizontal="@dimen/_15sp"-->
-<!--                        />-->
-
-<!--                </com.google.android.material.textfield.TextInputLayout>-->
-
 
             </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>
