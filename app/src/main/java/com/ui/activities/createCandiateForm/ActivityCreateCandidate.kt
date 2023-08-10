@@ -426,6 +426,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                                     citySpinnerAdapter?.notifyDataSetChanged()
                                 }
                                 countryCodeStr = it.Id.toString()
+                                Log.d(TAG, "onItemSelected: 429 ${it.Id.toString()}")
                                 getStateListFromApi("All", it.Id.toString(), 0)
                                 countryStr = countryStringList[position]
                             }
@@ -627,6 +628,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                                         countrySpinnerAdapter?.getPosition(it.SortName.toString())!!
                                     binding.spinnerCountry.setSelection(item)
                                     // countrySpinnerAdapter?.notifyDataSetChanged()
+                                    Log.d(TAG, "getCountryListFromApi: 631 ${it.Id.toString()}")
                                     getStateListFromApi("All", it.Id.toString(), 2)
                                 }
                             }
@@ -750,6 +752,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     }
                     val stateObj =
                         stateListmain.find { it.StateName!!.equals(viewModel?.getUserProfileData()?.StateCode.toString()) }
+                    Log.d(TAG, "getStateListFromApi: state object $stateObj")
                     getCityListFromApi("All", stateObj?.Shortname.toString(), 2)
                 } else {
                     runOnUiThread {
@@ -773,8 +776,11 @@ class ActivityCreateCandidate : AppCompatActivity() {
             searchString
         ) { data, isSuccess, errorCode, msg ->
             if (isSuccess) {
-                runOnUiThread { binding.spinnerCity.isEnabled = true }
-                binding.spinnerCity.isEnabled = true
+                runOnUiThread {
+                    binding.spinnerCity.isEnabled = true
+                    binding.spinnerCity.isEnabled = true
+                }
+
                 cityListmain.clear()
                 cityStringList.clear()
 
@@ -783,19 +789,19 @@ class ActivityCreateCandidate : AppCompatActivity() {
                 cityListmain.forEach {
                     cityStringList.add(it.CityName.toString())
                 }
-                Log.d(TAG, "getCountryCodeListFromApi: countryCode $cityStringList")
+                Log.d(TAG, "getCountryCodeListFromApi: countryCode city list is $cityStringList")
                 runOnUiThread {
                     citySpinnerAdapter?.notifyDataSetChanged()
                     if (actionCode == 2)
                         binding.spinnerCity.setSelection(citySpinnerAdapter!!.getPosition(viewModel?.getUserProfileData()?.City.toString()))
-
                 }
 
 
             } else {
 
-                Log.d(TAG, "getCountryCodeListFromApi: code 797 $errorCode")
+                Log.d(TAG, "getCountryCodeListFromApi: code 797 $errorCode $msg")
             }
+            runOnUiThread { citySpinnerAdapter?.notifyDataSetChanged() }
         }
     }
 
