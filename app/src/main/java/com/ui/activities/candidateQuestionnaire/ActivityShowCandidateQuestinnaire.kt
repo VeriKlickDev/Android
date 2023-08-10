@@ -170,6 +170,7 @@ class ActivityShowCandidateQuestinnaire : AppCompatActivity() {
                     }
                 }else
                 {
+                    Log.d("TAG", "getQuestionnaireList: msgg $msg $errorCode")
                     runOnUiThread {
                         runOnUiThread { dismissProgressDialog() }
                         showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))

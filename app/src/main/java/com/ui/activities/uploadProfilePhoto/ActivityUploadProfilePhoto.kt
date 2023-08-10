@@ -450,8 +450,8 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
             }
         } else {
 
-            val intent = Intent(this, ActivityCreateCandidate::class.java)
-            //val intent = Intent(this, ActivityUploadGovtId::class.java)
+            //val intent = Intent(this, ActivityCreateCandidate::class.java)
+            val intent = Intent(this, ActivityUploadGovtId::class.java)
             // CreateProfileDeepLinkHolder.setCandidateId(candidateId)
             intent.putExtra(AppConstants.CANDIDATE_ID, candidateId)
             intent.putExtra(AppConstants.TOKEN_ID, tokenId)

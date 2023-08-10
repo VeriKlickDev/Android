@@ -424,7 +424,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             }
             else { //working
                 binding.btnAddUserVideoActivity.isVisible = CurrentMeetingDataSaver.getData()?.isPresenter == true
-                binding.btnRecordVideo.isVisible = CurrentMeetingDataSaver.getData()?.isPresenter != false
+               // binding.btnRecordVideo.isVisible = CurrentMeetingDataSaver.getData()?.isPresenter != false
                 binding.btnFeedback.isVisible = true
 
 
@@ -3760,7 +3760,8 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             }
             R.id.btn_record_video           -> {
                 binding.llExtraButtons.isVisible = false
-                if (CurrentMeetingDataSaver.getData()?.identity?.trim()?.lowercase()!!.contains("C".trim().lowercase()) || CurrentMeetingDataSaver.getData()?.isPresenter==false )
+                //if (CurrentMeetingDataSaver.getData()?.identity?.trim()?.lowercase()!!.contains("C".trim().lowercase()) || CurrentMeetingDataSaver.getData()?.isPresenter==false )
+                if (CurrentMeetingDataSaver.getData()?.isPresenter==false )
                 {
                     Log.d(TAG, "onViewClicked: candidate clicked recording btn")
                     showToast(this, getString(R.string.txt_you_are_not_authorized_to_record_video))
