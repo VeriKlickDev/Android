@@ -188,7 +188,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                 if (errorCode == 200) {
                     runOnUiThread {
 
-                        binding.btnSkip.isEnabled = true
+                       // binding.btnSkip.isEnabled = true
                         binding.btnSkip.setTextColor(getColor(R.color.skyblue_light1))
                         CandidateImageAndAudioHolder.setDeepLinkData(
                             CandidateDeepLinkDataModel(
@@ -204,7 +204,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                     runOnUiThread {
                         showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
                         binding.btnSkip.setTextColor(getColor(R.color.white))
-                        binding.btnSkip.isEnabled = false
+                       // binding.btnSkip.isEnabled = false
                     }
                 }
             }

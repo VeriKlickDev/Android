@@ -339,7 +339,12 @@
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait"
-            tools:ignore="AppLinkUrlError,LockedOrientationActivity">
+            tools:ignore="LockedOrientationActivity">
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+
             <intent-filter
                 android:autoVerify="true"
                 android:label="@string/app_name">
@@ -368,6 +373,9 @@
                     android:scheme="http" />
                 <!-- note that the leading "/" is required for pathPrefix -->
             </intent-filter>
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
             <intent-filter
                 android:autoVerify="true"
                 android:label="@string/app_name">

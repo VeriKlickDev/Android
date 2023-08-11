@@ -25,6 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.RequestBody.Companion.toRequestBody
 
 @AndroidEntryPoint
@@ -102,9 +103,8 @@ class ActivityCreateCandidate : AppCompatActivity() {
                 checkPhoneExists(text.toString())
             } else {
                 Log.d(TAG, "onCreate: phone invalid")
-                binding.etPhoneno.setError(getString(R.string.txt_invalid))
+                runOnUiThread { binding.etPhoneno.setError(getString(R.string.txt_invalid)) }
             }
-
         }
 
         binding.btnJumpBack.setOnClickListener {
@@ -134,7 +134,6 @@ class ActivityCreateCandidate : AppCompatActivity() {
                         showCustomToast(getString(R.string.txt_phone_already_exists))
                         isPhoneok = false
                         Handler(mainLooper).postDelayed({ binding.etPhoneno.setText("") }, 2000)
-
                     } else {
                         //  binding.etPhoneno.setError(data.aPIResponse?.Message.toString())
                         isPhoneok = true
@@ -320,30 +319,32 @@ class ActivityCreateCandidate : AppCompatActivity() {
 
                     var ob = BodyCreateCandidate()
 
-                    ob.Subscriberid = subscriberId
-                    ob.Userid = recruiterId
-                    ob.CreatedDate = getCurrentUtcFormatedDate()
-                    ob.UpdatedDate = getCurrentUtcFormatedDate()
-                    ob.profile?.firstName = binding.etFirstname.text.toString()
-                    ob.profile?.lastName = binding.etLastname.text.toString()
-                    ob.profile?.middleName = binding.etMiddlename.text.toString()
-                    ob.profile?.emailId = binding.etEmail.text.toString().trim()
-                    ob.profile?.phoneMobile = binding.etPhoneno.text.toString()
-                    ob.profile?.countrycode = phoneCodeStr
-                    ob.profile?.countrycodeview = "+$phoneCodeStr"
-                    ob.profile?.country = countryCodeStr
-                    ob.profile?.countryName = countryStr
-                    ob.profile?.state = stateStr
-                    ob.profile?.zipCode = binding.etZipCode.text.toString()
-                    ob.profile?.city = cityStr
-                    ob.profile?.jobType = jobTypeStr
-                    ob.professional?.totalExperience = binding.etExperience.text.toString()
-                    ob.professional?.primarySkills = binding.etPrimarySkills.text.toString()
-                    ob.skills?.skill = binding.etSecondarySkills.text.toString()
-                    ob.profile?.streetName = binding.etStreet.text.toString()
-                    ob.profile?.profileImage=CandidateImageAndAudioHolder.getImageObject()?.imageName
-                    ob.professional?.resume=CandidateImageAndAudioHolder.getResumeFileName()
-                    //ob.profile?.GovId_Url=CandidateImageAndAudioHolde
+                    withContext(Dispatchers.Main){
+                        ob.Subscriberid = subscriberId
+                        ob.Userid = recruiterId
+                        ob.CreatedDate = getCurrentUtcFormatedDate()
+                        ob.UpdatedDate = getCurrentUtcFormatedDate()
+                        ob.profile?.firstName = binding.etFirstname.text.toString()
+                        ob.profile?.lastName = binding.etLastname.text.toString()
+                        ob.profile?.middleName = binding.etMiddlename.text.toString()
+                        ob.profile?.emailId = binding.etEmail.text.toString().trim()
+                        ob.profile?.phoneMobile = binding.etPhoneno.text.toString()
+                        ob.profile?.countrycode = phoneCodeStr
+                        ob.profile?.countrycodeview = "+$phoneCodeStr"
+                        ob.profile?.country = countryCodeStr
+                        ob.profile?.countryName = countryStr
+                        ob.profile?.state = stateStr
+                        ob.profile?.zipCode = binding.etZipCode.text.toString()
+                        ob.profile?.city = cityStr
+                        ob.profile?.jobType = jobTypeStr
+                        ob.professional?.totalExperience = binding.etExperience.text.toString()
+                        ob.professional?.primarySkills = binding.etPrimarySkills.text.toString()
+                        ob.skills?.skill = binding.etSecondarySkills.text.toString()
+                        ob.profile?.streetName = binding.etStreet.text.toString()
+                        ob.profile?.profileImage=CandidateImageAndAudioHolder.getImageObject()?.imageName
+                        ob.professional?.resume=CandidateImageAndAudioHolder.getResumeFileName()
+                        //ob.profile?.GovId_Url=CandidateImageAndAudioHolde
+                    }
 
                     ob.profile?.AudioFileName=CandidateImageAndAudioHolder.getAudioFileName()+".wav"
                     val audioFileName=CandidateImageAndAudioHolder.getAudioFileName()
@@ -357,19 +358,17 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     ) { data, isSuccess, errorCode, msg ->
                         if (isSuccess) {
                             CandidateImageAndAudioHolder.clearAllData()
-
-
                             runOnUiThread {
+                                showCustomSnackbarOnTop(msg)
                                 dismissProgressDialog()
                                 checkIsFormAlreadyFilled()
                             }
-                            showCustomSnackbarOnTop(msg)
-                         /*   Handler(mainLooper).postDelayed({
-                               // finishAffinity()
-                            },3000)*/
+
                         } else {
-                            runOnUiThread { dismissProgressDialog() }
-                            showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+                            runOnUiThread {
+                                showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+                                dismissProgressDialog()
+                            }
                         }
                     }
 

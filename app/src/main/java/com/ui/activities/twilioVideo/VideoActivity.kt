@@ -200,8 +200,14 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             //endCall()
         }
 
-        binding.localVideoActionFab.setOnClickListener {
-
+        CurrentMeetingDataSaver.isRececordingOn()?.let {
+            if (it)
+            {
+                binding.btnRecording.setImageResource(R.drawable.ic_img_sc_recording_red)
+            }else
+            {
+                binding.btnRecording.setImageResource(R.drawable.ic_img_sc_recording_white)
+            }
         }
 
         //handle incoming call
@@ -313,9 +319,15 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             requestPermissionForCameraMicrophoneAndBluetooth()
         }
         else {
-            audioSwitch.start { audioDevices, audioDevice ->
-                updateAudioDeviceIcon(audioDevice)
+            try {
+                audioSwitch.start { audioDevices, audioDevice ->
+                    updateAudioDeviceIcon(audioDevice)
+                }
+            }catch (e:Exception)
+            {
+                Log.d(TAG, "onCreate: exception 322 ${e.message}")
             }
+
         }
 
         CurrentMeetingDataSaver.getData()?.users?.forEach {
@@ -447,6 +459,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
     private fun endCall() {
         Log.d(TAG, "endCall: ")
         //  meetingManager.unbindService()
+        CurrentMeetingDataSaver.setIsRoomConnected(false)
         TwilioChatHelper.removeMemeberFromConversation(CurrentMeetingDataSaver.getData()?.identity!!)
         getLocalVideoTrack()?.let { localParticipant?.unpublishTrack(it) }
         audioSwitch.stop()
@@ -2228,7 +2241,13 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
     }
 
     private fun connectToRoom() {
-        audioSwitch.activate()
+        try {
+            audioSwitch.activate()
+        }catch (_:Exception)
+        {
+
+        }
+
         try {
              videoc = Vp8Codec() //video/VP8/90000/1,fmtps:[]]
              audioc = G722Codec()
@@ -2837,7 +2856,8 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
             TwilioHelper.setLocalParticipantListener(localParticipant!!)
             binding.videoStatusTextview.text = "Connected to ${room.name}"
             title = room.name
-            isRoomConnected = true
+            //new for checking room is connected or not
+            CurrentMeetingDataSaver.setIsRoomConnected(true)
 
             CurrentMeetingDataSaver.setRoomData(
                 TokenResponseBean(
@@ -3098,7 +3118,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
              * Indicates when media shared to a Room is being recorded. Note that
              * recording is only available in our Group Rooms developer preview.
              */
-
+        CurrentMeetingDataSaver.setIsRecordingOn(true)
         recordingStatus=true
         binding.btnRecording.setImageResource(R.drawable.ic_img_sc_recording_red)
         Log.d(TAG, "onRecordingStarted")
@@ -3109,6 +3129,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
            * Indicates when media shared to a Room is no longer being recorded. Note that
            * recording is only available in our Group Rooms developer preview.
            */
+        CurrentMeetingDataSaver.setIsRecordingOn(false)
         recordingStatus=false
         binding.btnRecording.setImageResource(R.drawable.ic_img_sc_recording_white)
         Log.d(TAG, "onRecordingStopped")
@@ -3767,29 +3788,28 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
                     showToast(this, getString(R.string.txt_you_are_not_authorized_to_record_video))
                 }
                 else {
-                    if (isRoomConnected != false) {
-                        if (checkInternet()) {
-                            try {
-                                var isCandidateAvailable=globalParticipantList.any { it.identity!!.contains("C") }
-                                if (isCandidateAvailable)
-                                {
-                                    handleVideoRecording()
-                                }else
-                                {
-                                    runOnUiThread { showCustomSnackbarOnTop(getString(R.string.txt_Start_recording_after_the_candidate_joins)) }
-                                }
-                            }catch (e:Exception)
-                            {
+                    CurrentMeetingDataSaver.isRoomConnected()?.let {isConnected->
+                        if (isConnected) {
+                            if (checkInternet()) {
+                                try {
+                                    var isCandidateAvailable =
+                                        globalParticipantList.any { it.identity!!.contains("C") }
+                                    if (isCandidateAvailable) {
+                                        handleVideoRecording()
+                                    } else {
+                                        runOnUiThread { showCustomSnackbarOnTop(getString(R.string.txt_Start_recording_after_the_candidate_joins)) }
+                                    }
+                                } catch (e: Exception) {
 
+                                }
+                            } else {
+                                showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
                             }
                         }
-                        else
-                        {
-                            showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
-                        }
-                    }
+
                     else {
                         showToast(this, getString(R.string.txt_please_try_again))
+                    }
                     }
                 }
 

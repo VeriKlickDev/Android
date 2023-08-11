@@ -14,7 +14,7 @@ import java.io.File
 
 const val WAVE_HEADER_SIZE = 44
 
-val Context.recordFile: File
+val Context.recordFile: File?
     get() = File(filesDir, "rec.wav")
 
 

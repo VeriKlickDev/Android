@@ -129,7 +129,7 @@
             style="@style/editext.style.base"
             android:hint="@string/txt_comment"
             android:maxLength="500"
-            android:digits="qwertyuioplkjhgfdsazxcvbnm\/^,._[]'-?()0123456789:; "
+            android:digits="qwertyuioplkjhgfdsazxcvbnm/,._'-?()0123456789:; &quot;"
             android:layout_weight="1"
             android:maxHeight="@dimen/_100sdp"
             android:layout_marginBottom="@dimen/_10sp"

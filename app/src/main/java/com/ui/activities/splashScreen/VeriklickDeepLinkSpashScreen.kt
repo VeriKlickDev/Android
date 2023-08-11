@@ -20,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Locale
 import android.net.Uri
+import com.data.dataHolders.CandidateImageAndAudioHolder
 
 @AndroidEntryPoint
 class VeriklickDeepLinkSpashScreen : AppCompatActivity() {
@@ -30,7 +31,12 @@ class VeriklickDeepLinkSpashScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        try {
+            CandidateImageAndAudioHolder.clearAllData()
+        }catch (e:Exception)
+        {
 
+        }
         try {
             val deepLinkingIntent = intent
             val schemestr=deepLinkingIntent.scheme

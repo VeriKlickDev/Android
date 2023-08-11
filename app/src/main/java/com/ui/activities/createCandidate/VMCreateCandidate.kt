@@ -162,6 +162,40 @@ class VMCreateCandidate @Inject constructor(val baseRestApi: BaseRestApi) : View
             }
     }
 
+    fun checkSession(respnse:(isSuccess:Boolean, errorCode:Int, msg:String)->Unit) {
+        CoroutineScope(Dispatchers.IO + exceptionHandler)
+            .launch {
+                try {
+                    val authToken= DataStoreHelper.getLoginAuthToken()
+                    val response=baseRestApi.checkSession(authToken)
+                    //val authToken= DataStoreHelper.getLoginAuthToken()
+                    //Log.d(TAG, "getCandidateList: token in upviewmodel $authToken")
+                    if (response.isSuccessful) {
+                        when (response.code()) {
+                            200 -> {
+                                respnse(true,200,"")
+                            }
+                            401 -> {
+                                respnse(false,401,"")
+                            }
+                            400 -> {
+                                respnse(false,400,"")
+                            }
+                            500 -> {
+                                respnse(false,500,"")
+                            }
+                            501 -> {
+                                respnse(false,501,"")
+                            }
+                        }
+                    } else {
+                        respnse(false,502,"Response not success")
+                    }
+                } catch (e: Exception) {
+                    respnse(false,503,e.message.toString())
+                }
+            }
+    }
 
 
     fun createCandidate(creatingObject:BodyCreateCandidate, respnse:(data:BodyCreateCandidate?,isSuccess:Boolean, errorCode:Int, msg:String)->Unit) {

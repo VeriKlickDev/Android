@@ -43,4 +43,21 @@ object CurrentMeetingDataSaver {
     }
     fun getScreenSharingStatus()= screenSharingStatus
 
+    private var roomConnectList= mutableListOf<Boolean>()
+        fun isRoomConnected() = roomConnectList.firstOrNull()
+    fun setIsRoomConnected(isConnect:Boolean)
+    {
+        roomConnectList.add(0,isConnect)
+    }
+
+
+    private var recordMeeting= mutableListOf<Boolean>()
+    fun isRececordingOn() = recordMeeting.firstOrNull()
+    fun setIsRecordingOn(isrecord:Boolean)
+    {
+        recordMeeting.add(0,isrecord)
+    }
+
+
+
 }

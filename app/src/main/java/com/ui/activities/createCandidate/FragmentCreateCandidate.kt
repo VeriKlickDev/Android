@@ -1,6 +1,7 @@
 package com.ui.activities.createCandidate
 
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -22,6 +23,7 @@ import com.data.*
 import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.*
 import com.google.gson.Gson
+import com.ui.activities.login.LoginActivity
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
 import com.veriKlick.R
 import com.veriKlick.databinding.DialogCountryCodeBinding
@@ -73,6 +75,8 @@ class FragmentCreateCandidate : Fragment() {
         binding = FragmentCreateCandidateBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[VMCreateCandidate::class.java]
 
+        checkSession()
+
         this.viewGroup=container
         handleTextWatcher()
       //  requireActivity().runOnUiThread { binding.btnSubmit.isEnabled=false }
@@ -109,6 +113,20 @@ class FragmentCreateCandidate : Fragment() {
         //setupCountryCodeAdapter()
 
         return binding.root
+    }
+
+    private fun checkSession()
+    {
+        viewModel?.checkSession { isSuccess, errorCode, msg ->
+         if (errorCode==401)
+         {
+             requireActivity().runOnUiThread {
+                 DataStoreHelper.clearData()
+                 startActivity(Intent(requireActivity(), LoginActivity::class.java))
+                 requireActivity().finish()
+             }
+         }
+        }
     }
 
 
@@ -323,51 +341,75 @@ class FragmentCreateCandidate : Fragment() {
 
     private fun handleTextWatcher()
     {
-        CoroutineScope(Dispatchers.IO).launch    {
-            binding.etEmail.getEditTextWithFlow().collectLatest{text->
+        CoroutineScope(Dispatchers.Main).launch {
+
+
+            binding.etEmail.getEditTextWithFlow().collectLatest { text ->
                 delay(1000)
                 emailValidator(requireActivity(), text.toString()) { isEmailOk, _, _ ->
-                    isEmailok=isEmailOk
-                    if (!isEmailOk) {
-                        if (!binding.etEmail.text.toString().equals("")) {
-                        requireActivity().runOnUiThread {
-                            binding.tvEmailError.visibility=View.VISIBLE
-                            binding.tvEmailError.setText(getString(R.string.txt_invalid)+" ${getString(R.string.txt_email)}")
-                            emailErrorstr=getString(R.string.txt_invalid)+" ${getString(R.string.txt_email)}"
-                        }}
-                    }
-                    else{
-                        if (requireActivity().checkInternet()) {
-                            checkEmailExists(text.toString())
+                    isEmailok = isEmailOk
+                    requireActivity().runOnUiThread {
+                        if (!isEmailOk) {
+                            if (!binding.etEmail.text.toString().equals("")) {
+                                requireActivity().runOnUiThread {
+                                    binding.tvEmailError.visibility = View.VISIBLE
+                                    binding.tvEmailError.setText(
+                                        getString(R.string.txt_invalid) + " ${
+                                            getString(
+                                                R.string.txt_email
+                                            )
+                                        }"
+                                    )
+                                    emailErrorstr =
+                                        getString(R.string.txt_invalid) + " ${getString(R.string.txt_email)}"
+                                }
+                            }
                         } else {
-                            requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
-                        }
+                            if (requireActivity().checkInternet()) {
+                                checkEmailExists(text.toString())
+                            } else {
+                                requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                            }
 
+                        }
                     }
                 }
             }
+
+
+
+
         }
 
-
+        CoroutineScope(Dispatchers.Main).launch {
         binding.etPhoneno.doOnTextChanged { text, _, _, _ ->
-            isPhoneok=requireActivity().phoneValidatorfor9and10Digits(text.toString())
-            if (isPhoneok)
-            {
-                binding.tvPhoneError.visibility=View.INVISIBLE
+            Log.d("TAG", "handleTextWatcher: text out ${text.toString()}")
+            isPhoneok = requireActivity().phoneValidatorfor9and10Digits(text.toString())
+            if (isPhoneok) {
+                Log.d("TAG", "handleTextWatcher: text isphoneok true ${text.toString()}")
+                binding.tvPhoneError.visibility = View.INVISIBLE
                 if (requireActivity().checkInternet()) {
+                    Log.d("TAG", "handleTextWatcher: text ${text.toString()}")
                     checkPhoneExists(text.toString())
                 } else {
                     requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
                 }
             }
-            if (!requireActivity().phoneValidatorfor9and10Digits(text.toString())){
+            if (!requireActivity().phoneValidatorfor9and10Digits(text.toString())) {
                 if (!binding.etPhoneno.text.toString().equals("")) {
-                    binding.tvPhoneError.setText(getString(R.string.txt_invalid) + " ${getString(R.string.txt_phoneNo)}")
+                    binding.tvPhoneError.setText(
+                        getString(R.string.txt_invalid) + " ${
+                            getString(
+                                R.string.txt_phoneNo
+                            )
+                        }"
+                    )
                     phoneErrorstr =
                         getString(R.string.txt_invalid) + " ${getString(R.string.txt_phoneNo)}"
                     binding.tvPhoneError.visibility = View.VISIBLE
                 }
             }
+        }
 
         }
 
@@ -391,14 +433,20 @@ class FragmentCreateCandidate : Fragment() {
             response = { data ->
                 requireActivity().runOnUiThread {
                     if (data.aPIResponse?.Message!=null) {
-                        requireActivity().runOnUiThread { binding.btnSubmit.isEnabled=true }
-                        binding.tvEmailError.visibility=View.VISIBLE
-                        binding.tvEmailError.setText(data.aPIResponse?.Message.toString())
-                        emailErrorstr=data.aPIResponse?.Message.toString()
+                        requireActivity().runOnUiThread {
+                            binding.btnSubmit.isEnabled=true
+                            binding.tvEmailError.visibility=View.VISIBLE
+                            binding.tvEmailError.setText(data.aPIResponse?.Message.toString())
+                            emailErrorstr=data.aPIResponse?.Message.toString()
+                        }
+
                         isEmailok=false
                     } else {
-                        requireActivity().runOnUiThread { binding.btnSubmit.isEnabled=true }
-                        binding.tvEmailError.visibility=View.INVISIBLE
+                        requireActivity().runOnUiThread {
+                            binding.btnSubmit.isEnabled=true
+                            binding.tvEmailError.visibility=View.INVISIBLE
+                        }
+
                        // binding.etEmail.setError(data.aPIResponse?.Message.toString())
                         isEmailok=true
                     }
@@ -410,12 +458,16 @@ class FragmentCreateCandidate : Fragment() {
         requireActivity().runOnUiThread { binding .btnSubmit.isEnabled=false}
         viewModel?.getIsPhoneExists(txt,true,
             response = { data ->
+                Log.d("TAG", "checkPhoneExists: dataa $data")
                 requireActivity().runOnUiThread {
                     if (data.aPIResponse?.StatusCode!=null) {
-                        requireActivity().runOnUiThread { binding .btnSubmit.isEnabled=true}
-                        binding.tvPhoneError.visibility=View.VISIBLE
-                        binding.tvPhoneError.setText(data.aPIResponse?.Message.toString())
-                        phoneErrorstr=data.aPIResponse?.Message.toString()
+                        requireActivity().runOnUiThread {
+                            binding .btnSubmit.isEnabled=true
+                            binding.tvPhoneError.visibility=View.VISIBLE
+                            binding.tvPhoneError.setText(data.aPIResponse?.Message.toString())
+                            phoneErrorstr=data.aPIResponse?.Message.toString()
+                        }
+
                         isPhoneok=false
                     } else {
                         requireActivity().runOnUiThread { binding .btnSubmit.isEnabled=true}
@@ -473,7 +525,7 @@ class FragmentCreateCandidate : Fragment() {
     private fun postData()
     {
         try {
-            CoroutineScope(Dispatchers.IO+ exceptionHandler).launch {
+            CoroutineScope(Dispatchers.Main+ exceptionHandler).launch {
                 val obj=BodySMSCandidate()
                 obj.Subscriberid=DataStoreHelper.getMeetingUserId()
                 obj.userid=DataStoreHelper.getMeetingRecruiterid().toInt()
@@ -490,8 +542,6 @@ class FragmentCreateCandidate : Fragment() {
                 } else {
                     requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
                 }
-
-
             }
 
         }catch (e:Exception)

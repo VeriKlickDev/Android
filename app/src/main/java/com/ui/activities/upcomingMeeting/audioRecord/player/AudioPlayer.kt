@@ -50,15 +50,15 @@ class AudioPlayer private constructor(context: Context) : Player.EventListener {
             player.release()
         }
         player = SimpleExoPlayer.Builder(appContext).build().apply {
-            setMediaSource(recordFile.toMediaSource())
+            setMediaSource(recordFile!!.toMediaSource())
             prepare()
             addListener(this@AudioPlayer)
         }
-        CandidateImageAndAudioHolder.setAudio(recordFile)
+        CandidateImageAndAudioHolder.setAudio(recordFile!!)
         return this
     }
 
-    fun getRecordedFile()=recordFile.toMediaSource()
+    fun getRecordedFile()=recordFile?.toMediaSource()
 
     fun togglePlay() {
         if (!player.isPlaying) {

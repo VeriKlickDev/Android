@@ -5,6 +5,7 @@ import com.domain.BaseModels.*
 import com.domain.RestApi.BaseRestApi
 import com.domain.RestApi.LoginRestApi
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -250,6 +251,10 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun getSMSchatHistory(authToken: String,obj: BodySMSchatHistory): Response<ResponseSMSchatHistory> {
         return baseRestApi.getSMSchatHistory(authToken,obj)
+    }
+
+    override suspend fun checkSession(authToken: String): Response<JsonObject> {
+        return baseRestApi.checkSession(authToken)
     }
 
     override suspend fun updateUserResume(token: String,ob: BodyCandidateResume,filePart:MultipartBody.Part): Response<ResponseCandidateResume> {

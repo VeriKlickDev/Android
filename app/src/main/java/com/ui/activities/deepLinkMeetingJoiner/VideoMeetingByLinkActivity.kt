@@ -40,6 +40,7 @@ class VideoMeetingByLinkActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = LayoutVideoMeetingByLinkBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this).get(JoinMeetingViewModel::class.java)
+
         val action: String? = intent?.action
         val data: Uri? = intent?.data
 
@@ -67,7 +68,6 @@ class VideoMeetingByLinkActivity : AppCompatActivity() {
             isCallInProgress=it
             Log.d(TAG, "handleObserver: call status is $it")
         }
-
 
         // ATTENTION: This was auto-generated to handle app links.
         val appLinkIntent: Intent = intent

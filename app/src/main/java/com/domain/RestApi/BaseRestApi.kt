@@ -3,6 +3,7 @@ package com.domain.RestApi
 import androidx.annotation.CheckResult
 import com.domain.BaseModels.*
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -172,6 +173,10 @@ interface BaseRestApi {
         @Part folderName: MultipartBody.Part,
     ):Response<ResponseCandidateImageModel>
 */
+
+
+    @GET("/api/Candidate/GetCandidateStatusList")
+    suspend fun checkSession(@Header("Authorization")auth:String):Response<JsonObject>
 
 }
 

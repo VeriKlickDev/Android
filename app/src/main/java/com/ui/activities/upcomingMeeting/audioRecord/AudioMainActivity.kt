@@ -52,8 +52,21 @@ class AudioMainActivity : AppCompatActivity() {
         // watchObserver()
         //  binding.btnPlay.setOnClickListener { jumpToPlayActivity() }
         binding.btnSkip.setOnClickListener {
-            clearAllData()
+            //clearAllData()
+            Log.d("TAG", "onCreate: record on click ${recorder.isRecording}")
+            if (recorder.isRecording)
+            {
+                Log.d("TAG", "onCreate: record ${recorder.isRecording}")
+                recorder.toggleRecording()
+                setupTimerForAudio()
+            }
+            else
+            {
+                clearAllData()
+               // clearAllData()
+            }
         }
+
         binding.tvSetPreference.setOnClickListener {
             selectLangaugeDialogGlobal()
         }
@@ -86,7 +99,7 @@ class AudioMainActivity : AppCompatActivity() {
 
 
     override fun onStop() {
-        recorder.release()
+      //  recorder.release()
         super.onStop()
     }
 
@@ -98,7 +111,7 @@ class AudioMainActivity : AppCompatActivity() {
            // millisTimer.start()
            // secondsTimer.start()
         }
-        btnSkip.isEnabled=false
+       // btnSkip.isEnabled=false
         visualizer.ampNormalizer = { sqrt(it.toFloat()).toInt() }
     }
 
@@ -108,8 +121,10 @@ class AudioMainActivity : AppCompatActivity() {
             Log.d("TAG", "setupTimerForAudio: seconds is $millis")
             runOnUiThread {
                 binding.audioProgressBar.setProgress(mmillis)
-                if (isDone)
-                recorder.stopRecording()
+                if (isDone){
+                recorder.toggleRecording()
+                    jumpToPlayActivity()
+                }
             }
         }
     }
@@ -155,7 +170,7 @@ class AudioMainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        binding.btnSkip.isEnabled=true
+       // binding.btnSkip.isEnabled=true
         millis=0
         seconds=0
         binding.audioProgressBar.setProgress(0)
@@ -165,14 +180,15 @@ class AudioMainActivity : AppCompatActivity() {
 
     private fun clearAllData()
     {
+        Log.d("TAG", "clearAllData: ")
         try {
             millis=0
             seconds=0
             binding.audioProgressBar.setProgress(0)
             timer2?.cancel()
             timer1?.cancel()
-            recorder.release()
-            recorder.stopRecording()
+           // recorder.release()
+           // recorder.stopRecording()
             runOnUiThread {
                 binding.visualizer.clear()
                 binding.timelineTextView.text = 0L.formatAsTime()
@@ -204,7 +220,7 @@ class AudioMainActivity : AppCompatActivity() {
             binding.audioProgressBar.setProgress(0)
             timer2?.cancel()
             timer1?.cancel()
-            recorder.release()
+           // recorder.release()
         }catch (e:Exception)
         {
             Log.d("TAG", "onPause: exception 180 ")
@@ -219,39 +235,43 @@ class AudioMainActivity : AppCompatActivity() {
 
     override fun finish() {
         super.finish()
-        recorder.release()
+       // recorder.release()
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
     private fun jumpToPlayActivity()
     {
-        val intent=Intent(this@AudioMainActivity, PlayActivity::class.java)
-        startActivity(intent)
-        overridePendingTransition(
-            R.anim.slide_in_right,
-            R.anim.slide_out_left
-        )
+        runOnUiThread {
+            val intent = Intent(this@AudioMainActivity, PlayActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left
+            )
+        }
     }
 
     private fun listenOnRecorderStates() = with(binding) {
-        recorder = Recorder.getInstance(applicationContext).init().apply {
-            onStart = {
-                recordButton.setImageDrawable(getDrawableCompat(R.drawable.ic_stop_24))
-            }
-            onStop = {
-                visualizer.clear()
-                timelineTextView.text = 0L.formatAsTime()
-                recordButton.setImageDrawable(getDrawableCompat(R.drawable.ic_record_24))
-               // millisLiveData.postValue("")
-               // secondsLiveData.postValue("")
-                jumpToPlayActivity()
-               // binding.btnPlay.isVisible=true
-            }
-            onAmpListener = {
-                runOnUiThread {
-                    if (recorder.isRecording) {
-                      timelineTextView.text = recorder.getCurrentTime().formatAsTime()
-                        visualizer.addAmp(it, tickDuration)
+        runOnUiThread {
+            recorder = Recorder.getInstance(applicationContext).init().apply {
+                onStart = {
+                    recordButton.setImageDrawable(getDrawableCompat(R.drawable.ic_stop_24))
+                }
+                onStop = {
+                    visualizer.clear()
+                    timelineTextView.text = 0L.formatAsTime()
+                    recordButton.setImageDrawable(getDrawableCompat(R.drawable.ic_record_24))
+                    // millisLiveData.postValue("")
+                    // secondsLiveData.postValue("")
+                    jumpToPlayActivity()
+                    // binding.btnPlay.isVisible=true
+                }
+                onAmpListener = {
+                    runOnUiThread {
+                        if (recorder.isRecording) {
+                            timelineTextView.text = recorder.getCurrentTime().formatAsTime()
+                            visualizer.addAmp(it, tickDuration)
+                        }
                     }
                 }
             }
