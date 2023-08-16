@@ -393,10 +393,8 @@ class UpcomingListFragment(val from: String) : Fragment() {
         }else
         {
            try {
-               requireActivity().requestAllPermissionForApp {
-                   requireActivity().runOnUiThread {
-                     //  checkDeepLinkIsOpenFirst()
-                   }}
+               requireActivity().requestAllPermissionForApp {}
+
            }catch (e:Exception){}
             Log.d(TAG, "checkAllPermisions: below below12")
         }

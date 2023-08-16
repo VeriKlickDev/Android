@@ -82,10 +82,10 @@ class ActivityUploadGovtId : AppCompatActivity() {
         }
         binding.btnRetake.setOnClickListener { getImageBottomSheet() }
 
-        binding.btnUploadImage.setOnClickListener {
+       /* binding.btnUploadImage.setOnClickListener {
             //uploadImage()
             showCustomSnackbarOnTop("in progress")
-        }
+        }*/
         binding.btnSkip.setOnClickListener {
             val intent=Intent(this, AudioMainActivity::class.java)
             //val intent=Intent(this, ActivityCreateCandidate::class.java)
@@ -110,7 +110,7 @@ class ActivityUploadGovtId : AppCompatActivity() {
         } else {
             showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
         }
-        binding.btnUploadImage.isEnabled=false
+       // binding.btnUploadImage.isEnabled=false
     }
 
     override fun finish() {
@@ -360,7 +360,7 @@ class ActivityUploadGovtId : AppCompatActivity() {
             option.setCircleDimmedLayer(true)
             option.setCropGridColumnCount(3)
             option.setCropGridRowCount(3)
-                option.withAspectRatio("100".toString().toFloat(),"100".toString().toFloat())
+            option.withAspectRatio("100".toString().toFloat(),"100".toString().toFloat())
 
             UCrop.of(sourceUri,desUri!!)
                 .withOptions(option)
@@ -379,7 +379,7 @@ class ActivityUploadGovtId : AppCompatActivity() {
             try {
                 val resultUri = UCrop.getOutput(data!!)
                 binding.ivUploadImage.setImageURI(resultUri)
-                binding.btnUploadImage.isEnabled=true
+               // binding.btnUploadImage.isEnabled=true
                 binding.btnRetake.isVisible=true
                 binding.ivEditPencil.isVisible=false
                 binding.ivUploadImage.scaleType=ImageView.ScaleType.CENTER_CROP

@@ -49,8 +49,8 @@
     <string name="txt_send">Send</string>
     <string name="txt_member">Member</string>
     <string name="txt_add_interviewer">+ Add Interviewer</string>
-    <string name="hint_firstname">First name</string>
-    <string name="hint_lastname">Last name</string>
+    <string name="hint_firstname">First Name</string>
+    <string name="hint_lastname">Last Name</string>
     <string name="txt_all_fields_required">All Fields Are Required</string>
     <string name="txt_resume">Resume</string>
     <string name="txt_something_went_wrong">Something went wrong</string>
@@ -224,7 +224,7 @@
     <string name="txt_invalid" tools:ignore="MissingTranslation">Invalid</string>
     <string name="txt_zip" tools:ignore="MissingTranslation">Zip</string>
     <string name="txt_street" tools:ignore="MissingTranslation">Street</string>
-    <string name="txt_middleName" tools:ignore="MissingTranslation">Middle name</string>
+    <string name="txt_middleName" tools:ignore="MissingTranslation">Middle Name</string>
     <string name="txt_secondary_skills" tools:ignore="MissingTranslation">Secondary skills</string>
     <string name="txt_primary_skills" tools:ignore="MissingTranslation">Primary skills</string>
     <string name="txt_experience" tools:ignore="MissingTranslation">Experience</string>

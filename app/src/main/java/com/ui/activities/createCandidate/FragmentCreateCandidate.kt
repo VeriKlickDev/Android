@@ -13,7 +13,6 @@ import android.view.ViewGroup
 
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
-import android.widget.ArrayAdapter
 
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -43,25 +42,24 @@ class FragmentCreateCandidate : Fragment() {
     private lateinit var binding: FragmentCreateCandidateBinding
     private var viewModel: VMCreateCandidate? = null
 
-    private var isEmailok=false
-    private var isPhoneok=false
+    private var isEmailok = false
+    private var isPhoneok = false
 
-    private lateinit var countryCodeRecyerlerAdapter:CountryCodeListAdapter
-    private var iscountryCode:String?=null
-    private var countryCodeList= mutableListOf<String>()
-    private var countryCodeListMain= arrayListOf<ResponseCountryCode>()
-    private var viewGroup:ViewGroup?=null
+    private lateinit var countryCodeRecyerlerAdapter: CountryCodeListAdapter
+    private var iscountryCode: String? = null
+    private var countryCodeList = mutableListOf<String>()
+    private var countryCodeListMain = arrayListOf<ResponseCountryCode>()
+    private var viewGroup: ViewGroup? = null
 
-    private fun clearAllValues()
-    {
-        isEmailok=false
-        isPhoneok=false
-        iscountryCode=null
+    private fun clearAllValues() {
+        isEmailok = false
+        isPhoneok = false
+        iscountryCode = null
         binding.etEmail.setText("")
         binding.etPhoneno.setText("")
         binding.tvCountryCode.setText(getString(R.string.txt_country_code))
-        binding.tvEmailError.visibility=View.INVISIBLE
-        binding.tvPhoneError.visibility=View.INVISIBLE
+        binding.tvEmailError.visibility = View.INVISIBLE
+        binding.tvPhoneError.visibility = View.INVISIBLE
         binding.etEmail.clearFocus()
         binding.etPhoneno.clearFocus()
 
@@ -75,167 +73,190 @@ class FragmentCreateCandidate : Fragment() {
         binding = FragmentCreateCandidateBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[VMCreateCandidate::class.java]
 
-        checkSession()
-
-        this.viewGroup=container
-        handleTextWatcher()
-      //  requireActivity().runOnUiThread { binding.btnSubmit.isEnabled=false }
-        countryCodeRecyerlerAdapter=CountryCodeListAdapter(requireContext(),countryCodeListMain){pos, data, action ->
-            iscountryCode=data?.PhoneCode.toString()
-            binding.tvCountryCode.setText(data?.codedisplay.toString())
-            binding.tvCountryCode.setTextColor(Color.BLACK)
-            countryCodeDialog.dismiss()
-        }
-
-        binding.btnBugerIcon.setOnClickListener {
-            (requireActivity() as UpcomingMeetingActivity).openDrawer()
-        }
-
-        binding.btnSubmit.setOnClickListener {
-            if (requireActivity().checkInternet()) {
-                validateAllFields()
-            } else {
-                requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
-            }
-        }
+        this.viewGroup = container
 
         if (requireActivity().checkInternet()) {
-            getCountryCodeList()
+            checkSession()
         } else {
             requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
         }
 
 
-
-        binding.layoutSelectCode.setOnClickListener {
-            setupCountryCodeRecyclerAdapter()
-        }
-        //setupCountryCodeAdapter()
-
         return binding.root
     }
 
-    private fun checkSession()
-    {
-        viewModel?.checkSession { isSuccess, errorCode, msg ->
-         if (errorCode==401)
-         {
-             requireActivity().runOnUiThread {
-                 DataStoreHelper.clearData()
-                 startActivity(Intent(requireActivity(), LoginActivity::class.java))
-                 requireActivity().finish()
-             }
-         }
-        }
-    }
+    private fun checkSession() {
+        requireActivity().run {
+            runOnUiThread { requireActivity().showProgressDialog() }
 
-
-  /*  private  fun setupCountryCodeAdapter()
-    {
-    countryCodeRecyerlerAdapter=requireActivity().getArrayAdapterOneItemSelected(countryCodeList)
-    binding.spinnerCountryCode.adapter=  countryCodeRecyerlerAdapter
-        binding.spinnerCountryCode.onItemSelectedListener=onItemSelectListner
-    }
-    private val onItemSelectListner= object :OnItemSelectedListener{
-        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-            if (position==0)
-            {
-              /***5jun  val ob=countryCodeListMain.find { "${it.codedisplay} ${it.Name}".contains("United States") }
-                iscountryCode=ob?.codedisplay
-                countryCodeList.forEachIndexed { index, s ->
-                    if (s == "+1 United States")
-                    {
-                        requireActivity().runOnUiThread {
-                            binding.spinnerCountryCode.setSelection(index)
-                            spinnerCountryCodeAdapter.notifyDataSetChanged()
-                        }
-
+            viewModel?.checkSession { isSuccess, errorCode, msg ->
+                Log.d("TAG", "checkSession: session code is $errorCode msg $msg")
+                when (errorCode) {
+                    200 -> {
+                        dismissProgressDialog()
+                        initializeUI()
+                    }
+                    401 -> {
+                        dismissProgressDialog()
+                        DataStoreHelper.clearData()
+                        startActivity(Intent(requireActivity(), LoginActivity::class.java))
+                        finish()
+                    }
+                    else->{
+                        dismissProgressDialog()
+                        initializeUI()
                     }
                 }
-            */
-            }else
-            {
-                val ob=countryCodeListMain.find { "${it.codedisplay} ${it.Name}" == countryCodeList[position] }
-                iscountryCode=ob?.codedisplay    
             }
         }
+    }
 
-        override fun onNothingSelected(parent: AdapterView<*>?) {
-            
+    private fun initializeUI() {
+        requireActivity().runOnUiThread {
+
+            handleTextWatcher()
+            //  requireActivity().runOnUiThread { binding.btnSubmit.isEnabled=false }
+            countryCodeRecyerlerAdapter =
+                CountryCodeListAdapter(requireContext(), countryCodeListMain) { pos, data, action ->
+                    iscountryCode = data?.PhoneCode.toString()
+                    binding.tvCountryCode.setText(data?.codedisplay.toString())
+                    binding.tvCountryCode.setTextColor(Color.BLACK)
+                    countryCodeDialog.dismiss()
+                }
+
+            binding.btnBugerIcon.setOnClickListener {
+                (requireActivity() as UpcomingMeetingActivity).openDrawer()
+            }
+
+            binding.btnSubmit.setOnClickListener {
+                if (requireActivity().checkInternet()) {
+                    validateAllFields()
+                } else {
+                    requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                }
+            }
+
+            if (requireActivity().checkInternet()) {
+                getCountryCodeList()
+            } else {
+                requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+            }
+
+            binding.layoutSelectCode.setOnClickListener {
+                setupCountryCodeRecyclerAdapter()
+            }
+            //setupCountryCodeAdapter()
+
         }
-    }*/
+    }
 
-    private lateinit var countryCodeDialog:Dialog
 
-    private fun setupCountryCodeRecyclerAdapter()
-    {
+    /*  private  fun setupCountryCodeAdapter()
+      {
+      countryCodeRecyerlerAdapter=requireActivity().getArrayAdapterOneItemSelected(countryCodeList)
+      binding.spinnerCountryCode.adapter=  countryCodeRecyerlerAdapter
+          binding.spinnerCountryCode.onItemSelectedListener=onItemSelectListner
+      }
+      private val onItemSelectListner= object :OnItemSelectedListener{
+          override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+              if (position==0)
+              {
+                /***5jun  val ob=countryCodeListMain.find { "${it.codedisplay} ${it.Name}".contains("United States") }
+                  iscountryCode=ob?.codedisplay
+                  countryCodeList.forEachIndexed { index, s ->
+                      if (s == "+1 United States")
+                      {
+                          requireActivity().runOnUiThread {
+                              binding.spinnerCountryCode.setSelection(index)
+                              spinnerCountryCodeAdapter.notifyDataSetChanged()
+                          }
+
+                      }
+                  }
+              */
+              }else
+              {
+                  val ob=countryCodeListMain.find { "${it.codedisplay} ${it.Name}" == countryCodeList[position] }
+                  iscountryCode=ob?.codedisplay
+              }
+          }
+
+          override fun onNothingSelected(parent: AdapterView<*>?) {
+
+          }
+      }*/
+
+    private lateinit var countryCodeDialog: Dialog
+
+    private fun setupCountryCodeRecyclerAdapter() {
         Log.d("TAG", "setupCountryCodeRecyclerAdapter: setup adapter")
-        countryCodeDialog=Dialog(requireContext())
-        val dialogBinding=DialogCountryCodeBinding.inflate(layoutInflater,viewGroup,false)
+        countryCodeDialog = Dialog(requireContext())
+        val dialogBinding = DialogCountryCodeBinding.inflate(layoutInflater, viewGroup, false)
         countryCodeDialog.setContentView(dialogBinding.root)
         countryCodeDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialogBinding.rvCountry.layoutManager=LinearLayoutManager(requireContext())
+        dialogBinding.rvCountry.layoutManager = LinearLayoutManager(requireContext())
 
-        val templist= arrayListOf<ResponseCountryCode>()
+        val templist = arrayListOf<ResponseCountryCode>()
         templist.addAll(countryCodeListMain)
 
         dialogBinding.btnCross.setOnClickListener { countryCodeDialog.dismiss() }
 
         CoroutineScope(Dispatchers.IO).launch {
-            dialogBinding.etSearch.getEditTextWithFlow().collectLatest {text->
+            dialogBinding.etSearch.getEditTextWithFlow().collectLatest { text ->
                 Log.d("TAG", "setupCountryCodeRecyclerAdapter: for each contains $text")
-                    val searchedlist=templist.filter { it.Name.toString().lowercase().trim().contains(text.toString().lowercase().trim()) }.toMutableList()
+                val searchedlist = templist.filter {
+                    it.Name.toString().lowercase().trim()
+                        .contains(text.toString().lowercase().trim())
+                }.toMutableList()
 
-                Log.d("TAG", "setupCountryCodeRecyclerAdapter: for each contains $text list size ${searchedlist.size}")
-                      requireActivity().runOnUiThread {
-                          countryCodeRecyerlerAdapter.search(searchedlist.distinct())
-                      }
+                Log.d(
+                    "TAG",
+                    "setupCountryCodeRecyclerAdapter: for each contains $text list size ${searchedlist.size}"
+                )
+                requireActivity().runOnUiThread {
+                    countryCodeRecyerlerAdapter.search(searchedlist.distinct())
+                }
 
             }
         }
 
-        dialogBinding.rvCountry.adapter=countryCodeRecyerlerAdapter
+        dialogBinding.rvCountry.adapter = countryCodeRecyerlerAdapter
         countryCodeDialog.create()
         countryCodeDialog.show()
     }
-  /*
-    requireActivity().run {runOnUiThread {countryCodeRecyerlerAdapter.notifyDataSetChanged()}
-    }*/
+    /*
+      requireActivity().run {runOnUiThread {countryCodeRecyerlerAdapter.notifyDataSetChanged()}
+      }*/
 
 
-    private fun getCountryCodeList()
-    {
+    private fun getCountryCodeList() {
         requireActivity().run {
             //runOnUiThread { showProgressDialog() }
         }
-        viewModel?.getCountyCodeList{ data, isSuccess, _, _ ->
-            if (isSuccess)
-            {
-               /* requireActivity().run {
-                    runOnUiThread { dismissProgressDialog() }
-                }*/
+        viewModel?.getCountyCodeList { data, isSuccess, _, _ ->
+            if (isSuccess) {
+                /* requireActivity().run {
+                     runOnUiThread { dismissProgressDialog() }
+                 }*/
                 countryCodeListMain.clear()
                 countryCodeList.clear()
                 countryCodeList.add(getString(R.string.txt_select_code))
                 countryCodeListMain.addAll(data!!)
-                countryCodeListMain.forEach { countryCodeList.add(it.codedisplay.toString()+" ${it.Name.toString()}") }
+                countryCodeListMain.forEach { countryCodeList.add(it.codedisplay.toString() + " ${it.Name.toString()}") }
 
                 requireActivity().runOnUiThread {
                     countryCodeRecyerlerAdapter.swapList(countryCodeListMain)
                 }
-            }
-            else
-            {
-              /*  requireActivity().run {
-                    runOnUiThread { dismissProgressDialog() }
-                }*/
+            } else {
+                /*  requireActivity().run {
+                      runOnUiThread { dismissProgressDialog() }
+                  }*/
             }
         }
     }
 
 
-    private fun chooseLanguage(obj:BodySMSCandidate)
-    {
+    private fun chooseLanguage(obj: BodySMSCandidate) {
         requireActivity().runOnUiThread {
             val dialog = Dialog(requireActivity())
 
@@ -247,18 +268,18 @@ class FragmentCreateCandidate : Fragment() {
                 dialog.dismiss()
             }
             dialogBinding.btnSubmitButton.setText(getString(R.string.txt_send))
-            val language= mutableListOf<String>()
-            val languageStringList= mutableListOf<ModelLanguageSelect>()
+            val language = mutableListOf<String>()
+            val languageStringList = mutableListOf<ModelLanguageSelect>()
 
-            languageStringList.add(ModelLanguageSelect(getString(R.string.txt_english),"en-US"))
-            languageStringList.add(ModelLanguageSelect(getString(R.string.txt_spanish),"es"))
-            languageStringList.add(ModelLanguageSelect(getString(R.string.txt_french),"fr"))
+            languageStringList.add(ModelLanguageSelect(getString(R.string.txt_english), "en-US"))
+            languageStringList.add(ModelLanguageSelect(getString(R.string.txt_spanish), "es"))
+            languageStringList.add(ModelLanguageSelect(getString(R.string.txt_french), "fr"))
 
             language.add(getString(R.string.txt_select_language))
             language.add(getString(R.string.txt_english))
             language.add(getString(R.string.txt_spanish))
             language.add(getString(R.string.txt_french))
-            var selectedLanguage:String?=null
+            var selectedLanguage: String? = null
             CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
                 requireActivity().runOnUiThread {
 
@@ -275,8 +296,7 @@ class FragmentCreateCandidate : Fragment() {
                             ) {
                                 if (position != 0) {
                                     languageStringList.forEach {
-                                        if (it.language.equals(language[position]))
-                                        {
+                                        if (it.language.equals(language[position])) {
                                             selectedLanguage = it.langCode
                                         }
                                     }
@@ -293,38 +313,33 @@ class FragmentCreateCandidate : Fragment() {
                     dialogBinding.spinnerLanguage.adapter = langAdapter
 
                     dialogBinding.btnSubmitButton.setOnClickListener {
-                        if (selectedLanguage!=null)
-                        {
+                        if (selectedLanguage != null) {
                             dialog.dismiss()
-                            obj.language=selectedLanguage
+                            obj.language = selectedLanguage
                             requireActivity().runOnUiThread {
                                 requireActivity().showProgressDialog()
                             }
 
-                            viewModel?.sendProfileLink(obj){data, isSuccess, errorCode, msg ->
-                            if (isSuccess)
-                            {
-                                requireActivity().runOnUiThread {
-                                    requireActivity().dismissProgressDialog()
-                                    requireActivity().showCustomToast(data?.ResponseMessage.toString())
-                                    //requireActivity().showCustomSnackbarOnTop(data?.ResponseMessage.toString())
-                                    clearAllValues()
+                            viewModel?.sendProfileLink(obj) { data, isSuccess, errorCode, msg ->
+                                if (isSuccess) {
+                                    requireActivity().runOnUiThread {
+                                        requireActivity().dismissProgressDialog()
+                                        requireActivity().showCustomToast(data?.ResponseMessage.toString())
+                                        //requireActivity().showCustomSnackbarOnTop(data?.ResponseMessage.toString())
+                                        clearAllValues()
+                                    }
+                                } else {
+                                    requireActivity().runOnUiThread {
+                                        requireActivity().dismissProgressDialog()
+                                        requireActivity().showCustomSnackbarOnTop(data?.ResponseMessage.toString())
+                                    }
                                 }
                             }
-                                else
-                            {
-                                requireActivity().runOnUiThread {
-                                    requireActivity().dismissProgressDialog()
-                                    requireActivity().showCustomSnackbarOnTop(data?.ResponseMessage.toString())
-                                }
-                            }
-                        }
-                        }else
-                        {
-                            dialogBinding.tvError.visibility=View.VISIBLE
+                        } else {
+                            dialogBinding.tvError.visibility = View.VISIBLE
                             requireActivity().setHandler().postDelayed({
-                                dialogBinding.tvError.visibility=View.INVISIBLE
-                            },3000)
+                                dialogBinding.tvError.visibility = View.INVISIBLE
+                            }, 3000)
                             //showCustomSnackbarOnTop(getString(R.string.txt_please_select_language))
                         }
                     }
@@ -336,11 +351,10 @@ class FragmentCreateCandidate : Fragment() {
             dialog.show()
 
         }
-        
+
     }
 
-    private fun handleTextWatcher()
-    {
+    private fun handleTextWatcher() {
         CoroutineScope(Dispatchers.Main).launch {
 
 
@@ -377,118 +391,113 @@ class FragmentCreateCandidate : Fragment() {
             }
 
 
-
-
         }
 
         CoroutineScope(Dispatchers.Main).launch {
-        binding.etPhoneno.doOnTextChanged { text, _, _, _ ->
-            Log.d("TAG", "handleTextWatcher: text out ${text.toString()}")
-            isPhoneok = requireActivity().phoneValidatorfor9and10Digits(text.toString())
-            if (isPhoneok) {
-                Log.d("TAG", "handleTextWatcher: text isphoneok true ${text.toString()}")
-                binding.tvPhoneError.visibility = View.INVISIBLE
-                if (requireActivity().checkInternet()) {
-                    Log.d("TAG", "handleTextWatcher: text ${text.toString()}")
-                    checkPhoneExists(text.toString())
-                } else {
-                    requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+            binding.etPhoneno.doOnTextChanged { text, _, _, _ ->
+                Log.d("TAG", "handleTextWatcher: text out ${text.toString()}")
+                isPhoneok = requireActivity().phoneValidatorfor9and10Digits(text.toString())
+                if (isPhoneok) {
+                    Log.d("TAG", "handleTextWatcher: text isphoneok true ${text.toString()}")
+                    binding.tvPhoneError.visibility = View.INVISIBLE
+                    if (requireActivity().checkInternet()) {
+                        Log.d("TAG", "handleTextWatcher: text ${text.toString()}")
+                        checkPhoneExists(text.toString())
+                    } else {
+                        requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+                    }
+                }
+                if (!requireActivity().phoneValidatorfor9and10Digits(text.toString())) {
+                    if (!binding.etPhoneno.text.toString().equals("")) {
+                        binding.tvPhoneError.setText(
+                            getString(R.string.txt_invalid) + " ${
+                                getString(
+                                    R.string.txt_phoneNo
+                                )
+                            }"
+                        )
+                        phoneErrorstr =
+                            getString(R.string.txt_invalid) + " ${getString(R.string.txt_phoneNo)}"
+                        binding.tvPhoneError.visibility = View.VISIBLE
+                    }
                 }
             }
-            if (!requireActivity().phoneValidatorfor9and10Digits(text.toString())) {
-                if (!binding.etPhoneno.text.toString().equals("")) {
-                    binding.tvPhoneError.setText(
-                        getString(R.string.txt_invalid) + " ${
-                            getString(
-                                R.string.txt_phoneNo
-                            )
-                        }"
-                    )
-                    phoneErrorstr =
-                        getString(R.string.txt_invalid) + " ${getString(R.string.txt_phoneNo)}"
-                    binding.tvPhoneError.visibility = View.VISIBLE
-                }
-            }
-        }
 
         }
 
-      /***2jun2023  binding.etFirstname.doOnTextChanged { text, _, _, _ ->
-            val pattern="[a-zA-Z0-9]+[a-zA-Z0-9\\s]*"
-            val ptrn=Pattern.compile(pattern)
-            isFirstName=ptrn.matcher(text.toString()).matches()
+        /***2jun2023  binding.etFirstname.doOnTextChanged { text, _, _, _ ->
+        val pattern="[a-zA-Z0-9]+[a-zA-Z0-9\\s]*"
+        val ptrn=Pattern.compile(pattern)
+        isFirstName=ptrn.matcher(text.toString()).matches()
         }
 
         binding.etLastname.doOnTextChanged { text, _, _, _ ->
-            val pattern="[a-zA-Z0-9]+[a-zA-Z0-9\\s]*"
-            val ptrn=Pattern.compile(pattern)
-            isLastName=ptrn.matcher(text.toString()).matches()
+        val pattern="[a-zA-Z0-9]+[a-zA-Z0-9\\s]*"
+        val ptrn=Pattern.compile(pattern)
+        isLastName=ptrn.matcher(text.toString()).matches()
         }*/
 
     }
 
     private fun checkEmailExists(txt: String) {
-        requireActivity().runOnUiThread { binding.btnSubmit.isEnabled=false }
-        viewModel?.getIsPhoneExists(txt,false,
+        requireActivity().runOnUiThread { binding.btnSubmit.isEnabled = false }
+        viewModel?.getIsPhoneExists(txt, false,
             response = { data ->
                 requireActivity().runOnUiThread {
-                    if (data.aPIResponse?.Message!=null) {
+                    if (data.aPIResponse?.Message != null) {
                         requireActivity().runOnUiThread {
-                            binding.btnSubmit.isEnabled=true
-                            binding.tvEmailError.visibility=View.VISIBLE
+                            binding.btnSubmit.isEnabled = true
+                            binding.tvEmailError.visibility = View.VISIBLE
                             binding.tvEmailError.setText(data.aPIResponse?.Message.toString())
-                            emailErrorstr=data.aPIResponse?.Message.toString()
+                            emailErrorstr = data.aPIResponse?.Message.toString()
                         }
 
-                        isEmailok=false
+                        isEmailok = false
                     } else {
                         requireActivity().runOnUiThread {
-                            binding.btnSubmit.isEnabled=true
-                            binding.tvEmailError.visibility=View.INVISIBLE
+                            binding.btnSubmit.isEnabled = true
+                            binding.tvEmailError.visibility = View.INVISIBLE
                         }
 
-                       // binding.etEmail.setError(data.aPIResponse?.Message.toString())
-                        isEmailok=true
+                        // binding.etEmail.setError(data.aPIResponse?.Message.toString())
+                        isEmailok = true
                     }
                 }
             })
     }
 
     private fun checkPhoneExists(txt: String) {
-        requireActivity().runOnUiThread { binding .btnSubmit.isEnabled=false}
-        viewModel?.getIsPhoneExists(txt,true,
+        requireActivity().runOnUiThread { binding.btnSubmit.isEnabled = false }
+        viewModel?.getIsPhoneExists(txt, true,
             response = { data ->
                 Log.d("TAG", "checkPhoneExists: dataa $data")
                 requireActivity().runOnUiThread {
-                    if (data.aPIResponse?.StatusCode!=null) {
+                    if (data.aPIResponse?.StatusCode != null) {
                         requireActivity().runOnUiThread {
-                            binding .btnSubmit.isEnabled=true
-                            binding.tvPhoneError.visibility=View.VISIBLE
+                            binding.btnSubmit.isEnabled = true
+                            binding.tvPhoneError.visibility = View.VISIBLE
                             binding.tvPhoneError.setText(data.aPIResponse?.Message.toString())
-                            phoneErrorstr=data.aPIResponse?.Message.toString()
+                            phoneErrorstr = data.aPIResponse?.Message.toString()
                         }
 
-                        isPhoneok=false
+                        isPhoneok = false
                     } else {
-                        requireActivity().runOnUiThread { binding .btnSubmit.isEnabled=true}
-                       // binding.tvEmailError.visibility=View.INVISIBLE
-                      //  binding.etPhoneno.setError(data.aPIResponse?.Message.toString())
-                        isPhoneok=true
+                        requireActivity().runOnUiThread { binding.btnSubmit.isEnabled = true }
+                        // binding.tvEmailError.visibility=View.INVISIBLE
+                        //  binding.etPhoneno.setError(data.aPIResponse?.Message.toString())
+                        isPhoneok = true
                     }
                 }
             })
     }
-    private var emailErrorstr:String?=null
-    private var phoneErrorstr:String?=null
-    private fun validateAllFields()
-    {
-        if (isEmailok && isPhoneok && iscountryCode!=null)
-        {
+
+    private var emailErrorstr: String? = null
+    private var phoneErrorstr: String? = null
+    private fun validateAllFields() {
+        if (isEmailok && isPhoneok && iscountryCode != null) {
             postData()
-        }
-        else
-        {
-            if (iscountryCode==null) {
+        } else {
+            if (iscountryCode == null) {
                 requireActivity().showCustomSnackbarOnTop(
                     getString(R.string.txt_country_code) + " ${
                         getString(
@@ -497,21 +506,25 @@ class FragmentCreateCandidate : Fragment() {
                     }"
                 )
             }
-            if (binding.etEmail.text.toString().trim().equals("") && binding.etPhoneno.text.toString().trim().equals(""))
-            {
-                requireActivity().showCustomSnackbarOnTop("${getString(R.string.txt_email)} ${getString(R.string.txt_and)} ${getString(R.string.txt_phoneNo)} ${getString(R.string.txt_required)}")
-            }else
-            {
+            if (binding.etEmail.text.toString().trim()
+                    .equals("") && binding.etPhoneno.text.toString().trim().equals("")
+            ) {
+                requireActivity().showCustomSnackbarOnTop(
+                    "${getString(R.string.txt_email)} ${
+                        getString(
+                            R.string.txt_and
+                        )
+                    } ${getString(R.string.txt_phoneNo)} ${getString(R.string.txt_required)}"
+                )
+            } else {
 
-                if (!isPhoneok)
-                {
+                if (!isPhoneok) {
                     Log.d("TAG", "validateAllFields: phone error")
                     phoneErrorstr.let {
                         requireActivity().showCustomSnackbarOnTop(it.toString())
                     }
                 }
-                if (!isEmailok)
-                {
+                if (!isEmailok) {
                     Log.d("TAG", "validateAllFields: email error")
                     emailErrorstr.let {
                         requireActivity().showCustomSnackbarOnTop(it.toString())
@@ -522,20 +535,19 @@ class FragmentCreateCandidate : Fragment() {
         }
     }
 
-    private fun postData()
-    {
+    private fun postData() {
         try {
-            CoroutineScope(Dispatchers.Main+ exceptionHandler).launch {
-                val obj=BodySMSCandidate()
-                obj.Subscriberid=DataStoreHelper.getMeetingUserId()
-                obj.userid=DataStoreHelper.getMeetingRecruiterid().toInt()
+            CoroutineScope(Dispatchers.Main + exceptionHandler).launch {
+                val obj = BodySMSCandidate()
+                obj.Subscriberid = DataStoreHelper.getMeetingUserId()
+                obj.userid = DataStoreHelper.getMeetingRecruiterid().toInt()
                 //obj.FirstName=binding.etFirstname.text.toString()
                 //obj.LastName=binding.etLastname.text.toString()
-                obj.UserEmailid=binding.etEmail.text.toString()
-                obj.email=binding.etEmail.text.toString()
-                obj.language=getString(R.string.languageSelect)
-                obj.MessageText="SPL"
-                obj.ReceiverNumber="+"+iscountryCode+binding.etPhoneno.text.toString()
+                obj.UserEmailid = binding.etEmail.text.toString()
+                obj.email = binding.etEmail.text.toString()
+                obj.language = getString(R.string.languageSelect)
+                obj.MessageText = "SPL"
+                obj.ReceiverNumber = "+" + iscountryCode + binding.etPhoneno.text.toString()
                 Log.d("TAG", "postData: sending sms is ${Gson().toJson(obj)}")
                 if (requireActivity().checkInternet()) {
                     chooseLanguage(obj)
@@ -544,8 +556,7 @@ class FragmentCreateCandidate : Fragment() {
                 }
             }
 
-        }catch (e:Exception)
-        {
+        } catch (e: Exception) {
             requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
         }
 

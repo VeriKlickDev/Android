@@ -5,6 +5,7 @@ import com.domain.BaseModels.*
 import com.domain.RestApi.BaseRestApi
 import com.domain.RestApi.LoginRestApi
 import com.google.gson.Gson
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -253,7 +254,7 @@ class RepositoryImpl @Inject constructor(
         return baseRestApi.getSMSchatHistory(authToken,obj)
     }
 
-    override suspend fun checkSession(authToken: String): Response<JsonObject> {
+    override suspend fun checkSession(authToken: String): Response<JsonArray> {
         return baseRestApi.checkSession(authToken)
     }
 
