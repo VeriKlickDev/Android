@@ -29,7 +29,7 @@ import java.lang.reflect.Executable
 
 class CandidateQuestionnaireListAdapter(
     val context: Context,
-    val list: MutableList<Question>,
+    val list: MutableList<Question2>,
     val isEditingEnable:Boolean,
     val onClick: (data: CandidateQuestionnaireModel, action: Int) -> Unit
 ) : RecyclerView.Adapter<CandidateQuestionnaireListAdapter.ViewHolderClass>() {
@@ -55,7 +55,7 @@ class CandidateQuestionnaireListAdapter(
 
     }
 
-    fun addList(tlist: List<Question>) {
+    fun addList(tlist: List<Question2>) {
         Log.d(TAG, "addList: tlist size is ${tlist.size}")
         list.clear()
         list.addAll(tlist)
@@ -70,7 +70,7 @@ class CandidateQuestionnaireListAdapter(
 
     inner class ViewHolderClass(val binding: LayoutItemCandidateQuestionsListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun dataBind(data: Question) {
+        fun dataBind(data: Question2) {
 
             binding.etOther.setText(data.Answer?.OptionDesc)
 
@@ -94,7 +94,9 @@ class CandidateQuestionnaireListAdapter(
                         1->{
                             val ob=data.Options[pos]
                             data.Answer=ob
+
                             data.optionId=subdata.OptionId.toString()
+
                             list.set(adapterPosition,data)
                         }
                     }
@@ -106,7 +108,7 @@ class CandidateQuestionnaireListAdapter(
                 binding.etOther.isVisible=true
                 binding.rvAnswers.isVisible=false
                 binding.etOther.doOnTextChanged { text, start, before, count ->
-                    data.Answer=Options(0,text.toString())
+                    data.Answer=Options2(OptionId = 0, OptionDesc = text.toString())
                     list.set(adapterPosition,data)
                 }
             }
@@ -122,14 +124,14 @@ class CandidateQuestionnaireListAdapter(
 class AnswerSubSelectionAdapter(
     val context: Context,
     val answerType: Int,
-    val list: MutableList<Options>,val isEditingEnable: Boolean,
-    val onClick: (data: Options, action: Int, position: Int) -> Unit
+    val list: MutableList<Options2>,val isEditingEnable: Boolean,
+    val onClick: (data: Options2, action: Int, position: Int) -> Unit
 ) : RecyclerView.Adapter<AnswerSubSelectionAdapter.AnswerSubSelectionViewHolder>() {
 
 
     inner class AnswerSubSelectionViewHolder(val binding: LayoutAnswerSubselectionBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun setViews(data: Options) {
+        fun setViews(data: Options2) {
             binding.tvAnswer.setText(data.OptionDesc)
 
             if (isEditingEnable)

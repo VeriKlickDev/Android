@@ -7,9 +7,12 @@ import androidx.lifecycle.ViewModel
 import com.data.dataHolders.DataStoreHelper
 import com.data.exceptionHandler
 import com.domain.BaseModels.BodyQuestionnaire
+import com.domain.BaseModels.BodyShowQuestionnaire
 import com.domain.BaseModels.BodyTimeZone
+import com.domain.BaseModels.GetQuestionnaireTemplate
 import com.domain.BaseModels.InterviewDetails21
 import com.domain.BaseModels.ResponseCountryCode
+import com.domain.BaseModels.ResponseQuestainnaireList
 import com.domain.BaseModels.ResponseQuestionnaire
 import com.domain.BaseModels.ResponseQuestionnaireTemplate
 import com.domain.BaseModels.ResponseShowQuestionnaire
@@ -68,8 +71,9 @@ class VMCandidateQuestionnaire @Inject constructor(val baseRestApi: BaseRestApi)
 
     fun getQuestionnaireListNew(
         templateID: String,
-        queryString: String,
-        respnse: (data: ResponseQuestionnaire?, isSuccess: Boolean, errorCode: Int, msg: String) -> Unit
+        accessCode: String,
+        candidateId: String,
+        respnse: (data: ResponseQuestainnaireList?, isSuccess: Boolean, errorCode: Int, msg: String) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO + exceptionHandler)
             .launch {
@@ -77,10 +81,14 @@ class VMCandidateQuestionnaire @Inject constructor(val baseRestApi: BaseRestApi)
                     //val authToken= DataStoreHelper.getLoginBearerToken()
                     // Log.d("TAG", "getQuestionnaireList: token is this $authToken")
                     //val url="api/Questionier/GetQuestionier/$templateID/$candidateId/$accessToken"
-                    val url="/api/Questionier/GetQuestionierWeb/$templateID/$queryString"
+                   // val url="/api/Questionier/GetQuestionierWeb/$templateID/$queryString"
 
                     //val url="api/Questionier/GetQuestionier/$templateID"
-                    val response = baseRestApi.getQuestionnaireListNew(url)
+
+
+
+                    //val response = baseRestApi.getQuestionnaireListNew(url)
+                    val response = baseRestApi.getQuestionnaireListNew(ResponseQuestainnaireList(getQuestionnaireTemplate = GetQuestionnaireTemplate(templateID.toInt(),candidateId.toInt(),accessCode)))
 
                     //Log.d(TAG, "getCandidateList: token in upviewmodel $authToken")
                     if (response.isSuccessful) {

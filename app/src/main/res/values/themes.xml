@@ -346,9 +346,9 @@
         <item name="android:textColorHint">@drawable/selector_text_input_layout</item>
     </style>
 
-    <style name="custom_style_dialog">
-
-
+    <style name="custom_style_dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:textColor">@color/skyblue_light1</item>
+        <item name="colorAccent">@color/skyblue_light1</item>
     </style>
 
 

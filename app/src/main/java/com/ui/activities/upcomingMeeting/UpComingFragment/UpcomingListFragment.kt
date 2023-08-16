@@ -393,10 +393,8 @@ class UpcomingListFragment(val from: String) : Fragment() {
         }else
         {
            try {
-               requireActivity().requestAllPermissionForApp {
-                   requireActivity().runOnUiThread {
-                     //  checkDeepLinkIsOpenFirst()
-                   }}
+               requireActivity().requestAllPermissionForApp {}
+
            }catch (e:Exception){}
             Log.d(TAG, "checkAllPermisions: below below12")
         }
@@ -452,7 +450,7 @@ class UpcomingListFragment(val from: String) : Fragment() {
     private fun logout() {
         val dialog = AlertDialog.Builder(requireActivity())
         dialog.setMessage(getString(R.string.txt_do_you_want_to_logout))
-        dialog.setPositiveButton("ok", DialogInterface.OnClickListener { dialogInterface, i ->
+        dialog.setPositiveButton(getString(R.string.txt_ok), DialogInterface.OnClickListener { dialogInterface, i ->
             DataStoreHelper.clearData()
             startActivity(Intent(requireActivity(), LoginActivity::class.java))
             requireActivity().finish()

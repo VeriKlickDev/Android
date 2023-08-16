@@ -1,5 +1,6 @@
 package com.ui.twilioVideo
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.graphics.*
@@ -158,13 +159,13 @@ object DialogConnectTwilioRoom {
         callParticipantsClickListener: DialogInterface.OnClickListener?,
         cancelClickListener: DialogInterface.OnClickListener?,
         context: Context?
-    ): android.app.AlertDialog
+    ): AlertDialog
     {
-        val alertDialogBuilder=android.app.AlertDialog.Builder(context!!)
+        val alertDialogBuilder= AlertDialog.Builder(context!!)
         alertDialogBuilder.setIcon(R.drawable.ic_video_call_white_24dp)
-        alertDialogBuilder.setTitle("Connect to a room")
-        alertDialogBuilder.setPositiveButton("Connect", callParticipantsClickListener)
-        alertDialogBuilder.setNegativeButton("Cancel", cancelClickListener)
+        alertDialogBuilder.setTitle(context.getString(R.string.txt_connect_to_room))
+        alertDialogBuilder.setPositiveButton(context.getString(R.string.txt_connect), callParticipantsClickListener)
+        alertDialogBuilder.setNegativeButton(context.getString(R.string.txt_cancel), cancelClickListener)
         alertDialogBuilder.setCancelable(false)
         participantEditText?.let { this.setRoomNameFieldInDialog(it, alertDialogBuilder) }
         return alertDialogBuilder.create()

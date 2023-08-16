@@ -133,7 +133,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     if (data.aPIResponse?.StatusCode != null) {
                         showCustomToast(getString(R.string.txt_phone_already_exists))
                         isPhoneok = false
-                        Handler(mainLooper).postDelayed({ binding.etPhoneno.setText("") }, 2000)
+                        Handler(mainLooper).postDelayed({ binding.etPhoneno.setText("") }, 1000)
                     } else {
                         //  binding.etPhoneno.setError(data.aPIResponse?.Message.toString())
                         isPhoneok = true
@@ -830,7 +830,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
     }
 
     private fun showAlerttoFinishActivity(msg: String) {
-        var alertDialog = AlertDialog.Builder(this)
+        var alertDialog = AlertDialog.Builder(this,R.style.custom_style_dialog)
         alertDialog.run {
             setMessage(msg)
             setPositiveButton(getString(R.string.txt_ok),

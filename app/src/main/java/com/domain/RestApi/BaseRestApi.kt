@@ -3,6 +3,7 @@ package com.domain.RestApi
 import androidx.annotation.CheckResult
 import com.domain.BaseModels.*
 import com.google.gson.Gson
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -20,8 +21,13 @@ interface BaseRestApi {
     @GET("/api/ScheduleVideo/GetVideoTokenDetails/{VideoAccessCode}")
     suspend fun getTwilioVideoTokenCandidate(@Query("VideoAccessCode")videoAccessCode:String) : Response<TokenResponseBean>
 
+
+
     @GET
     suspend fun getQuestionnaireListNew(@Url url :String ) :Response<ResponseQuestionnaire>
+
+    @POST("/api/Questionier/GetQuestionierWeb")
+    suspend fun getQuestionnaireListNew(@Body ob: ResponseQuestainnaireList):Response<ResponseQuestainnaireList>
 
     @POST("/api/ScheduleVideo/GetInterviewByRecruiter")
     suspend fun getScheduledMeetingsList(@Header("Authorization")token:String, @Body ob: BodyScheduledMeetingBean):Response<ResponseScheduledMeetingBean>
@@ -176,7 +182,7 @@ interface BaseRestApi {
 
 
     @GET("/api/Candidate/GetCandidateStatusList")
-    suspend fun checkSession(@Header("Authorization")auth:String):Response<JsonObject>
+    suspend fun checkSession(@Header("Authorization")auth:String):Response<JsonArray>
 
 }
 

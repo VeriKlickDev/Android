@@ -123,6 +123,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_7sp"
                 android:hint="@string/txt_document"
+                android:paddingEnd="@dimen/_35sdp"
                 android:layout_weight="1"
                 android:maxHeight="@dimen/_100sdp"
                 android:layout_gravity="bottom"

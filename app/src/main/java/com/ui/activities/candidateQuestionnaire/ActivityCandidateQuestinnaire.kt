@@ -36,7 +36,7 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
     private var binding:ActivityCandidateQuestinnaireBinding?=null
     private var viewModel:VMCandidateQuestionnaire?=null
     private var questionAdapter:CandidateQuestionnaireListAdapter?=null
-    private var questionList= arrayListOf<Question>()
+    private var questionList= arrayListOf<Question2>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -303,7 +303,8 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
             //viewModel?.getQuestionnaireListNew(candidateId.toString(),templateId.toString(),accessToken.toString()){data, isSuccess, errorCode, msg ->
                 viewModel?.getQuestionnaireListNew(
                     templateId.toString(),
-                    queryString
+                    accessToken.toString(),
+                    candidateId.toString()
                 ){ data, isSuccess, errorCode, msg ->
                 if (isSuccess)
                 {
@@ -339,7 +340,7 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
     }
 
     private fun showAlerttoFinishActivity(msg: String) {
-        var alertDialog = androidx.appcompat.app.AlertDialog.Builder(this)
+        var alertDialog = androidx.appcompat.app.AlertDialog.Builder(this,R.style.custom_style_dialog)
         alertDialog.run {
             setMessage(msg)
             setPositiveButton(getString(R.string.txt_ok),
@@ -352,6 +353,8 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
             create()
             show()
         }
+
+
     }
 
 

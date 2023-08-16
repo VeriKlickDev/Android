@@ -5,6 +5,7 @@ import com.domain.BaseModels.*
 import com.domain.RestApi.BaseRestApi
 import com.domain.RestApi.LoginRestApi
 import com.google.gson.Gson
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -33,6 +34,10 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun getQuestionnaireListNew(url: String) : Response<ResponseQuestionnaire> {
         return baseRestApi.getQuestionnaireListNew(url)
+    }
+
+    override suspend fun getQuestionnaireListNew(ob: ResponseQuestainnaireList): Response<ResponseQuestainnaireList> {
+        return baseRestApi.getQuestionnaireListNew(ob)
     }
 
     override suspend fun getScheduledMeetingsList(
@@ -253,7 +258,7 @@ class RepositoryImpl @Inject constructor(
         return baseRestApi.getSMSchatHistory(authToken,obj)
     }
 
-    override suspend fun checkSession(authToken: String): Response<JsonObject> {
+    override suspend fun checkSession(authToken: String): Response<JsonArray> {
         return baseRestApi.checkSession(authToken)
     }
 

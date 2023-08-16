@@ -260,7 +260,9 @@
     <string name="txt_all_soft_skill_is_required">Toutes les compétences générales sont requises</string>
     <string name="txt_isNotSelected">n\'est pas sélectionné</string>
     <string name="txt_please_select_language" tools:ignore="MissingTranslation">Veuillez d\'abord sélectionner la langue</string>
-    <string name="txt_and">and</string>
-    <string name="txt_you_have_successfull_completed_form">You have successfully submitted the form . Click ok to close the process.</string>
+
+    <string name="txt_and">et</string>
+    <string name="txt_you_have_successfull_completed_form">Vous avez soumis le formulaire avec succès. Cliquez sur OK pour fermer le processus.</string>
+    <string name="txt_connect_to_room">Se connecter à la salle</string>
 
 </resources>

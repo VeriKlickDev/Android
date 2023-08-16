@@ -387,7 +387,8 @@ data class ResponseScheduledMeetingBean (
 	@SerializedName("Interview") val interview : String,
 	@SerializedName("totalCount") val totalCount : Int,
 	@SerializedName("DownloadList") val downloadList : String,
-	@SerializedName("NewInterviewDetails") val newInterviewDetails : List<NewInterviewDetails>)
+	@SerializedName("NewInterviewDetails") val newInterviewDetails : List<NewInterviewDetails>
+)
 
 
 
@@ -446,5 +447,57 @@ data class SavedProfile (
 
 
 
+//for getting questionnaire
+
+
+
+data class ResponseQuestainnaireList (
+
+	@SerializedName("getQuestionnaireTemplate" ) var getQuestionnaireTemplate : GetQuestionnaireTemplate? = GetQuestionnaireTemplate(),
+	@SerializedName("TemplateName"             ) var TemplateName             : String?                   = null,
+	@SerializedName("TemplateId"               ) var TemplateId               : Int?                      = null,
+	@SerializedName("RecruiterId"              ) var RecruiterId              : String?                   = null,
+	@SerializedName("SubscriberId"             ) var SubscriberId             : String?                   = null,
+	@SerializedName("QuestionList"             ) var QuestionList             : ArrayList<QuestionList2>   = arrayListOf(),
+	@SerializedName("Message"                  ) var Message                  : String?                   = null,
+	@SerializedName("StatusCode"               ) var StatusCode               : String?                   = null,
+	@SerializedName("Success"                  ) var Success                  : Boolean?                  = null,
+	@SerializedName("TimeTaken"                ) var TimeTaken                : String?                   = null
+
+)
+
+data class GetQuestionnaireTemplate (
+
+	@SerializedName("TemplateId"  ) var TemplateId  : Int?    = null,
+	@SerializedName("CandidateId" ) var CandidateId : Int?    = null,
+	@SerializedName("AccessCode"  ) var AccessCode  : String? = null
+
+)
+
+data class Options2 (
+	var selectedItem:Int=-1,
+	@SerializedName("OptionId"       ) var OptionId       : Int?     = null,
+	@SerializedName("OptionDesc"     ) var OptionDesc     : String?  = null,
+	@SerializedName("OptionSelected" ) var OptionSelected : Boolean? = null
+
+)
+
+
+data class Question2 (
+	@SerializedName("Answer" ) var Answer : Options2?            = null, /*answer added*/
+	@SerializedName("QuestionId"             ) var QuestionId             : Int?               = null,
+	@SerializedName("QuestionDesc"           ) var QuestionDesc           : String?            = null,
+	@SerializedName("QuestionType"           ) var QuestionType           : String?            = null,
+	@SerializedName("AnswerDescription"      ) var AnswerDescription      : String?            = null,
+	@SerializedName("OtherAnswerDescription" ) var OtherAnswerDescription : String?            = null,
+	@SerializedName("Options"                ) var Options                : ArrayList<Options2> = arrayListOf()
+	,@SerializedName("optionId" ) var optionId : String?            = null
+)
+
+data class QuestionList2 (
+
+	@SerializedName("Question" ) var Question : ArrayList<Question2> = arrayListOf()
+
+)
 
 

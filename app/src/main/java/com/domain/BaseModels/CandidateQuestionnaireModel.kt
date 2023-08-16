@@ -36,7 +36,7 @@ data class Question (
     @SerializedName("QuestionDesc" ) var QuestionDesc : String?            = null,
     @SerializedName("QuestionType" ) var QuestionType : String?            = null,
     @SerializedName("Options"      ) var Options      : ArrayList<Options> = arrayListOf(),
-  /*answer added*/  @SerializedName("Answer" ) var Answer : Options?            = null
+    @SerializedName("Answer" ) var Answer : Options?            = null /*answer added*/
     ,@SerializedName("tab" ) var selectedTab : String?            = null
     ,@SerializedName("optionId" ) var optionId : String?            = null
 
@@ -83,6 +83,15 @@ data class QuestionierTemplates (
 
     @SerializedName("TemplateName" ) var TemplateName : String? = null,
     @SerializedName("TemplateId"   ) var TemplateId   : Int?    = null
+
+)
+
+
+data class BodyShowQuestionnaire (
+
+    @SerializedName("TemplateId"  ) var TemplateId  : Int?    = null,
+    @SerializedName("CandidateId" ) var CandidateId : Int?    = null,
+    @SerializedName("AccessCode"  ) var AccessCode  : String? = null
 
 )
 

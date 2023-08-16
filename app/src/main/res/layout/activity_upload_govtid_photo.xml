@@ -178,15 +178,15 @@
 
 
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_upload_image"
-                style="@style/button.Style.Blue.Rounded.Enable.Disable.withoutMargin"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_55sdp"
-                android:layout_weight="1"
-                android:layout_marginBottom="@dimen/_7sp"
-                android:text="@string/txt_upload"
-                android:textSize="@dimen/_18sdp" />
+<!--            <androidx.appcompat.widget.AppCompatButton-->
+<!--                android:id="@+id/btn_upload_image"-->
+<!--                style="@style/button.Style.Blue.Rounded.Enable.Disable.withoutMargin"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="@dimen/_55sdp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:layout_marginBottom="@dimen/_7sp"-->
+<!--                android:text="@string/txt_upload"-->
+<!--                android:textSize="@dimen/_18sdp" />-->
 </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.AppCompatButton

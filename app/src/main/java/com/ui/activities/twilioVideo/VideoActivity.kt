@@ -585,7 +585,7 @@ class VideoActivity : AppCompatActivity(), RoomListenerCallback, RoomParticipant
 
     private fun forceCloseMeetingAlert() {
         val alertdialog = AlertDialog.Builder(this)
-        alertdialog.setPositiveButton("Ok", object : DialogInterface.OnClickListener {
+        alertdialog.setPositiveButton(getString(R.string.txt_ok), object : DialogInterface.OnClickListener {
             override fun onClick(p0: DialogInterface?, p1: Int) {
                 forceCloseMeeting()
                 //  isEndCall=true

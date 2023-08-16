@@ -161,6 +161,8 @@
                                         android:layout_marginRight="@dimen/_10sp"
                                         android:background="@drawable/shape_rectangle_rounded_stroke_grey"
                                         android:padding="@dimen/_5sp"
+                                        android:drawableTint="@color/grey"
+                                        android:drawableEnd="@drawable/arrow_down_24_black"
                                         android:id="@+id/tv_countryCode"
                                         android:text="@string/txt_country_code"
                                         />

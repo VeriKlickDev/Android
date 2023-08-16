@@ -57,7 +57,7 @@
         <com.imn.iivisu.PlayerVisualizer
             android:id="@+id/visualizer"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_300sdp"
+            android:layout_height="@dimen/_200sdp"
             android:layout_marginTop="24dp"
             android:background="@color/white"
             app:approximateBarDuration="75"
