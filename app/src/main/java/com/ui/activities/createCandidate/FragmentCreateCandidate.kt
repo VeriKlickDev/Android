@@ -323,6 +323,7 @@ class FragmentCreateCandidate : Fragment() {
                             viewModel?.sendProfileLink(obj) { data, isSuccess, errorCode, msg ->
                                 if (isSuccess) {
                                     requireActivity().runOnUiThread {
+                                        binding.etLink.setText(data?.MessageText.toString())
                                         requireActivity().dismissProgressDialog()
                                         requireActivity().showCustomToast(data?.ResponseMessage.toString())
                                         //requireActivity().showCustomSnackbarOnTop(data?.ResponseMessage.toString())

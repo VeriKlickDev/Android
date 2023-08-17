@@ -1068,12 +1068,13 @@ class UpcomingListFragment(val from: String) : Fragment() {
                         R.anim.slide_out_left
                     )
                 }
-
+//9026730559
                 4 -> {
                     //showCustomSnackbarOnTop("Joining Meeting On MS Teams")
                     requireActivity().setHandler().postDelayed({
+                        Log.d(TAG, "setupAdapter: mstteamslink ${data.msMeetingUrl} $data.meet")
                         jumpToTeams(data.msMeetingUrl)
-                    }, 2000)
+                    }, 1000)
 
                     // handleJoin(data, videoAccessCode)
                 }
@@ -1120,16 +1121,26 @@ class UpcomingListFragment(val from: String) : Fragment() {
     }
 
     private fun jumpToTeams(link: String) {
-        val sendIntent = Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse(link)
-        )
-
-        if (sendIntent.resolveActivity(requireActivity().packageManager) != null) {
-            startActivity(sendIntent)
-        } else {
-            startActivity(sendIntent)
+        Log.d(TAG, "jumpToTeams: link is $link")
+        try {
+            if (link!=null){
+                val sendIntent = Intent(Intent.ACTION_MAIN,Uri.parse(link))
+                if (sendIntent.resolveActivity(requireActivity().packageManager) != null) {
+                    startActivity(sendIntent)
+                } else {
+                    startActivity(sendIntent)
+                }
+            }else{
+                requireActivity().run {
+                    Log.d(TAG, "jumpToTeams: link is null $link")
+                }
+            }
+        }catch (e:Exception)
+        {
+            Log.d(TAG, "jumpToTeams: link exception ${e.message}")
         }
+
+
     }
 
 

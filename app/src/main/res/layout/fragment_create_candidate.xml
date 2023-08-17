@@ -144,7 +144,7 @@
 
                                 <androidx.appcompat.widget.LinearLayoutCompat
                                     android:layout_width="match_parent"
-                                    android:layout_weight="0.8"
+                                    android:layout_weight="0.6"
                                     android:layout_height="match_parent"
                                     android:gravity="center"
                                     android:layout_marginVertical="@dimen/_8sdp"
@@ -260,6 +260,16 @@
                                 android:text="@string/txt_sendLink"
                                 android:foreground="?selectableItemBackground"
                                 android:textSize="@dimen/_18sdp" />
+
+
+
+                            <EditText
+                                android:layout_marginTop="@dimen/_15sp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/et_link"
+                                android:hint="@string/app_name"
+                                />
 
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
