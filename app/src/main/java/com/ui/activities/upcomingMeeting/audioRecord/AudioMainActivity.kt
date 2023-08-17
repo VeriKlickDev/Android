@@ -243,6 +243,7 @@ class AudioMainActivity : AppCompatActivity() {
     {
         runOnUiThread {
             val intent = Intent(this@AudioMainActivity, PlayActivity::class.java)
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
             overridePendingTransition(
                 R.anim.slide_in_right,

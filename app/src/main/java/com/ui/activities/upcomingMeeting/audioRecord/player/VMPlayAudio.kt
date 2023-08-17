@@ -87,8 +87,8 @@ class VMPlayAudio @Inject constructor(val loginRestApi: LoginRestApi, val baseRe
                     {
                         when (response.code()) {
                             200 -> {
-                                respnse(response.body(),true,200,response.body()!!.Message.toString())
                                 CandidateImageAndAudioHolder.setAudioName(response.body()?.AudioFileName.toString())
+                                respnse(response.body(),true,200,response.body()!!.Message.toString())
                             }
                             401 -> {
                                 respnse(null,false,401,response.body()!!.Message.toString())

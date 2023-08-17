@@ -319,7 +319,7 @@ class ActivityResumeDocument : AppCompatActivity() {
                                         R.anim.slide_in_right,
                                         R.anim.slide_out_left
                                     )
-                                }, 2000)
+                                }, 1500)
                             }
                             // binding.btnUploadResume.isEnabled = false
 

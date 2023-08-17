@@ -346,7 +346,11 @@ class ActivityCreateCandidate : AppCompatActivity() {
                         //ob.profile?.GovId_Url=CandidateImageAndAudioHolde
                     }
 
-                    ob.profile?.AudioFileName=CandidateImageAndAudioHolder.getAudioFileName()+".wav"
+                    if (CandidateImageAndAudioHolder.getAudioFileName()!=null)
+                    {
+                        ob.profile?.AudioFileName=CandidateImageAndAudioHolder.getAudioFileName()+".wav"
+                    }
+
                     val audioFileName=CandidateImageAndAudioHolder.getAudioFileName()
                     audioFileName
 

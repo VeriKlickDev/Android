@@ -103,7 +103,9 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
             // val intent=Intent(this, AudioMainActivity::class.java)
             //val intent=Intent(this, ActivityCreateCandidate::class.java)
             //val intent=Intent(this, ActivityResumeDocument::class.java)
+            Log.d(TAG, "onCreate: btn pressed")
             uploadImage()
+
         }
 
         binding.tvSetPreference.setOnClickListener {
@@ -367,7 +369,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
 
         val tempFile = File.createTempFile("temprentpk", ".png")
         val bytes = ByteArrayOutputStream()
-        inImage.compress(Bitmap.CompressFormat.PNG, 100, bytes)
+        inImage.compress(Bitmap.CompressFormat.PNG, 50, bytes)
         val bitmapData = bytes.toByteArray()
         val fileOutPut = FileOutputStream(tempFile)
         fileOutPut.write(bitmapData)
@@ -444,6 +446,9 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
     private fun uploadImage() {
         if (finalUserImageUri != null) {
             if (checkInternet()) {
+                Log.d(TAG, "onCreate: btn upload profile function")
+                runOnUiThread { showProgressDialog() }
+
                 uploadProfilePhoto()
             } else {
                 showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
@@ -513,18 +518,24 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
         contractorGallery.launch(intent)
     }
 
+
+
     private fun uploadProfilePhoto() {
         CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            var imageFileSize=0
             try {
                 var imageBitmap = uriToBitmap(finalUserImageUri!!)
                 if (imageBitmap != null) {
                     try {
+                        Log.d(TAG, "onCreate: btn  decoding bytes start")
                         val outputStream = ByteArrayOutputStream()
                         imageBitmap.compress(Bitmap.CompressFormat.PNG, 20, outputStream)
                         val bitmapdata: ByteArray = outputStream.toByteArray()
                         imageBitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.size)
-
+                        Log.d(TAG, "onCreate: btn  decoding bytes end ${bitmapdata.size}")
+                        imageFileSize=bitmapdata.size
                     } catch (e: Exception) {
+                        Log.d(TAG, "onCreate: btn  decoding exception")
                         Log.d(TAG, "uploadProfilePhoto: exception 272 ${e.message}")
                     }
 
@@ -533,7 +544,7 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                     //val subsId=DataStoreHelper.getMeetingUserId()
                     var subsId = recruiterId
                     // binding.ivUploadImage.setImageBitmap(imageBitmap)
-                    Log.d(TAG, "uploadProfilePhoto: image base64 $image")
+                   // Log.d(TAG, "uploadProfilePhoto: image base64 $image")
                     var imageName = subsId + "/IMG_${System.currentTimeMillis()}.png"
                     Log.d(TAG, "uploadProfilePhoto: image name $imageName subscriber $subsId")
                     CandidateImageAndAudioHolder.setImage(
@@ -543,13 +554,12 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                             "upload"
                         )
                     )
-                    runOnUiThread { showProgressDialog() }
                     viewModel?.updateUserImageWithoutAuth(CandidateImageAndAudioHolder.getImageObject()!!) { isSuccess, code, msg ->
                         when (code) {
                             200 -> {
-                                runOnUiThread { dismissProgressDialog() }
+                                runOnUiThread { dismissProgressDialog()
                                 Log.d(TAG, "uploadProfilePhoto: $msg")
-                                runOnUiThread { showCustomSnackbarOnTop(msg) }
+                                showCustomSnackbarOnTop(msg) }
                                 //  binding.btnUploadImage.isEnabled=false
                                runOnUiThread {
 
@@ -563,32 +573,32 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                                            R.anim.slide_in_right,
                                            R.anim.slide_out_left
                                        )
-                                   },2000)
+                                   },1500)
 
                                }
                             }
 
                             400 -> {
-                                runOnUiThread { dismissProgressDialog() }
-                                runOnUiThread { showCustomSnackbarOnTop(msg) }
+                                runOnUiThread { dismissProgressDialog()
+                                showCustomSnackbarOnTop(msg) }
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
 
                             401 -> {
-                                runOnUiThread { dismissProgressDialog() }
-                                runOnUiThread { showCustomSnackbarOnTop(msg) }
+                                runOnUiThread { dismissProgressDialog()
+                                showCustomSnackbarOnTop(msg) }
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
 
                             500 -> {
-                                runOnUiThread { dismissProgressDialog() }
-                                runOnUiThread { showCustomSnackbarOnTop(msg) }
+                                runOnUiThread { dismissProgressDialog()
+                                 showCustomSnackbarOnTop(msg) }
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
 
                             501 -> {
-                                runOnUiThread { dismissProgressDialog() }
-                                runOnUiThread { showCustomSnackbarOnTop(msg) }
+                                runOnUiThread { dismissProgressDialog()
+                                showCustomSnackbarOnTop(msg) }
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
 
@@ -598,8 +608,17 @@ class ActivityUploadProfilePhoto : AppCompatActivity() {
                             }
 
                             503 -> {
-                                runOnUiThread { dismissProgressDialog() }
-                                runOnUiThread { showCustomSnackbarOnTop(msg) }
+                                if (imageFileSize>3000000){
+                                    runOnUiThread {
+                                        dismissProgressDialog()
+                                        showCustomSnackbarOnTop(getString(R.string.txt_file_size_is_too_large))
+                                    }
+                                }else
+                                {
+                                    runOnUiThread { dismissProgressDialog()
+                                    showCustomSnackbarOnTop(msg) }
+
+                                }
                                 Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                             }
 

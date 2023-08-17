@@ -169,6 +169,11 @@
             <!--                android:textColor="@color/white"-->
             <!--                />-->
 
+<!--            <EditText-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="@dimen/_45sdp"-->
+<!--                android:id="@+id/et_errortest"-->
+<!--                />-->
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_skip"
                 style="@style/button.Style.Blue.Rounded.Enable.Disable.Stroke"

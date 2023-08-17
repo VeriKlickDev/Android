@@ -60,6 +60,7 @@ class PlayActivity : AppCompatActivity() {
             runOnUiThread { showProgressDialog() }
             viewModel?.updateUserAudioWithoutAuth{ data,isSuccess, code, msg ->
                 runOnUiThread {dismissProgressDialog() }
+               // binding.etErrortest.setText(msg)
                 when(code)
                 {
                     200->{
@@ -74,7 +75,7 @@ class PlayActivity : AppCompatActivity() {
                                     R.anim.slide_in_right,
                                     R.anim.slide_out_left
                                 )
-                            },2000)
+                            },1500)
 
                         }
 
@@ -101,7 +102,7 @@ class PlayActivity : AppCompatActivity() {
                         Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                     }
                     503->{
-                        runOnUiThread { showCustomSnackbarOnTop(msg) }
+                        runOnUiThread { showCustomSnackbarOnTop(getString(R.string.txt_response_not_success)) }
                         Log.d(TAG, "uploadProfilePhoto: $msg $isSuccess $code")
                     }
                     502->{
