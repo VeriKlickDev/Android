@@ -173,6 +173,7 @@
             android:elevation="@dimen/_5sp"
             android:visibility="visible"
             tools:itemCount="5"
+            android:layout_marginBottom="@dimen/_10sp"
             app:layout_constraintBottom_toTopOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -199,7 +200,7 @@
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:minHeight="@dimen/_300sdp"
@@ -219,7 +220,7 @@
                     android:paddingVertical="@dimen/_5sp"
                     android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/linearLayoutCompat4"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/linearLayoutCompat4"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -397,25 +398,24 @@
                     android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-
+                    android:layout_marginBottom="@dimen/_10sp"
                     app:layout_constraintStart_toStartOf="parent">
 
 
                     <ImageView
                         android:id="@+id/btn_end_call"
-                        android:layout_width="@dimen/_80sdp"
+                        android:layout_width="@dimen/_60sdp"
                         android:layout_height="@dimen/_45sdp"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginRight="@dimen/_10sp"
                         android:background="@drawable/ic_img_end_call_red"
                         android:foreground="?selectableItemBackground" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/mute_action_fab"
-                        android:layout_width="@dimen/_50sdp"
-                        android:layout_height="@dimen/_50sdp"
+                        android:layout_width="@dimen/_45sdp"
+                        android:layout_height="@dimen/_45sdp"
                         android:layout_gravity="center"
-                        android:layout_marginHorizontal="@dimen/_10sp"
+                        android:layout_marginHorizontal="@dimen/_7sp"
                         android:background="@color/black_70"
                         android:scaleType="center"
                         android:src="@drawable/ic_img_btn_mic_unmute_white"
@@ -425,8 +425,8 @@
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/local_video_action_fab"
-                        android:layout_width="@dimen/_50sdp"
-                        android:layout_height="@dimen/_50sdp"
+                        android:layout_width="@dimen/_45sdp"
+                        android:layout_height="@dimen/_45sdp"
                         android:layout_gravity="center"
                         android:background="@color/black_50"
                         android:scaleType="centerInside"
@@ -435,10 +435,9 @@
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/btn_send_message"
-                        android:layout_width="@dimen/_50sdp"
-                        android:layout_height="@dimen/_50sdp"
+                        android:layout_width="@dimen/_45sdp"
+                        android:layout_height="@dimen/_45sdp"
                         android:layout_marginHorizontal="@dimen/_5sp"
-                        android:layout_marginRight="@dimen/_10sp"
                         android:background="@color/black_50"
                         android:src="@drawable/ic_img_btn_message"
                         app:fabSize="mini"
@@ -459,8 +458,8 @@
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/btn_ellipsize"
-                        android:layout_width="@dimen/_50sdp"
-                        android:layout_height="@dimen/_50sdp"
+                        android:layout_width="@dimen/_45sdp"
+                        android:layout_height="@dimen/_45sdp"
                         android:background="@color/black_50"
                         android:src="@drawable/ic_img_btn_ellepsize"
                         app:fabSize="mini"

@@ -446,4 +446,16 @@
     </style>
 
 
+    <!--    for transparentBackground-->
+    <style name="tranparentBackgroundStyleBottomsheet" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyleForBottomSheet</item>
+    </style>
+
+    <style name="AppModalStyleForBottomSheet"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+    <!--    for transparentBackground-->
+
+
 </resources>
