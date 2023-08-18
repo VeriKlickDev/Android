@@ -122,6 +122,9 @@ class JoinMeetingViewModel @Inject constructor(val repo: BaseRestRepository) :Vi
                            401->{
                                onDataResponse(result.body(),401)
                            }
+                           410->{
+                               onDataResponse(result.body(),410)
+                           }
                        }
                         //onDataResponse(result.body()!!,200)
                         Log.d(TAG, "getVideoSession:  success ${result.body()}")

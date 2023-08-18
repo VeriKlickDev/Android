@@ -23,21 +23,26 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.data.*
 import com.data.dataHolders.*
 import com.data.helpers.TwilioHelper
 import com.domain.BaseModels.*
 import com.domain.constant.AppConstants
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.harvee.yourhealthmate2.ui.privacypolicy.ActivityPrivacyPolicy
 import com.ui.activities.feedBack.ActivityFeedBackForm
 import com.ui.activities.login.LoginActivity
 import com.ui.activities.twilioVideo.VideoActivity
+import com.ui.activities.upcomingMeeting.CandidateList.TemplatesListAdapter
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
 import com.ui.listadapters.UpcomingMeetingAdapter
 import com.veriKlick.R
 import com.veriKlick.databinding.FragmentUpcomingListBinding
+import com.veriKlick.databinding.LayoutBottomsheetChooseLanguageLogoutBinding
+import com.veriKlick.databinding.LayoutChooseQuestionTemplateBinding
 import com.veriKlick.databinding.LayoutDescriptionDialogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -78,14 +83,14 @@ class UpcomingListFragment(val from: String) : Fragment() {
         handleMeetingFilter()
 
 
-       /* if (requireActivity().checkInternet()) {
-            status = "schedule"
-            binding.tvHeader.setText(getString(R.string.txt_scheduled_meetings))
-            handleUpcomingMeetingsList(0, 1, 9)
-            //2jun2023 handleUpcomingMeetingsList(0, 1, 9)
-        } else {
-            requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
-        }*/
+        /* if (requireActivity().checkInternet()) {
+             status = "schedule"
+             binding.tvHeader.setText(getString(R.string.txt_scheduled_meetings))
+             handleUpcomingMeetingsList(0, 1, 9)
+             //2jun2023 handleUpcomingMeetingsList(0, 1, 9)
+         } else {
+             requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
+         }*/
 
         binding.btnSearchShow.setOnClickListener {
             if (binding.tvHeader.isVisible) {
@@ -129,34 +134,32 @@ class UpcomingListFragment(val from: String) : Fragment() {
 
 
         CoroutineScope(Dispatchers.Main).launch {
-       if (DataStoreHelper.getLoggedInStatus()) {
-                binding.btnBugerIcon.setImageDrawable(requireActivity().getDrawable(R.drawable.img_logout))
-            }else
-       {
-           binding.btnBugerIcon.setImageDrawable(requireActivity().getDrawable(R.drawable.ic_hamburger_menu))
-       }
+            if (DataStoreHelper.getLoggedInStatus()) {
+                binding.btnBugerIcon.setImageDrawable(requireActivity().getDrawable(R.drawable.ic_more))
+            } else {
+                binding.btnBugerIcon.setImageDrawable(requireActivity().getDrawable(R.drawable.ic_hamburger_menu))
+            }
         }
 
         binding.btnBugerIcon.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
-                if (DataStoreHelper.getLoggedInStatus())
-                {
-                    val dialog = AlertDialog.Builder(requireActivity())
-                    dialog.setMessage(getString(R.string.txt_do_you_want_to_logout))
-                    dialog.setPositiveButton(getString(R.string.txt_yes), DialogInterface.OnClickListener { dialogInterface, i ->
-                        DataStoreHelper.clearData()
-                        startActivity(Intent(requireActivity(), LoginActivity::class.java))
-                        requireActivity().finish()
-                    })
-                    dialog.setNegativeButton(
-                        getString(R.string.txt_cancel),
-                        DialogInterface.OnClickListener { dialogInterface, i ->
+                if (DataStoreHelper.getLoggedInStatus()) {
+                    showChooseLanguageBottomsheet()
+                    /*  val dialog = AlertDialog.Builder(requireActivity())
+                      dialog.setMessage(getString(R.string.txt_do_you_want_to_logout))
+                      dialog.setPositiveButton(getString(R.string.txt_yes), DialogInterface.OnClickListener { dialogInterface, i ->
+                          DataStoreHelper.clearData()
+                          startActivity(Intent(requireActivity(), LoginActivity::class.java))
+                          requireActivity().finish()
+                      })
+                      dialog.setNegativeButton(
+                          getString(R.string.txt_cancel),
+                          DialogInterface.OnClickListener { dialogInterface, i ->
 
-                        })
-                    dialog.show()
-                    dialog.create()
-                }else
-                {
+                          })
+                      dialog.show()
+                      dialog.create()*/
+                } else {
                     (requireActivity() as UpcomingMeetingActivity).openDrawer()
                 }
             }
@@ -304,23 +307,23 @@ class UpcomingListFragment(val from: String) : Fragment() {
 
             }
         })
-       //2jun2023 setupAdapter()
+        //2jun2023 setupAdapter()
         handleObserver()
-       /* requireActivity().requestNearByPermissions() {
-            Log.d(TAG, "onCreate: onNearbyPermission $it")
-            thread {
-                Thread.sleep(1000)
-                try {
-                    requireActivity().requestNotificationPermission {
+        /* requireActivity().requestNearByPermissions() {
+             Log.d(TAG, "onCreate: onNearbyPermission $it")
+             thread {
+                 Thread.sleep(1000)
+                 try {
+                     requireActivity().requestNotificationPermission {
 
-                    }
-                } catch (e: Exception) {
-                    Log.d(TAG, "onCreateView: exception 285 ${e.message}")
-                }
+                     }
+                 } catch (e: Exception) {
+                     Log.d(TAG, "onCreateView: exception 285 ${e.message}")
+                 }
 
-            }
+             }
 
-        }*/
+         }*/
 
         setupDrawer()
 
@@ -328,19 +331,19 @@ class UpcomingListFragment(val from: String) : Fragment() {
     }
 
 
-    private fun checkDeepLinkIsOpenFirst(){
+    private fun checkDeepLinkIsOpenFirst() {
         CoroutineScope(Dispatchers.IO).launch {
             Log.d(TAG, "checkDeepLinkIsOpenFirst: check in coroutine")
             try {
                 if (DataStoreHelper.getDeeplinkIsOpenStatus() != null && !DataStoreHelper.getDeeplinkIsOpenStatus()) {
-                    requireActivity().runOnUiThread { getDeepLinkPermission {  } }
+                    requireActivity().runOnUiThread { getDeepLinkPermission { } }
 
                 } else {
-                    requireActivity().runOnUiThread {  }
+                    requireActivity().runOnUiThread { }
 
                 }
             } catch (e: Exception) {
-                requireActivity().runOnUiThread { getDeepLinkPermission {  } }
+                requireActivity().runOnUiThread { getDeepLinkPermission { } }
 
             }
         }
@@ -352,26 +355,27 @@ class UpcomingListFragment(val from: String) : Fragment() {
         Log.d(TAG, "getDeepLinkPermission: on deeplink dialog")
         val dialog = AlertDialog.Builder(requireActivity())
         dialog.setTitle(getString(R.string.txt_please_enable_the_deeplink))
-        dialog.setPositiveButton(getString(R.string.txt_ok),object : DialogInterface.OnClickListener {
-            override fun onClick(dialog: DialogInterface?, which: Int) {
-                Log.d(TAG, "onClick: ${Build.BRAND.toString()}")
-                 CoroutineScope(Dispatchers.IO).launch {
-                     DataStoreHelper.setDeepLinkData(true)
-                 }
-                 if (Build.BRAND.toString().trim().lowercase().contains("SAMSUNG".trim().lowercase()))
-                 {
-                     requireActivity().showCustomSnackbarOnTop("you have to add deeplink manually")
-                 }else
-                 {
-                     val intent = Intent(
-                         Settings.ACTION_APP_OPEN_BY_DEFAULT_SETTINGS,
-                         Uri.parse("package:${requireActivity().packageName}")
-                     )
-                     startActivity(intent)
+        dialog.setPositiveButton(getString(R.string.txt_ok),
+            object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface?, which: Int) {
+                    Log.d(TAG, "onClick: ${Build.BRAND.toString()}")
+                    CoroutineScope(Dispatchers.IO).launch {
+                        DataStoreHelper.setDeepLinkData(true)
+                    }
+                    if (Build.BRAND.toString().trim().lowercase()
+                            .contains("SAMSUNG".trim().lowercase())
+                    ) {
+                        requireActivity().showCustomSnackbarOnTop("you have to add deeplink manually")
+                    } else {
+                        val intent = Intent(
+                            Settings.ACTION_APP_OPEN_BY_DEFAULT_SETTINGS,
+                            Uri.parse("package:${requireActivity().packageName}")
+                        )
+                        startActivity(intent)
 
-                 }
-            }
-        })
+                    }
+                }
+            })
         dialog.setOnDismissListener {
             onFinish()
         }
@@ -381,32 +385,31 @@ class UpcomingListFragment(val from: String) : Fragment() {
     }
 
     private fun checkAllPermisions() {
-        if (Build.VERSION.SDK_INT== Build.VERSION_CODES.TIRAMISU){
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.TIRAMISU) {
             Log.d(TAG, "checkAllPermisions: up tiramishu")
 
             requireActivity().requestAllPermissionForApp {
-              /*  requireActivity().runOnUiThread {
-                   // checkDeepLinkIsOpenFirst()
-                }*/
+                /*  requireActivity().runOnUiThread {
+                     // checkDeepLinkIsOpenFirst()
+                  }*/
                 Log.d(TAG, "checkAllPermisions: all permission for app  tiramishu $it")
             }
-        }else
-        {
-           try {
-               requireActivity().requestAllPermissionForApp {}
+        } else {
+            try {
+                requireActivity().requestAllPermissionForApp {}
 
-           }catch (e:Exception){}
+            } catch (e: Exception) {
+            }
             Log.d(TAG, "checkAllPermisions: below below12")
         }
 
     }
 
 
-
     private fun handleMeetingFilter() {
         Log.d(TAG, "handleMeetingFilter: come from $from")
 
-       // viewModel.clearObserverList()
+        // viewModel.clearObserverList()
 
         when (from) {
             getString(R.string.txt_scheduled_meetings) -> {
@@ -415,18 +418,23 @@ class UpcomingListFragment(val from: String) : Fragment() {
                 binding.tvHeader.setText(getString(R.string.txt_scheduled_meetings))
                 handleUpcomingMeetingsList(0, 1, 9)
             }
+
             getString(R.string.txt_all_meetings) -> {
                 getMeetingList(0)
             }
+
             getString(R.string.txt_scheduled) -> {
                 getMeetingList(2)
             }
+
             getString(R.string.txt_attended) -> {
                 getMeetingList(1)
             }
+
             getString(R.string.txt_missed) -> {
                 getMeetingList(3)
             }
+
             getString(R.string.txt_cancelled) -> {
                 getMeetingList(4)
             }
@@ -450,13 +458,15 @@ class UpcomingListFragment(val from: String) : Fragment() {
     private fun logout() {
         val dialog = AlertDialog.Builder(requireActivity())
         dialog.setMessage(getString(R.string.txt_do_you_want_to_logout))
-        dialog.setPositiveButton(getString(R.string.txt_ok), DialogInterface.OnClickListener { dialogInterface, i ->
-            DataStoreHelper.clearData()
-            startActivity(Intent(requireActivity(), LoginActivity::class.java))
-            requireActivity().finish()
-        })
+        dialog.setPositiveButton(
+            getString(R.string.txt_ok),
+            DialogInterface.OnClickListener { dialogInterface, i ->
+                DataStoreHelper.clearData()
+                startActivity(Intent(requireActivity(), LoginActivity::class.java))
+                requireActivity().finish()
+            })
         dialog.setNegativeButton(
-            "cancel",
+            getString(R.string.txt_cancel),
             DialogInterface.OnClickListener { dialogInterface, i ->
 
             })
@@ -485,8 +495,7 @@ class UpcomingListFragment(val from: String) : Fragment() {
                     } else {
                         requireActivity().showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
                     }
-                }catch (e:Exception)
-                {
+                } catch (e: Exception) {
                     Log.d(TAG, "getMeetingList: exception ${e.message}")
                 }
 
@@ -779,7 +788,10 @@ class UpcomingListFragment(val from: String) : Fragment() {
 
             CoroutineScope(Dispatchers.IO).launch {
                 if (ob != null) {
-                    Log.d(TAG, "handleUpcomingMeetingsList: logged in from ${DataStoreHelper.getLoggedInStatus()}")
+                    Log.d(
+                        TAG,
+                        "handleUpcomingMeetingsList: logged in from ${DataStoreHelper.getLoggedInStatus()}"
+                    )
 
                     if (DataStoreHelper.getLoggedInStatus()) {
                         if (requireActivity().checkInternet()) {
@@ -797,7 +809,8 @@ class UpcomingListFragment(val from: String) : Fragment() {
                             getDataWithoutOtp(ob!!)
                         } else {
                             requireActivity().run {
-                            runOnUiThread { showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection)) }}
+                                runOnUiThread { showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection)) }
+                            }
                         }
                     }
                 } else {
@@ -932,94 +945,88 @@ class UpcomingListFragment(val from: String) : Fragment() {
         //25may2023binding.tvNoData.visibility = View.VISIBLE
         //visibleProgressBar()
         viewModel.scheduledMeetingLiveData.observe(requireActivity(), Observer {
-            if (it.size>0)
-            {
+            if (it.size > 0) {
                 meetingsList.addAll(it)
                 adapter.swapList(meetingsList)
                 requireActivity().runOnUiThread {
-                    binding.rvUpcomingMeeting.isVisible=true
-                binding.tvNoData.isVisible=false
+                    binding.rvUpcomingMeeting.isVisible = true
+                    binding.tvNoData.isVisible = false
                 }
             }
             try {
-                if (it.size==0 && it.get(0).totalCount==0)
-                {
+                if (it.size == 0 && it.get(0).totalCount == 0) {
                     meetingsList.clear()
                     adapter.notifyDataSetChanged()
                     requireActivity().runOnUiThread {
-                        binding.rvUpcomingMeeting.isVisible=false
-                        binding.tvNoData.isVisible=true
+                        binding.rvUpcomingMeeting.isVisible = false
+                        binding.tvNoData.isVisible = true
                     }
 
-                }   else
-                {
+                } else {
                     Log.d(TAG, "handleObserver: ")
                 }
-            }catch (e:Exception)
-            {
+            } catch (e: Exception) {
                 Log.d(TAG, "handleObserver: excl ${e.message}")
             }
             try {
-                if (meetingsList.size==0)
-                {
+                if (meetingsList.size == 0) {
                     requireActivity().runOnUiThread {
-                        binding.rvUpcomingMeeting.isVisible=false
-                        binding.tvNoData.isVisible=true
+                        binding.rvUpcomingMeeting.isVisible = false
+                        binding.tvNoData.isVisible = true
                     }
                 }
-             /*   contentLimit
-                if (contentLimit==0)
-                {
-                    clearList()
-                    binding.tvNoData.visibility = View.VISIBLE
-                }else
-                {
-                    binding.tvNoData.visibility = View.INVISIBLE
-                }*/
+                /*   contentLimit
+                   if (contentLimit==0)
+                   {
+                       clearList()
+                       binding.tvNoData.visibility = View.VISIBLE
+                   }else
+                   {
+                       binding.tvNoData.visibility = View.INVISIBLE
+                   }*/
                 Handler(Looper.getMainLooper()).postDelayed({
                     checkAllPermisions()
-                },500)
+                }, 500)
 
-            }catch (e:Exception)
-            {
+            } catch (e: Exception) {
                 Log.d(TAG, "handleObserver: exxcep ${e.message}")
             }
 
 
-           /* if (it.firstOrNull() == meetingsList.firstOrNull()) {
+            /* if (it.firstOrNull() == meetingsList.firstOrNull()) {
 
-                try {
-                    meetingsList.clear()
-                    adapter.swapList(meetingsList)
-                }catch (e:Exception)
-                {
-                    Log.d(TAG, "handleObserver: excp ${e.message}")
-                }
-            }
-            if (!it.isNullOrEmpty()) {
-                Log.d(TAG, "handleObserver: ifpart not null empty ${it.size} ")
-                //3 may 2023
-                meetingsList.addAll(it)
-                adapter.swapList(meetingsList)
-                Handler(Looper.getMainLooper()).postDelayed({
-                    //adapter.notifyDataSetChanged()
-                }, 500)
-            }
-            if (meetingsList.size == 0) {
-                Log.d(TAG, "handleObserver: ifpart meeting size 0")
-                try {
-                    meetingsList.clear()
-                    adapter.swapList(meetingsList)
-                }catch (e:Exception)
-                {
-                    Log.d(TAG, "handleObserver: excp 851${e.message}")
-                }
-                binding.tvNoData.visibility = View.VISIBLE
-            } else {
-                Log.d(TAG, "handleObserver: elsepart meeting size not size")
-                binding.tvNoData.visibility = View.GONE
-            }
-           */
+                 try {
+                     meetingsList.clear()
+                     adapter.swapList(meetingsList)
+                 }catch (e:Exception)
+                 {
+                     Log.d(TAG, "handleObserver: excp ${e.message}")
+                 }
+             }
+             if (!it.isNullOrEmpty()) {
+                 Log.d(TAG, "handleObserver: ifpart not null empty ${it.size} ")
+                 //3 may 2023
+                 meetingsList.addAll(it)
+                 adapter.swapList(meetingsList)
+                 Handler(Looper.getMainLooper()).postDelayed({
+                     //adapter.notifyDataSetChanged()
+                 }, 500)
+             }
+             if (meetingsList.size == 0) {
+                 Log.d(TAG, "handleObserver: ifpart meeting size 0")
+                 try {
+                     meetingsList.clear()
+                     adapter.swapList(meetingsList)
+                 }catch (e:Exception)
+                 {
+                     Log.d(TAG, "handleObserver: excp 851${e.message}")
+                 }
+                 binding.tvNoData.visibility = View.VISIBLE
+             } else {
+                 Log.d(TAG, "handleObserver: elsepart meeting size not size")
+                 binding.tvNoData.visibility = View.GONE
+             }
+            */
         })
     }
 
@@ -1123,24 +1130,47 @@ class UpcomingListFragment(val from: String) : Fragment() {
     private fun jumpToTeams(link: String) {
         Log.d(TAG, "jumpToTeams: link is $link")
         try {
-            if (link!=null){
-                val sendIntent = Intent(Intent.ACTION_MAIN,Uri.parse(link))
+            if (link != null) {
+                val sendIntent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
+                sendIntent.setPackage("com.microsoft.teams")
                 if (sendIntent.resolveActivity(requireActivity().packageManager) != null) {
                     startActivity(sendIntent)
                 } else {
                     startActivity(sendIntent)
                 }
-            }else{
+            } else {
                 requireActivity().run {
                     Log.d(TAG, "jumpToTeams: link is null $link")
                 }
             }
-        }catch (e:Exception)
-        {
+        } catch (e: Exception) {
+            requireActivity().run {
+                runOnUiThread {
+                    try {
+                        val i = Intent(android.content.Intent.ACTION_VIEW);
+                        i.setData(Uri.parse("https://play.google.com/store/search?q=teams&c=apps&hl=en-IN"))
+                        startActivity(i)
+                    } catch (e: Exception) {
+                        showCustomSnackbarOnTop(getString(R.string.txt_no_supported_app_to_open))
+                    }
+                }
+            }
             Log.d(TAG, "jumpToTeams: link exception ${e.message}")
         }
+    }
 
 
+    private fun showChooseLanguageBottomsheet() {
+        val dialog =
+            BottomSheetDialog(requireActivity(), R.style.tranparentBackgroundStyleBottomsheet)
+        val dialogbinding =
+            LayoutBottomsheetChooseLanguageLogoutBinding.inflate(LayoutInflater.from(requireActivity()))
+        dialog.setContentView(dialogbinding.root)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogbinding.llSelectLanguage.setOnClickListener { requireActivity().selectLangaugeDialogGlobal() }
+        dialogbinding.llLogout.setOnClickListener { logout() }
+        dialog.create()
+        dialog.show()
     }
 
 
@@ -1173,8 +1203,11 @@ class UpcomingListFragment(val from: String) : Fragment() {
     }
 
     fun handleJoin(data: NewInterviewDetails, videoAccessCode: String) {
-        data.isVideoRecordEnabled=false
-        Log.d(TAG, "handleJoin: on clicked data is ${Gson().toJson(data)}  ${data.VideoCallAccessCode} videocode $videoAccessCode")
+        data.isVideoRecordEnabled = false
+        Log.d(
+            TAG,
+            "handleJoin: on clicked data is ${Gson().toJson(data)}  ${data.VideoCallAccessCode} videocode $videoAccessCode"
+        )
         //getInterviewDetails()
         if (requireActivity().checkInternet()) {
             accessCode = videoAccessCode

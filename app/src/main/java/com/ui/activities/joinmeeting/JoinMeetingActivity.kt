@@ -68,14 +68,7 @@ class JoinMeetingActivity :AppCompatActivity() {
 
                     accessCode = accessCodeSplit.last()
                     Log.d(TAG, "onCreate: accessCode is $accessCode")
-                    //host https://ui2.veriklick.in/video-session/EIFfAgSkvLzhZwt9fy4o
-                    //interviewer
-                    //candidate https://ui2.veriklick.in/video-session/7Oa8Dd6xhwrpKdkgJdRo    412345
-                    //5 https://ui2.veriklick.in/video-session/NYIe4s9A2jbldMKAL9xN
-                    //2
 
-                    // https://ui2.veriklick.in/video-session/y3uE1C3l5huKLDLaxQPm
-                   // getInterviewDetails("y3uE1C3l5huKLDLaxQPm")
                     if (binding.etJoinMeeting.text.toString().lowercase().contains("microsoft") || binding.etJoinMeeting.text.toString().lowercase().contains("teams")){
                         jumpToTeams(binding.etJoinMeeting.text.toString())
                     }else
@@ -225,11 +218,31 @@ handleObserver()
                     CurrentMeetingDataSaver.setData(data)*/
                     Log.d(TAG, "getInterviewDetails: user response $data")
                 }
+                410->{
+                    dismissProgressDialog()
+                    showDialogForCancelledMeeting(data?.aPIResponse?.message.toString())
+                }
             }
             Log.d(TAG, "getInterviewDetails: status ${data?.aPIResponse?.message}")
 
         })
     }
+
+    private fun showDialogForCancelledMeeting(msg:String)
+    {
+        setHandler().post(Runnable{
+            val dialog=AlertDialog.Builder(this,R.style.custom_style_dialog)
+            dialog.setMessage(msg)
+            dialog.setPositiveButton(getString(R.string.txt_ok),object : DialogInterface.OnClickListener {
+                override fun onClick(p0: DialogInterface?, p1: Int) {
+
+                }
+            })
+            dialog.create()
+            dialog.show()
+        })
+    }
+
 
 
    private fun joinMeetingCandidate(accessCode: String)
@@ -334,7 +347,7 @@ handleObserver()
 
                 }
             })
-            dialog.setNegativeButton("Cancel" ,object : DialogInterface.OnClickListener {
+            dialog.setNegativeButton(getString(R.string.txt_cancel) ,object : DialogInterface.OnClickListener {
                 override fun onClick(p0: DialogInterface?, p1: Int) {
                     dismissProgressDialog()
                 }

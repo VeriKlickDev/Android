@@ -162,9 +162,29 @@ class VideoMeetingByLinkActivity : AppCompatActivity() {
                      CurrentMeetingDataSaver.setData(data)*/
                     Log.d(TAG, "getInterviewDetails: user response $data")
                 }
+                410->{
+                    dismissProgressDialog()
+                    showDialogForCancelledMeeting(data?.aPIResponse?.message.toString())
+                }
             }
             Log.d(TAG, "getInterviewDetails: status ${data?.aPIResponse?.message}")
 
+        })
+    }
+
+    private fun showDialogForCancelledMeeting(msg:String)
+    {
+        setHandler().post(kotlinx.coroutines.Runnable {
+            val dialog = AlertDialog.Builder(this, R.style.custom_style_dialog)
+            dialog.setMessage(msg)
+            dialog.setPositiveButton(getString(R.string.txt_ok),
+                object : DialogInterface.OnClickListener {
+                    override fun onClick(p0: DialogInterface?, p1: Int) {
+                    finish()
+                    }
+                })
+            dialog.create()
+            dialog.show()
         })
     }
 
