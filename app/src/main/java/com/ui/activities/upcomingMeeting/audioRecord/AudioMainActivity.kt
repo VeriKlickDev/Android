@@ -25,6 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.concurrent.timer
 import kotlin.math.sqrt
+import kotlin.time.Duration.Companion.milliseconds
 
 
 @AndroidEntryPoint
@@ -39,7 +40,7 @@ class AudioMainActivity : AppCompatActivity() {
         setContentView(binding.root)
         //getAppLanguage()
         Log.d("TAG", "onCreate: in audio activity link ${CreateProfileDeepLinkHolder.get()}")
-        binding.audioProgressBar.max=3400
+        binding.audioProgressBar.max=60000
        // AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
        /**18may binding.btnSkip.setOnClickListener {
             val intent=Intent(this,ActivityCreateCandidateForm::class.java)
@@ -53,12 +54,11 @@ class AudioMainActivity : AppCompatActivity() {
         //  binding.btnPlay.setOnClickListener { jumpToPlayActivity() }
         binding.btnSkip.setOnClickListener {
             //clearAllData()
-            Log.d("TAG", "onCreate: record on click ${recorder.isRecording}")
             if (recorder.isRecording)
             {
-                Log.d("TAG", "onCreate: record ${recorder.isRecording}")
+              //  Log.d("TAG", "onCreate: record ${recorder.isRecording}")
                 recorder.toggleRecording()
-                setupTimerForAudio()
+               // setupTimerForAudio()
             }
             else
             {
@@ -106,7 +106,7 @@ class AudioMainActivity : AppCompatActivity() {
     private fun initUI() = with(binding) {
         recordButton.setOnClickListener {
             recorder.toggleRecording()
-            setupTimerForAudio()
+           // setupTimerForAudio()
 
            // millisTimer.start()
            // secondsTimer.start()
@@ -118,9 +118,9 @@ class AudioMainActivity : AppCompatActivity() {
     private fun setupTimerForAudio()
     {
         getSecondsAndMillis{seconds, mmillis, isDone ->
-            Log.d("TAG", "setupTimerForAudio: seconds is $millis")
+           // Log.d("TAG", "setupTimerForAudio: seconds is $millis")
             runOnUiThread {
-                binding.audioProgressBar.setProgress(mmillis)
+               // binding.audioProgressBar.setProgress(mmillis)
                 if (isDone){
                 recorder.toggleRecording()
                     jumpToPlayActivity()
@@ -153,7 +153,7 @@ class AudioMainActivity : AppCompatActivity() {
         timer1?.start()
         timer2=object : CountDownTimer(60000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                Log.d("TAG", "onTick: seconds ${millis}")
+               // Log.d("TAG", "onTick: seconds ${millis}")
                 // logic to set the EditText could go here
                 onTick(seconds,millis,false)
                 seconds--
@@ -192,6 +192,7 @@ class AudioMainActivity : AppCompatActivity() {
             runOnUiThread {
                 binding.visualizer.clear()
                 binding.timelineTextView.text = 0L.formatAsTime()
+
                 binding.recordButton.setImageDrawable(getDrawableCompat(R.drawable.ic_record_24))
                 val intent=Intent(this, ActivityResumeDocument::class.java)
                 //val intent= Intent(this, ActivityCreateCandidate::class.java)
@@ -209,6 +210,12 @@ class AudioMainActivity : AppCompatActivity() {
 
     }
 
+    override fun onBackPressed() {
+        recorder.stopRecording()
+        recorder.release()
+        finish()
+
+    }
 
     override fun onPause() {
         super.onPause()
@@ -270,6 +277,24 @@ class AudioMainActivity : AppCompatActivity() {
                 onAmpListener = {
                     runOnUiThread {
                         if (recorder.isRecording) {
+
+                            binding.audioProgressBar.progress=recorder.getCurrentTime().toInt()
+
+                            try {
+                                var seconds=recorder.getCurrentTime().formatAsTime().split(":")
+                                if (recorder.getCurrentTime().toInt()==60000)
+                                {
+                                    clearAllData()
+                                }
+                                Log.d("TAG", "clearAllData: seconds is full ${recorder.getCurrentTime()}")
+                                Log.d("TAG", "clearAllData: seconds is ${seconds.last().toInt()}")
+                            }catch (_:Exception)
+                            {
+
+                            }
+
+
+
                             timelineTextView.text = recorder.getCurrentTime().formatAsTime()
                             visualizer.addAmp(it, tickDuration)
                         }
