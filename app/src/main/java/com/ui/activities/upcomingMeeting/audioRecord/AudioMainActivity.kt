@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
 import com.data.dataHolders.CreateProfileDeepLinkHolder
 import com.data.dataHolders.DataStoreHelper
+import com.data.exceptionHandler
 import com.data.selectLangaugeDialogGlobal
 import com.data.setLanguagetoApp
 import com.ui.activities.createCandidate.ActivityCreateCandidate
@@ -22,6 +23,7 @@ import com.veriKlick.databinding.ActivityAudiomainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.concurrent.timer
 import kotlin.math.sqrt
@@ -192,7 +194,6 @@ class AudioMainActivity : AppCompatActivity() {
             runOnUiThread {
                 binding.visualizer.clear()
                 binding.timelineTextView.text = 0L.formatAsTime()
-
                 binding.recordButton.setImageDrawable(getDrawableCompat(R.drawable.ic_record_24))
                 val intent=Intent(this, ActivityResumeDocument::class.java)
                 //val intent= Intent(this, ActivityCreateCandidate::class.java)
@@ -279,24 +280,26 @@ class AudioMainActivity : AppCompatActivity() {
                         if (recorder.isRecording) {
 
                             binding.audioProgressBar.progress=recorder.getCurrentTime().toInt()
+                            timelineTextView.text = recorder.getCurrentTime().formatAsTime()
+                            visualizer.addAmp(it, tickDuration)
 
                             try {
                                 var seconds=recorder.getCurrentTime().formatAsTime().split(":")
-                                if (recorder.getCurrentTime().toInt()==60000)
-                                {
-                                    clearAllData()
-                                }
+                                    if (seconds.last().toInt()==59)
+                                    {
+                                        visualizer.clear()
+                                        timelineTextView.text = 0L.formatAsTime()
+                                        recordButton.setImageDrawable(getDrawableCompat(R.drawable.ic_record_24))
+                                        recorder.toggleRecording()
+                                    }
                                 Log.d("TAG", "clearAllData: seconds is full ${recorder.getCurrentTime()}")
                                 Log.d("TAG", "clearAllData: seconds is ${seconds.last().toInt()}")
-                            }catch (_:Exception)
+                            }catch (e:Exception)
                             {
-
+                                Log.d("TAG", "clearAllData: seconds is exception ${e.message}")
                             }
 
 
-
-                            timelineTextView.text = recorder.getCurrentTime().formatAsTime()
-                            visualizer.addAmp(it, tickDuration)
                         }
                     }
                 }
