@@ -263,12 +263,12 @@ class UpcomingMeetingAdapter(
 
                     }
                     "Scheduled"    -> {
-                      /*uncomment  binding.btnFeedback.visibility = View.GONE
+                      binding.btnFeedback.visibility = View.GONE
                         binding.btnFeedback.setTextColor(context.getColor(R.color.white))
                         binding.btnJoin.isVisible = true
-                        binding.btnRejoin.isVisible=false*/
+                        binding.btnRejoin.isVisible=false
 
-                        binding.btnRejoin.isVisible = false
+                      /*  binding.btnRejoin.isVisible = false
                         binding.btnJoin.visibility = View.GONE
                         binding.btnFeedback.isVisible = true
                         binding.btnFeedback.isEnabled = false
@@ -278,7 +278,7 @@ class UpcomingMeetingAdapter(
                             binding.btnFeedback.context,
                             R.drawable.shape_rectangle_rounded_red_10_teams
                         )
-                        binding.btnFeedback.isEnabled = true
+                        binding.btnFeedback.isEnabled = true*/
 
                       //old for cancel only  binding.btnCancelMeeting.isVisible = false
 
@@ -333,7 +333,7 @@ class UpcomingMeetingAdapter(
                     binding.btnFeedback.background =
                         ContextCompat.getDrawable(
                             binding.btnFeedback.context,
-                            R.drawable.shape_rectangle_rounded_dark_transparent_b_pink
+                            R.drawable.shape_rectangle_rounded_ dark_transparent_b_pink
                         )
                     binding.btnFeedback.text = "Cancelled"
                     binding.btnRejoin.isVisible=false
