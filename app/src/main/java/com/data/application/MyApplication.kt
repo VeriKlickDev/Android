@@ -18,6 +18,7 @@ import com.data.dataHolders.WeeksDataHolder
 import com.data.helpers.TwilioHelper
 import com.domain.constant.AppConstants
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.HiltAndroidApp
 
 
@@ -33,6 +34,8 @@ class MyApplication :Application() {
         val mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
         mFirebaseAnalytics.setUserId("veriklick")
         setAnalytics()
+        FirebaseMessaging.getInstance().subscribeToTopic("veriklick")
+
         LocalBroadcastManager.getInstance(this).registerReceiver(
             incomingCallRecevier,
             IntentFilter(AppConstants.IN_COMING_CALL_ACTION)
