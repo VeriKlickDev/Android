@@ -21,6 +21,7 @@ data class BodySMSCandidate (
 
 data class ResponseSMSCadidate (
 
+
     @SerializedName("MsgID"           ) var MsgID           : Int?     = null,
     @SerializedName("IsActive"        ) var IsActive        : Boolean? = null,
     @SerializedName("IsDeleted"       ) var IsDeleted       : Boolean? = null,
@@ -49,6 +50,10 @@ data class ResponseSMSCadidate (
     @SerializedName("FirstName"       ) var FirstName       : String?  = null,
     @SerializedName("LastName"        ) var LastName        : String?  = null,
     @SerializedName("UserEmailid"     ) var UserEmailid     : String?  = null,
+    @SerializedName("Language"        ) var Language        : String?  = null,
+    @SerializedName("TemplateId"      ) var TemplateId      : String?  = null,
+    @SerializedName("Link"            ) var Link            : String?  = null,
+    @SerializedName("MsgStatus"       ) var MsgStatus       : String?  = null,
     @SerializedName("Id"              ) var Id              : Int?     = null,
     @SerializedName("Name"            ) var Name            : String?  = null
 

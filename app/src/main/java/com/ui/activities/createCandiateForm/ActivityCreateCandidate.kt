@@ -25,6 +25,7 @@ import com.veriKlick.databinding.ActivityCreateCandidateBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -121,14 +122,21 @@ class ActivityCreateCandidate : AppCompatActivity() {
                 validateAllFields()
             }else
             {
-                showCustomSnackbarOnTop("${getString(R.string.txt_invalid)} ${getString(R.string.txt_zip_code)}")
+                showCustomSnackbarOnTop("${getString(R.string.txt_zip_code_error)}")
             }
             //validateAllFields()
         }
 
-        CoroutineScope(Dispatchers.Main).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             binding.etZipCode.getEditTextWithFlow().collectLatest {
+                delay(1500)
                 isZipCodeOk=it.length > 4 && it.length <= 10
+                if (!isZipCodeOk)
+                {
+                    runOnUiThread {
+                        binding.etZipCode.setError("${getString(R.string.txt_zip_code_error)}")
+                    }
+                }
             }
         }
 

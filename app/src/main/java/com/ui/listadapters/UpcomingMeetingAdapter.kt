@@ -67,7 +67,6 @@ class UpcomingMeetingAdapter(
 
            holder.binding.btnJoin.setOnClickListener {
                try {
-
                    if (list[position].mSMeetingMode.equals("veriklick")){
                        onClick(list.get(position), videoAccessCode.toString(), 1)
                    }
@@ -247,7 +246,7 @@ class UpcomingMeetingAdapter(
                 when (data.status.trim()) {
                     "Attended"     -> {
 
-                        binding.btnRejoin.isVisible = false
+                       /* binding.btnRejoin.isVisible = false
                         binding.btnJoin.visibility = View.GONE
                         binding.btnFeedback.isVisible = true
                         binding.btnFeedback.isEnabled = false
@@ -257,16 +256,40 @@ class UpcomingMeetingAdapter(
                             binding.btnFeedback.context,
                             R.drawable.shape_rectangle_rounded_red_10_teams
                         )
+                        binding.btnFeedback.isEnabled = true*/
+
+
+
+                        Log.d(TAG, "onBindViewHolder: attended when")
+                        binding.btnJoin.visibility = View.GONE
+                        binding.btnFeedback.isVisible = true
                         binding.btnFeedback.isEnabled = true
+                        binding.btnFeedback.setTextColor(context.getColor(R.color.attended_green_text_color))
+                        binding.btnFeedback.background = ContextCompat.getDrawable(
+                            binding.btnFeedback.context,
+                            R.drawable.shape_rectangle_rounded_light_green
+                        )
+                        binding.btnFeedback.text = context.getString(R.string.txt_feedback)
+                        binding.btnRejoin.isVisible=true
+
                       //  binding.btnCancelMeeting.isVisible = false
 
 
                     }
                     "Scheduled"    -> {
-                      binding.btnFeedback.visibility = View.GONE
+  /*                      binding.btnFeedback.visibility = View.GONE
                         binding.btnFeedback.setTextColor(context.getColor(R.color.white))
                         binding.btnJoin.isVisible = true
                         binding.btnRejoin.isVisible=false
+*/
+
+                        Log.d(TAG, "onBindViewHolder: schee when")
+                        binding.btnFeedback.visibility = View.GONE
+                        binding.btnFeedback.setTextColor(context.getColor(R.color.white))
+                        binding.btnJoin.isVisible = true
+                        binding.btnRejoin.isVisible=false
+
+
 
                       /*  binding.btnRejoin.isVisible = false
                         binding.btnJoin.visibility = View.GONE
@@ -281,7 +304,6 @@ class UpcomingMeetingAdapter(
                         binding.btnFeedback.isEnabled = true*/
 
                       //old for cancel only  binding.btnCancelMeeting.isVisible = false
-
                     }
                     "NotScheduled" -> {
                         Log.d(TAG, "onBindViewHolder: not sched when")

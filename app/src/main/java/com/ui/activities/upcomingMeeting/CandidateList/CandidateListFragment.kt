@@ -315,6 +315,7 @@ class CandidateListFragment() : Fragment() {
         viewModel?.sendProfileLink(obj) { data, isSuccess, errorCode, msg ->
             if (isSuccess) {
                 requireActivity().showCustomSnackbarOnTop(data?.ResponseMessage.toString())
+                showLink(data?.Link.toString())
             }
             else
             {
@@ -328,6 +329,28 @@ class CandidateListFragment() : Fragment() {
         }
     }
 
+    private fun showLink(link:String)
+    {
+        requireActivity().runOnUiThread {
+            val dialog = Dialog(requireActivity())
+
+            val dialogBinding =
+                LayoutSendSmsDialogBinding.inflate(LayoutInflater.from(requireContext()))
+            dialog.setContentView(dialogBinding.root)
+            Log.d(TAG, "showSendSmsCandidate: $link ")
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialogBinding.btnCross.setOnClickListener {
+                dialog.dismiss()
+            }
+            dialogBinding.tvName.setText("Link")
+            dialogBinding.etsms.setText(link)
+            dialog.setCancelable(false)
+            dialogBinding.btnSend.isVisible=false
+            dialog.create()
+            dialog.show()
+        }
+
+    }
     private fun showSendSmsCandidate(obj: BodySMSCandidate, data: SavedProfileDetail) {
         requireActivity().runOnUiThread {
             val dialog = Dialog(requireActivity())
