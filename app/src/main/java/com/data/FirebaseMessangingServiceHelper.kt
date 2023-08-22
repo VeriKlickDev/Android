@@ -28,9 +28,9 @@ class FirebaseMessangingServiceHelper : FirebaseMessagingService() {
         )
         showNotificaiton(message)
 
-        val intent=Intent(this,ActivitiyLoginWithOtp::class.java)
+       /* val intent=Intent(this,ActivitiyLoginWithOtp::class.java)
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(intent)
+        startActivity(intent)*/
 
         super.onMessageReceived(message)
     }
