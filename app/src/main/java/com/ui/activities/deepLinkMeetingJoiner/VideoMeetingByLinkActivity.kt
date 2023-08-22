@@ -46,20 +46,20 @@ class VideoMeetingByLinkActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate: ${data.toString()}")
         if (checkInternet()){
 
-                val meetingLink= data.toString()
-                val accessCodeSplit=meetingLink.splitToSequence("/")
+            val meetingLink= data.toString()
+            val accessCodeSplit=meetingLink.splitToSequence("/")
 
-                accessCode= accessCodeSplit.last()
-                Log.d(TAG, "onCreate: accessCode is $accessCode")
+            accessCode= accessCodeSplit.last()
+            Log.d(TAG, "onCreate: accessCode is $accessCode")
 
-                getInterviewDetails(accessCode,true)
+            getInterviewDetails(accessCode,true)
 
-            }
+        }
         else
         {
             showCustomSnackbarOnTop(getString(R.string.txt_no_internet_connection))
             Handler(Looper.getMainLooper()).postDelayed({
-                                                        finish()
+                finish()
             },1000)
             //Snackbar.make(it,getString(R.string.txt_no_internet_connection),Snackbar.LENGTH_SHORT).show()
         }
@@ -69,6 +69,10 @@ class VideoMeetingByLinkActivity : AppCompatActivity() {
         }
 
 
+        // ATTENTION: This was auto-generated to handle app links.
+        val appLinkIntent: Intent = intent
+        val appLinkAction: String? = appLinkIntent.action
+        val appLinkData: Uri? = appLinkIntent.data
     }
 
 
