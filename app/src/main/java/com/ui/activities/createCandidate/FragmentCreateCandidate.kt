@@ -451,6 +451,7 @@ class FragmentCreateCandidate : Fragment() {
                             binding.tvEmailError.visibility = View.VISIBLE
                             binding.tvEmailError.setText(data.aPIResponse?.Message.toString())
                             emailErrorstr = data.aPIResponse?.Message.toString()
+                            binding.etEmail.setText("")
                         }
 
                         isEmailok = false
@@ -479,6 +480,7 @@ class FragmentCreateCandidate : Fragment() {
                             binding.tvPhoneError.visibility = View.VISIBLE
                             binding.tvPhoneError.setText(data.aPIResponse?.Message.toString())
                             phoneErrorstr = data.aPIResponse?.Message.toString()
+                            binding.etPhoneno.setText("")
                         }
 
                         isPhoneok = false

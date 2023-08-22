@@ -49,7 +49,6 @@ class MyApplication :Application() {
             screenLockEventReciever,
             IntentFilter(AppConstants.SCREEN_LOCK_ACTION)
         )
-
     }
 
 

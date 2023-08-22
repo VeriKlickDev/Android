@@ -193,7 +193,8 @@ class AudioMainActivity : AppCompatActivity() {
            // recorder.stopRecording()
             runOnUiThread {
                 binding.visualizer.clear()
-                binding.timelineTextView.text = 0L.formatAsTime()
+                //binding.timelineTextView.text = 0L.formatAsTime()
+                binding.timelineTextView.text = ""
                 binding.recordButton.setImageDrawable(getDrawableCompat(R.drawable.ic_record_24))
                 val intent=Intent(this, ActivityResumeDocument::class.java)
                 //val intent= Intent(this, ActivityCreateCandidate::class.java)
@@ -268,7 +269,8 @@ class AudioMainActivity : AppCompatActivity() {
                 }
                 onStop = {
                     visualizer.clear()
-                    timelineTextView.text = 0L.formatAsTime()
+                    timelineTextView.text = ""
+                    //timelineTextView.text = 0L.formatAsTime()
                     recordButton.setImageDrawable(getDrawableCompat(R.drawable.ic_record_24))
                     // millisLiveData.postValue("")
                     // secondsLiveData.postValue("")
@@ -280,15 +282,23 @@ class AudioMainActivity : AppCompatActivity() {
                         if (recorder.isRecording) {
 
                             binding.audioProgressBar.progress=recorder.getCurrentTime().toInt()
-                            timelineTextView.text = recorder.getCurrentTime().formatAsTime()
+
+
+
+                            //timelineTextView.text = recorder.getCurrentTime().formatAsTime()
                             visualizer.addAmp(it, tickDuration)
 
                             try {
                                 var seconds=recorder.getCurrentTime().formatAsTime().split(":")
+
+                                val timee=59-seconds.last().toInt()
+                                timelineTextView.text ="${timee} Seconds"
+
                                     if (seconds.last().toInt()==59)
                                     {
                                         visualizer.clear()
-                                        timelineTextView.text = 0L.formatAsTime()
+                                        //timelineTextView.text = 0L.formatAsTime()
+                                        timelineTextView.text = ""
                                         recordButton.setImageDrawable(getDrawableCompat(R.drawable.ic_record_24))
                                         recorder.toggleRecording()
                                     }

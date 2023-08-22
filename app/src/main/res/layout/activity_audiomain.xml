@@ -76,6 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_record_your_voice"
+                android:fontFamily="@font/sarabun_medium"
                 android:textColor="@color/grey"
                 android:textSize="15sp" />
 
@@ -99,9 +100,9 @@
             android:id="@+id/timeline_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/zero_time"
+            android:fontFamily="@font/sarabun_medium"
             android:textColor="@color/skyblue_light1"
-            android:textSize="24sp"
+            android:textSize="@dimen/_18sdp"
             android:layout_gravity="center_horizontal" />
 
         <androidx.constraintlayout.widget.ConstraintLayout

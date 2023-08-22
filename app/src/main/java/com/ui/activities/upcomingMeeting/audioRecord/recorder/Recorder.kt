@@ -57,6 +57,7 @@ class Recorder private constructor(context: Context) {
 
     fun getCurrentTime() = System.currentTimeMillis() - startTime
 
+
     val bufferSize: Int
         get() = AudioRecord.getMinBufferSize(
             recordingConfig.sampleRate,
