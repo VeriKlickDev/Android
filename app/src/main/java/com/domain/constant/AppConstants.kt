@@ -52,6 +52,8 @@ object AppConstants {
     const val SCREEN_OFF_ACTION = "SCREEN_OFF"
     const val SCREEN_LOCK_ACTION = "SCREEN_LOCK_EVENT"
 
+
+
 }
 
 
