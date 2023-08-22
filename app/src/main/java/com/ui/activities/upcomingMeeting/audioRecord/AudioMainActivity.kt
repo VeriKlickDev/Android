@@ -11,6 +11,7 @@ import com.data.dataHolders.CreateProfileDeepLinkHolder
 import com.data.dataHolders.DataStoreHelper
 import com.data.exceptionHandler
 import com.data.selectLangaugeDialogGlobal
+import com.data.setHandler
 import com.data.setLanguagetoApp
 import com.ui.activities.createCandidate.ActivityCreateCandidate
 import com.ui.activities.upcomingMeeting.audioRecord.recorder.Recorder
@@ -291,7 +292,7 @@ class AudioMainActivity : AppCompatActivity() {
                             try {
                                 var seconds=recorder.getCurrentTime().formatAsTime().split(":")
 
-                                val timee=59-seconds.last().toInt()
+                                val timee=60-seconds.last().toInt()
                                 timelineTextView.text ="${timee} Seconds"
 
                                     if (seconds.last().toInt()==59)
@@ -300,7 +301,7 @@ class AudioMainActivity : AppCompatActivity() {
                                         //timelineTextView.text = 0L.formatAsTime()
                                         timelineTextView.text = ""
                                         recordButton.setImageDrawable(getDrawableCompat(R.drawable.ic_record_24))
-                                        recorder.toggleRecording()
+                                            recorder.toggleRecording()
                                     }
                                 Log.d("TAG", "clearAllData: seconds is full ${recorder.getCurrentTime()}")
                                 Log.d("TAG", "clearAllData: seconds is ${seconds.last().toInt()}")

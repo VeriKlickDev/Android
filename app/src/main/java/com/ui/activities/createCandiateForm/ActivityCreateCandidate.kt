@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
@@ -24,6 +25,8 @@ import com.veriKlick.databinding.ActivityCreateCandidateBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -111,9 +114,25 @@ class ActivityCreateCandidate : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
+        var isZipCodeOk=false
         binding.btnSubmit.setOnClickListener {
-            validateAllFields()
+            if (isZipCodeOk)
+            {
+                validateAllFields()
+            }else
+            {
+                showCustomSnackbarOnTop("${getString(R.string.txt_invalid)} ${getString(R.string.txt_zip_code)}")
+            }
+            //validateAllFields()
         }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            binding.etZipCode.getEditTextWithFlow().collectLatest {
+                isZipCodeOk=it.length > 4 && it.length <= 10
+            }
+        }
+
+
         if (checkInternet()) {
             getCandidateDetails(CreateProfileDeepLinkHolder.getCandidateId().toString())
         } else {
