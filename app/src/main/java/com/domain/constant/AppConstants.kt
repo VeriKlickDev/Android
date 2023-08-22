@@ -53,6 +53,8 @@ object AppConstants {
     const val SCREEN_LOCK_ACTION = "SCREEN_LOCK_EVENT"
 
 
+    const val FIREBASE_CHANNEL_ID= "veriklick_firebase_channel_id"
+    const val FIREBASE_CHANNEL_NAME= "veriklick_firebase_channel"
 
 }
 
