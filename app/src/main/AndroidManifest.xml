@@ -117,7 +117,7 @@
             android:exported="true"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            tools:ignore="AppLinkUrlError,LockedOrientationActivity"></activity>
+            tools:ignore="AppLinkUrlError,LockedOrientationActivity"/>
         <activity
             android:name="com.ui.activities.createCandiateForm.ActivityCreateCandidateWebForm"
             android:exported="false"
@@ -191,7 +191,7 @@
                 <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
                 <data
                     android:host="ui2.veriklick.in"
-                    android:pathPrefix="/CandidateQuestionnaireAnswer/QuestionsForm"
+                    android:pathPrefix="/CQQ"
                     android:scheme="https" />
             </intent-filter>
             <intent-filter
@@ -204,7 +204,7 @@
                 <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
                 <data
                     android:host="ui2.veriklick.in"
-                    android:pathPrefix="/CandidateQuestionnaireAnswer/QuestionsForm"
+                    android:pathPrefix="/CQQ"
                     android:scheme="http" />
             </intent-filter>
 
@@ -222,7 +222,7 @@
                 <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
                 <data
                     android:host="ui2.veriklick.com"
-                    android:pathPrefix="/CandidateQuestionierAnswer/QuestionsForm"
+                    android:pathPrefix="/CQQ"
                     android:scheme="https" />
             </intent-filter>
             <intent-filter
@@ -235,7 +235,7 @@
                 <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
                 <data
                     android:host="ui2.veriklick.com"
-                    android:pathPrefix="/CandidateQuestionierAnswer/QuestionsForm"
+                    android:pathPrefix="/CQQ"
                     android:scheme="http" />
             </intent-filter>
 
@@ -243,6 +243,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
 
+<!--            for createCandidate-->
             <intent-filter
                 android:autoVerify="true"
                 android:label="@string/app_name">
@@ -253,7 +254,7 @@
                 <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
                 <data
                     android:host="ui2.veriklick.in"
-                    android:pathPrefix="/CreateCandidateProfile/ProfileForm"
+                    android:pathPrefix="/CCP"
                     android:scheme="https" />
             </intent-filter>
             <intent-filter
@@ -266,7 +267,7 @@
                 <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
                 <data
                     android:host="ui2.veriklick.in"
-                    android:pathPrefix="/CreateCandidateProfile/ProfileForm"
+                    android:pathPrefix="/CCP"
                     android:scheme="http" />
             </intent-filter>
             <intent-filter
@@ -279,7 +280,7 @@
                 <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
                 <data
                     android:host="ui2.veriklick.com"
-                    android:pathPrefix="/CreateCandidateProfile/ProfileForm"
+                    android:pathPrefix="/CCP"
                     android:scheme="https" />
             </intent-filter>
             <intent-filter
@@ -292,10 +293,11 @@
                 <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
                 <data
                     android:host="ui2.veriklick.com"
-                    android:pathPrefix="/CreateCandidateProfile/ProfileForm"
+                    android:pathPrefix="/CCP"
                     android:scheme="http" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.ui.activities.splashScreen.VeriklickSpashScreen"
             android:configChanges="orientation"

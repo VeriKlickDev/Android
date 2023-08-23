@@ -48,13 +48,14 @@ class VeriklickDeepLinkSpashScreen : AppCompatActivity() {
 
 
         Log.d(TAG, "onCreate: intent data from deeplink   ${getString(R.string.url_createCandidatebase)+pathstr.toString()}")
+
         if (!pathstr.equals("") || !pathstr.equals("null") || pathstr!=null) {
-            if (pathstr!!.contains("CreateCandidateProfile")){
+            if (pathstr!!.contains("CCP")){
                 CreateProfileDeepLinkHolder.setLink(getString(R.string.url_createCandidatebase) + pathstr.toString())
                 CreateProfileDeepLinkHolder.setPathCreateCandidateString(pathstr.toString())
                 Log.d(TAG, "onCreate: createCandiate")
             }
-            if(pathstr!!.contains("CandidateQuestionnaireAnswer"))
+            if(pathstr!!.contains("CQQ"))
             {
                 CreateProfileDeepLinkHolder.setLink(getString(R.string.url_createCandidatebase) + pathstr.toString())
                 CreateProfileDeepLinkHolder.setQuestionnaireLink(pathstr.toString())
@@ -104,10 +105,10 @@ class VeriklickDeepLinkSpashScreen : AppCompatActivity() {
             Handler(Looper.getMainLooper()).postDelayed({
                 var intent:Intent?=null
                 if (!pathstr.equals("") || !pathstr.equals("null") || pathstr!=null) {
-                    if (pathstr!!.contains("CreateCandidateProfile")){
+                    if (pathstr!!.contains("CCP")){
                         intent=Intent(this,ActivityUploadProfilePhoto::class.java)
                     }
-                    if(pathstr!!.contains("CandidateQuestionnaireAnswer"))
+                    if(pathstr!!.contains("CQQ"))
                     {
                         intent=Intent(this,ActivityCandidateQuestinnaire::class.java)
                     }
@@ -138,10 +139,10 @@ class VeriklickDeepLinkSpashScreen : AppCompatActivity() {
             Handler(Looper.getMainLooper()).postDelayed({
              var intent:Intent?=null
                 if (!pathstr.equals("") || !pathstr.equals("null") || pathstr!=null) {
-                    if (pathstr!!.contains("CreateCandidateProfile")){
+                    if (pathstr!!.contains("CCP")){
                         intent=Intent(this,ActivityUploadProfilePhoto::class.java)
                     }
-                    if(pathstr!!.contains("CandidateQuestionnaireAnswer"))
+                    if(pathstr!!.contains("CQQ"))
                     {
                         intent=Intent(this,ActivityCandidateQuestinnaire::class.java)
                     }

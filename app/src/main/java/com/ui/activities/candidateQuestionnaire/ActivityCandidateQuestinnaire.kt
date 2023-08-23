@@ -155,7 +155,7 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
     {
         val pathstr=CreateProfileDeepLinkHolder.getQuestionString()
         val pathlist=pathstr?.split("/")
-        val candidateId=pathlist?.get(3)
+        val candidateId=pathlist?.get(2)
 
 
         Log.d(TAG, "getTimeZoneFromApi: ${candidateId} full path is $pathstr")
@@ -295,8 +295,8 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
 
             val pathlist=pathstr?.split("/")
             val accessToken=pathlist?.get(pathlist!!.size-1)
-            val candidateId=pathlist?.get(3)
-            val templateId=pathlist?.get(4)
+            val candidateId=pathlist?.get(2)
+            val templateId=pathlist?.get(3)
 
             val queryString="$candidateId"+"|"+"$accessToken"
             runOnUiThread { showProgressDialog() }
@@ -510,8 +510,8 @@ class ActivityCandidateQuestinnaire : AppCompatActivity() {
 
         val pathlist=pathstr?.split("/")
         val accessToken=pathlist?.get(pathlist!!.size-1)
-        val candidateId=pathlist?.get(3)
-        val templateId=pathlist?.get(4)
+        val candidateId=pathlist?.get(2)
+        val templateId=pathlist?.get(3)
 
        // questionAdapter?.list
         try {
