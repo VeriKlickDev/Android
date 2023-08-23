@@ -68,7 +68,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
     private var stateStr: String? = null
     private var jobTypeStr: String? = null
     private var phoneCodeStr: Int? = null
-
+    private var isZipCodeOk=false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateCandidateBinding.inflate(layoutInflater)
@@ -115,16 +115,9 @@ class ActivityCreateCandidate : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
-        var isZipCodeOk=false
+
         binding.btnSubmit.setOnClickListener {
-            if (isZipCodeOk)
-            {
-                validateAllFields()
-            }else
-            {
-                showCustomSnackbarOnTop("${getString(R.string.txt_zip_code_error)}")
-            }
-            //validateAllFields()
+            validateAllFields()
         }
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -246,17 +239,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     }"
                 )
                 Log.d(TAG, "validateAllFields: country code str")
-            } else if (binding.etZipCode.text.toString().equals("")) {
-                showCustomToast(
-                    getString(R.string.txt_zip) + " ${getString(R.string.txt_is)} ${
-                        getString(
-                            R.string.txt_invalid_or_blank_data
-                        )
-                    }"
-                )
-                Log.d(TAG, "validateAllFields: zip blank")
             }
-
             /*else if (binding.etStreet.text.toString().equals("")) {
                 showCustomToast(
                     getString(R.string.txt_street) + " ${getString(R.string.txt_is)} ${
@@ -267,7 +250,83 @@ class ActivityCreateCandidate : AppCompatActivity() {
                 )
                 Log.d(TAG, "validateAllFields: street blank")
             } */
+            else if (phoneCodeStr==null) {
+                showCustomToast(
+                    getString(R.string.txt_country_code) + " ${getString(R.string.txt_is)} ${
+                        getString(
+                            R.string.txt_invalid_or_blank_data
+                        )
+                    }"
+                )
+                Log.d(TAG, "validateAllFields: primary skills blank")
+            }
 
+            else if (countryStr.equals("") || countryStr == null) {
+                showCustomToast(
+                    getString(R.string.txt_country) + " ${getString(R.string.txt_are)} ${
+                        getString(
+                            R.string.txt_invalid_or_blank_data
+                        )
+                    }"
+                )
+                Log.d(TAG, "validateAllFields: country blank")
+            }
+
+            else if (binding.etZipCode.text.toString().equals("")) {
+                showCustomToast(
+                    getString(R.string.txt_zip) + " ${getString(R.string.txt_is)} ${
+                        getString(
+                            R.string.txt_invalid_or_blank_data
+                        )
+                    }"
+                )
+                Log.d(TAG, "validateAllFields: zip blank")
+            }
+
+           /* else if (cityStr.equals("") || cityStr == null) {
+                showCustomToast(
+                    getString(R.string.txt_city) + " ${getString(R.string.txt_is)} ${
+                        getString(
+                            R.string.txt_invalid_or_blank_data
+                        )
+                    }"
+                )
+                Log.d(TAG, "validateAllFields: city blank")
+            }*/ else if (stateStr.equals("") || stateStr == null) {
+                showCustomToast(
+                    getString(R.string.txt_state) + " ${getString(R.string.txt_is)} ${
+                        getString(
+                            R.string.txt_invalid_or_blank_data
+                        )
+                    }"
+                )
+                Log.d(TAG, "validateAllFields: state blank")
+            }
+
+            else if (!isZipCodeOk) {
+
+                showCustomSnackbarOnTop("${getString(R.string.txt_zip_code_error)}")
+            }
+            else if (jobTypeStr.equals("") || jobTypeStr == null) {
+                showCustomToast(
+                    getString(R.string.txt_jobType) + " ${getString(R.string.txt_are)} ${
+                        getString(
+                            R.string.txt_invalid_or_blank_data
+                        )
+                    }"
+                )
+                Log.d(TAG, "validateAllFields: jobtype blank")
+            }
+            else if (binding.etExperience.text.toString().equals("")) {
+                showCustomToast(
+                    getString(R.string.txt_experience) + " ${getString(R.string.txt_is)} ${
+                        getString(
+                            R.string.txt_invalid_or_blank_data
+                        )
+                    }"
+                )
+                Log.d(TAG, "validateAllFields: secondary blank")
+            }
             else if (binding.etPrimarySkills.text.toString().equals("")) {
                 showCustomToast(
                     getString(R.string.txt_primary_skills) + " ${getString(R.string.txt_are)} ${
@@ -286,52 +345,8 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     }"
                 )
                 Log.d(TAG, "validateAllFields: secondary blank")
-            } else if (binding.etExperience.text.toString().equals("")) {
-                showCustomToast(
-                    getString(R.string.txt_experience) + " ${getString(R.string.txt_is)} ${
-                        getString(
-                            R.string.txt_invalid_or_blank_data
-                        )
-                    }"
-                )
-                Log.d(TAG, "validateAllFields: secondary blank")
-            }/* else if (cityStr.equals("") || cityStr == null) {
-                showCustomToast(
-                    getString(R.string.txt_city) + " ${getString(R.string.txt_is)} ${
-                        getString(
-                            R.string.txt_invalid_or_blank_data
-                        )
-                    }"
-                )
-                Log.d(TAG, "validateAllFields: city blank")
-            }*/ else if (stateStr.equals("") || stateStr == null) {
-                showCustomToast(
-                    getString(R.string.txt_state) + " ${getString(R.string.txt_is)} ${
-                        getString(
-                            R.string.txt_invalid_or_blank_data
-                        )
-                    }"
-                )
-                Log.d(TAG, "validateAllFields: state blank")
-            } else if (countryStr.equals("") || countryStr == null) {
-                showCustomToast(
-                    getString(R.string.txt_country) + " ${getString(R.string.txt_are)} ${
-                        getString(
-                            R.string.txt_invalid_or_blank_data
-                        )
-                    }"
-                )
-                Log.d(TAG, "validateAllFields: country blank")
-            } else if (jobTypeStr.equals("") || jobTypeStr == null) {
-                showCustomToast(
-                    getString(R.string.txt_jobType) + " ${getString(R.string.txt_are)} ${
-                        getString(
-                            R.string.txt_invalid_or_blank_data
-                        )
-                    }"
-                )
-                Log.d(TAG, "validateAllFields: jobtype blank")
-            } else {
+            }
+            else {
                 Log.d(TAG, "validateAllFields: success")
                 postData()
             }
