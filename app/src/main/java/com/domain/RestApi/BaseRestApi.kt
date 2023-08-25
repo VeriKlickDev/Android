@@ -76,7 +76,9 @@ interface BaseRestApi {
     @POST("/api/ScheduleVideo/CreateCandidateAssessementDetails")
     suspend fun sendFeedBack( @Body obj: BodyFeedBack):Response<ResponseBodyFeedBack>
 
-    @POST("/api/SaveRoomStatus")
+    //@POST("/api/SaveRoomStatus")
+    @POST("/api/ScheduleVideo/SaveRoomStatus")
+
     suspend fun closeMeeting( @Body obj: BodyMeetingClose):Response<ResponseBodyFeedBack>
 
     @POST("/api/InterviewerLoginWithOtp")
@@ -84,7 +86,6 @@ interface BaseRestApi {
 
     @POST("/api/InterviewerLoginWithOtp/{Type}")
     suspend fun sendOtpToEmailVerificationWithType(@Query("InterviewerEmail", encoded = false) email: String,@Query("Type", encoded = false) type: String):Response<ResponseOtpVerification>
-
 
     @POST("/api/InterviewerLoginOtpStatus")
     suspend fun getOtpVerificationStatus( @Body obj: BodyOtpVerificationStatus):Response<ResponseOtpVerificationStatus>
@@ -179,8 +180,6 @@ interface BaseRestApi {
         @Part folderName: MultipartBody.Part,
     ):Response<ResponseCandidateImageModel>
 */
-
-
     @GET("/api/Candidate/GetCandidateStatusList")
     suspend fun checkSession(@Header("Authorization")auth:String):Response<JsonArray>
 

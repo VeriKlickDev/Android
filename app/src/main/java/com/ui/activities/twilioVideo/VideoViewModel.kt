@@ -499,7 +499,7 @@ fun setCandidateJoinedStatus(onResult: (action: Int, data: ResponseCandidateJoin
       {
           try {
               CoroutineScope(Dispatchers.IO+exceptionHandler).launch {
-                  val result=repositoryImpl.closeMeeting(BodyMeetingClose(CurrentMeetingDataSaver.getRoomData().roomName, RoomStatus = "completed"))
+                  val result=repositoryImpl.closeMeeting(BodyMeetingClose(RoomSid = CurrentMeetingDataSaver.getRoomData().roomName, RoomStatus = "completed"))
 
                   if (result.isSuccessful) {
                       if (result.body() != null) {
