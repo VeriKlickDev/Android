@@ -12,6 +12,7 @@
     <color name="red">#FF0000</color>
     <color name="light_red">#C87979</color>
     <color name="skyblue_light1">#006BF2</color>
+    <color name="skyblue_light1_dark">#0A4A9D</color>
     <color name="skyblue_light2">#C4DEFF</color>
     <color name="light_grey">#DDDDDD</color>
     <color name="grey">#888888</color>

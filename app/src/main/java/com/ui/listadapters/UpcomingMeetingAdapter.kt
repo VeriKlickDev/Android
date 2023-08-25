@@ -178,7 +178,8 @@ class UpcomingMeetingAdapter(
             )
             val date = data.interviewDateTime.subSequence(0, 10)
 
-
+//microsoftteam
+            //FaceToFace
             if (data.mSMeetingMode.equals("veriklick"))
             {
                 when (data.status.trim()) {
@@ -241,7 +242,7 @@ class UpcomingMeetingAdapter(
                        // binding.btnCancelMeeting.isVisible=true
                     }
                 }
-            }else {
+            }else if(data.mSMeetingMode.equals("microsoftteam")){
 
                 when (data.status.trim()) {
                     "Attended"     -> {
@@ -334,7 +335,9 @@ class UpcomingMeetingAdapter(
                         binding.btnRejoin.isVisible = false
                        // binding.btnCancelMeeting.isVisible = false
                     }
-                    else           -> {
+                    else
+
+                    -> {
                         binding.btnJoin.visibility = View.VISIBLE
                         binding.btnFeedback.visibility = View.GONE
                         binding.btnFeedback.background = null
@@ -342,6 +345,21 @@ class UpcomingMeetingAdapter(
                        // binding.btnCancelMeeting.isVisible = true
                     }
                 }
+            }
+            else if(data.mSMeetingMode.equals("FaceToFace"))
+            {
+                binding.btnJoin.visibility = View.GONE
+                binding.btnFeedback.isVisible = true
+                binding.btnFeedback.isEnabled = false
+                binding.btnFeedback.setTextColor(context.getColor(R.color.skyblue_light1_dark))
+                binding.btnFeedback.background =
+                    ContextCompat.getDrawable(
+                        binding.btnFeedback.context,
+                        R.drawable.shape_rectangle_rounded_dark_transparent_light_blue
+                    )
+                binding.btnFeedback.text = context.getString(R.string.txt_face_to_face)
+                binding.btnRejoin.isVisible = false
+
             }
 
 

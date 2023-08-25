@@ -266,5 +266,6 @@
     <string name="txt_connect_to_room">Se connecter à la salle</string>
     <string name="txt_file_size_is_too_large">File size is too large.</string>
     <string name="txt_response_not_success">Response not success</string>
+    <string name="txt_face_to_face">FaceToFace</string>
 
 </resources>

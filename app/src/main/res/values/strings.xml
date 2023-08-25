@@ -273,6 +273,7 @@
     <string name="txt_response_not_success">Response not success</string>
 
     <string name="txt_zip_code_error" tools:ignore="MissingTranslation">Zip code should be greater than 4 and less than or equal to 10</string>
+    <string name="txt_face_to_face">FaceToFace</string>
 
 
 </resources>
