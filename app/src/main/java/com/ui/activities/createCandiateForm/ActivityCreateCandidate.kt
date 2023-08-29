@@ -9,16 +9,14 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
-import android.widget.Toast
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
 import com.data.dataHolders.CandidateImageAndAudioHolder
 import com.data.dataHolders.CreateProfileDeepLinkHolder
-import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.*
-import com.domain.constant.AppConstants
 import com.google.gson.Gson
 import com.veriKlick.R
 import com.veriKlick.databinding.ActivityCreateCandidateBinding
@@ -26,11 +24,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.RequestBody.Companion.toRequestBody
 
 @AndroidEntryPoint
 class ActivityCreateCandidate : AppCompatActivity() {
@@ -449,6 +445,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
         countrySpinnerAdapter = getArrayAdapterOneItemSelected(countryStringList)
         binding.spinnerCountry.adapter = countrySpinnerAdapter
         binding.spinnerCountry.onItemSelectedListener = countrySpinnerClickListner
+
     }
 
     val countrySpinnerClickListner = object : OnItemSelectedListener {
@@ -476,6 +473,9 @@ class ActivityCreateCandidate : AppCompatActivity() {
                                 countryStr = countryStringList[position]
                             }
                         }
+
+                            setTextColorToBlack(view!!)
+
                     }
 
                 } catch (e: Exception) {
@@ -490,6 +490,12 @@ class ActivityCreateCandidate : AppCompatActivity() {
         }
     }
 
+    private fun setTextColorToBlack(view:View)
+    {
+            (view as TextView?)?.post {
+                (view as TextView?)?.setTextColor(getColor(R.color.black))
+            }
+    }
 
     private fun setupStateSpinner() {
         stateSpinnerAdapter = getArrayAdapterOneItemSelected(stateStringList)
@@ -514,6 +520,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                                 getCityListFromApi("All", it.Shortname.toString(), 0)
                             }
                         }
+                        setTextColorToBlack(view!!)
                     }
                 } catch (e: Exception) {
 
@@ -543,6 +550,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                 Log.d(TAG, "onItemSelected: selected ${cityStringList[position]}")
             } else {
                 cityStr = cityStringList[position]
+                setTextColorToBlack(view!!)
             }
         }
 
@@ -591,6 +599,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                         jobTypeStr = it.id
                     }
                 }
+                setTextColorToBlack(view!!)
             }
         }
 
@@ -630,6 +639,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                             }
                         }
                     }
+                    setTextColorToBlack(view!!)
                 } catch (e: Exception) {
                     Log.d(TAG, "onItemSelected: exception 373 ${e.message}")
                 }

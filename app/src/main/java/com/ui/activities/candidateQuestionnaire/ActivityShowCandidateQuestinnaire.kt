@@ -1,10 +1,6 @@
 package com.ui.activities.candidateQuestionnaire
 
-import android.app.AlertDialog
-import android.app.DatePickerDialog
 import android.app.Dialog
-import android.app.TimePickerDialog
-import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
@@ -13,17 +9,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
-import android.widget.TimePicker
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.data.*
-import com.data.dataHolders.CreateProfileDeepLinkHolder
-import com.data.dataHolders.DataStoreHelper
 import com.domain.BaseModels.*
 import com.domain.constant.AppConstants
-import com.google.gson.Gson
-import com.ui.listadapters.CandidateQuestionnaireListAdapter
 import com.ui.listadapters.ShowCandidateQuestionnaireListAdapter
 import com.veriKlick.R
 import com.veriKlick.databinding.ActivityCandidateQuestinnaireBinding
@@ -32,7 +23,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.*
 
 @AndroidEntryPoint
 class ActivityShowCandidateQuestinnaire : AppCompatActivity() {

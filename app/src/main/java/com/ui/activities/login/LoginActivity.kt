@@ -1,11 +1,8 @@
 package com.ui.activities.login
 
-import android.Manifest
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -34,16 +31,12 @@ import com.ui.activities.forgotPassword.ForgotPasswordActivity
 import com.ui.activities.joinmeeting.JoinMeetingActivity
 import com.ui.activities.login.loginwithotp.ActivitiyLoginWithOtp
 import com.ui.activities.upcomingMeeting.UpcomingMeetingActivity
-import com.ui.activities.upcomingMeeting.audioRecord.AudioMainActivity
 import com.veriKlick.R
 import com.veriKlick.databinding.LayoutChooseLanguageDialogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.time.ZoneId
-import java.util.Calendar
-import java.util.TimeZone
 import kotlin.concurrent.thread
 
 @AndroidEntryPoint

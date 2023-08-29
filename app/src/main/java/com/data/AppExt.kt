@@ -659,11 +659,11 @@ fun Context.requestWriteExternamlStoragePermissions(isGrant: (isGranted: Boolean
 
 
 
-
+//android.R.layout.simple_spinner_dropdown_item
 fun Context.getArrayAdapterOneItemSelected(mlist:List<String>) : ArrayAdapter<String>{
     return object :
         ArrayAdapter<String>(
-            this, android.R.layout.simple_spinner_dropdown_item,
+            this, R.layout.item_spinner_textview,
             mlist
         ) {
         override fun getDropDownView(
@@ -692,6 +692,7 @@ fun Context.getArrayAdapterOneItemSelected(mlist:List<String>) : ArrayAdapter<St
 
 
 }
+
 
 fun Context.checkInternet(): Boolean {
     val connectivityManager =

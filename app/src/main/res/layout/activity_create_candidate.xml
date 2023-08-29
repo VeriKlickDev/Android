@@ -67,11 +67,12 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/tv_join_meeting"
-                            style="@style/textview.Style.TvStyleWhiteRounded_30"
+                            style="@style/textview.Style.TvStyleWhiteRounded_18"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_30sdp"
+                            android:paddingLeft="@dimen/_10sp"
+                            android:layout_marginBottom="-15sp"
+                            android:layout_marginTop="@dimen/_18sdp"
                             android:text="@string/txt_profile_details" />
 
 
@@ -327,9 +328,19 @@
                             <!--                                    />-->
                             <!--                            </com.google.android.material.textfield.TextInputLayout>-->
 
+                            <TextView
+                                style="@style/textview.Style.TvStyleWhiteRounded_18"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_18sdp"
+                                android:text="@string/txt_address" />
+
+
+
                             <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sp"
                                 android:orientation="vertical">
 
                                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -567,11 +578,17 @@
 
                             </androidx.appcompat.widget.LinearLayoutCompat>
 
+                            <TextView
+                                style="@style/textview.Style.TvStyleWhiteRounded_18"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_18sdp"
+                                android:text="@string/txt_professional_details" />
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/_10sp"
+                                android:layout_marginTop="-5sp"
                                 android:theme="@style/TextInputLayoutCustomTheme"
                                 app:boxBackgroundColor="@color/skyblue_light1"
                                 app:boxStrokeColor="@color/black"

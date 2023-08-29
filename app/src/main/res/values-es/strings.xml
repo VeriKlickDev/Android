@@ -265,9 +265,11 @@
     <string name="txt_and">y</string>
     <string name="txt_you_have_successfull_completed_form">Has enviado correctamente el formulario. Haga clic en Aceptar para cerrar el proceso.</string>
     <string name="txt_connect_to_room">Conectar a la habitación</string>
-    <string name="txt_file_size_is_too_large">File size is too large.</string>
-    <string name="txt_response_not_success">Response not success</string>
-    <string name="txt_face_to_face">FaceToFace</string>
+
+    <string name="txt_file_size_is_too_large">El tamaño del archivo es demasiado grande.</string>
+    <string name="txt_response_not_success">La respuesta no fue exitosa</string>
+    <string name="txt_face_to_face">Cara a cara</string>
+    <string name="txt_address">Address</string>
 
 
 </resources>

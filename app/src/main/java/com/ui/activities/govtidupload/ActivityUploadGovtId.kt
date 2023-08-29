@@ -27,13 +27,9 @@ import com.domain.BaseModels.CandidateDeepLinkDataModel
 import com.domain.BaseModels.ModelLanguageSelect
 import com.domain.constant.AppConstants
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.ui.activities.candidateQuestionnaire.ActivityShowCandidateQuestinnaire
-import com.ui.activities.createCandidate.ActivityCreateCandidate
 import com.ui.activities.upcomingMeeting.audioRecord.AudioMainActivity
-import com.ui.activities.uploadResumeDocument.ActivityResumeDocument
 import com.veriKlick.R
 import com.veriKlick.databinding.ActivityUploadGovtidPhotoBinding
-import com.veriKlick.databinding.ActivityUploadProfilePhotoBinding
 import com.veriKlick.databinding.LayoutChooseImageFromSourceBinding
 import com.veriKlick.databinding.LayoutChooseLanguageDialogBinding
 import com.yalantis.ucrop.UCrop
