@@ -250,9 +250,13 @@ class RepositoryImpl @Inject constructor(
         return baseRestApi.getQuestionnaireForCandidate(url)
     }
 
-    override suspend fun getTimeZone(timeZoneBody: BodyTimeZone): Response<String> {
-        return baseRestApi.getTimeZone(timeZoneBody)
+    override suspend fun getTimeZone(): Response<List<TimeZone21>> {
+        return baseRestApi.getTimeZone()
     }
+
+    /* override suspend fun getTimeZone(timeZoneBody: BodyTimeZone): Response<String> {
+         return baseRestApi.getTimeZone(timeZoneBody)
+     }*/
 
     override suspend fun getSMSchatHistory(authToken: String,obj: BodySMSchatHistory): Response<ResponseSMSchatHistory> {
         return baseRestApi.getSMSchatHistory(authToken,obj)

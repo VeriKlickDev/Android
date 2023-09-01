@@ -216,16 +216,20 @@ class VMCandidateQuestionnaire @Inject constructor(val baseRestApi: BaseRestApi)
                     //val authToken= DataStoreHelper.getLoginBearerToken()
                     // Log.d("TAG", "getQuestionnaireList: token is this $authToken")
 
-                    val response = baseRestApi.getTimeZone(BodyTimeZone( CandidateId =candidateId))
+
+                    //val response = baseRestApi.getTimeZone(BodyTimeZone( CandidateId =candidateId))
+                    val response = baseRestApi.getTimeZone()
+
+
                     Log.d("TAG", "getTimeZone:apihit response ${response.body()}")
                     //Log.d(TAG, "getCandidateList: token in upviewmodel $authToken")
                     if (response.isSuccessful) {
                         when (response.code()) {
                             200 -> {
                                 respnse(null, true, 200,"")
-                                val timeZoneOb=Gson().fromJson<ResponseTimeZone>(response.body().toString(),ResponseTimeZone::class.java)
-                                Log.d("TAG", "getTimeZone: datafrom api 200 $timeZoneOb")
-                                 timeZoneList.postValue(timeZoneOb.InterviewDetails.get(0).TimeZone)
+                               // val timeZoneOb=Gson().fromJson<ResponseTimeZone>(response.body().toString(),ResponseTimeZone::class.java)
+                               // Log.d("TAG", "getTimeZone: datafrom api 200 $timeZoneOb")
+                                 timeZoneList.postValue(response.body())
                             }
                             401 -> {
                                 respnse(null, false, 401,"")

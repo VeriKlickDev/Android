@@ -166,8 +166,13 @@ interface BaseRestApi {
     @GET
     suspend fun getQuestionnaireForCandidate(@Url url:String):Response<ResponseShowQuestionnaire>
 
-    @POST("/api/ScheduleVideo/GetInterviewScheduleInfo")
-    suspend fun getTimeZone(@Body timeZoneBody:BodyTimeZone):Response<String>
+  /*  @POST("/api/ScheduleVideo/GetInterviewScheduleInfo")
+    suspend fun getTimeZone(@Body timeZoneBody:BodyTimeZone):Response<String>*/
+
+
+    @GET("/api/Common/GetMasterTimeZoneList")
+    suspend fun getTimeZone():Response<List<TimeZone21>>
+
 
     @POST("/api/Messaging/GetMessageListByCandidateId")
     suspend fun getSMSchatHistory(@Header("Authorization")authToken: String,@Body obj:BodySMSchatHistory):Response<ResponseSMSchatHistory>
