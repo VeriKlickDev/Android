@@ -138,7 +138,7 @@ class FirebaseMessangingServiceHelper : FirebaseMessagingService() {
             //.setColor(ContextCompat.getColor(this, R.color.skyblue_light1))
             //.setStyle(NotificationCompat.DecoratedCustomViewStyle())
             .setContentIntent(pendingIntent)
-            .setOngoing(true)
+            .setOngoing(false)
             //.setContent(notificationLayout)
             //.setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
             // .setCustomContentView(notificationLayout)
