@@ -9,13 +9,13 @@ plugins {
 //apply plugin: 'kotlin-android-extensions'
 android {
 
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.veriKlick"
         minSdk 27
         targetSdk 33
-        versionCode 23
+        versionCode 24
         versionName "1.1"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

@@ -64,8 +64,12 @@ interface BaseRestApi {
     @POST("/api/SaveRoomStatus")
     suspend fun closeMeeting( @Body obj: BodyMeetingClose):Response<ResponseBodyFeedBack>
 
-    @POST("/api/InterviewerLoginWithOtp")
+    /*@POST("/api/InterviewerLoginWithOtp")
+    suspend fun sendOtpToEmailVerification(@Query("InterviewerEmail", encoded = false) email: String):Response<ResponseOtpVerification>*/
+
+    @POST("/api/InterviewerLoginWithOtp/Login")
     suspend fun sendOtpToEmailVerification(@Query("InterviewerEmail", encoded = false) email: String):Response<ResponseOtpVerification>
+
 
     @POST("/api/InterviewerLoginOtpStatus")
     suspend fun getOtpVerificationStatus( @Body obj: BodyOtpVerificationStatus):Response<ResponseOtpVerificationStatus>
