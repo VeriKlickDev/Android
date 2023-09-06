@@ -550,6 +550,8 @@ class FragmentCreateCandidate : Fragment() {
                 obj.email = binding.etEmail.text.toString()
                 obj.language = getString(R.string.languageSelect)
                 obj.MessageText = "SPL"
+                obj.primary_contact=binding.etPhoneno.text.toString()
+                obj.countrycode= iscountryCode
                 obj.ReceiverNumber = "+" + iscountryCode + binding.etPhoneno.text.toString()
                 Log.d("TAG", "postData: sending sms is ${Gson().toJson(obj)}")
                 if (requireActivity().checkInternet()) {

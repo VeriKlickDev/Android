@@ -17,6 +17,10 @@ data class BodySMSCandidate (
     @SerializedName("ReceiverID"       ) var recieverId       : String? = null,
     @SerializedName("TemplateId"       ) var templateId       : String? = null,
 
+    @SerializedName("primary_contact"       ) var primary_contact       : String? = null,
+    @SerializedName("countrycode"       ) var countrycode       : String? = null,
+
+
 )
 
 data class ResponseSMSCadidate (

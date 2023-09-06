@@ -46,7 +46,7 @@ data class Profile(
     @SerializedName("phone_mobile") var phoneMobile: String? = "",
     @SerializedName("ssnNo") var ssnNo: String? = "",
     @SerializedName("dob_month") var dobMonth: String? = "",
-    @SerializedName("countrycode") var countrycode: Int? = 0,
+    @SerializedName("countrycode") var countrycode: String? = null,
     @SerializedName("countrycodeview") var countrycodeview: String? = "",
     @SerializedName("dob_day") var dobDay: String? = "",
     @SerializedName("dob_year") var dobYear: String? = "",

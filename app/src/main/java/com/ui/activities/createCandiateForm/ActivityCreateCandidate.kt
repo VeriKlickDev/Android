@@ -1,7 +1,6 @@
 package com.ui.activities.createCandidate
 
 import android.content.DialogInterface
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -11,6 +10,9 @@ import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.data.*
@@ -27,6 +29,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
 
 @AndroidEntryPoint
 class ActivityCreateCandidate : AppCompatActivity() {
@@ -63,7 +66,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
     private var countryCodeStr: String? = null
     private var stateStr: String? = null
     private var jobTypeStr: String? = null
-    private var phoneCodeStr: Int? = null
+    private var phoneCodeStr: String? = null
     private var isZipCodeOk=false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -367,7 +370,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                         ob.profile?.middleName = binding.etMiddlename.text.toString()
                         ob.profile?.emailId = binding.etEmail.text.toString().trim()
                         ob.profile?.phoneMobile = binding.etPhoneno.text.toString()
-                        ob.profile?.countrycode = phoneCodeStr
+                        ob.profile?.countrycode = phoneCodeStr.toString()
                         ob.profile?.countrycodeview = "+$phoneCodeStr"
                         ob.profile?.country = countryCodeStr
                         ob.profile?.countryName = countryStr
@@ -452,7 +455,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             Log.d(TAG, "onItemSelected: selected ${countryStringList[position]}")
             if (position == 0) {
-
+                setTextColorToBlack(view!!,1)
             } else {
                 try {
                     if (!countryListMain.isNullOrEmpty()) {
@@ -474,7 +477,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                             }
                         }
 
-                            setTextColorToBlack(view!!)
+                            setTextColorToBlack(view!!,2)
 
                     }
 
@@ -490,10 +493,13 @@ class ActivityCreateCandidate : AppCompatActivity() {
         }
     }
 
-    private fun setTextColorToBlack(view:View)
+    private fun setTextColorToBlack(view:View,actionCode: Int)
     {
             (view as TextView?)?.post {
+                if (actionCode==2)
                 (view as TextView?)?.setTextColor(getColor(R.color.black))
+                val typeface = ResourcesCompat.getFont(this, R.font.sarabun_light)
+                (view as TextView?)?.typeface=typeface
             }
     }
 
@@ -508,6 +514,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
     val stateSpinnerClickListner = object : OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             if (position == 0) {
+                setTextColorToBlack(view!!,1)
                 Log.d(TAG, "onItemSelected: selected ${stateStringList[position]}")
             } else {
                 try {
@@ -520,7 +527,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                                 getCityListFromApi("All", it.Shortname.toString(), 0)
                             }
                         }
-                        setTextColorToBlack(view!!)
+                        setTextColorToBlack(view!!,2)
                     }
                 } catch (e: Exception) {
 
@@ -547,10 +554,11 @@ class ActivityCreateCandidate : AppCompatActivity() {
     val citySpinnerClickListner = object : OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             if (position == 0) {
+                setTextColorToBlack(view!!,1)
                 Log.d(TAG, "onItemSelected: selected ${cityStringList[position]}")
             } else {
                 cityStr = cityStringList[position]
-                setTextColorToBlack(view!!)
+                setTextColorToBlack(view!!,2)
             }
         }
 
@@ -592,6 +600,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
     val jobTypeSpinnerClickListner = object : OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             if (position == 0) {
+                setTextColorToBlack(view!!,1)
                 Log.d(TAG, "onItemSelected: selected ${jobTypeStringList[position]}")
             } else {
                 jobTypeListMain.forEach {
@@ -599,7 +608,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                         jobTypeStr = it.id
                     }
                 }
-                setTextColorToBlack(view!!)
+                setTextColorToBlack(view!!,2)
             }
         }
 
@@ -618,6 +627,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
     private val countryCodeSpinnerClickListner = object : OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             if (position == 0) {
+                setTextColorToBlack(view!!,1)
                 Log.d(TAG, "onItemSelected: selected ${countryCodeStringList[position]}")
             } else {
                 try {
@@ -634,12 +644,12 @@ class ActivityCreateCandidate : AppCompatActivity() {
                                 )
                             ) {
                                 //countryCodeStr=it.codedisplay
-                                phoneCodeStr = it.PhoneCode
+                                phoneCodeStr = it.PhoneCode.toString()
                                 Log.d(TAG, "onItemSelected: selected country phone code ${it}")
                             }
                         }
                     }
-                    setTextColorToBlack(view!!)
+                    setTextColorToBlack(view!!,2)
                 } catch (e: Exception) {
                     Log.d(TAG, "onItemSelected: exception 373 ${e.message}")
                 }
@@ -833,7 +843,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
             if (isSuccess) {
                 runOnUiThread {
                     binding.spinnerCity.isEnabled = true
-                    binding.spinnerCity.isEnabled = true
+                    //binding.spinnerCity.isEnabled = true
                 }
 
                 cityListmain.clear()
@@ -904,6 +914,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
     private fun setCandidateDetailsInView(dataForIOS: ResponseRecruiterDetails) {
         try {
             runOnUiThread {
+
                 binding.etFirstname.setText(dataForIOS.FirstName)
                 binding.etLastname.setText(dataForIOS.LastName)
                 binding.etMiddlename.setText(dataForIOS.MiddleName)
@@ -915,6 +926,22 @@ class ActivityCreateCandidate : AppCompatActivity() {
                 binding.etExperience.setText(dataForIOS.Experience)
                 binding.etPrimarySkills.setText(dataForIOS.primarySkills)
                 binding.etSecondarySkills.setText(dataForIOS.Skills)
+                if (dataForIOS.PrimaryContact.toString().isEmpty() || dataForIOS.PrimaryContact==null)
+                {
+                    binding.spinnerCountryCode.isVisible=true
+                    binding.tvCountryCodeForMobile.isVisible=false
+                }else{
+                    binding.tvCountryCodeForMobile.isVisible=true
+                    binding.tvCountryCodeForMobile.setText(dataForIOS.Countrycode.toString())
+                    binding.tvCountryCodeForMobile.isEnabled=false
+                    binding.etPhoneno.isEnabled=false
+                    binding.etPhoneno.setText(dataForIOS.PrimaryContact.toString())
+                    binding.etPhoneno.setTextColor(getColor(R.color.grey_disabled))
+                    binding.tvCountryCodeForMobile.setTextColor(getColor(R.color.grey_disabled))
+                    phoneCodeStr=dataForIOS!!.PrimaryContact?.toString()
+                    binding.llMobileCode.setBackgroundResource(R.drawable.shape_rectangle_rounded_3_light_grey)
+                }
+
                 binding.spinnerJobtype.setSelection(jobTypeSpinnerAdapter!!.getPosition(viewModel?.getUserProfileData()?.DesiredJob.toString()))
 
                 try {

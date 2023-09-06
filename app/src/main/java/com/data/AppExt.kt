@@ -26,6 +26,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.addTextChangedListener
 import com.araujo.jordan.excuseme.ExcuseMe
 import com.data.dataHolders.DataStoreHelper
@@ -685,6 +686,8 @@ fun Context.getArrayAdapterOneItemSelected(mlist:List<String>) : ArrayAdapter<St
                     parent
                 )
             }
+            val typeface = ResourcesCompat.getFont(context, R.font.sarabun_light)
+            (v as TextView?)?.typeface=typeface
             return v!!
 
         }
