@@ -645,7 +645,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                             ) {
                                 //countryCodeStr=it.codedisplay
                                 phoneCodeStr = it.PhoneCode.toString()
-                                Log.d(TAG, "onItemSelected: selected country phone code ${it}")
+                                Log.d(TAG, "onItemSelected: selected country phone code ${it.PhoneCode.toString()}")
                             }
                         }
                     }
@@ -938,7 +938,7 @@ class ActivityCreateCandidate : AppCompatActivity() {
                     binding.etPhoneno.setText(dataForIOS.PrimaryContact.toString())
                     binding.etPhoneno.setTextColor(getColor(R.color.grey_disabled))
                     binding.tvCountryCodeForMobile.setTextColor(getColor(R.color.grey_disabled))
-                    phoneCodeStr=dataForIOS!!.PrimaryContact?.toString()
+                    phoneCodeStr=dataForIOS!!.Countrycode?.toString()
                     binding.llMobileCode.setBackgroundResource(R.drawable.shape_rectangle_rounded_3_light_grey)
                 }
 
