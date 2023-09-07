@@ -268,6 +268,7 @@
 
     <string name="txt_file_size_is_too_large">La taille du fichier est trop grande.</string>
     <string name="txt_response_not_success">Réponse pas réussie</string>
+    <string name="txt_zip_code_error" tools:ignore="MissingTranslation">Le code postal doit comporter au moins 5 chiffres</string>
     <string name="txt_face_to_face">Faceàface</string>
     <string name="txt_address">Address</string>
 
