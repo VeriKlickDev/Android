@@ -136,4 +136,8 @@
     <string name="txt_teams_meeting">Teams Meeting</string>
     <string name="txt_candidate_Not_Joined_Yet">Candidate not joined yet</string>
     <string name="txt_txt_no_participant_connected">No participant connected</string>
+    <string name="txt_softSkill">Soft Skills</string>
+    <string name="txt_comment_is_required">Comment is required</string>
+    <string name="txt_atleast_one_skill_comment_required">Atleast one skill required</string>
+    <string name="txt_all_soft_skill_is_required">All soft skills required</string>
 </resources>

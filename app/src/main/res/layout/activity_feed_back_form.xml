@@ -140,6 +140,8 @@
                         android:layout_marginBottom="@dimen/_5sp"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
+
+
                     <TextView
                         android:id="@+id/tv_addMoreItem"
                         android:layout_width="wrap_content"
@@ -154,6 +156,47 @@
                         android:layout_marginHorizontal="@dimen/_12sp"
                         android:layout_marginVertical="@dimen/_10sp"
                         android:background="@color/light_grey" />
+
+                    <!--                    new array-->
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_12sp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/heading.TextView.Black_16"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/txt_softSkill" />
+
+                        <TextView
+                            android:id="@+id/softskillsError"
+                            style="@style/heading.TextView.Black_16"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_2sp"
+                            android:text="*"
+                            android:textColor="@color/red"
+                            android:visibility="gone" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_candidatesoftSkills"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_5sp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                    <!--                    new array-->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.3sp"
+                        android:layout_marginHorizontal="@dimen/_12sp"
+                        android:layout_marginVertical="@dimen/_10sp"
+                        android:background="@color/light_grey" />
+
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="wrap_content"

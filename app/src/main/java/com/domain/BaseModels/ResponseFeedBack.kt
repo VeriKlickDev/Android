@@ -25,7 +25,8 @@ data class ResponseFeedBack(
     @SerializedName("CandidateAssessmentRecommendationList") var CandidateAssessmentRecommendationList: String? = null,
     @SerializedName("CandidateAssessment") var CandidateAssessment: String? = null,
     @SerializedName("CandidateAssessmentSkillsMobile") var candidateAssessmentSkillsMobile: ArrayList<AssessSkills> = arrayListOf(),
-
+    @SerializedName("CandidateTemplateSkills") var candidateTemplateSkills: ArrayList<CandidateTemplateSkills> = arrayListOf(),
+    @SerializedName("TemplateFeedbackValue") var SoftSkillsResponse: String? = null
 )
 
 
@@ -41,6 +42,32 @@ data class CandidateAssessmentSkills (
     @SerializedName("ManualCatagory"              ) var ManualCatagory              : String? = null,
     @SerializedName("CandiateAssessment"          ) var CandiateAssessment          : String? = null,
     @SerializedName("selected"                    ) var selected                    : Boolean? = false
+)
+data class CandidateTemplateSkills (
+
+    @SerializedName("itemid"       ) var itemid       : Int?    = null,
+    @SerializedName("templateName" ) var templateName : String? = null,
+    @SerializedName("itemname"     ) var itemname     : String? = null,
+    @SerializedName("CategoryName" ) var CategoryName : String? = null,
+    @SerializedName("Comments"     ) var Comments     : String? = "",
+    @SerializedName("Ratings"      ) var Ratings      : Int    = 0
+
+)
+
+data class SoftSkillResonseData (
+
+    @SerializedName("category" ) var category : String?           = null,
+    @SerializedName("skills"   ) var skills   : ArrayList<SoftSkills> = arrayListOf()
+
+)
+
+data class SoftSkills (
+
+    @SerializedName("ID"   ) var ID   : Int?    = null,
+    @SerializedName("item" ) var item : String? = null,
+    @SerializedName("Rt"   ) var Rt   : Int?    = null,
+    @SerializedName("cmnt" ) var cmnt : String? = null
+
 )
 
 data class AssessSkills (
