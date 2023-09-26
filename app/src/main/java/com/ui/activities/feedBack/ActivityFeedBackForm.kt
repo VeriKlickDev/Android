@@ -396,7 +396,10 @@ class ActivityFeedBackForm : AppCompatActivity() {
                 onDataResponse = { data, status ->
                     when (status) {
                         404 -> {
-                            binding.btnSubmitButton.isEnabled = true
+                            runOnUiThread {
+                                showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+                                binding.btnSubmitButton.isEnabled = true
+                            }
                             /*showCustomToast(data?.aPIResponse?.message!!.toString())
                             //showCustomSnackbarOnTop(data?.aPIResponse?.message!!)
                             //showToast(this, data?.aPIResponse?.message!!)
@@ -405,7 +408,10 @@ class ActivityFeedBackForm : AppCompatActivity() {
                             }, 1000)*/
                         }
                         200 -> {
-                            showCustomToast(data?.aPIResponse?.message!!.toString())
+                            runOnUiThread {
+                                showCustomToast(data?.aPIResponse?.message!!.toString())
+                            }
+
                             //showCustomSnackbarOnTop(data?.aPIResponse?.message!!)
                             //showToast(this, data?.aPIResponse?.message!!)
                             Handler(Looper.getMainLooper()).postDelayed({
@@ -413,30 +419,35 @@ class ActivityFeedBackForm : AppCompatActivity() {
                             }, 1000)
                         }
                         400 -> {
-                            binding.btnSubmitButton.isEnabled = true
+                            runOnUiThread {
+                                showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+                                binding.btnSubmitButton.isEnabled = true
+                            }
                         }
                         401 -> {
-                            binding.btnSubmitButton.isEnabled = true
+                            runOnUiThread { binding.btnSubmitButton.isEnabled = true }
                         }
                         500 -> {
-                            binding.btnSubmitButton.isEnabled = true
-                            showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+                            runOnUiThread { binding.btnSubmitButton.isEnabled = true
+                                showCustomSnackbarOnTop(getString(R.string.txt_something_went_wrong))
+                            }
+
                             //showToast(this, getString(R.string.txt_something_went_wrong))
                         }
                     }
-
                     Log.d(
                         TAG,
                         "postData: data status $status ${data?.jobid}  ${data?.aPIResponse?.message}"
                     )
                     // finish()
                 })
-
         }
         else {
-            binding.recommendationError.isVisible = true
-            binding.btnSubmitButton.isEnabled = true
-            showCustomSnackbarOnTop(getString(R.string.txt_recommendation_required))
+            runOnUiThread {
+                binding.recommendationError.isVisible = true
+                binding.btnSubmitButton.isEnabled = true
+                showCustomSnackbarOnTop(getString(R.string.txt_recommendation_required))
+            }
             //showToast(this, getString(R.string.txt_all_fields_required))
         }
 
